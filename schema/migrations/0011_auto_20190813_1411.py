@@ -95,13 +95,13 @@ def forwards_func(apps, schema_editor):
 
   Process = apps.get_model("schema", "Process")
   Process.objects.using(db_alias).bulk_create([
-    Process(name="Black & white negative"),
-    Process(name="Black & white reversal"),
-    Process(name="C-41"),
-    Process(name="E-6"),
-    Process(name="Polaroid"),
-    Process(name="K-14"),
-    Process(name="Cyanotype"),
+    Process(name="Black & white negative", colour=0, positive=0),
+    Process(name="Black & white reversal", colour=0, positive=1),
+    Process(name="C-41", colour=1, positive=0),
+    Process(name="E-6", colour=1, positive=1),
+    Process(name="Polaroid", colour=1, positive=1),
+    Process(name="K-14", colour=1, positive=1),
+    Process(name="Cyanotype", colour=0, positive=0),
   ])
 
   ShutterType = apps.get_model("schema", "ShutterType")
@@ -212,7 +212,7 @@ def reverse_func(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schema', '0009_auto_20190813_1338'),
+        ('schema', '0010_auto_20190813_2017'),
     ]
 
     operations = [
