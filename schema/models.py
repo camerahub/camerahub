@@ -19,9 +19,9 @@ class Accessory(models.Model):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
   model = models.CharField('Model of the accessory', max_length=45)
   acquired = models.DateField('Date that this accessory was acquired')
-  cost = models.DecimalField('Purchase cost of the accessory', max_digits=6, decimal_places=2)
+  cost = models.DecimalField('Purchase cost of the accessory', max_digits=6, models.DecimalField_places=2)
   lost = models.DateField('Date that this accessory was lost')
-  lost_price = models.DecimalField('Sale price of the accessory', max_digits=6, decimal_places=2)
+  lost_price = models.DecimalField('Sale price of the accessory', max_digits=6, models.DecimalField_places=2)
 
 # Table to list the different types of material that can be archived
 class ArchiveType(models.Model):
@@ -40,7 +40,7 @@ class Archive(models.Model):
 # Table to catalog of types of battery
 class Battery(models.Model):
   name = models.CharField('Common name of the battery', max_length=45)
-  voltage = models.DecimalField('Nominal voltage of the battery', max_digits=5, decimal_places=2)
+  voltage = models.DecimalField('Nominal voltage of the battery', max_digits=5, models.DecimalField_places=2)
   chemistry = models.CharField('Battery chemistry (e.g. Alkaline, Lithium, etc)', max_length=45)
   other_names = models.CharField('Alternative names for this kind of battery', max_length=45)
 
@@ -48,7 +48,7 @@ class Battery(models.Model):
 class BodyType(models.Model):
   type = models.CharField('Name of camera body type (e.g. SLR, compact, etc)', max_length=45, unique=True)
 
-# CREATE TABLE `ACCESSORY_COMPAT = (
+#class (ACCESSORY_COMPAT = (
 #   compat_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this compatibility',
 #   accessory_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the accessory',
 #   cameramodel_id = models.IntegerField(11) 'ID of the compatible camera model',
@@ -60,7 +60,7 @@ class BodyType(models.Model):
 # ) 'Table to define compatibility between accessories and cameras or lenses';
 
 
-# CREATE TABLE `CAMERAMODEL = (
+#class (CAMERAMODEL = (
 #   cameramodel_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-incremented camera model ID',
 #   manufacturer_id = models.IntegerField(11) 'Denotes the manufacturer of the camera.',
 #   model = models.CharField(45) 'The model name of the camera',
@@ -72,15 +72,15 @@ class BodyType(models.Model):
 #   metering_type_id = models.IntegerField(11) 'Denotes the technology used in the meter',
 #   body_type_id = models.IntegerField(11) 'Denotes the style of camera body',
 #   weight = models.IntegerField(11) 'Weight of the camera body (without lens or batteries) in grammes (g)',
-#   introduced = smallint(6) 'Year in which the camera model was models.IntegerFieldroduced',
-#   discontinued = smallint(6) 'Year in which the camera model was discontinued',
+#   introduced = models.IntegerField(6) 'Year in which the camera model was models.IntegerFieldroduced',
+#   discontinued = models.IntegerField(6) 'Year in which the camera model was discontinued',
 #   negative_size_id = models.IntegerField(11) 'Denotes the size of negative made by the camera',
 #   shutter_type_id = models.IntegerField(11) 'Denotes type of shutter',
 #   shutter_model = models.CharField(45) 'Model of shutter',
 #   cable_release = models.BooleanField('Whether the camera has the facility for a remote cable release',
 #   viewfinder_coverage = models.IntegerField(11) 'Percentage coverage of the viewfinder. Mostly applicable to SLRs.',
 #   power_drive = models.BooleanField('Whether the camera has models.IntegerFieldegrated motor drive',
-#   continuous_fps = decimal(3,1) 'The maximum rate at which the camera can shoot, in frames per second',
+#   continuous_fps = models.DecimalField(3,1) 'The maximum rate at which the camera can shoot, in frames per second',
 #   video = models.BooleanField('Whether the camera can take video/movie',
 #   digital = models.BooleanField('Whether this is a digital camera',
 #   fixed_mount = models.BooleanField('Whether the camera has a fixed lens',
@@ -92,17 +92,17 @@ class BodyType(models.Model):
 #   time = models.BooleanField('Whether the camera supports time (T) exposure',
 #   min_iso = models.IntegerField(11) 'Minimum ISO the camera will accept for metering',
 #   max_iso = models.IntegerField(11) 'Maximum ISO the camera will accept for metering',
-#   af_points = tinyint(4) 'Number of autofocus points',
-#   int_flash = models.BooleanField('Whether the camera has an models.IntegerFieldegrated flash',
-#   int_flash_gn = tinyint(4) 'Guide number of models.IntegerFieldernal flash',
+#   af_points = models.IntegerField(4) 'Number of autofocus points',
+#   int_flash = models.BooleanField('Whether the camera has an integrated flash',
+#   int_flash_gn = models.IntegerField(4) 'Guide number of external flash',
 #   ext_flash = models.BooleanField(' Whether the camera supports an external flash',
 #   flash_metering = models.CharField(12) 'Flash metering protocol',
 #   pc_sync = models.BooleanField('Whether the camera has a PC sync socket for flash',
 #   hotshoe = models.BooleanField('Whether the camera has a hotshoe',
 #   coldshoe = models.BooleanField('Whether the camera has a coldshoe or accessory shoe',
 #   x_sync = models.CharField(6) 'X-sync shutter speed, expressed like 1/125',
-#   meter_min_ev = tinyint(4) 'Lowest EV/LV the built-in meter supports',
-#   meter_max_ev = tinyint(4) 'Highest EV/LV the built-in meter supports',
+#   meter_min_ev = models.IntegerField(4) 'Lowest EV/LV the built-in meter supports',
+#   meter_max_ev = models.IntegerField(4) 'Highest EV/LV the built-in meter supports',
 #   dof_preview = models.BooleanField('Whether the camera has depth of field preview',
 #   tripod = models.BooleanField('Whether the camera has a tripod bush',
 #   PRIMARY KEY (`cameramodel_id`),
@@ -119,19 +119,19 @@ class BodyType(models.Model):
 # ) COMMENT='Table to catalog camera models - both cameras with fixed lenses and cameras with models.IntegerFielderchangeable lenses';
 
 
-# CREATE TABLE `CAMERA = (
+#class (CAMERA = (
 #   camera_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-incremented camera ID',
 #   cameramodel_id = models.IntegerField(11) 'ID which specifies the model of camera',
 #   acquired = date 'Date on which the camera was acquired',
-#   cost = decimal(6,2) 'Price paid for the camera, in local currency units',
+#   cost = models.DecimalField(6,2) 'Price paid for the camera, in local currency units',
 #   serial = models.CharField(45) 'Serial number of the camera',
 #   datecode = models.CharField(12) 'Date code of the camera, if different from the serial number',
-#   manufactured = smallint(6) 'Year of manufacture of the camera',
+#   manufactured = models.IntegerField(6) 'Year of manufacture of the camera',
 #   own = models.BooleanField('Whether the camera is currently owned',
 #   lens_id = models.IntegerField(11) 'If fixed_mount is true, specify the lens_id',
 #   notes = text 'Freeform text field for extra notes',
 #   lost = date 'Date on which the camera was lost/sold/etc',
-#   lost_price = decimal(6,2) 'Price at which the camera was sold',
+#   lost_price = models.DecimalField(6,2) 'Price at which the camera was sold',
 #   source = models.CharField(150) 'Where the camera was acquired from',
 #   condition_id = models.IntegerField(11) 'Denotes the cosmetic condition of the camera',
 #   condition = text 'Description of condition',
@@ -145,7 +145,7 @@ class BodyType(models.Model):
 # ) COMMENT='Table to catalog cameras - both cameras with fixed lenses and cameras with models.IntegerFielderchangeable lenses';
 
 
-# CREATE TABLE `CONDITION = (
+#class (CONDITION = (
 #   condition_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique condition ID',
 #   code = models.CharField(6) 'Condition shortcode (e.g. EXC)',
 #   name = models.CharField(45) 'Full name of condition (e.g. Excellent)',
@@ -156,7 +156,7 @@ class BodyType(models.Model):
 # ) 'Table to list of physical condition descriptions that can be used to evaluate equipment';
 
 
-# CREATE TABLE `EXPOSURE_PROGRAM_AVAILABLE = (
+#class (EXPOSURE_PROGRAM_AVAILABLE = (
 #   cameramodel_id = models.IntegerField(11) NOT NULL COMMENT 'ID of camera model',
 #   exposure_program_id = models.IntegerField(11) NOT NULL COMMENT 'ID of exposure program',
 #   PRIMARY KEY (`cameramodel_id`,`exposure_program_id`),
@@ -165,19 +165,19 @@ class BodyType(models.Model):
 # ) 'Table to associate cameras with available exposure programs';
 
 
-# CREATE TABLE `EXPOSURE_PROGRAM = (
+#class (EXPOSURE_PROGRAM = (
 #   exposure_program_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'ID of exposure program as defined by EXIF tag ExposureProgram',
 #   exposure_program = models.CharField(45) 'Name of exposure program as defined by EXIF tag ExposureProgram',
 #   PRIMARY KEY (`exposure_program_id`)
 # ) 'Exposure programs as defined by EXIF tag ExposureProgram';
 
 
-# CREATE TABLE `FILM_BULK = (
+#class (FILM_BULK = (
 #   film_bulk_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this bulk roll of film',
 #   format_id = models.IntegerField(11) 'ID of the format of this bulk roll',
 #   filmstock_id = models.IntegerField(11) 'ID of the filmstock',
 #   purchase_date = date 'Purchase date of this bulk roll',
-#   cost = decimal(5,2) 'Purchase cost of this bulk roll',
+#   cost = models.DecimalField(5,2) 'Purchase cost of this bulk roll',
 #   source = models.CharField(45) 'Place where this bulk roll was bought from',
 #   batch = models.CharField(45) 'Batch code of this bulk roll',
 #   expiry = date 'Expiry date of this bulk roll',
@@ -187,7 +187,7 @@ class BodyType(models.Model):
 # ) 'Table to record bulk film stock, from which individual films can be cut';
 
 
-# CREATE TABLE `FILM = (
+#class (FILM = (
 #   film_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the film',
 #   filmstock_id = models.IntegerField(11) 'ID of the filmstock used',
 #   exposed_at = models.IntegerField(11) 'ISO at which the film was exposed',
@@ -201,7 +201,7 @@ class BodyType(models.Model):
 #   directory = models.CharField(100) 'Name of the directory that contains the scanned images from this film',
 #   dev_uses = models.IntegerField(11) 'Numnber of previous uses of the developer',
 #   dev_time = time 'Duration of development',
-#   dev_temp = decimal(3,1) 'Temperature of development',
+#   dev_temp = models.DecimalField(3,1) 'Temperature of development',
 #   dev_n = models.IntegerField(11) 'Number of the Push/Pull rating of the film, e.g. N+1, N-2',
 #   development_notes = models.CharField(200) 'Extra freeform notes about the development process',
 #   film_bulk_id = models.IntegerField(11) 'ID of bulk film from which this film was cut',
@@ -209,7 +209,7 @@ class BodyType(models.Model):
 #   film_batch = models.CharField(45) 'Batch number of the film',
 #   film_expiry = date 'Expiry date of the film',
 #   purchase_date = date 'Date this film was purchased',
-#   price = decimal(4,2) 'Price paid for this film',
+#   price = models.DecimalField(4,2) 'Price paid for this film',
 #   processed_by = models.CharField(45) 'Person or place that processed this film',
 #   archive_id = models.IntegerField(11) 'ID of the archive to which this film belongs',
 #   PRIMARY KEY (`film_id`),
@@ -222,7 +222,7 @@ class BodyType(models.Model):
 # ) 'Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.';
 
 
-# CREATE TABLE `FILMSTOCK = (
+#class (FILMSTOCK = (
 #   filmstock_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the filmstock',
 #   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer of the film',
 #   name = models.CharField(45) 'Name of the film',
@@ -236,19 +236,19 @@ class BodyType(models.Model):
 # ) 'Table to list different brands of film stock';
 
 
-# CREATE TABLE `FILTER_ADAPTER = (
+#class (FILTER_ADAPTER = (
 #   filter_adapter_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of filter adapter',
-#   camera_thread = decimal(3,1) 'Diameter of camera-facing screw thread in mm',
-#   filter_thread = decimal(3,1) 'Diameter of filter-facing screw thread in mm',
+#   camera_thread = models.DecimalField(3,1) 'Diameter of camera-facing screw thread in mm',
+#   filter_thread = models.DecimalField(3,1) 'Diameter of filter-facing screw thread in mm',
 #   PRIMARY KEY (`filter_adapter_id`)
 # ) 'Table to catalogue filter adapter rings';
 
 
-# CREATE TABLE `FILTER = (
+#class (FILTER = (
 #   filter_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique filter ID',
-#   thread = decimal(4,1) 'Diameter of screw thread in mm',
+#   thread = models.DecimalField(4,1) 'Diameter of screw thread in mm',
 #   type = models.CharField(45) 'Filter type (e.g. Red, CPL, UV)',
-#   attenuation = decimal(2,1) 'Attenuation of this filter in decimal stops',
+#   attenuation = models.DecimalField(2,1) 'Attenuation of this filter in models.DecimalField stops',
 #   qty = models.IntegerField(11) 'Quantity of these filters available',
 #   manufacturer_id = models.IntegerField(11) 'Denotes the manufacturer of the filter.',
 #   PRIMARY KEY (`filter_id`),
@@ -256,7 +256,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog filters';
 
 
-# CREATE TABLE `FLASH_PROTOCOL = (
+#class (FLASH_PROTOCOL = (
 #   flash_protocol_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this flash protocol',
 #   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer that models.IntegerFieldroduced this flash protocol',
 #   name = models.CharField(45) 'Name of the flash protocol',
@@ -264,7 +264,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog different protocols used to communicate with flashes';
 
 
-# CREATE TABLE `FLASH = (
+#class (FLASH = (
 #   flash_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of external flash unit',
 #   manufacturer_id = models.IntegerField(11) 'Manufacturer ID of the flash',
 #   model = models.CharField(45) 'Model name/number of the flash',
@@ -283,24 +283,24 @@ class BodyType(models.Model):
 #   dslr_safe = models.BooleanField('Whether this flash is safe to use with a digital camera',
 #   ttl = models.BooleanField('Whether this flash supports TTL metering',
 #   flash_protocol_id = models.IntegerField(11) 'ID of flash TTL metering protocol',
-#   trigger_voltage = decimal(4,1) 'Trigger voltage of the flash, in Volts',
+#   trigger_voltage = models.DecimalField(4,1) 'Trigger voltage of the flash, in Volts',
 #   own = models.BooleanField('Whether we currently own this flash',
 #   acquired = date 'Date this flash was acquired',
-#   cost = decimal(5,2) 'Purchase cost of this flash',
+#   cost = models.DecimalField(5,2) 'Purchase cost of this flash',
 #   PRIMARY KEY (`flash_id`),
 #   CONSTRAINT `fk_FLASH_1 = FOREIGN KEY (`flash_protocol_id`) REFERENCES `FLASH_PROTOCOL = (`flash_protocol_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 #   CONSTRAINT `fk_FLASH_2 = FOREIGN KEY (`battery_type_id`) REFERENCES `BATTERY = (`battery_type`) ON DELETE NO ACTION ON UPDATE NO ACTION
 # ) 'Table to catlog flashes, flashguns and speedlights';
 
 
-# CREATE TABLE `FOCUS_TYPE = (
+#class (FOCUS_TYPE = (
 #   focus_type_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of focus type',
 #   focus_type = models.CharField(45) 'Name of focus type',
 #   PRIMARY KEY (`focus_type_id`)
 # ) 'Table to catalog different focusing methods';
 
 
-# CREATE TABLE `FORMAT = (
+#class (FORMAT = (
 #   format_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this format',
 #   format = models.CharField(45) 'The name of this film/sensor format',
 #   digital = models.BooleanField('Whether this is a digital format',
@@ -308,7 +308,7 @@ class BodyType(models.Model):
 # ) 'Table to catalogue different film formats. These are distinct from negative sizes.';
 
 
-# CREATE TABLE `LENSMODEL = (
+#class (LENSMODEL = (
 #   lensmodel_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this lens model',
 #   mount_id = models.IntegerField(11) 'Denotes the ID of the lens mount, if this is an models.IntegerFielderchangeable lens',
 #   zoom = models.BooleanField('Whether this is a zoom lens',
@@ -317,8 +317,8 @@ class BodyType(models.Model):
 #   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer of this lens',
 #   model = models.CharField(45) 'Model name of this lens',
 #   closest_focus = models.IntegerField(11) 'The closest focus possible with this lens, in cm',
-#   max_aperture = decimal(4,1) 'Maximum (widest) aperture available on this lens (numerical part only, e.g. 2.8)',
-#   min_aperture = decimal(4,1) 'Minimum (narrowest) aperture available on this lens (numerical part only, e.g. 22)',
+#   max_aperture = models.DecimalField(4,1) 'Maximum (widest) aperture available on this lens (numerical part only, e.g. 2.8)',
+#   min_aperture = models.DecimalField(4,1) 'Minimum (narrowest) aperture available on this lens (numerical part only, e.g. 22)',
 #   elements = models.IntegerField(11) 'Number of optical lens elements',
 #   groups = models.IntegerField(11) 'Number of optical groups',
 #   weight = models.IntegerField(11) 'Weight of this lens, in grammes (g)',
@@ -326,11 +326,11 @@ class BodyType(models.Model):
 #   nominal_max_angle_diag = models.IntegerField(11) 'Nominal maximum diagonal field of view from manufacturer''s specs',
 #   aperture_blades = models.IntegerField(11) 'Number of aperture blades',
 #   autofocus = models.BooleanField('Whether this lens has autofocus capability',
-#   filter_thread = decimal(4,1) 'Diameter of lens filter thread, in mm',
-#   magnification = decimal(5,3) 'Maximum magnification ratio of the lens, expressed like 0.765',
+#   filter_thread = models.DecimalField(4,1) 'Diameter of lens filter thread, in mm',
+#   magnification = models.DecimalField(5,3) 'Maximum magnification ratio of the lens, expressed like 0.765',
 #   url = models.CharField(145) 'URL to more information about this lens',
-#   introduced = smallint(6) 'Year in which this lens model was models.IntegerFieldroduced',
-#   discontinued = smallint(6) 'Year in which this lens model was discontinued',
+#   introduced = models.IntegerField(6) 'Year in which this lens model was models.IntegerFieldroduced',
+#   discontinued = models.IntegerField(6) 'Year in which this lens model was discontinued',
 #   negative_size_id = models.IntegerField(11) 'ID of the negative size which this lens is designed for',
 #   fixed_mount = models.BooleanField('Whether this is a fixed lens (i.e. on a compact camera)',
 #   notes = text 'Freeform notes field',
@@ -350,18 +350,18 @@ class BodyType(models.Model):
 # ) 'Table to catalog lens models';
 
 
-# CREATE TABLE `LENS = (
+#class (LENS = (
 #   lens_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this lens',
 #   lensmodel_id = models.IntegerField(11) DEFAULT NULL,
 #   serial = models.CharField(45) 'Serial number of this lens',
 #   date_code = models.CharField(45) 'Date code of this lens, if different from the serial number',
-#   manufactured = smallint(6) 'Year in which this specific lens was manufactured',
+#   manufactured = models.IntegerField(6) 'Year in which this specific lens was manufactured',
 #   acquired = date 'Date on which this lens was acquired',
-#   cost = decimal(6,2) 'Price paid for this lens in local currency units',
+#   cost = models.DecimalField(6,2) 'Price paid for this lens in local currency units',
 #   notes = text 'Freeform notes field',
 #   own = models.BooleanField('Whether we currently own this lens',
 #   lost = date 'Date on which lens was lost/sold/disposed',
-#   lost_price = decimal(6,2) 'Price for which the lens was sold',
+#   lost_price = models.DecimalField(6,2) 'Price for which the lens was sold',
 #   source = models.CharField(150) 'Place where the lens was acquired from',
 #   condition_id = models.IntegerField(11) 'Denotes the cosmetic condition of the camera',
 #   condition = text 'Description of condition',
@@ -371,7 +371,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog lenses';
 
 
-# CREATE TABLE `LIGHT_METER = (
+#class (LIGHT_METER = (
 #   light_meter_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this light meter',
 #   manufacturer_id = models.IntegerField(11) 'Denotes ID of manufacturer of the light meter',
 #   model = models.CharField(45) 'Model name or number of the light meter',
@@ -390,7 +390,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog light meters';
 
 
-# CREATE TABLE `LOG = (
+#class (LOG = (
 #   log_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the log entry',
 #   datetime = datetime 'Timestamp for the log entry',
 #   type = models.CharField(45) 'Type of log message, e.g. ADD, EDIT',
@@ -399,7 +399,7 @@ class BodyType(models.Model):
 # ) 'Table to store data modification logs';
 
 
-# CREATE TABLE `METERING_MODE_AVAILABLE = (
+#class (METERING_MODE_AVAILABLE = (
 #   cameramodel_id = models.IntegerField(11) NOT NULL COMMENT 'ID of camera model',
 #   metering_mode_id = models.IntegerField(11) NOT NULL COMMENT 'ID of metering mode',
 #   PRIMARY KEY (`cameramodel_id`,`metering_mode_id`),
@@ -408,21 +408,21 @@ class BodyType(models.Model):
 # ) 'Table to associate cameras with available metering modes';
 
 
-# CREATE TABLE `METERING_MODE = (
+#class (METERING_MODE = (
 #   metering_mode_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'ID of metering mode as defined by EXIF tag MeteringMode',
 #   metering_mode = models.CharField(45) 'Name of metering mode as defined by EXIF tag MeteringMode',
 #   PRIMARY KEY (`metering_mode_id`)
 # ) 'Metering modes as defined by EXIF tag MeteringMode';
 
 
-# CREATE TABLE `METERING_TYPE = (
+#class (METERING_TYPE = (
 #   metering_type_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the metering type',
 #   metering = models.CharField(45) 'Name of the metering type (e.g. Selenium)',
 #   PRIMARY KEY (`metering_type_id`)
 # ) 'Table to catalog different metering technologies and cell types';
 
 
-# CREATE TABLE `MOUNT_ADAPTER = (
+#class (MOUNT_ADAPTER = (
 #   mount_adapter_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of lens mount adapter',
 #   lens_mount = models.IntegerField(11) 'ID of the mount used between the adapter and the lens',
 #   camera_mount = models.IntegerField(11) 'ID of the mount used between the adapter and the camera',
@@ -435,7 +435,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog adapters to mount lenses on other cameras';
 
 
-# CREATE TABLE `MOUNT = (
+#class (MOUNT = (
 #   mount_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this lens mount',
 #   mount = models.CharField(45) 'Name of this lens mount (e.g. Canon FD)',
 #   fixed = models.BooleanField('Whether this is a fixed (non-interchangable) lens mount',
@@ -450,7 +450,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.';
 
 
-# CREATE TABLE `MOVIE = (
+#class (MOVIE = (
 #   movie_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this motion picture film / movie',
 #   title = models.CharField(45) 'Title of this movie',
 #   camera_id = models.IntegerField(11) 'ID of the camera used to shoot this movie',
@@ -474,7 +474,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog motion picture films (movies)';
 
 
-# CREATE TABLE `NEGATIVEFORMAT_COMPAT = (
+#class (NEGATIVEFORMAT_COMPAT = (
 #   format_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the film format',
 #   negative_size_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the negative size',
 #   PRIMARY KEY (`format_id`,`negative_size_id`),
@@ -483,19 +483,19 @@ class BodyType(models.Model):
 # ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table to record compatibility between film formats and negative sizes';
 
 
-# CREATE TABLE `NEGATIVE_SIZE = (
+#class (NEGATIVE_SIZE = (
 #   negative_size_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of negative size',
-#   width = decimal(4,1) 'Width of the negative size in mm',
-#   height = decimal(4,1) 'Height of the negative size in mm',
+#   width = models.DecimalField(4,1) 'Width of the negative size in mm',
+#   height = models.DecimalField(4,1) 'Height of the negative size in mm',
 #   negative_size = models.CharField(45) 'Common name of the negative size (e.g. 35mm, 6x7, etc)',
-#   crop_factor = decimal(4,2) 'Crop factor of this negative size',
+#   crop_factor = models.DecimalField(4,2) 'Crop factor of this negative size',
 #   area = models.IntegerField(11) 'Area of this negative size in sq. mm',
-#   aspect_ratio = decimal(4,2) 'Aspect ratio of this negative size, expressed as a single decimal. (e.g. 3:2 is expressed as 1.5)',
+#   aspect_ratio = models.DecimalField(4,2) 'Aspect ratio of this negative size, expressed as a single models.DecimalField. (e.g. 3:2 is expressed as 1.5)',
 #   PRIMARY KEY (`negative_size_id`)
 # ) 'Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.';
 
 
-# CREATE TABLE `NEGATIVE = (
+#class (NEGATIVE = (
 #   negative_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this negative',
 #   film_id = models.IntegerField(11) 'ID of the film that this negative belongs to',
 #   frame = models.CharField(5) CHARACTER SET utf8mb4 'Frame number or code of this negative',
@@ -503,14 +503,14 @@ class BodyType(models.Model):
 #   date = datetime 'Date & time on which this picture was taken',
 #   lens_id = models.IntegerField(11) 'ID of lens used to take this picture',
 #   shutter_speed = models.CharField(45) CHARACTER SET latin1 'Shutter speed used to take this picture',
-#   aperture = decimal(4,1) 'Aperture used to take this picture (numerical part only)',
+#   aperture = models.DecimalField(4,1) 'Aperture used to take this picture (numerical part only)',
 #   filter_id = models.IntegerField(11) 'ID of filter used to take this picture',
 #   teleconverter_id = models.IntegerField(11) 'ID of teleconverter used to take this picture',
 #   notes = text CHARACTER SET utf8mb4 'Extra freeform notes about this exposure',
 #   mount_adapter_id = models.IntegerField(11) 'ID of lens mount adapter used to take this pciture',
 #   focal_length = models.IntegerField(11) 'If a zoom lens was used, specify the focal length of the lens',
-#   latitude = decimal(9,6) 'Latitude of the location where the picture was taken',
-#   longitude = decimal(9,6) 'Longitude of the location where the picture was taken',
+#   latitude = models.DecimalField(9,6) 'Latitude of the location where the picture was taken',
+#   longitude = models.DecimalField(9,6) 'Longitude of the location where the picture was taken',
 #   flash = models.BooleanField('Whether flash was used',
 #   metering_mode = models.IntegerField(11) 'MeteringMode ID as defined in EXIF spec',
 #   exposure_program = models.IntegerField(11) 'ExposureProgram ID as defined in EXIF spec',
@@ -530,7 +530,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog negatives (which includes positives/slide too). Negatives are created by cameras, belong to films and can be used to create scans or prints.';
 
 
-# CREATE TABLE `PAPER_STOCK = (
+#class (PAPER_STOCK = (
 #   paper_stock_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this paper stock',
 #   name = models.CharField(45) 'Name of this paper stock',
 #   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer of this paper stock',
@@ -543,23 +543,23 @@ class BodyType(models.Model):
 # ) 'Table to catalog different paper stocks available';
 
 
-# CREATE TABLE `PERSON = (
+#class (PERSON = (
 #   person_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for the person',
 #   name = models.CharField(45) 'Name of the photographer',
 #   PRIMARY KEY (`person_id`)
 # ) 'Table to catalog photographers';
 
 
-# CREATE TABLE `PRINT = (
+#class (PRINT = (
 #   print_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for the print',
 #   negative_id = models.IntegerField(11) 'ID of the negative that this print was made from',
 #   date = date 'The date that the print was made',
 #   paper_stock_id = models.IntegerField(11) 'ID of the paper stock used',
-#   height = decimal(4,1) 'Height of the print in inches',
-#   width = decimal(4,1) 'Width of the print in inches',
-#   aperture = decimal(3,1) 'Aperture used to make this print (numerical part only, e.g. 5.6)',
-#   exposure_time = decimal(5,1) 'Exposure time of this print in seconds',
-#   filtration_grade = decimal(2,1) 'Contrast grade of paper used',
+#   height = models.DecimalField(4,1) 'Height of the print in inches',
+#   width = models.DecimalField(4,1) 'Width of the print in inches',
+#   aperture = models.DecimalField(3,1) 'Aperture used to make this print (numerical part only, e.g. 5.6)',
+#   exposure_time = models.DecimalField(5,1) 'Exposure time of this print in seconds',
+#   filtration_grade = models.DecimalField(2,1) 'Contrast grade of paper used',
 #   development_time = models.IntegerField(11) 'Development time of this print in seconds',
 #   bleach_time = time 'Duration of bleaching',
 #   toner_id = models.IntegerField(11) 'ID of the first toner used to make this print',
@@ -570,7 +570,7 @@ class BodyType(models.Model):
 #   2nd_toner_time = time 'Duration of second toning',
 #   own = models.BooleanField('Whether we currently own this print',
 #   location = models.CharField(45) 'The place where this print is currently',
-#   sold_price = decimal(5,2) 'Sale price of the print',
+#   sold_price = models.DecimalField(5,2) 'Sale price of the print',
 #   enlarger_id = models.IntegerField(11) 'ID of the enlarger used to make this print',
 #   lens_id = models.IntegerField(11) 'ID of the lens used to make this print',
 #   developer_id = models.IntegerField(11) 'ID of the developer used to develop this print',
@@ -590,7 +590,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog prints made from negatives';
 
 
-# CREATE TABLE `PROCESS = (
+#class (PROCESS = (
 #   process_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'ID of this development process',
 #   name = models.CharField(12) 'Name of this developmenmt process (e.g. C-41, E-6)',
 #   colour = models.BooleanField('Whether this is a colour process',
@@ -599,7 +599,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog chemical processes that can be used to develop film and paper';
 
 
-# CREATE TABLE `PROJECTOR = (
+#class (PROJECTOR = (
 #   projector_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this projector',
 #   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer of this projector',
 #   model = models.CharField(45) 'Model name of this projector',
@@ -614,7 +614,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog projectors (still and movie)';
 
 
-# CREATE TABLE `REPAIR = (
+#class (REPAIR = (
 #   repair_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for the repair job',
 #   camera_id = models.IntegerField(11) 'ID of camera that was repaired',
 #   lens_id = models.IntegerField(11) 'ID of lens that was repaired',
@@ -627,7 +627,7 @@ class BodyType(models.Model):
 # ) 'Tabe to catalog all repairs and servicing undertaken on cameras and lenses in the collection';
 
 
-# CREATE TABLE `SCAN = (
+#class (SCAN = (
 #   scan_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this scan',
 #   negative_id = models.IntegerField(11) 'ID of the negative that was scanned',
 #   print_id = models.IntegerField(11) 'ID of the print  that was scanned',
@@ -642,7 +642,7 @@ class BodyType(models.Model):
 # ) 'Table to record all the images that have been scanned digitally';
 
 
-# CREATE TABLE `SERIES_MEMBER = (
+#class (SERIES_MEMBER = (
 #   series_member_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this series membership',
 #   series_id = models.IntegerField(11) 'ID of the series to which this camera model or lens model belongs',
 #   cameramodel_id = models.IntegerField(11) 'ID of the camera model',
@@ -654,14 +654,14 @@ class BodyType(models.Model):
 # ) 'Table to record which cameras and lenses belong to which series';
 
 
-# CREATE TABLE `SERIES = (
+#class (SERIES = (
 #   series_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this series',
 #   name = models.CharField(45) 'Name of this collection, e.g. Canon FD SLRs',
 #   PRIMARY KEY (`series_id`)
 # ) 'Table to list all series of cameras and lenses';
 
 
-# CREATE TABLE `SHUTTER_SPEED_AVAILABLE = (
+#class (SHUTTER_SPEED_AVAILABLE = (
 #   cameramodel_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the camera model',
 #   shutter_speed = models.CharField(10) CHARACTER SET latin1 NOT NULL COMMENT 'Shutter speed that this camera has',
 #   bulb = models.IntegerField(1) DEFAULT 0 COMMENT 'Whether this is a manual "bulb" shutter speed that can only be accessed in B or T modes',
@@ -671,28 +671,28 @@ class BodyType(models.Model):
 # ) COMMENT='Table to associate cameras with shutter speeds';
 
 
-# CREATE TABLE `SHUTTER_SPEED = (
+#class (SHUTTER_SPEED = (
 #   shutter_speed = models.CharField(10) CHARACTER SET latin1 NOT NULL COMMENT 'Shutter speed in fractional notation, e.g. 1/250',
-#   duration = decimal(9,5) 'Shutter speed in decimal notation, e.g. 0.04',
+#   duration = models.DecimalField(9,5) 'Shutter speed in models.DecimalField notation, e.g. 0.04',
 #   PRIMARY KEY (`shutter_speed`)
 # ) COMMENT='Table to list all possible shutter speeds';
 
 
-# CREATE TABLE `SHUTTER_TYPE = (
+#class (SHUTTER_TYPE = (
 #   shutter_type_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the shutter type',
 #   shutter_type = models.CharField(45) 'Name of the shutter type (e.g. Focal plane, Leaf, etc)',
 #   PRIMARY KEY (`shutter_type_id`)
 # ) 'Table to catalog the different types of camera shutter';
 
 
-# CREATE TABLE `TELECONVERTER = (
+#class (TELECONVERTER = (
 #   teleconverter_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this teleconverter',
 #   mount_id = models.IntegerField(11) 'ID of the lens mount used by this teleconverter',
-#   factor = decimal(4,2) 'Magnification factor of this teleconverter (numerical part only, e.g. 1.4)',
+#   factor = models.DecimalField(4,2) 'Magnification factor of this teleconverter (numerical part only, e.g. 1.4)',
 #   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer of this teleconverter',
 #   model = models.CharField(45) 'Model name of this teleconverter',
-#   elements = tinyint(4) 'Number of optical elements used in this teleconverter',
-#   groups = tinyint(4) 'Number of optical groups used in this teleconverter',
+#   elements = models.IntegerField(4) 'Number of optical elements used in this teleconverter',
+#   groups = models.IntegerField(4) 'Number of optical groups used in this teleconverter',
 #   multicoated = models.BooleanField('Whether this teleconverter is multi-coated',
 #   PRIMARY KEY (`teleconverter_id`),
 #   CONSTRAINT `fk_TELECONVERTER_1 = FOREIGN KEY (`manufacturer_id`) REFERENCES `MANUFACTURER = (`manufacturer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -700,7 +700,7 @@ class BodyType(models.Model):
 # ) 'Table to catalog teleconverters (multipliers)';
 
 
-# CREATE TABLE `TONER = (
+#class (TONER = (
 #   toner_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the toner',
 #   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer of the toner',
 #   toner = models.CharField(45) 'Name of the toner',
@@ -710,12 +710,12 @@ class BodyType(models.Model):
 # ) 'Table to catalog paper toners that can be used during the printing process';
 
 
-# CREATE TABLE `TO_PRINT = (
+#class (TO_PRINT = (
 #   id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this table',
 #   negative_id = models.IntegerField(11) 'Negative ID to be printed',
 #   width = models.IntegerField(11) 'Width of print to be made',
 #   height = models.IntegerField(11) 'Height of print to be made',
-#   printed = tinyint(1) DEFAULT 0 COMMENT 'Whether the print has been made',
+#   printed = models.IntegerField(1) DEFAULT 0 COMMENT 'Whether the print has been made',
 #   print_id = models.IntegerField(11) 'ID of print made',
 #   recipient = models.CharField(45) 'Recipient of the print',
 #   added = date 'Date that record was added',
