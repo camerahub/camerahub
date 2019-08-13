@@ -90,6 +90,11 @@ class NegativeSize(models.Model):
 class Format(models.Model):
   format = models.CharField('The name of this film/sensor format', max_length=45)
   digital = models.BooleanField('Whether this is a digital format')
+  negative_size = models.ManyToManyField(NegativeSize)
+
+# Table to list all series of cameras and lenses
+class Series(models.Model):
+  name = models.CharField('Name of this collection, e.g. Canon FD SLRs', max_length=45)
 
 # Table to catalog flashes, flashguns and speedlights
 class Flash(models.Model):
@@ -289,6 +294,7 @@ class LensModel(models.Model):
   image_circle = models.IntegerField('Diameter of image circle projected by lens, in mm')
   formula = models.CharField('Name of the type of lens formula (e.g. Tessar)', max_length=45)
   shutter_model = models.CharField('Name of the integrated shutter, if any', max_length=45)
+  series = models.ManyToManyField(Series)
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
@@ -338,6 +344,7 @@ class CameraModel(models.Model):
   shutter_speeds = models.ManyToManyField(ShutterSpeed)
   metering_modes = models.ManyToManyField(MeteringMode)
   exposure_programs = models.ManyToManyField(ExposureProgram)
+  series = models.ManyToManyField(Series)
 
 # Table to catalog lenses
 class Lens(models.Model):
@@ -495,7 +502,6 @@ class Order(models.Model):
   print_id = models.ForeignKey(Print, on_delete=models.CASCADE)
   recipient = models.ForeignKey(Person, on_delete=models.CASCADE)
   
-
 #class (ACCESSORY_COMPAT = (
 #   compat_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this compatibility',
 #   accessory_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the accessory',
@@ -514,28 +520,3 @@ class Order(models.Model):
 #   message = models.CharField(450) 'Log message',
 #   PRIMARY KEY (`log_id`)
 # ) 'Table to store data modification logs';
-
-#class (NEGATIVEFORMAT_COMPAT = (
-#   format_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the film format',
-#   negative_size_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the negative size',
-#   PRIMARY KEY (`format_id`,`negative_size_id`),
-#   CONSTRAINT `format_id = FOREIGN KEY (`format_id`) REFERENCES `FORMAT = (`format_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-#   CONSTRAINT `negative_size_id = FOREIGN KEY (`negative_size_id`) REFERENCES `NEGATIVE_SIZE = (`negative_size_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-# ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table to record compatibility between film formats and negative sizes';
-
-#class (SERIES_MEMBER = (
-#   series_member_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this series membership',
-#   series_id = models.IntegerField(11) 'ID of the series to which this camera model or lens model belongs',
-#   cameramodel_id = models.IntegerField(11) 'ID of the camera model',
-#   lensmodel_id = models.IntegerField(11) 'ID of the lens model',
-#   PRIMARY KEY (`series_member_id`),
-#   CONSTRAINT `fk_SERIES_MEMBER_1 = FOREIGN KEY (`series_id`) REFERENCES `SERIES = (`series_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-#   CONSTRAINT `fk_SERIES_MEMBER_2 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-#   CONSTRAINT `fk_SERIES_MEMBER_3 = FOREIGN KEY (`lensmodel_id`) REFERENCES `LENSMODEL = (`lensmodel_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-# ) 'Table to record which cameras and lenses belong to which series';
-
-#class (SERIES = (
-#   series_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this series',
-#   name = models.CharField(45) 'Name of this collection, e.g. Canon FD SLRs',
-#   PRIMARY KEY (`series_id`)
-# ) 'Table to list all series of cameras and lenses';
