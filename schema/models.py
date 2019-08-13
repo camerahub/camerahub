@@ -48,6 +48,194 @@ class Battery(models.Model):
 class BodyType(models.Model):
   type = models.CharField('Name of camera body type (e.g. SLR, compact, etc)', max_length=45, unique=True)
 
+# Table to list of physical condition descriptions that can be used to evaluate equipment
+class Condition(models.Model):
+   code = models.CharField('Condition shortcode (e.g. EXC)', max_length = 6, primary_key=True)
+   name = models.CharField('Full name of condition (e.g. Excellent)', max_length=45)
+   min_rating = models.IntegerField('The lowest percentage rating that encompasses this condition')
+   max_rating = models.IntegerField('The highest percentage rating that encompasses this condition')
+   description = models.CharField('Longer description of condition', max_length=300)
+  
+# Exposure programs as defined by EXIF tag ExposureProgram
+class ExposureProgram(models.Model):
+  name = models.CharField('Name of exposure program as defined by EXIF tag ExposureProgram', max_length=45) 
+
+# Table to catalog different protocols used to communicate with flashes
+class FlashProtocol(models.Model):
+  name = models.CharField('Name of the flash protocol', max_length=45) 
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+
+# Table to catalog filters
+class Filter(models.Model):
+  type = models.CharField('Filter type (e.g. Red, CPL, UV)', max_length=45) 
+  thread = models.DecimalField('Diameter of screw thread in mm', max_digits=4, decimal_places=1)
+  attenuation = models.DecimalField('Attenuation of this filter in decimal stops', max_digits=3, decimal_places=1)
+  qty = models.IntegerField('Quantity of these filters available')
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+
+# Table to catalog different focusing methods
+class FocusType(models.Model):
+  name = models.CharField('Name of focus type', max_length=45)
+
+# Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
+class NegativeSize(models.Model):
+  name = models.CharField('Common name of the negative size (e.g. 35mm, 6x7, etc)', max_length=45)
+  width = models.DecimalField('Width of the negative size in mm' ,max_digits=4, decimal_places=1)
+  height = models.DecimalField('Height of the negative size in mm', max_digits=4, decimal_places=1)
+  crop_factor = models.DecimalField('Crop factor of this negative size', max_digits=4, decimal_places=2)
+  area = models.IntegerField('Area of this negative size in sq. mm')
+  aspect_ratio = models.DecimalField('Aspect ratio of this negative size, expressed as a single decimal (e.g. 3:2 is expressed as 1.5)',max_digits=4, decimal_places=2)
+
+# Table to catalogue different film formats. These are distinct from negative sizes.
+class Format(models.Model):
+  format = models.CharField('The name of this film/sensor format', max_length=45)
+  digital = models.BooleanField('Whether this is a digital format')
+
+# Table to catalog flashes, flashguns and speedlights
+class Flash(models.Model):
+  model = models.CharField('Model name/number of the flash', max_length=45)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+  guide_number = models.IntegerField('Guide number of the flash')
+  gn_info = models.CharField('Extra freeform info about how the guide number was measured', max_length=45)
+  battery_powered = models.BooleanField('Whether this flash takes batteries')
+  pc_sync = models.BooleanField('Whether the flash has a PC sync socket')
+  hot_shoe = models.BooleanField('Whether the flash has a hot shoe connection')
+  light_stand = models.BooleanField('Whether the flash can be used on a light stand')
+  battery_type = models.ForeignKey(Battery, on_delete=models.CASCADE)
+  battery_qty = models.IntegerField('Quantity of batteries needed in this flash')
+  manual_control = models.BooleanField('Whether this flash offers manual power control')
+  swivel_head = models.BooleanField('Whether this flash has a horizontal swivel head')
+  tilt_head = models.BooleanField('Whether this flash has a vertical tilt head')
+  zoom = models.BooleanField('Whether this flash can zoom')
+  dslr_safe = models.BooleanField('Whether this flash is safe to use with a digital camera')
+  ttl = models.BooleanField('Whether this flash supports TTL metering')
+  flash_protocol = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE)
+  trigger_voltage = models.DecimalField('Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1)
+  own = models.BooleanField('Whether we currently own this flash')
+  acquired = models.DateField('Date this flash was acquired')
+  cost = models.DecimalField('Purchase cost of this flash', max_digits=6, decimal_places=2)
+
+# Metering modes as defined by EXIF tag MeteringMode
+class MeteringMode(models.Model):
+  name = models.CharField('Name of metering mode as defined by EXIF tag MeteringMode', max_length=45)
+
+# Table to catalog different metering technologies and cell types
+class MeteringType(models.Model):
+  name = models.CharField('Name of the metering technology (e.g. Selenium)', max_length=45)
+
+# Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.
+class Mount(models.Model):
+  mount = models.CharField('Name of this lens mount (e.g. Canon FD)', max_length=45)
+  fixed = models.BooleanField('Whether this is a fixed (non-interchangable) lens mount')
+  shutter_in_lens = models.BooleanField('Whether this lens mount system incorporates the shutter models.IntegerFieldo the lens')
+  type = models.CharField('The physical mount type of this lens mount (e.g. Screw, Bayonet, etc)', max_length=25)
+  purpose = models.CharField('The intended purpose of this lens mount (e.g. camera, enlarger, projector)', max_length=25)
+  notes = models.CharField('Freeform notes field', max_length=100)
+  digital_only = models.BooleanField('Whether this mount is models.intended only for digital cameras')
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+
+# Table to catalog light meters
+class LightMeter(models.Model):
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+  model = models.CharField('Model name or number of the light meter', max_length=45)
+  metering_type = models.ForeignKey(MeteringType, on_delete=models.CASCADE)
+  reflected = models.BooleanField('Whether the meter is capable of reflected-light metering')
+  incident = models.BooleanField('Whether the meter is capable of incident-light metering')
+  flash = models.BooleanField('Whether the meter is capable of flash metering')
+  spot = models.BooleanField('Whether the meter is capable of spot metering')
+  min_asa = models.IntegerField('Minimum ISO/ASA that this meter is capable of handling')
+  max_asa = models.IntegerField('Maximum ISO/ASA that this meter is capable of handling')
+  min_lv = models.IntegerField('Minimum light value (LV/EV) that this meter is capable of handling')
+  max_lv = models.IntegerField('Maximum light value (LV/EV) that this meter is capable of handling')
+
+# Table to catalog different paper stocks available
+class PaperStock(models.Model):
+  name = models.CharField('Name of this paper stock', max_length=45)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+  resin_coated = models.BooleanField('Whether the paper is resin-coated')
+  tonable = models.BooleanField('Whether this paper accepts chemical toning')
+  colour = models.BooleanField('Whether this is a colour paper')
+  finish = models.CharField('The finish of the paper surface', max_length=25)
+
+# Table to catalog photographers
+class Person(models.Model):
+  name = models.CharField('Name of the photographer', max_length=45)
+
+# Table to catalog chemical processes that can be used to develop film and paper
+class Process(models.Model):
+  name = models.CharField('Name of this developmenmt process (e.g. C-41, E-6)', max_length=25)
+  colour = models.BooleanField('Whether this is a colour process')
+  positive = models.BooleanField('Whether this is a positive/reversal process')
+
+# Table to catalog teleconverters (multipliers)
+class Teleconverter(models.Model):
+  model = models.CharField('Model name of this teleconverter', max_length=45)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+  mount = models.ForeignKey(Mount, on_delete=models.CASCADE)
+  factor = models.DecimalField('Magnification factor of this teleconverter (numerical part only, e.g. 1.4)', max_digits=4, decimal_places=2)
+  elements = models.IntegerField('Number of optical elements used in this teleconverter')
+  groups = models.IntegerField('Number of optical groups used in this teleconverter')
+  multicoated = models.BooleanField('Whether this teleconverter is multi-coated')
+
+# Table to catalog paper toners that can be used during the printing process
+class Toner(models.Model):
+  name = models.CharField('Name of the toner', max_length=45)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+  formulation = models.CharField('Chemical formulation of the toner', max_length=45)
+  stock_dilution = models.CharField('Stock dilution of the toner', max_length=10)
+
+# Table to list different brands of film stock
+class FilmStock(models.Model):
+  name = models.CharField('Name of the filmstock', max_length=45)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+  iso = models.IntegerField('Nominal ISO speed of the film')
+  colour = models.BooleanField('Whether the film is colour')
+  panchromatic = models.BooleanField('Whether this film is panchromatic')
+  process_id = models.ForeignKey(Process, on_delete=models.CASCADE)
+
+# Table to catalog projectors (still and movie)
+class Projector(models.Model):
+  model = models.CharField('Model name of this projector', max_length=45)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+  mount = models.ForeignKey(Mount, on_delete=models.CASCADE)
+  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE)
+  own = models.BooleanField('Whether we currently own this projector')
+  cine = models.BooleanField('Whether this is a cine (movie) projector')
+
+# Table to record bulk film stock, from which individual films can be cut
+class BulkFilm(models.Model):
+  format = models.ForeignKey(Format, on_delete=models.CASCADE)
+  filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE)
+  purchase_date = models.DateField('Purchase date of this bulk roll')
+  cost = models.DecimalField('Purchase cost of this bulk roll', max_digits=6, decimal_places=2)
+  source = models.CharField('Place where this bulk roll was bought from', max_length=45)
+  batch = models.CharField('Batch code of this bulk roll', max_length=45)
+  expiry = models.DateField('Expiry date of this bulk roll')
+
+# Table to catalogue filter adapter rings
+class FilterAdapter(models.Model):
+  camera_thread = models.DecimalField('Diameter of camera-facing screw thread in mm', max_digits=3, decimal_places=1)
+  filter_thread = models.DecimalField('Diameter of filter-facing screw thread in mm', max_digits=3, decimal_places=1)
+
+# Table to catalog adapters to mount lenses on other cameras
+# class MountAdapter(models.Model):
+#   lens_mount = models.ForeignKey(Mount, on_delete=models.CASCADE)
+#   camera_mount = models.ForeignKey(Mount, on_delete=models.CASCADE)
+#   has_optics = models.BooleanField('Whether this adapter includes optical elements')
+#   infinity_focus = models.BooleanField('Whether this adapter allows infinity focus')
+#   notes = models.CharField('Freeform notes', max_length=100)
+
+# Table to list all possible shutter speeds
+class ShutterSpeed(models.Model):
+  shutter_speed = models.CharField('Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True)
+  duration = models.DecimalField('Shutter speed in models.DecimalField notation, e.g. 0.04', max_digits=9, decimal_places=5)
+
+# Table to catalog the different types of camera shutter
+class ShutterType(models.Model):
+  type = models.CharField('Name of the shutter type (e.g. Focal plane, Leaf, etc)', max_length=45)
+
+
+
 #class (ACCESSORY_COMPAT = (
 #   compat_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this compatibility',
 #   accessory_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the accessory',
@@ -145,17 +333,6 @@ class BodyType(models.Model):
 # ) COMMENT='Table to catalog cameras - both cameras with fixed lenses and cameras with models.IntegerFielderchangeable lenses';
 
 
-#class (CONDITION = (
-#   condition_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique condition ID',
-#   code = models.CharField(6) 'Condition shortcode (e.g. EXC)',
-#   name = models.CharField(45) 'Full name of condition (e.g. Excellent)',
-#   min_rating = models.IntegerField(11) 'The lowest percentage rating that encompasses this condition',
-#   max_rating = models.IntegerField(11) 'The highest percentage rating that encompasses this condition',
-#   description = models.CharField(300) 'Longer description of condition',
-#   PRIMARY KEY (`condition_id`)
-# ) 'Table to list of physical condition descriptions that can be used to evaluate equipment';
-
-
 #class (EXPOSURE_PROGRAM_AVAILABLE = (
 #   cameramodel_id = models.IntegerField(11) NOT NULL COMMENT 'ID of camera model',
 #   exposure_program_id = models.IntegerField(11) NOT NULL COMMENT 'ID of exposure program',
@@ -163,28 +340,6 @@ class BodyType(models.Model):
 #   CONSTRAINT `fk_EXPOSURE_PROGRAM_AVAILABLE_1 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 #   CONSTRAINT `fk_EXPOSURE_PROGRAM_AVAILABLE_2 = FOREIGN KEY (`exposure_program_id`) REFERENCES `EXPOSURE_PROGRAM = (`exposure_program_id`) ON DELETE CASCADE ON UPDATE CASCADE
 # ) 'Table to associate cameras with available exposure programs';
-
-
-#class (EXPOSURE_PROGRAM = (
-#   exposure_program_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'ID of exposure program as defined by EXIF tag ExposureProgram',
-#   exposure_program = models.CharField(45) 'Name of exposure program as defined by EXIF tag ExposureProgram',
-#   PRIMARY KEY (`exposure_program_id`)
-# ) 'Exposure programs as defined by EXIF tag ExposureProgram';
-
-
-#class (FILM_BULK = (
-#   film_bulk_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this bulk roll of film',
-#   format_id = models.IntegerField(11) 'ID of the format of this bulk roll',
-#   filmstock_id = models.IntegerField(11) 'ID of the filmstock',
-#   purchase_date = date 'Purchase date of this bulk roll',
-#   cost = models.DecimalField(5,2) 'Purchase cost of this bulk roll',
-#   source = models.CharField(45) 'Place where this bulk roll was bought from',
-#   batch = models.CharField(45) 'Batch code of this bulk roll',
-#   expiry = date 'Expiry date of this bulk roll',
-#   PRIMARY KEY (`film_bulk_id`),
-#   CONSTRAINT `fk_FILM_BULK_1 = FOREIGN KEY (`format_id`) REFERENCES `FORMAT = (`format_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-#   CONSTRAINT `fk_FILM_BULK_2 = FOREIGN KEY (`filmstock_id`) REFERENCES `FILMSTOCK = (`filmstock_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-# ) 'Table to record bulk film stock, from which individual films can be cut';
 
 
 #class (FILM = (
@@ -220,92 +375,6 @@ class BodyType(models.Model):
 #   CONSTRAINT `fk_filmstock_id = FOREIGN KEY (`filmstock_id`) REFERENCES `FILMSTOCK = (`filmstock_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 #   CONSTRAINT `fk_format_id = FOREIGN KEY (`format_id`) REFERENCES `FORMAT = (`format_id`) ON DELETE CASCADE ON UPDATE CASCADE
 # ) 'Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.';
-
-
-#class (FILMSTOCK = (
-#   filmstock_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the filmstock',
-#   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer of the film',
-#   name = models.CharField(45) 'Name of the film',
-#   iso = models.IntegerField(11) 'Nominal ISO speed of the film',
-#   colour = models.BooleanField('Whether the film is colour',
-#   process_id = models.IntegerField(11) 'ID of the normal process for this film',
-#   panchromatic = models.BooleanField('Whether this film is panchromatic',
-#   PRIMARY KEY (`filmstock_id`),
-#   CONSTRAINT `fk_FILMSTOCK_1 = FOREIGN KEY (`process_id`) REFERENCES `PROCESS = (`process_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-#   CONSTRAINT `fk_manufacturer_id = FOREIGN KEY (`manufacturer_id`) REFERENCES `MANUFACTURER = (`manufacturer_id`) ON DELETE CASCADE ON UPDATE CASCADE
-# ) 'Table to list different brands of film stock';
-
-
-#class (FILTER_ADAPTER = (
-#   filter_adapter_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of filter adapter',
-#   camera_thread = models.DecimalField(3,1) 'Diameter of camera-facing screw thread in mm',
-#   filter_thread = models.DecimalField(3,1) 'Diameter of filter-facing screw thread in mm',
-#   PRIMARY KEY (`filter_adapter_id`)
-# ) 'Table to catalogue filter adapter rings';
-
-
-#class (FILTER = (
-#   filter_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique filter ID',
-#   thread = models.DecimalField(4,1) 'Diameter of screw thread in mm',
-#   type = models.CharField(45) 'Filter type (e.g. Red, CPL, UV)',
-#   attenuation = models.DecimalField(2,1) 'Attenuation of this filter in models.DecimalField stops',
-#   qty = models.IntegerField(11) 'Quantity of these filters available',
-#   manufacturer_id = models.IntegerField(11) 'Denotes the manufacturer of the filter.',
-#   PRIMARY KEY (`filter_id`),
-#   CONSTRAINT `fk_FILTER_1 = FOREIGN KEY (`manufacturer_id`) REFERENCES `MANUFACTURER = (`manufacturer_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-# ) 'Table to catalog filters';
-
-
-#class (FLASH_PROTOCOL = (
-#   flash_protocol_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this flash protocol',
-#   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer that models.IntegerFieldroduced this flash protocol',
-#   name = models.CharField(45) 'Name of the flash protocol',
-#   PRIMARY KEY (`flash_protocol_id`)
-# ) 'Table to catalog different protocols used to communicate with flashes';
-
-
-#class (FLASH = (
-#   flash_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of external flash unit',
-#   manufacturer_id = models.IntegerField(11) 'Manufacturer ID of the flash',
-#   model = models.CharField(45) 'Model name/number of the flash',
-#   guide_number = models.IntegerField(11) 'Guide number of the flash',
-#   gn_info = models.CharField(45) 'Extra freeform info about how the guide number was measured',
-#   battery_powered = models.BooleanField('Whether this flash takes batteries',
-#   pc_sync = models.BooleanField('Whether the flash has a PC sync socket',
-#   hot_shoe = models.BooleanField('Whether the flash has a hot shoe connection',
-#   light_stand = models.BooleanField('Whether the flash can be used on a light stand',
-#   battery_type_id = models.IntegerField(11) 'ID of battery type',
-#   battery_qty = models.IntegerField(11) 'Quantity of batteries needed in this flash',
-#   manual_control = models.BooleanField('Whether this flash offers manual power control',
-#   swivel_head = models.BooleanField('Whether this flash has a horizontal swivel head',
-#   tilt_head = models.BooleanField('Whether this flash has a vertical tilt head',
-#   zoom = models.BooleanField('Whether this flash can zoom',
-#   dslr_safe = models.BooleanField('Whether this flash is safe to use with a digital camera',
-#   ttl = models.BooleanField('Whether this flash supports TTL metering',
-#   flash_protocol_id = models.IntegerField(11) 'ID of flash TTL metering protocol',
-#   trigger_voltage = models.DecimalField(4,1) 'Trigger voltage of the flash, in Volts',
-#   own = models.BooleanField('Whether we currently own this flash',
-#   acquired = date 'Date this flash was acquired',
-#   cost = models.DecimalField(5,2) 'Purchase cost of this flash',
-#   PRIMARY KEY (`flash_id`),
-#   CONSTRAINT `fk_FLASH_1 = FOREIGN KEY (`flash_protocol_id`) REFERENCES `FLASH_PROTOCOL = (`flash_protocol_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-#   CONSTRAINT `fk_FLASH_2 = FOREIGN KEY (`battery_type_id`) REFERENCES `BATTERY = (`battery_type`) ON DELETE NO ACTION ON UPDATE NO ACTION
-# ) 'Table to catlog flashes, flashguns and speedlights';
-
-
-#class (FOCUS_TYPE = (
-#   focus_type_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of focus type',
-#   focus_type = models.CharField(45) 'Name of focus type',
-#   PRIMARY KEY (`focus_type_id`)
-# ) 'Table to catalog different focusing methods';
-
-
-#class (FORMAT = (
-#   format_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this format',
-#   format = models.CharField(45) 'The name of this film/sensor format',
-#   digital = models.BooleanField('Whether this is a digital format',
-#   PRIMARY KEY (`format_id`)
-# ) 'Table to catalogue different film formats. These are distinct from negative sizes.';
 
 
 #class (LENSMODEL = (
@@ -371,25 +440,6 @@ class BodyType(models.Model):
 # ) 'Table to catalog lenses';
 
 
-#class (LIGHT_METER = (
-#   light_meter_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this light meter',
-#   manufacturer_id = models.IntegerField(11) 'Denotes ID of manufacturer of the light meter',
-#   model = models.CharField(45) 'Model name or number of the light meter',
-#   metering_type = models.IntegerField(11) 'ID of metering technology used in this light meter',
-#   reflected = models.BooleanField('Whether the meter is capable of reflected-light metering',
-#   incident = models.BooleanField('Whether the meter is capable of incident-light metering',
-#   flash = models.BooleanField('Whether the meter is capable of flash metering',
-#   spot = models.BooleanField('Whether the meter is capable of spot metering',
-#   min_asa = models.IntegerField(11) 'Minimum ISO/ASA that this meter is capable of handling',
-#   max_asa = models.IntegerField(11) 'Maximum ISO/ASA that this meter is capable of handling',
-#   min_lv = models.IntegerField(11) 'Minimum light value (LV/EV) that this meter is capable of handling',
-#   max_lv = models.IntegerField(11) 'Maximum light value (LV/EV) that this meter is capable of handling',
-#   PRIMARY KEY (`light_meter_id`),
-#   CONSTRAINT `fk_LIGHT_METER_1 = FOREIGN KEY (`manufacturer_id`) REFERENCES `MANUFACTURER = (`manufacturer_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-#   CONSTRAINT `fk_LIGHT_METER_2 = FOREIGN KEY (`metering_type`) REFERENCES `METERING_TYPE = (`metering_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-# ) 'Table to catalog light meters';
-
-
 #class (LOG = (
 #   log_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the log entry',
 #   datetime = datetime 'Timestamp for the log entry',
@@ -406,48 +456,6 @@ class BodyType(models.Model):
 #   CONSTRAINT `fk_METERING_MODE_AVAILABLE_1 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 #   CONSTRAINT `fk_METERING_MODE_AVAILABLE_2 = FOREIGN KEY (`metering_mode_id`) REFERENCES `METERING_MODE = (`metering_mode_id`) ON DELETE CASCADE ON UPDATE CASCADE
 # ) 'Table to associate cameras with available metering modes';
-
-
-#class (METERING_MODE = (
-#   metering_mode_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'ID of metering mode as defined by EXIF tag MeteringMode',
-#   metering_mode = models.CharField(45) 'Name of metering mode as defined by EXIF tag MeteringMode',
-#   PRIMARY KEY (`metering_mode_id`)
-# ) 'Metering modes as defined by EXIF tag MeteringMode';
-
-
-#class (METERING_TYPE = (
-#   metering_type_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the metering type',
-#   metering = models.CharField(45) 'Name of the metering type (e.g. Selenium)',
-#   PRIMARY KEY (`metering_type_id`)
-# ) 'Table to catalog different metering technologies and cell types';
-
-
-#class (MOUNT_ADAPTER = (
-#   mount_adapter_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of lens mount adapter',
-#   lens_mount = models.IntegerField(11) 'ID of the mount used between the adapter and the lens',
-#   camera_mount = models.IntegerField(11) 'ID of the mount used between the adapter and the camera',
-#   has_optics = models.BooleanField('Whether this adapter includes optical elements',
-#   infinity_focus = models.BooleanField('Whether this adapter allows infinity focus',
-#   notes = models.CharField(45) 'Freeform notes',
-#   PRIMARY KEY (`mount_adapter_id`),
-#   CONSTRAINT `fk_MOUNT_ADAPTER_1 = FOREIGN KEY (`lens_mount`) REFERENCES `MOUNT = (`mount_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-#   CONSTRAINT `fk_MOUNT_ADAPTER_2 = FOREIGN KEY (`camera_mount`) REFERENCES `MOUNT = (`mount_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-# ) 'Table to catalog adapters to mount lenses on other cameras';
-
-
-#class (MOUNT = (
-#   mount_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this lens mount',
-#   mount = models.CharField(45) 'Name of this lens mount (e.g. Canon FD)',
-#   fixed = models.BooleanField('Whether this is a fixed (non-interchangable) lens mount',
-#   shutter_in_lens = models.BooleanField('Whether this lens mount system incorporates the shutter models.IntegerFieldo the lens',
-#   type = models.CharField(25) 'The physical mount type of this lens mount (e.g. Screw, Bayonet, etc)',
-#   purpose = models.CharField(25) 'The models.IntegerFieldended purpose of this lens mount (e.g. camera, enlarger, projector)',
-#   notes = models.CharField(45) 'Freeform notes field',
-#   digital_only = models.BooleanField('Whether this mount is models.IntegerFieldended only for digital cameras',
-#   manufacturer_id = models.IntegerField(11) 'Manufacturer ID of this lens mount, if applicable',
-#   PRIMARY KEY (`mount_id`),
-#   CONSTRAINT `fk_MOUNT_1 = FOREIGN KEY (`manufacturer_id`) REFERENCES `MANUFACTURER = (`manufacturer_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-# ) 'Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.';
 
 
 #class (MOVIE = (
@@ -483,18 +491,6 @@ class BodyType(models.Model):
 # ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table to record compatibility between film formats and negative sizes';
 
 
-#class (NEGATIVE_SIZE = (
-#   negative_size_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of negative size',
-#   width = models.DecimalField(4,1) 'Width of the negative size in mm',
-#   height = models.DecimalField(4,1) 'Height of the negative size in mm',
-#   negative_size = models.CharField(45) 'Common name of the negative size (e.g. 35mm, 6x7, etc)',
-#   crop_factor = models.DecimalField(4,2) 'Crop factor of this negative size',
-#   area = models.IntegerField(11) 'Area of this negative size in sq. mm',
-#   aspect_ratio = models.DecimalField(4,2) 'Aspect ratio of this negative size, expressed as a single models.DecimalField. (e.g. 3:2 is expressed as 1.5)',
-#   PRIMARY KEY (`negative_size_id`)
-# ) 'Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.';
-
-
 #class (NEGATIVE = (
 #   negative_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this negative',
 #   film_id = models.IntegerField(11) 'ID of the film that this negative belongs to',
@@ -528,26 +524,6 @@ class BodyType(models.Model):
 #   CONSTRAINT `fk_NEGATIVE_8 = FOREIGN KEY (`photographer_id`) REFERENCES `PERSON = (`person_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 #   CONSTRAINT `fk_NEGATIVE_9 = FOREIGN KEY (`shutter_speed`) REFERENCES `SHUTTER_SPEED = (`shutter_speed`) ON DELETE NO ACTION ON UPDATE NO ACTION
 # ) 'Table to catalog negatives (which includes positives/slide too). Negatives are created by cameras, belong to films and can be used to create scans or prints.';
-
-
-#class (PAPER_STOCK = (
-#   paper_stock_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this paper stock',
-#   name = models.CharField(45) 'Name of this paper stock',
-#   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer of this paper stock',
-#   resin_coated = models.BooleanField('Whether the paper is resin-coated',
-#   tonable = models.BooleanField('Whether this paper accepts chemical toning',
-#   colour = models.BooleanField('Whether this is a colour paper',
-#   finish = models.CharField(45) 'The finish of the paper surface',
-#   PRIMARY KEY (`paper_stock_id`),
-#   CONSTRAINT `fk_PAPER_STOCK_1 = FOREIGN KEY (`manufacturer_id`) REFERENCES `MANUFACTURER = (`manufacturer_id`) ON DELETE CASCADE ON UPDATE CASCADE
-# ) 'Table to catalog different paper stocks available';
-
-
-#class (PERSON = (
-#   person_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for the person',
-#   name = models.CharField(45) 'Name of the photographer',
-#   PRIMARY KEY (`person_id`)
-# ) 'Table to catalog photographers';
 
 
 #class (PRINT = (
@@ -588,30 +564,6 @@ class BodyType(models.Model):
 #   CONSTRAINT `fk_PRINT_7 = FOREIGN KEY (`archive_id`) REFERENCES `ARCHIVE = (`archive_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 #   CONSTRAINT `fk_PRINT_8 = FOREIGN KEY (`printer_id`) REFERENCES `PERSON = (`person_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 # ) 'Table to catalog prints made from negatives';
-
-
-#class (PROCESS = (
-#   process_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'ID of this development process',
-#   name = models.CharField(12) 'Name of this developmenmt process (e.g. C-41, E-6)',
-#   colour = models.BooleanField('Whether this is a colour process',
-#   positive = models.BooleanField('Whether this is a positive/reversal process',
-#   PRIMARY KEY (`process_id`)
-# ) 'Table to catalog chemical processes that can be used to develop film and paper';
-
-
-#class (PROJECTOR = (
-#   projector_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this projector',
-#   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer of this projector',
-#   model = models.CharField(45) 'Model name of this projector',
-#   mount_id = models.IntegerField(11) 'ID of the lens mount of this projector, if it has models.IntegerFielderchangeable lenses',
-#   negative_size_id = models.IntegerField(11) 'ID of the largest negative size that this projector can handle',
-#   own = models.BooleanField('Whether we currently own this projector',
-#   cine = models.BooleanField('Whether this is a cine (movie) projector',
-#   PRIMARY KEY (`projector_id`),
-#   CONSTRAINT `fk_PROJECTOR_1 = FOREIGN KEY (`manufacturer_id`) REFERENCES `MANUFACTURER = (`manufacturer_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-#   CONSTRAINT `fk_PROJECTOR_2 = FOREIGN KEY (`mount_id`) REFERENCES `MOUNT = (`mount_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-#   CONSTRAINT `fk_PROJECTOR_3 = FOREIGN KEY (`negative_size_id`) REFERENCES `NEGATIVE_SIZE = (`negative_size_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-# ) 'Table to catalog projectors (still and movie)';
 
 
 #class (REPAIR = (
@@ -669,45 +621,6 @@ class BodyType(models.Model):
 #   CONSTRAINT `fk_SHUTTER_SPEED_AVAILABLE_1 = FOREIGN KEY (`shutter_speed`) REFERENCES `SHUTTER_SPEED = (`shutter_speed`) ON DELETE CASCADE ON UPDATE CASCADE,
 #   CONSTRAINT `fk_SHUTTER_SPEED_AVAILABLE_2 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE CASCADE ON UPDATE CASCADE
 # ) COMMENT='Table to associate cameras with shutter speeds';
-
-
-#class (SHUTTER_SPEED = (
-#   shutter_speed = models.CharField(10) CHARACTER SET latin1 NOT NULL COMMENT 'Shutter speed in fractional notation, e.g. 1/250',
-#   duration = models.DecimalField(9,5) 'Shutter speed in models.DecimalField notation, e.g. 0.04',
-#   PRIMARY KEY (`shutter_speed`)
-# ) COMMENT='Table to list all possible shutter speeds';
-
-
-#class (SHUTTER_TYPE = (
-#   shutter_type_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the shutter type',
-#   shutter_type = models.CharField(45) 'Name of the shutter type (e.g. Focal plane, Leaf, etc)',
-#   PRIMARY KEY (`shutter_type_id`)
-# ) 'Table to catalog the different types of camera shutter';
-
-
-#class (TELECONVERTER = (
-#   teleconverter_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of this teleconverter',
-#   mount_id = models.IntegerField(11) 'ID of the lens mount used by this teleconverter',
-#   factor = models.DecimalField(4,2) 'Magnification factor of this teleconverter (numerical part only, e.g. 1.4)',
-#   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer of this teleconverter',
-#   model = models.CharField(45) 'Model name of this teleconverter',
-#   elements = models.IntegerField(4) 'Number of optical elements used in this teleconverter',
-#   groups = models.IntegerField(4) 'Number of optical groups used in this teleconverter',
-#   multicoated = models.BooleanField('Whether this teleconverter is multi-coated',
-#   PRIMARY KEY (`teleconverter_id`),
-#   CONSTRAINT `fk_TELECONVERTER_1 = FOREIGN KEY (`manufacturer_id`) REFERENCES `MANUFACTURER = (`manufacturer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-#   CONSTRAINT `fk_TELECONVERTER_2 = FOREIGN KEY (`mount_id`) REFERENCES `MOUNT = (`mount_id`) ON DELETE CASCADE ON UPDATE CASCADE
-# ) 'Table to catalog teleconverters (multipliers)';
-
-
-#class (TONER = (
-#   toner_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the toner',
-#   manufacturer_id = models.IntegerField(11) 'ID of the manufacturer of the toner',
-#   toner = models.CharField(45) 'Name of the toner',
-#   formulation = models.CharField(45) 'Chemical formulation of the toner',
-#   stock_dilution = models.CharField(10) 'Stock dilution of the toner',
-#   PRIMARY KEY (`toner_id`)
-# ) 'Table to catalog paper toners that can be used during the printing process';
 
 
 #class (TO_PRINT = (
