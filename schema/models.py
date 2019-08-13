@@ -124,7 +124,7 @@ class Flash(models.Model):
 class Enlarger(models.Model):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
   model = models.CharField('Name/model of the enlarger', max_length=45)
-  negative_size_id = models.ForeignKey(NegativeSize, on_delete=models.CASCADE)
+  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE)
   acquired = models.DateField('Date on which the enlarger was acquired')
   lost = models.DateField('Date on which the enlarger was lost/sold')
   introduced = models.IntegerField('Year in which the enlarger was introduced')
@@ -208,7 +208,7 @@ class FilmStock(models.Model):
   iso = models.IntegerField('Nominal ISO speed of the film')
   colour = models.BooleanField('Whether the film is colour')
   panchromatic = models.BooleanField('Whether this film is panchromatic')
-  process_id = models.ForeignKey(Process, on_delete=models.CASCADE)
+  process = models.ForeignKey(Process, on_delete=models.CASCADE)
 
 # Table to catalog projectors (still and movie)
 class Projector(models.Model):
@@ -348,7 +348,7 @@ class CameraModel(models.Model):
 
 # Table to catalog lenses
 class Lens(models.Model):
-  lensmodel_id = models.ForeignKey(LensModel, on_delete=models.CASCADE)
+  lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE)
   serial = models.CharField('Serial number of this lens', max_length=45)
   date_code = models.CharField('Date code of this lens, if different from the serial number', max_length=45)
   manufactured = models.IntegerField('Year in which this specific lens was manufactured')
@@ -404,7 +404,7 @@ class Film(models.Model):
   purchase_date = models.DateField('Date this film was purchased')
   price = models.DecimalField('Price paid for this film', max_digits=6, decimal_places=2)
   processed_by = models.CharField('Person or place that processed this film', max_length=45)
-  archive_id = models.ForeignKey(Archive, on_delete=models.CASCADE)
+  archive = models.ForeignKey(Archive, on_delete=models.CASCADE)
 
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 class Negative(models.Model):
@@ -425,7 +425,7 @@ class Negative(models.Model):
   flash = models.BooleanField('Whether flash was used')
   metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE)
   exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE)
-  photographer_id = models.ForeignKey(Person, on_delete=models.CASCADE)
+  photographer = models.ForeignKey(Person, on_delete=models.CASCADE)
   # copy_of = models.ForeignKey(Negative, on_delete=models.CASCADE)
 
 # Table to catalog prints made from negatives
@@ -440,39 +440,39 @@ class Print(models.Model):
   filtration_grade = models.DecimalField('Contrast grade of paper used', max_digits=2, decimal_places=1)
   development_time = models.DurationField('Development time of this print')
   bleach_time = models.DurationField('Duration of bleaching')
-  toner_id = models.ForeignKey(Toner, on_delete=models.CASCADE)
+  toner = models.ForeignKey(Toner, on_delete=models.CASCADE)
   toner_dilution = models.CharField('Dilution of the first toner used to make this print', max_length=8)
   toner_time = models.DurationField('Duration of first toning')
-  #second_toner_id = models.ForeignKey(Toner, on_delete=models.CASCADE)
+  #second_toner = models.ForeignKey(Toner, on_delete=models.CASCADE)
   #second_toner_dilution = models.CharField('Dilution of the first toner used to make this print', max_length=8)
   #second_toner_time = models.DurationField('Duration of second toning')
   own = models.BooleanField('Whether we currently own this print')
   location = models.CharField('The place where this print is currently', max_length=100)
   sold_price = models.DecimalField('Sale price of the print', max_digits=6, decimal_places=2)
-  enlarger_id = models.ForeignKey(Enlarger, on_delete=models.CASCADE)
-  lens_id = models.ForeignKey(Lens, on_delete=models.CASCADE)
-  developer_id = models.ForeignKey(Developer, on_delete=models.CASCADE)
+  enlarger = models.ForeignKey(Enlarger, on_delete=models.CASCADE)
+  lens = models.ForeignKey(Lens, on_delete=models.CASCADE)
+  developer = models.ForeignKey(Developer, on_delete=models.CASCADE)
   fine = models.BooleanField('Whether this is a fine print')
   notes = models.CharField('Freeform notes about this print, e.g. dodging, burning & complex toning', max_length=200)
-  archive_id = models.ForeignKey(Archive, on_delete=models.CASCADE)
-  printer_id = models.ForeignKey(Person, on_delete=models.CASCADE)
+  archive = models.ForeignKey(Archive, on_delete=models.CASCADE)
+  printer = models.ForeignKey(Person, on_delete=models.CASCADE)
 
 # Table to catalog motion picture films (movies)
 class Movie(models.Model):
   title = models.CharField('Title of this movie', max_length=45)
   description = models.CharField('Description of this movie', max_length=200)
-  camera_id = models.ForeignKey(Camera, on_delete=models.CASCADE)
-  lens_id = models.ForeignKey(Lens, on_delete=models.CASCADE)
-  format_id = models.ForeignKey(Format, on_delete=models.CASCADE)
+  camera = models.ForeignKey(Camera, on_delete=models.CASCADE)
+  lens = models.ForeignKey(Lens, on_delete=models.CASCADE)
+  format = models.ForeignKey(Format, on_delete=models.CASCADE)
   sound = models.BooleanField('Whether this movie has sound')
   fps = models.IntegerField('Frame rate of this movie, in fps')
-  filmstock_id = models.ForeignKey(FilmStock, on_delete=models.CASCADE)
+  filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE)
   feet = models.IntegerField('Length of this movie in feet')
   duration = models.DurationField('Duration of this movie')
   date_loaded = models.DateField('Date that the filmstock was loaded into a camera')
   date_shot = models.DateField('Date on which this movie was shot')
   date_processed = models.DateField('Date on which this movie was processed')
-  process_id = models.ForeignKey(Process, on_delete=models.CASCADE)
+  process = models.ForeignKey(Process, on_delete=models.CASCADE)
   
 # Table to catalog all repairs and servicing undertaken on cameras and lenses in the collection
 class Repair(models.Model):
@@ -484,8 +484,8 @@ class Repair(models.Model):
 
 # Table to record all the images that have been scanned digitally
 class Scan(models.Model):
-  negative_id = models.ForeignKey(Negative, on_delete=models.CASCADE)
-  print_id = models.ForeignKey(Print, on_delete=models.CASCADE)
+  negative = models.ForeignKey(Negative, on_delete=models.CASCADE)
+  print = models.ForeignKey(Print, on_delete=models.CASCADE)
   filename = models.CharField('Filename of the scan', max_length=128)
   date = models.DateField('Date that this scan was made')
   colour = models.BooleanField('Whether this is a colour image')
@@ -494,12 +494,12 @@ class Scan(models.Model):
 
 # Table to record orders for prints
 class Order(models.Model):
-  negative_id = models.ForeignKey(Negative, on_delete=models.CASCADE)
+  negative = models.ForeignKey(Negative, on_delete=models.CASCADE)
   width = models.IntegerField('Width of print to be made')
   height = models.IntegerField('Height of print to be made')
   added = models.DateField('Date that the order was placed')
   printed = models.BooleanField('Whether the print has been made')
-  print_id = models.ForeignKey(Print, on_delete=models.CASCADE)
+  print = models.ForeignKey(Print, on_delete=models.CASCADE)
   recipient = models.ForeignKey(Person, on_delete=models.CASCADE)
   
 #class (ACCESSORY_COMPAT = (
