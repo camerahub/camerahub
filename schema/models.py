@@ -19,9 +19,9 @@ class Accessory(models.Model):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
   model = models.CharField('Model of the accessory', max_length=45)
   acquired = models.DateField('Date that this accessory was acquired')
-  cost = models.DecimalField('Purchase cost of the accessory', max_digits=6, models.DecimalField_places=2)
+  cost = models.DecimalField('Purchase cost of the accessory', max_digits=6, decimal_places=2)
   lost = models.DateField('Date that this accessory was lost')
-  lost_price = models.DecimalField('Sale price of the accessory', max_digits=6, models.DecimalField_places=2)
+  lost_price = models.DecimalField('Sale price of the accessory', max_digits=6, decimal_places=2)
 
 # Table to list the different types of material that can be archived
 class ArchiveType(models.Model):
@@ -40,7 +40,7 @@ class Archive(models.Model):
 # Table to catalog of types of battery
 class Battery(models.Model):
   name = models.CharField('Common name of the battery', max_length=45)
-  voltage = models.DecimalField('Nominal voltage of the battery', max_digits=5, models.DecimalField_places=2)
+  voltage = models.DecimalField('Nominal voltage of the battery', max_digits=5, decimal_places=2)
   chemistry = models.CharField('Battery chemistry (e.g. Alkaline, Lithium, etc)', max_length=45)
   other_names = models.CharField('Alternative names for this kind of battery', max_length=45)
 
