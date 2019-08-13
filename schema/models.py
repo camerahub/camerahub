@@ -58,7 +58,7 @@ class Condition(models.Model):
   
 # Exposure programs as defined by EXIF tag ExposureProgram
 class ExposureProgram(models.Model):
-  name = models.CharField('Name of exposure program as defined by EXIF tag ExposureProgram', max_length=45) 
+  name = models.CharField('Name of exposure program as defined by EXIF tag ExposureProgram', max_length=45, primary_key=True) 
 
 # Table to catalog different protocols used to communicate with flashes
 class FlashProtocol(models.Model):
@@ -129,11 +129,11 @@ class Enlarger(models.Model):
   
 # Metering modes as defined by EXIF tag MeteringMode
 class MeteringMode(models.Model):
-  name = models.CharField('Name of metering mode as defined by EXIF tag MeteringMode', max_length=45)
+  name = models.CharField('Name of metering mode as defined by EXIF tag MeteringMode', max_length=45, primary_key=True)
 
 # Table to catalog different metering technologies and cell types
 class MeteringType(models.Model):
-  name = models.CharField('Name of the metering technology (e.g. Selenium)', max_length=45)
+  name = models.CharField('Name of the metering technology (e.g. Selenium)', max_length=45, primary_key=True)
 
 # Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.
 class Mount(models.Model):
@@ -330,11 +330,14 @@ class CameraModel(models.Model):
   pc_sync = models.BooleanField('Whether the camera has a PC sync socket for flash')
   hotshoe = models.BooleanField('Whether the camera has a hotshoe')
   coldshoe = models.BooleanField('Whether the camera has a coldshoe or accessory shoe')
-  x_sync = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE)
+  #x_sync = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE)
   meter_min_ev = models.IntegerField('Lowest EV/LV the built-in meter supports')
   meter_max_ev = models.IntegerField('Highest EV/LV the built-in meter supports')
   dof_preview = models.BooleanField('Whether the camera has depth of field preview')
   tripod = models.BooleanField('Whether the camera has a tripod bush')
+  shutter_speeds = models.ManyToManyField(ShutterSpeed)
+  metering_modes = models.ManyToManyField(MeteringMode)
+  exposure_programs = models.ManyToManyField(ExposureProgram)
 
 # Table to catalog lenses
 class Lens(models.Model):
@@ -504,14 +507,6 @@ class Order(models.Model):
 #   CONSTRAINT `fk_ACCESSORY_COMPAT_3 = FOREIGN KEY (`lensmodel_id`) REFERENCES `LENSMODEL = (`lensmodel_id`) ON DELETE CASCADE ON UPDATE CASCADE
 # ) 'Table to define compatibility between accessories and cameras or lenses';
 
-#class (EXPOSURE_PROGRAM_AVAILABLE = (
-#   cameramodel_id = models.IntegerField(11) NOT NULL COMMENT 'ID of camera model',
-#   exposure_program_id = models.IntegerField(11) NOT NULL COMMENT 'ID of exposure program',
-#   PRIMARY KEY (`cameramodel_id`,`exposure_program_id`),
-#   CONSTRAINT `fk_EXPOSURE_PROGRAM_AVAILABLE_1 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-#   CONSTRAINT `fk_EXPOSURE_PROGRAM_AVAILABLE_2 = FOREIGN KEY (`exposure_program_id`) REFERENCES `EXPOSURE_PROGRAM = (`exposure_program_id`) ON DELETE CASCADE ON UPDATE CASCADE
-# ) 'Table to associate cameras with available exposure programs';
-
 #class (LOG = (
 #   log_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the log entry',
 #   datetime = datetime 'Timestamp for the log entry',
@@ -519,14 +514,6 @@ class Order(models.Model):
 #   message = models.CharField(450) 'Log message',
 #   PRIMARY KEY (`log_id`)
 # ) 'Table to store data modification logs';
-
-#class (METERING_MODE_AVAILABLE = (
-#   cameramodel_id = models.IntegerField(11) NOT NULL COMMENT 'ID of camera model',
-#   metering_mode_id = models.IntegerField(11) NOT NULL COMMENT 'ID of metering mode',
-#   PRIMARY KEY (`cameramodel_id`,`metering_mode_id`),
-#   CONSTRAINT `fk_METERING_MODE_AVAILABLE_1 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-#   CONSTRAINT `fk_METERING_MODE_AVAILABLE_2 = FOREIGN KEY (`metering_mode_id`) REFERENCES `METERING_MODE = (`metering_mode_id`) ON DELETE CASCADE ON UPDATE CASCADE
-# ) 'Table to associate cameras with available metering modes';
 
 #class (NEGATIVEFORMAT_COMPAT = (
 #   format_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the film format',
@@ -552,12 +539,3 @@ class Order(models.Model):
 #   name = models.CharField(45) 'Name of this collection, e.g. Canon FD SLRs',
 #   PRIMARY KEY (`series_id`)
 # ) 'Table to list all series of cameras and lenses';
-
-#class (SHUTTER_SPEED_AVAILABLE = (
-#   cameramodel_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the camera model',
-#   shutter_speed = models.CharField(10) CHARACTER SET latin1 NOT NULL COMMENT 'Shutter speed that this camera has',
-#   bulb = models.IntegerField(1) DEFAULT 0 COMMENT 'Whether this is a manual "bulb" shutter speed that can only be accessed in B or T modes',
-#   PRIMARY KEY (`cameramodel_id`,`shutter_speed`),
-#   CONSTRAINT `fk_SHUTTER_SPEED_AVAILABLE_1 = FOREIGN KEY (`shutter_speed`) REFERENCES `SHUTTER_SPEED = (`shutter_speed`) ON DELETE CASCADE ON UPDATE CASCADE,
-#   CONSTRAINT `fk_SHUTTER_SPEED_AVAILABLE_2 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE CASCADE ON UPDATE CASCADE
-# ) COMMENT='Table to associate cameras with shutter speeds';
