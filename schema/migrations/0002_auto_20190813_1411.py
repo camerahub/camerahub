@@ -212,7 +212,7 @@ def reverse_func(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schema', '0010_auto_20190813_2017'),
+        ('schema', '0001_initial'),
     ]
 
     operations = [
