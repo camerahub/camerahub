@@ -8,10 +8,14 @@ class Manufacturer(models.Model):
   url = models.URLField('URL to the manufacturers main website', max_length=45, blank=True, null=True)
   founded = models.DateField('Year in which the manufacturer was founded', blank=True, null=True)
   dissolved = models.DateField('Year in which the manufacturer was dissolved', blank=True, null=True)
+  def __str__(self):
+    return self.name
 
 # Table to list types of accessories
 class AccessoryType(models.Model):
   type = models.CharField('Type of accessory', max_length=45, unique=True)
+  def __str__(self):
+    return self.type
   
 # Table to catalog accessories that are not tracked in more specific tables
 class Accessory(models.Model):
@@ -22,10 +26,14 @@ class Accessory(models.Model):
   cost = models.DecimalField('Purchase cost of the accessory', max_digits=6, decimal_places=2, blank=True, null=True)
   lost = models.DateField('Date that this accessory was lost', blank=True, null=True)
   lost_price = models.DecimalField('Sale price of the accessory', max_digits=6, decimal_places=2, blank=True, null=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.model
 
 # Table to list the different types of material that can be archived
 class ArchiveType(models.Model):
   type = models.CharField('Name of this type of archive', max_length=45, unique=True)
+  def __str__(self):
+    return self.type
 
 # Table to list all archives that exist for storing physical media
 class Archive(models.Model):
@@ -36,6 +44,8 @@ class Archive(models.Model):
   location = models.CharField('Location of this archive', max_length=45, blank=True, null=True)
   storage = models.CharField('The type of storage used for this archive, e.g. box, folder, ringbinder, etc', max_length=45, blank=True, null=True)
   sealed = models.BooleanField('Whether or not this archive is sealed (closed to new additions)', default=0)
+  def __str__(self):
+    return self.name
 
 # Table to catalog of types of battery
 class Battery(models.Model):
@@ -43,27 +53,37 @@ class Battery(models.Model):
   voltage = models.DecimalField('Nominal voltage of the battery', max_digits=5, decimal_places=2, blank=True, null=True)
   chemistry = models.CharField('Battery chemistry (e.g. Alkaline, Lithium, etc)', max_length=45, blank=True, null=True)
   other_names = models.CharField('Alternative names for this kind of battery', max_length=45, blank=True, null=True)
+  def __str__(self):
+    return self.name
 
 # Table to catalog types of camera body style
 class BodyType(models.Model):
   type = models.CharField('Name of camera body type (e.g. SLR, compact, etc)', max_length=45, unique=True)
+  def __str__(self):
+    return self.type
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 class Condition(models.Model):
-   code = models.CharField('Condition shortcode (e.g. EXC)', max_length = 6)
-   name = models.CharField('Full name of condition (e.g. Excellent)', max_length=45)
-   min_rating = models.IntegerField('The lowest percentage rating that encompasses this condition')
-   max_rating = models.IntegerField('The highest percentage rating that encompasses this condition')
-   description = models.CharField('Longer description of condition', max_length=300)
+  code = models.CharField('Condition shortcode (e.g. EXC)', max_length = 6)
+  name = models.CharField('Full name of condition (e.g. Excellent)', max_length=45)
+  min_rating = models.IntegerField('The lowest percentage rating that encompasses this condition')
+  max_rating = models.IntegerField('The highest percentage rating that encompasses this condition')
+  description = models.CharField('Longer description of condition', max_length=300)
+  def __str__(self):
+    return self.name
   
 # Exposure programs as defined by EXIF tag ExposureProgram
 class ExposureProgram(models.Model):
   name = models.CharField('Name of exposure program as defined by EXIF tag ExposureProgram', max_length=45) 
+  def __str__(self):
+    return self.name
 
 # Table to catalog different protocols used to communicate with flashes
 class FlashProtocol(models.Model):
   name = models.CharField('Name of the flash protocol', max_length=45) 
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  def __str__(self):
+    return self.name
 
 # Table to catalog filters
 class Filter(models.Model):
@@ -72,10 +92,14 @@ class Filter(models.Model):
   attenuation = models.DecimalField('Attenuation of this filter in decimal stops', max_digits=3, decimal_places=1, blank=True, null=True)
   qty = models.IntegerField('Quantity of these filters available', default=1, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  def __str__(self):
+    return self.type + ' ' + str(self.thread) + 'mm'
 
 # Table to catalog different focusing methods
 class FocusType(models.Model):
   name = models.CharField('Name of focus type', max_length=45)
+  def __str__(self):
+    return self.name
 
 # Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
 class NegativeSize(models.Model):
@@ -85,16 +109,22 @@ class NegativeSize(models.Model):
   crop_factor = models.DecimalField('Crop factor of this negative size', max_digits=4, decimal_places=2, blank=True, null=True)
   area = models.IntegerField('Area of this negative size in sq. mm', blank=True, null=True)
   aspect_ratio = models.DecimalField('Aspect ratio of this negative size, expressed as a single decimal (e.g. 3:2 is expressed as 1.5)',max_digits=4, decimal_places=2, blank=True, null=True)
+  def __str__(self):
+    return self.name
 
 # Table to catalogue different film formats. These are distinct from negative sizes.
 class Format(models.Model):
   format = models.CharField('The name of this film/sensor format', max_length=45, unique=True)
   digital = models.BooleanField('Whether this is a digital format', blank=True, null=True)
   negative_size = models.ManyToManyField(NegativeSize, blank=True)
+  def __str__(self):
+    return self.format
 
 # Table to list all series of cameras and lenses
 class Series(models.Model):
   name = models.CharField('Name of this collection, e.g. Canon FD SLRs', max_length=45, unique=True)
+  def __str__(self):
+    return self.name
 
 # Table to catalog flashes, flashguns and speedlights
 class Flash(models.Model):
@@ -119,6 +149,8 @@ class Flash(models.Model):
   own = models.BooleanField('Whether we currently own this flash', blank=True, null=True)
   acquired = models.DateField('Date this flash was acquired', blank=True, null=True)
   cost = models.DecimalField('Purchase cost of this flash', max_digits=6, decimal_places=2, blank=True, null=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.model
 
 # Table to list enlargers
 class Enlarger(models.Model):
@@ -131,14 +163,20 @@ class Enlarger(models.Model):
   discontinued = models.IntegerField('Year in which the enlarger was discontinued', blank=True, null=True)
   cost = models.DecimalField('Purchase cost of the enlarger', max_digits=6, decimal_places=1, blank=True, null=True)
   lost_price = models.DecimalField('Sale price of the enlarger', max_digits=6, decimal_places=1, blank=True, null=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.model
   
 # Metering modes as defined by EXIF tag MeteringMode
 class MeteringMode(models.Model):
   name = models.CharField('Name of metering mode as defined by EXIF tag MeteringMode', max_length=45)
+  def __str__(self):
+    return self.name
 
 # Table to catalog different metering technologies and cell types
 class MeteringType(models.Model):
   name = models.CharField('Name of the metering technology (e.g. Selenium)', max_length=45)
+  def __str__(self):
+    return self.name
 
 # Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.
 class Mount(models.Model):
@@ -150,6 +188,8 @@ class Mount(models.Model):
   notes = models.CharField('Freeform notes field', max_length=100, blank=True, null=True)
   digital_only = models.BooleanField('Whether this mount is models.intended only for digital cameras', default=0, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  def __str__(self):
+    return self.mount
 
 # Table to catalog light meters
 class LightMeter(models.Model):
@@ -164,6 +204,8 @@ class LightMeter(models.Model):
   max_asa = models.IntegerField('Maximum ISO/ASA that this meter is capable of handling', blank=True, null=True)
   min_lv = models.IntegerField('Minimum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
   max_lv = models.IntegerField('Maximum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.model
 
 # Table to catalog different paper stocks available
 class PaperStock(models.Model):
@@ -173,16 +215,22 @@ class PaperStock(models.Model):
   tonable = models.BooleanField('Whether this paper accepts chemical toning', blank=True, null=True)
   colour = models.BooleanField('Whether this is a colour paper', blank=True, null=True)
   finish = models.CharField('The finish of the paper surface', max_length=25, blank=True, null=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.name
 
 # Table to catalog photographers
 class Person(models.Model):
   name = models.CharField('Name of the photographer', max_length=45, unique=True)
+  def __str__(self):
+    return self.name
 
 # Table to catalog chemical processes that can be used to develop film and paper
 class Process(models.Model):
   name = models.CharField('Name of this developmenmt process (e.g. C-41, E-6)', max_length=25, unique=True)
   colour = models.BooleanField('Whether this is a colour process', blank=True, null=True)
   positive = models.BooleanField('Whether this is a positive/reversal process', blank=True, null=True)
+  def __str__(self):
+    return self.name
 
 # Table to catalog teleconverters (multipliers)
 class Teleconverter(models.Model):
@@ -193,6 +241,8 @@ class Teleconverter(models.Model):
   elements = models.IntegerField('Number of optical elements used in this teleconverter', blank=True, null=True)
   groups = models.IntegerField('Number of optical groups used in this teleconverter', blank=True, null=True)
   multicoated = models.BooleanField('Whether this teleconverter is multi-coated', blank=True, null=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.model
 
 # Table to catalog paper toners that can be used during the printing process
 class Toner(models.Model):
@@ -200,6 +250,8 @@ class Toner(models.Model):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
   formulation = models.CharField('Chemical formulation of the toner', max_length=45, blank=True, null=True)
   stock_dilution = models.CharField('Stock dilution of the toner', max_length=10, blank=True, null=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.name
 
 # Table to list different brands of film stock
 class FilmStock(models.Model):
@@ -209,6 +261,8 @@ class FilmStock(models.Model):
   colour = models.BooleanField('Whether the film is colour', blank=True, null=True)
   panchromatic = models.BooleanField('Whether this film is panchromatic', blank=True, null=True)
   process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.name
 
 # Table to catalog projectors (still and movie)
 class Projector(models.Model):
@@ -218,6 +272,8 @@ class Projector(models.Model):
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True)
   own = models.BooleanField('Whether we currently own this projector', blank=True, null=True)
   cine = models.BooleanField('Whether this is a cine (movie) projector', blank=True, null=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.model
 
 # Table to record bulk film stock, from which individual films can be cut
 class BulkFilm(models.Model):
@@ -228,11 +284,15 @@ class BulkFilm(models.Model):
   source = models.CharField('Place where this bulk roll was bought from', max_length=45, blank=True, null=True)
   batch = models.CharField('Batch code of this bulk roll', max_length=45, blank=True, null=True)
   expiry = models.DateField('Expiry date of this bulk roll', blank=True, null=True)
+  def __str__(self):
+    return self.filmstock.name
 
 # Table to catalogue filter adapter rings
 class FilterAdapter(models.Model):
   camera_thread = models.DecimalField('Diameter of camera-facing screw thread in mm', max_digits=3, decimal_places=1)
   filter_thread = models.DecimalField('Diameter of filter-facing screw thread in mm', max_digits=3, decimal_places=1)
+  def __str__(self):
+    return self.camera_thread + '-' + self.filter_thread + 'mm'
 
 # Table to catalog adapters to mount lenses on other cameras
 # class MountAdapter(models.Model):
@@ -246,10 +306,14 @@ class FilterAdapter(models.Model):
 class ShutterSpeed(models.Model):
   shutter_speed = models.CharField('Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True)
   duration = models.DecimalField('Shutter speed in models.DecimalField notation, e.g. 0.04', max_digits=9, decimal_places=5)
+  def __str__(self):
+    return self.shutter_speed
 
 # Table to catalog the different types of camera shutter
 class ShutterType(models.Model):
   type = models.CharField('Name of the shutter type (e.g. Focal plane, Leaf, etc)', max_length=45, unique=True)
+  def __str__(self):
+    return self.type
 
 # Table to list film and paper developers
 class Developer(models.Model):
@@ -258,6 +322,8 @@ class Developer(models.Model):
   for_paper = models.BooleanField('Whether this developer can be used with paper', blank=True, null=True)
   for_film = models.BooleanField('Whether this developer can be used with film', blank=True, null=True)
   chemistry = models.CharField('The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.name
 
 # Table to catalog lens models
 class LensModel(models.Model):
@@ -295,6 +361,8 @@ class LensModel(models.Model):
   formula = models.CharField('Name of the type of lens formula (e.g. Tessar)', max_length=45, blank=True, null=True)
   shutter_model = models.CharField('Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
   series = models.ManyToManyField(Series, blank=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.model
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
@@ -345,6 +413,8 @@ class CameraModel(models.Model):
   metering_modes = models.ManyToManyField(MeteringMode, blank=True)
   exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
   series = models.ManyToManyField(Series, blank=True)
+  def __str__(self):
+    return str(self.manufacturer.name) + ' ' + self.model
 
 # Table to catalog lenses
 class Lens(models.Model):
@@ -361,6 +431,8 @@ class Lens(models.Model):
   source = models.CharField('Place where the lens was acquired from', max_length=150, blank=True, null=True)
   condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True)
   condition_notes = models.CharField('Description of condition', max_length=150, blank=True, null=True)
+  def __str__(self):
+    return self.lensmodel.manufacturer.name + ' ' + self.lensmodel.model + ' ' + self.serial
 
 # Table to catalog cameras - both cameras with fixed lenses and cameras with interchangeable lenses
 class Camera(models.Model):
@@ -379,6 +451,8 @@ class Camera(models.Model):
   condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True)
   condition_notes = models.CharField('Description of condition', max_length=150, blank=True, null=True)
   #display_lens = models.ForeignKey(Lens, on_delete=models.CASCADE)
+  def __str__(self):
+    return self.cameramodel.manufacturer.name + ' ' + self.cameramodel.model + ' ' + self.serial
 
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
 class Film(models.Model):
@@ -405,6 +479,8 @@ class Film(models.Model):
   price = models.DecimalField('Price paid for this film', max_digits=6, decimal_places=2, blank=True, null=True)
   processed_by = models.CharField('Person or place that processed this film', max_length=45, blank=True, null=True)
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True)
+  def __str__(self):
+    return self.id + ' ' + self.title
 
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 class Negative(models.Model):
@@ -427,6 +503,8 @@ class Negative(models.Model):
   exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE, blank=True, null=True)
   photographer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
   # copy_of = models.ForeignKey(Negative, on_delete=models.CASCADE)
+  def __str__(self):
+    return self.film + '/' + self.frame + ' ' + self.caption
 
 # Table to catalog prints made from negatives
 class Print(models.Model):
@@ -456,6 +534,8 @@ class Print(models.Model):
   notes = models.CharField('Freeform notes about this print, e.g. dodging, burning & complex toning', max_length=200, blank=True, null=True)
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True)
   printer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
+  def __str__(self):
+    return self.id
 
 # Table to catalog motion picture films (movies)
 class Movie(models.Model):
@@ -473,6 +553,8 @@ class Movie(models.Model):
   date_shot = models.DateField('Date on which this movie was shot', blank=True, null=True)
   date_processed = models.DateField('Date on which this movie was processed', blank=True, null=True)
   process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True)
+  def __str__(self):
+    return self.title
   
 # Table to catalog all repairs and servicing undertaken on cameras and lenses in the collection
 class Repair(models.Model):
@@ -491,6 +573,8 @@ class Scan(models.Model):
   colour = models.BooleanField('Whether this is a colour image', blank=True, null=True)
   width = models.IntegerField('Width of the scanned image in pixels', blank=True, null=True)
   height = models.IntegerField('Height of the scanned image in pixels', blank=True, null=True)
+  def __str__(self):
+    return self.filename
 
 # Table to record orders for prints
 class Order(models.Model):
@@ -501,7 +585,8 @@ class Order(models.Model):
   printed = models.BooleanField('Whether the print has been made', blank=True, null=True)
   print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True, null=True)
   recipient = models.ForeignKey(Person, on_delete=models.CASCADE)
-  
+  def __str__(self):
+    return self.id
 #class (ACCESSORY_COMPAT = (
 #   compat_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this compatibility',
 #   accessory_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the accessory',
