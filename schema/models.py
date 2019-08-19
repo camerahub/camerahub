@@ -16,7 +16,7 @@ class AccessoryType(models.Model):
   type = models.CharField('Type of accessory', max_length=45, unique=True)
   def __str__(self):
     return self.type
-  
+
 # Table to catalog accessories that are not tracked in more specific tables
 class Accessory(models.Model):
   type = models.ForeignKey(AccessoryType, on_delete=models.CASCADE)
@@ -28,6 +28,8 @@ class Accessory(models.Model):
   lost_price = models.DecimalField('Sale price of the accessory', max_digits=6, decimal_places=2, blank=True, null=True)
   def __str__(self):
     return str(self.manufacturer.name) + ' ' + self.model
+  class Meta:
+    verbose_name_plural = "Accessories"
 
 # Table to list the different types of material that can be archived
 class ArchiveType(models.Model):
@@ -55,6 +57,8 @@ class Battery(models.Model):
   other_names = models.CharField('Alternative names for this kind of battery', max_length=45, blank=True, null=True)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Batteries"
 
 # Table to catalog types of camera body style
 class BodyType(models.Model):
@@ -125,6 +129,8 @@ class Series(models.Model):
   name = models.CharField('Name of this collection, e.g. Canon FD SLRs', max_length=45, unique=True)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Series"
 
 # Table to catalog flashes, flashguns and speedlights
 class Flash(models.Model):
@@ -151,6 +157,8 @@ class Flash(models.Model):
   cost = models.DecimalField('Purchase cost of this flash', max_digits=6, decimal_places=2, blank=True, null=True)
   def __str__(self):
     return str(self.manufacturer.name) + ' ' + self.model
+  class Meta:
+    verbose_name_plural = "Flashes"
 
 # Table to list enlargers
 class Enlarger(models.Model):
@@ -223,6 +231,8 @@ class Person(models.Model):
   name = models.CharField('Name of the photographer', max_length=45, unique=True)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "People"
 
 # Table to catalog chemical processes that can be used to develop film and paper
 class Process(models.Model):
@@ -231,6 +241,8 @@ class Process(models.Model):
   positive = models.BooleanField('Whether this is a positive/reversal process', blank=True, null=True)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Processes"
 
 # Table to catalog teleconverters (multipliers)
 class Teleconverter(models.Model):
@@ -433,6 +445,8 @@ class Lens(models.Model):
   condition_notes = models.CharField('Description of condition', max_length=150, blank=True, null=True)
   def __str__(self):
     return self.lensmodel.manufacturer.name + ' ' + self.lensmodel.model + ' ' + self.serial
+  class Meta:
+    verbose_name_plural = "Lenses"
 
 # Table to catalog cameras - both cameras with fixed lenses and cameras with interchangeable lenses
 class Camera(models.Model):
