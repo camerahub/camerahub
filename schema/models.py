@@ -27,7 +27,7 @@ class Accessory(models.Model):
   lost = models.DateField('Date that this accessory was lost', blank=True, null=True)
   lost_price = models.DecimalField('Sale price of the accessory', max_digits=6, decimal_places=2, blank=True, null=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.model
+    return "%s %s" % (self.manufacturer.name, self.model)
   class Meta:
     verbose_name_plural = "Accessories"
 
@@ -97,7 +97,7 @@ class Filter(models.Model):
   qty = models.IntegerField('Quantity of these filters available', default=1, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
-    return self.type + ' ' + str(self.thread) + 'mm'
+    return "%s %smm" % (self.type, str(self.thread))
 
 # Table to catalog different focusing methods
 class FocusType(models.Model):
@@ -156,7 +156,7 @@ class Flash(models.Model):
   acquired = models.DateField('Date this flash was acquired', blank=True, null=True)
   cost = models.DecimalField('Purchase cost of this flash', max_digits=6, decimal_places=2, blank=True, null=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.model
+    return "%s %s" % (self.manufacturer.name, self.model)
   class Meta:
     verbose_name_plural = "Flashes"
 
@@ -172,7 +172,7 @@ class Enlarger(models.Model):
   cost = models.DecimalField('Purchase cost of the enlarger', max_digits=6, decimal_places=1, blank=True, null=True)
   lost_price = models.DecimalField('Sale price of the enlarger', max_digits=6, decimal_places=1, blank=True, null=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.model
+    return "%s %s" % (self.manufacturer.name, self.model)
   
 # Metering modes as defined by EXIF tag MeteringMode
 class MeteringMode(models.Model):
@@ -254,7 +254,7 @@ class Teleconverter(models.Model):
   groups = models.IntegerField('Number of optical groups used in this teleconverter', blank=True, null=True)
   multicoated = models.BooleanField('Whether this teleconverter is multi-coated', blank=True, null=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.model
+    return "%s %s" % (self.manufacturer.name, self.model)
 
 # Table to catalog paper toners that can be used during the printing process
 class Toner(models.Model):
@@ -263,7 +263,7 @@ class Toner(models.Model):
   formulation = models.CharField('Chemical formulation of the toner', max_length=45, blank=True, null=True)
   stock_dilution = models.CharField('Stock dilution of the toner', max_length=10, blank=True, null=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.name
+    return "%s %s" % (self.manufacturer.name, self.name)
 
 # Table to list different brands of film stock
 class FilmStock(models.Model):
@@ -274,7 +274,7 @@ class FilmStock(models.Model):
   panchromatic = models.BooleanField('Whether this film is panchromatic', blank=True, null=True)
   process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.name
+    return "%s %s" % (self.manufacturer.name, self.name)
 
 # Table to catalog projectors (still and movie)
 class Projector(models.Model):
@@ -285,7 +285,7 @@ class Projector(models.Model):
   own = models.BooleanField('Whether we currently own this projector', blank=True, null=True)
   cine = models.BooleanField('Whether this is a cine (movie) projector', blank=True, null=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.model
+    return "%s %s" % (self.manufacturer.name, self.model)
 
 # Table to record bulk film stock, from which individual films can be cut
 class BulkFilm(models.Model):
@@ -304,7 +304,7 @@ class FilterAdapter(models.Model):
   camera_thread = models.DecimalField('Diameter of camera-facing screw thread in mm', max_digits=3, decimal_places=1)
   filter_thread = models.DecimalField('Diameter of filter-facing screw thread in mm', max_digits=3, decimal_places=1)
   def __str__(self):
-    return self.camera_thread + '-' + self.filter_thread + 'mm'
+    return "%f-%fmm" % (self.camera_thread, self.filter_thread)
 
 # Table to catalog adapters to mount lenses on other cameras
 # class MountAdapter(models.Model):
@@ -335,7 +335,7 @@ class Developer(models.Model):
   for_film = models.BooleanField('Whether this developer can be used with film', blank=True, null=True)
   chemistry = models.CharField('The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.name
+    return "%s %s" % (self.manufacturer.name, self.name)
 
 # Table to catalog lens models
 class LensModel(models.Model):
@@ -374,7 +374,7 @@ class LensModel(models.Model):
   shutter_model = models.CharField('Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
   series = models.ManyToManyField(Series, blank=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.model
+    return "%s %s" % (self.manufacturer.name, self.model)
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
@@ -426,7 +426,7 @@ class CameraModel(models.Model):
   exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
   series = models.ManyToManyField(Series, blank=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.model
+    return "%s %s" % (self.manufacturer.name, self.model)
 
 # Table to catalog lenses
 class Lens(models.Model):
@@ -444,7 +444,7 @@ class Lens(models.Model):
   condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True)
   condition_notes = models.CharField('Description of condition', max_length=150, blank=True, null=True)
   def __str__(self):
-    return self.lensmodel.manufacturer.name + ' ' + self.lensmodel.model + ' ' + self.serial
+    return "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
   class Meta:
     verbose_name_plural = "Lenses"
 
@@ -466,7 +466,7 @@ class Camera(models.Model):
   condition_notes = models.CharField('Description of condition', max_length=150, blank=True, null=True)
   #display_lens = models.ForeignKey(Lens, on_delete=models.CASCADE)
   def __str__(self):
-    return self.cameramodel.manufacturer.name + ' ' + self.cameramodel.model + ' ' + self.serial
+    return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
 
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
 class Film(models.Model):
@@ -494,7 +494,7 @@ class Film(models.Model):
   processed_by = models.CharField('Person or place that processed this film', max_length=45, blank=True, null=True)
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
-    return self.id + ' ' + self.title
+    return "#%i %s" % (self.id, self.title)
 
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 class Negative(models.Model):
@@ -518,7 +518,7 @@ class Negative(models.Model):
   photographer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
   # copy_of = models.ForeignKey(Negative, on_delete=models.CASCADE)
   def __str__(self):
-    return self.film + '/' + self.frame + ' ' + self.caption
+    return "%i/%s %s" % (self.film, self.frame, self.caption)
 
 # Table to catalog prints made from negatives
 class Print(models.Model):
@@ -549,7 +549,7 @@ class Print(models.Model):
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True)
   printer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
-    return self.id
+    return "#%i" % (self.id)
 
 # Table to catalog motion picture films (movies)
 class Movie(models.Model):
@@ -601,6 +601,7 @@ class Order(models.Model):
   recipient = models.ForeignKey(Person, on_delete=models.CASCADE)
   def __str__(self):
     return self.id
+
 #class (ACCESSORY_COMPAT = (
 #   compat_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this compatibility',
 #   accessory_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the accessory',
