@@ -24,10 +24,18 @@ from .models import BulkFilm
 admin.site.register(BulkFilm)
 
 from .models import Camera
+class CameraInline(admin.TabularInline):
+  model = Camera
 admin.site.register(Camera)
 
 from .models import CameraModel
-admin.site.register(CameraModel)
+class CameraModelInline(admin.TabularInline):
+  model = CameraModel
+class CameraModelAdmin(admin.ModelAdmin):
+  inlines = [
+    CameraInline,
+  ]
+admin.site.register(CameraModel, CameraModelAdmin)
 
 from .models import Condition
 admin.site.register(Condition)
@@ -37,9 +45,6 @@ admin.site.register(Developer)
 
 from .models import Enlarger
 admin.site.register(Enlarger)
-
-from .models import Film
-admin.site.register(Film)
 
 from .models import FilmStock
 admin.site.register(FilmStock)
@@ -63,9 +68,15 @@ from .models import Format
 admin.site.register(Format)
 
 from .models import Lens
+class LensInline(admin.TabularInline):
+  model = Lens
 admin.site.register(Lens)
 
 from .models import LensModel
+class LensModelAdmin(admin.ModelAdmin):
+  inlines = [
+    LensInline,
+  ]
 admin.site.register(LensModel)
 
 from .models import LightMeter
@@ -73,6 +84,7 @@ admin.site.register(LightMeter)
 
 from .models import Manufacturer
 admin.site.register(Manufacturer)
+
 
 from .models import MeteringType
 admin.site.register(MeteringType)
@@ -82,9 +94,6 @@ admin.site.register(Mount)
 
 from .models import Movie
 admin.site.register(Movie)
-
-from .models import Negative
-admin.site.register(Negative)
 
 from .models import NegativeSize
 admin.site.register(NegativeSize)
@@ -99,6 +108,8 @@ from .models import Person
 admin.site.register(Person)
 
 from .models import Print
+class PrintInline(admin.TabularInline):
+  model = Print
 admin.site.register(Print)
 
 from .models import Process
@@ -111,7 +122,26 @@ from .models import Repair
 admin.site.register(Repair)
 
 from .models import Scan
+class ScanInline(admin.TabularInline):
+  model = Scan
 admin.site.register(Scan)
+
+from .models import Negative
+class NegativeInline(admin.TabularInline):
+  model = Negative
+class NegativeAdmin(admin.ModelAdmin):
+  inlines = [
+    ScanInline,
+    PrintInline,
+  ]
+admin.site.register(Negative, NegativeAdmin)
+
+from .models import Film
+class FilmAdmin(admin.ModelAdmin):
+  inlines = [
+    NegativeInline,
+  ]
+admin.site.register(Film, FilmAdmin)
 
 from .models import Series
 admin.site.register(Series)
