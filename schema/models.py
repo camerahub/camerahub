@@ -27,7 +27,10 @@ class Accessory(models.Model):
   lost = models.DateField('Date that this accessory was lost', blank=True, null=True)
   lost_price = models.DecimalField('Sale price of the accessory', max_digits=6, decimal_places=2, blank=True, null=True)
   def __str__(self):
-    return "%s %s" % (self.manufacturer.name, self.model)
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.model)
+    else:
+      return self.model
   class Meta:
     verbose_name_plural = "Accessories"
 
@@ -156,7 +159,11 @@ class Flash(models.Model):
   acquired = models.DateField('Date this flash was acquired', blank=True, null=True)
   cost = models.DecimalField('Purchase cost of this flash', max_digits=6, decimal_places=2, blank=True, null=True)
   def __str__(self):
-    return "%s %s" % (self.manufacturer.name, self.model)
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.model)
+    else:
+      return self.model
+
   class Meta:
     verbose_name_plural = "Flashes"
 
@@ -172,7 +179,10 @@ class Enlarger(models.Model):
   cost = models.DecimalField('Purchase cost of the enlarger', max_digits=6, decimal_places=1, blank=True, null=True)
   lost_price = models.DecimalField('Sale price of the enlarger', max_digits=6, decimal_places=1, blank=True, null=True)
   def __str__(self):
-    return "%s %s" % (self.manufacturer.name, self.model)
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.model)
+    else:
+      return self.model
   
 # Metering modes as defined by EXIF tag MeteringMode
 class MeteringMode(models.Model):
@@ -213,7 +223,10 @@ class LightMeter(models.Model):
   min_lv = models.IntegerField('Minimum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
   max_lv = models.IntegerField('Maximum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.model
+    if self.manufacturer is not None:
+      return str(self.manufacturer.name) + ' ' + self.model
+    else:
+      return self.model
 
 # Table to catalog different paper stocks available
 class PaperStock(models.Model):
@@ -224,7 +237,10 @@ class PaperStock(models.Model):
   colour = models.BooleanField('Whether this is a colour paper', blank=True, null=True)
   finish = models.CharField('The finish of the paper surface', max_length=25, blank=True, null=True)
   def __str__(self):
-    return str(self.manufacturer.name) + ' ' + self.name
+    if self.manufacturer is not None:
+      return str(self.manufacturer.name) + ' ' + self.name
+    else:
+      return self.name
 
 # Table to catalog photographers
 class Person(models.Model):
@@ -254,7 +270,10 @@ class Teleconverter(models.Model):
   groups = models.IntegerField('Number of optical groups used in this teleconverter', blank=True, null=True)
   multicoated = models.BooleanField('Whether this teleconverter is multi-coated', blank=True, null=True)
   def __str__(self):
-    return "%s %s" % (self.manufacturer.name, self.model)
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.model)
+    else:
+      return self.model
 
 # Table to catalog paper toners that can be used during the printing process
 class Toner(models.Model):
@@ -263,7 +282,10 @@ class Toner(models.Model):
   formulation = models.CharField('Chemical formulation of the toner', max_length=45, blank=True, null=True)
   stock_dilution = models.CharField('Stock dilution of the toner', max_length=10, blank=True, null=True)
   def __str__(self):
-    return "%s %s" % (self.manufacturer.name, self.name)
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.name)
+    else:
+      return self.name
 
 # Table to list different brands of film stock
 class FilmStock(models.Model):
@@ -274,7 +296,10 @@ class FilmStock(models.Model):
   panchromatic = models.BooleanField('Whether this film is panchromatic', blank=True, null=True)
   process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
-    return "%s %s" % (self.manufacturer.name, self.name)
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.name)
+    else:
+      return self.name
 
 # Table to catalog projectors (still and movie)
 class Projector(models.Model):
@@ -285,7 +310,10 @@ class Projector(models.Model):
   own = models.BooleanField('Whether we currently own this projector', blank=True, null=True)
   cine = models.BooleanField('Whether this is a cine (movie) projector', blank=True, null=True)
   def __str__(self):
-    return "%s %s" % (self.manufacturer.name, self.model)
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.model)
+    else:
+      return self.model
 
 # Table to record bulk film stock, from which individual films can be cut
 class BulkFilm(models.Model):
@@ -335,7 +363,10 @@ class Developer(models.Model):
   for_film = models.BooleanField('Whether this developer can be used with film', blank=True, null=True)
   chemistry = models.CharField('The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
   def __str__(self):
-    return "%s %s" % (self.manufacturer.name, self.name)
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.name)
+    else:
+      return self.name
 
 # Table to catalog lens models
 class LensModel(models.Model):
@@ -374,7 +405,10 @@ class LensModel(models.Model):
   shutter_model = models.CharField('Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
   series = models.ManyToManyField(Series, blank=True)
   def __str__(self):
-    return "%s %s" % (self.manufacturer.name, self.model)
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.model)
+    else:
+      return self.model
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
@@ -426,7 +460,10 @@ class CameraModel(models.Model):
   exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
   series = models.ManyToManyField(Series, blank=True)
   def __str__(self):
-    return "%s %s" % (self.manufacturer.name, self.model)
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.model)
+    else:
+      return self.model
 
 # Table to catalog lenses
 class Lens(models.Model):
