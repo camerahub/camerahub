@@ -128,3 +128,8 @@ USE_TZ = True
 
 STATIC_ROOT = 'static/'
 STATIC_URL = '/static/'
+
+# django-admin-tools
+ADMIN_TOOLS_MENU = 'photodb.menu.CustomMenu'
+ADMIN_TOOLS_INDEX_DASHBOARD = 'photodb.dashboard.CustomIndexDashboard'
+ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'photodb.dashboard.CustomAppIndexDashboard'

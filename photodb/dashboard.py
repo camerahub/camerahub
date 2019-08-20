@@ -4,10 +4,10 @@ contains the two classes for the main dashboard and app index dashboard.
 You can customize these classes as you want.
 
 To activate your index dashboard add the following to your settings.py::
-    ADMIN_TOOLS_INDEX_DASHBOARD = 'photodb-django.dashboard.CustomIndexDashboard'
+    ADMIN_TOOLS_INDEX_DASHBOARD = 'photodb.dashboard.CustomIndexDashboard'
 
 And to activate the app index dashboard::
-    ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'photodb-django.dashboard.CustomAppIndexDashboard'
+    ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'photodb.dashboard.CustomAppIndexDashboard'
 """
 
 from django.utils.translation import ugettext_lazy as _
@@ -22,7 +22,7 @@ from admin_tools.utils import get_admin_site_name
 
 class CustomIndexDashboard(Dashboard):
     """
-    Custom index dashboard for photodb-django.
+    Custom index dashboard for photodb.
     """
     def init_with_context(self, context):
         site_name = get_admin_site_name(context)
@@ -88,7 +88,7 @@ class CustomIndexDashboard(Dashboard):
 
 class CustomAppIndexDashboard(AppIndexDashboard):
     """
-    Custom app index dashboard for photodb-django.
+    Custom app index dashboard for photodb.
     """
 
     # we disable title because its redundant with the model list module
