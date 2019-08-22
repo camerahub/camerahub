@@ -10,12 +10,16 @@ class Manufacturer(models.Model):
   dissolved = models.DateField('Year in which the manufacturer was dissolved', blank=True, null=True)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Manufacturers"
 
 # Table to list types of accessories
 class AccessoryType(models.Model):
   type = models.CharField('Type of accessory', max_length=45, unique=True)
   def __str__(self):
     return self.type
+  class Meta:
+    verbose_name_plural = "Accessory types"
 
 # Table to catalog accessories that are not tracked in more specific tables
 class Accessory(models.Model):
@@ -39,6 +43,8 @@ class ArchiveType(models.Model):
   type = models.CharField('Name of this type of archive', max_length=45, unique=True)
   def __str__(self):
     return self.type
+  class Meta:
+    verbose_name_plural = "Archive types"
 
 # Table to list all archives that exist for storing physical media
 class Archive(models.Model):
@@ -51,6 +57,8 @@ class Archive(models.Model):
   sealed = models.BooleanField('Whether or not this archive is sealed (closed to new additions)', default=0)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Archives"
 
 # Table to catalog of types of battery
 class Battery(models.Model):
@@ -68,6 +76,8 @@ class BodyType(models.Model):
   type = models.CharField('Name of camera body type (e.g. SLR, compact, etc)', max_length=45, unique=True)
   def __str__(self):
     return self.type
+  class Meta:
+    verbose_name_plural = "Body types"
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 class Condition(models.Model):
@@ -78,12 +88,16 @@ class Condition(models.Model):
   description = models.CharField('Longer description of condition', max_length=300)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Conditions"
   
 # Exposure programs as defined by EXIF tag ExposureProgram
 class ExposureProgram(models.Model):
   name = models.CharField('Name of exposure program as defined by EXIF tag ExposureProgram', max_length=45) 
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Exposure programs"
 
 # Table to catalog different protocols used to communicate with flashes
 class FlashProtocol(models.Model):
@@ -91,6 +105,8 @@ class FlashProtocol(models.Model):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Flash protocols"
 
 # Table to catalog filters
 class Filter(models.Model):
@@ -101,12 +117,16 @@ class Filter(models.Model):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
     return "%s %smm" % (self.type, str(self.thread))
+  class Meta:
+    verbose_name_plural = "Filters"
 
 # Table to catalog different focusing methods
 class FocusType(models.Model):
   name = models.CharField('Name of focus type', max_length=45)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Focus types"
 
 # Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
 class NegativeSize(models.Model):
@@ -118,6 +138,8 @@ class NegativeSize(models.Model):
   aspect_ratio = models.DecimalField('Aspect ratio of this negative size, expressed as a single decimal (e.g. 3:2 is expressed as 1.5)',max_digits=4, decimal_places=2, blank=True, null=True)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Negative sizes"
 
 # Table to catalogue different film formats. These are distinct from negative sizes.
 class Format(models.Model):
@@ -126,6 +148,8 @@ class Format(models.Model):
   negative_size = models.ManyToManyField(NegativeSize, blank=True)
   def __str__(self):
     return self.format
+  class Meta:
+    verbose_name_plural = "Formats"
 
 # Table to list all series of cameras and lenses
 class Series(models.Model):
@@ -163,7 +187,6 @@ class Flash(models.Model):
       return "%s %s" % (self.manufacturer.name, self.model)
     else:
       return self.model
-
   class Meta:
     verbose_name_plural = "Flashes"
 
@@ -183,18 +206,24 @@ class Enlarger(models.Model):
       return "%s %s" % (self.manufacturer.name, self.model)
     else:
       return self.model
+  class Meta:
+    verbose_name_plural = "Enlargers"
   
 # Metering modes as defined by EXIF tag MeteringMode
 class MeteringMode(models.Model):
   name = models.CharField('Name of metering mode as defined by EXIF tag MeteringMode', max_length=45)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Metering modes"
 
 # Table to catalog different metering technologies and cell types
 class MeteringType(models.Model):
   name = models.CharField('Name of the metering technology (e.g. Selenium)', max_length=45)
   def __str__(self):
     return self.name
+  class Meta:
+    verbose_name_plural = "Metering types"
 
 # Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.
 class Mount(models.Model):
@@ -208,6 +237,8 @@ class Mount(models.Model):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
     return self.mount
+  class Meta:
+    verbose_name_plural = "Mounts"
 
 # Table to catalog light meters
 class LightMeter(models.Model):
@@ -227,6 +258,8 @@ class LightMeter(models.Model):
       return str(self.manufacturer.name) + ' ' + self.model
     else:
       return self.model
+  class Meta:
+    verbose_name_plural = "Light meters"
 
 # Table to catalog different paper stocks available
 class PaperStock(models.Model):
@@ -241,6 +274,8 @@ class PaperStock(models.Model):
       return str(self.manufacturer.name) + ' ' + self.name
     else:
       return self.name
+  class Meta:
+    verbose_name_plural = "Paper stocks"
 
 # Table to catalog photographers
 class Person(models.Model):
@@ -274,6 +309,8 @@ class Teleconverter(models.Model):
       return "%s %s" % (self.manufacturer.name, self.model)
     else:
       return self.model
+  class Meta:
+    verbose_name_plural = "Teleconverters"
 
 # Table to catalog paper toners that can be used during the printing process
 class Toner(models.Model):
@@ -286,6 +323,8 @@ class Toner(models.Model):
       return "%s %s" % (self.manufacturer.name, self.name)
     else:
       return self.name
+  class Meta:
+    verbose_name_plural = "Toners"
 
 # Table to list different brands of film stock
 class FilmStock(models.Model):
@@ -300,6 +339,8 @@ class FilmStock(models.Model):
       return "%s %s" % (self.manufacturer.name, self.name)
     else:
       return self.name
+  class Meta:
+    verbose_name_plural = "Film stocks"
 
 # Table to catalog projectors (still and movie)
 class Projector(models.Model):
@@ -314,6 +355,8 @@ class Projector(models.Model):
       return "%s %s" % (self.manufacturer.name, self.model)
     else:
       return self.model
+  class Meta:
+    verbose_name_plural = "Projectors"
 
 # Table to record bulk film stock, from which individual films can be cut
 class BulkFilm(models.Model):
@@ -326,6 +369,8 @@ class BulkFilm(models.Model):
   expiry = models.DateField('Expiry date of this bulk roll', blank=True, null=True)
   def __str__(self):
     return self.filmstock.name
+  class Meta:
+    verbose_name_plural = "Bulk films"
 
 # Table to catalogue filter adapter rings
 class FilterAdapter(models.Model):
@@ -333,6 +378,8 @@ class FilterAdapter(models.Model):
   filter_thread = models.DecimalField('Diameter of filter-facing screw thread in mm', max_digits=3, decimal_places=1)
   def __str__(self):
     return "%f-%fmm" % (self.camera_thread, self.filter_thread)
+  class Meta:
+    verbose_name_plural = "Filter adapters"
 
 # Table to catalog adapters to mount lenses on other cameras
 # class MountAdapter(models.Model):
@@ -348,12 +395,16 @@ class ShutterSpeed(models.Model):
   duration = models.DecimalField('Shutter speed in models.DecimalField notation, e.g. 0.04', max_digits=9, decimal_places=5)
   def __str__(self):
     return self.shutter_speed
+  class Meta:
+    verbose_name_plural = "Shutter speeds"
 
 # Table to catalog the different types of camera shutter
 class ShutterType(models.Model):
   type = models.CharField('Name of the shutter type (e.g. Focal plane, Leaf, etc)', max_length=45, unique=True)
   def __str__(self):
     return self.type
+  class Meta:
+    verbose_name_plural = "Shutter types"
 
 # Table to list film and paper developers
 class Developer(models.Model):
@@ -367,6 +418,8 @@ class Developer(models.Model):
       return "%s %s" % (self.manufacturer.name, self.name)
     else:
       return self.name
+  class Meta:
+    verbose_name_plural = "Developers"
 
 # Table to catalog lens models
 class LensModel(models.Model):
@@ -409,6 +462,8 @@ class LensModel(models.Model):
       return "%s %s" % (self.manufacturer.name, self.model)
     else:
       return self.model
+  class Meta:
+    verbose_name_plural = "Lens models"
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
@@ -464,6 +519,8 @@ class CameraModel(models.Model):
       return "%s %s" % (self.manufacturer.name, self.model)
     else:
       return self.model
+  class Meta:
+    verbose_name_plural = "Camera models"
 
 # Table to catalog lenses
 class Lens(models.Model):
@@ -504,6 +561,8 @@ class Camera(models.Model):
   #display_lens = models.ForeignKey(Lens, on_delete=models.CASCADE)
   def __str__(self):
     return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
+  class Meta:
+    verbose_name_plural = "Cameras"
 
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
 class Film(models.Model):
@@ -532,6 +591,8 @@ class Film(models.Model):
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
     return "#%i %s" % (self.id, self.title)
+  class Meta:
+    verbose_name_plural = "Films"
 
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 class Negative(models.Model):
@@ -556,6 +617,8 @@ class Negative(models.Model):
   # copy_of = models.ForeignKey(Negative, on_delete=models.CASCADE)
   def __str__(self):
     return "%i/%s %s" % (self.film, self.frame, self.caption)
+  class Meta:
+    verbose_name_plural = "Negatives"
 
 # Table to catalog prints made from negatives
 class Print(models.Model):
@@ -587,6 +650,8 @@ class Print(models.Model):
   printer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
     return "#%i" % (self.id)
+  class Meta:
+    verbose_name_plural = "Prints"
 
 # Table to catalog motion picture films (movies)
 class Movie(models.Model):
@@ -606,6 +671,8 @@ class Movie(models.Model):
   process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
     return self.title
+  class Meta:
+    verbose_name_plural = "Movies"
   
 # Table to catalog all repairs and servicing undertaken on cameras and lenses in the collection
 class Repair(models.Model):
@@ -614,6 +681,8 @@ class Repair(models.Model):
   date = models.DateField('The date of the repair', blank=True, null=True)
   summary = models.CharField('Brief summary of the repair', max_length=100)
   description = models.CharField('Longer description of the repair', max_length=500, blank=True, null=True)
+  class Meta:
+    verbose_name_plural = "Repairs"
 
 # Table to record all the images that have been scanned digitally
 class Scan(models.Model):
@@ -626,6 +695,8 @@ class Scan(models.Model):
   height = models.IntegerField('Height of the scanned image in pixels', blank=True, null=True)
   def __str__(self):
     return self.filename
+  class Meta:
+    verbose_name_plural = "Scans"
 
 # Table to record orders for prints
 class Order(models.Model):
@@ -638,6 +709,8 @@ class Order(models.Model):
   recipient = models.ForeignKey(Person, on_delete=models.CASCADE)
   def __str__(self):
     return self.id
+  class Meta:
+    verbose_name_plural = "Orders"
 
 #class (ACCESSORY_COMPAT = (
 #   compat_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this compatibility',
