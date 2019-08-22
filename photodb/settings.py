@@ -195,17 +195,22 @@ FLUENT_DASHBOARD_APP_GROUPS = (
             'registration.*',
         ),
     }),
-    (_('Favourites'), {
+    (_('Quick links'), {
         'models': (
             'schema.models.Camera',
+            'schema.models.Lens',
+            'schema.models.Film',
+            'schema.models.Negative',
+            'schema.models.Print',
         ),
+        'module': 'AppIconList',
         'collapsible': True,
     }),
     (_('Applications'), {
         'models': (
             'schema.*',
         ),
-   #     'module': FLUENT_DASHBOARD_DEFAULT_MODULE,
+        'module': 'ModelList',
         'collapsible': True,
     }),
 )
