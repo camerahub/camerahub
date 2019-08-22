@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'fluent_dashboard',
     'admin_tools',
     'admin_tools.theming',
     'admin_tools.menu',
@@ -129,7 +130,7 @@ USE_TZ = True
 STATIC_ROOT = 'static/'
 STATIC_URL = '/static/'
 
-# django-admin-tools
-ADMIN_TOOLS_MENU = 'photodb.menu.CustomMenu'
-ADMIN_TOOLS_INDEX_DASHBOARD = 'photodb.dashboard.CustomIndexDashboard'
-ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'photodb.dashboard.CustomAppIndexDashboard'
+# django-fluent-dashboard
+ADMIN_TOOLS_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentIndexDashboard'
+ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentAppIndexDashboard'
+ADMIN_TOOLS_MENU = 'fluent_dashboard.menu.FluentMenu'
