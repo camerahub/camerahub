@@ -255,7 +255,7 @@ class LightMeter(models.Model):
   max_lv = models.IntegerField('Maximum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
   def __str__(self):
     if self.manufacturer is not None:
-      return str(self.manufacturer.name) + ' ' + self.model
+      return "%s %s" % (self.manufacturer.name, self.model)
     else:
       return self.model
   class Meta:
@@ -271,7 +271,7 @@ class PaperStock(models.Model):
   finish = models.CharField('The finish of the paper surface', max_length=25, blank=True, null=True)
   def __str__(self):
     if self.manufacturer is not None:
-      return str(self.manufacturer.name) + ' ' + self.name
+      return "%s %s" % (self.manufacturer.name, self.name)
     else:
       return self.name
   class Meta:
