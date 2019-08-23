@@ -97,10 +97,27 @@ admin.site.register(Lens)
 
 from .models import LensModel
 class LensModelAdmin(admin.ModelAdmin):
+  fieldsets = (
+    (None, {
+      'fields': ('manufacturer', 'model', 'mount'),
+      'description': 'Enter information about this camera model',
+    }),
+    ('Optics', {
+      'fields': ('zoom', ('min_focal_length', 'max_focal_length'), 'closest_focus', ('max_aperture', 'min_aperture'), ('elements', 'groups'), ('nominal_min_angle_diag', 'nominal_max_angle_diag'), 'magnification'),
+    }),
+    ('Physical', {
+      'fields': ('length', 'diameter', 'weight'),
+    }),
+    ('Other', {
+      'fields': ('aperture_blades', 'autofocus', 'filter_thread', 'url', 'introduced', 'discontinued', 'negative_size', 'fixed_mount', 'notes', 'coating', 'hood', 'exif_lenstype', 'rectilinear', 'image_circle', 'formula', 'shutter_model', 'series'),
+    })
+  )
   inlines = [
     LensInline,
   ]
-admin.site.register(LensModel)
+  filter_horizontal = ('series',)
+  list_filter = ('manufacturer__name',)
+admin.site.register(LensModel, LensModelAdmin)
 
 from .models import LightMeter
 admin.site.register(LightMeter)
