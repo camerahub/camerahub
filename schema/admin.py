@@ -26,11 +26,13 @@ admin.site.register(BulkFilm)
 from .models import Camera
 class CameraInline(admin.TabularInline):
   model = Camera
+  extra = 0
 admin.site.register(Camera)
 
 from .models import CameraModel
 class CameraModelInline(admin.TabularInline):
   model = CameraModel
+  extra = 0
 class CameraModelAdmin(admin.ModelAdmin):
   inlines = [
     CameraInline,
@@ -70,6 +72,7 @@ admin.site.register(Format)
 from .models import Lens
 class LensInline(admin.TabularInline):
   model = Lens
+  extra = 0
 admin.site.register(Lens)
 
 from .models import LensModel
@@ -110,6 +113,7 @@ admin.site.register(Person)
 from .models import Print
 class PrintInline(admin.TabularInline):
   model = Print
+  extra = 0
 admin.site.register(Print)
 
 from .models import Process
@@ -124,11 +128,13 @@ admin.site.register(Repair)
 from .models import Scan
 class ScanInline(admin.TabularInline):
   model = Scan
+  extra = 0
 admin.site.register(Scan)
 
 from .models import Negative
 class NegativeInline(admin.TabularInline):
   model = Negative
+  extra = 0
 class NegativeAdmin(admin.ModelAdmin):
   inlines = [
     ScanInline,
