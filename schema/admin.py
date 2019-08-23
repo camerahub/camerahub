@@ -34,9 +34,29 @@ class CameraModelInline(admin.TabularInline):
   model = CameraModel
   extra = 0
 class CameraModelAdmin(admin.ModelAdmin):
+  fieldsets = (
+    (None, {
+      'fields': ('manufacturer', 'model', 'mount', 'format', 'body_type', 'weight', ('introduced', 'discontinued'), 'negative_size', 'cable_release', 'viewfinder_coverage', ('power_drive', 'continuous_fps'), 'video', 'digital', 'fixed_mount', 'lensmodel', ('battery_qty', 'battery_type'), 'notes', 'tripod', 'series'),
+      'description': 'Enter information about this camera model',
+    }),
+    ('Metering', {
+      'fields': ('metering', 'metering_type', 'coupled_metering', ('min_iso', 'max_iso'), ('meter_min_ev', 'meter_max_ev'), 'metering_modes', 'exposure_programs')
+    }),
+    ('Flash', {
+      'fields': ('int_flash', 'int_flash_gn', 'ext_flash', 'flash_metering', 'pc_sync', 'hotshoe', 'coldshoe')
+    }),
+    ('Focus', {
+      'fields': ('focus_type', 'af_points', 'dof_preview')
+    }),
+    ('Shutter', {
+      'fields': ('shutter_type', 'shutter_model', 'shutter_speeds', 'bulb', 'time'),
+    }),
+  )
   inlines = [
     CameraInline,
   ]
+  filter_horizontal = ('metering_modes', 'exposure_programs', 'series', 'shutter_speeds')
+  list_filter = ('manufacturer__name',)
 admin.site.register(CameraModel, CameraModelAdmin)
 
 from .models import Condition
