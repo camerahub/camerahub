@@ -56,7 +56,9 @@ class CameraModelAdmin(admin.ModelAdmin):
     CameraInline,
   ]
   filter_horizontal = ('metering_modes', 'exposure_programs', 'series', 'shutter_speeds')
-  list_filter = ('manufacturer__name',)
+  search_fields = ['manufacturer__name', 'model', 'notes']
+  list_display = ('__str__', 'mount', 'format', 'body_type', 'introduced')
+  list_filter = ('manufacturer__name', 'mount', 'format', 'body_type', 'series')
 admin.site.register(CameraModel, CameraModelAdmin)
 
 from .models import Condition
@@ -116,7 +118,9 @@ class LensModelAdmin(admin.ModelAdmin):
     LensInline,
   ]
   filter_horizontal = ('series',)
-  list_filter = ('manufacturer__name',)
+  search_fields = ['manufacturer__name', 'model', 'notes']
+  list_display = ('__str__', 'mount', 'min_focal_length', 'max_aperture', 'introduced')
+  list_filter = ('manufacturer__name', 'mount')
 admin.site.register(LensModel, LensModelAdmin)
 
 from .models import LightMeter
