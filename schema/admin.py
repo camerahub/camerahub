@@ -155,7 +155,28 @@ from .models import Print
 class PrintInline(admin.TabularInline):
   model = Print
   extra = 0
-admin.site.register(Print)
+class PrintAdmin(admin.ModelAdmin):
+  fieldsets = (
+    (None, {
+      'fields': ('negative', 'date', 'notes', 'own', 'location', 'sold_price', 'fine', 'archive', 'printer', ),
+    }),
+    ('Paper', {
+      'fields': ('paper_stock', 'height', 'width', ),
+    }),
+    ('Exposure', {
+      'fields': ('aperture', 'exposure_time', 'filtration_grade', 'enlarger', 'lens',),
+    }),
+    ('Development', {
+      'fields': ('developer', 'development_time',),
+    }),
+    ('Toning', {
+      'fields': ('bleach_time', 'toner', 'toner_dilution', 'toner_time',),
+    }),
+  )
+  search_fields = ['negative__caption', 'notes']
+  list_display = ('__str__', 'date', 'negative')
+  list_filter = ('paper_stock', 'developer', 'fine')
+admin.site.register(Print, PrintAdmin)
 
 from .models import Process
 admin.site.register(Process)
@@ -183,7 +204,7 @@ class NegativeAdmin(admin.ModelAdmin):
       'description': 'Enter information about this camera model',
     }),
     ('Exposure', {
-      'fields': ('lens', 'shutter_speed', 'aperture', 'teleconverter', 'focal_length', 'flash', 'metering_mode', 'exposure_program'),
+      'fields': ('lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'focal_length', 'flash', 'metering_mode', 'exposure_program'),
     }),
     ('Location', {
       'fields': (('latitude', 'longitude'),),
