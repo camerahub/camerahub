@@ -177,6 +177,21 @@ class NegativeInline(admin.TabularInline):
   model = Negative
   extra = 0
 class NegativeAdmin(admin.ModelAdmin):
+  fieldsets = (
+    (None, {
+      'fields': (('film', 'frame'), 'caption', 'date', 'notes', 'photographer'),
+      'description': 'Enter information about this camera model',
+    }),
+    ('Exposure', {
+      'fields': ('lens', 'shutter_speed', 'aperture', 'teleconverter', 'focal_length', 'flash', 'metering_mode', 'exposure_program'),
+    }),
+    ('Location', {
+      'fields': (('latitude', 'longitude'),),
+    }),
+  )
+  search_fields = ['caption', 'notes']
+  list_display = ('__str__', 'caption', 'date',)
+  list_filter = ('film', 'photographer')
   inlines = [
     ScanInline,
     PrintInline,
