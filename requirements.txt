@@ -3,3 +3,4 @@ pytz==2019.2
 sqlparse==0.3.0
 django-admin-tools==0.8.1
 django-fluent-dashboard==1.0.1
+django-money==0.15
