@@ -1,4 +1,5 @@
 from django.db import models
+from djmoney.models.fields import MoneyField
 
 # Create your models here.
 class Manufacturer(models.Model):
@@ -27,9 +28,9 @@ class Accessory(models.Model):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
   model = models.CharField('Model of the accessory', max_length=45)
   acquired = models.DateField('Date that this accessory was acquired', blank=True, null=True)
-  cost = models.DecimalField('Purchase cost of the accessory', max_digits=6, decimal_places=2, blank=True, null=True)
+  cost = MoneyField('Purchase cost of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   lost = models.DateField('Date that this accessory was lost', blank=True, null=True)
-  lost_price = models.DecimalField('Sale price of the accessory', max_digits=6, decimal_places=2, blank=True, null=True)
+  lost_price = MoneyField('Sale price of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.model)
@@ -181,7 +182,7 @@ class Flash(models.Model):
   trigger_voltage = models.DecimalField('Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1, blank=True, null=True)
   own = models.BooleanField('Whether we currently own this flash', blank=True, null=True)
   acquired = models.DateField('Date this flash was acquired', blank=True, null=True)
-  cost = models.DecimalField('Purchase cost of this flash', max_digits=6, decimal_places=2, blank=True, null=True)
+  cost = MoneyField('Purchase cost of this flash', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.model)
@@ -199,8 +200,8 @@ class Enlarger(models.Model):
   lost = models.DateField('Date on which the enlarger was lost/sold', blank=True, null=True)
   introduced = models.IntegerField('Year in which the enlarger was introduced', blank=True, null=True)
   discontinued = models.IntegerField('Year in which the enlarger was discontinued', blank=True, null=True)
-  cost = models.DecimalField('Purchase cost of the enlarger', max_digits=6, decimal_places=1, blank=True, null=True)
-  lost_price = models.DecimalField('Sale price of the enlarger', max_digits=6, decimal_places=1, blank=True, null=True)
+  cost = MoneyField('Purchase cost of this enlarger', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
+  lost_price = MoneyField('Sale price of the enlarger', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.model)
@@ -363,7 +364,7 @@ class BulkFilm(models.Model):
   format = models.ForeignKey(Format, on_delete=models.CASCADE)
   filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE)
   purchase_date = models.DateField('Purchase date of this bulk roll', blank=True, null=True)
-  cost = models.DecimalField('Purchase cost of this bulk roll', max_digits=6, decimal_places=2, blank=True, null=True)
+  cost = MoneyField('Purchase cost of this bulk roll', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   source = models.CharField('Place where this bulk roll was bought from', max_length=45, blank=True, null=True)
   batch = models.CharField('Batch code of this bulk roll', max_length=45, blank=True, null=True)
   expiry = models.DateField('Expiry date of this bulk roll', blank=True, null=True)
@@ -529,11 +530,11 @@ class Lens(models.Model):
   date_code = models.CharField('Date code of this lens, if different from the serial number', max_length=45, blank=True, null=True)
   manufactured = models.IntegerField('Year in which this specific lens was manufactured', blank=True, null=True)
   acquired = models.DateField('Date on which this lens was acquired', blank=True, null=True)
-  cost = models.DecimalField('Price paid for this lens', max_digits=6, decimal_places=2, blank=True, null=True)
+  cost = MoneyField('Price paid for this lens', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   notes = models.CharField('Freeform notes field', max_length=45, blank=True, null=True)
   own = models.BooleanField('Whether we currently own this lens', blank=True, null=True)
   lost = models.DateField('Date on which lens was lost/sold/disposed', blank=True, null=True)
-  lost_price = models.DecimalField('Price for which the lens was sold', max_digits=6, decimal_places=2, blank=True, null=True)
+  lost_price = MoneyField('Sale price of the lens', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   source = models.CharField('Place where the lens was acquired from', max_length=150, blank=True, null=True)
   condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True)
   condition_notes = models.CharField('Description of condition', max_length=150, blank=True, null=True)
@@ -546,7 +547,7 @@ class Lens(models.Model):
 class Camera(models.Model):
   cameramodel = models.ForeignKey(CameraModel, on_delete=models.CASCADE)
   acquired = models.DateField('Date on which the camera was acquired', blank=True, null=True)
-  cost = models.DecimalField('Price paid for this camera', max_digits=6, decimal_places=2, blank=True, null=True)
+  cost = MoneyField('Price paid for this camera', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   serial = models.CharField('Serial number of the camera', max_length=45, blank=True, null=True)
   datecode = models.CharField('Date code of the camera, if different from the serial number', max_length=45, blank=True, null=True)
   manufactured = models.IntegerField('Year of manufacture of the camera', blank=True, null=True)
@@ -554,7 +555,7 @@ class Camera(models.Model):
   lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True)
   notes = models.CharField('Freeform text field for extra notes', max_length=100, blank=True, null=True)
   lost = models.DateField('Date on which the camera was lost/sold/etc', blank=True, null=True)
-  lost_price = models.DecimalField('Price at which the camera was sold', max_digits=6, decimal_places=2, blank=True, null=True)
+  lost_price = MoneyField('Sale price of the camera', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   source = models.CharField('Where the camera was acquired from', max_length=150, blank=True, null=True)
   condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True)
   condition_notes = models.CharField('Description of condition', max_length=150, blank=True, null=True)
@@ -586,7 +587,7 @@ class Film(models.Model):
   film_batch = models.CharField('Batch number of the film', max_length=45, blank=True, null=True)
   expiry_date = models.DateField('Expiry date of the film', blank=True, null=True)
   purchase_date = models.DateField('Date this film was purchased', blank=True, null=True)
-  price = models.DecimalField('Price paid for this film', max_digits=6, decimal_places=2, blank=True, null=True)
+  price = MoneyField('Price paid for this film', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   processed_by = models.CharField('Person or place that processed this film', max_length=45, blank=True, null=True)
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
@@ -640,7 +641,7 @@ class Print(models.Model):
   #second_toner_time = models.DurationField('Duration of second toning', blank=True, null=True)
   own = models.BooleanField('Whether we currently own this print', blank=True, null=True)
   location = models.CharField('The place where this print is currently', max_length=100, blank=True, null=True)
-  sold_price = models.DecimalField('Sale price of the print', max_digits=6, decimal_places=2, blank=True, null=True)
+  sold_price = MoneyField('Sale price of the print', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   enlarger = models.ForeignKey(Enlarger, on_delete=models.CASCADE, blank=True, null=True)
   lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True)
   developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True)

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'schema.apps.SchemaConfig',
+    'djmoney',
 ]
 
 MIDDLEWARE = [
