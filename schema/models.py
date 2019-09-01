@@ -617,7 +617,7 @@ class Negative(models.Model):
   photographer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
   # copy_of = models.ForeignKey(Negative, on_delete=models.CASCADE)
   def __str__(self):
-    return "%i/%s %s" % (self.film, self.frame, self.caption)
+    return "%s/%s %s" % (self.film, self.frame, self.caption)
   class Meta:
     verbose_name_plural = "Negatives"
 
