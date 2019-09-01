@@ -7,8 +7,8 @@ class Manufacturer(models.Model):
   city = models.CharField('City in which the manufacturer is based', max_length=45, blank=True, null=True)
   country = models.CharField('Country in which the manufacturer is based', max_length=45, blank=True, null=True)
   url = models.URLField('URL to the manufacturers main website', max_length=45, blank=True, null=True)
-  founded = models.DateField('Year in which the manufacturer was founded', blank=True, null=True)
-  dissolved = models.DateField('Year in which the manufacturer was dissolved', blank=True, null=True)
+  founded = models.IntegerField('Year in which the manufacturer was founded', blank=True, null=True)
+  dissolved = models.IntegerField('Year in which the manufacturer was dissolved', blank=True, null=True)
   def __str__(self):
     return self.name
   class Meta:
