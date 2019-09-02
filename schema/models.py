@@ -257,11 +257,11 @@ class Mount(models.Model):
 
   mount = models.CharField('Name of this lens mount (e.g. Canon FD)', max_length=45, unique=True)
   fixed = models.BooleanField('Whether this is a fixed (non-interchangable) lens mount', default=0)
-  shutter_in_lens = models.BooleanField('Whether this lens mount system incorporates the shutter models.IntegerFieldo the lens', default=0, blank=True, null=True)
+  shutter_in_lens = models.BooleanField('Whether this lens mount system incorporates the shutter into the lens', default=0, blank=True, null=True)
   type = models.CharField('The physical mount type of this lens mount', choices=MOUNT_TYPE_CHOICES, max_length=15, blank=True, null=True)
   purpose = models.CharField('The intended purpose of this lens mount', choices=MOUNT_PURPOSE_CHOICES, max_length=15, blank=True, null=True)
   notes = models.CharField('Freeform notes field', max_length=100, blank=True, null=True)
-  digital_only = models.BooleanField('Whether this mount is models.intended only for digital cameras', default=0, blank=True, null=True)
+  digital_only = models.BooleanField('Whether this mount is intended only for digital cameras', default=0, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
   def __str__(self):
     return self.mount
