@@ -256,7 +256,6 @@ class Mount(models.Model):
   ]
 
   mount = models.CharField('Name of this lens mount (e.g. Canon FD)', max_length=45, unique=True)
-  fixed = models.BooleanField('Whether this is a fixed (non-interchangable) lens mount', default=0)
   shutter_in_lens = models.BooleanField('Whether this lens mount system incorporates the shutter into the lens', default=0, blank=True, null=True)
   type = models.CharField('The physical mount type of this lens mount', choices=MOUNT_TYPE_CHOICES, max_length=15, blank=True, null=True)
   purpose = models.CharField('The intended purpose of this lens mount', choices=MOUNT_PURPOSE_CHOICES, max_length=15, blank=True, null=True)
