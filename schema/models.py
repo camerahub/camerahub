@@ -231,11 +231,13 @@ class Mount(models.Model):
 
   # Choices for mount types
   BAYONET = 'Bayonet'
+  BREECH = 'Breech lock'
   SCREW = 'Screw'
   FRICTION = 'Friction'
   LENSBOARD = 'Lens board'
   MOUNT_TYPE_CHOICES = [
     (BAYONET, 'Bayonet'),
+    (BREECH, 'Breech lock'),
     (SCREW, 'Screw'),
     (FRICTION, 'Friction fit'),
     (LENSBOARD, 'Lens board'),
