@@ -24,8 +24,8 @@ class AccessoryType(models.Model):
 
 # Table to catalog accessories that are not tracked in more specific tables
 class Accessory(models.Model):
-  type = models.ForeignKey(AccessoryType, on_delete=models.CASCADE)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  type = models.ForeignKey(AccessoryType, on_delete=models.CASCADE, help_text='Type of accessory')
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this accessory')
   model = models.CharField(help_text='Model of the accessory', max_length=45)
   acquired = models.DateField(help_text='Date that this accessory was acquired', blank=True, null=True)
   cost = MoneyField(help_text='Purchase cost of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
@@ -49,7 +49,7 @@ class ArchiveType(models.Model):
 
 # Table to list all archives that exist for storing physical media
 class Archive(models.Model):
-  type = models.ForeignKey(ArchiveType, on_delete=models.CASCADE)
+  type = models.ForeignKey(ArchiveType, on_delete=models.CASCADE, help_text='What is stored in this archive?')
   name = models.CharField(help_text='Name of this archive', max_length=45, unique=True)
   max_width = models.IntegerField(help_text='Maximum width of media that this archive can store', blank=True, null=True)
   max_height = models.IntegerField(help_text='Maximum height of media that this archive can store', blank=True, null=True)
@@ -103,7 +103,7 @@ class ExposureProgram(models.Model):
 # Table to catalog different protocols used to communicate with flashes
 class FlashProtocol(models.Model):
   name = models.CharField(help_text='Name of the flash protocol', max_length=45) 
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this flash protocol')
   def __str__(self):
     return self.name
   class Meta:
@@ -115,7 +115,7 @@ class Filter(models.Model):
   thread = models.DecimalField(help_text='Diameter of screw thread in mm', max_digits=4, decimal_places=1, blank=True, null=True)
   attenuation = models.DecimalField(help_text='Attenuation of this filter in decimal stops', max_digits=3, decimal_places=1, blank=True, null=True)
   qty = models.IntegerField(help_text='Quantity of these filters available', default=1, blank=True, null=True)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this filter')
   def __str__(self):
     return "%s %smm" % (self.type, str(self.thread))
   class Meta:
@@ -163,14 +163,14 @@ class Series(models.Model):
 # Table to catalog flashes, flashguns and speedlights
 class Flash(models.Model):
   model = models.CharField(help_text='Model name/number of the flash', max_length=45)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this flash')
   guide_number = models.IntegerField(help_text='Guide number of the flash', blank=True, null=True)
   gn_info = models.CharField(verbose_name='Guide number info', help_text='Extra freeform info about how the guide number was measured', max_length=45, blank=True, null=True)
   battery_powered = models.BooleanField(help_text='Whether this flash takes batteries', blank=True, null=True)
   pc_sync = models.BooleanField(verbose_name='PC sync', help_text='Whether the flash has a PC sync socket', blank=True, null=True)
   hot_shoe = models.BooleanField(help_text='Whether the flash has a hot shoe connection', blank=True, null=True)
   light_stand = models.BooleanField(help_text='Whether the flash can be used on a light stand', blank=True, null=True)
-  battery_type = models.ForeignKey(Battery, on_delete=models.CASCADE, blank=True, null=True)
+  battery_type = models.ForeignKey(Battery, on_delete=models.CASCADE, blank=True, null=True, help_text='Type of battery required by this flash')
   battery_qty = models.IntegerField(help_text='Quantity of batteries needed in this flash', blank=True, null=True)
   manual_control = models.BooleanField(help_text='Whether this flash offers manual power control', blank=True, null=True)
   swivel_head = models.BooleanField(help_text='Whether this flash has a horizontal swivel head', blank=True, null=True)
@@ -178,7 +178,7 @@ class Flash(models.Model):
   zoom = models.BooleanField(help_text='Whether this flash can zoom', blank=True, null=True)
   dslr_safe = models.BooleanField(verbose_name='DSLR safe', help_text='Whether this flash is safe to use with a digital camera', blank=True, null=True)
   ttl = models.BooleanField(verbose_name='TTL', help_text='Whether this flash supports TTL metering', blank=True, null=True)
-  flash_protocol = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True, null=True)
+  flash_protocol = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True, null=True, help_text='Flash protocol used by this flash')
   trigger_voltage = models.DecimalField(help_text='Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1, blank=True, null=True)
   own = models.BooleanField(help_text='Whether we currently own this flash', blank=True, null=True)
   acquired = models.DateField(help_text='Date this flash was acquired', blank=True, null=True)
@@ -193,9 +193,9 @@ class Flash(models.Model):
 
 # Table to list enlargers
 class Enlarger(models.Model):
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this enlarger')
   model = models.CharField(help_text='Name/model of the enlarger', max_length=45)
-  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True)
+  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size that this enlarger can accept')
   acquired = models.DateField(help_text='Date on which the enlarger was acquired', blank=True, null=True)
   lost = models.DateField(help_text='Date on which the enlarger was lost/sold', blank=True, null=True)
   introduced = models.IntegerField(help_text='Year in which the enlarger was introduced', blank=True, null=True)
@@ -235,7 +235,7 @@ class Mount(models.Model):
   purpose = models.CharField(help_text='The intended purpose of this lens mount (e.g. camera, enlarger, projector)', max_length=25, blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
   digital_only = models.BooleanField(help_text='Whether this mount is models.intended only for digital cameras', default=0, blank=True, null=True)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this lens mount')
   def __str__(self):
     return self.mount
   class Meta:
@@ -243,9 +243,9 @@ class Mount(models.Model):
 
 # Table to catalog light meters
 class LightMeter(models.Model):
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this light meter')
   model = models.CharField(help_text='Model name or number of the light meter', max_length=45)
-  metering_type = models.ForeignKey(MeteringType, on_delete=models.CASCADE, blank=True, null=True)
+  metering_type = models.ForeignKey(MeteringType, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering type used in this meter')
   reflected = models.BooleanField(help_text='Whether the meter is capable of reflected-light metering', blank=True, null=True)
   incident = models.BooleanField(help_text='Whether the meter is capable of incident-light metering', blank=True, null=True)
   flash = models.BooleanField(help_text='Whether the meter is capable of flash metering', blank=True, null=True)
@@ -265,7 +265,7 @@ class LightMeter(models.Model):
 # Table to catalog different paper stocks available
 class PaperStock(models.Model):
   name = models.CharField(help_text='Name of this paper stock', max_length=45)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this paper stock')
   resin_coated = models.BooleanField(help_text='Whether the paper is resin-coated', blank=True, null=True)
   tonable = models.BooleanField(help_text='Whether this paper accepts chemical toning', blank=True, null=True)
   colour = models.BooleanField(help_text='Whether this is a colour paper', blank=True, null=True)
@@ -299,8 +299,8 @@ class Process(models.Model):
 # Table to catalog teleconverters (multipliers)
 class Teleconverter(models.Model):
   model = models.CharField(help_text='Model name of this teleconverter', max_length=45)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
-  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this teleconverter')
+  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this teleconverter')
   factor = models.DecimalField(help_text='Magnification factor of this teleconverter (numerical part only, e.g. 1.4)', max_digits=4, decimal_places=2, blank=True, null=True)
   elements = models.IntegerField(help_text='Number of optical elements used in this teleconverter', blank=True, null=True)
   groups = models.IntegerField(help_text='Number of optical groups used in this teleconverter', blank=True, null=True)
@@ -316,7 +316,7 @@ class Teleconverter(models.Model):
 # Table to catalog paper toners that can be used during the printing process
 class Toner(models.Model):
   name = models.CharField(help_text='Name of the toner', max_length=45)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this toner')
   formulation = models.CharField(help_text='Chemical formulation of the toner', max_length=45, blank=True, null=True)
   stock_dilution = models.CharField(help_text='Stock dilution of the toner', max_length=10, blank=True, null=True)
   def __str__(self):
@@ -330,11 +330,11 @@ class Toner(models.Model):
 # Table to list different brands of film stock
 class FilmStock(models.Model):
   name = models.CharField(help_text='Name of the filmstock', max_length=45)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this film')
   iso = models.IntegerField(verbose_name='ISO', help_text='Nominal ISO speed of the film', blank=True, null=True)
   colour = models.BooleanField(help_text='Whether the film is colour', blank=True, null=True)
   panchromatic = models.BooleanField(help_text='Whether this film is panchromatic', blank=True, null=True)
-  process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True)
+  process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True, help_text='Development process required by this film')
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.name)
@@ -346,9 +346,9 @@ class FilmStock(models.Model):
 # Table to catalog projectors (still and movie)
 class Projector(models.Model):
   model = models.CharField(help_text='Model name of this projector', max_length=45)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
-  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True)
-  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this projector')
+  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this projector')
+  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size this projector can accept')
   own = models.BooleanField(help_text='Whether we currently own this projector', blank=True, null=True)
   cine = models.BooleanField(help_text='Whether this is a cine (movie) projector', blank=True, null=True)
   def __str__(self):
@@ -361,8 +361,8 @@ class Projector(models.Model):
 
 # Table to record bulk film stock, from which individual films can be cut
 class BulkFilm(models.Model):
-  format = models.ForeignKey(Format, on_delete=models.CASCADE)
-  filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE)
+  format = models.ForeignKey(Format, on_delete=models.CASCADE, help_text='Film format of this bulk film')
+  filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE, help_text='Filmstock of this bulk film')
   purchase_date = models.DateField(help_text='Purchase date of this bulk roll', blank=True, null=True)
   cost = MoneyField(help_text='Purchase cost of this bulk roll', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   source = models.CharField(help_text='Place where this bulk roll was bought from', max_length=45, blank=True, null=True)
@@ -409,7 +409,7 @@ class ShutterType(models.Model):
 
 # Table to list film and paper developers
 class Developer(models.Model):
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this developer')
   name = models.CharField(help_text='Name of the developer', max_length=45)
   for_paper = models.BooleanField(help_text='Whether this developer can be used with paper', blank=True, null=True)
   for_film = models.BooleanField(help_text='Whether this developer can be used with film', blank=True, null=True)
@@ -424,9 +424,9 @@ class Developer(models.Model):
 
 # Table to catalog lens models
 class LensModel(models.Model):
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this lens model')
   model = models.CharField(help_text='Model name of this lens', max_length=45)
-  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True)
+  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Mount used by this lens model')
   zoom = models.BooleanField(help_text='Whether this is a zoom lens', blank=True, null=True)
   min_focal_length = models.IntegerField(help_text='Shortest focal length of this lens, in mm', blank=True, null=True)
   max_focal_length = models.IntegerField(help_text='Longest focal length of this lens, in mm', blank=True, null=True)
@@ -445,7 +445,7 @@ class LensModel(models.Model):
   url = models.URLField(help_text='URL to more information about this lens', blank=True, null=True)
   introduced = models.IntegerField(help_text='Year in which this lens model was introduced', blank=True, null=True)
   discontinued = models.IntegerField(help_text='Year in which this lens model was discontinued', blank=True, null=True)
-  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True)
+  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size that this lens is designed for')
   fixed_mount = models.BooleanField(help_text='Whether this is a fixed lens (i.e. on a compact camera)', blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
   coating = models.CharField(help_text='Notes about the lens coating type', max_length=45, blank=True, null=True)
@@ -468,20 +468,20 @@ class LensModel(models.Model):
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this camera model')
   model = models.CharField(help_text='The model name of the camera', max_length=45)
-  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True)
-  format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True, null=True)
-  focus_type = models.ForeignKey(FocusType, on_delete=models.CASCADE, blank=True, null=True)
+  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this camera model')
+  format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True, null=True, help_text='Film format used by this camera model')
+  focus_type = models.ForeignKey(FocusType, on_delete=models.CASCADE, blank=True, null=True, help_text='Focus type used on this camera model')
   metering = models.BooleanField(help_text='Whether the camera has built-in metering', blank=True, null=True)
   coupled_metering = models.BooleanField(help_text='Whether the camera''s meter is coupled automatically', blank=True, null=True)
-  metering_type = models.ForeignKey(MeteringType, on_delete=models.CASCADE, blank=True, null=True)
-  body_type = models.ForeignKey(BodyType, on_delete=models.CASCADE, blank=True, null=True)
+  metering_type = models.ForeignKey(MeteringType, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering type used on this camera model')
+  body_type = models.ForeignKey(BodyType, on_delete=models.CASCADE, blank=True, null=True, help_text='Body type of this camera model')
   weight = models.IntegerField(help_text='Weight of the camera body (without lens or batteries) in grammes (g)', blank=True, null=True)
   introduced = models.IntegerField(help_text='Year in which the camera model was introduced', blank=True, null=True)
   discontinued = models.IntegerField(help_text='Year in which the camera model was discontinued', blank=True, null=True)
-  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True)
-  shutter_type = models.ForeignKey(ShutterType, on_delete=models.CASCADE, blank=True, null=True)
+  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Size of negative created by this camera')
+  shutter_type = models.ForeignKey(ShutterType, on_delete=models.CASCADE, blank=True, null=True, help_text='Type of shutter used on this camera')
   shutter_model = models.CharField(help_text='Model of shutter', max_length=45, blank=True, null=True)
   cable_release = models.BooleanField(help_text='Whether the camera has the facility for a remote cable release', blank=True, null=True)
   viewfinder_coverage = models.IntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True)
@@ -490,9 +490,9 @@ class CameraModel(models.Model):
   video = models.BooleanField(help_text='Whether the camera can take video/movie', blank=True, null=True)
   digital = models.BooleanField(help_text='Whether this is a digital camera', default=0, blank=True, null=True)
   fixed_mount = models.BooleanField(help_text='Whether the camera has a fixed lens', blank=True, null=True)
-  lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE, blank=True, null=True)
+  lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens model attached to this camera model, if it is a fixed-lens camera')
   battery_qty = models.IntegerField(help_text='Quantity of batteries needed', blank=True, null=True)
-  battery_type = models.ForeignKey(Battery, on_delete=models.CASCADE, blank=True, null=True)
+  battery_type = models.ForeignKey(Battery, on_delete=models.CASCADE, blank=True, null=True, help_text='Battery type that this camera model needs')
   notes = models.CharField(help_text='Freeform text field for extra notes', max_length=100, blank=True, null=True)
   bulb = models.BooleanField(help_text='Whether the camera supports bulb (B) exposure', blank=True, null=True)
   time = models.BooleanField(help_text='Whether the camera supports time (T) exposure', blank=True, null=True)
@@ -502,7 +502,7 @@ class CameraModel(models.Model):
   int_flash = models.BooleanField(verbose_name='Internal flash', help_text='Whether the camera has an integrated flash', blank=True, null=True)
   int_flash_gn = models.IntegerField(verbose_name='Internal flash guide number', help_text='Guide number of internal flash', blank=True, null=True)
   ext_flash = models.BooleanField(verbose_name='External flash', help_text='Whether the camera supports an external flash', blank=True, null=True)
-  flash_metering = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True, null=True)
+  flash_metering = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True, null=True, help_text='Whether this camera model supports flash metering')
   pc_sync = models.BooleanField(verbose_name='PC sync', help_text='Whether the camera has a PC sync socket for flash', blank=True, null=True)
   hotshoe = models.BooleanField(help_text='Whether the camera has a hotshoe', blank=True, null=True)
   coldshoe = models.BooleanField(help_text='Whether the camera has a coldshoe or accessory shoe', blank=True, null=True)
@@ -525,7 +525,7 @@ class CameraModel(models.Model):
 
 # Table to catalog lenses
 class Lens(models.Model):
-  lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE)
+  lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE, help_text='Lens model of this lens')
   serial = models.CharField(help_text='Serial number of this lens', max_length=45, blank=True, null=True)
   date_code = models.CharField(help_text='Date code of this lens, if different from the serial number', max_length=45, blank=True, null=True)
   manufactured = models.IntegerField(help_text='Year in which this specific lens was manufactured', blank=True, null=True)
@@ -536,7 +536,7 @@ class Lens(models.Model):
   lost = models.DateField(help_text='Date on which lens was lost/sold/disposed', blank=True, null=True)
   lost_price = MoneyField(help_text='Sale price of the lens', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   source = models.CharField(help_text='Place where the lens was acquired from', max_length=150, blank=True, null=True)
-  condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True)
+  condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True, help_text='Condition of this lens')
   condition_notes = models.CharField(help_text='Description of condition', max_length=150, blank=True, null=True)
   def __str__(self):
     return "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
@@ -545,19 +545,19 @@ class Lens(models.Model):
 
 # Table to catalog cameras - both cameras with fixed lenses and cameras with interchangeable lenses
 class Camera(models.Model):
-  cameramodel = models.ForeignKey(CameraModel, on_delete=models.CASCADE)
+  cameramodel = models.ForeignKey(CameraModel, on_delete=models.CASCADE, help_text='Camera model of this camera')
   acquired = models.DateField(help_text='Date on which the camera was acquired', blank=True, null=True)
   cost = MoneyField(help_text='Price paid for this camera', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   serial = models.CharField(help_text='Serial number of the camera', max_length=45, blank=True, null=True)
   datecode = models.CharField(help_text='Date code of the camera, if different from the serial number', max_length=45, blank=True, null=True)
   manufactured = models.IntegerField(help_text='Year of manufacture of the camera', blank=True, null=True)
   own = models.BooleanField(help_text='Whether the camera is currently owned', blank=True, null=True)
-  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True)
+  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens attached to this camera, if it is a fixed-lens camera')
   notes = models.CharField(help_text='Freeform text field for extra notes', max_length=100, blank=True, null=True)
   lost = models.DateField(help_text='Date on which the camera was lost/sold/etc', blank=True, null=True)
   lost_price = MoneyField(help_text='Sale price of the camera', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   source = models.CharField(help_text='Where the camera was acquired from', max_length=150, blank=True, null=True)
-  condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True)
+  condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True, help_text='Condition of this camera')
   condition_notes = models.CharField(help_text='Description of condition', max_length=150, blank=True, null=True)
   #display_lens = models.ForeignKey(Lens, on_delete=models.CASCADE)
   def __str__(self):
@@ -567,29 +567,29 @@ class Camera(models.Model):
 
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
 class Film(models.Model):
-  filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE)
+  filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE, help_text='Filmstock that this film is')
   exposed_at = models.IntegerField(help_text='ISO at which the film was exposed', blank=True, null=True)
-  format = models.ForeignKey(Format, on_delete=models.CASCADE)
+  format = models.ForeignKey(Format, on_delete=models.CASCADE, help_text='Film format of this film')
   date_loaded = models.DateField(help_text='Date when the film was loaded into a camera', blank=True, null=True)
   date_processed = models.DateField(help_text='Date when the film was processed', blank=True, null=True)
-  camera = models.ForeignKey(Camera, on_delete=models.CASCADE, blank=True, null=True)
+  camera = models.ForeignKey(Camera, on_delete=models.CASCADE, blank=True, null=True, help_text='Camera that this film was loaded into')
   title = models.CharField(help_text='Title of the film', max_length=150, blank=True, null=True)
   frames = models.IntegerField(help_text='Expected (not actual) number of frames from the film', blank=True, null=True)
-  developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True)
+  developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True, help_text='Developer used to develop this film')
   directory = models.CharField(help_text='Name of the directory that contains the scanned images from this film', max_length=100, blank=True, null=True)
   dev_uses = models.IntegerField(help_text='Number of previous uses of the developer', blank=True, null=True)
   dev_time = models.DurationField(help_text='Duration of development', blank=True, null=True)
   dev_temp = models.DecimalField(help_text='Temperature of development', max_digits=3, decimal_places=1, blank=True, null=True)
   dev_n = models.IntegerField(help_text='Number of the Push/Pull rating of the film, e.g. N+1, N-2', blank=True, null=True)
   development_notes = models.CharField(help_text='Extra freeform notes about the development process', max_length=200, blank=True, null=True)
-  bulk_film = models.ForeignKey(BulkFilm, on_delete=models.CASCADE, blank=True, null=True)
+  bulk_film = models.ForeignKey(BulkFilm, on_delete=models.CASCADE, blank=True, null=True, help_text='Bulk film this film was cut from')
   bulk_film_loaded = models.DateField(help_text='Date that this film was cut from a bulk roll', blank=True, null=True)
   film_batch = models.CharField(help_text='Batch number of the film', max_length=45, blank=True, null=True)
   expiry_date = models.DateField(help_text='Expiry date of the film', blank=True, null=True)
   purchase_date = models.DateField(help_text='Date this film was purchased', blank=True, null=True)
   price = MoneyField(help_text='Price paid for this film', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   processed_by = models.CharField(help_text='Person or place that processed this film', max_length=45, blank=True, null=True)
-  archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True)
+  archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True, help_text='Archive that this film is stored in')
   def __str__(self):
     return "#%i %s" % (self.id, self.title)
   class Meta:
@@ -597,24 +597,24 @@ class Film(models.Model):
 
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 class Negative(models.Model):
-  film = models.ForeignKey(Film, on_delete=models.CASCADE)
+  film = models.ForeignKey(Film, on_delete=models.CASCADE, help_text='Film that this negative belongs to')
   frame = models.CharField(help_text='Frame number or code of this negative', max_length=8)
   caption = models.CharField(help_text='Caption of this picture', max_length=150, blank=True, null=True)
   date = models.DateTimeField(help_text='Date & time on which this picture was taken', blank=True, null=True)
-  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True)
-  shutter_speed = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True)
+  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens used to take this negative')
+  shutter_speed = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True, help_text='Shutter speed used to take this negative')
   aperture = models.DecimalField(help_text='Aperture used to take this picture (numerical part only)', max_digits=4, decimal_places=1, blank=True, null=True)
-  filter = models.ForeignKey(Filter, on_delete=models.CASCADE, blank=True, null=True)
-  teleconverter = models.ForeignKey(Teleconverter, on_delete=models.CASCADE, blank=True, null=True)
+  filter = models.ForeignKey(Filter, on_delete=models.CASCADE, blank=True, null=True, help_text='Filter used when taking this negative')
+  teleconverter = models.ForeignKey(Teleconverter, on_delete=models.CASCADE, blank=True, null=True, help_text='Teleconverter used when taking this negative')
   notes = models.CharField(help_text='Extra freeform notes about this exposure', max_length=200, blank=True, null=True)
   # mount_adapter = models.ForeignKey(MountAdapter, on_delete=models.CASCADE, blank=True, null=True)
   focal_length = models.IntegerField(help_text='If a zoom lens was used, specify the focal length of the lens', blank=True, null=True)
   latitude = models.DecimalField(help_text='Latitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True)
   longitude = models.DecimalField(help_text='Longitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True)
   flash = models.BooleanField(help_text='Whether flash was used', blank=True, null=True)
-  metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE, blank=True, null=True)
-  exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE, blank=True, null=True)
-  photographer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
+  metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering mode used when taking the image')
+  exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE, blank=True, null=True, help_text='Exposure program used when taking the image')
+  photographer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Photographer who took the negative')
   # copy_of = models.ForeignKey(Negative, on_delete=models.CASCADE)
   def __str__(self):
     return "%i/%s %s" % (self.film, self.frame, self.caption)
@@ -623,9 +623,9 @@ class Negative(models.Model):
 
 # Table to catalog prints made from negatives
 class Print(models.Model):
-  negative = models.ForeignKey(Negative, on_delete=models.CASCADE)
+  negative = models.ForeignKey(Negative, on_delete=models.CASCADE, help_text='Negative that this print was made from')
   date = models.DateField(help_text='The date that the print was made', blank=True, null=True)
-  paper_stock = models.ForeignKey(PaperStock, on_delete=models.CASCADE, blank=True, null=True)
+  paper_stock = models.ForeignKey(PaperStock, on_delete=models.CASCADE, blank=True, null=True, help_text='Paper stock that this print was made on')
   height = models.DecimalField(help_text='Height of the print in inches', max_digits=4, decimal_places=1, blank=True, null=True)
   width = models.DecimalField(help_text='Width of the print in inches', max_digits=4, decimal_places=1, blank=True, null=True)
   aperture = models.DecimalField(help_text='Aperture used to make this print (numerical part only, e.g. 5.6)', max_digits=3, decimal_places=1, blank=True, null=True)
@@ -633,7 +633,7 @@ class Print(models.Model):
   filtration_grade = models.DecimalField(help_text='Contrast grade of paper used', max_digits=2, decimal_places=1, blank=True, null=True)
   development_time = models.DurationField(help_text='Development time of this print', blank=True, null=True)
   bleach_time = models.DurationField(help_text='Duration of bleaching', blank=True, null=True)
-  toner = models.ForeignKey(Toner, on_delete=models.CASCADE, blank=True, null=True)
+  toner = models.ForeignKey(Toner, on_delete=models.CASCADE, blank=True, null=True, help_text='First toner used to tone this print')
   toner_dilution = models.CharField(help_text='Dilution of the first toner used to make this print', max_length=8, blank=True, null=True)
   toner_time = models.DurationField(help_text='Duration of first toning', blank=True, null=True)
   #second_toner = models.ForeignKey(Toner, on_delete=models.CASCADE, blank=True, null=True)
@@ -642,13 +642,13 @@ class Print(models.Model):
   own = models.BooleanField(help_text='Whether we currently own this print', blank=True, null=True)
   location = models.CharField(help_text='The place where this print is currently', max_length=100, blank=True, null=True)
   sold_price = MoneyField(help_text='Sale price of the print', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
-  enlarger = models.ForeignKey(Enlarger, on_delete=models.CASCADE, blank=True, null=True)
-  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True)
-  developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True)
+  enlarger = models.ForeignKey(Enlarger, on_delete=models.CASCADE, blank=True, null=True, help_text='Enlarger used to make this print')
+  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Enlarger lens used to make this print')
+  developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True, help_text='Developer used to develop this print')
   fine = models.BooleanField(help_text='Whether this is a fine print', blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes about this print, e.g. dodging, burning & complex toning', max_length=200, blank=True, null=True)
-  archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True)
-  printer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
+  archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True, help_text='Archive that this print is stored in')
+  printer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Person who made this print')
   def __str__(self):
     return "#%i" % (self.id)
   class Meta:
@@ -658,18 +658,18 @@ class Print(models.Model):
 class Movie(models.Model):
   title = models.CharField(help_text='Title of this movie', max_length=45)
   description = models.CharField(help_text='Description of this movie', max_length=200, blank=True, null=True)
-  camera = models.ForeignKey(Camera, on_delete=models.CASCADE, blank=True, null=True)
-  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True)
-  format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True, null=True)
+  camera = models.ForeignKey(Camera, on_delete=models.CASCADE, blank=True, null=True, help_text='Camera used to shoot this movie')
+  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens used to shoot this movie')
+  format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True, null=True, help_text='Film format of this movie')
   sound = models.BooleanField(help_text='Whether this movie has sound', blank=True, null=True)
   fps = models.IntegerField(verbose_name='FPS', help_text='Frame rate of this movie, in fps', blank=True, null=True)
-  filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE, blank=True, null=True)
+  filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE, blank=True, null=True, help_text='Filmstock that this movie was shot on')
   feet = models.IntegerField(help_text='Length of this movie in feet', blank=True, null=True)
   duration = models.DurationField(help_text='Duration of this movie', blank=True, null=True)
   date_loaded = models.DateField(help_text='Date that the filmstock was loaded into a camera', blank=True, null=True)
   date_shot = models.DateField(help_text='Date on which this movie was shot', blank=True, null=True)
   date_processed = models.DateField(help_text='Date on which this movie was processed', blank=True, null=True)
-  process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True)
+  process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True, help_text='Process used to develop this movie')
   def __str__(self):
     return self.title
   class Meta:
@@ -677,8 +677,8 @@ class Movie(models.Model):
   
 # Table to catalog all repairs and servicing undertaken on cameras and lenses in the collection
 class Repair(models.Model):
-  camera = models.ForeignKey(Camera, on_delete=models.CASCADE, blank=True, null=True)
-  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True)
+  camera = models.ForeignKey(Camera, on_delete=models.CASCADE, blank=True, null=True, help_text='Camera that was repaired')
+  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens that was repaired')
   date = models.DateField(help_text='The date of the repair', blank=True, null=True)
   summary = models.CharField(help_text='Brief summary of the repair', max_length=100)
   description = models.CharField(help_text='Longer description of the repair', max_length=500, blank=True, null=True)
@@ -687,8 +687,8 @@ class Repair(models.Model):
 
 # Table to record all the images that have been scanned digitally
 class Scan(models.Model):
-  negative = models.ForeignKey(Negative, on_delete=models.CASCADE, blank=True, null=True)
-  print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True, null=True)
+  negative = models.ForeignKey(Negative, on_delete=models.CASCADE, blank=True, null=True, help_text='Negative that this scan was made from')
+  print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True, null=True, help_text='Print that this scan was made from')
   filename = models.CharField(help_text='Filename of the scan', max_length=128)
   date = models.DateField(help_text='Date that this scan was made', blank=True, null=True)
   colour = models.BooleanField(help_text='Whether this is a colour image', blank=True, null=True)
@@ -701,13 +701,13 @@ class Scan(models.Model):
 
 # Table to record orders for prints
 class Order(models.Model):
-  negative = models.ForeignKey(Negative, on_delete=models.CASCADE)
+  negative = models.ForeignKey(Negative, on_delete=models.CASCADE, help_text='Negative that needs to be printed')
   width = models.IntegerField(help_text='Width of print to be made', blank=True, null=True)
   height = models.IntegerField(help_text='Height of print to be made', blank=True, null=True)
   added = models.DateField(help_text='Date that the order was placed', blank=True, null=True)
   printed = models.BooleanField(help_text='Whether the print has been made', blank=True, null=True)
-  print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True, null=True)
-  recipient = models.ForeignKey(Person, on_delete=models.CASCADE)
+  print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True, null=True, help_text='Print that was made to fulfil this order')
+  recipient = models.ForeignKey(Person, on_delete=models.CASCADE, help_text='Person who placed this order')
   def __str__(self):
     return self.id
   class Meta:
