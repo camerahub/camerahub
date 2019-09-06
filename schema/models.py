@@ -3,12 +3,12 @@ from djmoney.models.fields import MoneyField
 
 # Create your models here.
 class Manufacturer(models.Model):
-  name = models.CharField(help_text='Name of the manufacturer', max_length=45, unique=True)
+  name = models.CharField(help_text='Name of the manufacturer', max_length=45, blank=True, unique=True)
   city = models.CharField(help_text='City in which the manufacturer is based', max_length=45, blank=True, null=True)
   country = models.CharField(help_text='Country in which the manufacturer is based', max_length=45, blank=True, null=True)
   url = models.URLField(verbose_name='URL', help_text='URL to the manufacturers main website', max_length=45, blank=True, null=True)
-  founded = models.DateField(help_text='Year in which the manufacturer was founded', blank=True, null=True)
-  dissolved = models.DateField(help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
+  founded = models.IntegerField(help_text='Year in which the manufacturer was founded', blank=True, null=True)
+  dissolved = models.IntegerField(help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
   def __str__(self):
     return self.name
   class Meta:
@@ -228,13 +228,41 @@ class MeteringType(models.Model):
 
 # Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.
 class Mount(models.Model):
+
+  # Choices for mount types
+  BAYONET = 'Bayonet'
+  BREECH = 'Breech lock'
+  SCREW = 'Screw'
+  FRICTION = 'Friction'
+  LENSBOARD = 'Lens board'
+  MOUNT_TYPE_CHOICES = [
+    (BAYONET, 'Bayonet'),
+    (BREECH, 'Breech lock'),
+    (SCREW, 'Screw'),
+    (FRICTION, 'Friction fit'),
+    (LENSBOARD, 'Lens board'),
+  ]
+
+  # Choices for mount purposes
+  CAMERA = 'Camera'
+  ENLARGER = 'Enlarger'
+  PROJECTOR = 'Projector'
+  TELESCOPE = 'Telescope'
+  MICROSCOPE = 'Microscope'
+  MOUNT_PURPOSE_CHOICES = [
+    (CAMERA, 'Camera'),
+    (ENLARGER, 'Enlarger'),
+    (PROJECTOR, 'Projector'),
+    (TELESCOPE, 'Telescope'),
+    (MICROSCOPE, 'Microscope'),
+  ]
+
   mount = models.CharField(help_text='Name of this lens mount (e.g. Canon FD)', max_length=45, unique=True)
-  fixed = models.BooleanField(help_text='Whether this is a fixed (non-interchangable) lens mount', default=0)
-  shutter_in_lens = models.BooleanField(help_text='Whether this lens mount system incorporates the shutter models.IntegerFieldo the lens', default=0, blank=True, null=True)
-  type = models.CharField(help_text='The physical mount type of this lens mount (e.g. Screw, Bayonet, etc)', max_length=25, blank=True, null=True)
-  purpose = models.CharField(help_text='The intended purpose of this lens mount (e.g. camera, enlarger, projector)', max_length=25, blank=True, null=True)
+  shutter_in_lens = models.BooleanField(help_text='Whether this lens mount system incorporates the shutter into the lens', default=0, blank=True, null=True)
+  type = models.CharField(help_text='The physical mount type of this lens mount', choices=MOUNT_TYPE_CHOICES, max_length=15, blank=True, null=True)
+  purpose = models.CharField(help_text='The intended purpose of this lens mount', choices=MOUNT_PURPOSE_CHOICES, max_length=15, blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
-  digital_only = models.BooleanField(help_text='Whether this mount is models.intended only for digital cameras', default=0, blank=True, null=True)
+  digital_only = models.BooleanField(help_text='Whether this mount is intended only for digital cameras', default=0, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this lens mount')
   def __str__(self):
     return self.mount

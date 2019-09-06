@@ -8,7 +8,7 @@ import djmoney.models.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schema', '0007_auto_20190830_1453'),
+        ('schema', '0017_data'),
     ]
 
     operations = [
@@ -1171,11 +1171,6 @@ class Migration(migrations.Migration):
             model_name='mount',
             name='digital_only',
             field=models.BooleanField(blank=True, default=0, help_text='Whether this mount is models.intended only for digital cameras', null=True),
-        ),
-        migrations.AlterField(
-            model_name='mount',
-            name='fixed',
-            field=models.BooleanField(default=0, help_text='Whether this is a fixed (non-interchangable) lens mount'),
         ),
         migrations.AlterField(
             model_name='mount',
