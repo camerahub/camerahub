@@ -1,5 +1,6 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
+from djchoices import DjangoChoices, ChoiceItem
 
 # Create your models here.
 class Manufacturer(models.Model):
@@ -14,17 +15,21 @@ class Manufacturer(models.Model):
   class Meta:
     verbose_name_plural = "Manufacturers"
 
-# Table to list types of accessories
-class AccessoryType(models.Model):
-  type = models.CharField(help_text='Type of accessory', max_length=45, unique=True)
-  def __str__(self):
-    return self.type
-  class Meta:
-    verbose_name_plural = "Accessory types"
-
 # Table to catalog accessories that are not tracked in more specific tables
 class Accessory(models.Model):
-  type = models.ForeignKey(AccessoryType, on_delete=models.CASCADE, help_text='Type of accessory')
+  # Choices for accessory types
+  class AccessoryType(DjangoChoices):
+    Battery_grip = ChoiceItem()
+    Case = ChoiceItem()
+    Film_back = ChoiceItem()
+    Focusing_screen = ChoiceItem()
+    Lens_hood = ChoiceItem()
+    Lens_cap = ChoiceItem()
+    Power_winder = ChoiceItem()
+    Viewfinder = ChoiceItem()
+    Rangefinder = ChoiceItem()
+
+  type = models.CharField(choices=AccessoryType.choices, help_text='Type of accessory', max_length=15)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this accessory')
   model = models.CharField(help_text='Model of the accessory', max_length=45)
   acquired = models.DateField(help_text='Date that this accessory was acquired', blank=True, null=True)
@@ -49,6 +54,19 @@ class ArchiveType(models.Model):
 
 # Table to list all archives that exist for storing physical media
 class Archive(models.Model):
+  # Choices for mount types
+  BAYONET = 'Bayonet'
+  BREECH = 'Breech lock'
+  SCREW = 'Screw'
+  FRICTION = 'Friction'
+  LENSBOARD = 'Lens board'
+  MOUNT_TYPE_CHOICES = [
+    (BAYONET, 'Bayonet'),
+    (BREECH, 'Breech lock'),
+    (SCREW, 'Screw'),
+    (FRICTION, 'Friction fit'),
+    (LENSBOARD, 'Lens board'),
+  ]
   type = models.ForeignKey(ArchiveType, on_delete=models.CASCADE, help_text='What is stored in this archive?')
   name = models.CharField(help_text='Name of this archive', max_length=45, unique=True)
   max_width = models.IntegerField(help_text='Maximum width of media that this archive can store', blank=True, null=True)
@@ -82,6 +100,19 @@ class BodyType(models.Model):
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 class Condition(models.Model):
+  # Choices for mount types
+  BAYONET = 'Bayonet'
+  BREECH = 'Breech lock'
+  SCREW = 'Screw'
+  FRICTION = 'Friction'
+  LENSBOARD = 'Lens board'
+  MOUNT_TYPE_CHOICES = [
+    (BAYONET, 'Bayonet'),
+    (BREECH, 'Breech lock'),
+    (SCREW, 'Screw'),
+    (FRICTION, 'Friction fit'),
+    (LENSBOARD, 'Lens board'),
+  ]
   code = models.CharField(help_text='Condition shortcode (e.g. EXC)', max_length = 6)
   name = models.CharField(help_text='Full name of condition (e.g. Excellent)', max_length=45)
   min_rating = models.IntegerField(help_text='The lowest percentage rating that encompasses this condition')
