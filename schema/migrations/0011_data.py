@@ -26,31 +26,6 @@ def forwards_func(apps, schema_editor):
     Format(format="116 roll", digital="0"),
     Format(format="127 roll", digital="0"),
   ])
-    
-
-def reverse_func(apps, schema_editor):
-  db_alias = schema_editor.connection.alias
-
-  Format = apps.get_model("schema", "Format")
-  Format.objects.using(db_alias).filter(format="120 roll")
-  Format.objects.using(db_alias).filter(format="135 roll")
-  Format.objects.using(db_alias).filter(format="620 roll")
-  Format.objects.using(db_alias).filter(format="APS-C")
-  Format.objects.using(db_alias).filter(format="1/1.6\"")
-  Format.objects.using(db_alias).filter(format="Super 8mm")
-  Format.objects.using(db_alias).filter(format="8mm")
-  Format.objects.using(db_alias).filter(format="Quarter plate")
-  Format.objects.using(db_alias).filter(format="Polaroid 600")
-  Format.objects.using(db_alias).filter(format="2.25x3.25\" sheet")
-  Format.objects.using(db_alias).filter(format="6.5x9 sheet")
-  Format.objects.using(db_alias).filter(format="4x5\" sheet")
-  Format.objects.using(db_alias).filter(format="126 cartridge")
-  Format.objects.using(db_alias).filter(format="16mm")
-  Format.objects.using(db_alias).filter(format="110 cartridge")
-  Format.objects.using(db_alias).filter(format="3¼x4\"")
-  Format.objects.using(db_alias).filter(format="116 roll")
-  Format.objects.using(db_alias).filter(format="127 roll")
-  
 
 
 class Migration(migrations.Migration):
@@ -60,5 +35,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(forwards_func, reverse_func),
+        migrations.RunPython(forwards_func),
     ]

@@ -74,81 +74,7 @@ def forwards_func(apps, schema_editor):
     ShutterSpeed(shutter_speed="24", duration="24"),
     ShutterSpeed(shutter_speed="26", duration="26"),
     ShutterSpeed(shutter_speed="30", duration="30")
-  ])
-
-  
-def reverse_func(apps, schema_editor):
-  db_alias = schema_editor.connection.alias
-
-  ShutterSpeed = apps.get_model("schema", "ShutterSpeed")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/8000")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/6400")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/6000")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/5000")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/4000")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/3200")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/3000")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/2500")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/2000")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/1600")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/1500")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/1250")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/1000")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/800")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/750")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/640")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/500")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/400")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/350")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/320")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/250")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/200")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/180")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/160")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/125")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/100")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/90")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/80")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/60")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/50")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/45")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/40")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/30")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/25")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/20")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/15")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/13")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/10")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/08")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/06")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/05")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/4")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/03")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/2.5")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/2")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/1.5")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1.3")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1.5")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1.6")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/0.6")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="2")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="2.5")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="3")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="1/0.3")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="4")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="5")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="6")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="8")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="10")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="12")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="13")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="16")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="20")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="24")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="26")
-  ShutterSpeed.objects.using(db_alias).filter(shutter_speed="30")
-  
+  ]) 
 
 class Migration(migrations.Migration):
 
@@ -157,5 +83,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(forwards_func, reverse_func),
+        migrations.RunPython(forwards_func),
     ]

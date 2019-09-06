@@ -120,13 +120,6 @@ def forwards_func(apps, schema_editor):
   Mount.objects.using(db_alias).create(mount="M42", shutter_in_lens=0, type='Screw', purpose='Camera')
   Mount.objects.using(db_alias).create(mount="Praktiflex", type='Screw', purpose='Camera')
   Mount.objects.using(db_alias).create(mount="T/T2", shutter_in_lens=0, type='Screw', purpose='Camera')
-    
-
-def reverse_func(apps, schema_editor):
-  db_alias = schema_editor.connection.alias
-
-  Mount = apps.get_model("schema", "Mount")
-  Mount.objects.using(db_alias).filter(mount="Canon FD") 
 
 
 class Migration(migrations.Migration):
@@ -136,5 +129,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(forwards_func, reverse_func),
+        migrations.RunPython(forwards_func),
     ]

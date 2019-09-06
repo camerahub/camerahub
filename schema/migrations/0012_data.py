@@ -33,37 +33,6 @@ def forwards_func(apps, schema_editor):
     NegativeSize(name="1?x2½\"", width="60", height="40", crop_factor="0.6", area="2400", aspect_ratio="1.5"),
     NegativeSize(name="Super 16mm", width="12.5", height="7.4", crop_factor="2.98", area="93", aspect_ratio="1.69"),
   ])
-    
-
-def reverse_func(apps, schema_editor):
-  db_alias = schema_editor.connection.alias
-
-  NegativeSize = apps.get_model("schema", "NegativeSize")
-  NegativeSize.objects.using(db_alias).filter(name="6x7")
-  NegativeSize.objects.using(db_alias).filter(name="6x6")
-  NegativeSize.objects.using(db_alias).filter(name="6x4.5")
-  NegativeSize.objects.using(db_alias).filter(name="6x9")
-  NegativeSize.objects.using(db_alias).filter(name="35mm")
-  NegativeSize.objects.using(db_alias).filter(name="APS-C")
-  NegativeSize.objects.using(db_alias).filter(name="35mm half frame")
-  NegativeSize.objects.using(db_alias).filter(name="1/1.6\"")
-  NegativeSize.objects.using(db_alias).filter(name="Super 8mm")
-  NegativeSize.objects.using(db_alias).filter(name="8mm")
-  NegativeSize.objects.using(db_alias).filter(name="Quarter plate")
-  NegativeSize.objects.using(db_alias).filter(name="Integral 600")
-  NegativeSize.objects.using(db_alias).filter(name="35mm panoramic")
-  NegativeSize.objects.using(db_alias).filter(name="6.5x9")
-  NegativeSize.objects.using(db_alias).filter(name="2.25x3.25\"")
-  NegativeSize.objects.using(db_alias).filter(name="4x5")
-  NegativeSize.objects.using(db_alias).filter(name="8x10")
-  NegativeSize.objects.using(db_alias).filter(name="126")
-  NegativeSize.objects.using(db_alias).filter(name="16mm")
-  NegativeSize.objects.using(db_alias).filter(name="110")
-  NegativeSize.objects.using(db_alias).filter(name="1\"x1\"")
-  NegativeSize.objects.using(db_alias).filter(name="2.5\" x 4.25\"")
-  NegativeSize.objects.using(db_alias).filter(name="6x11")
-  NegativeSize.objects.using(db_alias).filter(name="1?x2½\"")
-  NegativeSize.objects.using(db_alias).filter(name="Super 16mm")  
 
 
 class Migration(migrations.Migration):
@@ -73,5 +42,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(forwards_func, reverse_func),
+        migrations.RunPython(forwards_func),
     ]
