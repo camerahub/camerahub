@@ -22,6 +22,9 @@ ADD . $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 RUN pip install -r requirements.txt
 
+# Run migrations
+RUN python manage.py migrate
+
 # Server
 EXPOSE 8000
 STOPSIGNAL SIGINT
