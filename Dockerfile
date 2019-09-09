@@ -18,8 +18,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autocl
 ARG PROJECT=photodb
 ARG PROJECT_DIR=/var/www/${PROJECT}
 RUN mkdir -p $PROJECT_DIR
+ADD . $PROJECT_DIR
 WORKDIR $PROJECT_DIR
-COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Server
