@@ -44,35 +44,28 @@ class Accessory(models.Model):
   class Meta:
     verbose_name_plural = "Accessories"
 
-# Table to list the different types of material that can be archived
-class ArchiveType(models.Model):
-  type = models.CharField(help_text='Name of this type of archive', max_length=45, unique=True)
-  def __str__(self):
-    return self.type
-  class Meta:
-    verbose_name_plural = "Archive types"
-
 # Table to list all archives that exist for storing physical media
 class Archive(models.Model):
-  # Choices for mount types
-  BAYONET = 'Bayonet'
-  BREECH = 'Breech lock'
-  SCREW = 'Screw'
-  FRICTION = 'Friction'
-  LENSBOARD = 'Lens board'
-  MOUNT_TYPE_CHOICES = [
-    (BAYONET, 'Bayonet'),
-    (BREECH, 'Breech lock'),
-    (SCREW, 'Screw'),
-    (FRICTION, 'Friction fit'),
-    (LENSBOARD, 'Lens board'),
-  ]
-  type = models.ForeignKey(ArchiveType, on_delete=models.CASCADE, help_text='What is stored in this archive?')
+  # Choices for archive types
+  class ArchiveType(DjangoChoices):
+    Negative = ChoiceItem()
+    Slide = ChoiceItem()
+    Print = ChoiceItem()
+
+  # Choices for archive storage
+  class ArchiveStorage(DjangoChoices):
+    Ringbinder = ChoiceItem()
+    Folder = ChoiceItem()
+    Box = ChoiceItem()
+    Portfolio = ChoiceItem()
+    Slide_tray = ChoiceItem()
+
+  type = models.CharField(max_length=8, choices=ArchiveType.choices, help_text='What is stored in this archive?')
   name = models.CharField(help_text='Name of this archive', max_length=45, unique=True)
   max_width = models.IntegerField(help_text='Maximum width of media that this archive can store', blank=True, null=True)
   max_height = models.IntegerField(help_text='Maximum height of media that this archive can store', blank=True, null=True)
   location = models.CharField(help_text='Location of this archive', max_length=45, blank=True, null=True)
-  storage = models.CharField(help_text='The type of storage used for this archive, e.g. box, folder, ringbinder, etc', max_length=45, blank=True, null=True)
+  storage = models.CharField(choices=ArchiveStorage.choices, help_text='The type of storage used for this archive', max_length=45, blank=True, null=True)
   sealed = models.BooleanField(help_text='Whether or not this archive is sealed (closed to new additions)', default=0)
   def __str__(self):
     return self.name
@@ -89,14 +82,6 @@ class Battery(models.Model):
     return self.name
   class Meta:
     verbose_name_plural = "Batteries"
-
-# Table to catalog types of camera body style
-class BodyType(models.Model):
-  type = models.CharField(help_text='Name of camera body type (e.g. SLR, compact, etc)', max_length=45, unique=True)
-  def __str__(self):
-    return self.type
-  class Meta:
-    verbose_name_plural = "Body types"
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 class Condition(models.Model):
@@ -151,14 +136,6 @@ class Filter(models.Model):
     return "%s %smm" % (self.type, str(self.thread))
   class Meta:
     verbose_name_plural = "Filters"
-
-# Table to catalog different focusing methods
-class FocusType(models.Model):
-  name = models.CharField(help_text='Name of focus type', max_length=45)
-  def __str__(self):
-    return self.name
-  class Meta:
-    verbose_name_plural = "Focus types"
 
 # Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
 class NegativeSize(models.Model):
@@ -527,15 +504,37 @@ class LensModel(models.Model):
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
+  # Choices for body types
+  class BodyType(DjangoChoices):
+    Box_camera = ChoiceItem()
+    Folding_camera = ChoiceItem()
+    Compact_camera = ChoiceItem()
+    SLR = ChoiceItem()
+    TLR = ChoiceItem()
+    Bridge_camera = ChoiceItem()
+    View_camera = ChoiceItem()
+    Pistol_grip_camera = ChoiceItem()
+    Miniature_camera = ChoiceItem()
+
+  # Choices for focus type
+  class FocusType(DjangoChoices):
+    Autofocus = ChoiceItem()
+    Fixed_focus = ChoiceItem()
+    Zone_focus = ChoiceItem()
+    Rangefinder = ChoiceItem()
+    SLR = ChoiceItem()
+    TLR = ChoiceItem()
+    View_camera = ChoiceItem()
+
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this camera model')
   model = models.CharField(help_text='The model name of the camera', max_length=45)
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this camera model')
   format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True, null=True, help_text='Film format used by this camera model')
-  focus_type = models.ForeignKey(FocusType, on_delete=models.CASCADE, blank=True, null=True, help_text='Focus type used on this camera model')
+  focus_type = models.CharField(choices=FocusType.choices, blank=True, null=True, help_text='Focus type used on this camera model')
   metering = models.BooleanField(help_text='Whether the camera has built-in metering', blank=True, null=True)
   coupled_metering = models.BooleanField(help_text='Whether the camera''s meter is coupled automatically', blank=True, null=True)
   metering_type = models.ForeignKey(MeteringType, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering type used on this camera model')
-  body_type = models.ForeignKey(BodyType, on_delete=models.CASCADE, blank=True, null=True, help_text='Body type of this camera model')
+  body_type = models.CharField(choices=BodyType.choices, blank=True, null=True, help_text='Body type of this camera model')
   weight = models.IntegerField(help_text='Weight of the camera body (without lens or batteries) in grammes (g)', blank=True, null=True)
   introduced = models.IntegerField(help_text='Year in which the camera model was introduced', blank=True, null=True)
   discontinued = models.IntegerField(help_text='Year in which the camera model was discontinued', blank=True, null=True)
