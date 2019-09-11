@@ -1,5 +1,6 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 class Manufacturer(models.Model):
@@ -84,8 +85,8 @@ class BodyType(models.Model):
 class Condition(models.Model):
   code = models.CharField(help_text='Condition shortcode (e.g. EXC)', max_length = 6)
   name = models.CharField(help_text='Full name of condition (e.g. Excellent)', max_length=45)
-  min_rating = models.PositiveIntegerField(help_text='The lowest percentage rating that encompasses this condition')
-  max_rating = models.PositiveIntegerField(help_text='The highest percentage rating that encompasses this condition')
+  min_rating = models.PositiveIntegerField(help_text='The lowest percentage rating that encompasses this condition', validators=[MinValueValidator(0),MaxValueValidator(100)])
+  max_rating = models.PositiveIntegerField(help_text='The highest percentage rating that encompasses this condition', validators=[MinValueValidator(0),MaxValueValidator(100)])
   description = models.CharField(help_text='Longer description of condition', max_length=300)
   def __str__(self):
     return self.name
@@ -464,8 +465,8 @@ class LensModel(models.Model):
   elements = models.PositiveIntegerField(help_text='Number of optical lens elements', blank=True, null=True)
   groups = models.PositiveIntegerField(help_text='Number of optical groups', blank=True, null=True)
   weight = models.PositiveIntegerField(help_text='Weight of this lens, in grammes (g)', blank=True, null=True)
-  nominal_min_angle_diag = models.PositiveIntegerField(verbose_name='Min angle of view', help_text='Nominal minimum diagonal field of view from manufacturer specs', blank=True, null=True)
-  nominal_max_angle_diag = models.PositiveIntegerField(verbose_name='Max angle of view', help_text='Nominal maximum diagonal field of view from manufacturer specs', blank=True, null=True)
+  nominal_min_angle_diag = models.PositiveIntegerField(verbose_name='Min angle of view', help_text='Nominal minimum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(360)])
+  nominal_max_angle_diag = models.PositiveIntegerField(verbose_name='Max angle of view', help_text='Nominal maximum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(360)])
   aperture_blades = models.PositiveIntegerField(help_text='Number of aperture blades', blank=True, null=True)
   autofocus = models.BooleanField(help_text='Whether this lens has autofocus capability', blank=True, null=True)
   filter_thread = models.DecimalField(help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
@@ -512,7 +513,7 @@ class CameraModel(models.Model):
   shutter_type = models.ForeignKey(ShutterType, on_delete=models.CASCADE, blank=True, null=True, help_text='Type of shutter used on this camera')
   shutter_model = models.CharField(help_text='Model of shutter', max_length=45, blank=True, null=True)
   cable_release = models.BooleanField(help_text='Whether the camera has the facility for a remote cable release', blank=True, null=True)
-  viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True)
+  viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(100)])
   power_drive = models.BooleanField(help_text='Whether the camera has integrated motor drive', blank=True, null=True)
   continuous_fps = models.DecimalField(help_text='The maximum rate at which the camera can shoot, in frames per second', max_digits=4, decimal_places=1, blank=True, null=True)
   video = models.BooleanField(help_text='Whether the camera can take video/movie', blank=True, null=True)
