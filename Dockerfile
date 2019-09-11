@@ -1,19 +1,9 @@
 # PhotoDB
 FROM python:3
-MAINTAINER Jonathan Gazeley
-# Install Python and Package Libraries
+LABEL maintainer "Jonathan Gazeley"
+
 RUN apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean
-#RUN apt-get install -y \
-#    libffi-dev \
-#    libssl-dev \
-#    libmysqlclient-dev \
-#    libxml2-dev \
-#    libxslt-dev \
-#    libjpeg-dev \
-#    libfreetype6-dev \
-#    zlib1g-dev \
-#    net-tools \
-#    vim
+
 # Project Files and Settings
 ARG PROJECT=photodb
 ARG PROJECT_DIR=/var/www/${PROJECT}
