@@ -5,20 +5,11 @@ from django.contrib import admin
 from .models import Accessory
 admin.site.register(Accessory)
 
-from .models import AccessoryType
-admin.site.register(AccessoryType)
-
 from .models import Archive
 admin.site.register(Archive)
 
-from .models import ArchiveType
-admin.site.register(ArchiveType)
-
 from .models import Battery
 admin.site.register(Battery)
-
-from .models import BodyType
-admin.site.register(BodyType)
 
 from .models import BulkFilm
 admin.site.register(BulkFilm)
@@ -84,9 +75,6 @@ admin.site.register(Flash)
 
 from .models import FlashProtocol
 admin.site.register(FlashProtocol)
-
-from .models import FocusType
-admin.site.register(FocusType)
 
 from .models import Format
 admin.site.register(Format)
