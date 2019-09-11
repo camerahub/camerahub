@@ -1,6 +1,7 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Manufacturer(models.Model):
@@ -494,6 +495,39 @@ class LensModel(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Lens models"
+
+  def clean(self):
+    # Check focal length
+    if self.min_focal_length is not None and self.max_focal_length is not None and self.min_focal_length > self.max_focal_length:
+      raise ValidationError({
+        'min_focal_length': ValidationError(('Min focal length must be smaller than max focal length')),
+        'max_focal_length': ValidationError(('Max focal length must be larger than min focal length')),
+      })
+
+    # Groups and elements
+    if self.groups is not None and self.elements is not None and self.elements < self.groups:
+      raise ValidationError({
+        'elements': ValidationError(("Can't have more groups than elements")),
+        'groups': ValidationError(("Can't have more groups than elements")),
+      })
+
+    # Fixed mount vs mount ID
+    if self.fixed_mount == True and self.mount is not None:
+      raise ValidationError({'mount': 'Do not choose a mount when fixed mount is true'})
+
+    # Zoom lenses
+    if self.zoom == False and self.min_focal_length != self.max_focal_length:
+      raise ValidationError({
+        'min_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
+        'max_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
+      })
+
+    # Aperture range
+    if self.max_aperture is not None and self.min_aperture is not None and self.max_aperture > self.min_aperture:
+      raise ValidationError({
+        'max_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
+        'min_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
+      })
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
