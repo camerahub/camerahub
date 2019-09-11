@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'schema.apps.SchemaConfig',
     'djmoney',
+    'favicon',
 ]
 
 MIDDLEWARE = [
@@ -215,3 +216,5 @@ FLUENT_DASHBOARD_APP_GROUPS = (
         'collapsible': True,
     }),
 )
+
+FAVICON_PATH = STATIC_URL + 'favicon.ico'
