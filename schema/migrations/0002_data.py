@@ -115,100 +115,6 @@ def forwards_func(apps, schema_editor):
     ShutterType(type="Electronic"),
   ])
 
-  
-def reverse_func(apps, schema_editor):
-  db_alias = schema_editor.connection.alias
-
-  AccessoryType = apps.get_model("schema", "AccessoryType")
-  AccessoryType.objects.using(db_alias).filter(type="Power winder")
-  AccessoryType.objects.using(db_alias).filter(type="Battery grip")
-  AccessoryType.objects.using(db_alias).filter(type="Viewfinder")
-  AccessoryType.objects.using(db_alias).filter(type="Focusing screen")
-  AccessoryType.objects.using(db_alias).filter(type="Film back")
-  AccessoryType.objects.using(db_alias).filter(type="Lens hood")
-  AccessoryType.objects.using(db_alias).filter(type="Case")
-  AccessoryType.objects.using(db_alias).filter(type="Lens cap")
-
-  ArchiveType = apps.get_model("schema", "ArchiveType")
-  ArchiveType.objects.using(db_alias).filter(type="Film")
-  ArchiveType.objects.using(db_alias).filter(type="Slide")
-  ArchiveType.objects.using(db_alias).filter(type="Print")
-
-  BodyType = apps.get_model("schema", "BodyType")
-  BodyType.objects.using(db_alias).filter(type="Box camera")
-  BodyType.objects.using(db_alias).filter(type="Compact camera")
-  BodyType.objects.using(db_alias).filter(type="Folding camera")
-  BodyType.objects.using(db_alias).filter(type="SLR")
-  BodyType.objects.using(db_alias).filter(type="TLR")
-  BodyType.objects.using(db_alias).filter(type="Bridge camera")
-  BodyType.objects.using(db_alias).filter(type="View camera")
-  BodyType.objects.using(db_alias).filter(type="Pistol grip camera")
-  
-  Condition = apps.get_model("schema", "Condition")
-  Condition.objects.using(db_alias).filter(code="NEW")
-  Condition.objects.using(db_alias).filter(code="MINT")
-  Condition.objects.using(db_alias).filter(code="EXC+")
-  Condition.objects.using(db_alias).filter(code="EXC")
-  Condition.objects.using(db_alias).filter(code="GOOD")
-  Condition.objects.using(db_alias).filter(code="FAIR")
-  Condition.objects.using(db_alias).filter(code="POOR")
-  Condition.objects.using(db_alias).filter(code="BROKEN")
-
-  ExposureProgram = apps.get_model("schema", "ExposureProgram")
-  ExposureProgram.objects.using(db_alias).filter(name="Fixed"),
-  ExposureProgram.objects.using(db_alias).filter(name="Manual"),
-  ExposureProgram.objects.using(db_alias).filter(name="Program AE"),
-  ExposureProgram.objects.using(db_alias).filter(name="Aperture-priority AE"),
-  ExposureProgram.objects.using(db_alias).filter(name="Shutter speed priority AE"),
-  ExposureProgram.objects.using(db_alias).filter(name="Creative (Slow speed)"),
-  ExposureProgram.objects.using(db_alias).filter(name="Action (High speed)"),
-  ExposureProgram.objects.using(db_alias).filter(name="Portrait"),
-  ExposureProgram.objects.using(db_alias).filter(name="Landscape"),
-  ExposureProgram.objects.using(db_alias).filter(name="Bulb"),
-
-  FocusType = apps.get_model("schema", "FocusType")
-  FocusType.objects.using(db_alias).filter(name="Autofocus"),
-  FocusType.objects.using(db_alias).filter(name="Fixed focus"),
-  FocusType.objects.using(db_alias).filter(name="Zone focus"),
-  FocusType.objects.using(db_alias).filter(name="Rangefinder"),
-  FocusType.objects.using(db_alias).filter(name="SLR"),
-  FocusType.objects.using(db_alias).filter(name="TLR"),
-  FocusType.objects.using(db_alias).filter(name="View camera"),
-
-  MeteringMode = apps.get_model("schema", "MeteringMode")
-  MeteringMode.objects.using(db_alias).filter(name="None"),
-  MeteringMode.objects.using(db_alias).filter(name="Average"),
-  MeteringMode.objects.using(db_alias).filter(name="Center-weighted Average"),
-  MeteringMode.objects.using(db_alias).filter(name="Spot"),
-  MeteringMode.objects.using(db_alias).filter(name="Multi-spot"),
-  MeteringMode.objects.using(db_alias).filter(name="Multi-segment"),
-  MeteringMode.objects.using(db_alias).filter(name="Partial"),
-
-  MeteringType = apps.get_model("schema", "MeteringType")
-  MeteringType.objects.using(db_alias).filter(name="Cadmium sulphide (CdS)"),
-  MeteringType.objects.using(db_alias).filter(name="Selenium"),
-  MeteringType.objects.using(db_alias).filter(name="Silicon"),
-
-  Process = apps.get_model("schema", "Process")
-  Process.objects.using(db_alias).filter(name="Black & white negative"),
-  Process.objects.using(db_alias).filter(name="Black & white reversal"),
-  Process.objects.using(db_alias).filter(name="C-41"),
-  Process.objects.using(db_alias).filter(name="E-6"),
-  Process.objects.using(db_alias).filter(name="Polaroid"),
-  Process.objects.using(db_alias).filter(name="K-14"),
-  Process.objects.using(db_alias).filter(name="Cyanotype"),
-
-  ShutterType = apps.get_model("schema", "ShutterType")
-  ShutterType.objects.using(db_alias).filter(type="Focal plane (horizontal travel)"),
-  ShutterType.objects.using(db_alias).filter(type="Focal plane (vertical travel)"),
-  ShutterType.objects.using(db_alias).filter(type="Leaf"),
-  ShutterType.objects.using(db_alias).filter(type="Rotary"),
-  ShutterType.objects.using(db_alias).filter(type="Sliding"),
-  ShutterType.objects.using(db_alias).filter(type="Ball bearing"),
-  ShutterType.objects.using(db_alias).filter(type="Electronic"),
-
-  
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -216,5 +122,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(forwards_func, reverse_func),
+        migrations.RunPython(forwards_func),
     ]

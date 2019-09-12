@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schema', '0002_auto_20190813_1411'),
+        ('schema', '0002_data'),
     ]
 
     operations = [
