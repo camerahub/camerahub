@@ -336,7 +336,7 @@ class Process(models.Model):
 class Teleconverter(models.Model):
   model = models.CharField(help_text='Model name of this teleconverter', max_length=45)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this teleconverter')
-  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this teleconverter')
+  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this teleconverter', limit_choices_to={'purpose': 'Camera'})
   factor = models.DecimalField(help_text='Magnification factor of this teleconverter (numerical part only, e.g. 1.4)', max_digits=4, decimal_places=2, blank=True, null=True)
   elements = models.IntegerField(help_text='Number of optical elements used in this teleconverter', blank=True, null=True)
   groups = models.IntegerField(help_text='Number of optical groups used in this teleconverter', blank=True, null=True)
@@ -383,7 +383,7 @@ class FilmStock(models.Model):
 class Projector(models.Model):
   model = models.CharField(help_text='Model name of this projector', max_length=45)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this projector')
-  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this projector')
+  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this projector', limit_choices_to={'purpose': 'Projector'})
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size this projector can accept')
   own = models.BooleanField(help_text='Whether we currently own this projector', blank=True, null=True)
   cine = models.BooleanField(help_text='Whether this is a cine (movie) projector', blank=True, null=True)
@@ -528,7 +528,7 @@ class CameraModel(models.Model):
 
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this camera model')
   model = models.CharField(help_text='The model name of the camera', max_length=45)
-  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this camera model')
+  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'})
   format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True, null=True, help_text='Film format used by this camera model')
   focus_type = models.CharField(choices=FocusType.choices, max_length=25, blank=True, null=True, help_text='Focus type used on this camera model')
   metering = models.BooleanField(help_text='Whether the camera has built-in metering', blank=True, null=True)
