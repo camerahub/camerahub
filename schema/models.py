@@ -725,7 +725,7 @@ class Print(models.Model):
   width = models.DecimalField(help_text='Width of the print in inches', max_digits=4, decimal_places=1, blank=True, null=True)
   aperture = models.DecimalField(help_text='Aperture used to make this print (numerical part only, e.g. 5.6)', max_digits=3, decimal_places=1, blank=True, null=True)
   exposure_time = models.DurationField(help_text='Exposure time of this print', blank=True, null=True)
-  filtration_grade = models.DecimalField(help_text='Contrast grade of paper used', max_digits=2, decimal_places=1, blank=True, null=True)
+  filtration_grade = models.DecimalField(help_text='Contrast grade of paper used', max_digits=2, decimal_places=1, blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(5)])
   development_time = models.DurationField(help_text='Development time of this print', blank=True, null=True)
   bleach_time = models.DurationField(help_text='Duration of bleaching', blank=True, null=True)
   toner = models.ForeignKey(Toner, on_delete=models.CASCADE, blank=True, null=True, help_text='First toner used to tone this print')
