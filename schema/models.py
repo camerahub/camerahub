@@ -791,6 +791,13 @@ class Scan(models.Model):
   height = models.PositiveIntegerField(help_text='Height of the scanned image in pixels', blank=True, null=True)
   def __str__(self):
     return self.filename
+  def clean(self):
+    # Check focal length
+    if self.negative is not None and self.print is not None:
+      raise ValidationError({
+        'negative': ValidationError(('Choose either negative or print')),
+        'print': ValidationError(('Choose either negative or print')),
+      })
   class Meta:
     verbose_name_plural = "Scans"
 
