@@ -3,6 +3,7 @@ from djmoney.models.fields import MoneyField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 from djchoices import DjangoChoices, ChoiceItem
+from datetime import datetime
 
 # Create your models here.
 class Manufacturer(models.Model):
@@ -16,6 +17,26 @@ class Manufacturer(models.Model):
     return self.name
   class Meta:
     verbose_name_plural = "Manufacturers"
+  def clean(self):
+    # City/country
+    if self.country is None and self.city is not None:
+      raise ValidationError({
+        'country': ValidationError(('Must specify country if city is given')),
+      })
+    # Founded/dissolved
+    if self.founded is not None and self.dissolved is not None and self.founded > self.dissolved:
+      raise ValidationError({
+        'founded': ValidationError(('Founded date must be earlier than dissolved date')),
+        'dissolved': ValidationError(('Dissolved date must be later than founded date')),
+      })
+    if self.founded is not None and self.founded > datetime.now().year:
+      raise ValidationError({
+        'founded': ValidationError(('Founded date must be in the past')),
+      })
+    if self.dissolved is not None and self.dissolved > datetime.now().year:
+      raise ValidationError({
+        'dissolved': ValidationError(('Dissolved date must be in the past')),
+      })
 
 # Table to catalog accessories that are not tracked in more specific tables
 class Accessory(models.Model):
@@ -45,6 +66,20 @@ class Accessory(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Accessories"
+  def clean(self):
+    if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be earlier than lost date')),
+        'lost': ValidationError(('Lost date must be later than acquired date')),
+      })
+    if self.acquired is not None and self.acquired > datetime.now().year:
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be in the past')),
+      })
+    if self.lost is not None and self.lost > datetime.now().year:
+      raise ValidationError({
+        'lost': ValidationError(('Lost date must be in the past')),
+      })
 
 # Table to list all archives that exist for storing physical media
 class Archive(models.Model):
@@ -200,6 +235,12 @@ class Flash(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Flashes"
+  def clean(self):
+    # if battery_type is set, need to supply battery_qty
+    if self.battery_type is not None and self.battery_qty is None:
+      raise ValidationError({
+        'battery_qty': ValidationError(('Must specify number of batteries')),
+      })
 
 # Table to list enlargers
 class Enlarger(models.Model):
@@ -219,6 +260,35 @@ class Enlarger(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Enlargers"
+  def clean(self):
+    # Acquired/lost
+    if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be earlier than lost date')),
+        'lost': ValidationError(('Lost date must be later than acquired date')),
+      })
+    if self.acquired is not None and self.acquired > datetime.now().year:
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be in the past')),
+      })
+    if self.lost is not None and self.lost > datetime.now().year:
+      raise ValidationError({
+        'lost': ValidationError(('Lost date must be in the past')),
+      })
+    # Introduced/discontinued
+    if self.introduced is not None and self.discontinued is not None and self.introduced > self.discontinued:
+      raise ValidationError({
+        'introduced': ValidationError(('Introduced date must be earlier than discontinued date')),
+        'discontinued': ValidationError(('Discontinued date must be later than introduced date')),
+      })
+    if self.introduced is not None and self.introduced > datetime.now().year:
+      raise ValidationError({
+        'introduced': ValidationError(('Introduced date must be in the past')),
+      })
+    if self.discontinued is not None and self.discontinued > datetime.now().year:
+      raise ValidationError({
+        'discontinued': ValidationError(('Discontinued date must be in the past')),
+      })
   
 # Metering modes as defined by EXIF tag MeteringMode
 class MeteringMode(models.Model):
@@ -299,6 +369,19 @@ class LightMeter(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Light meters"
+  def clean(self):
+    # ASA
+    if self.min_asa is not None and self.max_axa is not None and self.min_asa > self.max_asa:
+      raise ValidationError({
+        'min_asa': ValidationError(('Minimum ISO/ASA must be smaller than maximum')),
+        'max_asa': ValidationError(('Maximum ISO/ASA must be larger than minimum')),
+      })
+    # LV
+    if self.min_lv is not None and self.max_lv is not None and self.min_lv > self.max_lv:
+      raise ValidationError({
+        'min_lv': ValidationError(('Minimum LV must be smaller than maximum')),
+        'max_lv': ValidationError(('Maximum LV must be larger than minimum')),
+      })
 
 # Table to catalog different paper stocks available
 class PaperStock(models.Model):
@@ -350,6 +433,13 @@ class Teleconverter(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Teleconverters"
+  def clean(self):
+    # Groups/elements
+    if self.groups is not None and self.elements is not None and self.groups > self.elements:
+      raise ValidationError({
+        'groups': ValidationError(('Cannot have more groups than elements')),
+        'elements': ValidationError(('Cannot have fewer elements than groups')),
+      })
 
 # Table to catalog paper toners that can be used during the printing process
 class Toner(models.Model):
@@ -431,6 +521,7 @@ class FilterAdapter(models.Model):
 # Table to list all possible shutter speeds
 class ShutterSpeed(models.Model):
   shutter_speed = models.CharField(help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True)
+  # field validation: like 1/500 or 2
   duration = models.DecimalField(help_text='Shutter speed in models.DecimalField notation, e.g. 0.04', max_digits=9, decimal_places=5)
   def __str__(self):
     return self.shutter_speed
@@ -512,6 +603,20 @@ class LensModel(models.Model):
         'max_focal_length': ValidationError(('Max focal length must be larger than min focal length')),
       })
 
+    # Angle of view
+    if self.nominal_min_angle_diag is not None and self.nominal_max_angle_diag is not None and self.nominal_min_angle_diag > self.nominal_max_angle_diag:
+      raise ValidationError({
+        'nominal_min_angle_diag': ValidationError(('Min angle of view must be smaller than max angle of view')),
+        'nominal_max_angle_diag': ValidationError(('Max angle of view must be larger than min angle of view')),
+      })
+
+    # Introduced/discontinued
+    if self.introduced is not None and self.discontinued is not None and self.introduced > self.discontinued:
+      raise ValidationError({
+        'introduced': ValidationError(('Introduced date must be earlier than discontinued date')),
+        'discontinued': ValidationError(('Discontinued date must be later than introduced date')),
+      })
+
     # Groups and elements
     if self.groups is not None and self.elements is not None and self.elements < self.groups:
       raise ValidationError({
@@ -536,6 +641,8 @@ class LensModel(models.Model):
         'max_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
         'min_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
       })
+
+    # Angle of view
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
@@ -617,6 +724,12 @@ class CameraModel(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Camera models"
+  # validation
+  # can't set coupled_metering or metering_type if metering=0
+  # min_iso < max_iso
+  # meter_min_Ev < meter_max_ev
+  # can't set int_flash_gn if int_flash=0
+  # introduced < discontinued
 
 # Table to catalog lenses
 class Lens(models.Model):
@@ -637,6 +750,9 @@ class Lens(models.Model):
     return "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
   class Meta:
     verbose_name_plural = "Lenses"
+  # validation
+  # acquired < lost
+  # manufactured date must be in range of introduced-discontinued of the model
 
 # Table to catalog cameras - both cameras with fixed lenses and cameras with interchangeable lenses
 class Camera(models.Model):
@@ -659,6 +775,9 @@ class Camera(models.Model):
     return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
   class Meta:
     verbose_name_plural = "Cameras"
+  # validation
+  # acquired < lost
+  # manufactured date must be in range of introduced-discontinued of the model
 
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
 class Film(models.Model):
@@ -689,6 +808,8 @@ class Film(models.Model):
     return "#%i %s" % (self.id, self.title)
   class Meta:
     verbose_name_plural = "Films"
+  # validation
+  # date_loaded < date_processed
 
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 class Negative(models.Model):
@@ -715,6 +836,9 @@ class Negative(models.Model):
     return "%i/%s %s" % (self.film, self.frame, self.caption)
   class Meta:
     verbose_name_plural = "Negatives"
+  # validation
+  # aperture must be in range of lens model aperture
+  # focal_length must be in range of lens model fl
 
 # Table to catalog prints made from negatives
 class Print(models.Model):
@@ -748,6 +872,8 @@ class Print(models.Model):
     return "#%i" % (self.id)
   class Meta:
     verbose_name_plural = "Prints"
+  # validation
+  # aperture must be in range of lens model aperture
 
 # Table to catalog motion picture films (movies)
 class Movie(models.Model):
@@ -769,6 +895,9 @@ class Movie(models.Model):
     return self.title
   class Meta:
     verbose_name_plural = "Movies"
+  # validation
+  # date_loaded < date_shot
+  # date_shot < date_processed
   
 # Table to catalog all repairs and servicing undertaken on cameras and lenses in the collection
 class Repair(models.Model):
