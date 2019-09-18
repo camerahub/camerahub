@@ -951,7 +951,7 @@ class Negative(models.Model):
         })
       if self.lens.lensmodel.max_focal_length is not None and self.focal_length > self.lens.lensmodel.max_focal_length:
         raise ValidationError({
-          'focal_length': ValidationError(('Aperture cannot be smaller than the minimum aperture of the lens')),
+          'focal_length': ValidationError(('Focal length cannot be longer than the maximum focal length of the lens')),
         })
 
 # Table to catalog prints made from negatives
