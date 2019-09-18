@@ -72,11 +72,11 @@ class Accessory(models.Model):
         'acquired': ValidationError(('Acquired date must be earlier than lost date')),
         'lost': ValidationError(('Lost date must be later than acquired date')),
       })
-    if self.acquired is not None and self.acquired > datetime.now().year:
+    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
       raise ValidationError({
         'acquired': ValidationError(('Acquired date must be in the past')),
       })
-    if self.lost is not None and self.lost > datetime.now().year:
+    if self.lost is not None and self.lost > datetime.date(datetime.now()):
       raise ValidationError({
         'lost': ValidationError(('Lost date must be in the past')),
       })
@@ -267,11 +267,11 @@ class Enlarger(models.Model):
         'acquired': ValidationError(('Acquired date must be earlier than lost date')),
         'lost': ValidationError(('Lost date must be later than acquired date')),
       })
-    if self.acquired is not None and self.acquired > datetime.now().year:
+    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
       raise ValidationError({
         'acquired': ValidationError(('Acquired date must be in the past')),
       })
-    if self.lost is not None and self.lost > datetime.now().year:
+    if self.lost is not None and self.lost > datetime.date(datetime.now()):
       raise ValidationError({
         'lost': ValidationError(('Lost date must be in the past')),
       })
@@ -805,11 +805,11 @@ class Lens(models.Model):
         'acquired': ValidationError(('Acquired date must be earlier than lost date')),
         'lost': ValidationError(('Lost date must be later than acquired date')),
       })
-    if self.acquired is not None and self.acquired > datetime.now().year:
+    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
       raise ValidationError({
         'acquired': ValidationError(('Acquired date must be in the past')),
       })
-    if self.lost is not None and self.lost > datetime.now().year:
+    if self.lost is not None and self.lost > datetime.date(datetime.now()):
       raise ValidationError({
         'lost': ValidationError(('Lost date must be in the past')),
       })
@@ -851,11 +851,11 @@ class Camera(models.Model):
         'acquired': ValidationError(('Acquired date must be earlier than lost date')),
         'lost': ValidationError(('Lost date must be later than acquired date')),
       })
-    if self.acquired is not None and self.acquired > datetime.now().year:
+    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
       raise ValidationError({
         'acquired': ValidationError(('Acquired date must be in the past')),
       })
-    if self.lost is not None and self.lost > datetime.now().year:
+    if self.lost is not None and self.lost > datetime.date(datetime.now()):
       raise ValidationError({
         'lost': ValidationError(('Lost date must be in the past')),
       })
