@@ -322,37 +322,25 @@ class MeteringType(models.Model):
 class Mount(models.Model):
 
   # Choices for mount types
-  BAYONET = 'Bayonet'
-  BREECH = 'Breech lock'
-  SCREW = 'Screw'
-  FRICTION = 'Friction'
-  LENSBOARD = 'Lens board'
-  MOUNT_TYPE_CHOICES = [
-    (BAYONET, 'Bayonet'),
-    (BREECH, 'Breech lock'),
-    (SCREW, 'Screw'),
-    (FRICTION, 'Friction fit'),
-    (LENSBOARD, 'Lens board'),
-  ]
+  class MountType(DjangoChoices):
+    Bayonet = ChoiceItem()
+    Breech_lock = ChoiceItem()
+    Screw = ChoiceItem()
+    Friction = ChoiceItem()
+    Lens_board = ChoiceItem()
 
   # Choices for mount purposes
-  CAMERA = 'Camera'
-  ENLARGER = 'Enlarger'
-  PROJECTOR = 'Projector'
-  TELESCOPE = 'Telescope'
-  MICROSCOPE = 'Microscope'
-  MOUNT_PURPOSE_CHOICES = [
-    (CAMERA, 'Camera'),
-    (ENLARGER, 'Enlarger'),
-    (PROJECTOR, 'Projector'),
-    (TELESCOPE, 'Telescope'),
-    (MICROSCOPE, 'Microscope'),
-  ]
+  class Purpose(DjangoChoices):
+    Camera = ChoiceItem()
+    Enlarger = ChoiceItem()
+    Projector = ChoiceItem()
+    Telescope = ChoiceItem()
+    Microscope = ChoiceItem()
 
   mount = models.CharField(help_text='Name of this lens mount (e.g. Canon FD)', max_length=45, unique=True)
   shutter_in_lens = models.BooleanField(help_text='Whether this lens mount system incorporates the shutter into the lens', default=0, blank=True, null=True)
-  type = models.CharField(help_text='The physical mount type of this lens mount', choices=MOUNT_TYPE_CHOICES, max_length=15, blank=True, null=True)
-  purpose = models.CharField(help_text='The intended purpose of this lens mount', choices=MOUNT_PURPOSE_CHOICES, max_length=15, blank=True, null=True)
+  type = models.CharField(help_text='The physical mount type of this lens mount', choices=MountType.choices, max_length=15, blank=True, null=True)
+  purpose = models.CharField(help_text='The intended purpose of this lens mount', choices=Purpose.choices, max_length=15, blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
   digital_only = models.BooleanField(help_text='Whether this mount is intended only for digital cameras', default=0, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this lens mount')
