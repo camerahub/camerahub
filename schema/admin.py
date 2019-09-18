@@ -206,6 +206,23 @@ admin.site.register(Negative, NegativeAdmin)
 
 from .models import Film
 class FilmAdmin(admin.ModelAdmin):
+  fieldsets = (
+    (None, {
+      'fields': ('format', 'title', 'filmstock', 'film_batch', 'expiry_date', 'purchase_date', 'price', 'frames'),
+    }),
+    ('Bulk film', {
+      'fields': ('bulk_film', 'bulk_film_loaded'),
+    }),
+    ('Exposure', {
+      'fields': ('exposed_at', 'camera', 'date_loaded'),
+    }),
+    ('Development', {
+      'fields': ('developer', 'dev_uses', 'dev_time', 'dev_temp', 'dev_n', 'development_notes', 'processed_by', 'date_processed'),
+    }),
+    ('Archive', {
+      'fields': ('directory', 'archive'),
+    })
+  )
   inlines = [
     NegativeInline,
   ]
