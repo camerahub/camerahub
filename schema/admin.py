@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.db.models import F
 
 # Register your models here.
 
@@ -206,12 +205,6 @@ class NegativeAdmin(admin.ModelAdmin):
     ScanInline,
     PrintInline,
   ]
-
-  def get_form(self, request, obj=None, **kwargs):
-    form = super(NegativeAdmin, self).get_form(request, obj, **kwargs)
-    #mount = obj.cameramodel.filter(cameramodel__mount)
-    form.base_fields['lens'].queryset = Lens.objects.filter(lensmodel__mount = F('film__camera__cameramodel__mount'))
-    return form
 admin.site.register(Negative, NegativeAdmin)
 
 from .models import Film
