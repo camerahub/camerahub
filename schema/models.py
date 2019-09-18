@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 from djchoices import DjangoChoices, ChoiceItem
 from datetime import datetime
+from math import sqrt
 
 # Create your models here.
 class Manufacturer(models.Model):
@@ -171,6 +172,15 @@ class NegativeSize(models.Model):
   aspect_ratio = models.DecimalField(help_text='Aspect ratio of this negative size, expressed as a single decimal (e.g. 3:2 is expressed as 1.5)',max_digits=4, decimal_places=2, blank=True, null=True)
   def __str__(self):
     return self.name
+  # Override save method to calculate some fields
+  def save(self, *args, **kwargs):
+        if self.width is not None and self.height is not None:
+          self.aspect_ratio = self.width/self.height
+          self.area = self.width*self.height
+          diag = sqrt(self.width**2 + self.height**2)
+          diag35mm = 43.2666
+          self.crop_factor = diag35mm/diag
+        super().save(*args, **kwargs)
   class Meta:
     verbose_name_plural = "Negative sizes"
 

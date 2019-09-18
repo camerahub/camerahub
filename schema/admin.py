@@ -128,7 +128,9 @@ from .models import Movie
 admin.site.register(Movie)
 
 from .models import NegativeSize
-admin.site.register(NegativeSize)
+class NegativeSizeAdmin(admin.ModelAdmin):
+  readonly_fields = ('area', 'crop_factor', 'aspect_ratio')
+admin.site.register(NegativeSize, NegativeSizeAdmin)
 
 from .models import Order
 admin.site.register(Order)
