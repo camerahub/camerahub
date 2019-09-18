@@ -244,9 +244,21 @@ class Flash(models.Model):
 
 # Table to list enlargers
 class Enlarger(models.Model):
+  
+  class EnlargerType(DjangoChoices):
+    Diffusion = ChoiceItem()
+    Condenser = ChoiceItem()
+
+  class LightSource(DjangoChoices):
+    Incandescent = ChoiceItem()
+    Cold_cathode = ChoiceItem()
+    LED = ChoiceItem()
+
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this enlarger')
   model = models.CharField(help_text='Name/model of the enlarger', max_length=45)
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size that this enlarger can accept')
+  type = models.CharField(choices=EnlargerType.choices, help_text='The type of optical system in the enlarger', max_length=15, blank=True, null=True)
+  light_source = models.CharField(choices=LightSource.choices, help_text='The type of light source used in the enlarger', max_length=15, blank=True, null=True)
   acquired = models.DateField(help_text='Date on which the enlarger was acquired', blank=True, null=True)
   lost = models.DateField(help_text='Date on which the enlarger was lost/sold', blank=True, null=True)
   introduced = models.PositiveIntegerField(help_text='Year in which the enlarger was introduced', blank=True, null=True)
