@@ -90,7 +90,7 @@ from .models import LensModel
 class LensModelAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
-      'fields': ('manufacturer', 'model', 'mount'),
+      'fields': ('manufacturer', 'model', 'fixed_mount', 'mount'),
       'description': 'Enter information about this camera model',
     }),
     ('Optics', {
@@ -100,7 +100,7 @@ class LensModelAdmin(admin.ModelAdmin):
       'fields': ('length', 'diameter', 'weight'),
     }),
     ('Other', {
-      'fields': ('aperture_blades', 'autofocus', 'filter_thread', 'url', 'introduced', 'discontinued', 'negative_size', 'fixed_mount', 'notes', 'coating', 'hood', 'exif_lenstype', 'rectilinear', 'image_circle', 'formula', 'shutter_model', 'series'),
+      'fields': ('aperture_blades', 'autofocus', 'filter_thread', 'url', 'introduced', 'discontinued', 'negative_size', 'notes', 'coating', 'hood', 'exif_lenstype', 'rectilinear', 'image_circle', 'formula', 'shutter_model', 'series'),
     })
   )
   inlines = [

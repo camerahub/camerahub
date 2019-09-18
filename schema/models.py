@@ -1,6 +1,9 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
 from djchoices import DjangoChoices, ChoiceItem
+from datetime import datetime
 
 # Create your models here.
 class Manufacturer(models.Model):
@@ -8,12 +11,32 @@ class Manufacturer(models.Model):
   city = models.CharField(help_text='City in which the manufacturer is based', max_length=45, blank=True, null=True)
   country = models.CharField(help_text='Country in which the manufacturer is based', max_length=45, blank=True, null=True)
   url = models.URLField(verbose_name='URL', help_text='URL to the manufacturers main website', max_length=45, blank=True, null=True)
-  founded = models.IntegerField(help_text='Year in which the manufacturer was founded', blank=True, null=True)
-  dissolved = models.IntegerField(help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
+  founded = models.PositiveIntegerField(help_text='Year in which the manufacturer was founded', blank=True, null=True)
+  dissolved = models.PositiveIntegerField(help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
   def __str__(self):
     return self.name
   class Meta:
     verbose_name_plural = "Manufacturers"
+  def clean(self):
+    # City/country
+    if self.country is None and self.city is not None:
+      raise ValidationError({
+        'country': ValidationError(('Must specify country if city is given')),
+      })
+    # Founded/dissolved
+    if self.founded is not None and self.dissolved is not None and self.founded > self.dissolved:
+      raise ValidationError({
+        'founded': ValidationError(('Founded date must be earlier than dissolved date')),
+        'dissolved': ValidationError(('Dissolved date must be later than founded date')),
+      })
+    if self.founded is not None and self.founded > datetime.now().year:
+      raise ValidationError({
+        'founded': ValidationError(('Founded date must be in the past')),
+      })
+    if self.dissolved is not None and self.dissolved > datetime.now().year:
+      raise ValidationError({
+        'dissolved': ValidationError(('Dissolved date must be in the past')),
+      })
 
 # Table to catalog accessories that are not tracked in more specific tables
 class Accessory(models.Model):
@@ -43,6 +66,20 @@ class Accessory(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Accessories"
+  def clean(self):
+    if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be earlier than lost date')),
+        'lost': ValidationError(('Lost date must be later than acquired date')),
+      })
+    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be in the past')),
+      })
+    if self.lost is not None and self.lost > datetime.date(datetime.now()):
+      raise ValidationError({
+        'lost': ValidationError(('Lost date must be in the past')),
+      })
 
 # Table to list all archives that exist for storing physical media
 class Archive(models.Model):
@@ -62,8 +99,8 @@ class Archive(models.Model):
 
   type = models.CharField(max_length=8, choices=ArchiveType.choices, help_text='What is stored in this archive?')
   name = models.CharField(help_text='Name of this archive', max_length=45, unique=True)
-  max_width = models.IntegerField(help_text='Maximum width of media that this archive can store', blank=True, null=True)
-  max_height = models.IntegerField(help_text='Maximum height of media that this archive can store', blank=True, null=True)
+  max_width = models.PositiveIntegerField(help_text='Maximum width of media that this archive can store', blank=True, null=True)
+  max_height = models.PositiveIntegerField(help_text='Maximum height of media that this archive can store', blank=True, null=True)
   location = models.CharField(help_text='Location of this archive', max_length=45, blank=True, null=True)
   storage = models.CharField(choices=ArchiveStorage.choices, help_text='The type of storage used for this archive', max_length=45, blank=True, null=True)
   sealed = models.BooleanField(help_text='Whether or not this archive is sealed (closed to new additions)', default=0)
@@ -100,8 +137,8 @@ class Condition(models.Model):
   ]
   code = models.CharField(help_text='Condition shortcode (e.g. EXC)', max_length = 6)
   name = models.CharField(help_text='Full name of condition (e.g. Excellent)', max_length=45)
-  min_rating = models.IntegerField(help_text='The lowest percentage rating that encompasses this condition')
-  max_rating = models.IntegerField(help_text='The highest percentage rating that encompasses this condition')
+  min_rating = models.PositiveIntegerField(help_text='The lowest percentage rating that encompasses this condition', validators=[MinValueValidator(0),MaxValueValidator(100)])
+  max_rating = models.PositiveIntegerField(help_text='The highest percentage rating that encompasses this condition', validators=[MinValueValidator(0),MaxValueValidator(100)])
   description = models.CharField(help_text='Longer description of condition', max_length=300)
   def __str__(self):
     return self.name
@@ -130,7 +167,7 @@ class Filter(models.Model):
   type = models.CharField(help_text='Filter type (e.g. Red, CPL, UV)', max_length=45) 
   thread = models.DecimalField(help_text='Diameter of screw thread in mm', max_digits=4, decimal_places=1, blank=True, null=True)
   attenuation = models.DecimalField(help_text='Attenuation of this filter in decimal stops', max_digits=3, decimal_places=1, blank=True, null=True)
-  qty = models.IntegerField(help_text='Quantity of these filters available', default=1, blank=True, null=True)
+  qty = models.PositiveIntegerField(help_text='Quantity of these filters available', default=1, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this filter')
   def __str__(self):
     return "%s %smm" % (self.type, str(self.thread))
@@ -143,7 +180,7 @@ class NegativeSize(models.Model):
   width = models.DecimalField(help_text='Width of the negative size in mm' ,max_digits=4, decimal_places=1, blank=True, null=True)
   height = models.DecimalField(help_text='Height of the negative size in mm', max_digits=4, decimal_places=1, blank=True, null=True)
   crop_factor = models.DecimalField(help_text='Crop factor of this negative size', max_digits=4, decimal_places=2, blank=True, null=True)
-  area = models.IntegerField(help_text='Area of this negative size in sq. mm', blank=True, null=True)
+  area = models.PositiveIntegerField(help_text='Area of this negative size in sq. mm', blank=True, null=True)
   aspect_ratio = models.DecimalField(help_text='Aspect ratio of this negative size, expressed as a single decimal (e.g. 3:2 is expressed as 1.5)',max_digits=4, decimal_places=2, blank=True, null=True)
   def __str__(self):
     return self.name
@@ -172,14 +209,14 @@ class Series(models.Model):
 class Flash(models.Model):
   model = models.CharField(help_text='Model name/number of the flash', max_length=45)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this flash')
-  guide_number = models.IntegerField(help_text='Guide number of the flash', blank=True, null=True)
+  guide_number = models.PositiveIntegerField(help_text='Guide number of the flash', blank=True, null=True)
   gn_info = models.CharField(verbose_name='Guide number info', help_text='Extra freeform info about how the guide number was measured', max_length=45, blank=True, null=True)
   battery_powered = models.BooleanField(help_text='Whether this flash takes batteries', blank=True, null=True)
   pc_sync = models.BooleanField(verbose_name='PC sync', help_text='Whether the flash has a PC sync socket', blank=True, null=True)
   hot_shoe = models.BooleanField(help_text='Whether the flash has a hot shoe connection', blank=True, null=True)
   light_stand = models.BooleanField(help_text='Whether the flash can be used on a light stand', blank=True, null=True)
   battery_type = models.ForeignKey(Battery, on_delete=models.CASCADE, blank=True, null=True, help_text='Type of battery required by this flash')
-  battery_qty = models.IntegerField(help_text='Quantity of batteries needed in this flash', blank=True, null=True)
+  battery_qty = models.PositiveIntegerField(help_text='Quantity of batteries needed in this flash', blank=True, null=True)
   manual_control = models.BooleanField(help_text='Whether this flash offers manual power control', blank=True, null=True)
   swivel_head = models.BooleanField(help_text='Whether this flash has a horizontal swivel head', blank=True, null=True)
   tilt_head = models.BooleanField(help_text='Whether this flash has a vertical tilt head', blank=True, null=True)
@@ -198,6 +235,12 @@ class Flash(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Flashes"
+  def clean(self):
+    # if battery_type is set, need to supply battery_qty
+    if self.battery_type is not None and self.battery_qty is None:
+      raise ValidationError({
+        'battery_qty': ValidationError(('Must specify number of batteries')),
+      })
 
 # Table to list enlargers
 class Enlarger(models.Model):
@@ -206,8 +249,8 @@ class Enlarger(models.Model):
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size that this enlarger can accept')
   acquired = models.DateField(help_text='Date on which the enlarger was acquired', blank=True, null=True)
   lost = models.DateField(help_text='Date on which the enlarger was lost/sold', blank=True, null=True)
-  introduced = models.IntegerField(help_text='Year in which the enlarger was introduced', blank=True, null=True)
-  discontinued = models.IntegerField(help_text='Year in which the enlarger was discontinued', blank=True, null=True)
+  introduced = models.PositiveIntegerField(help_text='Year in which the enlarger was introduced', blank=True, null=True)
+  discontinued = models.PositiveIntegerField(help_text='Year in which the enlarger was discontinued', blank=True, null=True)
   cost = MoneyField(help_text='Purchase cost of this enlarger', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   def __str__(self):
@@ -217,6 +260,35 @@ class Enlarger(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Enlargers"
+  def clean(self):
+    # Acquired/lost
+    if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be earlier than lost date')),
+        'lost': ValidationError(('Lost date must be later than acquired date')),
+      })
+    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be in the past')),
+      })
+    if self.lost is not None and self.lost > datetime.date(datetime.now()):
+      raise ValidationError({
+        'lost': ValidationError(('Lost date must be in the past')),
+      })
+    # Introduced/discontinued
+    if self.introduced is not None and self.discontinued is not None and self.introduced > self.discontinued:
+      raise ValidationError({
+        'introduced': ValidationError(('Introduced date must be earlier than discontinued date')),
+        'discontinued': ValidationError(('Discontinued date must be later than introduced date')),
+      })
+    if self.introduced is not None and self.introduced > datetime.now().year:
+      raise ValidationError({
+        'introduced': ValidationError(('Introduced date must be in the past')),
+      })
+    if self.discontinued is not None and self.discontinued > datetime.now().year:
+      raise ValidationError({
+        'discontinued': ValidationError(('Discontinued date must be in the past')),
+      })
   
 # Metering modes as defined by EXIF tag MeteringMode
 class MeteringMode(models.Model):
@@ -286,10 +358,10 @@ class LightMeter(models.Model):
   incident = models.BooleanField(help_text='Whether the meter is capable of incident-light metering', blank=True, null=True)
   flash = models.BooleanField(help_text='Whether the meter is capable of flash metering', blank=True, null=True)
   spot = models.BooleanField(help_text='Whether the meter is capable of spot metering', blank=True, null=True)
-  min_asa = models.IntegerField(verbose_name='Min ISO', help_text='Minimum ISO/ASA that this meter is capable of handling', blank=True, null=True)
-  max_asa = models.IntegerField(verbose_name='Max ISO', help_text='Maximum ISO/ASA that this meter is capable of handling', blank=True, null=True)
-  min_lv = models.IntegerField(verbose_name='Min LV', help_text='Minimum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
-  max_lv = models.IntegerField(verbose_name='Max LV', help_text='Maximum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
+  min_asa = models.PositiveIntegerField(verbose_name='Min ISO', help_text='Minimum ISO/ASA that this meter is capable of handling', blank=True, null=True)
+  max_asa = models.PositiveIntegerField(verbose_name='Max ISO', help_text='Maximum ISO/ASA that this meter is capable of handling', blank=True, null=True)
+  min_lv = models.PositiveIntegerField(verbose_name='Min LV', help_text='Minimum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
+  max_lv = models.PositiveIntegerField(verbose_name='Max LV', help_text='Maximum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.model)
@@ -297,6 +369,19 @@ class LightMeter(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Light meters"
+  def clean(self):
+    # ASA
+    if self.min_asa is not None and self.max_axa is not None and self.min_asa > self.max_asa:
+      raise ValidationError({
+        'min_asa': ValidationError(('Minimum ISO/ASA must be smaller than maximum')),
+        'max_asa': ValidationError(('Maximum ISO/ASA must be larger than minimum')),
+      })
+    # LV
+    if self.min_lv is not None and self.max_lv is not None and self.min_lv > self.max_lv:
+      raise ValidationError({
+        'min_lv': ValidationError(('Minimum LV must be smaller than maximum')),
+        'max_lv': ValidationError(('Maximum LV must be larger than minimum')),
+      })
 
 # Table to catalog different paper stocks available
 class PaperStock(models.Model):
@@ -338,8 +423,8 @@ class Teleconverter(models.Model):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this teleconverter')
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this teleconverter', limit_choices_to={'purpose': 'Camera'})
   factor = models.DecimalField(help_text='Magnification factor of this teleconverter (numerical part only, e.g. 1.4)', max_digits=4, decimal_places=2, blank=True, null=True)
-  elements = models.IntegerField(help_text='Number of optical elements used in this teleconverter', blank=True, null=True)
-  groups = models.IntegerField(help_text='Number of optical groups used in this teleconverter', blank=True, null=True)
+  elements = models.PositiveIntegerField(help_text='Number of optical elements used in this teleconverter', blank=True, null=True)
+  groups = models.PositiveIntegerField(help_text='Number of optical groups used in this teleconverter', blank=True, null=True)
   multicoated = models.BooleanField(help_text='Whether this teleconverter is multi-coated', blank=True, null=True)
   def __str__(self):
     if self.manufacturer is not None:
@@ -348,6 +433,13 @@ class Teleconverter(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Teleconverters"
+  def clean(self):
+    # Groups/elements
+    if self.groups is not None and self.elements is not None and self.groups > self.elements:
+      raise ValidationError({
+        'groups': ValidationError(('Cannot have more groups than elements')),
+        'elements': ValidationError(('Cannot have fewer elements than groups')),
+      })
 
 # Table to catalog paper toners that can be used during the printing process
 class Toner(models.Model):
@@ -367,7 +459,7 @@ class Toner(models.Model):
 class FilmStock(models.Model):
   name = models.CharField(help_text='Name of the filmstock', max_length=45)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this film')
-  iso = models.IntegerField(verbose_name='ISO', help_text='Nominal ISO speed of the film', blank=True, null=True)
+  iso = models.PositiveIntegerField(verbose_name='ISO', help_text='Nominal ISO speed of the film', blank=True, null=True)
   colour = models.BooleanField(help_text='Whether the film is colour', blank=True, null=True)
   panchromatic = models.BooleanField(help_text='Whether this film is panchromatic', blank=True, null=True)
   process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True, help_text='Development process required by this film')
@@ -429,6 +521,7 @@ class FilterAdapter(models.Model):
 # Table to list all possible shutter speeds
 class ShutterSpeed(models.Model):
   shutter_speed = models.CharField(help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True)
+  # field validation: like 1/500 or 2
   duration = models.DecimalField(help_text='Shutter speed in models.DecimalField notation, e.g. 0.04', max_digits=9, decimal_places=5)
   def __str__(self):
     return self.shutter_speed
@@ -464,23 +557,23 @@ class LensModel(models.Model):
   model = models.CharField(help_text='Model name of this lens', max_length=45)
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Mount used by this lens model')
   zoom = models.BooleanField(help_text='Whether this is a zoom lens', blank=True, null=True)
-  min_focal_length = models.IntegerField(help_text='Shortest focal length of this lens, in mm', blank=True, null=True)
-  max_focal_length = models.IntegerField(help_text='Longest focal length of this lens, in mm', blank=True, null=True)
-  closest_focus = models.IntegerField(help_text='The closest focus possible with this lens, in cm', blank=True, null=True)
+  min_focal_length = models.PositiveIntegerField(help_text='Shortest focal length of this lens, in mm', blank=True, null=True)
+  max_focal_length = models.PositiveIntegerField(help_text='Longest focal length of this lens, in mm', blank=True, null=True)
+  closest_focus = models.PositiveIntegerField(help_text='The closest focus possible with this lens, in cm', blank=True, null=True)
   max_aperture = models.DecimalField(help_text='Maximum (widest) aperture available on this lens (numerical part only, e.g. 2.8)', max_digits=4, decimal_places=1, blank=True, null=True)
   min_aperture = models.DecimalField(help_text='Minimum (narrowest) aperture available on this lens (numerical part only, e.g. 22)', max_digits=4, decimal_places=1, blank=True, null=True)
-  elements = models.IntegerField(help_text='Number of optical lens elements', blank=True, null=True)
-  groups = models.IntegerField(help_text='Number of optical groups', blank=True, null=True)
-  weight = models.IntegerField(help_text='Weight of this lens, in grammes (g)', blank=True, null=True)
-  nominal_min_angle_diag = models.IntegerField(verbose_name='Min angle of view', help_text='Nominal minimum diagonal field of view from manufacturer specs', blank=True, null=True)
-  nominal_max_angle_diag = models.IntegerField(verbose_name='Max angle of view', help_text='Nominal maximum diagonal field of view from manufacturer specs', blank=True, null=True)
-  aperture_blades = models.IntegerField(help_text='Number of aperture blades', blank=True, null=True)
+  elements = models.PositiveIntegerField(help_text='Number of optical lens elements', blank=True, null=True)
+  groups = models.PositiveIntegerField(help_text='Number of optical groups', blank=True, null=True)
+  weight = models.PositiveIntegerField(help_text='Weight of this lens, in grammes (g)', blank=True, null=True)
+  nominal_min_angle_diag = models.PositiveIntegerField(verbose_name='Min angle of view', help_text='Nominal minimum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(360)])
+  nominal_max_angle_diag = models.PositiveIntegerField(verbose_name='Max angle of view', help_text='Nominal maximum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(360)])
+  aperture_blades = models.PositiveIntegerField(help_text='Number of aperture blades', blank=True, null=True)
   autofocus = models.BooleanField(help_text='Whether this lens has autofocus capability', blank=True, null=True)
   filter_thread = models.DecimalField(help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
   magnification = models.DecimalField(help_text='Maximum magnification ratio of the lens, expressed like 0.765', max_digits=5, decimal_places=3, blank=True, null=True)
   url = models.URLField(help_text='URL to more information about this lens', blank=True, null=True)
-  introduced = models.IntegerField(help_text='Year in which this lens model was introduced', blank=True, null=True)
-  discontinued = models.IntegerField(help_text='Year in which this lens model was discontinued', blank=True, null=True)
+  introduced = models.PositiveIntegerField(help_text='Year in which this lens model was introduced', blank=True, null=True)
+  discontinued = models.PositiveIntegerField(help_text='Year in which this lens model was discontinued', blank=True, null=True)
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size that this lens is designed for')
   fixed_mount = models.BooleanField(help_text='Whether this is a fixed lens (i.e. on a compact camera)', blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
@@ -488,9 +581,9 @@ class LensModel(models.Model):
   hood = models.CharField(help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
   exif_lenstype = models.CharField(help_text='EXIF LensID number, if this lens has one officially registered. See documentation at http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/', max_length=45, blank=True, null=True)
   rectilinear = models.BooleanField(help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
-  length = models.IntegerField(help_text='Length of lens in mm', blank=True, null=True)
-  diameter = models.IntegerField(help_text='Width of lens in mm', blank=True, null=True)
-  image_circle = models.IntegerField(help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
+  length = models.PositiveIntegerField(help_text='Length of lens in mm', blank=True, null=True)
+  diameter = models.PositiveIntegerField(help_text='Width of lens in mm', blank=True, null=True)
+  image_circle = models.PositiveIntegerField(help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
   formula = models.CharField(help_text='Name of the type of lens formula (e.g. Tessar)', max_length=45, blank=True, null=True)
   shutter_model = models.CharField(help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
   series = models.ManyToManyField(Series, blank=True)
@@ -501,6 +594,63 @@ class LensModel(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Lens models"
+
+  def clean(self):
+    # Check focal length
+    if self.min_focal_length is not None and self.max_focal_length is not None and self.min_focal_length > self.max_focal_length:
+      raise ValidationError({
+        'min_focal_length': ValidationError(('Min focal length must be smaller than max focal length')),
+        'max_focal_length': ValidationError(('Max focal length must be larger than min focal length')),
+      })
+
+    # Angle of view
+    if self.nominal_min_angle_diag is not None and self.nominal_max_angle_diag is not None and self.nominal_min_angle_diag > self.nominal_max_angle_diag:
+      raise ValidationError({
+        'nominal_min_angle_diag': ValidationError(('Min angle of view must be smaller than max angle of view')),
+        'nominal_max_angle_diag': ValidationError(('Max angle of view must be larger than min angle of view')),
+      })
+
+    # Introduced/discontinued
+    if self.introduced is not None and self.discontinued is not None and self.introduced > self.discontinued:
+      raise ValidationError({
+        'introduced': ValidationError(('Introduced date must be earlier than discontinued date')),
+        'discontinued': ValidationError(('Discontinued date must be later than introduced date')),
+      })
+    if self.introduced is not None and self.introduced > datetime.now().year:
+      raise ValidationError({
+        'introduced': ValidationError(('Introduced date must be in the past')),
+      })
+    if self.discontinued is not None and self.discontinued > datetime.now().year:
+      raise ValidationError({
+        'discontinued': ValidationError(('Discontinued date must be in the past')),
+      })
+
+    # Groups and elements
+    if self.groups is not None and self.elements is not None and self.elements < self.groups:
+      raise ValidationError({
+        'elements': ValidationError(("Can't have more groups than elements")),
+        'groups': ValidationError(("Can't have more groups than elements")),
+      })
+
+    # Fixed mount vs mount ID
+    if self.fixed_mount == True and self.mount is not None:
+      raise ValidationError({'mount': 'Do not choose a mount when fixed mount is true'})
+
+    # Zoom lenses
+    if self.zoom == False and self.min_focal_length != self.max_focal_length:
+      raise ValidationError({
+        'min_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
+        'max_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
+      })
+
+    # Aperture range
+    if self.max_aperture is not None and self.min_aperture is not None and self.max_aperture > self.min_aperture:
+      raise ValidationError({
+        'max_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
+        'min_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
+      })
+
+    # Angle of view
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
@@ -534,39 +684,41 @@ class CameraModel(models.Model):
   metering = models.BooleanField(help_text='Whether the camera has built-in metering', blank=True, null=True)
   coupled_metering = models.BooleanField(help_text='Whether the camera''s meter is coupled automatically', blank=True, null=True)
   metering_type = models.ForeignKey(MeteringType, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering type used on this camera model')
+  introduced = models.PositiveIntegerField(help_text='Year in which the camera model was introduced', blank=True, null=True)
+  discontinued = models.PositiveIntegerField(help_text='Year in which the camera model was discontinued', blank=True, null=True)
   body_type = models.CharField(choices=BodyType.choices, max_length=25, blank=True, null=True, help_text='Body type of this camera model')
-  weight = models.IntegerField(help_text='Weight of the camera body (without lens or batteries) in grammes (g)', blank=True, null=True)
-  introduced = models.IntegerField(help_text='Year in which the camera model was introduced', blank=True, null=True)
-  discontinued = models.IntegerField(help_text='Year in which the camera model was discontinued', blank=True, null=True)
+  weight = models.PositiveIntegerField(help_text='Weight of the camera body (without lens or batteries) in grammes (g)', blank=True, null=True)
+  introduced = models.PositiveIntegerField(help_text='Year in which the camera model was introduced', blank=True, null=True)
+  discontinued = models.PositiveIntegerField(help_text='Year in which the camera model was discontinued', blank=True, null=True)
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Size of negative created by this camera')
   shutter_type = models.ForeignKey(ShutterType, on_delete=models.CASCADE, blank=True, null=True, help_text='Type of shutter used on this camera')
   shutter_model = models.CharField(help_text='Model of shutter', max_length=45, blank=True, null=True)
   cable_release = models.BooleanField(help_text='Whether the camera has the facility for a remote cable release', blank=True, null=True)
-  viewfinder_coverage = models.IntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True)
+  viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(100)])
   power_drive = models.BooleanField(help_text='Whether the camera has integrated motor drive', blank=True, null=True)
   continuous_fps = models.DecimalField(help_text='The maximum rate at which the camera can shoot, in frames per second', max_digits=4, decimal_places=1, blank=True, null=True)
   video = models.BooleanField(help_text='Whether the camera can take video/movie', blank=True, null=True)
   digital = models.BooleanField(help_text='Whether this is a digital camera', default=0, blank=True, null=True)
   fixed_mount = models.BooleanField(help_text='Whether the camera has a fixed lens', blank=True, null=True)
   lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens model attached to this camera model, if it is a fixed-lens camera', limit_choices_to={'fixed_mount': True})
-  battery_qty = models.IntegerField(help_text='Quantity of batteries needed', blank=True, null=True)
+  battery_qty = models.PositiveIntegerField(help_text='Quantity of batteries needed', blank=True, null=True)
   battery_type = models.ForeignKey(Battery, on_delete=models.CASCADE, blank=True, null=True, help_text='Battery type that this camera model needs')
   notes = models.CharField(help_text='Freeform text field for extra notes', max_length=100, blank=True, null=True)
   bulb = models.BooleanField(help_text='Whether the camera supports bulb (B) exposure', blank=True, null=True)
   time = models.BooleanField(help_text='Whether the camera supports time (T) exposure', blank=True, null=True)
-  min_iso = models.IntegerField(verbose_name='Min ISO', help_text='Minimum ISO the camera will accept for metering', blank=True, null=True)
-  max_iso = models.IntegerField(verbose_name='Max ISO', help_text='Maximum ISO the camera will accept for metering', blank=True, null=True)
-  af_points = models.IntegerField(verbose_name='Autofocus points', help_text='Number of autofocus points', blank=True, null=True)
+  min_iso = models.PositiveIntegerField(verbose_name='Min ISO', help_text='Minimum ISO the camera will accept for metering', blank=True, null=True)
+  max_iso = models.PositiveIntegerField(verbose_name='Max ISO', help_text='Maximum ISO the camera will accept for metering', blank=True, null=True)
+  af_points = models.PositiveIntegerField(verbose_name='Autofocus points', help_text='Number of autofocus points', blank=True, null=True)
   int_flash = models.BooleanField(verbose_name='Internal flash', help_text='Whether the camera has an integrated flash', blank=True, null=True)
-  int_flash_gn = models.IntegerField(verbose_name='Internal flash guide number', help_text='Guide number of internal flash', blank=True, null=True)
+  int_flash_gn = models.PositiveIntegerField(verbose_name='Internal flash guide number', help_text='Guide number of internal flash', blank=True, null=True)
   ext_flash = models.BooleanField(verbose_name='External flash', help_text='Whether the camera supports an external flash', blank=True, null=True)
   flash_metering = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True, null=True, help_text='Whether this camera model supports flash metering')
   pc_sync = models.BooleanField(verbose_name='PC sync', help_text='Whether the camera has a PC sync socket for flash', blank=True, null=True)
   hotshoe = models.BooleanField(help_text='Whether the camera has a hotshoe', blank=True, null=True)
   coldshoe = models.BooleanField(help_text='Whether the camera has a coldshoe or accessory shoe', blank=True, null=True)
   #x_sync = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True)
-  meter_min_ev = models.IntegerField(verbose_name='Min EV', help_text='Lowest EV/LV the built-in meter supports', blank=True, null=True)
-  meter_max_ev = models.IntegerField(verbose_name='Max EV', help_text='Highest EV/LV the built-in meter supports', blank=True, null=True)
+  meter_min_ev = models.PositiveIntegerField(verbose_name='Min EV', help_text='Lowest EV/LV the built-in meter supports', blank=True, null=True)
+  meter_max_ev = models.PositiveIntegerField(verbose_name='Max EV', help_text='Highest EV/LV the built-in meter supports', blank=True, null=True)
   dof_preview = models.BooleanField(verbose_name='DoF preview', help_text='Whether the camera has depth of field preview', blank=True, null=True)
   tripod = models.BooleanField(help_text='Whether the camera has a tripod bush', blank=True, null=True)
   shutter_speeds = models.ManyToManyField(ShutterSpeed, blank=True)
@@ -581,12 +733,59 @@ class CameraModel(models.Model):
   class Meta:
     verbose_name_plural = "Camera models"
 
+  def clean(self):
+    # ISO
+    if self.min_iso is not None and self.max_iso is not None and self.min_iso > self.max_iso:
+      raise ValidationError({
+        'min_iso': ValidationError(('Min ISO must be smaller than max ISO')),
+        'max_iso': ValidationError(('Max ISO must be larger than min ISO')),
+      })
+    # EV
+    if self.meter_min_ev is not None and self.meter_max_ev is not None and self.meter_min_ev > self.meter_max_ev:
+      raise ValidationError({
+        'meter_min_ev': ValidationError(('Min EV must be smaller than max EV')),
+        'meter_max_ev': ValidationError(('Max EV must be larger than min EV')),
+      })
+    # Introduced/discontinued
+    if self.introduced is not None and self.discontinued is not None and self.introduced > self.discontinued:
+      raise ValidationError({
+        'introduced': ValidationError(('Introduced date must be earlier than discontinued date')),
+        'discontinued': ValidationError(('Discontinued date must be later than introduced date')),
+      })
+    if self.introduced is not None and self.introduced > datetime.now().year:
+      raise ValidationError({
+        'introduced': ValidationError(('Introduced date must be in the past')),
+      })
+    if self.discontinued is not None and self.discontinued > datetime.now().year:
+      raise ValidationError({
+        'discontinued': ValidationError(('Discontinued date must be in the past')),
+      })
+    # Metering bools
+    if self.metering is not None and self.metering is False:
+      if self.coupled_metering is True:
+        raise ValidationError({
+          'couples_metering': ValidationError(('Cannot set coupled metering if camera model has no metering')),
+        })
+      if self.metering_type is True:
+        raise ValidationError({
+          'discontinued': ValidationError(('Cannot set metering type if camera model has no metering')),
+        })
+      if self.metering_modes is True:
+        raise ValidationError({
+          'discontinued': ValidationError(('Cannot set metering modes if camera model has no metering')),
+        })
+    # int_flash_gn
+    if self.int_flash is False and self.int_flash_gn is not None:
+      raise ValidationError({
+        'int_flash_gn': ValidationError(('Cannot set internal flash guide number if camera model has no internal flash')),
+      })
+
 # Table to catalog lenses
 class Lens(models.Model):
   lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE, help_text='Lens model of this lens')
   serial = models.CharField(help_text='Serial number of this lens', max_length=45, blank=True, null=True)
   date_code = models.CharField(help_text='Date code of this lens, if different from the serial number', max_length=45, blank=True, null=True)
-  manufactured = models.IntegerField(help_text='Year in which this specific lens was manufactured', blank=True, null=True)
+  manufactured = models.PositiveIntegerField(help_text='Year in which this specific lens was manufactured', blank=True, null=True)
   acquired = models.DateField(help_text='Date on which this lens was acquired', blank=True, null=True)
   cost = MoneyField(help_text='Price paid for this lens', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   notes = models.CharField(help_text='Freeform notes field', max_length=45, blank=True, null=True)
@@ -600,6 +799,30 @@ class Lens(models.Model):
     return "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
   class Meta:
     verbose_name_plural = "Lenses"
+  def clean(self):
+    if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be earlier than lost date')),
+        'lost': ValidationError(('Lost date must be later than acquired date')),
+      })
+    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be in the past')),
+      })
+    if self.lost is not None and self.lost > datetime.date(datetime.now()):
+      raise ValidationError({
+        'lost': ValidationError(('Lost date must be in the past')),
+      })
+    # Manufactured date must be in range of introduced-discontinued of the model
+    if self.manufactured is not None:
+      if self.lensmodel.introduced is not None and self.manufactured < self.lensmodel.introduced:
+        raise ValidationError({
+          'manufactured': ValidationError(('Manufactured date cannot be earlier than the date the lens model was introduced')),
+        })
+      if self.lensmodel.discontinued is not None and self.manufactured < self.lensmodel.discontinued:
+        raise ValidationError({
+          'manufactured': ValidationError(('Manufactured date cannot be later than the date the lens model was discontinued')),
+        })
 
 # Table to catalog cameras - both cameras with fixed lenses and cameras with interchangeable lenses
 class Camera(models.Model):
@@ -608,7 +831,7 @@ class Camera(models.Model):
   cost = MoneyField(help_text='Price paid for this camera', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   serial = models.CharField(help_text='Serial number of the camera', max_length=45, blank=True, null=True)
   datecode = models.CharField(help_text='Date code of the camera, if different from the serial number', max_length=45, blank=True, null=True)
-  manufactured = models.IntegerField(help_text='Year of manufacture of the camera', blank=True, null=True)
+  manufactured = models.PositiveIntegerField(help_text='Year of manufacture of the camera', blank=True, null=True)
   own = models.BooleanField(help_text='Whether the camera is currently owned', blank=True, null=True)
   lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens attached to this camera, if it is a fixed-lens camera', limit_choices_to={'lensmodel__fixed_mount': True})
   notes = models.CharField(help_text='Freeform text field for extra notes', max_length=100, blank=True, null=True)
@@ -622,20 +845,44 @@ class Camera(models.Model):
     return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
   class Meta:
     verbose_name_plural = "Cameras"
+  def clean(self):
+    if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be earlier than lost date')),
+        'lost': ValidationError(('Lost date must be later than acquired date')),
+      })
+    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be in the past')),
+      })
+    if self.lost is not None and self.lost > datetime.date(datetime.now()):
+      raise ValidationError({
+        'lost': ValidationError(('Lost date must be in the past')),
+      })
+    # Manufactured date must be in range of introduced-discontinued of the model
+    if self.manufactured is not None:
+      if self.cameramodel.introduced is not None and self.manufactured < self.cameramodel.introduced:
+        raise ValidationError({
+          'manufactured': ValidationError(('Manufactured date cannot be earlier than the date the camera model was introduced')),
+        })
+      if self.cameramodel.discontinued is not None and self.manufactured < self.cameramodel.discontinued:
+        raise ValidationError({
+          'manufactured': ValidationError(('Manufactured date cannot be later than the date the camera model was discontinued')),
+        })
 
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
 class Film(models.Model):
   filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE, help_text='Filmstock that this film is')
-  exposed_at = models.IntegerField(help_text='ISO at which the film was exposed', blank=True, null=True)
+  exposed_at = models.PositiveIntegerField(help_text='ISO at which the film was exposed', blank=True, null=True)
   format = models.ForeignKey(Format, on_delete=models.CASCADE, help_text='Film format of this film')
   date_loaded = models.DateField(help_text='Date when the film was loaded into a camera', blank=True, null=True)
   date_processed = models.DateField(help_text='Date when the film was processed', blank=True, null=True)
   camera = models.ForeignKey(Camera, on_delete=models.CASCADE, blank=True, null=True, help_text='Camera that this film was loaded into')
   title = models.CharField(help_text='Title of the film', max_length=150, blank=True, null=True)
-  frames = models.IntegerField(help_text='Expected (not actual) number of frames from the film', blank=True, null=True)
+  frames = models.PositiveIntegerField(help_text='Expected (not actual) number of frames from the film', blank=True, null=True)
   developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True, help_text='Developer used to develop this film')
   directory = models.CharField(help_text='Name of the directory that contains the scanned images from this film', max_length=100, blank=True, null=True)
-  dev_uses = models.IntegerField(help_text='Number of previous uses of the developer', blank=True, null=True)
+  dev_uses = models.PositiveIntegerField(help_text='Number of previous uses of the developer', blank=True, null=True)
   dev_time = models.DurationField(help_text='Duration of development', blank=True, null=True)
   dev_temp = models.DecimalField(help_text='Temperature of development', max_digits=3, decimal_places=1, blank=True, null=True)
   dev_n = models.IntegerField(help_text='Number of the Push/Pull rating of the film, e.g. N+1, N-2', blank=True, null=True)
@@ -652,6 +899,12 @@ class Film(models.Model):
     return "#%i %s" % (self.id, self.title)
   class Meta:
     verbose_name_plural = "Films"
+  def clean(self):
+    if self.date_loaded is not None and self.date_processed is not None and self.date_loaded > self.date_processed:
+      raise ValidationError({
+        'date_loaded': ValidationError(('Date loaded cannot be later than the date the film was processed')),
+        'date_processed': ValidationError(('Date processed cannot be earlier than the date the film was loaded')),
+      })
 
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 class Negative(models.Model):
@@ -666,18 +919,40 @@ class Negative(models.Model):
   teleconverter = models.ForeignKey(Teleconverter, on_delete=models.CASCADE, blank=True, null=True, help_text='Teleconverter used when taking this negative')
   notes = models.CharField(help_text='Extra freeform notes about this exposure', max_length=200, blank=True, null=True)
   # mount_adapter = models.ForeignKey(MountAdapter, on_delete=models.CASCADE, blank=True, null=True)
-  focal_length = models.IntegerField(help_text='If a zoom lens was used, specify the focal length of the lens', blank=True, null=True)
-  latitude = models.DecimalField(help_text='Latitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True)
-  longitude = models.DecimalField(help_text='Longitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True)
+  focal_length = models.PositiveIntegerField(help_text='If a zoom lens was used, specify the focal length of the lens', blank=True, null=True)
+  latitude = models.DecimalField(help_text='Latitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-90),MaxValueValidator(90)])
+  longitude = models.DecimalField(help_text='Longitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-180),MaxValueValidator(180)])
   flash = models.BooleanField(help_text='Whether flash was used', blank=True, null=True)
   metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering mode used when taking the image')
   exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE, blank=True, null=True, help_text='Exposure program used when taking the image')
   photographer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Photographer who took the negative')
   # copy_of = models.ForeignKey(Negative, on_delete=models.CASCADE)
   def __str__(self):
-    return "%s/%s %s" % (self.film, self.frame, self.caption)
+    return "%s/%s %s" % (self.film.pk, self.frame, self.caption)
   class Meta:
     verbose_name_plural = "Negatives"
+  def clean(self):
+    # Aperture must be in range of lens model aperture
+    if self.aperture is not None and self.lens is not None:
+      if self.lens.lensmodel.max_aperture is not None and self.aperture < self.lens.lensmodel.max_aperture:
+        raise ValidationError({
+          'aperture': ValidationError(('Aperture cannot be greater than the maximum aperture of the lens')),
+        })
+      if self.lens.lensmodel.min_aperture is not None and self.aperture > self.lens.lensmodel.min_aperture:
+        raise ValidationError({
+          'aperture': ValidationError(('Aperture cannot be smaller than the minimum aperture of the lens')),
+        })
+  # validation
+    # Focal length must be in range of lens model fl
+    if self.focal_length is not None and self.lens is not None:
+      if self.lens.lensmodel.min_focal_length is not None and self.focal_length < self.lens.lensmodel.min_focal_length:
+        raise ValidationError({
+          'focal_length': ValidationError(('Focal length cannot be shorter than the minimum focal length of the lens')),
+        })
+      if self.lens.lensmodel.max_focal_length is not None and self.focal_length > self.lens.lensmodel.max_focal_length:
+        raise ValidationError({
+          'focal_length': ValidationError(('Focal length cannot be longer than the maximum focal length of the lens')),
+        })
 
 # Table to catalog prints made from negatives
 class Print(models.Model):
@@ -688,7 +963,7 @@ class Print(models.Model):
   width = models.DecimalField(help_text='Width of the print in inches', max_digits=4, decimal_places=1, blank=True, null=True)
   aperture = models.DecimalField(help_text='Aperture used to make this print (numerical part only, e.g. 5.6)', max_digits=3, decimal_places=1, blank=True, null=True)
   exposure_time = models.DurationField(help_text='Exposure time of this print', blank=True, null=True)
-  filtration_grade = models.DecimalField(help_text='Contrast grade of paper used', max_digits=2, decimal_places=1, blank=True, null=True)
+  filtration_grade = models.DecimalField(help_text='Contrast grade of paper used', max_digits=2, decimal_places=1, blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(5)])
   development_time = models.DurationField(help_text='Development time of this print', blank=True, null=True)
   bleach_time = models.DurationField(help_text='Duration of bleaching', blank=True, null=True)
   toner = models.ForeignKey(Toner, on_delete=models.CASCADE, blank=True, null=True, help_text='First toner used to tone this print')
@@ -711,6 +986,17 @@ class Print(models.Model):
     return "#%i" % (self.id)
   class Meta:
     verbose_name_plural = "Prints"
+  def clean(self):
+    # Aperture must be in range of lens model aperture
+    if self.aperture is not None and self.lens is not None:
+      if self.lens.lensmodel.max_aperture is not None and self.aperture < self.lens.lensmodel.max_aperture:
+        raise ValidationError({
+          'aperture': ValidationError(('Aperture cannot be greater than the maximum aperture of the lens')),
+        })
+      if self.lens.lensmodel.min_aperture is not None and self.aperture > self.lens.lensmodel.min_aperture:
+        raise ValidationError({
+          'aperture': ValidationError(('Aperture cannot be smaller than the minimum aperture of the lens')),
+        })
 
 # Table to catalog motion picture films (movies)
 class Movie(models.Model):
@@ -720,9 +1006,9 @@ class Movie(models.Model):
   lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens used to shoot this movie')
   format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True, null=True, help_text='Film format of this movie')
   sound = models.BooleanField(help_text='Whether this movie has sound', blank=True, null=True)
-  fps = models.IntegerField(verbose_name='FPS', help_text='Frame rate of this movie, in fps', blank=True, null=True)
+  fps = models.PositiveIntegerField(verbose_name='FPS', help_text='Frame rate of this movie, in fps', blank=True, null=True)
   filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE, blank=True, null=True, help_text='Filmstock that this movie was shot on')
-  feet = models.IntegerField(help_text='Length of this movie in feet', blank=True, null=True)
+  feet = models.PositiveIntegerField(help_text='Length of this movie in feet', blank=True, null=True)
   duration = models.DurationField(help_text='Duration of this movie', blank=True, null=True)
   date_loaded = models.DateField(help_text='Date that the filmstock was loaded into a camera', blank=True, null=True)
   date_shot = models.DateField(help_text='Date on which this movie was shot', blank=True, null=True)
@@ -732,6 +1018,17 @@ class Movie(models.Model):
     return self.title
   class Meta:
     verbose_name_plural = "Movies"
+  def clean(self):
+    if self.date_loaded is not None and self.date_shot is not None and self.date_loaded > self.date_shot:
+      raise ValidationError({
+        'date_loaded': ValidationError(('Date loaded cannot be later than the date the film was shot')),
+        'date_shot': ValidationError(('Date shot cannot be earlier than the date the film was loaded')),
+      })
+    if self.date_shot is not None and self.date_processed is not None and self.date_shot > self.date_processed:
+      raise ValidationError({
+        'date_shot': ValidationError(('Date shot cannot be later than the date the film was processed')),
+        'date_processed': ValidationError(('Date processed cannot be earlier than the date the film was loaded')),
+      })
   
 # Table to catalog all repairs and servicing undertaken on cameras and lenses in the collection
 class Repair(models.Model):
@@ -750,18 +1047,25 @@ class Scan(models.Model):
   filename = models.CharField(help_text='Filename of the scan', max_length=128)
   date = models.DateField(help_text='Date that this scan was made', blank=True, null=True)
   colour = models.BooleanField(help_text='Whether this is a colour image', blank=True, null=True)
-  width = models.IntegerField(help_text='Width of the scanned image in pixels', blank=True, null=True)
-  height = models.IntegerField(help_text='Height of the scanned image in pixels', blank=True, null=True)
+  width = models.PositiveIntegerField(help_text='Width of the scanned image in pixels', blank=True, null=True)
+  height = models.PositiveIntegerField(help_text='Height of the scanned image in pixels', blank=True, null=True)
   def __str__(self):
     return self.filename
+  def clean(self):
+    # Check focal length
+    if self.negative is not None and self.print is not None:
+      raise ValidationError({
+        'negative': ValidationError(('Choose either negative or print')),
+        'print': ValidationError(('Choose either negative or print')),
+      })
   class Meta:
     verbose_name_plural = "Scans"
 
 # Table to record orders for prints
 class Order(models.Model):
   negative = models.ForeignKey(Negative, on_delete=models.CASCADE, help_text='Negative that needs to be printed')
-  width = models.IntegerField(help_text='Width of print to be made', blank=True, null=True)
-  height = models.IntegerField(help_text='Height of print to be made', blank=True, null=True)
+  width = models.PositiveIntegerField(help_text='Width of print to be made', blank=True, null=True)
+  height = models.PositiveIntegerField(help_text='Height of print to be made', blank=True, null=True)
   added = models.DateField(help_text='Date that the order was placed', blank=True, null=True)
   printed = models.BooleanField(help_text='Whether the print has been made', blank=True, null=True)
   print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True, null=True, help_text='Print that was made to fulfil this order')
