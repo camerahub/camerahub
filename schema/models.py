@@ -528,14 +528,6 @@ class ShutterSpeed(models.Model):
   class Meta:
     verbose_name_plural = "Shutter speeds"
 
-# Table to catalog the different types of camera shutter
-class ShutterType(models.Model):
-  type = models.CharField(help_text='Name of the shutter type (e.g. Focal plane, Leaf, etc)', max_length=45, unique=True)
-  def __str__(self):
-    return self.type
-  class Meta:
-    verbose_name_plural = "Shutter types"
-
 # Table to list film and paper developers
 class Developer(models.Model):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this developer')
@@ -676,6 +668,15 @@ class CameraModel(models.Model):
     TLR = ChoiceItem()
     View_camera = ChoiceItem()
 
+  # Choices for shutter type
+  class ShutterType(DjangoChoices):
+    Focal_plane_cloth = ChoiceItem()
+    Focal_plane_metal = ChoiceItem()
+    Leaf = ChoiceItem()
+    Rotary = ChoiceItem()
+    Sliding = ChoiceItem()
+    Electronic = ChoiceItem()
+
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this camera model')
   model = models.CharField(help_text='The model name of the camera', max_length=45)
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'})
@@ -691,7 +692,7 @@ class CameraModel(models.Model):
   introduced = models.PositiveIntegerField(help_text='Year in which the camera model was introduced', blank=True, null=True)
   discontinued = models.PositiveIntegerField(help_text='Year in which the camera model was discontinued', blank=True, null=True)
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Size of negative created by this camera')
-  shutter_type = models.ForeignKey(ShutterType, on_delete=models.CASCADE, blank=True, null=True, help_text='Type of shutter used on this camera')
+  shutter_type = models.CharField(choices=ShutterType.choices, max_length=25, blank=True, null=True, help_text='Type of shutter used on this camera model')
   shutter_model = models.CharField(help_text='Model of shutter', max_length=45, blank=True, null=True)
   cable_release = models.BooleanField(help_text='Whether the camera has the facility for a remote cable release', blank=True, null=True)
   viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(100)])
