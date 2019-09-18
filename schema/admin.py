@@ -220,9 +220,6 @@ admin.site.register(Series)
 from .models import ShutterSpeed
 admin.site.register(ShutterSpeed)
 
-from .models import ShutterType
-admin.site.register(ShutterType)
-
 from .models import Teleconverter
 admin.site.register(Teleconverter)
 
