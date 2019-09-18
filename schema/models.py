@@ -122,19 +122,6 @@ class Battery(models.Model):
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 class Condition(models.Model):
-  # Choices for mount types
-  BAYONET = 'Bayonet'
-  BREECH = 'Breech lock'
-  SCREW = 'Screw'
-  FRICTION = 'Friction'
-  LENSBOARD = 'Lens board'
-  MOUNT_TYPE_CHOICES = [
-    (BAYONET, 'Bayonet'),
-    (BREECH, 'Breech lock'),
-    (SCREW, 'Screw'),
-    (FRICTION, 'Friction fit'),
-    (LENSBOARD, 'Lens board'),
-  ]
   code = models.CharField(help_text='Condition shortcode (e.g. EXC)', max_length = 6)
   name = models.CharField(help_text='Full name of condition (e.g. Excellent)', max_length=45)
   min_rating = models.PositiveIntegerField(help_text='The lowest percentage rating that encompasses this condition', validators=[MinValueValidator(0),MaxValueValidator(100)])
