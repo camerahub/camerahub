@@ -52,9 +52,6 @@ class CameraModelAdmin(admin.ModelAdmin):
   list_filter = ('manufacturer__name', 'mount', 'format', 'body_type', 'series')
 admin.site.register(CameraModel, CameraModelAdmin)
 
-from .models import Condition
-admin.site.register(Condition)
-
 from .models import Developer
 admin.site.register(Developer)
 
