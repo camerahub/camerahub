@@ -1150,11 +1150,3 @@ class Order(models.Model):
 #   CONSTRAINT `fk_ACCESSORY_COMPAT_2 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 #   CONSTRAINT `fk_ACCESSORY_COMPAT_3 = FOREIGN KEY (`lensmodel_id`) REFERENCES `LENSMODEL = (`lensmodel_id`) ON DELETE CASCADE ON UPDATE CASCADE
 # ) 'Table to define compatibility between accessories and cameras or lenses';
-
-#class (LOG = (
-#   log_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the log entry',
-#   datetime = datetime 'Timestamp for the log entry',
-#   type = models.CharField(45) 'Type of log message, e.g. ADD, EDIT',
-#   message = models.CharField(450) 'Log message',
-#   PRIMARY KEY (`log_id`)
-# ) 'Table to store data modification logs';
