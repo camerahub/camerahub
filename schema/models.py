@@ -152,6 +152,9 @@ class FlashProtocol(models.Model):
   name = models.CharField(help_text='Name of the flash protocol', max_length=45) 
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this flash protocol')
   def __str__(self):
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.name)
+    else:
     return self.name
   class Meta:
     ordering = ['name']
@@ -516,7 +519,7 @@ class BulkFilm(models.Model):
   batch = models.CharField(help_text='Batch code of this bulk roll', max_length=45, blank=True, null=True)
   expiry = models.DateField(help_text='Expiry date of this bulk roll', blank=True, null=True)
   def __str__(self):
-    return self.filmstock.name
+    return "#%s %s %s" % (self.pk, self.filmstock.manufacturer.name, self.filmstock.name)
   class Meta:
     verbose_name_plural = "bulk films"
 
