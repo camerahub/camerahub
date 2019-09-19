@@ -175,13 +175,13 @@ class NegativeSize(models.Model):
     return self.name
   # Override save method to calculate some fields
   def save(self, *args, **kwargs):
-        if self.width is not None and self.height is not None:
-          self.aspect_ratio = self.width/self.height
-          self.area = self.width*self.height
-          diag = sqrt(self.width**2 + self.height**2)
-          diag35mm = 43.2666
-          self.crop_factor = diag35mm/diag
-        super().save(*args, **kwargs)
+    if self.width is not None and self.height is not None:
+      self.aspect_ratio = self.width/self.height
+      self.area = self.width*self.height
+      diag = sqrt(self.width**2 + self.height**2)
+      diag35mm = 43.2666
+      self.crop_factor = diag35mm/diag
+    super().save(*args, **kwargs)
   class Meta:
     verbose_name_plural = "Negative sizes"
 
