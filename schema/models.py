@@ -386,7 +386,7 @@ class LightMeter(models.Model):
     verbose_name_plural = "light meters"
   def clean(self):
     # ASA
-    if self.min_asa is not None and self.max_axa is not None and self.min_asa > self.max_asa:
+    if self.min_asa is not None and self.max_asa is not None and self.min_asa > self.max_asa:
       raise ValidationError({
         'min_asa': ValidationError(('Minimum ISO/ASA must be smaller than maximum')),
         'max_asa': ValidationError(('Maximum ISO/ASA must be larger than minimum')),
