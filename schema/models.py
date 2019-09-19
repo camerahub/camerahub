@@ -69,6 +69,7 @@ class Accessory(models.Model):
   class Meta:
     verbose_name_plural = "Accessories"
   def clean(self):
+    # Acquired/lost
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
       raise ValidationError({
         'acquired': ValidationError(('Acquired date must be earlier than lost date')),
@@ -650,7 +651,6 @@ class LensModel(models.Model):
         'min_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
       })
 
-    # Angle of view
   def save(self, *args, **kwargs):
     # Auto-populate focal length
     if self.zoom is False and self.min_focal_length is not None:
@@ -914,6 +914,7 @@ class Film(models.Model):
   class Meta:
     verbose_name_plural = "Films"
   def clean(self):
+    # Date constraints
     if self.date_loaded is not None and self.date_processed is not None and self.date_loaded > self.date_processed:
       raise ValidationError({
         'date_loaded': ValidationError(('Date loaded cannot be later than the date the film was processed')),
@@ -966,7 +967,6 @@ class Negative(models.Model):
         raise ValidationError({
           'aperture': ValidationError(('Aperture cannot be smaller than the minimum aperture of the lens')),
         })
-  # validation
     # Focal length must be in range of lens model fl
     if self.focal_length is not None and self.lens is not None:
       if self.lens.lensmodel.min_focal_length is not None and self.focal_length < self.lens.lensmodel.min_focal_length:
@@ -1050,6 +1050,7 @@ class Movie(models.Model):
   class Meta:
     verbose_name_plural = "Movies"
   def clean(self):
+    # Date constraints
     if self.date_loaded is not None and self.date_shot is not None and self.date_loaded > self.date_shot:
       raise ValidationError({
         'date_loaded': ValidationError(('Date loaded cannot be later than the date the film was shot')),
@@ -1083,7 +1084,7 @@ class Scan(models.Model):
   def __str__(self):
     return self.filename
   def clean(self):
-    # Check focal length
+    # Check print source
     if self.negative is not None and self.print is not None:
       raise ValidationError({
         'negative': ValidationError(('Choose either negative or print')),
