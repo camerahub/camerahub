@@ -4,6 +4,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 from djchoices import DjangoChoices, ChoiceItem
 from datetime import datetime
+from math import sqrt
+import re
 
 # Create your models here.
 class Manufacturer(models.Model):
@@ -67,6 +69,7 @@ class Accessory(models.Model):
   class Meta:
     verbose_name_plural = "Accessories"
   def clean(self):
+    # Acquired/lost
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
       raise ValidationError({
         'acquired': ValidationError(('Acquired date must be earlier than lost date')),
@@ -171,6 +174,15 @@ class NegativeSize(models.Model):
   aspect_ratio = models.DecimalField(help_text='Aspect ratio of this negative size, expressed as a single decimal (e.g. 3:2 is expressed as 1.5)',max_digits=4, decimal_places=2, blank=True, null=True)
   def __str__(self):
     return self.name
+  # Override save method to calculate some fields
+  def save(self, *args, **kwargs):
+    if self.width is not None and self.height is not None:
+      self.aspect_ratio = self.width/self.height
+      self.area = self.width*self.height
+      diag = sqrt(self.width**2 + self.height**2)
+      diag35mm = 43.2666
+      self.crop_factor = diag35mm/diag
+    super().save(*args, **kwargs)
   class Meta:
     verbose_name_plural = "Negative sizes"
 
@@ -509,9 +521,19 @@ class FilterAdapter(models.Model):
 class ShutterSpeed(models.Model):
   shutter_speed = models.CharField(help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True)
   # field validation: like 1/500 or 2
-  duration = models.DecimalField(help_text='Shutter speed in models.DecimalField notation, e.g. 0.04', max_digits=9, decimal_places=5)
+  duration = models.DecimalField(help_text='Shutter speed in decimal notation, e.g. 0.04', max_digits=9, decimal_places=5)
   def __str__(self):
     return self.shutter_speed
+  def save(self, *args, **kwargs):
+    # Test if format is 1/125
+    m0 = re.match('^(\d{1})/(\d+)$', self.shutter_speed)
+    # Test if format is 1 or 1"
+    m1 = re.match('^(\d+)"?$', self.shutter_speed)
+    if m0:
+      self.duration = int(m0.group(1)) / int(m0.group(2))
+    elif m1:
+      self.duration = m1.group(1)
+    super().save(*args, **kwargs)
   class Meta:
     verbose_name_plural = "Shutter speeds"
 
@@ -616,7 +638,7 @@ class LensModel(models.Model):
       raise ValidationError({'mount': 'Do not choose a mount when fixed mount is true'})
 
     # Zoom lenses
-    if self.zoom == False and self.min_focal_length != self.max_focal_length:
+    if self.zoom == False and self.min_focal_length and self.max_focal_length and self.min_focal_length != self.max_focal_length:
       raise ValidationError({
         'min_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
         'max_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
@@ -629,7 +651,11 @@ class LensModel(models.Model):
         'min_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
       })
 
-    # Angle of view
+  def save(self, *args, **kwargs):
+    # Auto-populate focal length
+    if self.zoom is False and self.min_focal_length is not None:
+      self.max_focal_length = self.min_focal_length
+    super().save(*args, **kwargs)
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
@@ -888,11 +914,22 @@ class Film(models.Model):
   class Meta:
     verbose_name_plural = "Films"
   def clean(self):
+    # Date constraints
     if self.date_loaded is not None and self.date_processed is not None and self.date_loaded > self.date_processed:
       raise ValidationError({
         'date_loaded': ValidationError(('Date loaded cannot be later than the date the film was processed')),
         'date_processed': ValidationError(('Date processed cannot be earlier than the date the film was loaded')),
       })
+  def save(self, *args, **kwargs):
+    # Auto-populate values from bulk films
+    if self.bulk_film:
+      if self.bulk_film.expiry:
+        self.expiry_date = self.bulk_film.expiry
+      if self.bulk_film.batch:
+        self.film_batch = self.bulk_film.batch
+      if self.bulk_film.purchase_date:
+        self.purchase_date = self.bulk_film.purchase_date
+    super().save(*args, **kwargs)
 
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 class Negative(models.Model):
@@ -930,7 +967,6 @@ class Negative(models.Model):
         raise ValidationError({
           'aperture': ValidationError(('Aperture cannot be smaller than the minimum aperture of the lens')),
         })
-  # validation
     # Focal length must be in range of lens model fl
     if self.focal_length is not None and self.lens is not None:
       if self.lens.lensmodel.min_focal_length is not None and self.focal_length < self.lens.lensmodel.min_focal_length:
@@ -941,6 +977,13 @@ class Negative(models.Model):
         raise ValidationError({
           'focal_length': ValidationError(('Focal length cannot be longer than the maximum focal length of the lens')),
         })
+  def save(self, *args, **kwargs):
+    # Auto-populate focal length
+    if self.lens:
+      if self.lens.lensmodel.zoom is False:
+        if self.teleconverter is None:
+          self.focal_length = self.lens.lensmodel.min_focal_length
+    super().save(*args, **kwargs)
 
 # Table to catalog prints made from negatives
 class Print(models.Model):
@@ -1007,6 +1050,7 @@ class Movie(models.Model):
   class Meta:
     verbose_name_plural = "Movies"
   def clean(self):
+    # Date constraints
     if self.date_loaded is not None and self.date_shot is not None and self.date_loaded > self.date_shot:
       raise ValidationError({
         'date_loaded': ValidationError(('Date loaded cannot be later than the date the film was shot')),
@@ -1040,7 +1084,7 @@ class Scan(models.Model):
   def __str__(self):
     return self.filename
   def clean(self):
-    # Check focal length
+    # Check print source
     if self.negative is not None and self.print is not None:
       raise ValidationError({
         'negative': ValidationError(('Choose either negative or print')),

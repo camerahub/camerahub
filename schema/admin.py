@@ -125,7 +125,9 @@ from .models import Movie
 admin.site.register(Movie)
 
 from .models import NegativeSize
-admin.site.register(NegativeSize)
+class NegativeSizeAdmin(admin.ModelAdmin):
+  readonly_fields = ('area', 'crop_factor', 'aspect_ratio')
+admin.site.register(NegativeSize, NegativeSizeAdmin)
 
 from .models import Order
 admin.site.register(Order)
@@ -232,7 +234,9 @@ from .models import Series
 admin.site.register(Series)
 
 from .models import ShutterSpeed
-admin.site.register(ShutterSpeed)
+class ShutterSpeedAdmin(admin.ModelAdmin):
+  readonly_fields = ('duration',)
+admin.site.register(ShutterSpeed, ShutterSpeedAdmin)
 
 from .models import Teleconverter
 admin.site.register(Teleconverter)
