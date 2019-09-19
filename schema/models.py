@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from djchoices import DjangoChoices, ChoiceItem
 from datetime import datetime
 from math import sqrt
+import re
 
 # Create your models here.
 class Manufacturer(models.Model):
@@ -519,9 +520,19 @@ class FilterAdapter(models.Model):
 class ShutterSpeed(models.Model):
   shutter_speed = models.CharField(help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True)
   # field validation: like 1/500 or 2
-  duration = models.DecimalField(help_text='Shutter speed in models.DecimalField notation, e.g. 0.04', max_digits=9, decimal_places=5)
+  duration = models.DecimalField(help_text='Shutter speed in decimal notation, e.g. 0.04', max_digits=9, decimal_places=5)
   def __str__(self):
     return self.shutter_speed
+  def save(self, *args, **kwargs):
+    # Test if format is 1/125
+    m0 = re.match('^(\d{1})/(\d+)$', self.shutter_speed)
+    # Test if format is 1 or 1"
+    m1 = re.match('^(\d+)"?$', self.shutter_speed)
+    if m0:
+      self.duration = int(m0.group(1)) / int(m0.group(2))
+    elif m1:
+      self.duration = m1.group(1)
+    super().save(*args, **kwargs)
   class Meta:
     verbose_name_plural = "Shutter speeds"
 

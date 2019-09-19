@@ -234,7 +234,9 @@ from .models import Series
 admin.site.register(Series)
 
 from .models import ShutterSpeed
-admin.site.register(ShutterSpeed)
+class ShutterSpeedAdmin(admin.ModelAdmin):
+  readonly_fields = ('duration',)
+admin.site.register(ShutterSpeed, ShutterSpeedAdmin)
 
 from .models import Teleconverter
 admin.site.register(Teleconverter)
