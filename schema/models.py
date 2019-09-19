@@ -637,7 +637,7 @@ class LensModel(models.Model):
       raise ValidationError({'mount': 'Do not choose a mount when fixed mount is true'})
 
     # Zoom lenses
-    if self.zoom == False and self.min_focal_length != self.max_focal_length:
+    if self.zoom == False and self.min_focal_length and self.max_focal_length and self.min_focal_length != self.max_focal_length:
       raise ValidationError({
         'min_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
         'max_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
@@ -651,6 +651,11 @@ class LensModel(models.Model):
       })
 
     # Angle of view
+  def save(self, *args, **kwargs):
+    # Auto-populate focal length
+    if self.zoom is False and self.min_focal_length is not None:
+      self.max_focal_length = self.min_focal_length
+    super().save(*args, **kwargs)
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 class CameraModel(models.Model):
@@ -914,6 +919,16 @@ class Film(models.Model):
         'date_loaded': ValidationError(('Date loaded cannot be later than the date the film was processed')),
         'date_processed': ValidationError(('Date processed cannot be earlier than the date the film was loaded')),
       })
+  def save(self, *args, **kwargs):
+    # Auto-populate values from bulk films
+    if self.bulk_film:
+      if self.bulk_film.expiry:
+        self.expiry_date = self.bulk_film.expiry
+      if self.bulk_film.batch:
+        self.film_batch = self.bulk_film.batch
+      if self.bulk_film.purchase_date:
+        self.purchase_date = self.bulk_film.purchase_date
+    super().save(*args, **kwargs)
 
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 class Negative(models.Model):
@@ -962,6 +977,13 @@ class Negative(models.Model):
         raise ValidationError({
           'focal_length': ValidationError(('Focal length cannot be longer than the maximum focal length of the lens')),
         })
+  def save(self, *args, **kwargs):
+    # Auto-populate focal length
+    if self.lens:
+      if self.lens.lensmodel.zoom is False:
+        if self.teleconverter is None:
+          self.focal_length = self.lens.lensmodel.min_focal_length
+    super().save(*args, **kwargs)
 
 # Table to catalog prints made from negatives
 class Print(models.Model):
