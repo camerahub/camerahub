@@ -155,7 +155,7 @@ class FlashProtocol(models.Model):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.name)
     else:
-    return self.name
+      return self.name
   class Meta:
     ordering = ['name']
     verbose_name_plural = "flash protocols"
@@ -940,7 +940,7 @@ class Film(models.Model):
   processed_by = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Person or place that processed this film')
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True, help_text='Archive that this film is stored in')
   def __str__(self):
-    return "#%i %s" % (self.id, self.title)
+    return "#%i %s" % (self.pk, self.title)
   class Meta:
     verbose_name_plural = "films"
   def clean(self):
@@ -1045,7 +1045,7 @@ class Print(models.Model):
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True, help_text='Archive that this print is stored in')
   printer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Person who made this print')
   def __str__(self):
-    return "#%i" % (self.id)
+    return "#%i" % (self.pk)
   class Meta:
     verbose_name_plural = "prints"
   def clean(self):
@@ -1135,7 +1135,7 @@ class Order(models.Model):
   print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True, null=True, help_text='Print that was made to fulfil this order')
   recipient = models.ForeignKey(Person, on_delete=models.CASCADE, help_text='Person who placed this order')
   def __str__(self):
-    return self.id
+    return self.pk
   class Meta:
     ordering = ['added']
     verbose_name_plural = "orders"
