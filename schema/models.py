@@ -152,7 +152,10 @@ class FlashProtocol(models.Model):
   name = models.CharField(help_text='Name of the flash protocol', max_length=45) 
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this flash protocol')
   def __str__(self):
-    return self.name
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.name)
+    else:
+      return self.name
   class Meta:
     ordering = ['name']
     verbose_name_plural = "flash protocols"
@@ -383,7 +386,7 @@ class LightMeter(models.Model):
     verbose_name_plural = "light meters"
   def clean(self):
     # ASA
-    if self.min_asa is not None and self.max_axa is not None and self.min_asa > self.max_asa:
+    if self.min_asa is not None and self.max_asa is not None and self.min_asa > self.max_asa:
       raise ValidationError({
         'min_asa': ValidationError(('Minimum ISO/ASA must be smaller than maximum')),
         'max_asa': ValidationError(('Maximum ISO/ASA must be larger than minimum')),
@@ -516,7 +519,7 @@ class BulkFilm(models.Model):
   batch = models.CharField(help_text='Batch code of this bulk roll', max_length=45, blank=True, null=True)
   expiry = models.DateField(help_text='Expiry date of this bulk roll', blank=True, null=True)
   def __str__(self):
-    return self.filmstock.name
+    return "#%s %s %s" % (self.pk, self.filmstock.manufacturer.name, self.filmstock.name)
   class Meta:
     verbose_name_plural = "bulk films"
 
@@ -547,9 +550,9 @@ class ShutterSpeed(models.Model):
     return self.shutter_speed
   def save(self, *args, **kwargs):
     # Test if format is 1/125
-    m0 = re.match('^(\d{1})/(\d+)$', self.shutter_speed)
+    m0 = re.match(r'^(\d{1})/(\d+)$', self.shutter_speed)
     # Test if format is 1 or 1"
-    m1 = re.match('^(\d+)"?$', self.shutter_speed)
+    m1 = re.match(r'^(\d+)"?$', self.shutter_speed)
     if m0:
       self.duration = int(m0.group(1)) / int(m0.group(2))
     elif m1:
@@ -937,7 +940,7 @@ class Film(models.Model):
   processed_by = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Person or place that processed this film')
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True, help_text='Archive that this film is stored in')
   def __str__(self):
-    return "#%i %s" % (self.id, self.title)
+    return "#%i %s" % (self.pk, self.title)
   class Meta:
     verbose_name_plural = "films"
   def clean(self):
@@ -1042,7 +1045,7 @@ class Print(models.Model):
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True, help_text='Archive that this print is stored in')
   printer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Person who made this print')
   def __str__(self):
-    return "#%i" % (self.id)
+    return "#%i" % (self.pk)
   class Meta:
     verbose_name_plural = "prints"
   def clean(self):
@@ -1132,7 +1135,7 @@ class Order(models.Model):
   print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True, null=True, help_text='Print that was made to fulfil this order')
   recipient = models.ForeignKey(Person, on_delete=models.CASCADE, help_text='Person who placed this order')
   def __str__(self):
-    return self.id
+    return self.pk
   class Meta:
     ordering = ['added']
     verbose_name_plural = "orders"
@@ -1147,11 +1150,3 @@ class Order(models.Model):
 #   CONSTRAINT `fk_ACCESSORY_COMPAT_2 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 #   CONSTRAINT `fk_ACCESSORY_COMPAT_3 = FOREIGN KEY (`lensmodel_id`) REFERENCES `LENSMODEL = (`lensmodel_id`) ON DELETE CASCADE ON UPDATE CASCADE
 # ) 'Table to define compatibility between accessories and cameras or lenses';
-
-#class (LOG = (
-#   log_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID of the log entry',
-#   datetime = datetime 'Timestamp for the log entry',
-#   type = models.CharField(45) 'Type of log message, e.g. ADD, EDIT',
-#   message = models.CharField(450) 'Log message',
-#   PRIMARY KEY (`log_id`)
-# ) 'Table to store data modification logs';
