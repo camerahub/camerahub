@@ -550,9 +550,9 @@ class ShutterSpeed(models.Model):
     return self.shutter_speed
   def save(self, *args, **kwargs):
     # Test if format is 1/125
-    m0 = re.match('^(\d{1})/(\d+)$', self.shutter_speed)
+    m0 = re.match(r'^(\d{1})/(\d+)$', self.shutter_speed)
     # Test if format is 1 or 1"
-    m1 = re.match('^(\d+)"?$', self.shutter_speed)
+    m1 = re.match(r'^(\d+)"?$', self.shutter_speed)
     if m0:
       self.duration = int(m0.group(1)) / int(m0.group(2))
     elif m1:
