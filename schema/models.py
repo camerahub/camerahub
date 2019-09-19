@@ -128,7 +128,7 @@ class Condition(models.Model):
   max_rating = models.PositiveIntegerField(help_text='The highest percentage rating that encompasses this condition', validators=[MinValueValidator(0),MaxValueValidator(100)])
   description = models.CharField(help_text='Longer description of condition', max_length=300)
   def __str__(self):
-    return self.name
+    return "%s - %s" % (self.name, self.description)
   class Meta:
     verbose_name_plural = "Conditions"
   
