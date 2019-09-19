@@ -18,7 +18,7 @@ class Manufacturer(models.Model):
   def __str__(self):
     return self.name
   class Meta:
-    verbose_name_plural = "Manufacturers"
+    verbose_name_plural = "manufacturers"
   def clean(self):
     # City/country
     if self.country is None and self.city is not None:
@@ -67,7 +67,7 @@ class Accessory(models.Model):
     else:
       return self.model
   class Meta:
-    verbose_name_plural = "Accessories"
+    verbose_name_plural = "accessories"
   def clean(self):
     # Acquired/lost
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
@@ -110,7 +110,7 @@ class Archive(models.Model):
   def __str__(self):
     return self.name
   class Meta:
-    verbose_name_plural = "Archives"
+    verbose_name_plural = "archives"
 
 # Table to catalog of types of battery
 class Battery(models.Model):
@@ -121,7 +121,7 @@ class Battery(models.Model):
   def __str__(self):
     return self.name
   class Meta:
-    verbose_name_plural = "Batteries"
+    verbose_name_plural = "batteries"
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 class Condition(models.Model):
@@ -133,7 +133,7 @@ class Condition(models.Model):
   def __str__(self):
     return "%s - %s" % (self.name, self.description)
   class Meta:
-    verbose_name_plural = "Conditions"
+    verbose_name_plural = "conditions"
   
 # Exposure programs as defined by EXIF tag ExposureProgram
 class ExposureProgram(models.Model):
@@ -141,7 +141,7 @@ class ExposureProgram(models.Model):
   def __str__(self):
     return self.name
   class Meta:
-    verbose_name_plural = "Exposure programs"
+    verbose_name_plural = "exposure programs"
 
 # Table to catalog different protocols used to communicate with flashes
 class FlashProtocol(models.Model):
@@ -150,7 +150,7 @@ class FlashProtocol(models.Model):
   def __str__(self):
     return self.name
   class Meta:
-    verbose_name_plural = "Flash protocols"
+    verbose_name_plural = "flash protocols"
 
 # Table to catalog filters
 class Filter(models.Model):
@@ -162,7 +162,7 @@ class Filter(models.Model):
   def __str__(self):
     return "%s %smm" % (self.type, str(self.thread))
   class Meta:
-    verbose_name_plural = "Filters"
+    verbose_name_plural = "filters"
 
 # Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
 class NegativeSize(models.Model):
@@ -184,7 +184,7 @@ class NegativeSize(models.Model):
       self.crop_factor = diag35mm/diag
     super().save(*args, **kwargs)
   class Meta:
-    verbose_name_plural = "Negative sizes"
+    verbose_name_plural = "negative sizes"
 
 # Table to catalogue different film formats. These are distinct from negative sizes.
 class Format(models.Model):
@@ -194,7 +194,7 @@ class Format(models.Model):
   def __str__(self):
     return self.format
   class Meta:
-    verbose_name_plural = "Formats"
+    verbose_name_plural = "formats"
 
 # Table to list all series of cameras and lenses
 class Series(models.Model):
@@ -202,7 +202,7 @@ class Series(models.Model):
   def __str__(self):
     return self.name
   class Meta:
-    verbose_name_plural = "Series"
+    verbose_name_plural = "series"
 
 # Table to catalog flashes, flashguns and speedlights
 class Flash(models.Model):
@@ -233,7 +233,7 @@ class Flash(models.Model):
     else:
       return self.model
   class Meta:
-    verbose_name_plural = "Flashes"
+    verbose_name_plural = "flashes"
   def clean(self):
     # if battery_type is set, need to supply battery_qty
     if self.battery_type is not None and self.battery_qty is None:
@@ -270,7 +270,7 @@ class Enlarger(models.Model):
     else:
       return self.model
   class Meta:
-    verbose_name_plural = "Enlargers"
+    verbose_name_plural = "enlargers"
   def clean(self):
     # Acquired/lost
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
@@ -307,7 +307,7 @@ class MeteringMode(models.Model):
   def __str__(self):
     return self.name
   class Meta:
-    verbose_name_plural = "Metering modes"
+    verbose_name_plural = "metering modes"
 
 # Table to catalog different metering technologies and cell types
 class MeteringType(models.Model):
@@ -315,7 +315,7 @@ class MeteringType(models.Model):
   def __str__(self):
     return self.name
   class Meta:
-    verbose_name_plural = "Metering types"
+    verbose_name_plural = "metering types"
 
 # Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.
 class Mount(models.Model):
@@ -346,7 +346,7 @@ class Mount(models.Model):
   def __str__(self):
     return self.mount
   class Meta:
-    verbose_name_plural = "Mounts"
+    verbose_name_plural = "mounts"
 
 # Table to catalog light meters
 class LightMeter(models.Model):
@@ -367,7 +367,7 @@ class LightMeter(models.Model):
     else:
       return self.model
   class Meta:
-    verbose_name_plural = "Light meters"
+    verbose_name_plural = "light meters"
   def clean(self):
     # ASA
     if self.min_asa is not None and self.max_axa is not None and self.min_asa > self.max_asa:
@@ -396,7 +396,7 @@ class PaperStock(models.Model):
     else:
       return self.name
   class Meta:
-    verbose_name_plural = "Paper stocks"
+    verbose_name_plural = "paper stocks"
 
 # Table to catalog photographers
 class Person(models.Model):
@@ -404,7 +404,7 @@ class Person(models.Model):
   def __str__(self):
     return self.name
   class Meta:
-    verbose_name_plural = "People"
+    verbose_name_plural = "people"
 
 # Table to catalog chemical processes that can be used to develop film and paper
 class Process(models.Model):
@@ -414,7 +414,7 @@ class Process(models.Model):
   def __str__(self):
     return self.name
   class Meta:
-    verbose_name_plural = "Processes"
+    verbose_name_plural = "processes"
 
 # Table to catalog teleconverters (multipliers)
 class Teleconverter(models.Model):
@@ -431,7 +431,7 @@ class Teleconverter(models.Model):
     else:
       return self.model
   class Meta:
-    verbose_name_plural = "Teleconverters"
+    verbose_name_plural = "teleconverters"
   def clean(self):
     # Groups/elements
     if self.groups is not None and self.elements is not None and self.groups > self.elements:
@@ -452,7 +452,7 @@ class Toner(models.Model):
     else:
       return self.name
   class Meta:
-    verbose_name_plural = "Toners"
+    verbose_name_plural = "toners"
 
 # Table to list different brands of film stock
 class FilmStock(models.Model):
@@ -468,7 +468,7 @@ class FilmStock(models.Model):
     else:
       return self.name
   class Meta:
-    verbose_name_plural = "Film stocks"
+    verbose_name_plural = "film stocks"
 
 # Table to catalog projectors (still and movie)
 class Projector(models.Model):
@@ -484,7 +484,7 @@ class Projector(models.Model):
     else:
       return self.model
   class Meta:
-    verbose_name_plural = "Projectors"
+    verbose_name_plural = "projectors"
 
 # Table to record bulk film stock, from which individual films can be cut
 class BulkFilm(models.Model):
@@ -498,7 +498,7 @@ class BulkFilm(models.Model):
   def __str__(self):
     return self.filmstock.name
   class Meta:
-    verbose_name_plural = "Bulk films"
+    verbose_name_plural = "bulk films"
 
 # Table to catalogue filter adapter rings
 class FilterAdapter(models.Model):
@@ -507,7 +507,7 @@ class FilterAdapter(models.Model):
   def __str__(self):
     return "%f-%fmm" % (self.camera_thread, self.filter_thread)
   class Meta:
-    verbose_name_plural = "Filter adapters"
+    verbose_name_plural = "filter adapters"
 
 # Table to catalog adapters to mount lenses on other cameras
 # class MountAdapter(models.Model):
@@ -535,7 +535,7 @@ class ShutterSpeed(models.Model):
       self.duration = m1.group(1)
     super().save(*args, **kwargs)
   class Meta:
-    verbose_name_plural = "Shutter speeds"
+    verbose_name_plural = "shutter speeds"
 
 # Table to list film and paper developers
 class Developer(models.Model):
@@ -550,7 +550,7 @@ class Developer(models.Model):
     else:
       return self.name
   class Meta:
-    verbose_name_plural = "Developers"
+    verbose_name_plural = "developers"
 
 # Table to catalog lens models
 class LensModel(models.Model):
@@ -594,7 +594,7 @@ class LensModel(models.Model):
     else:
       return self.model
   class Meta:
-    verbose_name_plural = "Lens models"
+    verbose_name_plural = "lens models"
 
   def clean(self):
     # Check focal length
@@ -745,7 +745,7 @@ class CameraModel(models.Model):
     else:
       return self.model
   class Meta:
-    verbose_name_plural = "Camera models"
+    verbose_name_plural = "camera models"
 
   def clean(self):
     # ISO
@@ -812,7 +812,7 @@ class Lens(models.Model):
   def __str__(self):
     return "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
   class Meta:
-    verbose_name_plural = "Lenses"
+    verbose_name_plural = "lenses"
   def clean(self):
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
       raise ValidationError({
@@ -858,7 +858,7 @@ class Camera(models.Model):
   def __str__(self):
     return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
   class Meta:
-    verbose_name_plural = "Cameras"
+    verbose_name_plural = "cameras"
   def clean(self):
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
       raise ValidationError({
@@ -912,7 +912,7 @@ class Film(models.Model):
   def __str__(self):
     return "#%i %s" % (self.id, self.title)
   class Meta:
-    verbose_name_plural = "Films"
+    verbose_name_plural = "films"
   def clean(self):
     # Date constraints
     if self.date_loaded is not None and self.date_processed is not None and self.date_loaded > self.date_processed:
@@ -955,7 +955,7 @@ class Negative(models.Model):
   def __str__(self):
     return "%s/%s %s" % (self.film.pk, self.frame, self.caption)
   class Meta:
-    verbose_name_plural = "Negatives"
+    verbose_name_plural = "negatives"
   def clean(self):
     # Aperture must be in range of lens model aperture
     if self.aperture is not None and self.lens is not None:
@@ -1016,7 +1016,7 @@ class Print(models.Model):
   def __str__(self):
     return "#%i" % (self.id)
   class Meta:
-    verbose_name_plural = "Prints"
+    verbose_name_plural = "prints"
   def clean(self):
     # Aperture must be in range of lens model aperture
     if self.aperture is not None and self.lens is not None:
@@ -1048,7 +1048,7 @@ class Movie(models.Model):
   def __str__(self):
     return self.title
   class Meta:
-    verbose_name_plural = "Movies"
+    verbose_name_plural = "movies"
   def clean(self):
     # Date constraints
     if self.date_loaded is not None and self.date_shot is not None and self.date_loaded > self.date_shot:
@@ -1070,7 +1070,7 @@ class Repair(models.Model):
   summary = models.CharField(help_text='Brief summary of the repair', max_length=100)
   description = models.CharField(help_text='Longer description of the repair', max_length=500, blank=True, null=True)
   class Meta:
-    verbose_name_plural = "Repairs"
+    verbose_name_plural = "repairs"
 
 # Table to record all the images that have been scanned digitally
 class Scan(models.Model):
@@ -1091,7 +1091,7 @@ class Scan(models.Model):
         'print': ValidationError(('Choose either negative or print')),
       })
   class Meta:
-    verbose_name_plural = "Scans"
+    verbose_name_plural = "scans"
 
 # Table to record orders for prints
 class Order(models.Model):
@@ -1105,7 +1105,7 @@ class Order(models.Model):
   def __str__(self):
     return self.id
   class Meta:
-    verbose_name_plural = "Orders"
+    verbose_name_plural = "orders"
 
 #class (ACCESSORY_COMPAT = (
 #   compat_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this compatibility',
