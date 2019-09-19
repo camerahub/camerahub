@@ -19,6 +19,7 @@ class Manufacturer(models.Model):
     return self.name
   class Meta:
     verbose_name_plural = "Manufacturers"
+    ordering = ['name']
   def clean(self):
     # City/country
     if self.country is None and self.city is not None:
@@ -68,6 +69,7 @@ class Accessory(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Accessories"
+    ordering = ['manufacturer', 'model']
   def clean(self):
     # Acquired/lost
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
@@ -111,6 +113,7 @@ class Archive(models.Model):
     return self.name
   class Meta:
     verbose_name_plural = "Archives"
+    ordering = ['name']
 
 # Table to catalog of types of battery
 class Battery(models.Model):
@@ -122,6 +125,7 @@ class Battery(models.Model):
     return self.name
   class Meta:
     verbose_name_plural = "Batteries"
+    ordering = ['name']
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 class Condition(models.Model):
@@ -151,6 +155,7 @@ class FlashProtocol(models.Model):
     return self.name
   class Meta:
     verbose_name_plural = "Flash protocols"
+    ordering = ['name']
 
 # Table to catalog filters
 class Filter(models.Model):
@@ -163,6 +168,7 @@ class Filter(models.Model):
     return "%s %smm" % (self.type, str(self.thread))
   class Meta:
     verbose_name_plural = "Filters"
+    ordering = ['thread', 'type']
 
 # Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
 class NegativeSize(models.Model):
@@ -185,6 +191,7 @@ class NegativeSize(models.Model):
     super().save(*args, **kwargs)
   class Meta:
     verbose_name_plural = "Negative sizes"
+    ordering = ['area']
 
 # Table to catalogue different film formats. These are distinct from negative sizes.
 class Format(models.Model):
@@ -195,6 +202,7 @@ class Format(models.Model):
     return self.format
   class Meta:
     verbose_name_plural = "Formats"
+    ordering = ['format']
 
 # Table to list all series of cameras and lenses
 class Series(models.Model):
@@ -203,6 +211,7 @@ class Series(models.Model):
     return self.name
   class Meta:
     verbose_name_plural = "Series"
+    ordering = ['name']
 
 # Table to catalog flashes, flashguns and speedlights
 class Flash(models.Model):
@@ -234,6 +243,7 @@ class Flash(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Flashes"
+    ordering = ['manufacturer', 'model']
   def clean(self):
     # if battery_type is set, need to supply battery_qty
     if self.battery_type is not None and self.battery_qty is None:
@@ -271,6 +281,7 @@ class Enlarger(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Enlargers"
+    ordering = ['manufacturer', 'model']
   def clean(self):
     # Acquired/lost
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
@@ -347,6 +358,7 @@ class Mount(models.Model):
     return self.mount
   class Meta:
     verbose_name_plural = "Mounts"
+    ordering = ['mount']
 
 # Table to catalog light meters
 class LightMeter(models.Model):
@@ -368,6 +380,7 @@ class LightMeter(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Light meters"
+    ordering = ['manufacturer', 'model']
   def clean(self):
     # ASA
     if self.min_asa is not None and self.max_axa is not None and self.min_asa > self.max_asa:
@@ -397,6 +410,7 @@ class PaperStock(models.Model):
       return self.name
   class Meta:
     verbose_name_plural = "Paper stocks"
+    ordering = ['manufacturer', 'name']
 
 # Table to catalog photographers
 class Person(models.Model):
@@ -405,6 +419,7 @@ class Person(models.Model):
     return self.name
   class Meta:
     verbose_name_plural = "People"
+    ordering = ['name']
 
 # Table to catalog chemical processes that can be used to develop film and paper
 class Process(models.Model):
@@ -415,6 +430,7 @@ class Process(models.Model):
     return self.name
   class Meta:
     verbose_name_plural = "Processes"
+    ordering = ['name']
 
 # Table to catalog teleconverters (multipliers)
 class Teleconverter(models.Model):
@@ -432,6 +448,7 @@ class Teleconverter(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Teleconverters"
+    ordering = ['manufacturer', 'model']
   def clean(self):
     # Groups/elements
     if self.groups is not None and self.elements is not None and self.groups > self.elements:
@@ -453,6 +470,7 @@ class Toner(models.Model):
       return self.name
   class Meta:
     verbose_name_plural = "Toners"
+    ordering = ['manufacturer', 'name']
 
 # Table to list different brands of film stock
 class FilmStock(models.Model):
@@ -469,6 +487,7 @@ class FilmStock(models.Model):
       return self.name
   class Meta:
     verbose_name_plural = "Film stocks"
+    ordering = ['manufacturer', 'name']
 
 # Table to catalog projectors (still and movie)
 class Projector(models.Model):
@@ -485,6 +504,7 @@ class Projector(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Projectors"
+    ordering = ['manufacturer', 'model']
 
 # Table to record bulk film stock, from which individual films can be cut
 class BulkFilm(models.Model):
@@ -508,6 +528,7 @@ class FilterAdapter(models.Model):
     return "%f-%fmm" % (self.camera_thread, self.filter_thread)
   class Meta:
     verbose_name_plural = "Filter adapters"
+    ordering = ['camera_thread', 'filter_thread']
 
 # Table to catalog adapters to mount lenses on other cameras
 # class MountAdapter(models.Model):
@@ -536,6 +557,7 @@ class ShutterSpeed(models.Model):
     super().save(*args, **kwargs)
   class Meta:
     verbose_name_plural = "Shutter speeds"
+    ordering = ['duration']
 
 # Table to list film and paper developers
 class Developer(models.Model):
@@ -551,6 +573,7 @@ class Developer(models.Model):
       return self.name
   class Meta:
     verbose_name_plural = "Developers"
+    ordering = ['manufacturer', 'name']
 
 # Table to catalog lens models
 class LensModel(models.Model):
@@ -595,6 +618,7 @@ class LensModel(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Lens models"
+    ordering = ['manufacturer', 'model']
 
   def clean(self):
     # Check focal length
@@ -746,6 +770,7 @@ class CameraModel(models.Model):
       return self.model
   class Meta:
     verbose_name_plural = "Camera models"
+    ordering = ['manufacturer', 'model']
 
   def clean(self):
     # ISO
@@ -813,6 +838,7 @@ class Lens(models.Model):
     return "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
   class Meta:
     verbose_name_plural = "Lenses"
+    ordering = ['lensmodel__manufacturer', 'lensmodel__model', 'serial']
   def clean(self):
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
       raise ValidationError({
@@ -859,6 +885,7 @@ class Camera(models.Model):
     return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
   class Meta:
     verbose_name_plural = "Cameras"
+    ordering = ['cameramodel__manufacturer', 'cameramodel__model', 'serial']
   def clean(self):
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
       raise ValidationError({
@@ -956,6 +983,7 @@ class Negative(models.Model):
     return "%s/%s %s" % (self.film.pk, self.frame, self.caption)
   class Meta:
     verbose_name_plural = "Negatives"
+    ordering = ['film', 'frame']
   def clean(self):
     # Aperture must be in range of lens model aperture
     if self.aperture is not None and self.lens is not None:
@@ -1071,6 +1099,7 @@ class Repair(models.Model):
   description = models.CharField(help_text='Longer description of the repair', max_length=500, blank=True, null=True)
   class Meta:
     verbose_name_plural = "Repairs"
+    ordering = ['date']
 
 # Table to record all the images that have been scanned digitally
 class Scan(models.Model):
@@ -1106,6 +1135,7 @@ class Order(models.Model):
     return self.id
   class Meta:
     verbose_name_plural = "Orders"
+    ordering = ['added']
 
 #class (ACCESSORY_COMPAT = (
 #   compat_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this compatibility',
