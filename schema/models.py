@@ -1027,13 +1027,7 @@ class Print(models.Model):
   exposure_time = models.DurationField(help_text='Exposure time of this print', blank=True, null=True)
   filtration_grade = models.DecimalField(help_text='Contrast grade of paper used', max_digits=2, decimal_places=1, blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(5)])
   development_time = models.DurationField(help_text='Development time of this print', blank=True, null=True)
-  bleach_time = models.DurationField(help_text='Duration of bleaching', blank=True, null=True)
-  toner = models.ForeignKey(Toner, on_delete=models.CASCADE, blank=True, null=True, help_text='First toner used to tone this print')
-  toner_dilution = models.CharField(help_text='Dilution of the first toner used to make this print', max_length=8, blank=True, null=True)
-  toner_time = models.DurationField(help_text='Duration of first toning', blank=True, null=True)
-  #second_toner = models.ForeignKey(Toner, on_delete=models.CASCADE, blank=True, null=True)
-  #second_toner_dilution = models.CharField(help_text='Dilution of the first toner used to make this print', max_length=8, blank=True, null=True)
-  #second_toner_time = models.DurationField(help_text='Duration of second toning', blank=True, null=True)
+  toner = models.ManyToManyField('Toner', through='Toning', help_text='Toners and bleaches used to treat this print')
   own = models.BooleanField(help_text='Whether we currently own this print', blank=True, null=True)
   location = models.CharField(help_text='The place where this print is currently', max_length=100, blank=True, null=True)
   sold_price = MoneyField(help_text='Sale price of the print', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
@@ -1059,6 +1053,16 @@ class Print(models.Model):
         raise ValidationError({
           'aperture': ValidationError(('Aperture cannot be smaller than the minimum aperture of the lens')),
         })
+
+# Table to track which toners were used on which print
+class Toning(models.Model):
+  toner = models.ForeignKey(Toner, on_delete=models.CASCADE, help_text='Toner used on this print')
+  print = models.ForeignKey(Print, on_delete=models.CASCADE, help_text='Print that was toned')
+  dilution = models.CharField(help_text='Dilution of the toner', max_length=8, blank=True, null=True)
+  duration = models.DurationField(help_text='Duration of the toning', blank=True, null=True)
+  order = models.PositiveIntegerField(help_text='Order in which this toner was applied', blank=True, null=True)
+  class Meta:
+    ordering = ['order']
 
 # Table to catalog motion picture films (movies)
 class Movie(models.Model):
