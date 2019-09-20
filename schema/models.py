@@ -1038,7 +1038,7 @@ class Print(models.Model):
   location = models.CharField(help_text='The place where this print is currently', max_length=100, blank=True, null=True)
   sold_price = MoneyField(help_text='Sale price of the print', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   enlarger = models.ForeignKey(Enlarger, on_delete=models.CASCADE, blank=True, null=True, help_text='Enlarger used to make this print')
-  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Enlarger lens used to make this print', limit_choices_to={'mount__purpose': 'Enlarger'})
+  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Enlarger lens used to make this print', limit_choices_to={'lensmodel__mount__purpose': 'Enlarger'})
   developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True, help_text='Developer used to develop this print', limit_choices_to={'for_paper': True})
   fine = models.BooleanField(help_text='Whether this is a fine print', blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes about this print, e.g. dodging, burning & complex toning', max_length=200, blank=True, null=True)
