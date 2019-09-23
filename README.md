@@ -103,20 +103,6 @@ T80_ and _Canon T90_. Series are designed to provide visibility of camera and le
 create custom series and they can be used for any purpose to help you keep track of your collection. A camera or lens model can belong to more than one series
 and a series can contain a mixture of camera and lens models.
 
-## Development
-
-Features should be developed in branches and submitted via pull request.
-
-### Migrations
-
-If your work requires changes to the database schema, make these changes by editing `schema/models.py`. Then generate a migration by running
-
-```
-python manage.py createmigration
-```
-
-Check the resulting migration file into git.
-
 ## Installing PhotoDB
 
 At the moment, PhotoDB is not packaged for production use. To install it in development mode, clone this repo and run:
