@@ -139,6 +139,13 @@ from .models import Person
 admin.site.register(Person)
 
 from .models import Print
+from .models import Toning
+class ToningInline(admin.TabularInline):
+  model = Print.toner.through
+  verbose_name = "toner"
+  verbose_name_plural = "toners"
+  extra = 0
+
 class PrintInline(admin.TabularInline):
   model = Print
   extra = 0
@@ -156,10 +163,10 @@ class PrintAdmin(admin.ModelAdmin):
     ('Development', {
       'fields': ('developer', 'development_time',),
     }),
-    ('Toning', {
-      'fields': ('bleach_time', 'toner', 'toner_dilution', 'toner_time',),
-    }),
   )
+  inlines = [
+    ToningInline,
+  ]
   search_fields = ['negative__caption', 'notes']
   list_display = ('__str__', 'date', 'negative')
   list_filter = ('paper_stock', 'developer', 'fine')
