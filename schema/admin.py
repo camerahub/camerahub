@@ -3,7 +3,9 @@ from django.contrib import admin
 # Register your models here.
 
 from .models import Accessory
-admin.site.register(Accessory)
+class AccessoryAdmin(admin.ModelAdmin):
+  filter_horizontal = ('camera_model_compatibility',)
+admin.site.register(Accessory, AccessoryAdmin)
 
 from .models import Archive
 admin.site.register(Archive)
