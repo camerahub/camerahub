@@ -890,7 +890,7 @@ class Camera(models.Model):
   source = models.CharField(help_text='Where the camera was acquired from', max_length=150, blank=True, null=True)
   condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True, help_text='Condition of this camera')
   condition_notes = models.CharField(help_text='Description of condition', max_length=150, blank=True, null=True)
-  #display_lens = models.ForeignKey(Lens, on_delete=models.CASCADE)
+  display_lens = models.OneToOneField(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens that this camera should be displayed with', related_name='display_camera')
   def __str__(self):
     return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
   class Meta:
