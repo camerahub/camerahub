@@ -41,51 +41,6 @@ class Manufacturer(models.Model):
         'dissolved': ValidationError(('Dissolved date must be in the past')),
       })
 
-# Table to catalog accessories that are not tracked in more specific tables
-class Accessory(models.Model):
-  # Choices for accessory types
-  class AccessoryType(DjangoChoices):
-    Battery_grip = ChoiceItem()
-    Case = ChoiceItem()
-    Film_back = ChoiceItem()
-    Focusing_screen = ChoiceItem()
-    Lens_hood = ChoiceItem()
-    Lens_cap = ChoiceItem()
-    Power_winder = ChoiceItem()
-    Viewfinder = ChoiceItem()
-    Rangefinder = ChoiceItem()
-
-  type = models.CharField(choices=AccessoryType.choices, help_text='Type of accessory', max_length=15)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this accessory')
-  model = models.CharField(help_text='Model of the accessory', max_length=45)
-  acquired = models.DateField(help_text='Date that this accessory was acquired', blank=True, null=True)
-  cost = MoneyField(help_text='Purchase cost of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
-  lost = models.DateField(help_text='Date that this accessory was lost', blank=True, null=True)
-  lost_price = MoneyField(help_text='Sale price of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
-  def __str__(self):
-    if self.manufacturer is not None:
-      return "%s %s" % (self.manufacturer.name, self.model)
-    else:
-      return self.model
-  class Meta:
-    ordering = ['manufacturer', 'model']
-    verbose_name_plural = "accessories"
-  def clean(self):
-    # Acquired/lost
-    if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
-      raise ValidationError({
-        'acquired': ValidationError(('Acquired date must be earlier than lost date')),
-        'lost': ValidationError(('Lost date must be later than acquired date')),
-      })
-    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
-      raise ValidationError({
-        'acquired': ValidationError(('Acquired date must be in the past')),
-      })
-    if self.lost is not None and self.lost > datetime.date(datetime.now()):
-      raise ValidationError({
-        'lost': ValidationError(('Lost date must be in the past')),
-      })
-
 # Table to list all archives that exist for storing physical media
 class Archive(models.Model):
   # Choices for archive types
@@ -820,6 +775,53 @@ class CameraModel(models.Model):
     if self.int_flash is False and self.int_flash_gn is not None:
       raise ValidationError({
         'int_flash_gn': ValidationError(('Cannot set internal flash guide number if camera model has no internal flash')),
+      })
+
+# Table to catalog accessories that are not tracked in more specific tables
+class Accessory(models.Model):
+  # Choices for accessory types
+  class AccessoryType(DjangoChoices):
+    Battery_grip = ChoiceItem()
+    Case = ChoiceItem()
+    Film_back = ChoiceItem()
+    Focusing_screen = ChoiceItem()
+    Lens_hood = ChoiceItem()
+    Lens_cap = ChoiceItem()
+    Power_winder = ChoiceItem()
+    Viewfinder = ChoiceItem()
+    Rangefinder = ChoiceItem()
+
+  type = models.CharField(choices=AccessoryType.choices, help_text='Type of accessory', max_length=15)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this accessory')
+  model = models.CharField(help_text='Model of the accessory', max_length=45)
+  acquired = models.DateField(help_text='Date that this accessory was acquired', blank=True, null=True)
+  cost = MoneyField(help_text='Purchase cost of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
+  lost = models.DateField(help_text='Date that this accessory was lost', blank=True, null=True)
+  lost_price = MoneyField(help_text='Sale price of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
+  camera_model_compatibility = models.ManyToManyField(CameraModel, blank=True)
+  lens_model_compatibility = models.ManyToManyField(LensModel, blank=True)
+  def __str__(self):
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.model)
+    else:
+      return self.model
+  class Meta:
+    ordering = ['manufacturer', 'model']
+    verbose_name_plural = "accessories"
+  def clean(self):
+    # Acquired/lost
+    if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be earlier than lost date')),
+        'lost': ValidationError(('Lost date must be later than acquired date')),
+      })
+    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be in the past')),
+      })
+    if self.lost is not None and self.lost > datetime.date(datetime.now()):
+      raise ValidationError({
+        'lost': ValidationError(('Lost date must be in the past')),
       })
 
 # Table to catalog lenses
