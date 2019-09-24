@@ -1150,14 +1150,3 @@ class Order(models.Model):
   class Meta:
     ordering = ['added']
     verbose_name_plural = "orders"
-
-#class (ACCESSORY_COMPAT = (
-#   compat_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this compatibility',
-#   accessory_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the accessory',
-#   cameramodel_id = models.IntegerField(11) 'ID of the compatible camera model',
-#   lensmodel_id = models.IntegerField(11) 'ID of the compatible lens',
-#   PRIMARY KEY (`compat_id`),
-#   CONSTRAINT `fk_ACCESSORY_COMPAT_1 = FOREIGN KEY (`accessory_id`) REFERENCES `ACCESSORY = (`accessory_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-#   CONSTRAINT `fk_ACCESSORY_COMPAT_2 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-#   CONSTRAINT `fk_ACCESSORY_COMPAT_3 = FOREIGN KEY (`lensmodel_id`) REFERENCES `LENSMODEL = (`lensmodel_id`) ON DELETE CASCADE ON UPDATE CASCADE
-# ) 'Table to define compatibility between accessories and cameras or lenses';
