@@ -41,51 +41,6 @@ class Manufacturer(models.Model):
         'dissolved': ValidationError(('Dissolved date must be in the past')),
       })
 
-# Table to catalog accessories that are not tracked in more specific tables
-class Accessory(models.Model):
-  # Choices for accessory types
-  class AccessoryType(DjangoChoices):
-    Battery_grip = ChoiceItem()
-    Case = ChoiceItem()
-    Film_back = ChoiceItem()
-    Focusing_screen = ChoiceItem()
-    Lens_hood = ChoiceItem()
-    Lens_cap = ChoiceItem()
-    Power_winder = ChoiceItem()
-    Viewfinder = ChoiceItem()
-    Rangefinder = ChoiceItem()
-
-  type = models.CharField(choices=AccessoryType.choices, help_text='Type of accessory', max_length=15)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this accessory')
-  model = models.CharField(help_text='Model of the accessory', max_length=45)
-  acquired = models.DateField(help_text='Date that this accessory was acquired', blank=True, null=True)
-  cost = MoneyField(help_text='Purchase cost of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
-  lost = models.DateField(help_text='Date that this accessory was lost', blank=True, null=True)
-  lost_price = MoneyField(help_text='Sale price of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
-  def __str__(self):
-    if self.manufacturer is not None:
-      return "%s %s" % (self.manufacturer.name, self.model)
-    else:
-      return self.model
-  class Meta:
-    ordering = ['manufacturer', 'model']
-    verbose_name_plural = "accessories"
-  def clean(self):
-    # Acquired/lost
-    if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
-      raise ValidationError({
-        'acquired': ValidationError(('Acquired date must be earlier than lost date')),
-        'lost': ValidationError(('Lost date must be later than acquired date')),
-      })
-    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
-      raise ValidationError({
-        'acquired': ValidationError(('Acquired date must be in the past')),
-      })
-    if self.lost is not None and self.lost > datetime.date(datetime.now()):
-      raise ValidationError({
-        'lost': ValidationError(('Lost date must be in the past')),
-      })
-
 # Table to list all archives that exist for storing physical media
 class Archive(models.Model):
   # Choices for archive types
@@ -534,12 +489,17 @@ class FilterAdapter(models.Model):
     verbose_name_plural = "filter adapters"
 
 # Table to catalog adapters to mount lenses on other cameras
-# class MountAdapter(models.Model):
-#   lens_mount = models.ForeignKey(Mount, on_delete=models.CASCADE)
-#   camera_mount = models.ForeignKey(Mount, on_delete=models.CASCADE)
-#   has_optics = models.BooleanField(help_text='Whether this adapter includes optical elements')
-#   infinity_focus = models.BooleanField(help_text='Whether this adapter allows infinity focus')
-#   notes = models.CharField(help_text='Freeform notes', max_length=100)
+class MountAdapter(models.Model):
+  camera_mount = models.ForeignKey(Mount, on_delete=models.CASCADE, help_text='Mount used to attach a camera', related_name="camera_mount")
+  lens_mount = models.ForeignKey(Mount, on_delete=models.CASCADE, help_text='Mount used to attach a lens', related_name="lens_mount")
+  has_optics = models.BooleanField(help_text='Whether this adapter includes optical elements', blank=True, null=True)
+  infinity_focus = models.BooleanField(help_text='Whether this adapter allows infinity focus', blank=True, null=True)
+  notes = models.CharField(help_text='Freeform notes', max_length=100, blank=True, null=True)
+  def __str__(self):
+    return "%s - %s" % (self.camera_mount, self.lens_mount)
+  class Meta:
+    ordering = ['camera_mount', 'lens_mount']
+    verbose_name_plural = "mount adapters"
 
 # Table to list all possible shutter speeds
 class ShutterSpeed(models.Model):
@@ -822,6 +782,53 @@ class CameraModel(models.Model):
         'int_flash_gn': ValidationError(('Cannot set internal flash guide number if camera model has no internal flash')),
       })
 
+# Table to catalog accessories that are not tracked in more specific tables
+class Accessory(models.Model):
+  # Choices for accessory types
+  class AccessoryType(DjangoChoices):
+    Battery_grip = ChoiceItem()
+    Case = ChoiceItem()
+    Film_back = ChoiceItem()
+    Focusing_screen = ChoiceItem()
+    Lens_hood = ChoiceItem()
+    Lens_cap = ChoiceItem()
+    Power_winder = ChoiceItem()
+    Viewfinder = ChoiceItem()
+    Rangefinder = ChoiceItem()
+
+  type = models.CharField(choices=AccessoryType.choices, help_text='Type of accessory', max_length=15)
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this accessory')
+  model = models.CharField(help_text='Model of the accessory', max_length=45)
+  acquired = models.DateField(help_text='Date that this accessory was acquired', blank=True, null=True)
+  cost = MoneyField(help_text='Purchase cost of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
+  lost = models.DateField(help_text='Date that this accessory was lost', blank=True, null=True)
+  lost_price = MoneyField(help_text='Sale price of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
+  camera_model_compatibility = models.ManyToManyField(CameraModel, blank=True)
+  lens_model_compatibility = models.ManyToManyField(LensModel, blank=True)
+  def __str__(self):
+    if self.manufacturer is not None:
+      return "%s %s" % (self.manufacturer.name, self.model)
+    else:
+      return self.model
+  class Meta:
+    ordering = ['manufacturer', 'model']
+    verbose_name_plural = "accessories"
+  def clean(self):
+    # Acquired/lost
+    if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be earlier than lost date')),
+        'lost': ValidationError(('Lost date must be later than acquired date')),
+      })
+    if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
+      raise ValidationError({
+        'acquired': ValidationError(('Acquired date must be in the past')),
+      })
+    if self.lost is not None and self.lost > datetime.date(datetime.now()):
+      raise ValidationError({
+        'lost': ValidationError(('Lost date must be in the past')),
+      })
+
 # Table to catalog lenses
 class Lens(models.Model):
   lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE, help_text='Lens model of this lens')
@@ -883,7 +890,7 @@ class Camera(models.Model):
   source = models.CharField(help_text='Where the camera was acquired from', max_length=150, blank=True, null=True)
   condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True, help_text='Condition of this camera')
   condition_notes = models.CharField(help_text='Description of condition', max_length=150, blank=True, null=True)
-  #display_lens = models.ForeignKey(Lens, on_delete=models.CASCADE)
+  display_lens = models.OneToOneField(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens that this camera should be displayed with', related_name='display_camera')
   def __str__(self):
     return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
   class Meta:
@@ -973,7 +980,7 @@ class Negative(models.Model):
   filter = models.ForeignKey(Filter, on_delete=models.CASCADE, blank=True, null=True, help_text='Filter used when taking this negative')
   teleconverter = models.ForeignKey(Teleconverter, on_delete=models.CASCADE, blank=True, null=True, help_text='Teleconverter used when taking this negative')
   notes = models.CharField(help_text='Extra freeform notes about this exposure', max_length=200, blank=True, null=True)
-  # mount_adapter = models.ForeignKey(MountAdapter, on_delete=models.CASCADE, blank=True, null=True)
+  mount_adapter = models.ForeignKey(MountAdapter, on_delete=models.CASCADE, blank=True, null=True, help_text='Mount adapter used to mount lens')
   focal_length = models.PositiveIntegerField(help_text='If a zoom lens was used, specify the focal length of the lens', blank=True, null=True)
   latitude = models.DecimalField(help_text='Latitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-90),MaxValueValidator(90)])
   longitude = models.DecimalField(help_text='Longitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-180),MaxValueValidator(180)])
@@ -981,7 +988,7 @@ class Negative(models.Model):
   metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering mode used when taking the image')
   exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE, blank=True, null=True, help_text='Exposure program used when taking the image')
   photographer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Photographer who took the negative')
-  # copy_of = models.ForeignKey(Negative, on_delete=models.CASCADE)
+  copy_of = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='copy', help_text='Negative that this was duplicated from')
   def __str__(self):
     return "%s/%s %s" % (self.film.pk, self.frame, self.caption)
   class Meta:
@@ -1028,18 +1035,12 @@ class Print(models.Model):
   exposure_time = models.DurationField(help_text='Exposure time of this print', blank=True, null=True)
   filtration_grade = models.DecimalField(help_text='Contrast grade of paper used', max_digits=2, decimal_places=1, blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(5)])
   development_time = models.DurationField(help_text='Development time of this print', blank=True, null=True)
-  bleach_time = models.DurationField(help_text='Duration of bleaching', blank=True, null=True)
-  toner = models.ForeignKey(Toner, on_delete=models.CASCADE, blank=True, null=True, help_text='First toner used to tone this print')
-  toner_dilution = models.CharField(help_text='Dilution of the first toner used to make this print', max_length=8, blank=True, null=True)
-  toner_time = models.DurationField(help_text='Duration of first toning', blank=True, null=True)
-  #second_toner = models.ForeignKey(Toner, on_delete=models.CASCADE, blank=True, null=True)
-  #second_toner_dilution = models.CharField(help_text='Dilution of the first toner used to make this print', max_length=8, blank=True, null=True)
-  #second_toner_time = models.DurationField(help_text='Duration of second toning', blank=True, null=True)
+  toner = models.ManyToManyField('Toner', through='Toning', help_text='Toners and bleaches used to treat this print')
   own = models.BooleanField(help_text='Whether we currently own this print', blank=True, null=True)
   location = models.CharField(help_text='The place where this print is currently', max_length=100, blank=True, null=True)
   sold_price = MoneyField(help_text='Sale price of the print', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   enlarger = models.ForeignKey(Enlarger, on_delete=models.CASCADE, blank=True, null=True, help_text='Enlarger used to make this print')
-  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Enlarger lens used to make this print', limit_choices_to={'mount__purpose': 'Enlarger'})
+  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Enlarger lens used to make this print', limit_choices_to={'lensmodel__mount__purpose': 'Enlarger'})
   developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True, help_text='Developer used to develop this print', limit_choices_to={'for_paper': True})
   fine = models.BooleanField(help_text='Whether this is a fine print', blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes about this print, e.g. dodging, burning & complex toning', max_length=200, blank=True, null=True)
@@ -1060,6 +1061,16 @@ class Print(models.Model):
         raise ValidationError({
           'aperture': ValidationError(('Aperture cannot be smaller than the minimum aperture of the lens')),
         })
+
+# Table to track which toners were used on which print
+class Toning(models.Model):
+  toner = models.ForeignKey(Toner, on_delete=models.CASCADE, help_text='Toner used on this print')
+  print = models.ForeignKey(Print, on_delete=models.CASCADE, help_text='Print that was toned')
+  dilution = models.CharField(help_text='Dilution of the toner', max_length=8, blank=True, null=True)
+  duration = models.DurationField(help_text='Duration of the toning', blank=True, null=True)
+  order = models.PositiveIntegerField(help_text='Order in which this toner was applied', blank=True, null=True)
+  class Meta:
+    ordering = ['order']
 
 # Table to catalog motion picture films (movies)
 class Movie(models.Model):
@@ -1140,14 +1151,3 @@ class Order(models.Model):
   class Meta:
     ordering = ['added']
     verbose_name_plural = "orders"
-
-#class (ACCESSORY_COMPAT = (
-#   compat_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this compatibility',
-#   accessory_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the accessory',
-#   cameramodel_id = models.IntegerField(11) 'ID of the compatible camera model',
-#   lensmodel_id = models.IntegerField(11) 'ID of the compatible lens',
-#   PRIMARY KEY (`compat_id`),
-#   CONSTRAINT `fk_ACCESSORY_COMPAT_1 = FOREIGN KEY (`accessory_id`) REFERENCES `ACCESSORY = (`accessory_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-#   CONSTRAINT `fk_ACCESSORY_COMPAT_2 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-#   CONSTRAINT `fk_ACCESSORY_COMPAT_3 = FOREIGN KEY (`lensmodel_id`) REFERENCES `LENSMODEL = (`lensmodel_id`) ON DELETE CASCADE ON UPDATE CASCADE
-# ) 'Table to define compatibility between accessories and cameras or lenses';

@@ -3,7 +3,9 @@ from django.contrib import admin
 # Register your models here.
 
 from .models import Accessory
-admin.site.register(Accessory)
+class AccessoryAdmin(admin.ModelAdmin):
+  filter_horizontal = ('camera_model_compatibility', 'lens_model_compatibility')
+admin.site.register(Accessory, AccessoryAdmin)
 
 from .models import Archive
 admin.site.register(Archive)
@@ -121,6 +123,9 @@ admin.site.register(MeteringType)
 from .models import Mount
 admin.site.register(Mount)
 
+from .models import MountAdapter
+admin.site.register(MountAdapter)
+
 from .models import Movie
 admin.site.register(Movie)
 
@@ -139,6 +144,13 @@ from .models import Person
 admin.site.register(Person)
 
 from .models import Print
+from .models import Toning
+class ToningInline(admin.TabularInline):
+  model = Print.toner.through
+  verbose_name = "toner"
+  verbose_name_plural = "toners"
+  extra = 0
+
 class PrintInline(admin.TabularInline):
   model = Print
   extra = 0
@@ -156,10 +168,10 @@ class PrintAdmin(admin.ModelAdmin):
     ('Development', {
       'fields': ('developer', 'development_time',),
     }),
-    ('Toning', {
-      'fields': ('bleach_time', 'toner', 'toner_dilution', 'toner_time',),
-    }),
   )
+  inlines = [
+    ToningInline,
+  ]
   search_fields = ['negative__caption', 'notes']
   list_display = ('__str__', 'date', 'negative')
   list_filter = ('paper_stock', 'developer', 'fine')
@@ -191,7 +203,7 @@ class NegativeAdmin(admin.ModelAdmin):
       'description': 'Enter information about this camera model',
     }),
     ('Exposure', {
-      'fields': ('lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'focal_length', 'flash', 'metering_mode', 'exposure_program'),
+      'fields': ('lens', 'mount_adapter', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'focal_length', 'flash', 'metering_mode', 'exposure_program', 'copy_of'),
     }),
     ('Location', {
       'fields': (('latitude', 'longitude'),),
