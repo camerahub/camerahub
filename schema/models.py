@@ -489,12 +489,17 @@ class FilterAdapter(models.Model):
     verbose_name_plural = "filter adapters"
 
 # Table to catalog adapters to mount lenses on other cameras
-# class MountAdapter(models.Model):
-#   lens_mount = models.ForeignKey(Mount, on_delete=models.CASCADE)
-#   camera_mount = models.ForeignKey(Mount, on_delete=models.CASCADE)
-#   has_optics = models.BooleanField(help_text='Whether this adapter includes optical elements')
-#   infinity_focus = models.BooleanField(help_text='Whether this adapter allows infinity focus')
-#   notes = models.CharField(help_text='Freeform notes', max_length=100)
+class MountAdapter(models.Model):
+  camera_mount = models.ForeignKey(Mount, on_delete=models.CASCADE, help_text='Mount used to attach a camera', related_name="camera_mount")
+  lens_mount = models.ForeignKey(Mount, on_delete=models.CASCADE, help_text='Mount used to attach a lens', related_name="lens_mount")
+  has_optics = models.BooleanField(help_text='Whether this adapter includes optical elements', blank=True, null=True)
+  infinity_focus = models.BooleanField(help_text='Whether this adapter allows infinity focus', blank=True, null=True)
+  notes = models.CharField(help_text='Freeform notes', max_length=100, blank=True, null=True)
+  def __str__(self):
+    return "%s - %s" % (self.camera_mount, self.lens_mount)
+  class Meta:
+    ordering = ['camera_mount', 'lens_mount']
+    verbose_name_plural = "mount adapters"
 
 # Table to list all possible shutter speeds
 class ShutterSpeed(models.Model):

@@ -123,6 +123,9 @@ admin.site.register(MeteringType)
 from .models import Mount
 admin.site.register(Mount)
 
+from .models import MountAdapter
+admin.site.register(MountAdapter)
+
 from .models import Movie
 admin.site.register(Movie)
 
