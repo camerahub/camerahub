@@ -980,7 +980,7 @@ class Negative(models.Model):
   filter = models.ForeignKey(Filter, on_delete=models.CASCADE, blank=True, null=True, help_text='Filter used when taking this negative')
   teleconverter = models.ForeignKey(Teleconverter, on_delete=models.CASCADE, blank=True, null=True, help_text='Teleconverter used when taking this negative')
   notes = models.CharField(help_text='Extra freeform notes about this exposure', max_length=200, blank=True, null=True)
-  # mount_adapter = models.ForeignKey(MountAdapter, on_delete=models.CASCADE, blank=True, null=True)
+  mount_adapter = models.ForeignKey(MountAdapter, on_delete=models.CASCADE, blank=True, null=True, help_text='Mount adapter used to mount lens')
   focal_length = models.PositiveIntegerField(help_text='If a zoom lens was used, specify the focal length of the lens', blank=True, null=True)
   latitude = models.DecimalField(help_text='Latitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-90),MaxValueValidator(90)])
   longitude = models.DecimalField(help_text='Longitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-180),MaxValueValidator(180)])
