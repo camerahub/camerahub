@@ -849,6 +849,7 @@ class Lens(models.Model):
   class Meta:
     ordering = ['lensmodel__manufacturer', 'lensmodel__model', 'serial']
     verbose_name_plural = "lenses"
+    unique_together = ['lensmodel', 'serial']
   def clean(self):
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
       raise ValidationError({
@@ -896,6 +897,7 @@ class Camera(models.Model):
   class Meta:
     ordering = ['cameramodel__manufacturer', 'cameramodel__model', 'serial']
     verbose_name_plural = "cameras"
+    unique_together = ['cameramodel', 'serial']
   def clean(self):
     if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
       raise ValidationError({
@@ -1071,6 +1073,7 @@ class Toning(models.Model):
   order = models.PositiveIntegerField(help_text='Order in which this toner was applied', blank=True, null=True)
   class Meta:
     ordering = ['order']
+    unique_together = ['print', 'order']
 
 # Table to catalog motion picture films (movies)
 class Movie(models.Model):
