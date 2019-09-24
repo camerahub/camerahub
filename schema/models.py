@@ -489,12 +489,17 @@ class FilterAdapter(models.Model):
     verbose_name_plural = "filter adapters"
 
 # Table to catalog adapters to mount lenses on other cameras
-# class MountAdapter(models.Model):
-#   lens_mount = models.ForeignKey(Mount, on_delete=models.CASCADE)
-#   camera_mount = models.ForeignKey(Mount, on_delete=models.CASCADE)
-#   has_optics = models.BooleanField(help_text='Whether this adapter includes optical elements')
-#   infinity_focus = models.BooleanField(help_text='Whether this adapter allows infinity focus')
-#   notes = models.CharField(help_text='Freeform notes', max_length=100)
+class MountAdapter(models.Model):
+  camera_mount = models.ForeignKey(Mount, on_delete=models.CASCADE, help_text='Mount used to attach a camera', related_name="camera_mount")
+  lens_mount = models.ForeignKey(Mount, on_delete=models.CASCADE, help_text='Mount used to attach a lens', related_name="lens_mount")
+  has_optics = models.BooleanField(help_text='Whether this adapter includes optical elements', blank=True, null=True)
+  infinity_focus = models.BooleanField(help_text='Whether this adapter allows infinity focus', blank=True, null=True)
+  notes = models.CharField(help_text='Freeform notes', max_length=100, blank=True, null=True)
+  def __str__(self):
+    return "%s - %s" % (self.camera_mount, self.lens_mount)
+  class Meta:
+    ordering = ['camera_mount', 'lens_mount']
+    verbose_name_plural = "mount adapters"
 
 # Table to list all possible shutter speeds
 class ShutterSpeed(models.Model):
@@ -885,7 +890,7 @@ class Camera(models.Model):
   source = models.CharField(help_text='Where the camera was acquired from', max_length=150, blank=True, null=True)
   condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True, help_text='Condition of this camera')
   condition_notes = models.CharField(help_text='Description of condition', max_length=150, blank=True, null=True)
-  #display_lens = models.ForeignKey(Lens, on_delete=models.CASCADE)
+  display_lens = models.OneToOneField(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens that this camera should be displayed with', related_name='display_camera')
   def __str__(self):
     return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
   class Meta:
@@ -975,7 +980,7 @@ class Negative(models.Model):
   filter = models.ForeignKey(Filter, on_delete=models.CASCADE, blank=True, null=True, help_text='Filter used when taking this negative')
   teleconverter = models.ForeignKey(Teleconverter, on_delete=models.CASCADE, blank=True, null=True, help_text='Teleconverter used when taking this negative')
   notes = models.CharField(help_text='Extra freeform notes about this exposure', max_length=200, blank=True, null=True)
-  # mount_adapter = models.ForeignKey(MountAdapter, on_delete=models.CASCADE, blank=True, null=True)
+  mount_adapter = models.ForeignKey(MountAdapter, on_delete=models.CASCADE, blank=True, null=True, help_text='Mount adapter used to mount lens')
   focal_length = models.PositiveIntegerField(help_text='If a zoom lens was used, specify the focal length of the lens', blank=True, null=True)
   latitude = models.DecimalField(help_text='Latitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-90),MaxValueValidator(90)])
   longitude = models.DecimalField(help_text='Longitude of the location where the picture was taken', max_digits=9, decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-180),MaxValueValidator(180)])
@@ -983,7 +988,7 @@ class Negative(models.Model):
   metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering mode used when taking the image')
   exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE, blank=True, null=True, help_text='Exposure program used when taking the image')
   photographer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Photographer who took the negative')
-  # copy_of = models.ForeignKey(Negative, on_delete=models.CASCADE)
+  copy_of = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='copy', help_text='Negative that this was duplicated from')
   def __str__(self):
     return "%s/%s %s" % (self.film.pk, self.frame, self.caption)
   class Meta:
@@ -1145,14 +1150,3 @@ class Order(models.Model):
   class Meta:
     ordering = ['added']
     verbose_name_plural = "orders"
-
-#class (ACCESSORY_COMPAT = (
-#   compat_id = models.IntegerField(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for this compatibility',
-#   accessory_id = models.IntegerField(11) NOT NULL COMMENT 'ID of the accessory',
-#   cameramodel_id = models.IntegerField(11) 'ID of the compatible camera model',
-#   lensmodel_id = models.IntegerField(11) 'ID of the compatible lens',
-#   PRIMARY KEY (`compat_id`),
-#   CONSTRAINT `fk_ACCESSORY_COMPAT_1 = FOREIGN KEY (`accessory_id`) REFERENCES `ACCESSORY = (`accessory_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-#   CONSTRAINT `fk_ACCESSORY_COMPAT_2 = FOREIGN KEY (`cameramodel_id`) REFERENCES `CAMERAMODEL = (`cameramodel_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-#   CONSTRAINT `fk_ACCESSORY_COMPAT_3 = FOREIGN KEY (`lensmodel_id`) REFERENCES `LENSMODEL = (`lensmodel_id`) ON DELETE CASCADE ON UPDATE CASCADE
-# ) 'Table to define compatibility between accessories and cameras or lenses';

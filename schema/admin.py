@@ -123,6 +123,9 @@ admin.site.register(MeteringType)
 from .models import Mount
 admin.site.register(Mount)
 
+from .models import MountAdapter
+admin.site.register(MountAdapter)
+
 from .models import Movie
 admin.site.register(Movie)
 
@@ -200,7 +203,7 @@ class NegativeAdmin(admin.ModelAdmin):
       'description': 'Enter information about this camera model',
     }),
     ('Exposure', {
-      'fields': ('lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'focal_length', 'flash', 'metering_mode', 'exposure_program'),
+      'fields': ('lens', 'mount_adapter', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'focal_length', 'flash', 'metering_mode', 'exposure_program', 'copy_of'),
     }),
     ('Location', {
       'fields': (('latitude', 'longitude'),),
