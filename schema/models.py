@@ -987,6 +987,7 @@ class Negative(models.Model):
   class Meta:
     ordering = ['film', 'frame']
     verbose_name_plural = "negatives"
+    unique_together = ['film', 'frame']
   def clean(self):
     # Aperture must be in range of lens model aperture
     if self.aperture is not None and self.lens is not None:
