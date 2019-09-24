@@ -203,7 +203,7 @@ class NegativeAdmin(admin.ModelAdmin):
       'description': 'Enter information about this camera model',
     }),
     ('Exposure', {
-      'fields': ('lens', 'mount_adapter', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'focal_length', 'flash', 'metering_mode', 'exposure_program'),
+      'fields': ('lens', 'mount_adapter', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'focal_length', 'flash', 'metering_mode', 'exposure_program', 'copy_of'),
     }),
     ('Location', {
       'fields': (('latitude', 'longitude'),),

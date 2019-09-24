@@ -988,7 +988,7 @@ class Negative(models.Model):
   metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering mode used when taking the image')
   exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE, blank=True, null=True, help_text='Exposure program used when taking the image')
   photographer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Photographer who took the negative')
-  # copy_of = models.ForeignKey(Negative, on_delete=models.CASCADE)
+  copy_of = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='copy', help_text='Negative that this was duplicated from')
   def __str__(self):
     return "%s/%s %s" % (self.film.pk, self.frame, self.caption)
   class Meta:
