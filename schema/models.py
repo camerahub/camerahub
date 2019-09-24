@@ -799,6 +799,7 @@ class Accessory(models.Model):
   lost = models.DateField(help_text='Date that this accessory was lost', blank=True, null=True)
   lost_price = MoneyField(help_text='Sale price of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   camera_model_compatibility = models.ManyToManyField(CameraModel, blank=True)
+  lens_model_compatibility = models.ManyToManyField(LensModel, blank=True)
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.model)

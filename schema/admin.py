@@ -4,7 +4,7 @@ from django.contrib import admin
 
 from .models import Accessory
 class AccessoryAdmin(admin.ModelAdmin):
-  filter_horizontal = ('camera_model_compatibility',)
+  filter_horizontal = ('camera_model_compatibility', 'lens_model_compatibility')
 admin.site.register(Accessory, AccessoryAdmin)
 
 from .models import Archive
