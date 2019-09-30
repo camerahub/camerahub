@@ -202,14 +202,14 @@ FLUENT_DASHBOARD_APP_GROUPS = (
             'schema.models.Print',
         ),
         'module': 'AppIconList',
-        'collapsible': True,
+        'collapsible': False,
     }),
     (_('Applications'), {
         'models': (
             'schema.*',
         ),
         'module': 'ModelList',
-        'collapsible': True,
+        'collapsible': False,
     }),
 )
 
