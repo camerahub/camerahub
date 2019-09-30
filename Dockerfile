@@ -10,7 +10,7 @@ ARG PROJECT_DIR=/var/www/${PROJECT}
 RUN mkdir -p $PROJECT_DIR
 ADD . $PROJECT_DIR
 WORKDIR $PROJECT_DIR
-RUN pip install -r requirements.txt
+RUN pip install .
 
 # Run migrations
 RUN python manage.py migrate
