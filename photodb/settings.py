@@ -188,9 +188,6 @@ FLUENT_DASHBOARD_APP_GROUPS = (
     (_('Administration'), {
         'models': (
             'django.contrib.auth.*',
-            'django.contrib.sites.*',
-            'google_analytics.*',
-            'registration.*',
         ),
     }),
     (_('Quick links'), {
