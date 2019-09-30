@@ -84,6 +84,7 @@ WSGI_APPLICATION = 'photodb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+# May be overridden in local_settings.py
 
 DATABASES = {
     'default': {
@@ -188,9 +189,6 @@ FLUENT_DASHBOARD_APP_GROUPS = (
     (_('Administration'), {
         'models': (
             'django.contrib.auth.*',
-            'django.contrib.sites.*',
-            'google_analytics.*',
-            'registration.*',
         ),
     }),
     (_('Quick links'), {
@@ -202,15 +200,21 @@ FLUENT_DASHBOARD_APP_GROUPS = (
             'schema.models.Print',
         ),
         'module': 'AppIconList',
-        'collapsible': True,
+        'collapsible': False,
     }),
     (_('Applications'), {
         'models': (
             'schema.*',
         ),
         'module': 'ModelList',
-        'collapsible': True,
+        'collapsible': False,
     }),
 )
 
 FAVICON_PATH = STATIC_URL + 'favicon.ico'
+
+try:
+    from .local_settings import *
+except ImportError:
+    # No local settings was found, skipping.
+    pass

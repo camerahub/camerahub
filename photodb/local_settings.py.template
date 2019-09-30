@@ -1,0 +1,23 @@
+# By default, PhotoDB sets up its own SQLite database file for the data.
+# If you wish to use an external database then copy this file to
+# local_settings.py and customise the settings for your environment.
+
+# Choose an ENGINE from:
+# 'django.db.backends.postgresql'
+# 'django.db.backends.mysql'
+# 'django.db.backends.sqlite3'
+# 'django.db.backends.oracle'
+#
+# See this doc for full info
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydatabase',
+        'USER': 'mydatabaseuser',
+        'PASSWORD': 'mypassword',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
