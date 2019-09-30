@@ -16,7 +16,10 @@ python manage.py createsuperuser
 
 ## Configuring PhotoDB
 
-PhotoDB will run out of the box with no additional configuration, by creating an Sqlite database in its own directory.
+PhotoDB will run out of the box with no additional configuration, by creating an SQLite database in its own directory.
+
+If you wish to use an external database then copy `photodb/local_settings.py.template` to
+`photodb/local_settings.py` and customise the database settings for your environment.
 
 ## Running PhotoDB
 
