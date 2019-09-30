@@ -14,6 +14,7 @@ deploy:
   on:
     tags: true
   skip_existing: true
+  skip_cleanup: true
   distributions: sdist bdist_wheel
 - provider: releases
   api_key:
