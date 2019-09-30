@@ -189,9 +189,6 @@ FLUENT_DASHBOARD_APP_GROUPS = (
     (_('Administration'), {
         'models': (
             'django.contrib.auth.*',
-            'django.contrib.sites.*',
-            'google_analytics.*',
-            'registration.*',
         ),
     }),
     (_('Quick links'), {
@@ -203,14 +200,14 @@ FLUENT_DASHBOARD_APP_GROUPS = (
             'schema.models.Print',
         ),
         'module': 'AppIconList',
-        'collapsible': True,
+        'collapsible': False,
     }),
     (_('Applications'), {
         'models': (
             'schema.*',
         ),
         'module': 'ModelList',
-        'collapsible': True,
+        'collapsible': False,
     }),
 )
 
