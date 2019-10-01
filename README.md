@@ -24,8 +24,11 @@ This method of installation is required if you want to work on the source code.
 
 ### With Docker
 
+To create a named container running PhotoDB, use the following command. You can change the `-p` settings
+if you wish to serve PhotoDB on a different port.
+
 ```sh
-docker run djjudas21/photodb-django:0.0.10
+docker create --name photodb -p 8000:8000 djjudas21/photodb-django
 ```
 
 ## Configuring PhotoDB
@@ -44,13 +47,19 @@ python manage.py createsuperuser
 
 ## Running PhotoDB
 
-At the moment, PhotoDB is not packaged for production use. To run it in development mode, execute:
+### From pip or source
 
 ```sh
 python manage.py runserver
 ```
 
 and navigate to [http://localhost:8000](http://localhost:8000)
+
+### From Docker
+
+```sh
+docker start photodb
+```
 
 ## See also
 
