@@ -6,12 +6,29 @@ section for full details on the capabilities of PhotoDB.
 
 ## Installing PhotoDB
 
-At the moment, PhotoDB is not packaged for production use. To install it in development mode, clone this repo and run:
+### From pip
 
 ```sh
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py createsuperuser
+pip install PhotoDB
+```
+
+### From source
+
+To install PhotoDB from source, clone this repo and run:
+
+```sh
+pip install .
+```
+
+This method of installation is required if you want to work on the source code.
+
+### With Docker
+
+To create a named container running PhotoDB, use the following command. You can change the `-p` settings
+if you wish to serve PhotoDB on a different port.
+
+```sh
+docker create --name photodb -p 8000:8000 djjudas21/photodb-django
 ```
 
 ## Configuring PhotoDB
@@ -21,15 +38,28 @@ PhotoDB will run out of the box with no additional configuration, by creating an
 If you wish to use an external database then copy `photodb/local_settings.py.template` to
 `photodb/local_settings.py` and customise the database settings for your environment.
 
+After the database is configured, apply the migrations and create your user account:
+
+```sh
+python manage.py migrate
+python manage.py createsuperuser
+```
+
 ## Running PhotoDB
 
-At the moment, PhotoDB is not packaged for production use. To run it in development mode, execute:
+### From pip or source
 
 ```sh
 python manage.py runserver
 ```
 
 and navigate to [http://localhost:8000](http://localhost:8000)
+
+### From Docker
+
+```sh
+docker start photodb
+```
 
 ## See also
 
