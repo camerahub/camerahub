@@ -14,6 +14,9 @@ RUN pip install .
 # Run migrations
 RUN python manage.py migrate
 
+# Create superuser
+RUN python manage.py createsuperuserwithpassword --username admin --password admin --email admin@example.com --preserve
+
 # Server
 EXPOSE 8000
 STOPSIGNAL SIGINT
