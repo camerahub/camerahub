@@ -1,8 +1,8 @@
 # PhotoDB
-FROM python:3
+FROM python:3-alpine
 LABEL maintainer "Jonathan Gazeley"
 
-RUN apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean
+RUN apk add git
 
 # Project Files and Settings
 ARG PROJECT_DIR=/var/www/photodb
