@@ -27,6 +27,8 @@ This method of installation is required if you want to work on the source code.
 To create a named container running PhotoDB, use the following command. You can change the `-p` settings
 if you wish to serve PhotoDB on a different port.
 
+A persistent volume will be created to store the SQLite database file.
+
 ```sh
 docker create --name photodb -p 8000:8000 djjudas21/photodb-django
 ```
