@@ -5,8 +5,7 @@ LABEL maintainer "Jonathan Gazeley"
 RUN apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean
 
 # Project Files and Settings
-ARG PROJECT=photodb
-ARG PROJECT_DIR=/var/www/${PROJECT}
+ARG PROJECT_DIR=/var/www/photodb
 RUN mkdir -p $PROJECT_DIR
 ADD . $PROJECT_DIR
 WORKDIR $PROJECT_DIR
