@@ -30,7 +30,7 @@ if you wish to serve PhotoDB on a different port.
 A persistent volume will be created to store the SQLite database file.
 
 ```sh
-docker create --name photodb -p 8000:8000 djjudas21/photodb-django
+docker create --name photodb --mount source=photodb-sqlite,target=/var/www/photodb/db -p 8000:8000 djjudas21/photodb-django
 ```
 
 ## Configuring PhotoDB
