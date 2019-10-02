@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'schema.apps.SchemaConfig',
     'djmoney',
     'favicon',
+    'django_createsuperuserwithpassword',
 ]
 
 MIDDLEWARE = [

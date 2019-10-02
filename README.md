@@ -55,13 +55,15 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-and navigate to [http://localhost:8000](http://localhost:8000)
+and navigate to [http://localhost:8000](http://localhost:8000). Log in with the superuser account you created above.
 
 ### From Docker
 
 ```sh
 docker start photodb
 ```
+
+and navigate to [http://localhost:8000](http://localhost:8000). Login with default username `admin` and password `admin`.
 
 ## See also
 

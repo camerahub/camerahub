@@ -6,3 +6,4 @@ django-fluent-dashboard==1.0.1
 django-money==0.15
 django-choices==1.7.0
 django-favicon==0.1.3
+django-createsuperuserwithpassword==2.0.0
