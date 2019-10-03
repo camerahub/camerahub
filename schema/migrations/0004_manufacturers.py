@@ -108,7 +108,7 @@ def forwards_func(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schema', '0009_auto_20190901_2033')
+        ('schema', '0003_shutter_speeds')
     ]
 
     operations = [
