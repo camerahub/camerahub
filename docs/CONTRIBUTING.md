@@ -3,7 +3,7 @@
 PhotoDB is written in [Python](https://www.python.org/) using the [Django](https://www.djangoproject.com/) framework. Despite having a complex
 data model, the app itself is quite simple.
 
-Bugs and feature requests should be raised in the [issue tracker](https://github.com/djjudas21/photodb-django/issues). All feature suggestions will be considered
+Bugs and feature requests should be raised in the [issue tracker](https://github.com/djjudas21/photodb/issues). All feature suggestions will be considered
 but there is no promise of development effort. Contributions of code from the community are welcomed.
 
 Features should be developed in branches and submitted via pull request. Pull requests must pass any relevant CI tests before being accepted.
