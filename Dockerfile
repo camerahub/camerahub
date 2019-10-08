@@ -2,7 +2,7 @@
 FROM python:3-alpine
 LABEL maintainer "Jonathan Gazeley"
 
-RUN apk add git
+RUN apk add git postgresql-dev gcc musl-dev
 
 # Project Files and Settings
 ARG PROJECT_DIR=/var/www/photodb
