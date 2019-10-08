@@ -7,37 +7,6 @@ def forwards_func(apps, schema_editor):
   # if we directly import it, it'll be the wrong version
   db_alias = schema_editor.connection.alias
 
-  AccessoryType = apps.get_model("schema", "AccessoryType")
-  AccessoryType.objects.using(db_alias).bulk_create([
-    AccessoryType(type="Power winder"),
-    AccessoryType(type="Battery grip"),
-    AccessoryType(type="Viewfinder"),
-    AccessoryType(type="Focusing screen"),
-    AccessoryType(type="Film back"),
-    AccessoryType(type="Lens hood"),
-    AccessoryType(type="Case"),
-    AccessoryType(type="Lens cap"),
-  ])
-
-  ArchiveType = apps.get_model("schema", "ArchiveType")
-  ArchiveType.objects.using(db_alias).bulk_create([
-    ArchiveType(type="Film"),
-    ArchiveType(type="Slide"),
-    ArchiveType(type="Print"),
-  ])
-
-  BodyType = apps.get_model("schema", "BodyType")
-  BodyType.objects.using(db_alias).bulk_create([
-    BodyType(type="Box camera"),
-    BodyType(type="Compact camera"),
-    BodyType(type="Folding camera"),
-    BodyType(type="SLR"),
-    BodyType(type="TLR"),
-    BodyType(type="Bridge camera"),
-    BodyType(type="View camera"),
-    BodyType(type="Pistol grip camera"),
-  ])
-
   Condition = apps.get_model("schema", "Condition")
   Condition.objects.using(db_alias).bulk_create([
       Condition(code="NEW", name="Brand new", min_rating="100", max_rating="100", description="Never used and still sealed. All original packaging, manuals and accessories included."),
@@ -62,17 +31,6 @@ def forwards_func(apps, schema_editor):
     ExposureProgram(name="Portrait"),
     ExposureProgram(name="Landscape"),
     ExposureProgram(name="Bulb"),
-  ])
-
-  FocusType = apps.get_model("schema", "FocusType")
-  FocusType.objects.using(db_alias).bulk_create([
-    FocusType(name="Autofocus"),
-    FocusType(name="Fixed focus"),
-    FocusType(name="Zone focus"),
-    FocusType(name="Rangefinder"),
-    FocusType(name="SLR"),
-    FocusType(name="TLR"),
-    FocusType(name="View camera"),
   ])
 
   MeteringMode = apps.get_model("schema", "MeteringMode")
@@ -102,17 +60,6 @@ def forwards_func(apps, schema_editor):
     Process(name="Polaroid", colour=1, positive=1),
     Process(name="K-14", colour=1, positive=1),
     Process(name="Cyanotype", colour=0, positive=0),
-  ])
-
-  ShutterType = apps.get_model("schema", "ShutterType")
-  ShutterType.objects.using(db_alias).bulk_create([
-    ShutterType(type="Focal plane (horizontal travel)"),
-    ShutterType(type="Focal plane (vertical travel)"),
-    ShutterType(type="Leaf"),
-    ShutterType(type="Rotary"),
-    ShutterType(type="Sliding"),
-    ShutterType(type="Ball bearing"),
-    ShutterType(type="Electronic"),
   ])
 
 class Migration(migrations.Migration):

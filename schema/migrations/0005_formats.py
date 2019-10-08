@@ -31,7 +31,7 @@ def forwards_func(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schema', '0010_data'),
+        ('schema', '0004_manufacturers'),
     ]
 
     operations = [
