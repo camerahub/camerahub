@@ -215,7 +215,7 @@ FLUENT_DASHBOARD_APP_GROUPS = (
 FAVICON_PATH = STATIC_URL + 'favicon.ico'
 
 try:
-    from .local_settings import *
+    from .local_settings.local_settings import *
 except ImportError:
     # No local settings was found, skipping.
     pass

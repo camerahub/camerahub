@@ -37,8 +37,8 @@ docker create --name photodb --mount source=photodb-sqlite,target=/var/www/photo
 
 PhotoDB will run out of the box with no additional configuration, by creating an SQLite database in its own directory.
 
-If you wish to use an external database then copy `photodb/local_settings.py.template` to
-`photodb/local_settings.py` and customise the database settings for your environment.
+If you wish to use an external database then copy `photodb/local_settings/local_settings.py.template` to
+`photodb/local_settings/local_settings.py` and customise the database settings for your environment.
 
 After the database is configured, apply the migrations and create your user account:
 
