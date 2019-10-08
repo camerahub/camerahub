@@ -1,8 +1,10 @@
 # PhotoDB
 
-PhotoDB is an app for film photography that can be used to track cameras, lenses, accessories, films, negatives and prints, to fully
+PhotoDB is a web app for film photography that can be used to track cameras, lenses, accessories, films, negatives and prints, to fully
 catalogue a collection of photographic equipment as well as the pictures that are made with them. Read the [Concepts](docs/CONCEPTS.md)
 section for full details on the capabilities of PhotoDB.
+
+It replaces an earlier command-line project, also called [PhotoDB](https://github.com/djjudas21/photodb-perl), which has now been deprecated.
 
 ## Installing PhotoDB
 
