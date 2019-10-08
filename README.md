@@ -29,16 +29,19 @@ if you wish to serve PhotoDB on a different port.
 
 A persistent volume will be created to store the SQLite database file.
 
+To provide additional config, e.g. [connection info for external databases](https://docs.djangoproject.com/en/2.2/ref/settings/#databases),
+create a config file `~/photodb/local_settings.py` with your settings in. This will be mounted into the container.
+
 ```sh
-docker create --name photodb --mount source=photodb-sqlite,target=/var/www/photodb/db -p 8000:8000 djjudas21/photodb-django
+docker create --name photodb --mount source=photodb-sqlite,target=/var/www/photodb/db -v "$HOME/photodb":/var/www/photodb/photodb/local_settings -p 8000:8000 djjudas21/photodb-django
 ```
 
 ## Configuring PhotoDB
 
 PhotoDB will run out of the box with no additional configuration, by creating an SQLite database in its own directory.
 
-If you wish to use an external database then copy `photodb/local_settings.py.template` to
-`photodb/local_settings.py` and customise the database settings for your environment.
+If you wish to use an external database then copy `photodb/local_settings/local_settings.py.template` to
+`photodb/local_settings/local_settings.py` and customise the database settings for your environment.
 
 After the database is configured, apply the migrations and create your user account:
 
