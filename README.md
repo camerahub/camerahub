@@ -1,8 +1,10 @@
 # PhotoDB
 
-PhotoDB is an app for film photography that can be used to track cameras, lenses, accessories, films, negatives and prints, to fully
+PhotoDB is a web app for film photography that can be used to track cameras, lenses, accessories, films, negatives and prints, to fully
 catalogue a collection of photographic equipment as well as the pictures that are made with them. Read the [Concepts](docs/CONCEPTS.md)
 section for full details on the capabilities of PhotoDB.
+
+It replaces an earlier command-line project, also called [PhotoDB](https://github.com/djjudas21/photodb-perl), which has now been deprecated.
 
 ## Installing PhotoDB
 
@@ -33,7 +35,7 @@ To provide additional config, e.g. [connection info for external databases](http
 create a config file `~/photodb/local_settings.py` with your settings in. This will be mounted into the container.
 
 ```sh
-docker create --name photodb --mount source=photodb-sqlite,target=/var/www/photodb/db -v "$HOME/photodb":/var/www/photodb/photodb/local_settings -p 8000:8000 djjudas21/photodb-django
+docker create --name photodb --mount source=photodb-sqlite,target=/var/www/photodb/db -v "$HOME/photodb":/var/www/photodb/photodb/local_settings -p 8000:8000 djjudas21/photodb
 ```
 
 ## Configuring PhotoDB
