@@ -71,4 +71,5 @@ and navigate to [http://localhost:8000](http://localhost:8000). Login with defau
 ## See also
 
 * [Concepts](docs/CONCEPTS.md)
+* [Screenshots](docs/SCREENSHOTS.md)
 * [Contributing](docs/CONTRIBUTING.md)

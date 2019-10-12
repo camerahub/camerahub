@@ -5,9 +5,10 @@
 PhotoDB is a database and application for cataloguing film cameras, lenses, accessories, films, negatives and prints - as well a range of other information
 such as exhibitions, orders, and darkroom chemicals.
 
-PhotoDB is strictly governed by relational database principles which can make it seem fiddly and complicated to use, but this structured data givesPhotoDB
+PhotoDB is strictly governed by relational database principles which can make it seem fiddly and complicated to use, but this structured data gives PhotoDB
 its power. The data is all stored in a database backend and managed by the PhotoDB app, which does its best to be helpful when adding data and hopefully hide
-most of the sharp edges from the user. This guide tries to explain the key concepts behind PhotoDB.
+most of the sharp edges from the user. This guide tries to explain the key concepts behind PhotoDB. There are also some [screenshots](SCREENSHOTS.md) to 
+illustrate how to use PhotoDB.
 
 ### User data
 
