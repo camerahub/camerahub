@@ -34,6 +34,7 @@ PhotoDB makes the distinction between a camera model (any model of camera or len
 is because it is possible for you to own two cameras of the same model, and saves having to duplicate much of the information.
 
 Camera and lens models are the central component of PhotoDB. Camera and lens models can relate to each other in one of two ways:
+
 * directly, for fixed-lens cameras (e.g. compacts)
 * via a lens mount, for interchangeable-lens cameras (e.g. SLRs)
 
@@ -80,14 +81,14 @@ properties, commands and relationships, and there are general accessories with n
 
 Special types of accessory with their own properties include:
 
- * battery
- * filter
- * filter adapter
- * flash
- * meter
- * mount adapter
- * projector
- * teleconverter
+* battery
+* filter
+* filter adapter
+* flash
+* meter
+* mount adapter
+* projector
+* teleconverter
 
 Types of general accessory with no special properties could include cases or straps. General accessories can be associated with cameras or lenses, or neither.
 
