@@ -5,9 +5,10 @@
 PhotoDB is a database and application for cataloguing film cameras, lenses, accessories, films, negatives and prints - as well a range of other information
 such as exhibitions, orders, and darkroom chemicals.
 
-PhotoDB is strictly governed by relational database principles which can make it seem fiddly and complicated to use, but this structured data givesPhotoDB
+PhotoDB is strictly governed by relational database principles which can make it seem fiddly and complicated to use, but this structured data gives PhotoDB
 its power. The data is all stored in a database backend and managed by the PhotoDB app, which does its best to be helpful when adding data and hopefully hide
-most of the sharp edges from the user. This guide tries to explain the key concepts behind PhotoDB.
+most of the sharp edges from the user. This guide tries to explain the key concepts behind PhotoDB. There are also some [screenshots](SCREENSHOTS.md) to 
+illustrate how to use PhotoDB.
 
 ### User data
 
@@ -33,6 +34,7 @@ PhotoDB makes the distinction between a camera model (any model of camera or len
 is because it is possible for you to own two cameras of the same model, and saves having to duplicate much of the information.
 
 Camera and lens models are the central component of PhotoDB. Camera and lens models can relate to each other in one of two ways:
+
 * directly, for fixed-lens cameras (e.g. compacts)
 * via a lens mount, for interchangeable-lens cameras (e.g. SLRs)
 
@@ -79,14 +81,14 @@ properties, commands and relationships, and there are general accessories with n
 
 Special types of accessory with their own properties include:
 
- * battery
- * filter
- * filter adapter
- * flash
- * meter
- * mount adapter
- * projector
- * teleconverter
+* battery
+* filter
+* filter adapter
+* flash
+* meter
+* mount adapter
+* projector
+* teleconverter
 
 Types of general accessory with no special properties could include cases or straps. General accessories can be associated with cameras or lenses, or neither.
 
