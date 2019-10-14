@@ -8,23 +8,18 @@ It replaces an earlier command-line project, also called [PhotoDB](https://githu
 
 ## Installing PhotoDB
 
-### From pip
-
-```sh
-pip install PhotoDB
-```
-
 ### From source
 
-To install PhotoDB from source, clone this repo and run:
+This method of installation is required if you want to work on the source code. To install PhotoDB from source, clone this repo and run
+these steps to create a virtualenv with all the dependencies:
 
 ```sh
+git clone https://github.com/djjudas21/photodb.git
+cd photodb
+virtualenv venv
+source venv/bin/activate
 pip install .
 ```
-
-This method of installation is required if you want to work on the source code.
-
-### Configuring PhotoDB
 
 PhotoDB will run out of the box with no additional configuration, by creating an SQLite database in its own directory.
 
@@ -38,7 +33,7 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### Running PhotoDB
+To run PhotoDB, run:
 
 ```sh
 python manage.py runserver
