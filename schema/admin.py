@@ -12,32 +12,63 @@ admin.site.index_title = 'PhotoDB'
 # The URL for the “View site” link at the top of each admin page. By default, site_url is /. Set it to None to remove the link.
 admin.site.site_url = None
 
-# Register your models here.
+# Import all models that need admin pages
+from .models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
+from .models import FilterAdapter, Flash, FlashProtocol, Format, Lens, LensModel, LightMeter, Manufacturer
+from .models import MeteringType, Mount, MountAdapter, Movie, NegativeSize, Order, PaperStock, Person, Print, Toning
+from .models import Process, Projector, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
 
-from .models import Accessory
-class AccessoryAdmin(admin.ModelAdmin):
-  filter_horizontal = ('camera_model_compatibility', 'lens_model_compatibility')
-admin.site.register(Accessory, AccessoryAdmin)
-
-from .models import Archive
-admin.site.register(Archive)
-
-from .models import Battery
-admin.site.register(Battery)
-
-from .models import BulkFilm
-admin.site.register(BulkFilm)
-
-from .models import Camera
+# Define inlines that can be embedded into other admin pages
 class CameraInline(admin.TabularInline):
   model = Camera
   extra = 0
-admin.site.register(Camera)
 
-from .models import CameraModel
 class CameraModelInline(admin.TabularInline):
   model = CameraModel
   extra = 0
+
+class LensInline(admin.TabularInline):
+  model = Lens
+  extra = 0
+
+class NegativeInline(admin.TabularInline):
+  model = Negative
+  extra = 0
+
+class PrintInline(admin.TabularInline):
+  model = Print
+  extra = 0
+
+class ScanInline(admin.TabularInline):
+  model = Scan
+  extra = 0
+
+class ToningInline(admin.TabularInline):
+  model = Print.toner.through
+  verbose_name = "toner"
+  verbose_name_plural = "toners"
+  extra = 0
+
+# Now register the admin pages, customising where necessary
+class AccessoryAdmin(admin.ModelAdmin):
+  filter_horizontal = ('camera_model_compatibility', 'lens_model_compatibility')
+  exclude = ('owner',)
+admin.site.register(Accessory, AccessoryAdmin)
+
+class ArchiveAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Archive, ArchiveAdmin)
+
+admin.site.register(Battery)
+
+class BulkFilmAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(BulkFilm, BulkFilmAdmin)
+
+class CameraAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Camera, CameraAdmin)
+
 class CameraModelAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
@@ -66,37 +97,34 @@ class CameraModelAdmin(admin.ModelAdmin):
   list_filter = ('manufacturer__name', 'mount', 'format', 'body_type', 'series')
 admin.site.register(CameraModel, CameraModelAdmin)
 
-from .models import Developer
 admin.site.register(Developer)
 
-from .models import Enlarger
-admin.site.register(Enlarger)
+class EnlargerAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Enlarger, EnlargerAdmin)
 
-from .models import FilmStock
 admin.site.register(FilmStock)
 
-from .models import Filter
-admin.site.register(Filter)
+class FilterAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Filter, FilterAdmin)
 
-from .models import FilterAdapter
-admin.site.register(FilterAdapter)
+class FilterAdapterAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(FilterAdapter, FilterAdapterAdmin)
 
-from .models import Flash
-admin.site.register(Flash)
+class FlashAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Flash, FlashAdmin)
 
-from .models import FlashProtocol
 admin.site.register(FlashProtocol)
 
-from .models import Format
 admin.site.register(Format)
 
-from .models import Lens
-class LensInline(admin.TabularInline):
-  model = Lens
-  extra = 0
-admin.site.register(Lens)
+class LensAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Lens, LensAdmin)
 
-from .models import LensModel
 class LensModelAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
@@ -122,50 +150,38 @@ class LensModelAdmin(admin.ModelAdmin):
   list_filter = ('manufacturer__name', 'mount')
 admin.site.register(LensModel, LensModelAdmin)
 
-from .models import LightMeter
-admin.site.register(LightMeter)
+class LightMeterAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(LightMeter, LightMeterAdmin)
 
-from .models import Manufacturer
 admin.site.register(Manufacturer)
 
-
-from .models import MeteringType
 admin.site.register(MeteringType)
 
-from .models import Mount
 admin.site.register(Mount)
 
-from .models import MountAdapter
-admin.site.register(MountAdapter)
+class MountAdapterAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(MountAdapter, MountAdapterAdmin)
 
-from .models import Movie
-admin.site.register(Movie)
+class MovieAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Movie, MovieAdmin)
 
-from .models import NegativeSize
 class NegativeSizeAdmin(admin.ModelAdmin):
   readonly_fields = ('area', 'crop_factor', 'aspect_ratio')
 admin.site.register(NegativeSize, NegativeSizeAdmin)
 
-from .models import Order
-admin.site.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Order, OrderAdmin)
 
-from .models import PaperStock
 admin.site.register(PaperStock)
 
-from .models import Person
-admin.site.register(Person)
+class PersonAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Person, PersonAdmin)
 
-from .models import Print
-from .models import Toning
-class ToningInline(admin.TabularInline):
-  model = Print.toner.through
-  verbose_name = "toner"
-  verbose_name_plural = "toners"
-  extra = 0
-
-class PrintInline(admin.TabularInline):
-  model = Print
-  extra = 0
 class PrintAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
@@ -184,30 +200,26 @@ class PrintAdmin(admin.ModelAdmin):
   inlines = [
     ToningInline,
   ]
+  exclude = ('owner',)
   search_fields = ['negative__caption', 'notes']
   list_display = ('__str__', 'date', 'negative')
   list_filter = ('paper_stock', 'developer', 'fine')
 admin.site.register(Print, PrintAdmin)
 
-from .models import Process
 admin.site.register(Process)
 
-from .models import Projector
-admin.site.register(Projector)
+class ProjectorAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Projector, ProjectorAdmin)
 
-from .models import Repair
-admin.site.register(Repair)
+class RepairAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Repair, RepairAdmin)
 
-from .models import Scan
-class ScanInline(admin.TabularInline):
-  model = Scan
-  extra = 0
-admin.site.register(Scan)
+class ScanAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Scan, ScanAdmin)
 
-from .models import Negative
-class NegativeInline(admin.TabularInline):
-  model = Negative
-  extra = 0
 class NegativeAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
@@ -228,9 +240,9 @@ class NegativeAdmin(admin.ModelAdmin):
     ScanInline,
     PrintInline,
   ]
+  exclude = ('owner',)
 admin.site.register(Negative, NegativeAdmin)
 
-from .models import Film
 class FilmAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
@@ -252,18 +264,19 @@ class FilmAdmin(admin.ModelAdmin):
   inlines = [
     NegativeInline,
   ]
+  exclude = ('owner',)
 admin.site.register(Film, FilmAdmin)
 
-from .models import Series
-admin.site.register(Series)
+class SeriesAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Series, SeriesAdmin)
 
-from .models import ShutterSpeed
 class ShutterSpeedAdmin(admin.ModelAdmin):
   readonly_fields = ('duration',)
 admin.site.register(ShutterSpeed, ShutterSpeedAdmin)
 
-from .models import Teleconverter
-admin.site.register(Teleconverter)
+class TeleconverterAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Teleconverter, TeleconverterAdmin)
 
-from .models import Toner
 admin.site.register(Toner)
