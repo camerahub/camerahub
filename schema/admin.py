@@ -18,6 +18,38 @@ from .models import FilterAdapter, Flash, FlashProtocol, Format, Lens, LensModel
 from .models import MeteringType, Mount, MountAdapter, Movie, NegativeSize, Order, PaperStock, Person, Print, Toning
 from .models import Process, Projector, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
 
+# Define inlines that can be embedded into other admin pages
+class CameraInline(admin.TabularInline):
+  model = Camera
+  extra = 0
+
+class CameraModelInline(admin.TabularInline):
+  model = CameraModel
+  extra = 0
+
+class LensInline(admin.TabularInline):
+  model = Lens
+  extra = 0
+
+class NegativeInline(admin.TabularInline):
+  model = Negative
+  extra = 0
+
+class PrintInline(admin.TabularInline):
+  model = Print
+  extra = 0
+
+class ScanInline(admin.TabularInline):
+  model = Scan
+  extra = 0
+
+class ToningInline(admin.TabularInline):
+  model = Print.toner.through
+  verbose_name = "toner"
+  verbose_name_plural = "toners"
+  extra = 0
+
+# Now register the admin pages, customising where necessary
 class AccessoryAdmin(admin.ModelAdmin):
   filter_horizontal = ('camera_model_compatibility', 'lens_model_compatibility')
   exclude = ('owner',)
@@ -33,16 +65,10 @@ class BulkFilmAdmin(admin.ModelAdmin):
   exclude = ('owner',)
 admin.site.register(BulkFilm, BulkFilmAdmin)
 
-class CameraInline(admin.TabularInline):
-  model = Camera
-  extra = 0
 class CameraAdmin(admin.ModelAdmin):
   exclude = ('owner',)
 admin.site.register(Camera, CameraAdmin)
 
-class CameraModelInline(admin.TabularInline):
-  model = CameraModel
-  extra = 0
 class CameraModelAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
@@ -95,9 +121,6 @@ admin.site.register(FlashProtocol)
 
 admin.site.register(Format)
 
-class LensInline(admin.TabularInline):
-  model = Lens
-  extra = 0
 class LensAdmin(admin.ModelAdmin):
   exclude = ('owner',)
 admin.site.register(Lens, LensAdmin)
@@ -159,15 +182,6 @@ class PersonAdmin(admin.ModelAdmin):
   exclude = ('owner',)
 admin.site.register(Person, PersonAdmin)
 
-class ToningInline(admin.TabularInline):
-  model = Print.toner.through
-  verbose_name = "toner"
-  verbose_name_plural = "toners"
-  extra = 0
-
-class PrintInline(admin.TabularInline):
-  model = Print
-  extra = 0
 class PrintAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
@@ -202,16 +216,10 @@ class RepairAdmin(admin.ModelAdmin):
   exclude = ('owner',)
 admin.site.register(Repair, RepairAdmin)
 
-class ScanInline(admin.TabularInline):
-  model = Scan
-  extra = 0
 class ScanAdmin(admin.ModelAdmin):
   exclude = ('owner',)
 admin.site.register(Scan, ScanAdmin)
 
-class NegativeInline(admin.TabularInline):
-  model = Negative
-  extra = 0
 class NegativeAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
