@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from djchoices import DjangoChoices, ChoiceItem
 from datetime import datetime
 from math import sqrt
+from django_currentuser.db.models import CurrentUserField
 import re
 
 # Create your models here.
@@ -64,6 +65,7 @@ class Archive(models.Model):
   location = models.CharField(help_text='Location of this archive', max_length=45, blank=True, null=True)
   storage = models.CharField(choices=ArchiveStorage.choices, help_text='The type of storage used for this archive', max_length=45, blank=True, null=True)
   sealed = models.BooleanField(help_text='Whether or not this archive is sealed (closed to new additions)', default=0)
+  owner = CurrentUserField()
   def __str__(self):
     return self.name
   class Meta:
@@ -122,6 +124,7 @@ class Filter(models.Model):
   attenuation = models.DecimalField(help_text='Attenuation of this filter in decimal stops', max_digits=3, decimal_places=1, blank=True, null=True)
   qty = models.PositiveIntegerField(help_text='Quantity of these filters available', default=1, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this filter')
+  owner = CurrentUserField()
   def __str__(self):
     return "%s %smm" % (self.type, str(self.thread))
   class Meta:
@@ -165,6 +168,7 @@ class Format(models.Model):
 # Table to list all series of cameras and lenses
 class Series(models.Model):
   name = models.CharField(help_text='Name of this collection, e.g. Canon FD SLRs', max_length=45, unique=True)
+  owner = CurrentUserField()
   def __str__(self):
     return self.name
   class Meta:
@@ -194,6 +198,7 @@ class Flash(models.Model):
   own = models.BooleanField(help_text='Whether we currently own this flash', blank=True, null=True)
   acquired = models.DateField(help_text='Date this flash was acquired', blank=True, null=True)
   cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
+  owner = CurrentUserField()
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.model)
@@ -232,6 +237,7 @@ class Enlarger(models.Model):
   discontinued = models.PositiveIntegerField(help_text='Year in which the enlarger was discontinued', blank=True, null=True)
   cost = MoneyField(help_text='Purchase cost of this enlarger', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
+  owner = CurrentUserField()
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.model)
@@ -331,6 +337,7 @@ class LightMeter(models.Model):
   max_asa = models.PositiveIntegerField(verbose_name='Max ISO', help_text='Maximum ISO/ASA that this meter is capable of handling', blank=True, null=True)
   min_lv = models.PositiveIntegerField(verbose_name='Min LV', help_text='Minimum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
   max_lv = models.PositiveIntegerField(verbose_name='Max LV', help_text='Maximum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
+  owner = CurrentUserField()
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.model)
@@ -373,6 +380,7 @@ class PaperStock(models.Model):
 # Table to catalog photographers
 class Person(models.Model):
   name = models.CharField(help_text='Name of the photographer', max_length=45, unique=True)
+  owner = CurrentUserField()
   def __str__(self):
     return self.name
   class Meta:
@@ -399,6 +407,7 @@ class Teleconverter(models.Model):
   elements = models.PositiveIntegerField(help_text='Number of optical elements used in this teleconverter', blank=True, null=True)
   groups = models.PositiveIntegerField(help_text='Number of optical groups used in this teleconverter', blank=True, null=True)
   multicoated = models.BooleanField(help_text='Whether this teleconverter is multi-coated', blank=True, null=True)
+  owner = CurrentUserField()
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.model)
@@ -455,6 +464,7 @@ class Projector(models.Model):
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size this projector can accept')
   own = models.BooleanField(help_text='Whether we currently own this projector', blank=True, null=True)
   cine = models.BooleanField(help_text='Whether this is a cine (movie) projector', blank=True, null=True)
+  owner = CurrentUserField()
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.model)
@@ -473,6 +483,7 @@ class BulkFilm(models.Model):
   source = models.CharField(help_text='Place where this bulk roll was bought from', max_length=45, blank=True, null=True)
   batch = models.CharField(help_text='Batch code of this bulk roll', max_length=45, blank=True, null=True)
   expiry = models.DateField(help_text='Expiry date of this bulk roll', blank=True, null=True)
+  owner = CurrentUserField()
   def __str__(self):
     return "#%s %s %s" % (self.pk, self.filmstock.manufacturer.name, self.filmstock.name)
   class Meta:
@@ -482,6 +493,7 @@ class BulkFilm(models.Model):
 class FilterAdapter(models.Model):
   camera_thread = models.DecimalField(help_text='Diameter of camera-facing screw thread in mm', max_digits=3, decimal_places=1)
   filter_thread = models.DecimalField(help_text='Diameter of filter-facing screw thread in mm', max_digits=3, decimal_places=1)
+  owner = CurrentUserField()
   def __str__(self):
     return "%f-%fmm" % (self.camera_thread, self.filter_thread)
   class Meta:
@@ -495,6 +507,7 @@ class MountAdapter(models.Model):
   has_optics = models.BooleanField(help_text='Whether this adapter includes optical elements', blank=True, null=True)
   infinity_focus = models.BooleanField(help_text='Whether this adapter allows infinity focus', blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes', max_length=100, blank=True, null=True)
+  owner = CurrentUserField()
   def __str__(self):
     return "%s - %s" % (self.camera_mount, self.lens_mount)
   class Meta:
@@ -805,6 +818,7 @@ class Accessory(models.Model):
   lost_price = MoneyField(help_text='Sale price of the accessory', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   camera_model_compatibility = models.ManyToManyField(CameraModel, blank=True)
   lens_model_compatibility = models.ManyToManyField(LensModel, blank=True)
+  owner = CurrentUserField()
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.model)
@@ -844,6 +858,7 @@ class Lens(models.Model):
   source = models.CharField(help_text='Place where the lens was acquired from', max_length=150, blank=True, null=True)
   condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True, help_text='Condition of this lens')
   condition_notes = models.CharField(help_text='Description of condition', max_length=150, blank=True, null=True)
+  owner = CurrentUserField()
   def __str__(self):
     return "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
   class Meta:
@@ -892,6 +907,7 @@ class Camera(models.Model):
   condition = models.ForeignKey(Condition, on_delete=models.CASCADE, blank=True, null=True, help_text='Condition of this camera')
   condition_notes = models.CharField(help_text='Description of condition', max_length=150, blank=True, null=True)
   display_lens = models.OneToOneField(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens that this camera should be displayed with', related_name='display_camera')
+  owner = CurrentUserField()
   def __str__(self):
     return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
   class Meta:
@@ -948,6 +964,7 @@ class Film(models.Model):
   price = MoneyField(help_text='Price paid for this film', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
   processed_by = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Person or place that processed this film')
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True, help_text='Archive that this film is stored in')
+  owner = CurrentUserField()
   def __str__(self):
     return "#%i %s" % (self.pk, self.title)
   class Meta:
@@ -991,6 +1008,7 @@ class Negative(models.Model):
   exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE, blank=True, null=True, help_text='Exposure program used when taking the image')
   photographer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Photographer who took the negative')
   copy_of = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='copy', help_text='Negative that this was duplicated from')
+  owner = CurrentUserField()
   def __str__(self):
     return "%s/%s %s" % (self.film.pk, self.frame, self.caption)
   class Meta:
@@ -1048,6 +1066,7 @@ class Print(models.Model):
   notes = models.CharField(help_text='Freeform notes about this print, e.g. dodging, burning & complex toning', max_length=200, blank=True, null=True)
   archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True, null=True, help_text='Archive that this print is stored in')
   printer = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True, help_text='Person who made this print')
+  owner = CurrentUserField()
   def __str__(self):
     return "#%i" % (self.pk)
   class Meta:
@@ -1091,6 +1110,7 @@ class Movie(models.Model):
   date_shot = models.DateField(help_text='Date on which this movie was shot', blank=True, null=True)
   date_processed = models.DateField(help_text='Date on which this movie was processed', blank=True, null=True)
   process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True, help_text='Process used to develop this movie')
+  owner = CurrentUserField()
   def __str__(self):
     return self.title
   class Meta:
@@ -1115,6 +1135,7 @@ class Repair(models.Model):
   date = models.DateField(help_text='The date of the repair', blank=True, null=True)
   summary = models.CharField(help_text='Brief summary of the repair', max_length=100)
   description = models.CharField(help_text='Longer description of the repair', max_length=500, blank=True, null=True)
+  owner = CurrentUserField()
   class Meta:
     ordering = ['date']
     verbose_name_plural = "repairs"
@@ -1128,6 +1149,7 @@ class Scan(models.Model):
   colour = models.BooleanField(help_text='Whether this is a colour image', blank=True, null=True)
   width = models.PositiveIntegerField(help_text='Width of the scanned image in pixels', blank=True, null=True)
   height = models.PositiveIntegerField(help_text='Height of the scanned image in pixels', blank=True, null=True)
+  owner = CurrentUserField()
   def __str__(self):
     return self.filename
   def clean(self):
@@ -1149,6 +1171,7 @@ class Order(models.Model):
   printed = models.BooleanField(help_text='Whether the print has been made', blank=True, null=True)
   print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True, null=True, help_text='Print that was made to fulfil this order')
   recipient = models.ForeignKey(Person, on_delete=models.CASCADE, help_text='Person who placed this order')
+  owner = CurrentUserField()
   def __str__(self):
     return self.pk
   class Meta:
