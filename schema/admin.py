@@ -17,22 +17,29 @@ admin.site.site_url = None
 from .models import Accessory
 class AccessoryAdmin(admin.ModelAdmin):
   filter_horizontal = ('camera_model_compatibility', 'lens_model_compatibility')
+  exclude = ('owner',)
 admin.site.register(Accessory, AccessoryAdmin)
 
 from .models import Archive
-admin.site.register(Archive)
+class ArchiveAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Archive, ArchiveAdmin)
 
 from .models import Battery
 admin.site.register(Battery)
 
 from .models import BulkFilm
-admin.site.register(BulkFilm)
+class BulkFilmAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(BulkFilm, BulkFilmAdmin)
 
 from .models import Camera
 class CameraInline(admin.TabularInline):
   model = Camera
   extra = 0
-admin.site.register(Camera)
+class CameraAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Camera, CameraAdmin)
 
 from .models import CameraModel
 class CameraModelInline(admin.TabularInline):
@@ -70,19 +77,27 @@ from .models import Developer
 admin.site.register(Developer)
 
 from .models import Enlarger
-admin.site.register(Enlarger)
+class EnlargerAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Enlarger, EnlargerAdmin)
 
 from .models import FilmStock
 admin.site.register(FilmStock)
 
 from .models import Filter
-admin.site.register(Filter)
+class FilterAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Filter, FilterAdmin)
 
 from .models import FilterAdapter
-admin.site.register(FilterAdapter)
+class FilterAdapterAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(FilterAdapter, FilterAdapterAdmin)
 
 from .models import Flash
-admin.site.register(Flash)
+class FlashAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Flash, FlashAdmin)
 
 from .models import FlashProtocol
 admin.site.register(FlashProtocol)
@@ -94,7 +109,9 @@ from .models import Lens
 class LensInline(admin.TabularInline):
   model = Lens
   extra = 0
-admin.site.register(Lens)
+class LensAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Lens, LensAdmin)
 
 from .models import LensModel
 class LensModelAdmin(admin.ModelAdmin):
@@ -123,7 +140,9 @@ class LensModelAdmin(admin.ModelAdmin):
 admin.site.register(LensModel, LensModelAdmin)
 
 from .models import LightMeter
-admin.site.register(LightMeter)
+class LightMeterAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(LightMeter, LightMeterAdmin)
 
 from .models import Manufacturer
 admin.site.register(Manufacturer)
@@ -136,10 +155,14 @@ from .models import Mount
 admin.site.register(Mount)
 
 from .models import MountAdapter
-admin.site.register(MountAdapter)
+class MountAdapterAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(MountAdapter, MountAdapterAdmin)
 
 from .models import Movie
-admin.site.register(Movie)
+class MovieAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Movie, MovieAdmin)
 
 from .models import NegativeSize
 class NegativeSizeAdmin(admin.ModelAdmin):
@@ -147,13 +170,17 @@ class NegativeSizeAdmin(admin.ModelAdmin):
 admin.site.register(NegativeSize, NegativeSizeAdmin)
 
 from .models import Order
-admin.site.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Order, OrderAdmin)
 
 from .models import PaperStock
 admin.site.register(PaperStock)
 
 from .models import Person
-admin.site.register(Person)
+class PersonAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Person, PersonAdmin)
 
 from .models import Print
 from .models import Toning
@@ -184,6 +211,7 @@ class PrintAdmin(admin.ModelAdmin):
   inlines = [
     ToningInline,
   ]
+  exclude = ('owner',)
   search_fields = ['negative__caption', 'notes']
   list_display = ('__str__', 'date', 'negative')
   list_filter = ('paper_stock', 'developer', 'fine')
@@ -193,16 +221,22 @@ from .models import Process
 admin.site.register(Process)
 
 from .models import Projector
-admin.site.register(Projector)
+class ProjectorAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Projector, ProjectorAdmin)
 
 from .models import Repair
-admin.site.register(Repair)
+class RepairAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Repair, RepairAdmin)
 
 from .models import Scan
 class ScanInline(admin.TabularInline):
   model = Scan
   extra = 0
-admin.site.register(Scan)
+class ScanAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Scan, ScanAdmin)
 
 from .models import Negative
 class NegativeInline(admin.TabularInline):
@@ -228,6 +262,7 @@ class NegativeAdmin(admin.ModelAdmin):
     ScanInline,
     PrintInline,
   ]
+  exclude = ('owner',)
 admin.site.register(Negative, NegativeAdmin)
 
 from .models import Film
@@ -252,10 +287,13 @@ class FilmAdmin(admin.ModelAdmin):
   inlines = [
     NegativeInline,
   ]
+  exclude = ('owner',)
 admin.site.register(Film, FilmAdmin)
 
 from .models import Series
-admin.site.register(Series)
+class SeriesAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Series, SeriesAdmin)
 
 from .models import ShutterSpeed
 class ShutterSpeedAdmin(admin.ModelAdmin):
@@ -263,7 +301,9 @@ class ShutterSpeedAdmin(admin.ModelAdmin):
 admin.site.register(ShutterSpeed, ShutterSpeedAdmin)
 
 from .models import Teleconverter
-admin.site.register(Teleconverter)
+class TeleconverterAdmin(admin.ModelAdmin):
+  exclude = ('owner',)
+admin.site.register(Teleconverter, TeleconverterAdmin)
 
 from .models import Toner
 admin.site.register(Toner)
