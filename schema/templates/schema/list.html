@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Object List</h1>
+  {% if object_list %}
+  <ul>
+    {% for object in object_list %}
+      <li>
+        <a href="{{ object.get_absolute_url }} {{ object.id }}">{{ object }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no objects in the list.</p>
+  {% endif %}       
+{% endblock %}
