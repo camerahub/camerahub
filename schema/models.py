@@ -456,14 +456,13 @@ class FilmStock(models.Model):
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "film stocks"
 
-# Table to catalog projectors (still and movie)
+# Table to catalog projectors
 class Projector(models.Model):
   model = models.CharField(help_text='Model name of this projector', max_length=45)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this projector')
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this projector', limit_choices_to={'purpose': 'Projector'})
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size this projector can accept')
   own = models.BooleanField(help_text='Whether we currently own this projector', blank=True, null=True)
-  cine = models.BooleanField(help_text='Whether this is a cine (movie) projector', blank=True, null=True)
   owner = CurrentUserField()
   def __str__(self):
     if self.manufacturer is not None:
@@ -711,7 +710,6 @@ class CameraModel(models.Model):
   viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(100)])
   power_drive = models.BooleanField(help_text='Whether the camera has integrated motor drive', blank=True, null=True)
   continuous_fps = models.DecimalField(help_text='The maximum rate at which the camera can shoot, in frames per second', max_digits=4, decimal_places=1, blank=True, null=True)
-  video = models.BooleanField(help_text='Whether the camera can take video/movie', blank=True, null=True)
   digital = models.BooleanField(help_text='Whether this is a digital camera', default=0, blank=True, null=True)
   fixed_mount = models.BooleanField(help_text='Whether the camera has a fixed lens', blank=True, null=True)
   lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens model attached to this camera model, if it is a fixed-lens camera', limit_choices_to={'fixed_mount': True})
@@ -1093,40 +1091,6 @@ class Toning(models.Model):
   class Meta:
     ordering = ['order']
     unique_together = ['print', 'order']
-
-# Table to catalog motion picture films (movies)
-class Movie(models.Model):
-  title = models.CharField(help_text='Title of this movie', max_length=45)
-  description = models.CharField(help_text='Description of this movie', max_length=200, blank=True, null=True)
-  camera = models.ForeignKey(Camera, on_delete=models.CASCADE, blank=True, null=True, help_text='Camera used to shoot this movie', limit_choices_to={'movie': True})
-  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens used to shoot this movie')
-  format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True, null=True, help_text='Film format of this movie')
-  sound = models.BooleanField(help_text='Whether this movie has sound', blank=True, null=True)
-  fps = models.PositiveIntegerField(verbose_name='FPS', help_text='Frame rate of this movie, in fps', blank=True, null=True)
-  filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE, blank=True, null=True, help_text='Filmstock that this movie was shot on')
-  feet = models.PositiveIntegerField(help_text='Length of this movie in feet', blank=True, null=True)
-  duration = models.DurationField(help_text='Duration of this movie', blank=True, null=True)
-  date_loaded = models.DateField(help_text='Date that the filmstock was loaded into a camera', blank=True, null=True)
-  date_shot = models.DateField(help_text='Date on which this movie was shot', blank=True, null=True)
-  date_processed = models.DateField(help_text='Date on which this movie was processed', blank=True, null=True)
-  process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True, help_text='Process used to develop this movie')
-  owner = CurrentUserField()
-  def __str__(self):
-    return self.title
-  class Meta:
-    verbose_name_plural = "movies"
-  def clean(self):
-    # Date constraints
-    if self.date_loaded is not None and self.date_shot is not None and self.date_loaded > self.date_shot:
-      raise ValidationError({
-        'date_loaded': ValidationError(('Date loaded cannot be later than the date the film was shot')),
-        'date_shot': ValidationError(('Date shot cannot be earlier than the date the film was loaded')),
-      })
-    if self.date_shot is not None and self.date_processed is not None and self.date_shot > self.date_processed:
-      raise ValidationError({
-        'date_shot': ValidationError(('Date shot cannot be later than the date the film was processed')),
-        'date_processed': ValidationError(('Date processed cannot be earlier than the date the film was loaded')),
-      })
   
 # Table to catalog all repairs and servicing undertaken on cameras and lenses in the collection
 class Repair(models.Model):

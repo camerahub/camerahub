@@ -15,7 +15,7 @@ admin.site.site_url = None
 # Import all models that need admin pages
 from .models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from .models import FilterAdapter, Flash, FlashProtocol, Format, Lens, LensModel, LightMeter, Manufacturer
-from .models import MeteringType, Mount, MountAdapter, Movie, NegativeSize, Order, PaperStock, Person, Print, Toning
+from .models import MeteringType, Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
 from .models import Process, Projector, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
 
 # Define inlines that can be embedded into other admin pages
@@ -72,7 +72,7 @@ admin.site.register(Camera, CameraAdmin)
 class CameraModelAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
-      'fields': ('manufacturer', 'model', 'mount', 'format', 'body_type', 'weight', ('introduced', 'discontinued'), 'negative_size', 'cable_release', 'viewfinder_coverage', ('power_drive', 'continuous_fps'), 'video', 'digital', 'fixed_mount', 'lensmodel', ('battery_qty', 'battery_type'), 'notes', 'tripod', 'series'),
+      'fields': ('manufacturer', 'model', 'mount', 'format', 'body_type', 'weight', ('introduced', 'discontinued'), 'negative_size', 'cable_release', 'viewfinder_coverage', ('power_drive', 'continuous_fps'), 'digital', 'fixed_mount', 'lensmodel', ('battery_qty', 'battery_type'), 'notes', 'tripod', 'series'),
       'description': 'Enter information about this camera model',
     }),
     ('Metering', {
@@ -163,10 +163,6 @@ admin.site.register(Mount)
 class MountAdapterAdmin(admin.ModelAdmin):
   exclude = ('owner',)
 admin.site.register(MountAdapter, MountAdapterAdmin)
-
-class MovieAdmin(admin.ModelAdmin):
-  exclude = ('owner',)
-admin.site.register(Movie, MovieAdmin)
 
 class NegativeSizeAdmin(admin.ModelAdmin):
   readonly_fields = ('area', 'crop_factor', 'aspect_ratio')
