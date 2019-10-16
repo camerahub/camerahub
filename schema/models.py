@@ -432,17 +432,6 @@ class BulkFilm(models.Model):
   class Meta:
     verbose_name_plural = "bulk films"
 
-# Table to catalogue filter adapter rings
-class FilterAdapter(models.Model):
-  camera_thread = models.DecimalField(help_text='Diameter of camera-facing screw thread in mm', max_digits=3, decimal_places=1)
-  filter_thread = models.DecimalField(help_text='Diameter of filter-facing screw thread in mm', max_digits=3, decimal_places=1)
-  owner = CurrentUserField()
-  def __str__(self):
-    return "%f-%fmm" % (self.camera_thread, self.filter_thread)
-  class Meta:
-    ordering = ['camera_thread', 'filter_thread']
-    verbose_name_plural = "filter adapters"
-
 # Table to catalog adapters to mount lenses on other cameras
 class MountAdapter(models.Model):
   camera_mount = models.ForeignKey(Mount, on_delete=models.CASCADE, help_text='Mount used to attach a camera', related_name="camera_mount")

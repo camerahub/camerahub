@@ -14,7 +14,7 @@ admin.site.site_url = None
 
 # Import all models that need admin pages
 from .models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from .models import FilterAdapter, Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
+from .models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
 from .models import MeteringType, Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
 from .models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
 
@@ -108,10 +108,6 @@ admin.site.register(FilmStock)
 class FilterAdmin(admin.ModelAdmin):
   exclude = ('owner',)
 admin.site.register(Filter, FilterAdmin)
-
-class FilterAdapterAdmin(admin.ModelAdmin):
-  exclude = ('owner',)
-admin.site.register(FilterAdapter, FilterAdapterAdmin)
 
 class FlashAdmin(admin.ModelAdmin):
   exclude = ('owner',)

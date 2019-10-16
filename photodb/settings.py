@@ -168,7 +168,6 @@ FLUENT_DASHBOARD_APP_ICONS = {
   'schema/toner': 'icons/toner.png',
   'schema/filmstock': 'icons/filmstock.png',
   'schema/bulkfilm': 'icons/bulkfilm.png',
-  'schema/filteradapter': 'icons/filteradapter.png',
   'schema/shutterspeed': 'icons/shutterspeed.png',
   'schema/developer': 'icons/developer.png',
   'schema/lensmodel': 'icons/lensmodel.png',
