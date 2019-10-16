@@ -157,7 +157,6 @@ class NegativeSize(models.Model):
 # Table to catalogue different film formats. These are distinct from negative sizes.
 class Format(models.Model):
   format = models.CharField(help_text='The name of this film/sensor format', max_length=45, unique=True)
-  digital = models.BooleanField(help_text='Whether this is a digital format', blank=True, null=True)
   negative_size = models.ManyToManyField(NegativeSize, blank=True)
   def __str__(self):
     return self.format
@@ -191,7 +190,6 @@ class Flash(models.Model):
   swivel_head = models.BooleanField(help_text='Whether this flash has a horizontal swivel head', blank=True, null=True)
   tilt_head = models.BooleanField(help_text='Whether this flash has a vertical tilt head', blank=True, null=True)
   zoom = models.BooleanField(help_text='Whether this flash can zoom', blank=True, null=True)
-  dslr_safe = models.BooleanField(verbose_name='DSLR safe', help_text='Whether this flash is safe to use with a digital camera', blank=True, null=True)
   ttl = models.BooleanField(verbose_name='TTL', help_text='Whether this flash supports TTL metering', blank=True, null=True)
   flash_protocol = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True, null=True, help_text='Flash protocol used by this flash')
   trigger_voltage = models.DecimalField(help_text='Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1, blank=True, null=True)
@@ -316,49 +314,12 @@ class Mount(models.Model):
   type = models.CharField(help_text='The physical mount type of this lens mount', choices=MountType.choices, max_length=15, blank=True, null=True)
   purpose = models.CharField(help_text='The intended purpose of this lens mount', choices=Purpose.choices, max_length=15, blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
-  digital_only = models.BooleanField(help_text='Whether this mount is intended only for digital cameras', default=0, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this lens mount')
   def __str__(self):
     return self.mount
   class Meta:
     ordering = ['mount']
     verbose_name_plural = "mounts"
-
-# Table to catalog light meters
-class LightMeter(models.Model):
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this light meter')
-  model = models.CharField(help_text='Model name or number of the light meter', max_length=45)
-  metering_type = models.ForeignKey(MeteringType, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering type used in this meter')
-  reflected = models.BooleanField(help_text='Whether the meter is capable of reflected-light metering', blank=True, null=True)
-  incident = models.BooleanField(help_text='Whether the meter is capable of incident-light metering', blank=True, null=True)
-  flash = models.BooleanField(help_text='Whether the meter is capable of flash metering', blank=True, null=True)
-  spot = models.BooleanField(help_text='Whether the meter is capable of spot metering', blank=True, null=True)
-  min_asa = models.PositiveIntegerField(verbose_name='Min ISO', help_text='Minimum ISO/ASA that this meter is capable of handling', blank=True, null=True)
-  max_asa = models.PositiveIntegerField(verbose_name='Max ISO', help_text='Maximum ISO/ASA that this meter is capable of handling', blank=True, null=True)
-  min_lv = models.PositiveIntegerField(verbose_name='Min LV', help_text='Minimum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
-  max_lv = models.PositiveIntegerField(verbose_name='Max LV', help_text='Maximum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
-  owner = CurrentUserField()
-  def __str__(self):
-    if self.manufacturer is not None:
-      return "%s %s" % (self.manufacturer.name, self.model)
-    else:
-      return self.model
-  class Meta:
-    ordering = ['manufacturer', 'model']
-    verbose_name_plural = "light meters"
-  def clean(self):
-    # ASA
-    if self.min_asa is not None and self.max_asa is not None and self.min_asa > self.max_asa:
-      raise ValidationError({
-        'min_asa': ValidationError(('Minimum ISO/ASA must be smaller than maximum')),
-        'max_asa': ValidationError(('Maximum ISO/ASA must be larger than minimum')),
-      })
-    # LV
-    if self.min_lv is not None and self.max_lv is not None and self.min_lv > self.max_lv:
-      raise ValidationError({
-        'min_lv': ValidationError(('Minimum LV must be smaller than maximum')),
-        'max_lv': ValidationError(('Maximum LV must be larger than minimum')),
-      })
 
 # Table to catalog different paper stocks available
 class PaperStock(models.Model):
@@ -456,24 +417,6 @@ class FilmStock(models.Model):
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "film stocks"
 
-# Table to catalog projectors (still and movie)
-class Projector(models.Model):
-  model = models.CharField(help_text='Model name of this projector', max_length=45)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this projector')
-  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this projector', limit_choices_to={'purpose': 'Projector'})
-  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size this projector can accept')
-  own = models.BooleanField(help_text='Whether we currently own this projector', blank=True, null=True)
-  cine = models.BooleanField(help_text='Whether this is a cine (movie) projector', blank=True, null=True)
-  owner = CurrentUserField()
-  def __str__(self):
-    if self.manufacturer is not None:
-      return "%s %s" % (self.manufacturer.name, self.model)
-    else:
-      return self.model
-  class Meta:
-    ordering = ['manufacturer', 'model']
-    verbose_name_plural = "projectors"
-
 # Table to record bulk film stock, from which individual films can be cut
 class BulkFilm(models.Model):
   format = models.ForeignKey(Format, on_delete=models.CASCADE, help_text='Film format of this bulk film')
@@ -488,17 +431,6 @@ class BulkFilm(models.Model):
     return "#%s %s %s" % (self.pk, self.filmstock.manufacturer.name, self.filmstock.name)
   class Meta:
     verbose_name_plural = "bulk films"
-
-# Table to catalogue filter adapter rings
-class FilterAdapter(models.Model):
-  camera_thread = models.DecimalField(help_text='Diameter of camera-facing screw thread in mm', max_digits=3, decimal_places=1)
-  filter_thread = models.DecimalField(help_text='Diameter of filter-facing screw thread in mm', max_digits=3, decimal_places=1)
-  owner = CurrentUserField()
-  def __str__(self):
-    return "%f-%fmm" % (self.camera_thread, self.filter_thread)
-  class Meta:
-    ordering = ['camera_thread', 'filter_thread']
-    verbose_name_plural = "filter adapters"
 
 # Table to catalog adapters to mount lenses on other cameras
 class MountAdapter(models.Model):
@@ -711,8 +643,6 @@ class CameraModel(models.Model):
   viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(100)])
   power_drive = models.BooleanField(help_text='Whether the camera has integrated motor drive', blank=True, null=True)
   continuous_fps = models.DecimalField(help_text='The maximum rate at which the camera can shoot, in frames per second', max_digits=4, decimal_places=1, blank=True, null=True)
-  video = models.BooleanField(help_text='Whether the camera can take video/movie', blank=True, null=True)
-  digital = models.BooleanField(help_text='Whether this is a digital camera', default=0, blank=True, null=True)
   fixed_mount = models.BooleanField(help_text='Whether the camera has a fixed lens', blank=True, null=True)
   lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens model attached to this camera model, if it is a fixed-lens camera', limit_choices_to={'fixed_mount': True})
   battery_qty = models.PositiveIntegerField(help_text='Quantity of batteries needed', blank=True, null=True)
@@ -808,6 +738,8 @@ class Accessory(models.Model):
     Power_winder = ChoiceItem()
     Viewfinder = ChoiceItem()
     Rangefinder = ChoiceItem()
+    Projector = ChoiceItem()
+    Light_meter = ChoiceItem()
 
   type = models.CharField(choices=AccessoryType.choices, help_text='Type of accessory', max_length=15)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this accessory')
@@ -1093,40 +1025,6 @@ class Toning(models.Model):
   class Meta:
     ordering = ['order']
     unique_together = ['print', 'order']
-
-# Table to catalog motion picture films (movies)
-class Movie(models.Model):
-  title = models.CharField(help_text='Title of this movie', max_length=45)
-  description = models.CharField(help_text='Description of this movie', max_length=200, blank=True, null=True)
-  camera = models.ForeignKey(Camera, on_delete=models.CASCADE, blank=True, null=True, help_text='Camera used to shoot this movie', limit_choices_to={'movie': True})
-  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens used to shoot this movie')
-  format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True, null=True, help_text='Film format of this movie')
-  sound = models.BooleanField(help_text='Whether this movie has sound', blank=True, null=True)
-  fps = models.PositiveIntegerField(verbose_name='FPS', help_text='Frame rate of this movie, in fps', blank=True, null=True)
-  filmstock = models.ForeignKey(FilmStock, on_delete=models.CASCADE, blank=True, null=True, help_text='Filmstock that this movie was shot on')
-  feet = models.PositiveIntegerField(help_text='Length of this movie in feet', blank=True, null=True)
-  duration = models.DurationField(help_text='Duration of this movie', blank=True, null=True)
-  date_loaded = models.DateField(help_text='Date that the filmstock was loaded into a camera', blank=True, null=True)
-  date_shot = models.DateField(help_text='Date on which this movie was shot', blank=True, null=True)
-  date_processed = models.DateField(help_text='Date on which this movie was processed', blank=True, null=True)
-  process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True, help_text='Process used to develop this movie')
-  owner = CurrentUserField()
-  def __str__(self):
-    return self.title
-  class Meta:
-    verbose_name_plural = "movies"
-  def clean(self):
-    # Date constraints
-    if self.date_loaded is not None and self.date_shot is not None and self.date_loaded > self.date_shot:
-      raise ValidationError({
-        'date_loaded': ValidationError(('Date loaded cannot be later than the date the film was shot')),
-        'date_shot': ValidationError(('Date shot cannot be earlier than the date the film was loaded')),
-      })
-    if self.date_shot is not None and self.date_processed is not None and self.date_shot > self.date_processed:
-      raise ValidationError({
-        'date_shot': ValidationError(('Date shot cannot be later than the date the film was processed')),
-        'date_processed': ValidationError(('Date processed cannot be earlier than the date the film was loaded')),
-      })
   
 # Table to catalog all repairs and servicing undertaken on cameras and lenses in the collection
 class Repair(models.Model):
