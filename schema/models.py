@@ -157,7 +157,6 @@ class NegativeSize(models.Model):
 # Table to catalogue different film formats. These are distinct from negative sizes.
 class Format(models.Model):
   format = models.CharField(help_text='The name of this film/sensor format', max_length=45, unique=True)
-  digital = models.BooleanField(help_text='Whether this is a digital format', blank=True, null=True)
   negative_size = models.ManyToManyField(NegativeSize, blank=True)
   def __str__(self):
     return self.format
@@ -191,7 +190,6 @@ class Flash(models.Model):
   swivel_head = models.BooleanField(help_text='Whether this flash has a horizontal swivel head', blank=True, null=True)
   tilt_head = models.BooleanField(help_text='Whether this flash has a vertical tilt head', blank=True, null=True)
   zoom = models.BooleanField(help_text='Whether this flash can zoom', blank=True, null=True)
-  dslr_safe = models.BooleanField(verbose_name='DSLR safe', help_text='Whether this flash is safe to use with a digital camera', blank=True, null=True)
   ttl = models.BooleanField(verbose_name='TTL', help_text='Whether this flash supports TTL metering', blank=True, null=True)
   flash_protocol = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True, null=True, help_text='Flash protocol used by this flash')
   trigger_voltage = models.DecimalField(help_text='Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1, blank=True, null=True)
@@ -316,7 +314,6 @@ class Mount(models.Model):
   type = models.CharField(help_text='The physical mount type of this lens mount', choices=MountType.choices, max_length=15, blank=True, null=True)
   purpose = models.CharField(help_text='The intended purpose of this lens mount', choices=Purpose.choices, max_length=15, blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
-  digital_only = models.BooleanField(help_text='Whether this mount is intended only for digital cameras', default=0, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this lens mount')
   def __str__(self):
     return self.mount
@@ -710,7 +707,6 @@ class CameraModel(models.Model):
   viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(100)])
   power_drive = models.BooleanField(help_text='Whether the camera has integrated motor drive', blank=True, null=True)
   continuous_fps = models.DecimalField(help_text='The maximum rate at which the camera can shoot, in frames per second', max_digits=4, decimal_places=1, blank=True, null=True)
-  digital = models.BooleanField(help_text='Whether this is a digital camera', default=0, blank=True, null=True)
   fixed_mount = models.BooleanField(help_text='Whether the camera has a fixed lens', blank=True, null=True)
   lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens model attached to this camera model, if it is a fixed-lens camera', limit_choices_to={'fixed_mount': True})
   battery_qty = models.PositiveIntegerField(help_text='Quantity of batteries needed', blank=True, null=True)
