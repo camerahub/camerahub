@@ -321,42 +321,6 @@ class Mount(models.Model):
     ordering = ['mount']
     verbose_name_plural = "mounts"
 
-# Table to catalog light meters
-class LightMeter(models.Model):
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this light meter')
-  model = models.CharField(help_text='Model name or number of the light meter', max_length=45)
-  metering_type = models.ForeignKey(MeteringType, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering type used in this meter')
-  reflected = models.BooleanField(help_text='Whether the meter is capable of reflected-light metering', blank=True, null=True)
-  incident = models.BooleanField(help_text='Whether the meter is capable of incident-light metering', blank=True, null=True)
-  flash = models.BooleanField(help_text='Whether the meter is capable of flash metering', blank=True, null=True)
-  spot = models.BooleanField(help_text='Whether the meter is capable of spot metering', blank=True, null=True)
-  min_asa = models.PositiveIntegerField(verbose_name='Min ISO', help_text='Minimum ISO/ASA that this meter is capable of handling', blank=True, null=True)
-  max_asa = models.PositiveIntegerField(verbose_name='Max ISO', help_text='Maximum ISO/ASA that this meter is capable of handling', blank=True, null=True)
-  min_lv = models.PositiveIntegerField(verbose_name='Min LV', help_text='Minimum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
-  max_lv = models.PositiveIntegerField(verbose_name='Max LV', help_text='Maximum light value (LV/EV) that this meter is capable of handling', blank=True, null=True)
-  owner = CurrentUserField()
-  def __str__(self):
-    if self.manufacturer is not None:
-      return "%s %s" % (self.manufacturer.name, self.model)
-    else:
-      return self.model
-  class Meta:
-    ordering = ['manufacturer', 'model']
-    verbose_name_plural = "light meters"
-  def clean(self):
-    # ASA
-    if self.min_asa is not None and self.max_asa is not None and self.min_asa > self.max_asa:
-      raise ValidationError({
-        'min_asa': ValidationError(('Minimum ISO/ASA must be smaller than maximum')),
-        'max_asa': ValidationError(('Maximum ISO/ASA must be larger than minimum')),
-      })
-    # LV
-    if self.min_lv is not None and self.max_lv is not None and self.min_lv > self.max_lv:
-      raise ValidationError({
-        'min_lv': ValidationError(('Minimum LV must be smaller than maximum')),
-        'max_lv': ValidationError(('Maximum LV must be larger than minimum')),
-      })
-
 # Table to catalog different paper stocks available
 class PaperStock(models.Model):
   name = models.CharField(help_text='Name of this paper stock', max_length=45)
@@ -452,23 +416,6 @@ class FilmStock(models.Model):
   class Meta:
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "film stocks"
-
-# Table to catalog projectors
-class Projector(models.Model):
-  model = models.CharField(help_text='Model name of this projector', max_length=45)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this projector')
-  mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this projector', limit_choices_to={'purpose': 'Projector'})
-  negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size this projector can accept')
-  own = models.BooleanField(help_text='Whether we currently own this projector', blank=True, null=True)
-  owner = CurrentUserField()
-  def __str__(self):
-    if self.manufacturer is not None:
-      return "%s %s" % (self.manufacturer.name, self.model)
-    else:
-      return self.model
-  class Meta:
-    ordering = ['manufacturer', 'model']
-    verbose_name_plural = "projectors"
 
 # Table to record bulk film stock, from which individual films can be cut
 class BulkFilm(models.Model):
@@ -802,6 +749,8 @@ class Accessory(models.Model):
     Power_winder = ChoiceItem()
     Viewfinder = ChoiceItem()
     Rangefinder = ChoiceItem()
+    Projector = ChoiceItem()
+    Light_meter = ChoiceItem()
 
   type = models.CharField(choices=AccessoryType.choices, help_text='Type of accessory', max_length=15)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this accessory')

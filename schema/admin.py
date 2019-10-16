@@ -14,9 +14,9 @@ admin.site.site_url = None
 
 # Import all models that need admin pages
 from .models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from .models import FilterAdapter, Flash, FlashProtocol, Format, Lens, LensModel, LightMeter, Manufacturer
+from .models import FilterAdapter, Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
 from .models import MeteringType, Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from .models import Process, Projector, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
+from .models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
 
 # Define inlines that can be embedded into other admin pages
 class CameraInline(admin.TabularInline):
@@ -150,10 +150,6 @@ class LensModelAdmin(admin.ModelAdmin):
   list_filter = ('manufacturer__name', 'mount')
 admin.site.register(LensModel, LensModelAdmin)
 
-class LightMeterAdmin(admin.ModelAdmin):
-  exclude = ('owner',)
-admin.site.register(LightMeter, LightMeterAdmin)
-
 admin.site.register(Manufacturer)
 
 admin.site.register(MeteringType)
@@ -203,10 +199,6 @@ class PrintAdmin(admin.ModelAdmin):
 admin.site.register(Print, PrintAdmin)
 
 admin.site.register(Process)
-
-class ProjectorAdmin(admin.ModelAdmin):
-  exclude = ('owner',)
-admin.site.register(Projector, ProjectorAdmin)
 
 class RepairAdmin(admin.ModelAdmin):
   exclude = ('owner',)
