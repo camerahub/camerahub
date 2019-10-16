@@ -145,7 +145,6 @@ FLUENT_DASHBOARD_DEFAULT_MODULE = 'admin_tools.dashboard.modules.AppList'
 
 FLUENT_DASHBOARD_APP_ICONS = {
   'schema/manufacturer': 'icons/manufacturer.png',
-  'schema/accessorytype': 'icons/accessorytype.png',
   'schema/accessory': 'icons/accessory.png',
   'schema/archive': 'icons/archive.png',
   'schema/battery': 'icons/battery.png',
@@ -177,7 +176,6 @@ FLUENT_DASHBOARD_APP_ICONS = {
   'schema/film': 'icons/film.png',
   'schema/negative': 'icons/negative.png',
   'schema/print': 'icons/print.png',
-  'schema/movie': 'icons/movie.png',
   'schema/repair': 'icons/repair.png',
   'schema/scan': 'icons/scan.png',
   'schema/order': 'icons/order.png',
