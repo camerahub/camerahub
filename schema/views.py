@@ -6,12 +6,11 @@ from django.views.generic.edit import CreateView, UpdateView
 def index(request):
     return render(request, 'schema/index.html')
 
-from .models import Camera
-class CameraListView(generic.ListView):
+class CameraList(generic.ListView):
   model = Camera
   template_name = 'schema/list.html'
 
-class CameraDetailView(generic.DetailView):
+class CameraDetail(generic.DetailView):
   model = Camera
   #template_name = 'schema/detail.html'
 
