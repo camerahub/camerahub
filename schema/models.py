@@ -6,6 +6,7 @@ from djchoices import DjangoChoices, ChoiceItem
 from datetime import datetime
 from math import sqrt
 from django_currentuser.db.models import CurrentUserField
+from django.urls import reverse
 import re
 
 # Create your models here.
@@ -870,6 +871,8 @@ class Camera(models.Model):
         raise ValidationError({
           'manufactured': ValidationError(('Manufactured date cannot be later than the date the camera model was discontinued')),
         })
+  def get_absolute_url(self):
+    return reverse('camera-detail', kwargs={'pk': self.pk})
 
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
 class Film(models.Model):
