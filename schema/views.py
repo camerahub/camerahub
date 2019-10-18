@@ -30,6 +30,7 @@ class BulkFilmList(generic.ListView):
 class CameraList(generic.ListView):
   model = Camera
   template_name = 'schema/list.html'
+  paginate_by = 10
 
 class CameraDetail(generic.DetailView):
   model = Camera
