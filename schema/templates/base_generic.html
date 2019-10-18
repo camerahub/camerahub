@@ -10,20 +10,51 @@
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-2">
-      {% block sidebar %}
-      <!-- insert default navigation text for every page -->
-        <ul class="sidebar-nav">
-          <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="{% url 'camera-list' %}">Cameras</a></li>
-        </ul>
-     {% endblock %}
-      </div>
-      <div class="col-sm-10 ">{% block content %}<!-- default content text (typically empty) -->{% endblock %}</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2">
+            {% block sidebar %}
+            <!-- insert default navigation text for every page -->
+                <ul class="sidebar-nav">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'accessory-list' %}">Accessory</a></li>
+                    <li><a href="{% url 'archive-list' %}">Archive</a></li>
+                    <li><a href="{% url 'battery-list' %}">Battery</a></li>
+                    <li><a href="{% url 'bulkfilm-list' %}">BulkFilm</a></li>
+                    <li><a href="{% url 'camera-list' %}">Camera</a></li>
+                    <li><a href="{% url 'cameramodel-list' %}">CameraModel</a></li>
+                    <li><a href="{% url 'developer-list' %}">Developer</a></li>
+                    <li><a href="{% url 'enlarger-list' %}">Enlarger</a></li>
+                    <li><a href="{% url 'film-list' %}">Film</a></li>
+                    <li><a href="{% url 'filmstock-list' %}">FilmStock</a></li>
+                    <li><a href="{% url 'filter-list' %}">Filter</a></li>
+                    <li><a href="{% url 'flash-list' %}">Flash</a></li>
+                    <li><a href="{% url 'flashprotocol-list' %}">FlashProtocol</a></li>
+                    <li><a href="{% url 'format-list' %}">Format</a></li>
+                    <li><a href="{% url 'lens-list' %}">Lens</a></li>
+                    <li><a href="{% url 'lensmodel-list' %}">LensModel</a></li>
+                    <li><a href="{% url 'manufacturer-list' %}">Manufacturer</a></li>
+                    <li><a href="{% url 'meteringtype-list' %}">MeteringType</a></li>
+                    <li><a href="{% url 'mount-list' %}">Mount</a></li>
+                    <li><a href="{% url 'mountadapter-list' %}">MountAdapter</a></li>
+                    <li><a href="{% url 'negative-list' %}">Negative</a></li>
+                    <li><a href="{% url 'negativesize-list' %}">NegativeSize</a></li>
+                    <li><a href="{% url 'order-list' %}">Order</a></li>
+                    <li><a href="{% url 'paperstock-list' %}">PaperStock</a></li>
+                    <li><a href="{% url 'person-list' %}">Person</a></li></a></li>
+                    <li><a href="{% url 'print-list' %}">Print</a></li>
+                    <li><a href="{% url 'process-list' %}">Process</a></li>
+                    <li><a href="{% url 'repair-list' %}">Repair</a></li>
+                    <li><a href="{% url 'scan-list' %}">Scan</a></li>
+                    <li><a href="{% url 'series-list' %}">Series</a></li>
+                    <li><a href="{% url 'teleconverter-list' %}">Teleconverter</a></li>
+                    <li><a href="{% url 'toner-list' %}">Toner</a></li>
+                </ul>
+            {% endblock %}
+        </div>
+    <div class="col-sm-10 ">{% block content %}<!-- default content text (typically empty) -->{% endblock %}</div>
 
-      {% block pagination %}
+    {% block pagination %}
       {% if is_paginated %}
           <div class="pagination">
               <span class="page-links">
