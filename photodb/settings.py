@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from getenv import env
-import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -88,10 +87,18 @@ WSGI_APPLICATION = 'photodb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-# Configure databases by setting env var DATABASE_URL
-# see also http://github.com/jacobian/dj-database-url
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(default='sqlite:///db/db.sqlite3')
+# Configure databases by setting env vars DB_*
+
+DATABASES = {
+    'default': {
+        'ENGINE': env('DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': env('DB_NAME', os.path.join(BASE_DIR, 'db', 'db.sqlite3')),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASS'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
