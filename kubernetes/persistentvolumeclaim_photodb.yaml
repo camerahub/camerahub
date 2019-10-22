@@ -11,7 +11,7 @@ metadata:
   creationTimestamp: null
   finalizers:
   - kubernetes.io/pvc-protection
-  name: photodb
+  name: photodb-sqlite
   selfLink: /api/v1/namespaces/photodb/persistentvolumeclaims/photodb
 spec:
   accessModes:

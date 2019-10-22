@@ -37,15 +37,15 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-        - mountPath: /mnt
-          name: hostpath-volume
+        - mountPath: /var/www/photodb/db
+          name: sqlite-volume
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
-      - name: hostpath-volume
+      - name: sqlite-volume
         persistentVolumeClaim:
-          claimName: photodb
+          claimName: photodb-sqlite
 status: {}
