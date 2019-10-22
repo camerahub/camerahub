@@ -69,4 +69,4 @@ spec:
   selector:
     app: photodb
   sessionAffinity: None
-  type: NodePort
+  type: LoadBalancer
