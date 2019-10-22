@@ -37,6 +37,25 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+      env:
+      - name: DB_USER
+        valueFrom:
+          secretKeyRef:
+            name: postgres-credentials
+            key: user
+      - name: DB_PASS
+        valueFrom:
+          secretKeyRef:
+            name: postgres-credentials
+            key: password
+      - name: DB_HOST
+        value: postgres-service
+      - name: DB_NAME
+        value: photodb
+      - name: DB_PORT
+        value: 5432
+      - name: DB_ENGINE
+        value: django.db.backends.postgresql
       volumes:
       - name: sqlite-volume
         persistentVolumeClaim:
