@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from getenv import env
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -86,15 +88,10 @@ WSGI_APPLICATION = 'photodb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-# May be overridden in local_settings.py
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),
-    }
-}
-
+# Configure databases by setting env var DATABASE_URL
+# see also http://github.com/jacobian/dj-database-url
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(default='sqlite:///db/db.sqlite3')
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -209,9 +206,3 @@ FLUENT_DASHBOARD_APP_GROUPS = (
 )
 
 FAVICON_PATH = STATIC_URL + 'favicon.ico'
-
-try:
-    from .local_settings.local_settings import *
-except ImportError:
-    # No local settings was found, skipping.
-    pass

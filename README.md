@@ -15,6 +15,17 @@ There are several ways of installing PhotoDB, depending on your needs:
 * [With Docker](docs/INSTALL-DOCKER.md)
 * [With Kubernetes](docs/INSTALL-KUBERNETES.md)
 
+## Configuring PhotoDB
+
+PhotoDB requires no additional config to run with default settings. However the database backend can be configured by setting
+the `DATABASE_URL` environment variable. The following settings are supported:
+
+| Engine     | Django Backend                | URL                                     |
+| ---------- | ----------------------------- | --------------------------------------- |
+| PostgreSQL | django.db.backends.postgresql | postgres://USER:PASSWORD@HOST:PORT/NAME |
+| MySQL      | django.db.backends.mysql      | mysql://USER:PASSWORD@HOST:PORT/NAME    |
+| SQLite     | django.db.backends.sqlite3    | sqlite:///PATH                          |
+
 ## See also
 
 * [Concepts](docs/CONCEPTS.md)
