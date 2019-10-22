@@ -34,9 +34,16 @@ spec:
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+        volumeMounts:
+        - name: hostpath-volume
+          mountPath: "/mnt"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+      volumes:
+      - name: hostpath-volume
+        persistentVolumeClaim:
+          claimName: photodb
 status: {}
