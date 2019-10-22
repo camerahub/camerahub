@@ -45,7 +45,7 @@ spec:
         - name: DB_NAME
           value: photodb
         - name: DB_PORT
-          value: 5432
+          value: '5432'
         - name: DB_ENGINE
           value: django.db.backends.postgresql
       dnsPolicy: ClusterFirst
