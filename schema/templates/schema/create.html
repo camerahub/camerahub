@@ -1,4 +1,9 @@
 {% extends "base_generic.html" %}
+{% load model_name %}
+
+{% block heading %}<h1>{{ view.model | verbose_name_plural | title }}</h1>{%endblock%}
+
+{% block subheading %}<h2>Add new</h2>{%endblock%}
 
 {% block content %}
 <form method="post">{% csrf_token %}
