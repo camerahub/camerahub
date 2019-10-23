@@ -1,4 +1,38 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
+<table>
+  <tr>
+    <th>Negative</th>
+    <td>{{ object.negative }}</td>
+  </tr>
+  <tr>
+    <th>Print</th>
+    <td>{{ object.print }}</td>
+  </tr>
+  <tr>
+    <th>Filename</th>
+    <td>{{ object.filename }}</td>
+  </tr>
+  <tr>
+    <th>Date</th>
+    <td>{{ object.date }}</td>
+  </tr>
+  <tr>
+    <th>Colour</th>
+    <td>{{ object.colour }}</td>
+  </tr>
+  <tr>
+    <th>Width</th>
+    <td>{{ object.width }}</td>
+  </tr>
+  <tr>
+    <th>Height</th>
+    <td>{{ object.height }}</td>
+  </tr>
+  <tr>
+    <th>Owner</th>
+    <td>{{ object.owner }}</td>
+  </tr>
+</table>
 {% endblock %}

@@ -1,4 +1,38 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
+<table>
+  <tr>
+    <th>Archive type</th>
+    <td>{{ object.type }}</td>
+  </tr>
+  <tr>
+    <th>Archive name</th>
+    <td>{{ object.name }}</td>
+  </tr>
+  <tr>
+    <th>Max width</th>
+    <td>{{ object.max_width }}</td>
+  </tr>
+  <tr>
+    <th>Max height</th>
+    <td>{{ object.max_height }}</td>
+  </tr>
+  <tr>
+    <th>Location</th>
+    <td>{{ object.location }}</td>
+  </tr>
+  <tr>
+    <th>Storage</th>
+    <td>{{ object.storage }}</td>
+  </tr>
+  <tr>
+    <th>Sealed</th>
+    <td>{{ object.sealed }}</td>
+  </tr>
+  <tr>
+    <th>Owner</th>
+    <td>{{ object.owner }}</td>
+  </tr>
+</table>
 {% endblock %}

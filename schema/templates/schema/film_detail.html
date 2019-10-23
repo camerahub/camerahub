@@ -1,4 +1,102 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
+<table>
+  <tr>
+    <th>Filmstock</th>
+    <td>{{ object.filmstock }}</td>
+  </tr>
+  <tr>
+    <th>Exposed at</th>
+    <td>{{ object.exposed_at }}</td>
+  </tr>
+  <tr>
+    <th>Film format</th>
+    <td>{{ object.format }}</td>
+  </tr>
+  <tr>
+    <th>Date loaded</th>
+    <td>{{ object.date_loaded }}</td>
+  </tr>
+  <tr>
+    <th>Date processed</th>
+    <td>{{ object.date_processed }}</td>
+  </tr>
+  <tr>
+    <th>Camera</th>
+    <td>{{ object.camera }}</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td>{{ object.title }}</td>
+  </tr>
+  <tr>
+    <th>Frames</th>
+    <td>{{ object.frames }}</td>
+  </tr>
+  <tr>
+    <th>Developer</th>
+    <td>{{ object.developer }}</td>
+  </tr>
+  <tr>
+    <th>Directory</th>
+    <td>{{ object.directory }}</td>
+  </tr>
+  <tr>
+    <th>Developer uses</th>
+    <td>{{ object.dev_uses }}</td>
+  </tr>
+  <tr>
+    <th>Development time</th>
+    <td>{{ object.dev_time }}</td>
+  </tr>
+  <tr>
+    <th>Development temperature</th>
+    <td>{{ object.dev_temp }}</td>
+  </tr>
+  <tr>
+    <th>Development compensation</th>
+    <td>{{ object.dev_n }}</td>
+  </tr>
+  <tr>
+    <th>Development notes</th>
+    <td>{{ object.development_notes }}</td>
+  </tr>
+  <tr>
+    <th>Bulk film</th>
+    <td>{{ object.bulk_film }}</td>
+  </tr>
+  <tr>
+    <th>Bulk film loaded</th>
+    <td>{{ object.bulk_film_loaded }}</td>
+  </tr>
+  <tr>
+    <th>Batch code</th>
+    <td>{{ object.film_batch }}</td>
+  </tr>
+  <tr>
+    <th>Expiry date</th>
+    <td>{{ object.expiry_date }}</td>
+  </tr>
+  <tr>
+    <th>Purchase date</th>
+    <td>{{ object.purchase_date }}</td>
+  </tr>
+  <tr>
+    <th>Price</th>
+    <td>{{ object.price }}</td>
+  </tr>
+  <tr>
+    <th>Processed by</th>
+    <td>{{ object.processed_by }}</td>
+  </tr>
+  <tr>
+    <th>Archive</th>
+    <td>{{ object.archive }}</td>
+  </tr>
+  <tr>
+    <th>Owner</th>
+    <td>{{ object.owner }}</td>
+  </tr>
+</table>
 {% endblock %}

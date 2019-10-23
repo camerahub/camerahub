@@ -1,4 +1,22 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
+<table>
+  <tr>
+    <th>Name</th>
+    <td>{{ object.name }}</td>
+  </tr>
+  <tr>
+    <th>Manufacturer</th>
+    <td>{{ object.manufacturer }}</td>
+  </tr>
+  <tr>
+    <th>Formulation</th>
+    <td>{{ object.formulation }}</td>
+  </tr>
+  <tr>
+    <th>Stock dilution</th>
+    <td>{{ object.stock_dilution }}</td>
+  </tr>
+</table>
 {% endblock %}

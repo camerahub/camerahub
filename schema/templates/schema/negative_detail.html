@@ -1,4 +1,86 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
+<table>
+  <tr>
+    <th>Film</th>
+    <td>{{ object.film }}</td>
+  </tr>
+  <tr>
+    <th>Frame</th>
+    <td>{{ object.frame }}</td>
+  </tr>
+  <tr>
+    <th>Caption</th>
+    <td>{{ object.caption }}</td>
+  </tr>
+  <tr>
+    <th>Date</th>
+    <td>{{ object.date }}</td>
+  </tr>
+  <tr>
+    <th>Lens</th>
+    <td>{{ object.lens }}</td>
+  </tr>
+  <tr>
+    <th>Shutter speed</th>
+    <td>{{ object.shutter_speed }}</td>
+  </tr>
+  <tr>
+    <th>Aperture</th>
+    <td>{{ object.aperture }}</td>
+  </tr>
+  <tr>
+    <th>Filter</th>
+    <td>{{ object.filter }}</td>
+  </tr>
+  <tr>
+    <th>Teleconverter</th>
+    <td>{{ object.teleconverter }}</td>
+  </tr>
+  <tr>
+    <th>Notes</th>
+    <td>{{ object.notes }}</td>
+  </tr>
+  <tr>
+    <th>Adapter</th>
+    <td>{{ object.mount_adapter }}</td>
+  </tr>
+  <tr>
+    <th>Focal length</th>
+    <td>{{ object.focal_length }}</td>
+  </tr>
+  <tr>
+    <th>Latitude</th>
+    <td>{{ object.latitude }}</td>
+  </tr>
+  <tr>
+    <th>Longitude</th>
+    <td>{{ object.longitude }}</td>
+  </tr>
+  <tr>
+    <th>Flash</th>
+    <td>{{ object.flash }}</td>
+  </tr>
+  <tr>
+    <th>Metering mode</th>
+    <td>{{ object.metering_mode }}</td>
+  </tr>
+  <tr>
+    <th>Exposure program</th>
+    <td>{{ object.exposure_program }}</td>
+  </tr>
+  <tr>
+    <th>Photographer</th>
+    <td>{{ object.photographer }}</td>
+  </tr>
+  <tr>
+    <th>Copy of</th>
+    <td>{{ object.copy_of }}</td>
+  </tr>
+  <tr>
+    <th>Owner</th>
+    <td>{{ object.owner }}</td>
+  </tr>
+</table>
 {% endblock %}

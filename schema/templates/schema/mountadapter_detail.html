@@ -1,4 +1,30 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
+<table>
+  <tr>
+    <th>Camera mount</th>
+    <td>{{ object.camera_mount }}</td>
+  </tr>
+  <tr>
+    <th>Lens mount</th>
+    <td>{{ object.lens_mount }}</td>
+  </tr>
+  <tr>
+    <th>Has optics</th>
+    <td>{{ object.has_optics }}</td>
+  </tr>
+  <tr>
+    <th>Infinity focus</th>
+    <td>{{ object.infinity_focus }}</td>
+  </tr>
+  <tr>
+    <th>Notes</th>
+    <td>{{ object.notes }}</td>
+  </tr>
+  <tr>
+    <th>Owner</th>
+    <td>{{ object.owner }}</td>
+  </tr>
+</table>
 {% endblock %}

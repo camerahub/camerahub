@@ -1,4 +1,90 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
+<table>
+  <tr>
+    <th>Negative</th>
+    <td>{{ object.negative }}</td>
+  </tr>
+  <tr>
+    <th>Date</th>
+    <td>{{ object.date }}</td>
+  </tr>
+  <tr>
+    <th>Paperstock</th>
+    <td>{{ object.paper_stock }}</td>
+  </tr>
+  <tr>
+    <th>Height</th>
+    <td>{{ object.height }}</td>
+  </tr>
+  <tr>
+    <th>Width</th>
+    <td>{{ object.width }}</td>
+  </tr>
+  <tr>
+    <th>Aperture</th>
+    <td>{{ object.aperture }}</td>
+  </tr>
+  <tr>
+    <th>Exposure time</th>
+    <td>{{ object.exposure_time }}</td>
+  </tr>
+  <tr>
+    <th>Filtration grade</th>
+    <td>{{ object.filtration_grade }}</td>
+  </tr>
+  <tr>
+    <th>Development time</th>
+    <td>{{ object.development_time }}</td>
+  </tr>
+  <tr>
+    <th>Toner</th>
+    <td>{{ object.toner }}</td>
+  </tr>
+  <tr>
+    <th>Own</th>
+    <td>{{ object.own }}</td>
+  </tr>
+  <tr>
+    <th>Location</th>
+    <td>{{ object.location }}</td>
+  </tr>
+  <tr>
+    <th>Sold price</th>
+    <td>{{ object.sold_price }}</td>
+  </tr>
+  <tr>
+    <th>Enlarger</th>
+    <td>{{ object.enlarger }}</td>
+  </tr>
+  <tr>
+    <th>Enlarger lens</th>
+    <td>{{ object.lens }}</td>
+  </tr>
+  <tr>
+    <th>Developer</th>
+    <td>{{ object.developer }}</td>
+  </tr>
+  <tr>
+    <th>Fine</th>
+    <td>{{ object.fine }}</td>
+  </tr>
+  <tr>
+    <th>Notes</th>
+    <td>{{ object.notes }}</td>
+  </tr>
+  <tr>
+    <th>Archive</th>
+    <td>{{ object.archive }}</td>
+  </tr>
+  <tr>
+    <th>Printer</th>
+    <td>{{ object.printer }}</td>
+  </tr>
+  <tr>
+    <th>Owner</th>
+    <td>{{ object.owner }}</td>
+  </tr>
+</table>
 {% endblock %}

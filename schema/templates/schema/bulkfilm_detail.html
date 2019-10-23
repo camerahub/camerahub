@@ -1,4 +1,38 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
+<table>
+  <tr>
+    <th>Film format</th>
+    <td>{{ object.format }}</td>
+  </tr>
+  <tr>
+    <th>Filmstock</th>
+    <td>{{ object.filmstock }}</td>
+  </tr>
+  <tr>
+    <th>Purchase date</th>
+    <td>{{ object.purchase_date }}</td>
+  </tr>
+  <tr>
+    <th>Cost</th>
+    <td>{{ object.cost }}</td>
+  </tr>
+  <tr>
+    <th>Source</th>
+    <td>{{ object.source }}</td>
+  </tr>
+  <tr>
+    <th>Batch code</th>
+    <td>{{ object.batch }}</td>
+  </tr>
+  <tr>
+    <th>Expiry date</th>
+    <td>{{ object.expiry }}</td>
+  </tr>
+  <tr>
+    <th>Owner</th>
+    <td>{{ object.owner }}</td>
+  </tr>
+</table>>
 {% endblock %}

@@ -1,4 +1,14 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
+<table>
+  <tr>
+    <th>Name</th>
+    <td>{{ object.name }}</td>
+  </tr>
+  <tr>
+    <th>Manufacturer</th>
+    <td>{{ object.manufacturer }}</td>
+  </tr>
+</table>
 {% endblock %}

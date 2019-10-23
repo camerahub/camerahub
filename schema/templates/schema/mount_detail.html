@@ -1,4 +1,30 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
+<table>
+  <tr>
+    <th>Mount</th>
+    <td>{{ object.mount }}</td>
+  </tr>
+  <tr>
+    <th>Shutter in lens</th>
+    <td>{{ object.shutter_in_lens }}</td>
+  </tr>
+  <tr>
+    <th>Type</th>
+    <td>{{ object.type }}</td>
+  </tr>
+  <tr>
+    <th>Purpose</th>
+    <td>{{ object.purpose }}</td>
+  </tr>
+  <tr>
+    <th>Notes</th>
+    <td>{{ object.notes }}</td>
+  </tr>
+  <tr>
+    <th>Manufacturer</th>
+    <td>{{ object.manufacturer }}</td>
+  </tr>
+</table>
 {% endblock %}
