@@ -11,6 +11,9 @@ ADD . $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 RUN pip install .
 
+# Specify production mode
+ENV DJANGO_ENV prod
+
 # Run migrations
 RUN python manage.py migrate
 
