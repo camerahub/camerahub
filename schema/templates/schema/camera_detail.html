@@ -1,9 +1,6 @@
-{% extends "base_generic.html" %}
+{% extends "schema/detail.html" %}
 
 {% block content %}
-  <h1>Cameras</h1>
-  <h2>{{ object }}</h2>
-
 <h3>Your camera</h3>
     
   <p><strong>Acquired:</strong> {{ object.acquired }}</p>
@@ -28,5 +25,9 @@
 
   <p><strong>Camera model:</strong> {{ object.cameramodel }}</p>
   <p><strong>Introduced:</strong> {{object.cameramodel.introduced }}</p>
+
+<h3>Actions</h3>
+
+  <p><a href="{{ object.get_absolute_url }}/update">Edit</a></p>
 
 {% endblock %}
