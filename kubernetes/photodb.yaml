@@ -18,12 +18,11 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: photodb
     spec:
       containers:
-      - image: djjudas21/photodb
+      - image: djjudas21/photodb:0.1.1
         imagePullPolicy: IfNotPresent
         name: photodb
         resources: {}
@@ -61,12 +60,29 @@ metadata:
     app: photodb
   name: photodb
 spec:
-  externalTrafficPolicy: Cluster
   ports:
   - port: 8000
     protocol: TCP
-    targetPort: 8000
   selector:
     app: photodb
-  sessionAffinity: None
-  type: LoadBalancer
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    # add an annotation indicating the issuer to use.
+    #cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: photodb
+spec:
+  rules:
+  - host: myingress.com
+    http:
+      paths:
+      - backend:
+          serviceName: photodb
+          servicePort: 8000
+        path: /
+  #tls: # < placing a host in the TLS config will indicate a cert should be created
+  #- hosts:
+   # - myingress.com
+    #secretName: photodb-ingress-cert # < cert-manager will store the created certificate in this secret.
