@@ -11,11 +11,11 @@ It is recommended that you install PhotoDB into its own namespace, and not into 
 This project contains a directory of Kubernetes manifests which set up a 2-replica deployment of PhotoDB which uses a single Postgresql
 replica to store its data. This is not quite production-ready, and work is ongoing to engineer this properly.
 
-To install PhotoDB into Kubernetes, run this
+To install PhotoDB into Kubernetes using Kustomize, run this:
 
 ```sh
 cd kubernetes
-kubectl apply -f .
+kubectl apply -k .
 ```
 
 Run the following command to get the IP address that PhotoDB is running on:
