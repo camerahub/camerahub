@@ -75,8 +75,8 @@ metadata:
   name: photodb
 spec:
   rules:
-  - host: myingress.com
-    http:
+  - http:
+    # host: myingress.com
       paths:
       - backend:
           serviceName: photodb
