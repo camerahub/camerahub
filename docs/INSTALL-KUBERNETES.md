@@ -8,8 +8,8 @@ This guide assumes you already have a Kubernetes cluster available.
 
 It is recommended that you install PhotoDB into its own namespace, and not into `default`.
 
-This project contains a directory of Kubernetes manifests which set up a single pod deployment of PhotoDB which uses a persistent volume
-to store its data in SQLite. This is obviously not production-ready, and work is ongoing to engineer this properly.
+This project contains a directory of Kubernetes manifests which set up a 2-replica deployment of PhotoDB which uses a single Postgresql
+replica to store its data. This is not quite production-ready, and work is ongoing to engineer this properly.
 
 To install PhotoDB into Kubernetes, run this
 
