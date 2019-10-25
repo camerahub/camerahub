@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = env('SECRET_KEY', 'OverrideMe!'),
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.getenv('DJANGO_ENV') == 'prod':
+if os.getenv('DJANGO_PROD') == 'true':
     DEBUG = False
     ALLOWED_HOSTS = ['*']
 else:
