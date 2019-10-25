@@ -17,9 +17,13 @@ There are several ways of installing PhotoDB, depending on your needs:
 
 ## Configuring PhotoDB
 
-PhotoDB requires no additional config to run with default settings. However the database backend can be configured by setting
-the `DB_*` environment variables. The following variables are supported:
+PhotoDB requires no additional config to run with default settings. However it is **insecure** in this configuration so at least `SECRET_KEY` and
+`DJANGO_PROD` must be set if you are running in production.
 
+The following environment variables are supported:
+
+* `SECRET_KEY` - a large random value to be kept secret. Generate [here](https://miniwebtool.com/django-secret-key-generator/)
+* `DJANGO_PROD` - set to `true` to enable production mode. Defaults to `false` when running from source and `true` when running in Docker
 * `DB_ENGINE` - the database engine (default `django.db.backends.sqlite3`)
 * `DB_NAME` - the name of the database schema, or path to the SQLite db file (default `db/db.sqlite3`)
 * `DB_USER` - database username
