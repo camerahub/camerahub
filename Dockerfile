@@ -9,7 +9,7 @@ ADD . $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
 # Install deps from apk and pip
-RUN apk --no-cache add pcre mailcap \
+RUN apk --no-cache add pcre mailcap libpq \
   && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git \
   && pip install . --no-cache-dir \
   && apk --no-cache del .build-deps
