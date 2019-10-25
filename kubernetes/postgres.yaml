@@ -18,6 +18,13 @@ data:
   user: cGhvdG9kYg==
   password: cGhvdG9kYg==
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: photodb-config
+data:
+  db_name: photodb
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -50,7 +57,10 @@ spec:
                   key: password
 
             - name: POSTGRES_DB
-              value: photodb
+              valueFrom:
+                configMapKeyRef:
+                  name: photodb-config
+                  key: db_name
           ports:
             - containerPort: 5432
           volumeMounts:

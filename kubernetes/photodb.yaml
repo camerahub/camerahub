@@ -55,7 +55,10 @@ spec:
         - name: DB_HOST
           value: postgres-service
         - name: DB_NAME
-          value: photodb
+          valueFrom:
+            configMapKeyRef:
+              name: photodb-config
+              key: db_name
         - name: DB_PORT
           value: '5432'
         - name: DB_ENGINE
