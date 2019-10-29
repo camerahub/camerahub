@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-key
+type: Opaque
+data:
+  key: cGhvdG9kYg==
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: photodb
+  name: photodb
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: photodb
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: photodb
+    spec:
+      containers:
+      - image: djjudas21/photodb
+        imagePullPolicy: IfNotPresent
+        name: photodb
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        env:
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: user
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: password
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: secret-key
+              key: key
+        - name: DB_HOST
+          value: postgres-service
+        - name: DB_NAME
+          value: photodb
+        - name: DB_PORT
+          value: '5432'
+        - name: DB_ENGINE
+          value: django.db.backends.postgresql
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: photodb
+  name: photodb
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: photodb
+  sessionAffinity: None
+  type: LoadBalancer

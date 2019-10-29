@@ -26,7 +26,11 @@ python manage.py createsuperuser
 To run PhotoDB, run:
 
 ```sh
+# Use default SQLite database
 python manage.py runserver
+
+# Override database
+DB_HOST=localhost DB_ENGINE=django.db.backends.postgresql DB_USER=admin DB_PASS=admin DB_PORT=5432 DB_NAME=photodb python3 manage.py runserver
 ```
 
 and navigate to [http://localhost:8000](http://localhost:8000). Log in with the superuser account you created above.
