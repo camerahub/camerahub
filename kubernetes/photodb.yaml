@@ -30,7 +30,7 @@ spec:
         app: photodb
     spec:
       containers:
-      - image: djjudas21/photodb:0.1.4
+      - image: djjudas21/photodb:latest
         imagePullPolicy: IfNotPresent
         name: photodb
         resources: {}
