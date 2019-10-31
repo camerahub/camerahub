@@ -83,4 +83,18 @@
     <td>{{ object.owner }}</td>
   </tr>
 </table>
+
+<div style="margin-left:20px;margin-top:20px">
+    <h4>Prints</h4>
+    <table>
+      <tr>
+        <th>ID</th>
+      </tr>
+      {% for print in negative.print_set.all %}
+      <tr>
+        <td>{{ print }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
 {% endblock %}

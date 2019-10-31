@@ -139,4 +139,20 @@
     <td>{{ object.series }}</td>
   </tr>
 </table>
+
+<div style="margin-left:20px;margin-top:20px">
+    <h4>Lenses</h4>
+    <table>
+      <tr>
+        <th>Serial</th>
+        <th>Acquired</th>
+      </tr>
+      {% for lens in lensmodel.lens_set.all %}
+      <tr>
+        <td>{{ lens.serial }}</td>
+        <td>{{ lens.acquired }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
 {% endblock %}

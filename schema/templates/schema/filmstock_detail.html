@@ -27,4 +27,21 @@
     <td>{{ object.process }}</td>
   </tr>
 </table>
+
+<div style="margin-left:20px;margin-top:20px">
+    <h4>Films</h4>
+    <table>
+      <tr>
+        <th>Film</th>
+        <th>Caption</th>
+        <th>Date</th>
+      </tr>
+      {% for film in filmstock.film_set.all %}
+      <tr>
+        <td>{{ film.pk }}</td>
+        <td>{{ film.description }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
 {% endblock %}

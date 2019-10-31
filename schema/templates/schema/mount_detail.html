@@ -27,4 +27,38 @@
     <td>{{ object.manufacturer }}</td>
   </tr>
 </table>
+
+<div style="margin-left:20px;margin-top:20px">
+  <h4>Cameras</h4>
+  <table>
+    <tr>
+      <th>Model</th>
+      <th>Serial</th>
+    </tr>
+    {% for cameramodel in mount.cameramodel_set.all %}
+    {% for camera in cameramodel.camera_set.all %}
+    <tr>
+      <td>{{ cameramodel }}</td>
+      <td>{{ camera.serial }}</td>
+    </tr>
+    {% endfor %}
+    {% endfor %}
+  </table>
+
+  <h4>Lenses</h4>
+  <table>
+    <tr>
+      <th>Model</th>
+      <th>Serial</th>
+    </tr>
+    {% for lensmodel in mount.lensmodel_set.all %}
+    {% for lens in lensmodel.lens_set.all %}
+    <tr>
+      <td>{{ lensmodel }}</td>
+      <td>{{ lens.serial }}</td>
+    </tr>
+    {% endfor %}
+    {% endfor %}
+  </table>
+</div>
 {% endblock %}
