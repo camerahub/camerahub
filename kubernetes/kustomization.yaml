@@ -5,6 +5,4 @@ bases:
 - ./photodb
 - ./postgres
 
-namespace: photodb
-
 commonLabels:
