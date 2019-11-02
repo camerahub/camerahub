@@ -1,8 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: photodb
   name: photodb
 spec:
   progressDeadlineSeconds: 600
@@ -10,7 +8,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: photodb
+      app: photodb-container
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -19,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        app: photodb
+        app: photodb-container
     spec:
       containers:
       - image: djjudas21/photodb:latest
