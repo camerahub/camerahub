@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: django
-          image: djjudas21/photodb:0.1.4
+          image: djjudas21/photodb:latest
           command: ['python', 'manage.py', 'migrate']
           env:
           - name: DB_USER
