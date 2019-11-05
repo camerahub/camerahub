@@ -1,0 +1,37 @@
+# Credentials for Postgres database
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-credentials
+data:
+  user: cGhvdG9kYg==
+  password: cGhvdG9kYg==
+---
+# Secret for Django
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-key
+data:
+  key: cGhvdG9kYg==
+---
+# TLS/SSL certs
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: photodb
+spec:
+  rules:
+  - http:
+      host: myingress.com
+      paths:
+      - backend:
+          serviceName: photodb
+          servicePort: 8000
+        path: /
+  tls:
+  - hosts:
+    - myingress.com
+    secretName: photodb-ingress-cert
