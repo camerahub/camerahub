@@ -19,18 +19,19 @@ data:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
   name: photodb
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
-  - http:
-      host: myingress.com
+  - host: myingress.com
+    http:
       paths:
-      - backend:
+      - path: /
+        backend:
           serviceName: photodb
           servicePort: 8000
-        path: /
   tls:
   - hosts:
     - myingress.com
