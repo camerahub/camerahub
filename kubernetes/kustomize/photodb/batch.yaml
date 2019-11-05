@@ -8,6 +8,7 @@ spec:
       containers:
         - name: django
           image: djjudas21/photodb:latest
+          command: ['python', 'manage.py', 'migrate']
           env:
           - name: DB_USER
             valueFrom:
@@ -35,7 +36,5 @@ spec:
             value: '5432'
           - name: DB_ENGINE
             value: django.db.backends.postgresql
-          - name: DJANGO_MANAGEPY_MIGRATE
-            value: on
       restartPolicy: Never
   backoffLimit: 5
