@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: photodb
+spec:
+  rules:
+  - http:
+    # host: myingress.com
+      paths:
+      - backend:
+          serviceName: photodb
+          servicePort: 8000
+        path: /

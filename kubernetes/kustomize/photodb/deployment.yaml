@@ -1,16 +1,6 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: secret-key
-type: Opaque
-data:
-  key: cGhvdG9kYg==
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: photodb
   name: photodb
 spec:
   progressDeadlineSeconds: 600
@@ -18,7 +8,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: photodb
+      app: photodb-container
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -26,12 +16,11 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: photodb
+        app: photodb-container
     spec:
       containers:
-      - image: djjudas21/photodb
+      - image: djjudas21/photodb:latest
         imagePullPolicy: IfNotPresent
         name: photodb
         resources: {}
@@ -56,30 +45,18 @@ spec:
         - name: DB_HOST
           value: postgres-service
         - name: DB_NAME
-          value: photodb
+          valueFrom:
+            configMapKeyRef:
+              name: photodb-config
+              key: db_name
         - name: DB_PORT
           value: '5432'
         - name: DB_ENGINE
           value: django.db.backends.postgresql
+        - name: DJANGO_PROD
+          value: 'true'
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: photodb
-  name: photodb
-spec:
-  externalTrafficPolicy: Cluster
-  ports:
-  - port: 8000
-    protocol: TCP
-    targetPort: 8000
-  selector:
-    app: photodb
-  sessionAffinity: None
-  type: LoadBalancer

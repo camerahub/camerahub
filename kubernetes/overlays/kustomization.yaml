@@ -1,0 +1,5 @@
+bases:
+- ../kustomize
+
+patchesStrategicMerge:
+- overlay.yaml

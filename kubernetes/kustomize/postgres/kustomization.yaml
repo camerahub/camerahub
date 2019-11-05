@@ -1,0 +1,5 @@
+resources:
+- deployment.yaml
+- persistentvolumeclaim.yaml
+- secret.yaml
+- service.yaml
