@@ -14,7 +14,13 @@ replica to store its data. This is not quite production-ready, and work is ongoi
 To install PhotoDB into Kubernetes using Kustomize, run this:
 
 ```sh
-cd kubernetes
+# Change into Kustomize overlay directory
+cd kubernetes/overlays
+
+# Edit overlay.yaml as necessary, setting passwords and other local settings
+vim overlay.yaml
+
+# Apply your kustomized manifests
 kubectl apply -k .
 ```
 
