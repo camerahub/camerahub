@@ -1,4 +1,5 @@
 import django_tables2 as tables
+from django.utils.html import format_html
 
 # Import all models that need admin pages
 from .models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -6,13 +7,19 @@ from .models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
 from .models import MeteringType, Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
 from .models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
 
+#sequence – reorder columns
+#fields – specify model fields to include
+#exclude – specify model fields to exclude
+
 class AccessoryTable(tables.Table):
     class Meta:
         model = Accessory
+        exclude = ('id', 'cost_currency', 'lost', 'lost_price', 'lost_price_currency', 'owner',)
 
 class ArchiveTable(tables.Table):
     class Meta:
         model = Archive
+        exclude = ('id', 'owner',)
 
 class BatteryTable(tables.Table):
     class Meta:
@@ -21,31 +28,39 @@ class BatteryTable(tables.Table):
 class BulkFilmTable(tables.Table):
     class Meta:
         model = BulkFilm
+        exclude = ('cost_currency', 'owner',)
 
 class CameraTable(tables.Table):
     class Meta:
         model = Camera
-        exclude = ('condition',)
+        exclude = ('condition', 'cost_currency', 'lost', 'lost_price_currency', 'lost_price', 'owner',)
 
 class CameraModelTable(tables.Table):
     class Meta:
         model = CameraModel
+        exclude = ('manufacturer',)
+    def render_model(self, value, record):
+        return format_html("{} {}", record.manufacturer, value)
 
 class DeveloperTable(tables.Table):
     class Meta:
         model = Developer
+        exclude = ('id',)
 
 class EnlargerTable(tables.Table):
     class Meta:
         model = Enlarger
+        exclude = ('id', 'lost', 'cost_currency', 'lost_price_currency', 'lost_price', 'owner')
 
 class FilmStockTable(tables.Table):
     class Meta:
         model = FilmStock
+        exclude = ('id',)
 
 class FilterTable(tables.Table):
     class Meta:
         model = Filter
+        exclude = ('id', 'owner',)
 
 class FlashTable(tables.Table):
     class Meta:
