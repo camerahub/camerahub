@@ -65,6 +65,7 @@ class FilterTable(tables.Table):
 class FlashTable(tables.Table):
     class Meta:
         model = Flash
+        exclude = ('id', 'own', 'cost_currency', 'owner')
 
 class FlashProtocolTable(tables.Table):
     class Meta:
@@ -73,34 +74,44 @@ class FlashProtocolTable(tables.Table):
 class FormatTable(tables.Table):
     class Meta:
         model = Format
+        exclude = ('id',)
 
 class LensTable(tables.Table):
     class Meta:
         model = Lens
+        exclude = ('id', 'cost_currency', 'own', 'lost', 'lost_price_currency', 'lost_price', 'owner')
 
 class LensModelTable(tables.Table):
     class Meta:
         model = LensModel
+        exclude = ('id', 'manufacturer',)
+    def render_model(self, value, record):
+        return format_html("{} {}", record.manufacturer, value)
 
 class ManufacturerTable(tables.Table):
     class Meta:
         model = Manufacturer
+        exclude = ('id', 'url',)
 
 class MeteringTypeTable(tables.Table):
     class Meta:
         model = MeteringType
+        exclude = ('id',)
 
 class MountTable(tables.Table):
     class Meta:
         model = Mount
+        exclude = ('id', 'manufacturer',)
 
 class MountAdapterTable(tables.Table):
     class Meta:
         model = MountAdapter
+        exclude = ('id',)
 
 class NegativeSizeTable(tables.Table):
     class Meta:
         model = NegativeSize
+        exclude = ('id',)
 
 class OrderTable(tables.Table):
     class Meta:
@@ -109,14 +120,17 @@ class OrderTable(tables.Table):
 class PaperStockTable(tables.Table):
     class Meta:
         model = PaperStock
+        exclude = ('id',)
 
 class PersonTable(tables.Table):
     class Meta:
         model = Person
+        exclude = ('id', 'owner')
 
 class PrintTable(tables.Table):
     class Meta:
         model = Print
+        exclude = ('owner',)
 
 class ToningTable(tables.Table):
     class Meta:
@@ -125,18 +139,22 @@ class ToningTable(tables.Table):
 class ProcessTable(tables.Table):
     class Meta:
         model = Process
+        exclude = ('id',)
 
 class RepairTable(tables.Table):
     class Meta:
         model = Repair
+        exclude = ('id', 'owner')
 
 class ScanTable(tables.Table):
     class Meta:
         model = Scan
+        exclude = ('id', 'owner')
 
 class NegativeTable(tables.Table):
     class Meta:
         model = Negative
+        exclude = ('id', 'owner')
 
 class FilmTable(tables.Table):
     class Meta:
@@ -153,7 +171,9 @@ class ShutterSpeedTable(tables.Table):
 class TeleconverterTable(tables.Table):
     class Meta:
         model = Teleconverter
+        exclude = ('id',)
 
 class TonerTable(tables.Table):
     class Meta:
         model = Toner
+        exclude = ('id',)
