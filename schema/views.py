@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
+from django_tables2 import SingleTableView
 
 def index(request):
     return render(request, 'schema/index.html')
@@ -11,8 +12,14 @@ from .models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
 from .models import MeteringType, Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
 from .models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
 
-class AccessoryList(generic.ListView):
+from .tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, FilmStockTable, FilterTable
+from .tables import FlashTable, FlashProtocolTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
+from .tables import MeteringTypeTable, MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable, ToningTable
+from .tables import ProcessTable, RepairTable, ScanTable, NegativeTable, FilmTable, SeriesTable, ShutterSpeedTable, TeleconverterTable, TonerTable
+
+class AccessoryList(SingleTableView):
   model = Accessory
+  table_class = AccessoryTable
   template_name = 'schema/list.html'
 
 class AccessoryDetail(generic.DetailView):
@@ -29,8 +36,9 @@ class AccessoryUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class ArchiveList(generic.ListView):
+class ArchiveList(SingleTableView):
   model = Archive
+  table_class = ArchiveTable
   template_name = 'schema/list.html'
 
 class ArchiveDetail(generic.DetailView):
@@ -47,8 +55,9 @@ class ArchiveUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class BatteryList(generic.ListView):
+class BatteryList(SingleTableView):
   model = Battery
+  table_class = BatteryTable
   template_name = 'schema/list.html'
 
 class BatteryDetail(generic.DetailView):
@@ -65,8 +74,9 @@ class BatteryUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class BulkFilmList(generic.ListView):
+class BulkFilmList(SingleTableView):
   model = BulkFilm
+  table_class = BulkFilmTable
   template_name = 'schema/list.html'
 
 class BulkFilmDetail(generic.DetailView):
@@ -83,10 +93,10 @@ class BulkFilmUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class CameraList(generic.ListView):
+class CameraList(SingleTableView):
   model = Camera
+  table_class = CameraTable
   template_name = 'schema/list.html'
-  paginate_by = 10
 
 class CameraDetail(generic.DetailView):
   model = Camera
@@ -101,8 +111,9 @@ class CameraUpdate(UpdateView):
   fields = '__all__'
   template_name = 'schema/update.html'
 
-class CameraModelList(generic.ListView):
+class CameraModelList(SingleTableView):
   model = CameraModel
+  table_class = CameraModelTable
   template_name = 'schema/list.html'
 
 class CameraModelDetail(generic.DetailView):
@@ -119,8 +130,9 @@ class CameraModelUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class DeveloperList(generic.ListView):
+class DeveloperList(SingleTableView):
   model = Developer
+  table_class = DeveloperTable
   template_name = 'schema/list.html'
 
 class DeveloperDetail(generic.DetailView):
@@ -137,8 +149,9 @@ class DeveloperUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class EnlargerList(generic.ListView):
+class EnlargerList(SingleTableView):
   model = Enlarger
+  table_class = EnlargerTable
   template_name = 'schema/list.html'
 
 class EnlargerDetail(generic.DetailView):
@@ -155,8 +168,9 @@ class EnlargerUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class FilmStockList(generic.ListView):
+class FilmStockList(SingleTableView):
   model = FilmStock
+  table_class = FilmStockTable
   template_name = 'schema/list.html'
 
 class FilmStockDetail(generic.DetailView):
@@ -173,8 +187,9 @@ class FilmStockUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class FilterList(generic.ListView):
+class FilterList(SingleTableView):
   model = Filter
+  table_class = FilterTable
   template_name = 'schema/list.html'
 
 class FilterDetail(generic.DetailView):
@@ -191,8 +206,9 @@ class FilterUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class FlashList(generic.ListView):
+class FlashList(SingleTableView):
   model = Flash
+  table_class = FlashTable
   template_name = 'schema/list.html'
 
 class FlashDetail(generic.DetailView):
@@ -209,8 +225,9 @@ class FlashUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class FlashProtocolList(generic.ListView):
+class FlashProtocolList(SingleTableView):
   model = FlashProtocol
+  table_class = FlashProtocolTable
   template_name = 'schema/list.html'
 
 class FlashProtocolDetail(generic.DetailView):
@@ -227,8 +244,9 @@ class FlashProtocolUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class FormatList(generic.ListView):
+class FormatList(SingleTableView):
   model = Format
+  table_class = FormatTable
   template_name = 'schema/list.html'
 
 class FormatDetail(generic.DetailView):
@@ -245,8 +263,9 @@ class FormatUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class LensList(generic.ListView):
+class LensList(SingleTableView):
   model = Lens
+  table_class = LensTable
   template_name = 'schema/list.html'
 
 class LensDetail(generic.DetailView):
@@ -263,8 +282,9 @@ class LensUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class LensModelList(generic.ListView):
+class LensModelList(SingleTableView):
   model = LensModel
+  table_class = LensModelTable
   template_name = 'schema/list.html'
 
 class LensModelDetail(generic.DetailView):
@@ -281,8 +301,9 @@ class LensModelUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class ManufacturerList(generic.ListView):
+class ManufacturerList(SingleTableView):
   model = Manufacturer
+  table_class = ManufacturerTable
   template_name = 'schema/list.html'
 
 class ManufacturerDetail(generic.DetailView):
@@ -299,8 +320,9 @@ class ManufacturerUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class MeteringTypeList(generic.ListView):
+class MeteringTypeList(SingleTableView):
   model = MeteringType
+  table_class = MeteringTypeTable
   template_name = 'schema/list.html'
 
 class MeteringTypeDetail(generic.DetailView):
@@ -317,8 +339,9 @@ class MeteringTypeUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class MountList(generic.ListView):
+class MountList(SingleTableView):
   model = Mount
+  table_class = MountTable
   template_name = 'schema/list.html'
 
 class MountDetail(generic.DetailView):
@@ -335,8 +358,9 @@ class MountUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class MountAdapterList(generic.ListView):
+class MountAdapterList(SingleTableView):
   model = MountAdapter
+  table_class = MountAdapterTable
   template_name = 'schema/list.html'
 
 class MountAdapterDetail(generic.DetailView):
@@ -353,8 +377,9 @@ class MountAdapterUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class NegativeSizeList(generic.ListView):
+class NegativeSizeList(SingleTableView):
   model = NegativeSize
+  table_class = NegativeSizeTable
   template_name = 'schema/list.html'
 
 class NegativeSizeDetail(generic.DetailView):
@@ -371,8 +396,9 @@ class NegativeSizeUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class OrderList(generic.ListView):
+class OrderList(SingleTableView):
   model = Order
+  table_class = OrderTable
   template_name = 'schema/list.html'
 
 class OrderDetail(generic.DetailView):
@@ -389,8 +415,9 @@ class OrderUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class PaperStockList(generic.ListView):
+class PaperStockList(SingleTableView):
   model = PaperStock
+  table_class = PaperStockTable
   template_name = 'schema/list.html'
 
 class PaperStockDetail(generic.DetailView):
@@ -407,8 +434,9 @@ class PaperStockUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class PersonList(generic.ListView):
+class PersonList(SingleTableView):
   model = Person
+  table_class = PersonTable
   template_name = 'schema/list.html'
 
 class PersonDetail(generic.DetailView):
@@ -425,8 +453,9 @@ class PersonUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class PrintList(generic.ListView):
+class PrintList(SingleTableView):
   model = Print
+  table_class = PrintTable
   template_name = 'schema/list.html'
 
 class PrintDetail(generic.DetailView):
@@ -443,8 +472,9 @@ class PrintUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class ProcessList(generic.ListView):
+class ProcessList(SingleTableView):
   model = Process
+  table_class = ProcessTable
   template_name = 'schema/list.html'
 
 class ProcessDetail(generic.DetailView):
@@ -461,8 +491,9 @@ class ProcessUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class RepairList(generic.ListView):
+class RepairList(SingleTableView):
   model = Repair
+  table_class = RepairTable
   template_name = 'schema/list.html'
 
 class RepairDetail(generic.DetailView):
@@ -479,8 +510,9 @@ class RepairUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class ScanList(generic.ListView):
+class ScanList(SingleTableView):
   model = Scan
+  table_class = ScanTable
   template_name = 'schema/list.html'
 
 class ScanDetail(generic.DetailView):
@@ -497,8 +529,9 @@ class ScanUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class NegativeList(generic.ListView):
+class NegativeList(SingleTableView):
   model = Negative
+  table_class = NegativeTable
   template_name = 'schema/list.html'
 
 class NegativeDetail(generic.DetailView):
@@ -515,8 +548,9 @@ class NegativeUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class FilmList(generic.ListView):
+class FilmList(SingleTableView):
   model = Film
+  table_class = FilmTable
   template_name = 'schema/list.html'
 
 class FilmDetail(generic.DetailView):
@@ -533,8 +567,9 @@ class FilmUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class SeriesList(generic.ListView):
+class SeriesList(SingleTableView):
   model = Series
+  table_class = SeriesTable
   template_name = 'schema/list.html'
 
 class SeriesDetail(generic.DetailView):
@@ -551,8 +586,9 @@ class SeriesUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class TeleconverterList(generic.ListView):
+class TeleconverterList(SingleTableView):
   model = Teleconverter
+  table_class = TeleconverterTable
   template_name = 'schema/list.html'
 
 class TeleconverterDetail(generic.DetailView):
@@ -569,8 +605,9 @@ class TeleconverterUpdate(UpdateView):
   template_name = 'schema/update.html'
 
 
-class TonerList(generic.ListView):
+class TonerList(SingleTableView):
   model = Toner
+  table_class = TonerTable
   template_name = 'schema/list.html'
 
 class TonerDetail(generic.DetailView):
