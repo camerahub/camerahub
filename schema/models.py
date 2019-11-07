@@ -582,7 +582,7 @@ class LensModel(models.Model):
   autofocus = models.BooleanField(help_text='Whether this lens has autofocus capability', blank=True, null=True)
   filter_thread = models.DecimalField(help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
   magnification = models.DecimalField(help_text='Maximum magnification ratio of the lens, expressed like 0.765', max_digits=5, decimal_places=3, blank=True, null=True)
-  url = models.URLField(help_text='URL to more information about this lens', blank=True, null=True)
+  url = models.URLField(verbose_name = 'URL', help_text='URL to more information about this lens', blank=True, null=True)
   introduced = models.PositiveIntegerField(help_text='Year in which this lens model was introduced', blank=True, null=True)
   discontinued = models.PositiveIntegerField(help_text='Year in which this lens model was discontinued', blank=True, null=True)
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size that this lens is designed for')
