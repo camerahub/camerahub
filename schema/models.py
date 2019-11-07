@@ -863,6 +863,8 @@ class Accessory(models.Model):
       })
   def get_absolute_url(self):
     return reverse('accessory-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Accessories include most photographic items which may be used with cameras or lenses. Exceptions are filters, flashes and teleconverters, which are tracked separately.'
 
 # Table to catalog lenses
 class Lens(models.Model):
