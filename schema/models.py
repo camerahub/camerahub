@@ -1092,7 +1092,7 @@ class Print(models.Model):
   exposure_time = models.DurationField(help_text='Exposure time of this print', blank=True, null=True)
   filtration_grade = models.DecimalField(help_text='Contrast grade of paper used', max_digits=2, decimal_places=1, blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(5)])
   development_time = models.DurationField(help_text='Development time of this print', blank=True, null=True)
-  toner = models.ManyToManyField('Toner', through='Toning', help_text='Toners and bleaches used to treat this print')
+  toner = models.ManyToManyField('Toner', through='Toning', help_text='Toners and bleaches used to treat this print', blank=True)
   own = models.BooleanField(help_text='Whether we currently own this print', blank=True, null=True)
   location = models.CharField(help_text='The place where this print is currently', max_length=100, blank=True, null=True)
   sold_price = MoneyField(help_text='Sale price of the print', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
