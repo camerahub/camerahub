@@ -15,14 +15,16 @@ from .models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed,
 class AccessoryTable(tables.Table):
     class Meta:
         model = Accessory
-        exclude = ('id', 'manufacturer', 'cost_currency', 'lost', 'lost_price', 'lost_price_currency', 'owner',)
+        exclude = ('id', 'manufacturer', 'cost_currency', 'lost', 'lost_price', 'lost_price_currency', 'owner', 'acquired', 'cost')
+        sequence = ('model', 'type')
     def render_model(self, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('accessory-detail', args=[record.id]), record.manufacturer, value)
 
 class ArchiveTable(tables.Table):
     class Meta:
         model = Archive
-        exclude = ('id', 'owner',)
+        exclude = ('id', 'owner', 'max_width', 'max_height')
+        sequence = ('name',)
     def render_name(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('archive-detail', args=[record.id]), value)
 
@@ -35,14 +37,14 @@ class BatteryTable(tables.Table):
 class BulkFilmTable(tables.Table):
     class Meta:
         model = BulkFilm
-        exclude = ('cost_currency', 'owner',)
+        exclude = ('cost_currency', 'owner', 'purchase_date', 'source', 'batch', 'expiry', 'cost')
     def render_id(self, value, record):
         return format_html("<a href=\"{}\">#{}</a>", reverse('bulkfilm-detail', args=[value]), value)
 
 class CameraTable(tables.Table):
     class Meta:
         model = Camera
-        exclude = ('condition', 'cost_currency', 'lost', 'lost_price_currency', 'lost_price', 'owner', 'notes', 'own')
+        exclude = ('condition', 'cost_currency', 'lost', 'lost_price_currency', 'lost_price', 'owner', 'notes', 'own', 'datecode', 'source', 'condition_notes', 'display_lens')
     def render_id(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('camera-detail', args=[value]), value)
     def render_cameramodel(self, value, record):
@@ -51,7 +53,7 @@ class CameraTable(tables.Table):
 class CameraModelTable(tables.Table):
     class Meta:
         model = CameraModel
-        exclude = ('id', 'manufacturer',)
+        exclude = ('id', 'manufacturer', 'focus_type', 'metering', 'coupled_metering', 'metering_type', 'weight', 'discontinued', 'shutter_model', 'cable_release', 'viewfinder_coverage', 'power_drive', 'continuous_fps', 'fixed_mount', 'battery_qty', 'battery_type', 'notes', 'bulb', 'time', 'min_iso', 'max_iso', 'af_points', 'int_flash', 'int_flash_gn', 'ext_flash', 'flash_metering', 'pc_sync', 'hotshoe', 'coldshoe', 'meter_min_ev', 'meter_max_ev', 'dof_preview', 'tripod')
     def render_model(self, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('cameramodel-detail', args=[record.id]), record.manufacturer, value)
     def render_mount(self, value, record):
@@ -62,12 +64,12 @@ class CameraModelTable(tables.Table):
 class DeveloperTable(tables.Table):
     class Meta:
         model = Developer
-        exclude = ('id',)
+        exclude = ('id', 'chemistry',)
 
 class EnlargerTable(tables.Table):
     class Meta:
         model = Enlarger
-        exclude = ('id', 'manufacturer', 'lost', 'cost_currency', 'lost_price_currency', 'lost_price', 'owner')
+        exclude = ('id', 'manufacturer', 'lost', 'cost_currency', 'lost_price_currency', 'lost_price', 'owner', 'acquired', 'introduced', 'discontinued', 'cost')
     def render_model(self, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('enlarger-detail', args=[record.id]), record.manufacturer, value)
 
@@ -81,12 +83,12 @@ class FilmStockTable(tables.Table):
 class FilterTable(tables.Table):
     class Meta:
         model = Filter
-        exclude = ('id', 'owner',)
+        exclude = ('id', 'owner', 'attenuation', 'qty')
 
 class FlashTable(tables.Table):
     class Meta:
         model = Flash
-        exclude = ('id', 'manufacturer', 'own', 'cost_currency', 'owner')
+        exclude = ('id', 'manufacturer', 'own', 'cost_currency', 'owner', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type', 'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'acquired', 'cost', 'trigger_voltage')
     def render_model(self, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('flash-detail', args=[record.id]), record.manufacturer, value)
 
@@ -107,7 +109,7 @@ class FormatTable(tables.Table):
 class LensTable(tables.Table):
     class Meta:
         model = Lens
-        exclude = ('cost_currency', 'own', 'lost', 'lost_price_currency', 'lost_price', 'owner')
+        exclude = ('cost_currency', 'own', 'lost', 'lost_price_currency', 'lost_price', 'owner', 'date_code', 'notes', 'source', 'condition', 'condition_notes')
     def render_id(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('lens-detail', args=[value]), value)
     def render_lensmodel(self, value, record):
@@ -116,7 +118,7 @@ class LensTable(tables.Table):
 class LensModelTable(tables.Table):
     class Meta:
         model = LensModel
-        exclude = ('id', 'manufacturer',)
+        exclude = ('id', 'manufacturer', 'zoom', 'closest_focus', 'min_aperture', 'elements', 'groups', 'weight', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'filter_thread', 'magnification', 'url', 'discontinued', 'negative_size', 'notes', 'coating', 'hood', 'exif_lenstype', 'rectilinear', 'length', 'diameter', 'image_circle', 'formula', 'shutter_model')
     def render_model(self, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('lensmodel-detail', args=[record.id]), record.manufacturer, value)
     def render_mount(self, value, record):
@@ -183,7 +185,7 @@ class PersonTable(tables.Table):
 class PrintTable(tables.Table):
     class Meta:
         model = Print
-        exclude = ('owner', 'own', 'sold_price_currency', 'notes')
+        exclude = ('owner', 'own', 'sold_price_currency', 'notes', 'aperture', 'exposure_time', 'filtration_grade', 'development_time', 'enlarger', 'lens', 'developer', 'fine', 'printer')
     def render_id(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('print-detail', args=[value]), value)
     def render_negative(self, value, record):
@@ -219,12 +221,13 @@ class ScanTable(tables.Table):
 class NegativeTable(tables.Table):
     class Meta:
         model = Negative
-        exclude = ('id', 'owner')
+        exclude = ('id', 'owner', 'filter', 'teleconverter', 'notes', 'mount_adapter', 'focal_length', 'latitude', 'longitude', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of')
 
 class FilmTable(tables.Table):
     class Meta:
         model = Film
-        exclude = ('exposed_at', 'directory', 'dev_uses', 'dev_time', 'dev_temp', 'dev_n', 'development_notes', 'price_currency', 'owner')
+        exclude = ('exposed_at', 'directory', 'dev_uses', 'dev_time', 'dev_temp', 'dev_n', 'developer', 'development_notes', 'price_currency', 'owner', 'date_loaded', 'date_processed', 'frames', 'bulk_film', 'bulk_film_loaded', 'film_batch', 'expiry_date', 'purchase_date', 'price', 'processed_by', 'archive')
+        sequence = ('id', 'title', 'filmstock', 'format', 'camera')
     def render_id(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('film-detail', args=[value]), value)
     def render_filmstock(self, value, record):
@@ -246,7 +249,7 @@ class ShutterSpeedTable(tables.Table):
 class TeleconverterTable(tables.Table):
     class Meta:
         model = Teleconverter
-        exclude = ('id', 'manufacturer', 'owner',)
+        exclude = ('id', 'manufacturer', 'owner', 'elements', 'groups', 'multicoated')
     def render_model(self, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('teleconverter-detail', args=[record.id]), record.manufacturer, value)
 
