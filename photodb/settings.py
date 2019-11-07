@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'favicon',
     'django_createsuperuserwithpassword',
     'django_tables2',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
