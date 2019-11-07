@@ -68,7 +68,7 @@ ROOT_URLCONF = 'photodb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -219,3 +219,6 @@ FLUENT_DASHBOARD_APP_GROUPS = (
 FAVICON_PATH = STATIC_URL + 'favicon.ico'
 
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap.html"
+
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
