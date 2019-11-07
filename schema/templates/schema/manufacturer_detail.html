@@ -1,0 +1,30 @@
+{% extends "schema/detail.html" %}
+
+{% block content %}
+<table>
+  <tr>
+    <th>Name</th>
+    <td>{{ object.name }}</td>
+  </tr>
+  <tr>
+    <th>City</th>
+    <td>{{ object.city }}</td>
+  </tr>
+  <tr>
+    <th>Country</th>
+    <td>{{ object.country }}</td>
+  </tr>
+  <tr>
+    <th>URL</th>
+    <td>{{ object.url }}</td>
+  </tr>
+  <tr>
+    <th>Founded</th>
+    <td>{{ object.founded }}</td>
+  </tr>
+  <tr>
+    <th>Dissolved</th>
+    <td>{{ object.dissolved }}</td>
+  </tr>
+</table>
+{% endblock %}

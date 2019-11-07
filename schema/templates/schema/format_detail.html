@@ -1,0 +1,14 @@
+{% extends "schema/detail.html" %}
+
+{% block content %}
+<table>
+  <tr>
+    <th>Film format</th>
+    <td>{{ object.format }}</td>
+  </tr>
+  <tr>
+    <th>Negative size</th>
+    <td>{{ object.negative_size }}</td>
+  </tr>
+</table>
+{% endblock %}

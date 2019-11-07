@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block heading %}{% include "heading.html" %}{%endblock%}
+
+{% block subheading %}<h2>{{ object }}</h2>{%endblock%}
+
+{% block content %}{%endblock%}
+
+{% block actions %}
+  <h3>Actions</h3>
+  <ul>
+    <li><a href="{{ object.get_absolute_url }}/update">Edit</a></li>
+    {% block moreactions %}{%endblock%}
+  </ul>
+{%endblock%}

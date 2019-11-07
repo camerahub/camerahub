@@ -6,6 +6,7 @@ from djchoices import DjangoChoices, ChoiceItem
 from datetime import datetime
 from math import sqrt
 from django_currentuser.db.models import CurrentUserField
+from django.urls import reverse
 import re
 
 # Create your models here.
@@ -41,6 +42,10 @@ class Manufacturer(models.Model):
       raise ValidationError({
         'dissolved': ValidationError(('Dissolved date must be in the past')),
       })
+  def get_absolute_url(self):
+    return reverse('manufacturer-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Manufacturers are any maker or brand of camera, lenses or other photographic accessories or consumables'
 
 # Table to list all archives that exist for storing physical media
 class Archive(models.Model):
@@ -71,6 +76,10 @@ class Archive(models.Model):
   class Meta:
     ordering = ['name']
     verbose_name_plural = "archives"
+  def get_absolute_url(self):
+    return reverse('archive-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Archives are places where prints, negatives, or slides are stored'
 
 # Table to catalog of types of battery
 class Battery(models.Model):
@@ -83,6 +92,10 @@ class Battery(models.Model):
   class Meta:
     ordering = ['name']
     verbose_name_plural = "batteries"
+  def get_absolute_url(self):
+    return reverse('battery-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Batteries are used to power cameras, flashes and other accessories'
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 class Condition(models.Model):
@@ -116,6 +129,10 @@ class FlashProtocol(models.Model):
   class Meta:
     ordering = ['name']
     verbose_name_plural = "flash protocols"
+  def get_absolute_url(self):
+    return reverse('flashprotocol-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Flash protocols are systems that cameras use to communicate with flash systems'
 
 # Table to catalog filters
 class Filter(models.Model):
@@ -130,6 +147,10 @@ class Filter(models.Model):
   class Meta:
     ordering = ['thread', 'type']
     verbose_name_plural = "filters"
+  def get_absolute_url(self):
+    return reverse('filter-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Filters are glass or gelatin attachments for lenses which affect the image in some way'
 
 # Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
 class NegativeSize(models.Model):
@@ -153,6 +174,10 @@ class NegativeSize(models.Model):
   class Meta:
     ordering = ['area']
     verbose_name_plural = "negative sizes"
+  def get_absolute_url(self):
+    return reverse('negativesize-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Negative size is the dimensions of an image taken by a camera. It is different from film format as one film format can be used for various different negative sizes.'
 
 # Table to catalogue different film formats. These are distinct from negative sizes.
 class Format(models.Model):
@@ -163,6 +188,10 @@ class Format(models.Model):
   class Meta:
     ordering = ['format']
     verbose_name_plural = "formats"
+  def get_absolute_url(self):
+    return reverse('format-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Format is the type of film a camera uses. It is a bit different from negative size as one film format can be used for various different negative sizes.'
 
 # Table to list all series of cameras and lenses
 class Series(models.Model):
@@ -173,6 +202,10 @@ class Series(models.Model):
   class Meta:
     ordering = ['name']
     verbose_name_plural = "series"
+  def get_absolute_url(self):
+    return reverse('series-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Series are arbitrary groups that you can sort your cameras and lenses into. Example series might be Canon SLRs or Japanese lenses.'
 
 # Table to catalog flashes, flashguns and speedlights
 class Flash(models.Model):
@@ -211,6 +244,10 @@ class Flash(models.Model):
       raise ValidationError({
         'battery_qty': ValidationError(('Must specify number of batteries')),
       })
+  def get_absolute_url(self):
+    return reverse('flash-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Flashes are any kind of external device to provide light. This includes battery-powered and mains-powered flashes.'
 
 # Table to list enlargers
 class Enlarger(models.Model):
@@ -273,6 +310,10 @@ class Enlarger(models.Model):
       raise ValidationError({
         'discontinued': ValidationError(('Discontinued date must be in the past')),
       })
+  def get_absolute_url(self):
+    return reverse('enlarger-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Enlargers are devices used to create prints from negatives.'
   
 # Metering modes as defined by EXIF tag MeteringMode
 class MeteringMode(models.Model):
@@ -320,6 +361,10 @@ class Mount(models.Model):
   class Meta:
     ordering = ['mount']
     verbose_name_plural = "mounts"
+  def get_absolute_url(self):
+    return reverse('mount-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Mounts are physical systems used to attach lenses to cameras (or enlargers, or projectors).'
 
 # Table to catalog different paper stocks available
 class PaperStock(models.Model):
@@ -337,6 +382,10 @@ class PaperStock(models.Model):
   class Meta:
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "paper stocks"
+  def get_absolute_url(self):
+    return reverse('paperstock-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Paper stocks are types of paper available for printing with'
 
 # Table to catalog photographers
 class Person(models.Model):
@@ -347,6 +396,10 @@ class Person(models.Model):
   class Meta:
     ordering = ['name']
     verbose_name_plural = "people"
+  def get_absolute_url(self):
+    return reverse('person-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'People listed here can be selected as photographers, developers or printers.'
 
 # Table to catalog chemical processes that can be used to develop film and paper
 class Process(models.Model):
@@ -358,6 +411,8 @@ class Process(models.Model):
   class Meta:
     ordering = ['name']
     verbose_name_plural = "processes"
+  def get_absolute_url(self):
+    return reverse('process-detail', kwargs={'pk': self.pk})
 
 # Table to catalog teleconverters (multipliers)
 class Teleconverter(models.Model):
@@ -384,6 +439,10 @@ class Teleconverter(models.Model):
         'groups': ValidationError(('Cannot have more groups than elements')),
         'elements': ValidationError(('Cannot have fewer elements than groups')),
       })
+  def get_absolute_url(self):
+    return reverse('teleconverter-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Teleconverters are extra lenses that can be used to increase the focal length of a lens. They are sometimes known as doublers.'
 
 # Table to catalog paper toners that can be used during the printing process
 class Toner(models.Model):
@@ -399,6 +458,10 @@ class Toner(models.Model):
   class Meta:
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "toners"
+  def get_absolute_url(self):
+    return reverse('toner-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Toners are chemicals used to change the colour or appearance of a print.'
 
 # Table to list different brands of film stock
 class FilmStock(models.Model):
@@ -416,6 +479,10 @@ class FilmStock(models.Model):
   class Meta:
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "film stocks"
+  def get_absolute_url(self):
+    return reverse('filmstock-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Film stocks are types of film that can be exposed in a camera. They may also be known as emulsions.'
 
 # Table to record bulk film stock, from which individual films can be cut
 class BulkFilm(models.Model):
@@ -431,6 +498,10 @@ class BulkFilm(models.Model):
     return "#%s %s %s" % (self.pk, self.filmstock.manufacturer.name, self.filmstock.name)
   class Meta:
     verbose_name_plural = "bulk films"
+  def get_absolute_url(self):
+    return reverse('bulkfilm-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Bulk films are large reels of film stock that can be cut up to make individual films.'
 
 # Table to catalog adapters to mount lenses on other cameras
 class MountAdapter(models.Model):
@@ -445,6 +516,10 @@ class MountAdapter(models.Model):
   class Meta:
     ordering = ['camera_mount', 'lens_mount']
     verbose_name_plural = "mount adapters"
+  def get_absolute_url(self):
+    return reverse('mountadapter-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Mount adapters can be used to convert the mount used on a camera or lens.'
 
 # Table to list all possible shutter speeds
 class ShutterSpeed(models.Model):
@@ -482,6 +557,10 @@ class Developer(models.Model):
   class Meta:
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "developers"
+  def get_absolute_url(self):
+    return reverse('developer-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Developers are chemicals that are used to process films or prints.'
 
 # Table to catalog lens models
 class LensModel(models.Model):
@@ -503,7 +582,7 @@ class LensModel(models.Model):
   autofocus = models.BooleanField(help_text='Whether this lens has autofocus capability', blank=True, null=True)
   filter_thread = models.DecimalField(help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
   magnification = models.DecimalField(help_text='Maximum magnification ratio of the lens, expressed like 0.765', max_digits=5, decimal_places=3, blank=True, null=True)
-  url = models.URLField(help_text='URL to more information about this lens', blank=True, null=True)
+  url = models.URLField(verbose_name = 'URL', help_text='URL to more information about this lens', blank=True, null=True)
   introduced = models.PositiveIntegerField(help_text='Year in which this lens model was introduced', blank=True, null=True)
   discontinued = models.PositiveIntegerField(help_text='Year in which this lens model was discontinued', blank=True, null=True)
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size that this lens is designed for')
@@ -527,6 +606,10 @@ class LensModel(models.Model):
   class Meta:
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "lens models"
+  def get_absolute_url(self):
+    return reverse('lensmodel-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Lens models are any lens that has been marketed'
 
   def clean(self):
     # Check focal length
@@ -724,6 +807,10 @@ class CameraModel(models.Model):
       raise ValidationError({
         'int_flash_gn': ValidationError(('Cannot set internal flash guide number if camera model has no internal flash')),
       })
+  def get_absolute_url(self):
+    return reverse('cameramodel-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Camera models are any camera that has been marketed'
 
 # Table to catalog accessories that are not tracked in more specific tables
 class Accessory(models.Model):
@@ -774,6 +861,10 @@ class Accessory(models.Model):
       raise ValidationError({
         'lost': ValidationError(('Lost date must be in the past')),
       })
+  def get_absolute_url(self):
+    return reverse('accessory-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Accessories include most photographic items which may be used with cameras or lenses. Exceptions are filters, flashes and teleconverters, which are tracked separately.'
 
 # Table to catalog lenses
 class Lens(models.Model):
@@ -821,6 +912,10 @@ class Lens(models.Model):
         raise ValidationError({
           'manufactured': ValidationError(('Manufactured date cannot be later than the date the lens model was discontinued')),
         })
+  def get_absolute_url(self):
+    return reverse('lens-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Lenses are specific examples of lens models that exist in your collection'
 
 # Table to catalog cameras - both cameras with fixed lenses and cameras with interchangeable lenses
 class Camera(models.Model):
@@ -870,6 +965,10 @@ class Camera(models.Model):
         raise ValidationError({
           'manufactured': ValidationError(('Manufactured date cannot be later than the date the camera model was discontinued')),
         })
+  def get_absolute_url(self):
+    return reverse('camera-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Cameras are specific examples of camera models that exist in your collection'
 
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
 class Film(models.Model):
@@ -918,6 +1017,10 @@ class Film(models.Model):
       if self.bulk_film.purchase_date:
         self.purchase_date = self.bulk_film.purchase_date
     super().save(*args, **kwargs)
+  def get_absolute_url(self):
+    return reverse('film-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'A film is a specific example of a film stock which exists in your collection, and contains one or more negatives. A film is generally one roll film or one sheet of sheet film.'
 
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 class Negative(models.Model):
@@ -975,6 +1078,10 @@ class Negative(models.Model):
         if self.teleconverter is None:
           self.focal_length = self.lens.lensmodel.min_focal_length
     super().save(*args, **kwargs)
+  def get_absolute_url(self):
+    return reverse('negative-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Negatives are exposures made on film. Exposures made on positive (slide) film are also known as negatives.'
 
 # Table to catalog prints made from negatives
 class Print(models.Model):
@@ -987,7 +1094,7 @@ class Print(models.Model):
   exposure_time = models.DurationField(help_text='Exposure time of this print', blank=True, null=True)
   filtration_grade = models.DecimalField(help_text='Contrast grade of paper used', max_digits=2, decimal_places=1, blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(5)])
   development_time = models.DurationField(help_text='Development time of this print', blank=True, null=True)
-  toner = models.ManyToManyField('Toner', through='Toning', help_text='Toners and bleaches used to treat this print')
+  toner = models.ManyToManyField('Toner', through='Toning', help_text='Toners and bleaches used to treat this print', blank=True)
   own = models.BooleanField(help_text='Whether we currently own this print', blank=True, null=True)
   location = models.CharField(help_text='The place where this print is currently', max_length=100, blank=True, null=True)
   sold_price = MoneyField(help_text='Sale price of the print', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
@@ -1014,6 +1121,10 @@ class Print(models.Model):
         raise ValidationError({
           'aperture': ValidationError(('Aperture cannot be smaller than the minimum aperture of the lens')),
         })
+  def get_absolute_url(self):
+    return reverse('print-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Prints are images made on paper stock from negatives on film'
 
 # Table to track which toners were used on which print
 class Toning(models.Model):
@@ -1032,11 +1143,15 @@ class Repair(models.Model):
   lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens that was repaired')
   date = models.DateField(help_text='The date of the repair', blank=True, null=True)
   summary = models.CharField(help_text='Brief summary of the repair', max_length=100)
-  description = models.CharField(help_text='Longer description of the repair', max_length=500, blank=True, null=True)
+  detail = models.CharField(help_text='Longer description of the repair', max_length=500, blank=True, null=True)
   owner = CurrentUserField()
   class Meta:
     ordering = ['date']
     verbose_name_plural = "repairs"
+  def get_absolute_url(self):
+    return reverse('repair-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Repairs are any maintenance work performed on cameras or lenses'
 
 # Table to record all the images that have been scanned digitally
 class Scan(models.Model):
@@ -1059,6 +1174,10 @@ class Scan(models.Model):
       })
   class Meta:
     verbose_name_plural = "scans"
+  def get_absolute_url(self):
+    return reverse('scan-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Scans are digital recreations of negatives or prints'
 
 # Table to record orders for prints
 class Order(models.Model):
@@ -1075,3 +1194,7 @@ class Order(models.Model):
   class Meta:
     ordering = ['added']
     verbose_name_plural = "orders"
+  def get_absolute_url(self):
+    return reverse('order-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Orders are a to-do list of images to print'

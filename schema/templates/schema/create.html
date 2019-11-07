@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block heading %}{% include "heading.html" %}{%endblock%}
+
+{% block subheading %}<h2>Add new</h2>{%endblock%}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
+{% endblock %}

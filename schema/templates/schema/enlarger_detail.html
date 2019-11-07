@@ -1,0 +1,54 @@
+{% extends "schema/detail.html" %}
+
+{% block content %}
+<table>
+  <tr>
+    <th>Manufacturer</th>
+    <td>{{ object.manufacturer }}</td>
+  </tr>
+  <tr>
+    <th>Model</th>
+    <td>{{ object.model }}</td>
+  </tr>
+  <tr>
+    <th>Negative size</th>
+    <td>{{ object.negative_size }}</td>
+  </tr>
+  <tr>
+    <th>Type</th>
+    <td>{{ object.type }}</td>
+  </tr>
+  <tr>
+    <th>Light source</th>
+    <td>{{ object.light_source }}</td>
+  </tr>
+  <tr>
+    <th>Acquired</th>
+    <td>{{ object.acquired }}</td>
+  </tr>
+  <tr>
+    <th>Lost</th>
+    <td>{{ object.lost }}</td>
+  </tr>
+  <tr>
+    <th>Introduced</th>
+    <td>{{ object.introduced }}</td>
+  </tr>
+  <tr>
+    <th>Discontinued</th>
+    <td>{{ object.discontinued }}</td>
+  </tr>
+  <tr>
+    <th>Cost</th>
+    <td>{{ object.cost }}</td>
+  </tr>
+  <tr>
+    <th>Lost price</th>
+    <td>{{ object.lost_price }}</td>
+  </tr>
+  <tr>
+    <th></th>
+    <td>{{ object.owner }}</td>
+  </tr>
+</table>
+{% endblock %}

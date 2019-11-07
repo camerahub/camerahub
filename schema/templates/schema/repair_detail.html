@@ -1,0 +1,30 @@
+{% extends "schema/detail.html" %}
+
+{% block content %}
+<table>
+  <tr>
+    <th>Camera</th>
+    <td>{{ object.camera }}</td>
+  </tr>
+  <tr>
+    <th>Lens</th>
+    <td>{{ object.lens }}</td>
+  </tr>
+  <tr>
+    <th>Date</th>
+    <td>{{ object.date }}</td>
+  </tr>
+  <tr>
+    <th>Summary</th>
+    <td>{{ object.summary }}</td>
+  </tr>
+  <tr>
+    <th>Description</th>
+    <td>{{ object.description }}</td>
+  </tr>
+  <tr>
+    <th>Owner</th>
+    <td>{{ object.owner }}</td>
+  </tr>
+</table>
+{% endblock %}

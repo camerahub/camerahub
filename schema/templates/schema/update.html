@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block heading %}{% include "heading.html" %}{%endblock%}
+
+{% block subheading %}<h2>{{ object }}</h2>{%endblock%}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update">
+</form>
+{% endblock %}

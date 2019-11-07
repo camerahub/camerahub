@@ -1,0 +1,30 @@
+{% extends "schema/detail.html" %}
+
+{% block content %}
+<table>
+  <tr>
+    <th>Name</th>
+    <td>{{ object.name }}</td>
+  </tr>
+  <tr>
+    <th>Width</th>
+    <td>{{ object.width }}</td>
+  </tr>
+  <tr>
+    <th>Height</th>
+    <td>{{ object.height }}</td>
+  </tr>
+  <tr>
+    <th>Crop factor</th>
+    <td>{{ object.crop_factor }}</td>
+  </tr>
+  <tr>
+    <th>Area</th>
+    <td>{{ object.area }}</td>
+  </tr>
+  <tr>
+    <th>Aspect ratio</th>
+    <td>{{ object.aspect_ratio }}</td>
+  </tr>
+</table>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "schema/detail.html" %}
+
+{% block content %}
+<h3>Your camera</h3>
+
+<p><strong>Acquired:</strong> {{ object.acquired }}</p>
+<p><strong>Cost:</strong> {{ object.cost }}</p>
+<p><strong>Serial:</strong> {{ object.serial }}</p>
+<p><strong>Datecode:</strong> {{ object.datecode }}</p>
+<p><strong>Manufactured:</strong> {{ object.manufactured }}</p>
+<p><strong>Own:</strong> {{ object.own }}</p>
+<p><strong>Lens:</strong> {{ object.lens }}</p>
+<p><strong>Notes:</strong> {{ object.notes }}</p>
+<p><strong>Lost:</strong> {{ object.lost }}</p>
+<p><strong>Lost price:</strong> {{ object.lost_price }}</p>
+<p><strong>Source:</strong> {{ object.source }}</p>
+<p><strong>Condition:</strong> {{ object.condition }}</p>
+<p><strong>Condition notes:</strong> {{ object.condition_notes }}</p>
+<p><strong>Display lens:</strong> {{ object.display_lens }}</p>
+<p><strong>Owner:</strong> {{ object.owner }}</p>
+
+<h3>The camera model</strong></h3>
+
+<p><strong>Camera model:</strong> {{ object.cameramodel }}</p>
+<p><strong>Introduced:</strong> {{object.cameramodel.introduced }}</p>
+{% endblock %}
+
+{% block moreactions %}
+<li>Load film, or something</li>
+{%endblock%}

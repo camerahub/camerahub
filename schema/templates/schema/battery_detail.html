@@ -1,0 +1,22 @@
+{% extends "schema/detail.html" %}
+
+{% block content %}
+<table>
+  <tr>
+    <th>Battery name</th>
+    <td>{{ object.name }}</td>
+  </tr>
+  <tr>
+    <th>Voltage</th>
+    <td>{{ object.voltage }}</td>
+  </tr>
+  <tr>
+    <th>Chemistry</th>
+    <td>{{ object.chemistry }}</td>
+  </tr>
+  <tr>
+    <th>Other names</th>
+    <td>{{ object.other_names }}</td>
+  </tr>
+</table>
+{% endblock %}

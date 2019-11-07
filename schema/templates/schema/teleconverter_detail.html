@@ -1,0 +1,38 @@
+{% extends "schema/detail.html" %}
+
+{% block content %}
+<table>
+  <tr>
+    <th>Model</th>
+    <td>{{ object.model }}</td>
+  </tr>
+  <tr>
+    <th>Manufacturer</th>
+    <td>{{ object.manufacturer }}</td>
+  </tr>
+  <tr>
+    <th>Mount</th>
+    <td>{{ object.mount }}</td>
+  </tr>
+  <tr>
+    <th>Factor</th>
+    <td>{{ object.factor }}</td>
+  </tr>
+  <tr>
+    <th>Elements</th>
+    <td>{{ object.elements }}</td>
+  </tr>
+  <tr>
+    <th>Groups</th>
+    <td>{{ object.groups }}</td>
+  </tr>
+  <tr>
+    <th>Multicoated</th>
+    <td>{{ object.multicoated }}</td>
+  </tr>
+  <tr>
+    <th>Owner</th>
+    <td>{{ object.owner }}</td>
+  </tr>
+</table>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "schema/detail.html" %}
+
+{% block content %}
+<table>
+  <tr>
+    <th>Manufacturer</th>
+    <td>{{ object.manufacturer }}</td>
+  </tr>
+  <tr>
+    <th>Model</th>
+    <td>{{ object.model }}</td>
+  </tr>
+  <tr>
+    <th>Mount</th>
+    <td>{{ object.mount }}</td>
+  </tr>
+  <tr>
+    <th>Zoom</th>
+    <td>{{ object.zoom }}</td>
+  </tr>
+  <tr>
+    <th>Min focal length</th>
+    <td>{{ object.min_focal_length }}</td>
+  </tr>
+  <tr>
+    <th>Max focal length</th>
+    <td>{{ object.max_focal_length }}</td>
+  </tr>
+  <tr>
+    <th>Closest focus</th>
+    <td>{{ object.closest_focus }}</td>
+  </tr>
+  <tr>
+    <th>Maximum aperture</th>
+    <td>{{ object.max_aperture }}</td>
+  </tr>
+  <tr>
+    <th>Minimum aperture</th>
+    <td>{{ object.min_aperture }}</td>
+  </tr>
+  <tr>
+    <th>Elements</th>
+    <td>{{ object.elements }}</td>
+  </tr>
+  <tr>
+    <th>Groups</th>
+    <td>{{ object.groups }}</td>
+  </tr>
+  <tr>
+    <th>Weight</th>
+    <td>{{ object.weight }}</td>
+  </tr>
+  <tr>
+    <th>Nominal min angle diagonal</th>
+    <td>{{ object.nominal_min_angle_diag }}</td>
+  </tr>
+  <tr>
+    <th>Nominal max angle diagonal</th>
+    <td>{{ object.nominal_max_angle_diag }}</td>
+  </tr>
+  <tr>
+    <th>Aperture blades</th>
+    <td>{{ object.aperture_blades }}</td>
+  </tr>
+  <tr>
+    <th>Autofocus</th>
+    <td>{{ object.autofocus }}</td>
+  </tr>
+  <tr>
+    <th>Filter thread</th>
+    <td>{{ object.filter_thread }}</td>
+  </tr>
+  <tr>
+    <th>Maximum magnification</th>
+    <td>{{ object.magnification }}</td>
+  </tr>
+  <tr>
+    <th>URL</th>
+    <td>{{ object.url }}</td>
+  </tr>
+  <tr>
+    <th>Introduced</th>
+    <td>{{ object.introduced }}</td>
+  </tr>
+  <tr>
+    <th>Discontinued</th>
+    <td>{{ object.discontinued }}</td>
+  </tr>
+  <tr>
+    <th>Negative size</th>
+    <td>{{ object.negative_size }}</td>
+  </tr>
+  <tr>
+    <th>Fixed mount</th>
+    <td>{{ object.fixed_mount }}</td>
+  </tr>
+  <tr>
+    <th>Notes</th>
+    <td>{{ object.notes }}</td>
+  </tr>
+  <tr>
+    <th>Coating</th>
+    <td>{{ object.coating }}</td>
+  </tr>
+  <tr>
+    <th>Hood</th>
+    <td>{{ object.hood }}</td>
+  </tr>
+  <tr>
+    <th>Lens type</th>
+    <td>{{ object.exif_lenstype }}</td>
+  </tr>
+  <tr>
+    <th>Rectilinear</th>
+    <td>{{ object.rectilinear }}</td>
+  </tr>
+  <tr>
+    <th>Length</th>
+    <td>{{ object.length }}</td>
+  </tr>
+  <tr>
+    <th>Diameter</th>
+    <td>{{ object.diameter }}</td>
+  </tr>
+  <tr>
+    <th>Image circle</th>
+    <td>{{ object.image_circle }}</td>
+  </tr>
+  <tr>
+    <th>Formula</th>
+    <td>{{ object.formula }}</td>
+  </tr>
+  <tr>
+    <th>Shutter model</th>
+    <td>{{ object.shutter_model }}</td>
+  </tr>
+  <tr>
+    <th>Series</th>
+    <td>{{ object.series }}</td>
+  </tr>
+</table>
+
+<div style="margin-left:20px;margin-top:20px">
+    <h4>Lenses</h4>
+    <table>
+      <tr>
+        <th>Serial</th>
+        <th>Acquired</th>
+      </tr>
+      {% for lens in lensmodel.lens_set.all %}
+      <tr>
+        <td>{{ lens.serial }}</td>
+        <td>{{ lens.acquired }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endblock %}

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'djmoney',
     'favicon',
     'django_createsuperuserwithpassword',
+    'django_tables2',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
@@ -215,3 +217,5 @@ FLUENT_DASHBOARD_APP_GROUPS = (
 )
 
 FAVICON_PATH = STATIC_URL + 'favicon.ico'
+
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap.html"
