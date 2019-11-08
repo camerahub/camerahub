@@ -167,7 +167,6 @@ FLUENT_DASHBOARD_APP_ICONS = {
   'schema/flash': 'icons/flash.png',
   'schema/enlarger': 'icons/enlarger.png',
   'schema/meteringmode': 'icons/meteringmode.png',
-  'schema/meteringtype': 'icons/meteringtype.png',
   'schema/mount': 'icons/mount.png',
   'schema/paperstock': 'icons/paperstock.png',
   'schema/person': 'icons/person.png',

@@ -323,14 +323,6 @@ class MeteringMode(models.Model):
   class Meta:
     verbose_name_plural = "metering modes"
 
-# Table to catalog different metering technologies and cell types
-class MeteringType(models.Model):
-  name = models.CharField(help_text='Name of the metering technology (e.g. Selenium)', max_length=45)
-  def __str__(self):
-    return self.name
-  class Meta:
-    verbose_name_plural = "metering types"
-
 # Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.
 class Mount(models.Model):
 
@@ -705,6 +697,12 @@ class CameraModel(models.Model):
     Sliding = ChoiceItem()
     Electronic = ChoiceItem()
 
+  # Choices for metering type
+  class MeteringType(DjangoChoices):
+    Cadmium_sulphide_CdS  = ChoiceItem()
+    Selenium  = ChoiceItem()
+    Silicon  = ChoiceItem()
+
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this camera model')
   model = models.CharField(help_text='The model name of the camera', max_length=45)
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'})
@@ -712,7 +710,7 @@ class CameraModel(models.Model):
   focus_type = models.CharField(choices=FocusType.choices, max_length=25, blank=True, null=True, help_text='Focus type used on this camera model')
   metering = models.BooleanField(help_text='Whether the camera has built-in metering', blank=True, null=True)
   coupled_metering = models.BooleanField(help_text='Whether the camera''s meter is coupled automatically', blank=True, null=True)
-  metering_type = models.ForeignKey(MeteringType, on_delete=models.CASCADE, blank=True, null=True, help_text='Metering type used on this camera model')
+  metering_type = models.CharField(choices=MeteringType.choices, max_length=25, blank=True, null=True, help_text='Metering type used on this camera model')
   introduced = models.PositiveIntegerField(help_text='Year in which the camera model was introduced', blank=True, null=True)
   discontinued = models.PositiveIntegerField(help_text='Year in which the camera model was discontinued', blank=True, null=True)
   body_type = models.CharField(choices=BodyType.choices, max_length=25, blank=True, null=True, help_text='Body type of this camera model')
