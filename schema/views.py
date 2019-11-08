@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import LoginRequiredMixin, CreateView, LoginRequiredMixin, UpdateView
 from django_tables2 import SingleTableView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def index(request):
     return render(request, 'schema/index.html')
@@ -21,7 +22,7 @@ from .tables import ProcessTable, RepairTable, ScanTable, NegativeTable, FilmTab
 class SingleTableListView(SingleTableView):
   template_name = 'schema/list.html'
 
-class AccessoryList(SingleTableListView):
+class AccessoryList(LoginRequiredMixin, SingleTableListView):
   model = Accessory
   table_class = AccessoryTable
   def get_queryset(self):
@@ -30,21 +31,21 @@ class AccessoryList(SingleTableListView):
     else:
       return Accessory.objects.none()
 
-class AccessoryDetail(generic.DetailView):
+class AccessoryDetail(LoginRequiredMixin, generic.DetailView):
   model = Accessory
 
-class AccessoryCreate(CreateView):
+class AccessoryCreate(LoginRequiredMixin, CreateView):
   model = Accessory
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class AccessoryUpdate(UpdateView):
+class AccessoryUpdate(LoginRequiredMixin, UpdateView):
   model = Accessory
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class ArchiveList(SingleTableListView):
+class ArchiveList(LoginRequiredMixin, SingleTableListView):
   model = Archive
   table_class = ArchiveTable
   def get_queryset(self):
@@ -53,15 +54,15 @@ class ArchiveList(SingleTableListView):
     else:
       return Archive.objects.none()
 
-class ArchiveDetail(generic.DetailView):
+class ArchiveDetail(LoginRequiredMixin, generic.DetailView):
   model = Archive
 
-class ArchiveCreate(CreateView):
+class ArchiveCreate(LoginRequiredMixin, CreateView):
   model = Archive
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class ArchiveUpdate(UpdateView):
+class ArchiveUpdate(LoginRequiredMixin, UpdateView):
   model = Archive
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -74,18 +75,18 @@ class BatteryList(SingleTableListView):
 class BatteryDetail(generic.DetailView):
   model = Battery
 
-class BatteryCreate(CreateView):
+class BatteryCreate(LoginRequiredMixin, CreateView):
   model = Battery
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class BatteryUpdate(UpdateView):
+class BatteryUpdate(LoginRequiredMixin, UpdateView):
   model = Battery
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class BulkFilmList(SingleTableListView):
+class BulkFilmList(LoginRequiredMixin, SingleTableListView):
   model = BulkFilm
   table_class = BulkFilmTable
   def get_queryset(self):
@@ -94,21 +95,21 @@ class BulkFilmList(SingleTableListView):
     else:
       return BulkFilm.objects.none()
 
-class BulkFilmDetail(generic.DetailView):
+class BulkFilmDetail(LoginRequiredMixin, generic.DetailView):
   model = BulkFilm
 
-class BulkFilmCreate(CreateView):
+class BulkFilmCreate(LoginRequiredMixin, CreateView):
   model = BulkFilm
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class BulkFilmUpdate(UpdateView):
+class BulkFilmUpdate(LoginRequiredMixin, UpdateView):
   model = BulkFilm
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class CameraList(SingleTableListView):
+class CameraList(LoginRequiredMixin, SingleTableListView):
   model = Camera
   table_class = CameraTable
   def get_queryset(self):
@@ -117,15 +118,15 @@ class CameraList(SingleTableListView):
     else:
       return Camera.objects.none()
 
-class CameraDetail(generic.DetailView):
+class CameraDetail(LoginRequiredMixin, generic.DetailView):
   model = Camera
 
-class CameraCreate(CreateView):
+class CameraCreate(LoginRequiredMixin, CreateView):
   model = Camera
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class CameraUpdate(UpdateView):
+class CameraUpdate(LoginRequiredMixin, UpdateView):
   model = Camera
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -137,12 +138,12 @@ class CameraModelList(SingleTableListView):
 class CameraModelDetail(generic.DetailView):
   model = CameraModel
 
-class CameraModelCreate(CreateView):
+class CameraModelCreate(LoginRequiredMixin, CreateView):
   model = CameraModel
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class CameraModelUpdate(UpdateView):
+class CameraModelUpdate(LoginRequiredMixin, UpdateView):
   model = CameraModel
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -155,18 +156,18 @@ class DeveloperList(SingleTableListView):
 class DeveloperDetail(generic.DetailView):
   model = Developer
 
-class DeveloperCreate(CreateView):
+class DeveloperCreate(LoginRequiredMixin, CreateView):
   model = Developer
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class DeveloperUpdate(UpdateView):
+class DeveloperUpdate(LoginRequiredMixin, UpdateView):
   model = Developer
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class EnlargerList(SingleTableListView):
+class EnlargerList(LoginRequiredMixin, SingleTableListView):
   model = Enlarger
   table_class = EnlargerTable
   def get_queryset(self):
@@ -175,15 +176,15 @@ class EnlargerList(SingleTableListView):
     else:
       return Enlarger.objects.none()
 
-class EnlargerDetail(generic.DetailView):
+class EnlargerDetail(LoginRequiredMixin, generic.DetailView):
   model = Enlarger
 
-class EnlargerCreate(CreateView):
+class EnlargerCreate(LoginRequiredMixin, CreateView):
   model = Enlarger
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class EnlargerUpdate(UpdateView):
+class EnlargerUpdate(LoginRequiredMixin, UpdateView):
   model = Enlarger
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -196,18 +197,18 @@ class FilmStockList(SingleTableListView):
 class FilmStockDetail(generic.DetailView):
   model = FilmStock
 
-class FilmStockCreate(CreateView):
+class FilmStockCreate(LoginRequiredMixin, CreateView):
   model = FilmStock
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class FilmStockUpdate(UpdateView):
+class FilmStockUpdate(LoginRequiredMixin, UpdateView):
   model = FilmStock
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class FilterList(SingleTableListView):
+class FilterList(LoginRequiredMixin, SingleTableListView):
   model = Filter
   table_class = FilterTable
   def get_queryset(self):
@@ -216,21 +217,21 @@ class FilterList(SingleTableListView):
     else:
       return Filter.objects.none()
 
-class FilterDetail(generic.DetailView):
+class FilterDetail(LoginRequiredMixin, generic.DetailView):
   model = Filter
 
-class FilterCreate(CreateView):
+class FilterCreate(LoginRequiredMixin, CreateView):
   model = Filter
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class FilterUpdate(UpdateView):
+class FilterUpdate(LoginRequiredMixin, UpdateView):
   model = Filter
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class FlashList(SingleTableListView):
+class FlashList(LoginRequiredMixin, SingleTableListView):
   model = Flash
   table_class = FlashTable
   def get_queryset(self):
@@ -239,15 +240,15 @@ class FlashList(SingleTableListView):
     else:
       return Flash.objects.none()
 
-class FlashDetail(generic.DetailView):
+class FlashDetail(LoginRequiredMixin, generic.DetailView):
   model = Flash
 
-class FlashCreate(CreateView):
+class FlashCreate(LoginRequiredMixin, CreateView):
   model = Flash
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class FlashUpdate(UpdateView):
+class FlashUpdate(LoginRequiredMixin, UpdateView):
   model = Flash
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -260,12 +261,12 @@ class FlashProtocolList(SingleTableListView):
 class FlashProtocolDetail(generic.DetailView):
   model = FlashProtocol
 
-class FlashProtocolCreate(CreateView):
+class FlashProtocolCreate(LoginRequiredMixin, CreateView):
   model = FlashProtocol
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class FlashProtocolUpdate(UpdateView):
+class FlashProtocolUpdate(LoginRequiredMixin, UpdateView):
   model = FlashProtocol
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -278,18 +279,18 @@ class FormatList(SingleTableListView):
 class FormatDetail(generic.DetailView):
   model = Format
 
-class FormatCreate(CreateView):
+class FormatCreate(LoginRequiredMixin, CreateView):
   model = Format
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class FormatUpdate(UpdateView):
+class FormatUpdate(LoginRequiredMixin, UpdateView):
   model = Format
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class LensList(SingleTableListView):
+class LensList(LoginRequiredMixin, SingleTableListView):
   model = Lens
   table_class = LensTable
   def get_queryset(self):
@@ -298,15 +299,15 @@ class LensList(SingleTableListView):
     else:
       return Lens.objects.none()
 
-class LensDetail(generic.DetailView):
+class LensDetail(LoginRequiredMixin, generic.DetailView):
   model = Lens
 
-class LensCreate(CreateView):
+class LensCreate(LoginRequiredMixin, CreateView):
   model = Lens
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class LensUpdate(UpdateView):
+class LensUpdate(LoginRequiredMixin, UpdateView):
   model = Lens
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -319,12 +320,12 @@ class LensModelList(SingleTableListView):
 class LensModelDetail(generic.DetailView):
   model = LensModel
 
-class LensModelCreate(CreateView):
+class LensModelCreate(LoginRequiredMixin, CreateView):
   model = LensModel
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class LensModelUpdate(UpdateView):
+class LensModelUpdate(LoginRequiredMixin, UpdateView):
   model = LensModel
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -337,12 +338,12 @@ class ManufacturerList(SingleTableListView):
 class ManufacturerDetail(generic.DetailView):
   model = Manufacturer
 
-class ManufacturerCreate(CreateView):
+class ManufacturerCreate(LoginRequiredMixin, CreateView):
   model = Manufacturer
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class ManufacturerUpdate(UpdateView):
+class ManufacturerUpdate(LoginRequiredMixin, UpdateView):
   model = Manufacturer
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -355,18 +356,18 @@ class MountList(SingleTableListView):
 class MountDetail(generic.DetailView):
   model = Mount
 
-class MountCreate(CreateView):
+class MountCreate(LoginRequiredMixin, CreateView):
   model = Mount
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class MountUpdate(UpdateView):
+class MountUpdate(LoginRequiredMixin, UpdateView):
   model = Mount
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class MountAdapterList(SingleTableListView):
+class MountAdapterList(LoginRequiredMixin, SingleTableListView):
   model = MountAdapter
   table_class = MountAdapterTable
   def get_queryset(self):
@@ -375,15 +376,15 @@ class MountAdapterList(SingleTableListView):
     else:
       return MountAdapter.objects.none()
 
-class MountAdapterDetail(generic.DetailView):
+class MountAdapterDetail(LoginRequiredMixin, generic.DetailView):
   model = MountAdapter
 
-class MountAdapterCreate(CreateView):
+class MountAdapterCreate(LoginRequiredMixin, CreateView):
   model = MountAdapter
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class MountAdapterUpdate(UpdateView):
+class MountAdapterUpdate(LoginRequiredMixin, UpdateView):
   model = MountAdapter
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -396,18 +397,18 @@ class NegativeSizeList(SingleTableListView):
 class NegativeSizeDetail(generic.DetailView):
   model = NegativeSize
 
-class NegativeSizeCreate(CreateView):
+class NegativeSizeCreate(LoginRequiredMixin, CreateView):
   model = NegativeSize
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class NegativeSizeUpdate(UpdateView):
+class NegativeSizeUpdate(LoginRequiredMixin, UpdateView):
   model = NegativeSize
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class OrderList(SingleTableListView):
+class OrderList(LoginRequiredMixin, SingleTableListView):
   model = Order
   table_class = OrderTable
   def get_queryset(self):
@@ -416,15 +417,15 @@ class OrderList(SingleTableListView):
     else:
       return Order.objects.none()
 
-class OrderDetail(generic.DetailView):
+class OrderDetail(LoginRequiredMixin, generic.DetailView):
   model = Order
 
-class OrderCreate(CreateView):
+class OrderCreate(LoginRequiredMixin, CreateView):
   model = Order
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class OrderUpdate(UpdateView):
+class OrderUpdate(LoginRequiredMixin, UpdateView):
   model = Order
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -437,18 +438,18 @@ class PaperStockList(SingleTableListView):
 class PaperStockDetail(generic.DetailView):
   model = PaperStock
 
-class PaperStockCreate(CreateView):
+class PaperStockCreate(LoginRequiredMixin, CreateView):
   model = PaperStock
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class PaperStockUpdate(UpdateView):
+class PaperStockUpdate(LoginRequiredMixin, UpdateView):
   model = PaperStock
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class PersonList(SingleTableListView):
+class PersonList(LoginRequiredMixin, SingleTableListView):
   model = Person
   table_class = PersonTable
   def get_queryset(self):
@@ -457,21 +458,21 @@ class PersonList(SingleTableListView):
     else:
       return Person.objects.none()
 
-class PersonDetail(generic.DetailView):
+class PersonDetail(LoginRequiredMixin, generic.DetailView):
   model = Person
 
-class PersonCreate(CreateView):
+class PersonCreate(LoginRequiredMixin, CreateView):
   model = Person
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class PersonUpdate(UpdateView):
+class PersonUpdate(LoginRequiredMixin, UpdateView):
   model = Person
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class PrintList(SingleTableListView):
+class PrintList(LoginRequiredMixin, SingleTableListView):
   model = Print
   table_class = PrintTable
   def get_queryset(self):
@@ -480,15 +481,15 @@ class PrintList(SingleTableListView):
     else:
       return Print.objects.none()
 
-class PrintDetail(generic.DetailView):
+class PrintDetail(LoginRequiredMixin, generic.DetailView):
   model = Print
 
-class PrintCreate(CreateView):
+class PrintCreate(LoginRequiredMixin, CreateView):
   model = Print
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class PrintUpdate(UpdateView):
+class PrintUpdate(LoginRequiredMixin, UpdateView):
   model = Print
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -501,18 +502,18 @@ class ProcessList(SingleTableListView):
 class ProcessDetail(generic.DetailView):
   model = Process
 
-class ProcessCreate(CreateView):
+class ProcessCreate(LoginRequiredMixin, CreateView):
   model = Process
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class ProcessUpdate(UpdateView):
+class ProcessUpdate(LoginRequiredMixin, UpdateView):
   model = Process
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class RepairList(SingleTableListView):
+class RepairList(LoginRequiredMixin, SingleTableListView):
   model = Repair
   table_class = RepairTable
   def get_queryset(self):
@@ -521,21 +522,21 @@ class RepairList(SingleTableListView):
     else:
       return Repair.objects.none()
 
-class RepairDetail(generic.DetailView):
+class RepairDetail(LoginRequiredMixin, generic.DetailView):
   model = Repair
 
-class RepairCreate(CreateView):
+class RepairCreate(LoginRequiredMixin, CreateView):
   model = Repair
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class RepairUpdate(UpdateView):
+class RepairUpdate(LoginRequiredMixin, UpdateView):
   model = Repair
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class ScanList(SingleTableListView):
+class ScanList(LoginRequiredMixin, SingleTableListView):
   model = Scan
   table_class = ScanTable
   def get_queryset(self):
@@ -544,21 +545,21 @@ class ScanList(SingleTableListView):
     else:
       return Scan.objects.none()
 
-class ScanDetail(generic.DetailView):
+class ScanDetail(LoginRequiredMixin, generic.DetailView):
   model = Scan
 
-class ScanCreate(CreateView):
+class ScanCreate(LoginRequiredMixin, CreateView):
   model = Scan
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class ScanUpdate(UpdateView):
+class ScanUpdate(LoginRequiredMixin, UpdateView):
   model = Scan
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class NegativeList(SingleTableListView):
+class NegativeList(LoginRequiredMixin, SingleTableListView):
   model = Negative
   table_class = NegativeTable
   def get_queryset(self):
@@ -567,21 +568,21 @@ class NegativeList(SingleTableListView):
     else:
       return Negative.objects.none()
 
-class NegativeDetail(generic.DetailView):
+class NegativeDetail(LoginRequiredMixin, generic.DetailView):
   model = Negative
 
-class NegativeCreate(CreateView):
+class NegativeCreate(LoginRequiredMixin, CreateView):
   model = Negative
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class NegativeUpdate(UpdateView):
+class NegativeUpdate(LoginRequiredMixin, UpdateView):
   model = Negative
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class FilmList(SingleTableListView):
+class FilmList(LoginRequiredMixin, SingleTableListView):
   model = Film
   table_class = FilmTable
   def get_queryset(self):
@@ -590,21 +591,21 @@ class FilmList(SingleTableListView):
     else:
       return Film.objects.none()
 
-class FilmDetail(generic.DetailView):
+class FilmDetail(LoginRequiredMixin, generic.DetailView):
   model = Film
 
-class FilmCreate(CreateView):
+class FilmCreate(LoginRequiredMixin, CreateView):
   model = Film
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class FilmUpdate(UpdateView):
+class FilmUpdate(LoginRequiredMixin, UpdateView):
   model = Film
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class SeriesList(SingleTableListView):
+class SeriesList(LoginRequiredMixin, SingleTableListView):
   model = Series
   table_class = SeriesTable
   def get_queryset(self):
@@ -613,21 +614,21 @@ class SeriesList(SingleTableListView):
     else:
       return Series.objects.none()
 
-class SeriesDetail(generic.DetailView):
+class SeriesDetail(LoginRequiredMixin, generic.DetailView):
   model = Series
 
-class SeriesCreate(CreateView):
+class SeriesCreate(LoginRequiredMixin, CreateView):
   model = Series
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class SeriesUpdate(UpdateView):
+class SeriesUpdate(LoginRequiredMixin, UpdateView):
   model = Series
   fields = '__all__'
   template_name = 'schema/update.html'
 
 
-class TeleconverterList(SingleTableListView):
+class TeleconverterList(LoginRequiredMixin, SingleTableListView):
   model = Teleconverter
   table_class = TeleconverterTable
   def get_queryset(self):
@@ -636,15 +637,15 @@ class TeleconverterList(SingleTableListView):
     else:
       return Teleconverter.objects.none()
 
-class TeleconverterDetail(generic.DetailView):
+class TeleconverterDetail(LoginRequiredMixin, generic.DetailView):
   model = Teleconverter
 
-class TeleconverterCreate(CreateView):
+class TeleconverterCreate(LoginRequiredMixin, CreateView):
   model = Teleconverter
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class TeleconverterUpdate(UpdateView):
+class TeleconverterUpdate(LoginRequiredMixin, UpdateView):
   model = Teleconverter
   fields = '__all__'
   template_name = 'schema/update.html'
@@ -657,12 +658,12 @@ class TonerList(SingleTableListView):
 class TonerDetail(generic.DetailView):
   model = Toner
 
-class TonerCreate(CreateView):
+class TonerCreate(LoginRequiredMixin, CreateView):
   model = Toner
   fields = '__all__'
   template_name = 'schema/create.html'
 
-class TonerUpdate(UpdateView):
+class TonerUpdate(LoginRequiredMixin, UpdateView):
   model = Toner
   fields = '__all__'
   template_name = 'schema/update.html'
