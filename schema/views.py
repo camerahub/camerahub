@@ -9,12 +9,12 @@ def index(request):
 
 from .models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from .models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
-from .models import MeteringType, Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
+from .models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
 from .models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
 
 from .tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, FilmStockTable, FilterTable
 from .tables import FlashTable, FlashProtocolTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
-from .tables import MeteringTypeTable, MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable, ToningTable
+from .tables import MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable, ToningTable
 from .tables import ProcessTable, RepairTable, ScanTable, NegativeTable, FilmTable, SeriesTable, ShutterSpeedTable, TeleconverterTable, TonerTable
 
 # Custom class for displaying a list view in table format
@@ -304,24 +304,6 @@ class ManufacturerCreate(CreateView):
 
 class ManufacturerUpdate(UpdateView):
   model = Manufacturer
-  fields = '__all__'
-  template_name = 'schema/update.html'
-
-
-class MeteringTypeList(SingleTableListView):
-  model = MeteringType
-  table_class = MeteringTypeTable
-
-class MeteringTypeDetail(generic.DetailView):
-  model = MeteringType
-
-class MeteringTypeCreate(CreateView):
-  model = MeteringType
-  fields = '__all__'
-  template_name = 'schema/create.html'
-
-class MeteringTypeUpdate(UpdateView):
-  model = MeteringType
   fields = '__all__'
   template_name = 'schema/update.html'
 

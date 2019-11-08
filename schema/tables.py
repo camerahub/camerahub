@@ -5,7 +5,7 @@ from django.urls import reverse
 # Import all models that need admin pages
 from .models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from .models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
-from .models import MeteringType, Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
+from .models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
 from .models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
 
 #sequence – reorder columns
@@ -130,11 +130,6 @@ class ManufacturerTable(tables.Table):
         exclude = ('id', 'url',)
     def render_name(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('manufacturer-detail', args=[record.id]), value)
-
-class MeteringTypeTable(tables.Table):
-    class Meta:
-        model = MeteringType
-        exclude = ('id',)
 
 class MountTable(tables.Table):
     class Meta:

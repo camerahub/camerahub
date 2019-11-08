@@ -84,11 +84,6 @@ urlpatterns = [
   path('manufacturer/create/', views.ManufacturerCreate.as_view(), name='manufacturer-create'),
   path('manufacturer/<int:pk>/update', views.ManufacturerUpdate.as_view(), name='manufacturer-update'),
   
-  path('meteringtype/', views.MeteringTypeList.as_view(), name='meteringtype-list'),
-  path('meteringtype/<int:pk>', views.MeteringTypeDetail.as_view(), name='meteringtype-detail'),
-  path('meteringtype/create/', views.MeteringTypeCreate.as_view(), name='meteringtype-create'),
-  path('meteringtype/<int:pk>/update', views.MeteringTypeUpdate.as_view(), name='meteringtype-update'),
-  
   path('mount/', views.MountList.as_view(), name='mount-list'),
   path('mount/<int:pk>', views.MountDetail.as_view(), name='mount-detail'),
   path('mount/create/', views.MountCreate.as_view(), name='mount-create'),
