@@ -15,11 +15,9 @@
             <div class="col-sm-2">
             {% block sidebar %}
             {% if user.is_authenticated %}
-            <p>You are logged in as {{ user.username }}.
-                <a href="{% url 'logout' %}">Logout</a></p>
+            <p><a href="{% url 'logout' %}">Logout</a> {{ user.username }}</p>
             {% else %}
-            <p>You are not logged in.
-                <a href="{% url 'login' %}">Login</a></p>
+            <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'login' %}">Register</a></p>
             {% endif %}
             <hr />
             <!-- insert default navigation text for every page -->
