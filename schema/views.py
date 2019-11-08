@@ -24,6 +24,11 @@ class SingleTableListView(SingleTableView):
 class AccessoryList(SingleTableListView):
   model = Accessory
   table_class = AccessoryTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Accessory.objects.filter(owner=self.request.user)
+    else:
+      return Accessory.objects.none()
 
 class AccessoryDetail(generic.DetailView):
   model = Accessory
@@ -42,6 +47,11 @@ class AccessoryUpdate(UpdateView):
 class ArchiveList(SingleTableListView):
   model = Archive
   table_class = ArchiveTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Archive.objects.filter(owner=self.request.user)
+    else:
+      return Archive.objects.none()
 
 class ArchiveDetail(generic.DetailView):
   model = Archive
@@ -78,6 +88,11 @@ class BatteryUpdate(UpdateView):
 class BulkFilmList(SingleTableListView):
   model = BulkFilm
   table_class = BulkFilmTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return BulkFilm.objects.filter(owner=self.request.user)
+    else:
+      return BulkFilm.objects.none()
 
 class BulkFilmDetail(generic.DetailView):
   model = BulkFilm
@@ -96,6 +111,11 @@ class BulkFilmUpdate(UpdateView):
 class CameraList(SingleTableListView):
   model = Camera
   table_class = CameraTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Camera.objects.filter(owner=self.request.user)
+    else:
+      return Camera.objects.none()
 
 class CameraDetail(generic.DetailView):
   model = Camera
@@ -149,6 +169,11 @@ class DeveloperUpdate(UpdateView):
 class EnlargerList(SingleTableListView):
   model = Enlarger
   table_class = EnlargerTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Enlarger.objects.filter(owner=self.request.user)
+    else:
+      return Enlarger.objects.none()
 
 class EnlargerDetail(generic.DetailView):
   model = Enlarger
@@ -185,6 +210,11 @@ class FilmStockUpdate(UpdateView):
 class FilterList(SingleTableListView):
   model = Filter
   table_class = FilterTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Filter.objects.filter(owner=self.request.user)
+    else:
+      return Filter.objects.none()
 
 class FilterDetail(generic.DetailView):
   model = Filter
@@ -203,6 +233,11 @@ class FilterUpdate(UpdateView):
 class FlashList(SingleTableListView):
   model = Flash
   table_class = FlashTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Flash.objects.filter(owner=self.request.user)
+    else:
+      return Flash.objects.none()
 
 class FlashDetail(generic.DetailView):
   model = Flash
@@ -257,6 +292,11 @@ class FormatUpdate(UpdateView):
 class LensList(SingleTableListView):
   model = Lens
   table_class = LensTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Lens.objects.filter(owner=self.request.user)
+    else:
+      return Lens.objects.none()
 
 class LensDetail(generic.DetailView):
   model = Lens
@@ -329,6 +369,11 @@ class MountUpdate(UpdateView):
 class MountAdapterList(SingleTableListView):
   model = MountAdapter
   table_class = MountAdapterTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return MountAdapter.objects.filter(owner=self.request.user)
+    else:
+      return MountAdapter.objects.none()
 
 class MountAdapterDetail(generic.DetailView):
   model = MountAdapter
@@ -365,6 +410,11 @@ class NegativeSizeUpdate(UpdateView):
 class OrderList(SingleTableListView):
   model = Order
   table_class = OrderTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Order.objects.filter(owner=self.request.user)
+    else:
+      return Order.objects.none()
 
 class OrderDetail(generic.DetailView):
   model = Order
@@ -401,6 +451,11 @@ class PaperStockUpdate(UpdateView):
 class PersonList(SingleTableListView):
   model = Person
   table_class = PersonTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Person.objects.filter(owner=self.request.user)
+    else:
+      return Person.objects.none()
 
 class PersonDetail(generic.DetailView):
   model = Person
@@ -419,6 +474,11 @@ class PersonUpdate(UpdateView):
 class PrintList(SingleTableListView):
   model = Print
   table_class = PrintTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Print.objects.filter(owner=self.request.user)
+    else:
+      return Print.objects.none()
 
 class PrintDetail(generic.DetailView):
   model = Print
@@ -455,6 +515,11 @@ class ProcessUpdate(UpdateView):
 class RepairList(SingleTableListView):
   model = Repair
   table_class = RepairTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Repair.objects.filter(owner=self.request.user)
+    else:
+      return Repair.objects.none()
 
 class RepairDetail(generic.DetailView):
   model = Repair
@@ -473,6 +538,11 @@ class RepairUpdate(UpdateView):
 class ScanList(SingleTableListView):
   model = Scan
   table_class = ScanTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Scan.objects.filter(owner=self.request.user)
+    else:
+      return Scan.objects.none()
 
 class ScanDetail(generic.DetailView):
   model = Scan
@@ -491,6 +561,11 @@ class ScanUpdate(UpdateView):
 class NegativeList(SingleTableListView):
   model = Negative
   table_class = NegativeTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Negative.objects.filter(owner=self.request.user)
+    else:
+      return Negative.objects.none()
 
 class NegativeDetail(generic.DetailView):
   model = Negative
@@ -509,6 +584,11 @@ class NegativeUpdate(UpdateView):
 class FilmList(SingleTableListView):
   model = Film
   table_class = FilmTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Film.objects.filter(owner=self.request.user)
+    else:
+      return Film.objects.none()
 
 class FilmDetail(generic.DetailView):
   model = Film
@@ -527,6 +607,11 @@ class FilmUpdate(UpdateView):
 class SeriesList(SingleTableListView):
   model = Series
   table_class = SeriesTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Series.objects.filter(owner=self.request.user)
+    else:
+      return Series.objects.none()
 
 class SeriesDetail(generic.DetailView):
   model = Series
@@ -545,6 +630,11 @@ class SeriesUpdate(UpdateView):
 class TeleconverterList(SingleTableListView):
   model = Teleconverter
   table_class = TeleconverterTable
+  def get_queryset(self):
+    if self.request.user.is_authenticated:
+      return Teleconverter.objects.filter(owner=self.request.user)
+    else:
+      return Teleconverter.objects.none()
 
 class TeleconverterDetail(generic.DetailView):
   model = Teleconverter
