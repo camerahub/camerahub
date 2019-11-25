@@ -17,7 +17,7 @@
             {% if user.is_authenticated %}
             <p><a href="{% url 'logout' %}">Logout</a> {{ user.username }}</p>
             {% else %}
-            <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'login' %}">Register</a></p>
+            <p><a href="{% url 'login' %}">Login</a></p>
             {% endif %}
             <hr />
             <!-- insert default navigation text for every page -->
