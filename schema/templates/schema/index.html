@@ -3,6 +3,10 @@
 {% block heading %}<h1>PhotoDB</h1>{%endblock%}
 
 {% block content %}
-<p>Please use the navigation on the left</p>
-<p>Visit the <a href="/admin">admin page</a></p>
+<p>Welcome to PhotoDB - an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
+{% if user.is_authenticated %}
+{% else %}
+<p><a href="{% url 'login' %}">Login</a> to start tracking your own collection!</p>
+<p>Some object types are also available to browse without logging in.</p>
+{% endif %}
 {% endblock %}
