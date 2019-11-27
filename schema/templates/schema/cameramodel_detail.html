@@ -165,37 +165,19 @@
   <tr>
     <th>Shutter speeds</th>
     <td>
-      {% if object.shutter_speeds %}
-      <ul>
-        {% for ss in object.shutter_speeds.all %}
-        <li>{{ ss.shutter_speed }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
+      {{ object.shutter_speeds.all|join:", " }}
     </td>
   </tr>
   <tr>
     <th>Metering modes</th>
     <td>
-      {% if object.metering_modes %}
-      <ul>
-        {% for mm in object.metering_modes.all %}
-        <li>{{ mm.name }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
+      {{ object.metering_modes.all|join:", " }}
     </td>
   </tr>
   <tr>
     <th>Exposure programs</th>
     <td>
-      {% if object.exposure_programs %}
-      <ul>
-        {% for ep in object.exposure_programs.all %}
-        <li>{{ ep.name }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
+      {{ object.exposure_programs.all|join:", " }}
     </td>
   </tr>
   <tr>
