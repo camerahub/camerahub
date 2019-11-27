@@ -165,7 +165,7 @@
   <tr>
     <th>Shutter speeds</th>
     <td>
-      {{ object.shutter_speeds.all|join:", " }}
+      {{ object.shutter_speeds.all|dictsort:"shutter_speed"|join:", " }}
     </td>
   </tr>
   <tr>
