@@ -7,4 +7,34 @@
     <td>{{ object.name }}</td>
   </tr>
 </table>
+
+<div style="margin-left:20px;margin-top:20px">
+  <h4>Cameras</h4>
+  <table>
+    <tr>
+      <th>Model</th>
+    </tr>
+    {% for cameramodel in series.cameramodel_set.all %}
+    {% for camera in cameramodel.camera_set.all %}
+    <tr>
+      <td>{{ cameramodel }}</td>
+    </tr>
+    {% endfor %}
+    {% endfor %}
+  </table>
+
+  <h4>Lenses</h4>
+  <table>
+    <tr>
+      <th>Model</th>
+    </tr>
+    {% for lensmodel in series.lensmodel_set.all %}
+    {% for lens in lensmodel.lens_set.all %}
+    <tr>
+      <td>{{ lensmodel }}</td>
+    </tr>
+    {% endfor %}
+    {% endfor %}
+  </table>
+</div>
 {% endblock %}
