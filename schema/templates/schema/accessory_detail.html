@@ -32,11 +32,11 @@
   </tr>
   <tr>
     <th>Camera model compatibility</th>
-    <td>{{ object.camera_model_compatibility }}</td>
+    <td>{{ object.camera_model_compatibility.all|join:", " }}</td>
   </tr>
   <tr>
     <th>Lens model compatibility</th>
-    <td>{{ object.lens_model_compatibility }}</td>
+    <td>{{ object.lens_model_compatibility.all|join:", " }}</td>
   </tr>
 </table>
 {% endblock %}
