@@ -213,7 +213,6 @@
       <th>condition</th>
       <th>condition_notes</th>
       <th>display_lens</th>
-      <th>owner</th>
     </tr>
     {% for camera in cameramodel.camera_set.all %}
     <tr>
@@ -232,7 +231,6 @@
       <td>{{ camera.condition }}</td>
       <td>{{ camera.condition_notes }}</td>
       <td>{{ camera.display_lens }}</td>
-      <td>{{ camera.owner }}</td>
     </tr>
     {% endfor %}
   </table>
