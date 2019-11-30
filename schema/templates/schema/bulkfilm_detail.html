@@ -31,4 +31,20 @@
     <td>{{ object.expiry }}</td>
   </tr>
 </table>
+
+<div style="margin-left:20px;margin-top:20px">
+  <h4>Films cut from this bulk film</h4>
+  <table>
+    <tr>
+      <th>Film ID</th>
+      <th>Title</th>
+    </tr>
+    {% for film in bulkfilm.film_set.all %}
+    <tr>
+      <td>{{ film.id }}</td>
+      <td>{{ film.title }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
 {% endblock %}
