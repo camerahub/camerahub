@@ -4,11 +4,11 @@
 <table>
   <tr>
     <th>Camera mount</th>
-    <td>{{ object.camera_mount }}</td>
+    <td>{% if object.camera_mount %}<a href="{% url 'mount-detail' object.camera_mount.id %}">{{ object.camera_mount }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Lens mount</th>
-    <td>{{ object.lens_mount }}</td>
+    <td>{% if object.lens_mount %}<a href="{% url 'mount-detail' object.lens_mount.id %}">{{ object.lens_mount }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Has optics</th>

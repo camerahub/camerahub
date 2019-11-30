@@ -4,7 +4,7 @@
 <table>
   <tr>
     <th>Negative</th>
-    <td>{{ object.negative }}</td>
+    <td>{% if object.negative %}<a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Print</th>

@@ -67,7 +67,7 @@
 <table>
     <tr>
         <th>Camera model</th>
-        <td>{{ object.cameramodel }}</td>
+        <td>{% if object.cameramodel %}<a href="{% url 'cameramodel-detail' object.cameramodel.id %}">{{ object.cameramodel }}</a>{% endif %}</td>
     </tr>
     <tr>
         <th>Introduced</th>

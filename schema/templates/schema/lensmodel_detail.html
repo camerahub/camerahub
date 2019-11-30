@@ -4,7 +4,7 @@
 <table>
   <tr>
     <th>Manufacturer</th>
-    <td>{{ object.manufacturer }}</td>
+    <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Model</th>
@@ -12,7 +12,7 @@
   </tr>
   <tr>
     <th>Mount</th>
-    <td>{{ object.mount }}</td>
+    <td>{% if object.mount %}<a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Zoom</th>
@@ -88,7 +88,7 @@
   </tr>
   <tr>
     <th>Negative size</th>
-    <td>{{ object.negative_size }}</td>
+    <td>{% if object.negative_size %}<a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Fixed mount</th>
@@ -136,7 +136,15 @@
   </tr>
   <tr>
     <th>Series</th>
-    <td>{{ object.series }}</td>
+    <td>
+      {% if object.series %}
+      <ul>
+        {% for series in object.series.all %}
+        <li>{{ series.name }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </td>
   </tr>
 </table>
 

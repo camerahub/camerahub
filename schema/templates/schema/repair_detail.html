@@ -4,7 +4,7 @@
 <table>
   <tr>
     <th>Camera</th>
-    <td>{{ object.camera }}</td>
+    <td>{% if object.camera %}<a href="{% url 'camera-detail' object.camera.id %}">{{ object.camera }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Lens</th>

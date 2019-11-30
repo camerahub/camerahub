@@ -4,7 +4,7 @@
 <table>
   <tr>
     <th>Lens model</th>
-    <td>{{ object.lensmodel }}</td>
+    <td>{% if object.lensmodel %}<a href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Serial number</th>
