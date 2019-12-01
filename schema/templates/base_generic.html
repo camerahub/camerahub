@@ -14,6 +14,7 @@
         <div class="row">
             <div class="col-sm-2">
             {% block sidebar %}
+            <h1>PhotoDB</h1>
             {% if user.is_authenticated %}
             <p><a href="{% url 'logout' %}">Logout</a> {{ user.username }}</p>
             {% else %}
