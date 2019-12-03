@@ -34,7 +34,6 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
-    'fluent_dashboard',
     'admin_tools',
     'admin_tools.theming',
     'admin_tools.menu',
@@ -143,78 +142,6 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
-
-# django-fluent-dashboard
-ADMIN_TOOLS_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentIndexDashboard'
-ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentAppIndexDashboard'
-ADMIN_TOOLS_MENU = 'fluent_dashboard.menu.FluentMenu'
-
-FLUENT_DASHBOARD_DEFAULT_ICON = 'icons/unknown.png'
-FLUENT_DASHBOARD_DEFAULT_MODULE = 'admin_tools.dashboard.modules.AppList'
-
-FLUENT_DASHBOARD_APP_ICONS = {
-  'schema/manufacturer': 'icons/manufacturer.png',
-  'schema/accessory': 'icons/accessory.png',
-  'schema/archive': 'icons/archive.png',
-  'schema/battery': 'icons/battery.png',
-  'schema/condition': 'icons/condition.png',
-  'schema/exposureprogram': 'icons/exposureprogram.png',
-  'schema/flashprotocol': 'icons/flashprotocol.png',
-  'schema/filter': 'icons/filter.png',
-  'schema/negativesize': 'icons/negativesize.png',
-  'schema/format': 'icons/format.png',
-  'schema/series': 'icons/series.png',
-  'schema/flash': 'icons/flash.png',
-  'schema/enlarger': 'icons/enlarger.png',
-  'schema/meteringmode': 'icons/meteringmode.png',
-  'schema/mount': 'icons/mount.png',
-  'schema/paperstock': 'icons/paperstock.png',
-  'schema/person': 'icons/person.png',
-  'schema/process': 'icons/process.png',
-  'schema/teleconverter': 'icons/teleconverter.png',
-  'schema/toner': 'icons/toner.png',
-  'schema/filmstock': 'icons/filmstock.png',
-  'schema/bulkfilm': 'icons/bulkfilm.png',
-  'schema/shutterspeed': 'icons/shutterspeed.png',
-  'schema/developer': 'icons/developer.png',
-  'schema/lensmodel': 'icons/lensmodel.png',
-  'schema/cameramodel': 'icons/cameramodel.png',
-  'schema/lens': 'icons/lens.png',
-  'schema/camera': 'icons/camera.png',
-  'schema/film': 'icons/film.png',
-  'schema/negative': 'icons/negative.png',
-  'schema/print': 'icons/print.png',
-  'schema/repair': 'icons/repair.png',
-  'schema/scan': 'icons/scan.png',
-  'schema/order': 'icons/order.png',
-}
-
-from django.utils.translation import ugettext_lazy as _
-FLUENT_DASHBOARD_APP_GROUPS = (
-    (_('Administration'), {
-        'models': (
-            'django.contrib.auth.*',
-        ),
-    }),
-    (_('Quick links'), {
-        'models': (
-            'schema.models.Camera',
-            'schema.models.Lens',
-            'schema.models.Film',
-            'schema.models.Negative',
-            'schema.models.Print',
-        ),
-        'module': 'AppIconList',
-        'collapsible': False,
-    }),
-    (_('Applications'), {
-        'models': (
-            'schema.*',
-        ),
-        'module': 'ModelList',
-        'collapsible': False,
-    }),
-)
 
 FAVICON_PATH = STATIC_URL + 'favicon.ico'
 
