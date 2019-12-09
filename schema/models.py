@@ -405,6 +405,8 @@ class Process(models.Model):
     verbose_name_plural = "processes"
   def get_absolute_url(self):
     return reverse('process-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Processes are methods of developing film or prints'
 
 # Table to catalog teleconverters (multipliers)
 class Teleconverter(models.Model):
@@ -1143,6 +1145,8 @@ class Repair(models.Model):
   summary = models.CharField(help_text='Brief summary of the repair', max_length=100)
   detail = models.CharField(help_text='Longer description of the repair', max_length=500, blank=True, null=True)
   owner = CurrentUserField()
+  def __str__(self):
+    return "#%i" % (self.pk)
   class Meta:
     ordering = ['date']
     verbose_name_plural = "repairs"
