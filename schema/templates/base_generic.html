@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {% block title %}<title>PhotoDB</title>{% endblock %}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <!-- Add additional CSS in static file -->
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- Add additional CSS in static file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2">
-            {% block sidebar %}
-            <h1>PhotoDB</h1>
-            {% if user.is_authenticated %}
-            <p><a href="{% url 'logout' %}">Logout</a> {{ user.username }}</p>
-            {% else %}
-            <p><a href="{% url 'login' %}">Login</a></p>
-            {% endif %}
-            <hr />
-            <!-- insert default navigation text for every page -->
+                {% block sidebar %}
+                <h1>PhotoDB</h1>
+                {% if user.is_authenticated %}
+                <p><a href="{% url 'logout' %}">Logout</a> {{ user.username }}</p>
+                {% else %}
+                <p><a href="{% url 'login' %}">Login</a></p>
+                {% endif %}
+                <hr />
+                <!-- insert default navigation text for every page -->
                 <ul class="sidebar-nav">
                     <li><a href="{% url 'index' %}">Home</a></li>
                     {% if user.is_authenticated %}
@@ -74,33 +77,36 @@
                     {% endif %}
                     <li><a href="{% url 'toner-list' %}">Toners</a></li>
                 </ul>
+                {% endblock %}
+            </div>
+            <div class="col-sm-10 ">
+                {% block heading %}{% endblock %}
+                {% block subheading %}{% endblock %}
+                {% block content %}
+                <!-- default content text (typically empty) -->{% endblock %}
+                {% block actions %}{% endblock %}
+            </div>
+
+            {% block pagination %}
+            {% if is_paginated %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="page-current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
+            {% endif %}
             {% endblock %}
         </div>
-    <div class="col-sm-10 ">
-        {% block heading %}{% endblock %}
-        {% block subheading %}{% endblock %}
-        {% block content %}<!-- default content text (typically empty) -->{% endblock %}
-        {% block actions %}{% endblock %}
+        {% block footer %}{% include "footer.html" %}{% endblock %}
     </div>
-
-    {% block pagination %}
-      {% if is_paginated %}
-          <div class="pagination">
-              <span class="page-links">
-                  {% if page_obj.has_previous %}
-                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-                  {% endif %}
-                  <span class="page-current">
-                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                  </span>
-                  {% if page_obj.has_next %}
-                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-                  {% endif %}
-              </span>
-          </div>
-      {% endif %}
-    {% endblock %}
-    </div>
-  </div>
 </body>
+
 </html>

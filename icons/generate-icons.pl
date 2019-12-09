@@ -42,6 +42,8 @@ my %newnames = (
 	'icons8-small-lens'				=> ['teleconverter'],
 	'icons8-test-tube'				=> ['toner'],
 	'icons8-home'					=> ['home'],
+	'icons8-facebook'				=> ['facebook'],
+	'icons8-github'					=> ['github'],
 #unknown
 #login
 #logout
