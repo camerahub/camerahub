@@ -1,4 +1,7 @@
 {% load model_name %}
+{% load static %}
 
-<h1>{{ view.model | verbose_name_plural | title }}</h1>
+<h1><img src="{% get_static_prefix %}icons/50/{{ view.model | verbose_name | cut:" " }}50.png"
+        alt="{{ view.model | verbose_name | title}}">
+    {{ view.model | verbose_name_plural | title }}</h1>
 {% if view.model.description %}<p>{{ view.model.description }}</p>{% endif %}

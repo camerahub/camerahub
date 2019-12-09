@@ -5,6 +5,7 @@
   <tr>
     <th>Film</th>
     <td>{{ object.film }}</td>
+    <td>{% if object.film %}<a href="{% url 'film-detail' object.film.id %}">{{ object.film }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Frame</th>
@@ -77,10 +78,6 @@
   <tr>
     <th>Copy of</th>
     <td>{{ object.copy_of }}</td>
-  </tr>
-  <tr>
-    <th>Owner</th>
-    <td>{{ object.owner }}</td>
   </tr>
 </table>
 

@@ -1,6 +1,9 @@
 {% extends "base_generic.html" %}
+{% load static %}
 
-{% block heading %}<h1>PhotoDB</h1>{%endblock%}
+{% block heading %}<h1>
+    <img src="{% static "icons/50/home50.png" %}" alt="Home">
+    Welcome</h1>{%endblock%}
 
 {% block content %}
 <p>Welcome to PhotoDB - an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>

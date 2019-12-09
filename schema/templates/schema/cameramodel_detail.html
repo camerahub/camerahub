@@ -4,11 +4,11 @@
 <table>
   <tr>
     <th>Mount</th>
-    <td>{{ object.mount }}</td>
+    <td>{% if object.mount %}<a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Format</th>
-    <td>{{ object.format }}</td>
+    <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Focus type</th>
@@ -43,16 +43,8 @@
     <td>{{ object.weight }}</td>
   </tr>
   <tr>
-    <th>Introduced</th>
-    <td>{{ object.introduced }}</td>
-  </tr>
-  <tr>
-    <th>Discontinued</th>
-    <td>{{ object.discontinued }}</td>
-  </tr>
-  <tr>
     <th>Negative size</th>
-    <td>{{ object.negative_size }}</td>
+    <td>{% if object.negative_size %}<a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Shutter type</th>
@@ -84,7 +76,7 @@
   </tr>
   <tr>
     <th>Lens model</th>
-    <td>{{ object.lensmodel }}</td>
+    <td>{% if object.lensmodel %}<a href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Battery quantity</th>
@@ -164,19 +156,33 @@
   </tr>
   <tr>
     <th>Shutter speeds</th>
-    <td>{{ object.shutter_speeds }}</td>
+    <td>
+      {{ object.shutter_speeds.all|dictsort:"shutter_speed"|join:", " }}
+    </td>
   </tr>
   <tr>
     <th>Metering modes</th>
-    <td>{{ object.metering_modes }}</td>
+    <td>
+      {{ object.metering_modes.all|join:", " }}
+    </td>
   </tr>
   <tr>
     <th>Exposure programs</th>
-    <td>{{ object.exposure_programs }}</td>
+    <td>
+      {{ object.exposure_programs.all|join:", " }}
+    </td>
   </tr>
   <tr>
     <th>Series</th>
-    <td>{{ object.series }}</td>
+    <td>
+      {% if object.series %}
+      <ul>
+        {% for series in object.series.all %}
+        <li>{{ series.name }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </td>
   </tr>
 </table>
 
@@ -199,7 +205,6 @@
       <th>condition</th>
       <th>condition_notes</th>
       <th>display_lens</th>
-      <th>owner</th>
     </tr>
     {% for camera in cameramodel.camera_set.all %}
     <tr>
@@ -218,7 +223,6 @@
       <td>{{ camera.condition }}</td>
       <td>{{ camera.condition_notes }}</td>
       <td>{{ camera.display_lens }}</td>
-      <td>{{ camera.owner }}</td>
     </tr>
     {% endfor %}
   </table>

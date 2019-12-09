@@ -4,7 +4,7 @@
 <table>
   <tr>
     <th>Manufacturer</th>
-    <td>{{ object.manufacturer }}</td>
+    <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Model</th>
@@ -12,7 +12,7 @@
   </tr>
   <tr>
     <th>Negative size</th>
-    <td>{{ object.negative_size }}</td>
+    <td>{% if object.negative_size %}<a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Type</th>
@@ -45,10 +45,6 @@
   <tr>
     <th>Lost price</th>
     <td>{{ object.lost_price }}</td>
-  </tr>
-  <tr>
-    <th></th>
-    <td>{{ object.owner }}</td>
   </tr>
 </table>
 {% endblock %}

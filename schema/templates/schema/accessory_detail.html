@@ -8,7 +8,7 @@
   </tr>
   <tr>
     <th>Manufacturer</th>
-    <td>{{ object.manufacturer }}</td>
+    <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Model</th>
@@ -32,11 +32,11 @@
   </tr>
   <tr>
     <th>Camera model compatibility</th>
-    <td>{{ object.camera_model_compatibility }}</td>
+    <td>{{ object.camera_model_compatibility.all|join:", " }}</td>
   </tr>
   <tr>
     <th>Lens model compatibility</th>
-    <td>{{ object.lens_model_compatibility }}</td>
+    <td>{{ object.lens_model_compatibility.all|join:", " }}</td>
   </tr>
 </table>
 {% endblock %}

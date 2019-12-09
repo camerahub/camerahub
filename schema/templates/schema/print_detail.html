@@ -4,7 +4,7 @@
 <table>
   <tr>
     <th>Negative</th>
-    <td>{{ object.negative }}</td>
+    <td>{% if object.negative %}<a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Date</th>
@@ -12,7 +12,7 @@
   </tr>
   <tr>
     <th>Paperstock</th>
-    <td>{{ object.paper_stock }}</td>
+    <td>{% if object.paper_stock %}<a href="{% url 'paper_stock-detail' object.paper_stock.id %}">{{ object.paper_stock }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Height</th>
@@ -40,7 +40,7 @@
   </tr>
   <tr>
     <th>Toner</th>
-    <td>{{ object.toner }}</td>
+    <td>{{ object.toner.all|join:", " }}</td>
   </tr>
   <tr>
     <th>Own</th>
@@ -64,7 +64,7 @@
   </tr>
   <tr>
     <th>Developer</th>
-    <td>{{ object.developer }}</td>
+    <td>{% if object.developer %}<a href="{% url 'developer-detail' object.developer.id %}">{{ object.developer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Fine</th>
@@ -76,15 +76,11 @@
   </tr>
   <tr>
     <th>Archive</th>
-    <td>{{ object.archive }}</td>
+    <td>{% if object.archive %}<a href="{% url 'archive-detail' object.archive.id %}">{{ object.archive }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Printer</th>
     <td>{{ object.printer }}</td>
-  </tr>
-  <tr>
-    <th>Owner</th>
-    <td>{{ object.owner }}</td>
   </tr>
 </table>
 {% endblock %}

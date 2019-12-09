@@ -4,7 +4,7 @@
 <table>
   <tr>
     <th>Filmstock</th>
-    <td>{{ object.filmstock }}</td>
+    <td>{% if object.filmstock %}<a href="{% url 'filmstock-detail' object.filmstock.id %}">{{ object.filmstock }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Exposed at</th>
@@ -12,7 +12,7 @@
   </tr>
   <tr>
     <th>Film format</th>
-    <td>{{ object.format }}</td>
+    <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Date loaded</th>
@@ -24,7 +24,7 @@
   </tr>
   <tr>
     <th>Camera</th>
-    <td>{{ object.camera }}</td>
+    <td>{% if object.camera %}<a href="{% url 'camera-detail' object.camera.id %}">{{ object.camera }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Title</th>
@@ -36,7 +36,7 @@
   </tr>
   <tr>
     <th>Developer</th>
-    <td>{{ object.developer }}</td>
+    <td>{% if object.developer %}<a href="{% url 'developer-detail' object.developer.id %}">{{ object.developer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Directory</th>
@@ -88,15 +88,11 @@
   </tr>
   <tr>
     <th>Processed by</th>
-    <td>{{ object.processed_by }}</td>
+    <td>{% if object.processed_by %}<a href="{% url 'person-detail' object.processed_by.id %}">{{ object.processed_by }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Archive</th>
-    <td>{{ object.archive }}</td>
-  </tr>
-  <tr>
-    <th>Owner</th>
-    <td>{{ object.owner }}</td>
+    <td>{% if object.archive %}<a href="{% url 'archive-detail' object.archive.id %}">{{ object.archive }}</a>{% endif %}</td>
   </tr>
 </table>
 
