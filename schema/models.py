@@ -1143,6 +1143,8 @@ class Repair(models.Model):
   summary = models.CharField(help_text='Brief summary of the repair', max_length=100)
   detail = models.CharField(help_text='Longer description of the repair', max_length=500, blank=True, null=True)
   owner = CurrentUserField()
+  def __str__(self):
+    return "#%i" % (self.pk)
   class Meta:
     ordering = ['date']
     verbose_name_plural = "repairs"
