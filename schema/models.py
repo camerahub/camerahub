@@ -1188,7 +1188,7 @@ class Order(models.Model):
   recipient = models.ForeignKey(Person, on_delete=models.CASCADE, help_text='Person who placed this order')
   owner = CurrentUserField()
   def __str__(self):
-    return self.pk
+    return "#%i" % (self.pk)
   class Meta:
     ordering = ['added']
     verbose_name_plural = "orders"
