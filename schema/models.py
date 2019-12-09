@@ -405,6 +405,8 @@ class Process(models.Model):
     verbose_name_plural = "processes"
   def get_absolute_url(self):
     return reverse('process-detail', kwargs={'pk': self.pk})
+  def description(self):
+    return 'Processes are methods of developing film or prints'
 
 # Table to catalog teleconverters (multipliers)
 class Teleconverter(models.Model):
