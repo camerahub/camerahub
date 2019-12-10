@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_createsuperuserwithpassword',
     'django_tables2',
     'accounts.apps.AccountsConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -140,7 +141,9 @@ STATIC_URL = '/static/'
 
 FAVICON_PATH = STATIC_URL + 'favicon.ico'
 
-DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap.html"
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
