@@ -97,7 +97,10 @@ class FlashProtocolTable(tables.Table):
         model = FlashProtocol
         exclude = ('id', 'manufacturer',)
     def render_name(self, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('flashprotocol-detail', args=[record.id]), record.manufacturer, value)
+        if record.manufacturer is not None:
+            return format_html("<a href=\"{}\">{} {}</a>", reverse('flashprotocol-detail', args=[record.id]), record.manufacturer, value)
+        else:
+            return format_html("<a href=\"{}\">{}</a>", reverse('flashprotocol-detail', args=[record.id]), value)
 
 class FormatTable(tables.Table):
     class Meta:
