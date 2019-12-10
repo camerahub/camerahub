@@ -1,4 +1,5 @@
 {% extends "base_generic.html" %}
+{% load crispy_forms_tags %}
 
 {% block heading %}{% include "heading.html" %}{%endblock%}
 
@@ -6,7 +7,7 @@
 
 {% block content %}
 <form method="post">{% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <input type="submit" value="Update">
 </form>
 {% endblock %}
