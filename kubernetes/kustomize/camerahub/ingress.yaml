@@ -1,13 +1,13 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: photodb
+  name: camerahub
 spec:
   rules:
   - http:
     # host: myingress.com
       paths:
       - backend:
-          serviceName: photodb
+          serviceName: camerahub
           servicePort: 8000
         path: /

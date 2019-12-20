@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: django
-          image: djjudas21/photodb:latest
+          image: djjudas21/camerahub:latest
           command: ['python', 'manage.py', 'migrate']
           env:
           - name: DB_USER
@@ -30,7 +30,7 @@ spec:
           - name: DB_NAME
             valueFrom:
               configMapKeyRef:
-                name: photodb-config
+                name: camerahub-config
                 key: db_name
           - name: DB_PORT
             value: '5432'
