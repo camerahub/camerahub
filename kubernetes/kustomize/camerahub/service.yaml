@@ -2,11 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: photodb
-  name: photodb
+    app: camerahub
+  name: camerahub
 spec:
   ports:
   - port: 8000
     protocol: TCP
   selector:
-    app: photodb-container
+    app: camerahub-container

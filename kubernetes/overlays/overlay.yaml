@@ -19,20 +19,20 @@ data:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: photodb
+  name: camerahub
   annotations:
     kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
-  - host: myingress.com
+  - host: camerahub.info
     http:
       paths:
       - path: /
         backend:
-          serviceName: photodb
+          serviceName: camerahub
           servicePort: 8000
   tls:
   - hosts:
     - myingress.com
-    secretName: photodb-ingress-cert
+    secretName: camerahub-ingress-cert
