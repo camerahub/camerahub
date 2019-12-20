@@ -1,6 +1,6 @@
 # Installing from source
 
-This method of installation is required if you want to work on the source code. To install PhotoDB from source, clone this repo and run
+This method of installation is required if you want to work on the source code. To install CameraHub from source, clone this repo and run
 these steps to create a virtualenv with all the dependencies:
 
 ```sh
@@ -11,7 +11,7 @@ source venv/bin/activate
 pip install .
 ```
 
-PhotoDB will run out of the box with no additional configuration, by creating an SQLite database in its own directory.
+CameraHub will run out of the box with no additional configuration, by creating an SQLite database in its own directory.
 
 If you wish to use an external database then copy `photodb/local_settings/local_settings.py.template` to
 `photodb/local_settings/local_settings.py` and customise the database settings for your environment.
@@ -23,7 +23,7 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-To run PhotoDB, run:
+To run CameraHub, run:
 
 ```sh
 # Use default SQLite database

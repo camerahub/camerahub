@@ -1,23 +1,23 @@
-# PhotoDB
+# CameraHub
 
-PhotoDB is a web app for film photography that can be used to track cameras, lenses, accessories, films, negatives and prints, to fully
+CameraHub is a web app for film photography that can be used to track cameras, lenses, accessories, films, negatives and prints, to fully
 catalogue a collection of photographic equipment as well as the pictures that are made with them. Read the [Concepts](docs/CONCEPTS.md)
-section for full details on the capabilities of PhotoDB.
+section for full details on the capabilities of CameraHub.
 
-It replaces an earlier command-line project, also called [PhotoDB](https://github.com/djjudas21/photodb-perl), which has now been deprecated.
+It replaces an earlier command-line project, also called [CameraHub](https://github.com/djjudas21/photodb-perl), which has now been deprecated.
 
-## Installing PhotoDB
+## Installing CameraHub
 
-There are several ways of installing PhotoDB, depending on your needs:
+There are several ways of installing CameraHub, depending on your needs:
 
 * With Pip
 * [From source](docs/INSTALL_SOURCE.md)
 * [With Docker](docs/INSTALL-DOCKER.md)
 * [With Kubernetes](docs/INSTALL-KUBERNETES.md)
 
-## Configuring PhotoDB
+## Configuring CameraHub
 
-PhotoDB requires no additional config to run with default settings. However it is **insecure** in this configuration so at least `SECRET_KEY` and
+CameraHub requires no additional config to run with default settings. However it is **insecure** in this configuration so at least `SECRET_KEY` and
 `DJANGO_PROD` must be set if you are running in production.
 
 The following environment variables are supported:

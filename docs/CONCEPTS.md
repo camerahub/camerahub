@@ -2,26 +2,26 @@
 
 ### Introduction
 
-PhotoDB is a database and application for cataloguing film cameras, lenses, accessories, films, negatives and prints - as well a range of other information
+CameraHub is a database and application for cataloguing film cameras, lenses, accessories, films, negatives and prints - as well a range of other information
 such as exhibitions, orders, and darkroom chemicals.
 
-PhotoDB is strictly governed by relational database principles which can make it seem fiddly and complicated to use, but this structured data gives PhotoDB
-its power. The data is all stored in a database backend and managed by the PhotoDB app, which does its best to be helpful when adding data and hopefully hide
-most of the sharp edges from the user. This guide tries to explain the key concepts behind PhotoDB. There are also some [screenshots](SCREENSHOTS.md) to 
-illustrate how to use PhotoDB.
+CameraHub is strictly governed by relational database principles which can make it seem fiddly and complicated to use, but this structured data gives CameraHub
+its power. The data is all stored in a database backend and managed by the CameraHub app, which does its best to be helpful when adding data and hopefully hide
+most of the sharp edges from the user. This guide tries to explain the key concepts behind CameraHub. There are also some [screenshots](SCREENSHOTS.md) to 
+illustrate how to use CameraHub.
 
 ### User data
 
-Out of the box, PhotoDB is mostly empty, ready for you to enter your own data. However if you install PhotoDB in the recommended way, it comes with some pre-
+Out of the box, CameraHub is mostly empty, ready for you to enter your own data. However if you install CameraHub in the recommended way, it comes with some pre-
 filled data e.g. about manufacturers, film emulsions, film sizes, metering modes, etc, to get you up and running faster. In many cases you'll want to add to
 this data to suit your own needs but you shouldn't need to edit anything that already exists.
 
-Normally, you shouldn't need to go out of your way to add this type of data, as PhotoDB will prompt you if you need to add it inline while adding cameras,
+Normally, you shouldn't need to go out of your way to add this type of data, as CameraHub will prompt you if you need to add it inline while adding cameras,
 lenses, films, etc.
 
 #### Unique identifiers
 
-Every object registered in PhotoDB (e.g. camera, lenses, films, negatives, etc) is allocated a unique ID number, starting at 1 and counting up. This number is
+Every object registered in CameraHub (e.g. camera, lenses, films, negatives, etc) is allocated a unique ID number, starting at 1 and counting up. This number is
 used to reference other objects. This number is often prefixed with a `#` for readability, e.g. _Film #99_.
 
 One exception where alternative naming is also used is for negatives. A negative might have an ID of #100 but it may also be referred to in the format 18/6,
@@ -30,10 +30,10 @@ to handle negatives in the darkroom.
 
 #### Camera and lens models
 
-PhotoDB makes the distinction between a camera model (any model of camera or lens that exists) and a camera or lens that is actually in your collection. This
+CameraHub makes the distinction between a camera model (any model of camera or lens that exists) and a camera or lens that is actually in your collection. This
 is because it is possible for you to own two cameras of the same model, and saves having to duplicate much of the information.
 
-Camera and lens models are the central component of PhotoDB. Camera and lens models can relate to each other in one of two ways:
+Camera and lens models are the central component of CameraHub. Camera and lens models can relate to each other in one of two ways:
 
 * directly, for fixed-lens cameras (e.g. compacts)
 * via a lens mount, for interchangeable-lens cameras (e.g. SLRs)
@@ -49,20 +49,20 @@ yes/no (like whether a lens has autofocus) and some are multiple choice (like th
 
 #### Films and negatives
 
-If you use the cameras and lenses to take photographs, you'll want to start entering information about films and negatives into PhotoDB. The word _negatives_
+If you use the cameras and lenses to take photographs, you'll want to start entering information about films and negatives into CameraHub. The word _negatives_
 is a bit misleading as it refers to any image taken with a camera, including slides - which are positive!
 
-PhotoDB lets you record a stash of films, which you can then load into a camera. Films are associated with a camera. They can be developed with a developer and
+CameraHub lets you record a stash of films, which you can then load into a camera. Films are associated with a camera. They can be developed with a developer and
 archived in an archive.
 
 When you take pictures, we recommend you take notes about your exposures using a smartphone app, a piece of paper, or what ever method suits you. Then you can
-enter the data into PhotoDB at a later date. Negatives are associated with films and inherit some of their properties from the film they belong to.
+enter the data into CameraHub at a later date. Negatives are associated with films and inherit some of their properties from the film they belong to.
 
 Negatives are also associated with a lens, as on many cameras it is possible to change lens between exposures.
 
 #### Prints
 
-Whether you have a darkroom, or you get your negatives printed at a lab, PhotoDB can track your prints. Prints are associated with the negative they were made
+Whether you have a darkroom, or you get your negatives printed at a lab, CameraHub can track your prints. Prints are associated with the negative they were made
 from. You'll be able to add other info about how the print was made.
 
 You can also record orders for prints and record sales.
@@ -72,11 +72,11 @@ You can also record orders for prints and record sales.
 Scans refer to digital versions of negatives, slides or prints that can be made with a scanner or a digital camera. Each negative/slide/print can be scanned
 more than once. Each scan must be recorded separately.
 
-In a future version of PhotoDB, this app will introduce an API that can be used by a client-side tagger to tag your JPG scans.
+In a future version of CameraHub, this app will introduce an API that can be used by a client-side tagger to tag your JPG scans.
 
 #### Accessories
 
-PhotoDB allows you to track your collection of camera and lens accessories, too. There are several "special" kinds of accessories that have their own
+CameraHub allows you to track your collection of camera and lens accessories, too. There are several "special" kinds of accessories that have their own
 properties, commands and relationships, and there are general accessories with no special properties. You can create your own types of general accessory.
 
 Special types of accessory with their own properties include:

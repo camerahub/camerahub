@@ -1,6 +1,6 @@
 ## Development
 
-PhotoDB is written in [Python](https://www.python.org/) using the [Django](https://www.djangoproject.com/) framework. Despite having a complex
+CameraHub is written in [Python](https://www.python.org/) using the [Django](https://www.djangoproject.com/) framework. Despite having a complex
 data model, the app itself is quite simple.
 
 Bugs and feature requests should be raised in the [issue tracker](https://github.com/djjudas21/photodb/issues). All feature suggestions will be considered
@@ -10,7 +10,7 @@ Features should be developed in branches and submitted via pull request. Pull re
 
 ### Development environment
 
-Fork and clone PhotoDB, then do the following to set up your development environment:
+Fork and clone CameraHub, then do the following to set up your development environment:
 
 ```sh
 pip install -r requirements.txt
@@ -18,9 +18,9 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-PhotoDB will run out of the box with no additional configuration, by creating an Sqlite database in its own directory.
+CameraHub will run out of the box with no additional configuration, by creating an Sqlite database in its own directory.
 
-Run PhotoDB by using the integrated web server. Editing and saving the code will cause the server to reload so you can test your changes.
+Run CameraHub by using the integrated web server. Editing and saving the code will cause the server to reload so you can test your changes.
 
 ```sh
 python manage.py runserver

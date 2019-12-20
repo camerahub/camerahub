@@ -1,4 +1,4 @@
-# PhotoDB
+# CameraHub
 FROM python:3-alpine
 LABEL maintainer "Jonathan Gazeley"
 

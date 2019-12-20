@@ -6,7 +6,7 @@
     Welcome</h1>{%endblock%}
 
 {% block content %}
-<p>Welcome to PhotoDB - an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
+<p>Welcome to CameraHub - an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
 {% if user.is_authenticated %}
 {% else %}
 <p><a href="{% url 'login' %}">Login</a> to start tracking your own collection!</p>
