@@ -27,7 +27,7 @@ kubectl apply -k .
 Run the following command to get the IP address that CameraHub is running on:
 
 ```sh
-kubectl get -o jsonpath="{.spec.clusterIP}" service photodb
+kubectl get -o jsonpath="{.spec.clusterIP}" service camerahub
 ```
 
 Then navigate to it by IP address, like [http://1.2.3.4:8000](http://1.2.3.4:8000). Login with default username `admin` and password `admin`.
