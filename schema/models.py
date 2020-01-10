@@ -498,7 +498,7 @@ class BulkFilm(models.Model):
   owner = CurrentUserField()
   id_owner = AutoSequenceField(unique_with='owner')
   def __str__(self):
-    return "#%s %s %s" % (self.pk, self.filmstock.manufacturer.name, self.filmstock.name)
+    return "#%s %s %s" % (self.id_owner, self.filmstock.manufacturer.name, self.filmstock.name)
   class Meta:
     verbose_name_plural = "bulk films"
   def get_absolute_url(self):
@@ -1011,7 +1011,7 @@ class Film(models.Model):
   owner = CurrentUserField()
   id_owner = AutoSequenceField(unique_with='owner')
   def __str__(self):
-    return "#%i %s" % (self.pk, self.title)
+    return "#%i %s" % (self.id_owner, self.title)
   class Meta:
     verbose_name_plural = "films"
   def clean(self):
@@ -1123,7 +1123,7 @@ class Print(models.Model):
   owner = CurrentUserField()
   id_owner = AutoSequenceField(unique_with='owner')
   def __str__(self):
-    return "#%i" % (self.pk)
+    return "#%i" % (self.id_owner)
   class Meta:
     verbose_name_plural = "prints"
   def clean(self):
@@ -1163,7 +1163,7 @@ class Repair(models.Model):
   owner = CurrentUserField()
   id_owner = AutoSequenceField(unique_with='owner')
   def __str__(self):
-    return "#%i" % (self.pk)
+    return "#%i" % (self.id_owner)
   class Meta:
     ordering = ['date']
     verbose_name_plural = "repairs"
@@ -1211,7 +1211,7 @@ class Order(models.Model):
   owner = CurrentUserField()
   id_owner = AutoSequenceField(unique_with='owner')
   def __str__(self):
-    return "#%i" % (self.pk)
+    return "#%i" % (self.id_owner)
   class Meta:
     ordering = ['added']
     verbose_name_plural = "orders"
