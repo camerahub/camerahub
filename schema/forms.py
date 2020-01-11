@@ -1,4 +1,6 @@
 from django.forms import ModelForm
+from django import forms
+from django_currentuser.middleware import (get_current_user, get_current_authenticated_user)
 
 from .models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from .models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
@@ -26,6 +28,10 @@ class BulkFilmForm(ModelForm):
         fields = '__all__'
 
 class CameraForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CameraForm, self).__init__(*args, **kwargs)
+        self.fields['lens'].queryset = Lens.objects.filter(owner = get_current_user())
+        self.fields['display_lens'].queryset = Lens.objects.filter(owner = get_current_user())
     class Meta:
         model = Camera
         fields = '__all__'
@@ -101,6 +107,11 @@ class NegativeSizeForm(ModelForm):
         fields = '__all__'
 
 class OrderForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(OrderForm, self).__init__(*args, **kwargs)
+        self.fields['negative'].queryset = Negative.objects.filter(owner = get_current_user())
+        self.fields['print'].queryset = Print.objects.filter(owner = get_current_user())
+        self.fields['recipient'].queryset = Person.objects.filter(owner = get_current_user())
     class Meta:
         model = Order
         fields = '__all__'
@@ -116,6 +127,13 @@ class PersonForm(ModelForm):
         fields = '__all__'
 
 class PrintForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PrintForm, self).__init__(*args, **kwargs)
+        self.fields['negative'].queryset = Negative.objects.filter(owner = get_current_user())
+        self.fields['enlarger'].queryset = Enlarger.objects.filter(owner = get_current_user())
+        self.fields['lens'].queryset = Lens.objects.filter(owner = get_current_user())
+        self.fields['archive'].queryset = Archive.objects.filter(owner = get_current_user())
+        self.fields['printer'].queryset = Person.objects.filter(owner = get_current_user())
     class Meta:
         model = Print
         fields = '__all__'
@@ -126,21 +144,43 @@ class ProcessForm(ModelForm):
         fields = '__all__'
 
 class RepairForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RepairForm, self).__init__(*args, **kwargs)
+        self.fields['camera'].queryset = Camera.objects.filter(owner = get_current_user())
+        self.fields['lens'].queryset = Lens.objects.filter(owner = get_current_user())
     class Meta:
         model = Repair
         fields = '__all__'
 
 class ScanForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ScanForm, self).__init__(*args, **kwargs)
+        self.fields['negative'].queryset = Negative.objects.filter(owner = get_current_user())
+        self.fields['print'].queryset = Print.objects.filter(owner = get_current_user())
     class Meta:
         model = Scan
         fields = '__all__'
 
 class NegativeForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(NegativeForm, self).__init__(*args, **kwargs)
+        self.fields['film'].queryset = Film.objects.filter(owner = get_current_user())
+        self.fields['lens'].queryset = Lens.objects.filter(owner = get_current_user())
+        self.fields['mount_adapter'].queryset = MountAdapter.objects.filter(owner = get_current_user())
+        self.fields['film'].queryset = Film.objects.filter(owner = get_current_user())
+        self.fields['photographer'].queryset = Person.objects.filter(owner = get_current_user())
+        self.fields['copy_of'].queryset = Negative.objects.filter(owner = get_current_user())
     class Meta:
         model = Negative
         fields = '__all__'
 
 class FilmForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(FilmForm, self).__init__(*args, **kwargs)
+        self.fields['camera'].queryset = Camera.objects.filter(owner = get_current_user())
+        self.fields['bulk_film'].queryset = BulkFilm.objects.filter(owner = get_current_user())
+        self.fields['processed_by'].queryset = Person.objects.filter(owner = get_current_user())
+        self.fields['archive'].queryset = Archive.objects.filter(owner = get_current_user())
     class Meta:
         model = Film
         fields = '__all__'
