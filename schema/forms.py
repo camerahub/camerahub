@@ -11,11 +11,13 @@ class AccessoryForm(ModelForm):
     class Meta:
         model = Accessory
         fields = '__all__'
+        exclude = ['owner']
 
 class ArchiveForm(ModelForm):
     class Meta:
         model = Archive
         fields = '__all__'
+        exclude = ['owner']
 
 class BatteryForm(ModelForm):
     class Meta:
@@ -26,6 +28,7 @@ class BulkFilmForm(ModelForm):
     class Meta:
         model = BulkFilm
         fields = '__all__'
+        exclude = ['owner']
 
 class CameraForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -35,6 +38,7 @@ class CameraForm(ModelForm):
     class Meta:
         model = Camera
         fields = '__all__'
+        exclude = ['owner']
 
 class CameraModelForm(ModelForm):
     class Meta:
@@ -50,21 +54,25 @@ class EnlargerForm(ModelForm):
     class Meta:
         model = Enlarger
         fields = '__all__'
+        exclude = ['owner']
 
 class FilmStockForm(ModelForm):
     class Meta:
         model = FilmStock
         fields = '__all__'
+        exclude = ['owner']
 
 class FilterForm(ModelForm):
     class Meta:
         model = Filter
         fields = '__all__'
+        exclude = ['owner']
 
 class FlashForm(ModelForm):
     class Meta:
         model = Flash
         fields = '__all__'
+        exclude = ['owner']
 
 class FlashProtocolForm(ModelForm):
     class Meta:
@@ -80,6 +88,7 @@ class LensForm(ModelForm):
     class Meta:
         model = Lens
         fields = '__all__'
+        exclude = ['owner']
 
 class LensModelForm(ModelForm):
     class Meta:
@@ -100,6 +109,7 @@ class MountAdapterForm(ModelForm):
     class Meta:
         model = MountAdapter
         fields = '__all__'
+        exclude = ['owner']
 
 class NegativeSizeForm(ModelForm):
     class Meta:
@@ -115,6 +125,7 @@ class OrderForm(ModelForm):
     class Meta:
         model = Order
         fields = '__all__'
+        exclude = ['owner']
 
 class PaperStockForm(ModelForm):
     class Meta:
@@ -125,6 +136,7 @@ class PersonForm(ModelForm):
     class Meta:
         model = Person
         fields = '__all__'
+        exclude = ['owner']
 
 class PrintForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -137,6 +149,7 @@ class PrintForm(ModelForm):
     class Meta:
         model = Print
         fields = '__all__'
+        exclude = ['owner']
 
 class ProcessForm(ModelForm):
     class Meta:
@@ -151,6 +164,7 @@ class RepairForm(ModelForm):
     class Meta:
         model = Repair
         fields = '__all__'
+        exclude = ['owner']
 
 class ScanForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -160,6 +174,7 @@ class ScanForm(ModelForm):
     class Meta:
         model = Scan
         fields = '__all__'
+        exclude = ['owner']
 
 class NegativeForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -173,6 +188,7 @@ class NegativeForm(ModelForm):
     class Meta:
         model = Negative
         fields = '__all__'
+        exclude = ['owner']
 
 class FilmForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -189,11 +205,13 @@ class SeriesForm(ModelForm):
     class Meta:
         model = Series
         fields = '__all__'
+        exclude = ['owner']
 
 class TeleconverterForm(ModelForm):
     class Meta:
         model = Teleconverter
         fields = '__all__'
+        exclude = ['owner']
 
 class TonerForm(ModelForm):
     class Meta:
