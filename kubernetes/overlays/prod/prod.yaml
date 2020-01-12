@@ -19,3 +19,15 @@ spec:
   - hosts:
     - myingress.com
     secretName: camerahub-ingress-cert
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camerahub
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+      - image: djjudas21/camerahub:latest
+        name: camerahub
