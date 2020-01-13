@@ -17,8 +17,10 @@ There are several ways of installing CameraHub, depending on your needs:
 
 ## Configuring CameraHub
 
-CameraHub requires no additional config to run with default settings. However it is **insecure** in this configuration so at least `SECRET_KEY` and
+CameraHub requires almost no additional config to run with default settings. However it is insecure in this configuration so at least `SECRET_KEY` and
 `DJANGO_PROD` must be set if you are running in production.
+
+`SENDGRID_API_KEY` must be provided or CameraHub will not start.
 
 The following environment variables are supported:
 
@@ -30,6 +32,7 @@ The following environment variables are supported:
 * `DB_PASS` - database password
 * `DB_HOST` - database hostname or IP address
 * `DB_PORT` - database port
+* `SENDGRID_API_KEY` - API key for Sendgrid email backend
 
 ## See also
 
