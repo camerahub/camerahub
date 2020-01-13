@@ -38,9 +38,6 @@ ENV UWSGI_STATIC_MAP="/static/=/var/www/camerahub/static/" UWSGI_STATIC_EXPIRES_
 # Run migrations
 RUN python manage.py migrate
 
-# Create superuser
-RUN python manage.py createsuperuserwithpassword --username admin --password admin --email admin@example.com --preserve
-
 # Server
 EXPOSE 8000
 STOPSIGNAL SIGINT
