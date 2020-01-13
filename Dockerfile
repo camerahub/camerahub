@@ -36,7 +36,7 @@ ENV UWSGI_STATIC_MAP="/static/=/var/www/camerahub/static/" UWSGI_STATIC_EXPIRES_
 # ENV UWSGI_ROUTE_HOST="^(?!localhost:8000$) break:400"
 
 # Run migrations
-RUN python manage.py migrate
+ENV DJANGO_MANAGEPY_MIGRATE=on
 
 # Server
 EXPOSE 8000
