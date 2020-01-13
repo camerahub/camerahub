@@ -150,4 +150,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Email support with Sendgrid
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-SENDGRID_API_KEY = env('SENDGRID_API_KEY', required=True)
+SENDGRID_API_KEY = env('SENDGRID_API_KEY', 'OverrideMe!')
