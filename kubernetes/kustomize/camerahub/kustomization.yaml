@@ -1,5 +1,4 @@
 resources:
-- batch.yaml
 - configmap.yaml
 - deployment.yaml
 - ingress.yaml
