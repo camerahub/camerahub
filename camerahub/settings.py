@@ -21,10 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY', 'OverrideMe!'),
+SECRET_KEY = env('CAMERAHUB_SECRET_KEY', 'OverrideMe!'),
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.getenv('DJANGO_PROD') == 'true':
+if os.getenv('CAMERAHUB_PROD') == 'true':
     DEBUG = False
     ALLOWED_HOSTS = ['*']
 else:
@@ -86,16 +86,16 @@ WSGI_APPLICATION = 'camerahub.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-# Configure databases by setting env vars DB_*
+# Configure databases by setting env vars CAMERAHUB_DB_*
 
 DATABASES = {
     'default': {
-        'ENGINE': env('DB_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': env('DB_NAME', os.path.join(BASE_DIR, 'db', 'db.sqlite3')),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASS'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
+        'ENGINE': env('CAMERAHUB_DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': env('CAMERAHUB_DB_NAME', os.path.join(BASE_DIR, 'db', 'db.sqlite3')),
+        'USER': env('CAMERAHUB_DB_USER'),
+        'PASSWORD': env('CAMERAHUB_DB_PASS'),
+        'HOST': env('CAMERAHUB_DB_HOST'),
+        'PORT': env('CAMERAHUB_DB_PORT'),
     }
 }
 
@@ -149,4 +149,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Email support with Sendgrid
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-SENDGRID_API_KEY = env('SENDGRID_API_KEY', 'OverrideMe!')
+SENDGRID_API_KEY = env('CAMERAHUB_SENDGRID_API_KEY', 'OverrideMe!')

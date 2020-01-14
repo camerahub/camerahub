@@ -17,23 +17,23 @@ There are several ways of installing CameraHub, depending on your needs:
 
 ## Configuring CameraHub
 
-CameraHub requires almost no additional config to run with default settings. However it is insecure in this configuration so at least `SECRET_KEY` and
-`DJANGO_PROD` must be set if you are running in production.
+CameraHub requires almost no additional config to run with default settings. However it is insecure in this configuration so at least `CAMERAHUB_SECRET_KEY` and
+`CAMERAHUB_PROD` must be set if you are running in production.
 
-`SENDGRID_API_KEY` must be provided or CameraHub will not start.
+`CAMERAHUB_SENDGRID_API_KEY` must be provided or CameraHub will not start.
 
 The following environment variables are supported:
 
-* `SECRET_KEY` - a large random value to be kept secret. Generate [here](https://miniwebtool.com/django-secret-key-generator/)
-* `ADMIN_PASSWORD` - the value of the password for the `admin` account. Defaults to `admin`
-* `DJANGO_PROD` - set to `true` to enable production mode. Defaults to `false` when running from source and `true` when running in Docker
-* `DB_ENGINE` - the database engine (default `django.db.backends.sqlite3`)
-* `DB_NAME` - the name of the database schema, or path to the SQLite db file (default `db/db.sqlite3`)
-* `DB_USER` - database username
-* `DB_PASS` - database password
-* `DB_HOST` - database hostname or IP address
-* `DB_PORT` - database port
-* `SENDGRID_API_KEY` - API key for Sendgrid email backend
+* `CAMERAHUB_SECRET_KEY` - a large random value to be kept secret. Generate [here](https://miniwebtool.com/django-secret-key-generator/)
+* `CAMERAHUB_ADMIN_PASSWORD` - the value of the password for the `admin` account. Defaults to `admin`
+* `CAMERAHUB_PROD` - set to `true` to enable production mode. Defaults to `false` when running from source and `true` when running in Docker
+* `CAMERAHUB_DB_ENGINE` - the database engine (default `django.db.backends.sqlite3`)
+* `CAMERAHUB_DB_NAME` - the name of the database schema, or path to the SQLite db file (default `db/db.sqlite3`)
+* `CAMERAHUB_DB_USER` - database username
+* `CAMERAHUB_DB_PASS` - database password
+* `CAMERAHUB_DB_HOST` - database hostname or IP address
+* `CAMERAHUB_DB_PORT` - database port
+* `CAMERAHUB_SENDGRID_API_KEY` - API key for Sendgrid email backend
 
 ## See also
 
