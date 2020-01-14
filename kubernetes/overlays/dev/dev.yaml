@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: camerahub
+spec:
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camerahub
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - image: djjudas21/camerahub:testing
+        name: camerahub

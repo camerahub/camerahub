@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'schema.apps.SchemaConfig',
     'djmoney',
     'favicon',
-    'django_createsuperuserwithpassword',
     'django_tables2',
     'accounts.apps.AccountsConfig',
     'crispy_forms',
