@@ -1,5 +1,5 @@
 bases:
-- ../kustomize
+- ../../kustomize
 
 patchesStrategicMerge:
-- overlay.yaml
+- prod.yaml
