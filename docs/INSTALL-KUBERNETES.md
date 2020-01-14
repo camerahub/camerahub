@@ -13,7 +13,7 @@ It is recommended that you install CameraHub into its own namespace, and not int
 The production Kustomize overlay configures CameraHub as a 2-replica deployment of CameraHub, deployed from the `latest` Docker image,
 which represents the latest stable tag of CameraHub. It uses a single Postgresql replica to store its data. This is not quite
 production-ready, and work is ongoing to engineer this properly. It configures an Ingress resource with an SSL certificate provisioned
-by Letsencrypt.
+by Letsencrypt - for this you will need to install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) before proceeding.
 
 To install CameraHub into Kubernetes using Kustomize, run this:
 
