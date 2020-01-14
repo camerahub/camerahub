@@ -1,12 +1,11 @@
 from __future__ import unicode_literals
 from django.db import migrations, models
-from django.contrib.auth.models import User     # where User lives
-import os                                      # env var accessA
+from django.contrib.auth.models import User
+import os
+from getenv import env
 
 def forwards_func(apps, schema_editor):
-    # build the user you now have access to via Django magic
-    #User.objects.create_superuser('admin', os.getenv('ADMIN_PASSWORD')
-    User.objects.create_superuser('admin', email='admin@example.com', password='admin')
+    User.objects.create_superuser('admin', email='admin@example.com', password=env('ADMIN_PASSWORD', 'admin'))
 
 def reverse_func(apps, schema_editor):
     # destroy what forward_func builds
