@@ -23,6 +23,7 @@ CameraHub requires no additional config to run with default settings. However it
 The following environment variables are supported:
 
 * `SECRET_KEY` - a large random value to be kept secret. Generate [here](https://miniwebtool.com/django-secret-key-generator/)
+* `ADMIN_PASSWORD` - the value of the password for the `admin` account. Defaults to `admin`
 * `DJANGO_PROD` - set to `true` to enable production mode. Defaults to `false` when running from source and `true` when running in Docker
 * `DB_ENGINE` - the database engine (default `django.db.backends.sqlite3`)
 * `DB_NAME` - the name of the database schema, or path to the SQLite db file (default `db/db.sqlite3`)
