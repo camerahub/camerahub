@@ -22,7 +22,8 @@ CameraHub requires almost no additional config to run with default settings. How
 
 The following environment variables are supported:
 
-^ Variable                     ^ Use                                                                                                        ^ Default                                                         ^
+| Variable                     | Use                                                                                                        | Default                                                         |
+|------------------------------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
 | `CAMERAHUB_ADMIN_EMAIL`      | email address for the `admin` account                                                                      | `admin@example.com`                                             |
 | `CAMERAHUB_ADMIN_PASSWORD`   | password for the `admin` account                                                                           | `admin`                                                         |
 | `CAMERAHUB_DB_ENGINE`        | [database engine](https://docs.djangoproject.com/en/3.0/ref/settings/#engine)                              | `django.db.backends.sqlite3`                                    |
