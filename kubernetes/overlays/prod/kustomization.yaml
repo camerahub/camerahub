@@ -7,3 +7,8 @@ bases:
 
 patchesStrategicMerge:
 - prod.yaml
+
+secretGenerator:
+    - name: camerahub-secret
+      env: prod.env
+      behavior: replace

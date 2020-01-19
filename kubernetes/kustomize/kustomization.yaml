@@ -7,3 +7,7 @@ bases:
 - ./postgres
 
 commonLabels:
+
+secretGenerator:
+  - name: camerahub-secret
+    env: camerahub.env
