@@ -21,13 +21,13 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: camerahub-secret
-                  key: postgres-user
+                  key: CAMERAHUB_DB_USER
 
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: camerahub-secret
-                  key: postgres-password
+                  key: CAMERAHUB_DB_PASS
 
             - name: POSTGRES_DB
               valueFrom:
