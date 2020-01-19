@@ -8,6 +8,15 @@ This guide assumes you already have a Kubernetes cluster available.
 
 It is recommended that you install CameraHub into its own namespace, and not into `default`.
 
+## Secrets
+
+Add your own secret environment files (either global or per-environment) with your site-specific config in, using the variables described in
+`README.md`. Your `.env` files won't get added to the git repo due to the `.gitignore` file.
+
+* `kubernetes/kustomize/camerahub.env`
+* `kubernetes/overlays/dev/dev.env`
+* `kubernetes/overlays/prod/prod.env`
+
 ## Production
 
 The production Kustomize overlay configures CameraHub as a 2-replica deployment of CameraHub, deployed from the `latest` Docker image,
