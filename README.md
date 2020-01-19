@@ -34,7 +34,7 @@ The following environment variables are supported:
 | `CAMERAHUB_DB_USER`          | [database username](https://docs.djangoproject.com/en/3.0/ref/settings/#user)                              |                                                                 |
 | `CAMERAHUB_PROD`             | enable [Django production mode](https://docs.djangoproject.com/en/3.0/ref/settings/#debug)                 | `false` when running from source, `true` when running in Docker |
 | `CAMERAHUB_SECRET_KEY`       | random value to be kept secret. Generate [here](https://miniwebtool.com/django-secret-key-generator/)      | `OverrideMe!`                                                   |
-| `CAMERAHUB_SENDGRID_API_KEY` | API key for Sendgrid email backend                                                                         | `OverrideMe!`                                                   |
+| `CAMERAHUB_SENDGRID_API_KEY` | API key for Sendgrid email backend                                                                         |                                                                 |
 
 ## See also
 
