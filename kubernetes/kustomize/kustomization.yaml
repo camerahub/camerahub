@@ -11,3 +11,4 @@ commonLabels:
 secretGenerator:
   - name: camerahub-secret
     env: camerahub.env
+    behavior: replace
