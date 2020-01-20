@@ -30,10 +30,7 @@ spec:
                   key: CAMERAHUB_DB_PASS
 
             - name: POSTGRES_DB
-              valueFrom:
-                secretKeyRef:
-                  name: camerahub-secret
-                  key: CAMERAHUB_DB_NAME
+              value: camerahub
           ports:
             - containerPort: 5432
           volumeMounts:
