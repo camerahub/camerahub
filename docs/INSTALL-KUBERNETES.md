@@ -11,11 +11,15 @@ It is recommended that you install CameraHub into its own namespace, and not int
 ## Secrets
 
 Add your own secret environment files (either global or per-environment) with your site-specific config in, using the variables described in
-`README.md`. Your `.env` files won't get added to the git repo due to the `.gitignore` file.
+[`README.md`](README.md#configuring-camerahub). You can see the Kubernetes default values for these variables in
+[`secret.yaml`](kubernetes/kustomize/camerahub/secret.yaml). 
 
 * `kubernetes/kustomize/camerahub.env`
 * `kubernetes/overlays/dev/dev.env`
 * `kubernetes/overlays/prod/prod.env`
+
+Variables in `dev.env` or `prod.env` override those in `camerahub.env`, and those in `camerahub.env` override the global defaults.
+`.env` files won't get added to the git repo due to the `.gitignore` file.
 
 ## Production
 
