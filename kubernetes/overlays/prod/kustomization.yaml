@@ -11,4 +11,4 @@ patchesStrategicMerge:
 secretGenerator:
     - name: camerahub-secret
       env: prod.env
-      behavior: replace
+      behavior: merge
