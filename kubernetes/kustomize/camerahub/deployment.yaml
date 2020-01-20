@@ -27,34 +27,39 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         env:
-        - name: DB_USER
+        - name: CAMERAHUB_DB_USER
           valueFrom:
             secretKeyRef:
-              name: postgres-credentials
-              key: user
-        - name: DB_PASS
+              name: camerahub-secret
+              key: CAMERAHUB_DB_USER
+        - name: CAMERAHUB_DB_PASS
           valueFrom:
             secretKeyRef:
-              name: postgres-credentials
-              key: password
-        - name: SECRET_KEY
+              name: camerahub-secret
+              key: CAMERAHUB_DB_PASS
+        - name: CAMERAHUB_SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: secret-key
-              key: key
-        - name: DB_HOST
+              name: camerahub-secret
+              key: CAMERAHUB_SECRET_KEY
+        - name: CAMERAHUB_SENDGRID_KEY
+          valueFrom:
+            secretKeyRef:
+              name: camerahub-secret
+              key: CAMERAHUB_SENDGRID_KEY
+        - name: CAMERAHUB_DB_HOST
           value: postgres-service
-        - name: DB_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: camerahub-config
-              key: db_name
-        - name: DB_PORT
+        - name: CAMERAHUB_DB_NAME
+          value: camerahub
+        - name: CAMERAHUB_DB_PORT
           value: '5432'
-        - name: DB_ENGINE
+        - name: CAMERAHUB_DB_ENGINE
           value: django.db.backends.postgresql
-        - name: DJANGO_PROD
-          value: 'true'
+        - name: CAMERAHUB_PROD
+          valueFrom:
+            secretKeyRef:
+              name: camerahub-secret
+              key: CAMERAHUB_PROD
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

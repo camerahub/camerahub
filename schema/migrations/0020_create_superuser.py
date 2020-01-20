@@ -5,7 +5,7 @@ import os
 from getenv import env
 
 def forwards_func(apps, schema_editor):
-    User.objects.create_superuser('admin', email='admin@example.com', password=env('ADMIN_PASSWORD', 'admin'))
+    User.objects.create_superuser('admin', email=env('CAMERAHUB_ADMIN_EMAIL', 'admin@example.com'), password=env('CAMERAHUB_ADMIN_PASSWORD', 'admin'))
 
 def reverse_func(apps, schema_editor):
     # destroy what forward_func builds

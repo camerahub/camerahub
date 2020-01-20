@@ -30,7 +30,7 @@ To run CameraHub, run:
 python manage.py runserver
 
 # Override database
-DB_HOST=localhost DB_ENGINE=django.db.backends.postgresql DB_USER=admin DB_PASS=admin DB_PORT=5432 DB_NAME=camerahub python3 manage.py runserver
+CAMERAHUB_DB_HOST=localhost CAMERAHUB_DB_ENGINE=django.db.backends.postgresql CAMERAHUB_DB_USER=admin CAMERAHUB_DB_PASS=admin CAMERAHUB_DB_PORT=5432 CAMERAHUB_DB_NAME=camerahub python3 manage.py runserver
 ```
 
 and navigate to [http://localhost:8000](http://localhost:8000). Log in with the superuser account you created above.

@@ -17,20 +17,24 @@ There are several ways of installing CameraHub, depending on your needs:
 
 ## Configuring CameraHub
 
-CameraHub requires no additional config to run with default settings. However it is **insecure** in this configuration so at least `SECRET_KEY` and
-`DJANGO_PROD` must be set if you are running in production.
+CameraHub requires almost no additional config to run with default settings. However it is insecure in this configuration so at least `CAMERAHUB_SECRET_KEY` and
+`CAMERAHUB_PROD` must be set if you are running in production.
 
 The following environment variables are supported:
 
-* `SECRET_KEY` - a large random value to be kept secret. Generate [here](https://miniwebtool.com/django-secret-key-generator/)
-* `ADMIN_PASSWORD` - the value of the password for the `admin` account. Defaults to `admin`
-* `DJANGO_PROD` - set to `true` to enable production mode. Defaults to `false` when running from source and `true` when running in Docker
-* `DB_ENGINE` - the database engine (default `django.db.backends.sqlite3`)
-* `DB_NAME` - the name of the database schema, or path to the SQLite db file (default `db/db.sqlite3`)
-* `DB_USER` - database username
-* `DB_PASS` - database password
-* `DB_HOST` - database hostname or IP address
-* `DB_PORT` - database port
+| Variable                     | Use                                                                                              | Default                                          |
+|----------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| `CAMERAHUB_ADMIN_EMAIL`    | email address for the `admin` account                                                            | `admin@example.com`                              |
+| `CAMERAHUB_ADMIN_PASSWORD` | password for the `admin` account                                                                 | `admin`                                          |
+| `CAMERAHUB_DB_ENGINE`      | [database engine](https://docs.djangoproject.com/en/3.0/ref/settings/#engine)                    | `django.db.backends.sqlite3`                     |
+| `CAMERAHUB_DB_HOST`        | [database hostname or IP address](https://docs.djangoproject.com/en/3.0/ref/settings/#host)      |                                                  |
+| `CAMERAHUB_DB_NAME`        | [database schema or path to SQLite db](https://docs.djangoproject.com/en/3.0/ref/settings/#name) | `db/db.sqlite3`                                  |
+| `CAMERAHUB_DB_PASS`        | [database password](https://docs.djangoproject.com/en/3.0/ref/settings/#password)                |                                                  |
+| `CAMERAHUB_DB_PORT`        | [database port](https://docs.djangoproject.com/en/3.0/ref/settings/#port)                        |                                                  |
+| `CAMERAHUB_DB_USER`        | [database username](https://docs.djangoproject.com/en/3.0/ref/settings/#user)                    |                                                  |
+| `CAMERAHUB_PROD`           | enable [Django production mode](https://docs.djangoproject.com/en/3.0/ref/settings/#debug)       | `true` when running in Docker, `false` otherwise |
+| `CAMERAHUB_SECRET_KEY`     | random secret value. Generate [here](https://miniwebtool.com/django-secret-key-generator/)       | `OverrideMe!`                                    |
+| `CAMERAHUB_SENDGRID_KEY`   | API key for Sendgrid email backend                                                               |                                                  |
 
 ## See also
 

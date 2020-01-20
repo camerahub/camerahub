@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: camerahub-config
-data:
-  db_name: camerahub
