@@ -50,10 +50,10 @@ on `localhost` on a high port.
 kubectl apply -k kubernetes/overlays/dev
 ```
 
-Run the following command to get the port that CameraHub is running on:
+Run the following command to get the IP address and port that CameraHub is running on:
 
 ```sh
-kubectl get -o jsonpath="{.spec.ports[0].nodePort}" service camerahub
+kubectl get -o jsonpath="http://{.spec.clusterIP}:{.spec.ports[0].port}" service camerahub
 ```
 
-Then navigate to it, like [http://localhost:32000](http://localhost:32000). Login with default username `admin` and password `admin`.
+Then navigate to it, like [http://10.10.10.10:32000](http://10.10.10.10:32000). Login with default username `admin` and password `admin`.
