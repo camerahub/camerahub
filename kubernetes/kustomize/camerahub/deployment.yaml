@@ -42,11 +42,11 @@ spec:
             secretKeyRef:
               name: camerahub-secret
               key: CAMERAHUB_SECRET_KEY
-        - name: CAMERAHUB_SENDGRID_API_KEY
+        - name: CAMERAHUB_SENDGRID_KEY
           valueFrom:
             secretKeyRef:
               name: camerahub-secret
-              key: CAMERAHUB_SENDGRID_API_KEY
+              key: CAMERAHUB_SENDGRID_KEY
         - name: CAMERAHUB_DB_HOST
           value: postgres-service
         - name: CAMERAHUB_DB_NAME
