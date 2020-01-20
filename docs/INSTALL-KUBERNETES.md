@@ -1,7 +1,5 @@
 # Installing with Kubernetes
 
-_Note: these instructions are a work in progress_
-
 Running CameraHub with Kubernetes is a powerful but complex choice if you want to run CameraHub in the cloud, at scale.
 
 This guide assumes you already have a Kubernetes cluster available.
