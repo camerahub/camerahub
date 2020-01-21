@@ -109,3 +109,4 @@ venv.bak/
 .gitsecret/keys/random_seed
 !*.secret
 *.env
+sent_emails
