@@ -1,4 +1,4 @@
-## Development
+# Development
 
 CameraHub is written in [Python](https://www.python.org/) using the [Django](https://www.djangoproject.com/) framework. Despite having a complex
 data model, the app itself is quite simple.
@@ -8,7 +8,7 @@ but there is no promise of development effort. Contributions of code from the co
 
 Features should be developed in branches and submitted via pull request. Pull requests must pass any relevant CI tests before being accepted.
 
-### Development environment
+## Development environment
 
 Fork and clone CameraHub, then do the following to set up your development environment:
 
@@ -26,7 +26,7 @@ Run CameraHub by using the integrated web server. Editing and saving the code wi
 python manage.py runserver
 ```
 
-### Migrations
+## Migrations
 
 If your work requires changes to the database schema, make these changes by editing `schema/models.py`. Then generate a migration by running
 

@@ -1,4 +1,4 @@
-## Screenshots
+# Screenshots
 
 CameraHub is a complex app, and they say a picture is worth a thousand words. These screenshots illustrate how CameraHub works.
 Be sure to read the [Concepts](CONCEPTS.md) section, too.
