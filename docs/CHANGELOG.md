@@ -35,3 +35,9 @@
 25 Oct 2019
 
 * Use correct var for production mode
+
+## `0.1.5`
+
+21 Jan 2020
+
+* Final release of 0.1.x series to validate CI
