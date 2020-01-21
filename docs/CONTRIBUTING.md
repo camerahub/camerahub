@@ -13,7 +13,7 @@ Features should be developed in branches and submitted via pull request. Pull re
 Fork and clone CameraHub, then do the following to set up your development environment:
 
 ```sh
-pip install -r requirements.txt
+pip install -r .
 python manage.py migrate
 python manage.py createsuperuser
 ```
@@ -43,3 +43,14 @@ python manage.py migrate
 ```
 
 The schema can be reset at any time by deleting `db.sqlite`. After this you will need to reapply all migrations, set up the super user, etc.
+
+## Releases
+
+CameraHub uses [semver](https://semver.org/) versioning. To make a new release:
+
+1. Ensure that everything you need is merged into `master` and all tests are passing
+1. Decide which version number to use by looking at previous versions `git tag`
+1. Add a new section to [CHANGELOG.md](docs/CHANGELOG.md) outlining the new features/fixes
+1. Update references to the version number, e.g. the Docker tag in the Kubernetes [deployment](kubernetes/kustomize/camerahub/deployment.yaml)
+1. Create a new release from `master` in Github which includes the CHANGELOG notes
+1. [Travis CI](https://travis-ci.org/djjudas21/camerahub) will build the release and publish in on [PyPI](https://pypi.org/project/CameraHub) and [Docker Hub](https://hub.docker.com/repository/docker/djjudas21/camerahub)
