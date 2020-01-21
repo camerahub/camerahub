@@ -41,4 +41,5 @@ The following environment variables are supported:
 * [Concepts](docs/CONCEPTS.md)
 * [Screenshots](docs/SCREENSHOTS.md)
 * [Contributing](docs/CONTRIBUTING.md)
+* [Changelog](docs/CHANGELOG.md)
 * [Icons](docs/ICONS.md)

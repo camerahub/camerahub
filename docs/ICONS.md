@@ -1,4 +1,4 @@
-## Icons
+# Icons
 
 Icons for CameraHub were purchased from [Icons8](https://icons8.com/icons) in SVG vector format. At the time of writing, we are using
 the [iOS set](https://icons8.com/icons/ios) in blue. The SVG files are placed unaltered in the `icons/svg/` directory in the root of this project.
