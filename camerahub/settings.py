@@ -151,3 +151,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 if env('CAMERAHUB_SENDGRID_KEY'):
     EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
     SENDGRID_API_KEY = env('CAMERAHUB_SENDGRID_KEY')
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+    EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
