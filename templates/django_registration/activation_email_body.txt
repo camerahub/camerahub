@@ -1,0 +1,4 @@
+Used to generate the body of the activation email. Should display a link the user can click to activate the account. This template has the following context:
+
+
+{{ scheme }}://{{ site}}{% url 'django_registration_activate' activation_key %}
