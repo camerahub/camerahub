@@ -9,7 +9,7 @@
 <p>Welcome to CameraHub - an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
 {% if user.is_authenticated %}
 {% else %}
-<p><a href="{% url 'login' %}">Login</a> to start tracking your own collection!</p>
+<p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'django_registration_register' %}">register</a> to start tracking your own collection!</p>
 <p>Some object types are also available to browse without logging in.</p>
 {% endif %}
 {% endblock %}

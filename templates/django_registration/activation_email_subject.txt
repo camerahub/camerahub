@@ -1,1 +1,1 @@
-{% load i18n %}{% trans "Account activation on CameraHub" %}
+Activate your account on CameraHub
