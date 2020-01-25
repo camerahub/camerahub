@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'djmoney',
     'favicon',
     'django_tables2',
-    'accounts.apps.AccountsConfig',
     'crispy_forms',
 ]
 
