@@ -20,6 +20,7 @@
                 <h1>CameraHub</h1>
                 {% if user.is_authenticated %}
                 <p><a href="{% url 'logout' %}">Logout</a> {{ user.username }}</p>
+                <p><a href="{% url 'password_change' %}">Change password</a></p>
                 {% else %}
                 <p><a href="{% url 'login' %}">Login</a></p>
                 {% endif %}
