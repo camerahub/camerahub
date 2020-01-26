@@ -1,4 +1,4 @@
-{% extends 'base_generic.html' %}
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -8,6 +8,6 @@
   {{ form|crispy }}
   <button type="submit">Login</button>
 </form>
-<p>No account? <a href="{% url 'signup' %}">Sign up</a></Sign> now</p>
+<p>No account? <a href="{% url 'django_registration_register' %}">Register</a> now</p>
 <p>Forgot your password? <a href="{% url 'password_reset' %}">Reset it</a></p>
 {% endblock %}

@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'djmoney',
     'favicon',
     'django_tables2',
-    'accounts.apps.AccountsConfig',
     'crispy_forms',
 ]
 
@@ -154,3 +153,6 @@ if env('CAMERAHUB_SENDGRID_KEY'):
 else:
     EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
     EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
+REGISTRATION_OPEN = True # allow sign-ups

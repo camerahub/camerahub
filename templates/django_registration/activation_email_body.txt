@@ -1,0 +1,7 @@
+You're receiving this email because you registered for an account at CameraHub.
+
+Please go to the following page to activate your account:
+
+{{ scheme }}://{{ site}}{% url 'django_registration_activate' activation_key %}
+
+Thanks for using CameraHub!
