@@ -8,10 +8,11 @@ from math import sqrt
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
 from django.urls import reverse
+from moderation.db import ModeratedModel
 import re
 
 # Create your models here.
-class Manufacturer(models.Model):
+class Manufacturer(ModeratedModel):
   name = models.CharField(help_text='Name of the manufacturer', max_length=45, blank=True, unique=True)
   city = models.CharField(help_text='City in which the manufacturer is based', max_length=45, blank=True, null=True)
   country = models.CharField(help_text='Country in which the manufacturer is based', max_length=45, blank=True, null=True)
@@ -84,7 +85,7 @@ class Archive(models.Model):
     return 'Archives are places where prints, negatives, or slides are stored'
 
 # Table to catalog of types of battery
-class Battery(models.Model):
+class Battery(ModeratedModel):
   name = models.CharField(help_text='Common name of the battery', max_length=45, unique=True)
   voltage = models.DecimalField(help_text='Nominal voltage of the battery', max_digits=5, decimal_places=2, blank=True, null=True)
   chemistry = models.CharField(help_text='Battery chemistry (e.g. Alkaline, Lithium, etc)', max_length=45, blank=True, null=True)
@@ -100,7 +101,7 @@ class Battery(models.Model):
     return 'Batteries are used to power cameras, flashes and other accessories'
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
-class Condition(models.Model):
+class Condition(ModeratedModel):
   code = models.CharField(help_text='Condition shortcode (e.g. EXC)', max_length = 6)
   name = models.CharField(help_text='Full name of condition (e.g. Excellent)', max_length=45)
   min_rating = models.PositiveIntegerField(help_text='The lowest percentage rating that encompasses this condition', validators=[MinValueValidator(0),MaxValueValidator(100)])
@@ -112,7 +113,7 @@ class Condition(models.Model):
     verbose_name_plural = "conditions"
   
 # Exposure programs as defined by EXIF tag ExposureProgram
-class ExposureProgram(models.Model):
+class ExposureProgram(ModeratedModel):
   name = models.CharField(help_text='Name of exposure program as defined by EXIF tag ExposureProgram', max_length=45) 
   def __str__(self):
     return self.name
@@ -120,7 +121,7 @@ class ExposureProgram(models.Model):
     verbose_name_plural = "exposure programs"
 
 # Table to catalog different protocols used to communicate with flashes
-class FlashProtocol(models.Model):
+class FlashProtocol(ModeratedModel):
   name = models.CharField(help_text='Name of the flash protocol', max_length=45) 
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this flash protocol')
   def __str__(self):
@@ -156,7 +157,7 @@ class Filter(models.Model):
     return 'Filters are glass or gelatin attachments for lenses which affect the image in some way'
 
 # Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
-class NegativeSize(models.Model):
+class NegativeSize(ModeratedModel):
   name = models.CharField(help_text='Common name of the negative size (e.g. 35mm, 6x7, etc)', max_length=45, unique=True)
   width = models.DecimalField(help_text='Width of the negative size in mm' ,max_digits=4, decimal_places=1, blank=True, null=True)
   height = models.DecimalField(help_text='Height of the negative size in mm', max_digits=4, decimal_places=1, blank=True, null=True)
@@ -183,7 +184,7 @@ class NegativeSize(models.Model):
     return 'Negative size is the dimensions of an image taken by a camera. It is different from film format as one film format can be used for various different negative sizes.'
 
 # Table to catalogue different film formats. These are distinct from negative sizes.
-class Format(models.Model):
+class Format(ModeratedModel):
   format = models.CharField(help_text='The name of this film/sensor format', max_length=45, unique=True)
   negative_size = models.ManyToManyField(NegativeSize, blank=True)
   def __str__(self):
@@ -330,7 +331,7 @@ class MeteringMode(models.Model):
     verbose_name_plural = "metering modes"
 
 # Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.
-class Mount(models.Model):
+class Mount(ModeratedModel):
 
   # Choices for mount types
   class MountType(DjangoChoices):
@@ -365,7 +366,7 @@ class Mount(models.Model):
     return 'Mounts are physical systems used to attach lenses to cameras (or enlargers, or projectors).'
 
 # Table to catalog different paper stocks available
-class PaperStock(models.Model):
+class PaperStock(ModeratedModel):
   name = models.CharField(help_text='Name of this paper stock', max_length=45)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this paper stock')
   resin_coated = models.BooleanField(help_text='Whether the paper is resin-coated', blank=True, null=True)
@@ -401,7 +402,7 @@ class Person(models.Model):
     return 'People listed here can be selected as photographers, developers or printers.'
 
 # Table to catalog chemical processes that can be used to develop film and paper
-class Process(models.Model):
+class Process(ModeratedModel):
   name = models.CharField(help_text='Name of this developmenmt process (e.g. C-41, E-6)', max_length=25, unique=True)
   colour = models.BooleanField(help_text='Whether this is a colour process', blank=True, null=True)
   positive = models.BooleanField(help_text='Whether this is a positive/reversal process', blank=True, null=True)
@@ -447,7 +448,7 @@ class Teleconverter(models.Model):
     return 'Teleconverters are extra lenses that can be used to increase the focal length of a lens. They are sometimes known as doublers.'
 
 # Table to catalog paper toners that can be used during the printing process
-class Toner(models.Model):
+class Toner(ModeratedModel):
   name = models.CharField(help_text='Name of the toner', max_length=45)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this toner')
   formulation = models.CharField(help_text='Chemical formulation of the toner', max_length=45, blank=True, null=True)
@@ -466,7 +467,7 @@ class Toner(models.Model):
     return 'Toners are chemicals used to change the colour or appearance of a print.'
 
 # Table to list different brands of film stock
-class FilmStock(models.Model):
+class FilmStock(ModeratedModel):
   name = models.CharField(help_text='Name of the filmstock', max_length=45)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this film')
   iso = models.PositiveIntegerField(verbose_name='ISO', help_text='Nominal ISO speed of the film', blank=True, null=True)
@@ -526,7 +527,7 @@ class MountAdapter(models.Model):
     return 'Mount adapters can be used to convert the mount used on a camera or lens.'
 
 # Table to list all possible shutter speeds
-class ShutterSpeed(models.Model):
+class ShutterSpeed(ModeratedModel):
   shutter_speed = models.CharField(help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True)
   # field validation: like 1/500 or 2
   duration = models.DecimalField(help_text='Shutter speed in decimal notation, e.g. 0.04', max_digits=9, decimal_places=5)
@@ -547,7 +548,7 @@ class ShutterSpeed(models.Model):
     verbose_name_plural = "shutter speeds"
 
 # Table to list film and paper developers
-class Developer(models.Model):
+class Developer(ModeratedModel):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this developer')
   name = models.CharField(help_text='Name of the developer', max_length=45)
   for_paper = models.BooleanField(help_text='Whether this developer can be used with paper', blank=True, null=True)
@@ -567,7 +568,7 @@ class Developer(models.Model):
     return 'Developers are chemicals that are used to process films or prints.'
 
 # Table to catalog lens models
-class LensModel(models.Model):
+class LensModel(ModeratedModel):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this lens model')
   model = models.CharField(help_text='Model name of this lens', max_length=45)
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Mount used by this lens model')
@@ -677,7 +678,7 @@ class LensModel(models.Model):
     super().save(*args, **kwargs)
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
-class CameraModel(models.Model):
+class CameraModel(ModeratedModel):
   # Choices for body types
   class BodyType(DjangoChoices):
     Box_camera = ChoiceItem()

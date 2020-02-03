@@ -40,11 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'schema.apps.SchemaConfig',
     'djmoney',
     'favicon',
     'django_tables2',
     'crispy_forms',
+    'moderation.apps.SimpleModerationConfig',
 ]
 
 MIDDLEWARE = [
@@ -156,3 +158,6 @@ else:
 
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 REGISTRATION_OPEN = True # allow sign-ups
+
+# Required for django.contrib.sites
+SITE_ID = 1
