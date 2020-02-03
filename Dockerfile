@@ -8,6 +8,10 @@ RUN mkdir -p $PROJECT_DIR/static
 ADD . $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
 # Install deps from apk and pip
 RUN apk --no-cache add pcre mailcap libpq \
   && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git \
