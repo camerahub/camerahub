@@ -13,10 +13,10 @@ admin.site.index_title = 'CameraHub'
 admin.site.site_url = None
 
 # Import all models that need admin pages
-from .models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from .models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
-from .models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from .models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
+from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
+from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
+from schema.models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
 
 # Define inlines that can be embedded into other admin pages
 class CameraInline(admin.TabularInline):
