@@ -18,7 +18,7 @@
             <div class="col-sm-2">
                 {% block sidebar %}
                 <h1>CameraHub</h1>
-                <img src="{% static "logos/combinedlogo188.png" %}" alt="PhotoDB logo">
+                <img src="{% static "logos/combinedlogo188.png" %}" alt="CameraHub logo">
                 {% if user.is_authenticated %}
                 <p><a href="{% url 'logout' %}">Logout</a> {{ user.username }}</p>
                 <p><a href="{% url 'password_change' %}">Change password</a></p>
