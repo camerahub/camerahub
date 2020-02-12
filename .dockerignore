@@ -2,4 +2,5 @@ build
 dist
 kubernetes
 venv
+icons
 db/db.sqlite3
