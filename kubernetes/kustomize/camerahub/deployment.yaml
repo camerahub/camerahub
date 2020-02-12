@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camerahub
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: camerahub-container
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: camerahub-container
+    spec:
+      containers:
+      - image: djjudas21/camerahub:0.1.5
+        imagePullPolicy: Always
+        name: camerahub
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        env:
+        - name: CAMERAHUB_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: camerahub-secret
+              key: CAMERAHUB_DB_USER
+        - name: CAMERAHUB_DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: camerahub-secret
+              key: CAMERAHUB_DB_PASS
+        - name: CAMERAHUB_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: camerahub-secret
+              key: CAMERAHUB_SECRET_KEY
+        - name: CAMERAHUB_SENDGRID_KEY
+          valueFrom:
+            secretKeyRef:
+              name: camerahub-secret
+              key: CAMERAHUB_SENDGRID_KEY
+        - name: CAMERAHUB_DB_HOST
+          value: postgres-service
+        - name: CAMERAHUB_DB_NAME
+          value: camerahub
+        - name: CAMERAHUB_DB_PORT
+          value: '5432'
+        - name: CAMERAHUB_DB_ENGINE
+          value: django.db.backends.postgresql
+        - name: CAMERAHUB_PROD
+          valueFrom:
+            secretKeyRef:
+              name: camerahub-secret
+              key: CAMERAHUB_PROD
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

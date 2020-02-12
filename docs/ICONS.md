@@ -1,6 +1,6 @@
-## Icons
+# Icons
 
-Icons for PhotoDB were purchased from [Icons8](https://icons8.com/icons) in SVG vector format. At the time of writing, we are using
+Icons for CameraHub were purchased from [Icons8](https://icons8.com/icons) in SVG vector format. At the time of writing, we are using
 the [iOS set](https://icons8.com/icons/ios) in blue. The SVG files are placed unaltered in the `icons/svg/` directory in the root of this project.
 
 There is a script to automatically generate sets of icons with the correct names, at the correct resolutions, in PNG format. It will **remove**

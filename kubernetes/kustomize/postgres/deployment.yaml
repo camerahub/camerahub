@@ -20,20 +20,17 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
-                  key: user
+                  name: camerahub-secret
+                  key: CAMERAHUB_DB_USER
 
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
-                  key: password
+                  name: camerahub-secret
+                  key: CAMERAHUB_DB_PASS
 
             - name: POSTGRES_DB
-              valueFrom:
-                configMapKeyRef:
-                  name: photodb-config
-                  key: db_name
+              value: camerahub
           ports:
             - containerPort: 5432
           volumeMounts:

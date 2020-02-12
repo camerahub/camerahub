@@ -1,4 +1,4 @@
-{% extends "base_generic.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block heading %}<h1>
@@ -6,10 +6,10 @@
     Welcome</h1>{%endblock%}
 
 {% block content %}
-<p>Welcome to PhotoDB - an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
+<p>Welcome to CameraHub - an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
 {% if user.is_authenticated %}
 {% else %}
-<p><a href="{% url 'login' %}">Login</a> to start tracking your own collection!</p>
+<p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'django_registration_register' %}">register</a> to start tracking your own collection!</p>
 <p>Some object types are also available to browse without logging in.</p>
 {% endif %}
 {% endblock %}

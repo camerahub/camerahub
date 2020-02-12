@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: camerahub
+  name: camerahub
+spec:
+  ports:
+  - port: 8000
+    protocol: TCP
+  selector:
+    app: camerahub-container

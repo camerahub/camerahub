@@ -1,9 +1,9 @@
-## Screenshots
+# Screenshots
 
-PhotoDB is a complex app, and they say a picture is worth a thousand words. These screenshots illustrate how PhotoDB works.
+CameraHub is a complex app, and they say a picture is worth a thousand words. These screenshots illustrate how CameraHub works.
 Be sure to read the [Concepts](CONCEPTS.md) section, too.
 
-When you first access PhotoDB, you'll log in with the superuser password you set during installation.
+When you first access CameraHub, you'll log in with the superuser password you set during installation.
 
 ![Login screen](screenshots/login.png "Login screen")
 

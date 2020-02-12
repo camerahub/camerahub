@@ -1,0 +1,33 @@
+# TLS/SSL certs
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: camerahub
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+  - host: camerahub.info
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: camerahub
+          servicePort: 8000
+  tls:
+  - hosts:
+    - myingress.com
+    secretName: camerahub-ingress-cert
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camerahub
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+      - image: djjudas21/camerahub:0:1.5
+        name: camerahub

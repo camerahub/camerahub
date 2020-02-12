@@ -18,6 +18,11 @@ from .tables import FlashTable, FlashProtocolTable, FormatTable, LensTable, Lens
 from .tables import MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable, ToningTable
 from .tables import ProcessTable, RepairTable, ScanTable, NegativeTable, FilmTable, SeriesTable, ShutterSpeedTable, TeleconverterTable, TonerTable
 
+from .forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
+from .forms import FlashForm, FlashProtocolForm, FormatForm, LensForm, LensModelForm, ManufacturerForm
+from .forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
+from .forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, SeriesForm, TeleconverterForm, TonerForm
+
 # Custom class for displaying a list view in table format
 class SingleTableListView(SingleTableView):
   template_name = 'schema/list.html'
@@ -36,12 +41,12 @@ class AccessoryDetail(LoginRequiredMixin, generic.DetailView):
 
 class AccessoryCreate(LoginRequiredMixin, CreateView):
   model = Accessory
-  fields = '__all__'
+  form_class = AccessoryForm
   template_name = 'schema/create.html'
 
 class AccessoryUpdate(LoginRequiredMixin, UpdateView):
   model = Accessory
-  fields = '__all__'
+  form_class = AccessoryForm
   template_name = 'schema/update.html'
 
 
@@ -59,12 +64,12 @@ class ArchiveDetail(LoginRequiredMixin, generic.DetailView):
 
 class ArchiveCreate(LoginRequiredMixin, CreateView):
   model = Archive
-  fields = '__all__'
+  form_class = ArchiveForm
   template_name = 'schema/create.html'
 
 class ArchiveUpdate(LoginRequiredMixin, UpdateView):
   model = Archive
-  fields = '__all__'
+  form_class = ArchiveForm
   template_name = 'schema/update.html'
 
 
@@ -77,12 +82,12 @@ class BatteryDetail(generic.DetailView):
 
 class BatteryCreate(LoginRequiredMixin, CreateView):
   model = Battery
-  fields = '__all__'
+  form_class = BatteryForm
   template_name = 'schema/create.html'
 
 class BatteryUpdate(LoginRequiredMixin, UpdateView):
   model = Battery
-  fields = '__all__'
+  form_class = BatteryForm
   template_name = 'schema/update.html'
 
 
@@ -100,12 +105,12 @@ class BulkFilmDetail(LoginRequiredMixin, generic.DetailView):
 
 class BulkFilmCreate(LoginRequiredMixin, CreateView):
   model = BulkFilm
-  fields = '__all__'
+  form_class = BulkFilmForm
   template_name = 'schema/create.html'
 
 class BulkFilmUpdate(LoginRequiredMixin, UpdateView):
   model = BulkFilm
-  fields = '__all__'
+  form_class = BulkFilmForm
   template_name = 'schema/update.html'
 
 
@@ -123,12 +128,12 @@ class CameraDetail(LoginRequiredMixin, generic.DetailView):
 
 class CameraCreate(LoginRequiredMixin, CreateView):
   model = Camera
-  fields = '__all__'
+  form_class = CameraForm
   template_name = 'schema/create.html'
 
 class CameraUpdate(LoginRequiredMixin, UpdateView):
   model = Camera
-  fields = '__all__'
+  form_class = CameraForm
   template_name = 'schema/update.html'
 
 class CameraModelList(SingleTableListView):
@@ -140,12 +145,12 @@ class CameraModelDetail(generic.DetailView):
 
 class CameraModelCreate(LoginRequiredMixin, CreateView):
   model = CameraModel
-  fields = '__all__'
+  form_class = CameraModelForm
   template_name = 'schema/create.html'
 
 class CameraModelUpdate(LoginRequiredMixin, UpdateView):
   model = CameraModel
-  fields = '__all__'
+  form_class = CameraModelForm
   template_name = 'schema/update.html'
 
 
@@ -158,12 +163,12 @@ class DeveloperDetail(generic.DetailView):
 
 class DeveloperCreate(LoginRequiredMixin, CreateView):
   model = Developer
-  fields = '__all__'
+  form_class = DeveloperForm
   template_name = 'schema/create.html'
 
 class DeveloperUpdate(LoginRequiredMixin, UpdateView):
   model = Developer
-  fields = '__all__'
+  form_class = DeveloperForm
   template_name = 'schema/update.html'
 
 
@@ -181,12 +186,12 @@ class EnlargerDetail(LoginRequiredMixin, generic.DetailView):
 
 class EnlargerCreate(LoginRequiredMixin, CreateView):
   model = Enlarger
-  fields = '__all__'
+  form_class = EnlargerForm
   template_name = 'schema/create.html'
 
 class EnlargerUpdate(LoginRequiredMixin, UpdateView):
   model = Enlarger
-  fields = '__all__'
+  form_class = EnlargerForm
   template_name = 'schema/update.html'
 
 
@@ -199,12 +204,12 @@ class FilmStockDetail(generic.DetailView):
 
 class FilmStockCreate(LoginRequiredMixin, CreateView):
   model = FilmStock
-  fields = '__all__'
+  form_class = FilmStockForm
   template_name = 'schema/create.html'
 
 class FilmStockUpdate(LoginRequiredMixin, UpdateView):
   model = FilmStock
-  fields = '__all__'
+  form_class = FilmStockForm
   template_name = 'schema/update.html'
 
 
@@ -222,12 +227,12 @@ class FilterDetail(LoginRequiredMixin, generic.DetailView):
 
 class FilterCreate(LoginRequiredMixin, CreateView):
   model = Filter
-  fields = '__all__'
+  form_class = FilterForm
   template_name = 'schema/create.html'
 
 class FilterUpdate(LoginRequiredMixin, UpdateView):
   model = Filter
-  fields = '__all__'
+  form_class = FilterForm
   template_name = 'schema/update.html'
 
 
@@ -245,12 +250,12 @@ class FlashDetail(LoginRequiredMixin, generic.DetailView):
 
 class FlashCreate(LoginRequiredMixin, CreateView):
   model = Flash
-  fields = '__all__'
+  form_class = FlashForm
   template_name = 'schema/create.html'
 
 class FlashUpdate(LoginRequiredMixin, UpdateView):
   model = Flash
-  fields = '__all__'
+  form_class = FlashForm
   template_name = 'schema/update.html'
 
 
@@ -263,12 +268,12 @@ class FlashProtocolDetail(generic.DetailView):
 
 class FlashProtocolCreate(LoginRequiredMixin, CreateView):
   model = FlashProtocol
-  fields = '__all__'
+  form_class = FlashProtocolForm
   template_name = 'schema/create.html'
 
 class FlashProtocolUpdate(LoginRequiredMixin, UpdateView):
   model = FlashProtocol
-  fields = '__all__'
+  form_class = FlashProtocolForm
   template_name = 'schema/update.html'
 
 
@@ -281,12 +286,12 @@ class FormatDetail(generic.DetailView):
 
 class FormatCreate(LoginRequiredMixin, CreateView):
   model = Format
-  fields = '__all__'
+  form_class = FormatForm
   template_name = 'schema/create.html'
 
 class FormatUpdate(LoginRequiredMixin, UpdateView):
   model = Format
-  fields = '__all__'
+  form_class = FormatForm
   template_name = 'schema/update.html'
 
 
@@ -304,12 +309,12 @@ class LensDetail(LoginRequiredMixin, generic.DetailView):
 
 class LensCreate(LoginRequiredMixin, CreateView):
   model = Lens
-  fields = '__all__'
+  form_class = LensForm
   template_name = 'schema/create.html'
 
 class LensUpdate(LoginRequiredMixin, UpdateView):
   model = Lens
-  fields = '__all__'
+  form_class = LensForm
   template_name = 'schema/update.html'
 
 
@@ -322,12 +327,12 @@ class LensModelDetail(generic.DetailView):
 
 class LensModelCreate(LoginRequiredMixin, CreateView):
   model = LensModel
-  fields = '__all__'
+  form_class = LensModelForm
   template_name = 'schema/create.html'
 
 class LensModelUpdate(LoginRequiredMixin, UpdateView):
   model = LensModel
-  fields = '__all__'
+  form_class = LensModelForm
   template_name = 'schema/update.html'
 
 
@@ -340,12 +345,12 @@ class ManufacturerDetail(generic.DetailView):
 
 class ManufacturerCreate(LoginRequiredMixin, CreateView):
   model = Manufacturer
-  fields = '__all__'
+  form_class = ManufacturerForm
   template_name = 'schema/create.html'
 
 class ManufacturerUpdate(LoginRequiredMixin, UpdateView):
   model = Manufacturer
-  fields = '__all__'
+  form_class = ManufacturerForm
   template_name = 'schema/update.html'
 
 
@@ -358,12 +363,12 @@ class MountDetail(generic.DetailView):
 
 class MountCreate(LoginRequiredMixin, CreateView):
   model = Mount
-  fields = '__all__'
+  form_class = MountForm
   template_name = 'schema/create.html'
 
 class MountUpdate(LoginRequiredMixin, UpdateView):
   model = Mount
-  fields = '__all__'
+  form_class = MountForm
   template_name = 'schema/update.html'
 
 
@@ -381,12 +386,12 @@ class MountAdapterDetail(LoginRequiredMixin, generic.DetailView):
 
 class MountAdapterCreate(LoginRequiredMixin, CreateView):
   model = MountAdapter
-  fields = '__all__'
+  form_class = MountAdapterForm
   template_name = 'schema/create.html'
 
 class MountAdapterUpdate(LoginRequiredMixin, UpdateView):
   model = MountAdapter
-  fields = '__all__'
+  form_class = MountAdapterForm
   template_name = 'schema/update.html'
 
 
@@ -399,12 +404,12 @@ class NegativeSizeDetail(generic.DetailView):
 
 class NegativeSizeCreate(LoginRequiredMixin, CreateView):
   model = NegativeSize
-  fields = '__all__'
+  form_class = NegativeSizeForm
   template_name = 'schema/create.html'
 
 class NegativeSizeUpdate(LoginRequiredMixin, UpdateView):
   model = NegativeSize
-  fields = '__all__'
+  form_class = NegativeSizeForm
   template_name = 'schema/update.html'
 
 
@@ -422,12 +427,12 @@ class OrderDetail(LoginRequiredMixin, generic.DetailView):
 
 class OrderCreate(LoginRequiredMixin, CreateView):
   model = Order
-  fields = '__all__'
+  form_class = OrderForm
   template_name = 'schema/create.html'
 
 class OrderUpdate(LoginRequiredMixin, UpdateView):
   model = Order
-  fields = '__all__'
+  form_class = OrderForm
   template_name = 'schema/update.html'
 
 
@@ -440,12 +445,12 @@ class PaperStockDetail(generic.DetailView):
 
 class PaperStockCreate(LoginRequiredMixin, CreateView):
   model = PaperStock
-  fields = '__all__'
+  form_class = PaperStockForm
   template_name = 'schema/create.html'
 
 class PaperStockUpdate(LoginRequiredMixin, UpdateView):
   model = PaperStock
-  fields = '__all__'
+  form_class = PaperStockForm
   template_name = 'schema/update.html'
 
 
@@ -463,12 +468,12 @@ class PersonDetail(LoginRequiredMixin, generic.DetailView):
 
 class PersonCreate(LoginRequiredMixin, CreateView):
   model = Person
-  fields = '__all__'
+  form_class = PersonForm
   template_name = 'schema/create.html'
 
 class PersonUpdate(LoginRequiredMixin, UpdateView):
   model = Person
-  fields = '__all__'
+  form_class = PersonForm
   template_name = 'schema/update.html'
 
 
@@ -486,12 +491,12 @@ class PrintDetail(LoginRequiredMixin, generic.DetailView):
 
 class PrintCreate(LoginRequiredMixin, CreateView):
   model = Print
-  fields = '__all__'
+  form_class = PrintForm
   template_name = 'schema/create.html'
 
 class PrintUpdate(LoginRequiredMixin, UpdateView):
   model = Print
-  fields = '__all__'
+  form_class = PrintForm
   template_name = 'schema/update.html'
 
 
@@ -504,12 +509,12 @@ class ProcessDetail(generic.DetailView):
 
 class ProcessCreate(LoginRequiredMixin, CreateView):
   model = Process
-  fields = '__all__'
+  form_class = ProcessForm
   template_name = 'schema/create.html'
 
 class ProcessUpdate(LoginRequiredMixin, UpdateView):
   model = Process
-  fields = '__all__'
+  form_class = ProcessForm
   template_name = 'schema/update.html'
 
 
@@ -527,12 +532,12 @@ class RepairDetail(LoginRequiredMixin, generic.DetailView):
 
 class RepairCreate(LoginRequiredMixin, CreateView):
   model = Repair
-  fields = '__all__'
+  form_class = RepairForm
   template_name = 'schema/create.html'
 
 class RepairUpdate(LoginRequiredMixin, UpdateView):
   model = Repair
-  fields = '__all__'
+  form_class = RepairForm
   template_name = 'schema/update.html'
 
 
@@ -550,12 +555,12 @@ class ScanDetail(LoginRequiredMixin, generic.DetailView):
 
 class ScanCreate(LoginRequiredMixin, CreateView):
   model = Scan
-  fields = '__all__'
+  form_class = ScanForm
   template_name = 'schema/create.html'
 
 class ScanUpdate(LoginRequiredMixin, UpdateView):
   model = Scan
-  fields = '__all__'
+  form_class = ScanForm
   template_name = 'schema/update.html'
 
 
@@ -573,12 +578,12 @@ class NegativeDetail(LoginRequiredMixin, generic.DetailView):
 
 class NegativeCreate(LoginRequiredMixin, CreateView):
   model = Negative
-  fields = '__all__'
+  form_class = NegativeForm
   template_name = 'schema/create.html'
 
 class NegativeUpdate(LoginRequiredMixin, UpdateView):
   model = Negative
-  fields = '__all__'
+  form_class = NegativeForm
   template_name = 'schema/update.html'
 
 
@@ -596,12 +601,12 @@ class FilmDetail(LoginRequiredMixin, generic.DetailView):
 
 class FilmCreate(LoginRequiredMixin, CreateView):
   model = Film
-  fields = '__all__'
+  form_class = FilmForm
   template_name = 'schema/create.html'
 
 class FilmUpdate(LoginRequiredMixin, UpdateView):
   model = Film
-  fields = '__all__'
+  form_class = FilmForm
   template_name = 'schema/update.html'
 
 
@@ -619,12 +624,12 @@ class SeriesDetail(LoginRequiredMixin, generic.DetailView):
 
 class SeriesCreate(LoginRequiredMixin, CreateView):
   model = Series
-  fields = '__all__'
+  form_class = SeriesForm
   template_name = 'schema/create.html'
 
 class SeriesUpdate(LoginRequiredMixin, UpdateView):
   model = Series
-  fields = '__all__'
+  form_class = SeriesForm
   template_name = 'schema/update.html'
 
 
@@ -642,12 +647,12 @@ class TeleconverterDetail(LoginRequiredMixin, generic.DetailView):
 
 class TeleconverterCreate(LoginRequiredMixin, CreateView):
   model = Teleconverter
-  fields = '__all__'
+  form_class = TeleconverterForm
   template_name = 'schema/create.html'
 
 class TeleconverterUpdate(LoginRequiredMixin, UpdateView):
   model = Teleconverter
-  fields = '__all__'
+  form_class = TeleconverterForm
   template_name = 'schema/update.html'
 
 
@@ -660,10 +665,10 @@ class TonerDetail(generic.DetailView):
 
 class TonerCreate(LoginRequiredMixin, CreateView):
   model = Toner
-  fields = '__all__'
+  form_class = TonerForm
   template_name = 'schema/create.html'
 
 class TonerUpdate(LoginRequiredMixin, UpdateView):
   model = Toner
-  fields = '__all__'
+  form_class = TonerForm
   template_name = 'schema/update.html'
