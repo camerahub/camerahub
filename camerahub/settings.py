@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'favicon',
     'django_tables2',
     'crispy_forms',
-    'moderation',
 ]
 
 MIDDLEWARE = [
