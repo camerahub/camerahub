@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 from django_currentuser.middleware import (get_current_user, get_current_authenticated_user)
+import sys
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
@@ -21,6 +22,10 @@ class AccessoryForm(ModelForm):
             'camera_model_compatibility',
             'lens_model_compatibility',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
+            fields.remove('camera_model_compatibility')
+            fields.remove('lens_model_compatibility')
 
 class ArchiveForm(ModelForm):
     class Meta:
@@ -57,6 +62,9 @@ class BulkFilmForm(ModelForm):
             'batch',
             'expiry',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('filmstock')
+            fields.remove('format')
 
 class CameraForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -82,6 +90,8 @@ class CameraForm(ModelForm):
             'condition_notes',
             'display_lens',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('cameramodel')
 
 class CameraModelForm(ModelForm):
     class Meta:
@@ -134,6 +144,14 @@ class CameraModelForm(ModelForm):
             'exposure_programs',
             'series',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
+            fields.remove('mount')
+            fields.remove('format')
+            fields.remove('battery_type')
+            fields.remove('negative_size')
+            fields.remove('lensmodel')
+            fields.remove('flash_metering')
 
 class DeveloperForm(ModelForm):
     class Meta:
@@ -145,6 +163,8 @@ class DeveloperForm(ModelForm):
             'for_film',
             'chemistry',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
 
 class EnlargerForm(ModelForm):
     class Meta:
@@ -162,6 +182,9 @@ class EnlargerForm(ModelForm):
             'cost',
             'lost_price',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
+            fields.remove('negative_size')
 
 class FilmStockForm(ModelForm):
     class Meta:
@@ -174,6 +197,9 @@ class FilmStockForm(ModelForm):
             'panchromatic',
             'process',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
+            fields.remove('process')
 
 class FilterForm(ModelForm):
     class Meta:
@@ -185,6 +211,8 @@ class FilterForm(ModelForm):
             'qty',
             'manufacturer',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
 
 class FlashForm(ModelForm):
     class Meta:
@@ -211,6 +239,10 @@ class FlashForm(ModelForm):
             'acquired',
             'cost',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
+            fields.remove('flash_protocol')
+            fields.remove('battery_type')
 
 class FlashProtocolForm(ModelForm):
     class Meta:
@@ -219,6 +251,8 @@ class FlashProtocolForm(ModelForm):
             'name',
             'manufacturer',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
 
 class FormatForm(ModelForm):
     class Meta:
@@ -227,6 +261,8 @@ class FormatForm(ModelForm):
             'format',
             'negative_size',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('negative_size')
 
 class LensForm(ModelForm):
     class Meta:
@@ -246,6 +282,8 @@ class LensForm(ModelForm):
             'condition',
             'condition_notes',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('lensmodel')
 
 class LensModelForm(ModelForm):
     class Meta:
@@ -286,6 +324,10 @@ class LensModelForm(ModelForm):
             'shutter_model',
             'series',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
+            fields.remove('mount')
+            fields.remove('negative_size')
 
 class ManufacturerForm(ModelForm):
     class Meta:
@@ -310,6 +352,8 @@ class MountForm(ModelForm):
             'notes',
             'manufacturer',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
 
 class MountAdapterForm(ModelForm):
     class Meta:
@@ -321,6 +365,9 @@ class MountAdapterForm(ModelForm):
             'infinity_focus',
             'notes',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('camera_mount')
+            fields.remove('lens_mount')
 
 class NegativeSizeForm(ModelForm):
     class Meta:
@@ -363,6 +410,8 @@ class PaperStockForm(ModelForm):
             'colour',
             'finish',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
 
 class PersonForm(ModelForm):
     class Meta:
@@ -401,6 +450,10 @@ class PrintForm(ModelForm):
             'archive',
             'printer',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('paper_stock')
+            fields.remove('developer')
+            fields.remove('toner')
 
 class ProcessForm(ModelForm):
     class Meta:
@@ -510,6 +563,10 @@ class FilmForm(ModelForm):
             'processed_by',
             'archive',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('filmstock')
+            fields.remove('developer')
+            fields.remove('format')
 
 class SeriesForm(ModelForm):
     class Meta:
@@ -528,6 +585,9 @@ class TeleconverterForm(ModelForm):
             'groups',
             'multicoated',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
+            fields.remove('mount')
 
 class TonerForm(ModelForm):
     class Meta:
@@ -538,3 +598,5 @@ class TonerForm(ModelForm):
             'formulation',
             'stock_dilution',
         ]
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('manufacturer')
