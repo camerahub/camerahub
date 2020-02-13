@@ -492,7 +492,7 @@ class FilmForm(ModelForm):
             'date_loaded',
             'date_processed',
             'camera',
-            'title ',
+            'title',
             'frames',
             'developer',
             'directory',
