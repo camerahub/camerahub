@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'schema.apps.SchemaConfig',
+    'schema',
     'djmoney',
     'favicon',
     'django_tables2',
