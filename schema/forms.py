@@ -10,25 +10,53 @@ from schema.models import Process, Repair, Scan, Negative, Film, Series, Shutter
 class AccessoryForm(ModelForm):
     class Meta:
         model = Accessory
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'type',
+            'manufacturer',
+            'model',
+            'acquired',
+            'cost',
+            'lost',
+            'lost_price',
+            'camera_model_compatibility',
+            'lens_model_compatibility',
+        ]
 
 class ArchiveForm(ModelForm):
     class Meta:
         model = Archive
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'type',
+            'name',
+            'max_width',
+            'max_height',
+            'location',
+            'storage',
+            'sealed',
+        ]
 
 class BatteryForm(ModelForm):
     class Meta:
         model = Battery
-        fields = '__all__'
+        fields = [
+            'name',
+            'voltage',
+            'chemistry',
+            'other_names',
+        ]
 
 class BulkFilmForm(ModelForm):
     class Meta:
         model = BulkFilm
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'format',
+            'filmstock',
+            'purchase_date',
+            'cost',
+            'source',
+            'batch',
+            'expiry',
+        ]
 
 class CameraForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -37,84 +65,274 @@ class CameraForm(ModelForm):
         self.fields['display_lens'].queryset = Lens.objects.filter(owner = get_current_user())
     class Meta:
         model = Camera
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'cameramodel',
+            'acquired',
+            'cost',
+            'serial',
+            'datecode',
+            'manufactured',
+            'own',
+            'lens',
+            'notes',
+            'lost',
+            'lost_price',
+            'source',
+            'condition',
+            'condition_notes',
+            'display_lens',
+        ]
 
 class CameraModelForm(ModelForm):
     class Meta:
         model = CameraModel
-        fields = '__all__'
+        fields = [
+            'manufacturer',
+            'model',
+            'mount',
+            'format',
+            'focus_type',
+            'metering',
+            'coupled_metering',
+            'metering_type',
+            'introduced',
+            'discontinued',
+            'body_type',
+            'weight',
+            'introduced',
+            'discontinued',
+            'negative_size',
+            'shutter_type',
+            'shutter_model',
+            'cable_release',
+            'viewfinder_coverage',
+            'power_drive',
+            'continuous_fps',
+            'fixed_mount',
+            'lensmodel',
+            'battery_qty',
+            'battery_type',
+            'notes',
+            'bulb',
+            'time',
+            'min_iso',
+            'max_iso',
+            'af_points',
+            'int_flash',
+            'int_flash_gn',
+            'ext_flash',
+            'flash_metering',
+            'pc_sync',
+            'hotshoe',
+            'coldshoe',
+            'meter_min_ev',
+            'meter_max_ev',
+            'dof_preview',
+            'tripod',
+            'shutter_speeds',
+            'metering_modes',
+            'exposure_programs',
+            'series',
+        ]
 
 class DeveloperForm(ModelForm):
     class Meta:
         model = Developer
-        fields = '__all__'
+        fields = [
+            'manufacturer',
+            'name',
+            'for_paper',
+            'for_film',
+            'chemistry',
+        ]
 
 class EnlargerForm(ModelForm):
     class Meta:
         model = Enlarger
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'manufacturer',
+            'model',
+            'negative_size',
+            'type',
+            'light_source',
+            'acquired',
+            'lost',
+            'introduced',
+            'discontinued',
+            'cost',
+            'lost_price',
+        ]
 
 class FilmStockForm(ModelForm):
     class Meta:
         model = FilmStock
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'name',
+            'manufacturer',
+            'iso',
+            'colour',
+            'panchromatic',
+            'process',
+        ]
 
 class FilterForm(ModelForm):
     class Meta:
         model = Filter
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'type',
+            'thread',
+            'attenuation',
+            'qty',
+            'manufacturer',
+        ]
 
 class FlashForm(ModelForm):
     class Meta:
         model = Flash
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'model',
+            'manufacturer',
+            'guide_number',
+            'gn_info',
+            'battery_powered',
+            'pc_sync',
+            'hot_shoe',
+            'light_stand',
+            'battery_type',
+            'battery_qty',
+            'manual_control',
+            'swivel_head',
+            'tilt_head',
+            'zoom',
+            'ttl',
+            'flash_protocol',
+            'trigger_voltage',
+            'own',
+            'acquired',
+            'cost',
+        ]
 
 class FlashProtocolForm(ModelForm):
     class Meta:
         model = FlashProtocol
-        fields = '__all__'
+        fields = [
+            'name',
+            'manufacturer',
+        ]
 
 class FormatForm(ModelForm):
     class Meta:
         model = Format
-        fields = '__all__'
+        fields = [
+            'format',
+            'negative_size',
+        ]
 
 class LensForm(ModelForm):
     class Meta:
         model = Lens
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'lensmodel',
+            'serial',
+            'date_code',
+            'manufactured',
+            'acquired',
+            'cost',
+            'notes',
+            'own',
+            'lost',
+            'lost_price',
+            'source',
+            'condition',
+            'condition_notes',
+        ]
 
 class LensModelForm(ModelForm):
     class Meta:
         model = LensModel
-        fields = '__all__'
+        fields = [
+            'manufacturer',
+            'model',
+            'mount',
+            'zoom',
+            'min_focal_length',
+            'max_focal_length',
+            'closest_focus',
+            'max_aperture',
+            'min_aperture',
+            'elements',
+            'groups',
+            'weight',
+            'nominal_min_angle_diag',
+            'nominal_max_angle_diag',
+            'aperture_blades',
+            'autofocus',
+            'filter_thread',
+            'magnification',
+            'url',
+            'introduced',
+            'discontinued',
+            'negative_size',
+            'fixed_mount',
+            'notes',
+            'coating',
+            'hood',
+            'exif_lenstype',
+            'rectilinear',
+            'length',
+            'diameter',
+            'image_circle',
+            'formula',
+            'shutter_model',
+            'series',
+        ]
 
 class ManufacturerForm(ModelForm):
     class Meta:
         model = Manufacturer
-        fields = '__all__'
+        fields = [
+            'name',
+            'city',
+            'country',
+            'url',
+            'founded',
+            'dissolved',
+        ]
 
 class MountForm(ModelForm):
     class Meta:
         model = Mount
-        fields = '__all__'
+        fields = [
+            'mount',
+            'shutter_in_lens',
+            'type',
+            'purpose',
+            'notes',
+            'manufacturer',
+        ]
 
 class MountAdapterForm(ModelForm):
     class Meta:
         model = MountAdapter
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'camera_mount',
+            'lens_mount',
+            'has_optics',
+            'infinity_focus',
+            'notes',
+        ]
 
 class NegativeSizeForm(ModelForm):
     class Meta:
         model = NegativeSize
-        fields = '__all__'
+        fields = [
+            'name',
+            'width',
+            'height',
+            'crop_factor',
+            'area',
+            'aspect_ratio',
+        ]
 
 class OrderForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -124,19 +342,32 @@ class OrderForm(ModelForm):
         self.fields['recipient'].queryset = Person.objects.filter(owner = get_current_user())
     class Meta:
         model = Order
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'negative',
+            'width',
+            'height',
+            'added',
+            'printed',
+            'print',
+            'recipient',
+        ]
 
 class PaperStockForm(ModelForm):
     class Meta:
         model = PaperStock
-        fields = '__all__'
+        fields = [
+            'name',
+            'manufacturer',
+            'resin_coated',
+            'tonable',
+            'colour',
+            'finish',
+        ]
 
 class PersonForm(ModelForm):
     class Meta:
         model = Person
-        fields = '__all__'
-        exclude = ['owner']
+        fields = ['name']
 
 class PrintForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -148,13 +379,37 @@ class PrintForm(ModelForm):
         self.fields['printer'].queryset = Person.objects.filter(owner = get_current_user())
     class Meta:
         model = Print
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'negative',
+            'date',
+            'paper_stock',
+            'height',
+            'width',
+            'aperture',
+            'exposure_time',
+            'filtration_grade',
+            'development_time',
+            'toner',
+            'own',
+            'location',
+            'sold_price',
+            'enlarger',
+            'lens',
+            'developer',
+            'fine',
+            'notes',
+            'archive',
+            'printer',
+        ]
 
 class ProcessForm(ModelForm):
     class Meta:
         model = Process
-        fields = '__all__'
+        fields = [
+            'name',
+            'colour',
+            'positive',
+        ]
 
 class RepairForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -163,8 +418,13 @@ class RepairForm(ModelForm):
         self.fields['lens'].queryset = Lens.objects.filter(owner = get_current_user())
     class Meta:
         model = Repair
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'camera',
+            'lens',
+            'date',
+            'summary',
+            'detail',
+        ]
 
 class ScanForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -173,8 +433,15 @@ class ScanForm(ModelForm):
         self.fields['print'].queryset = Print.objects.filter(owner = get_current_user())
     class Meta:
         model = Scan
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'negative',
+            'print',
+            'filename',
+            'date',
+            'colour',
+            'width',
+            'height',
+        ]
 
 class NegativeForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -187,8 +454,27 @@ class NegativeForm(ModelForm):
         self.fields['copy_of'].queryset = Negative.objects.filter(owner = get_current_user())
     class Meta:
         model = Negative
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'film',
+            'frame',
+            'caption',
+            'date',
+            'lens',
+            'shutter_speed',
+            'aperture',
+            'filter',
+            'teleconverter',
+            'notes',
+            'mount_adapter',
+            'focal_length',
+            'latitude',
+            'longitude',
+            'flash',
+            'metering_mode',
+            'exposure_program',
+            'photographer',
+            'copy_of',
+        ]
 
 class FilmForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -199,21 +485,56 @@ class FilmForm(ModelForm):
         self.fields['archive'].queryset = Archive.objects.filter(owner = get_current_user())
     class Meta:
         model = Film
-        fields = '__all__'
+        fields = [
+            'filmstock',
+            'exposed_at',
+            'format',
+            'date_loaded',
+            'date_processed',
+            'camera',
+            'title ',
+            'frames',
+            'developer',
+            'directory',
+            'dev_uses',
+            'dev_time',
+            'dev_temp',
+            'dev_n',
+            'development_notes',
+            'bulk_film',
+            'bulk_film_loaded',
+            'film_batch',
+            'expiry_date',
+            'purchase_date',
+            'price',
+            'processed_by',
+            'archive',
+        ]
 
 class SeriesForm(ModelForm):
     class Meta:
         model = Series
-        fields = '__all__'
-        exclude = ['owner']
+        fields = ['name']
 
 class TeleconverterForm(ModelForm):
     class Meta:
         model = Teleconverter
-        fields = '__all__'
-        exclude = ['owner']
+        fields = [
+            'model',
+            'manufacturer',
+            'mount',
+            'factor',
+            'elements',
+            'groups',
+            'multicoated',
+        ]
 
 class TonerForm(ModelForm):
     class Meta:
         model = Toner
-        fields = '__all__'
+        fields = [
+            'name',
+            'manufacturer',
+            'formulation',
+            'stock_dilution',
+        ]
