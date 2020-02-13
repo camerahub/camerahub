@@ -106,7 +106,4 @@ venv.bak/
 
 # vscode
 .vscode/
-.gitsecret/keys/random_seed
-!*.secret
-*.env
 sent_emails
