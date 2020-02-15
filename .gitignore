@@ -83,6 +83,7 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
+*.env
 .env
 .venv
 env/
@@ -106,7 +107,4 @@ venv.bak/
 
 # vscode
 .vscode/
-.gitsecret/keys/random_seed
-!*.secret
-*.env
 sent_emails

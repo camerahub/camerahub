@@ -17,7 +17,11 @@ Add your own secret environment files (either global or per-environment) with yo
 * `kubernetes/overlays/prod/prod.env`
 
 Variables in `dev.env` or `prod.env` override those in `camerahub.env`, and those in `camerahub.env` override the global defaults.
-`.env` files won't get added to the git repo due to the `.gitignore` file.
+`.env` files won't get added to the git repo due to the `.gitignore` file. Example environment files are included at:
+
+* `kubernetes/kustomize/camerahub.env.example`
+* `kubernetes/overlays/dev/dev.env.example`
+* `kubernetes/overlays/prod/prod.env.example`
 
 ## Production
 
