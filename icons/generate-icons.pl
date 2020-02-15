@@ -45,6 +45,7 @@ my %newnames = (
 	'icons8-facebook'				=> ['facebook'],
 	'icons8-github'					=> ['github'],
 	'icons8'						=> ['icons8'],
+	'icons8-about'					=> ['about']
 #unknown
 #login
 #logout

@@ -29,6 +29,7 @@
                 <!-- insert default navigation text for every page -->
                 <ul class="sidebar-nav">
                     <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'accessory-list' %}">Accessories</a></li>
                     <li><a href="{% url 'archive-list' %}">Archives</a></li>

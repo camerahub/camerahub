@@ -6,10 +6,12 @@
     Welcome</h1>{%endblock%}
 
 {% block content %}
-<p>Welcome to CameraHub - an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
+<p>Welcome to CameraHub: an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
 {% if user.is_authenticated %}
+<p>Browse and track your collection using the links on the left.</p>
 {% else %}
-<p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'django_registration_register' %}">register</a> to start tracking your own collection!</p>
-<p>Some object types are also available to browse without logging in.</p>
+<p>Public data is available to browse without logging in.</p>
+<p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'django_registration_register' %}">register</a> to start
+    tracking your own collection!</p>
 {% endif %}
 {% endblock %}
