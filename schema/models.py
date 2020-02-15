@@ -47,6 +47,9 @@ class Manufacturer(models.Model):
     return reverse('manufacturer-detail', kwargs={'pk': self.pk})
   def description(self):
     return 'Manufacturers are any maker or brand of camera, lenses or other photographic accessories or consumables'
+  class Moderator:
+    visible_until_rejected = True
+    keep_history = True
 
 # Table to list all archives that exist for storing physical media
 class Archive(models.Model):
@@ -98,6 +101,9 @@ class Battery(models.Model):
     return reverse('battery-detail', kwargs={'pk': self.pk})
   def description(self):
     return 'Batteries are used to power cameras, flashes and other accessories'
+  class Moderator:
+    visible_until_rejected = True
+    keep_history = True
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 class Condition(models.Model):

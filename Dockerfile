@@ -8,6 +8,10 @@ RUN mkdir -p $PROJECT_DIR/static
 ADD . $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
 # Install deps from apk and pip
 RUN apk --no-cache add pcre mailcap libpq \
   && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git \
@@ -15,12 +19,12 @@ RUN apk --no-cache add pcre mailcap libpq \
   && apk --no-cache del .build-deps
 
 # Specify production mode
-ENV CAMERAHUB_PROD true
+ENV CAMERAHUB_PROD=true
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
 RUN python manage.py collectstatic --noinput
 
-# Tell uWSGI where to find your wsgi file (change this):
+# Tell uWSGI where to find your wsgi file:
 ENV UWSGI_WSGI_FILE=camerahub/wsgi.py
 
 # Base uWSGI configuration (you shouldn't need to change these):
