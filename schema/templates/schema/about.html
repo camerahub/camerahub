@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block heading %}<h1>
+    <img src="{% static "icons/50/about50.png" %}" alt="Home">
+    About</h1>{%endblock%}
+
+{% block content %}
+
+<p>CameraHub is an app for cataloguing vintage cameras, lenses, films, negatives & prints. This page has extra
+    background information about CameraHub.</p>
+
+<h2>History</h2>
+
+<p>CameraHub started out as a pet project of photographer and camera collector <a
+        href="https://jonathangazeley.com/">Jonathan Gazeley</a>. He started using a
+    MySQL database to track his cameras and lenses, and later his films, negatives and prints. As the database grew, it
+    became more difficult to
+    manage, so he wrote a set of helper scripts in Perl.
+</p>
+
+<p>Jonathan thought that this collection of Perl scripts and a database might be helpful to others, so the <a
+        href="https://github.com/djjudas21/photodb-perl">PhotoDB</a>
+    project was born. PhotoDB was a
+    command-line app written in Perl which was able to to catalog cameras, lenses, accessories, films, negatives, prints
+    and scans. It was also able to write EXIF tags (such as date/time stamps, geotags and data about the camera)
+    to JPGs scanned from negatives, so they could be catalogued with any digital photo library. PhotoDB had a
+    number of
+    releases and was nearing feature-completion as an app. Despite the database backend being comprehensive, it had a
+    fairly impenetrable command-line user interface that never
+    achieved traction with the photography community. The source code for PhotoDB is still available, but development
+    has ceased.
+</p>
+
+<p>CameraHub is the latest generation of the project. It uses the same database schema as PhotoDB but has a completely
+    new user inteface, written in Python and
+    Django as a web application, that allows it to be accessed on virtually any device and makes it easier for all
+    photographers
+    and collectors to track their collection.</p>
+
+<h2>Other sites</h2>
+
+<p>There are many websites with information about camera equipment but most of these sites have primarily text-based
+    information - for example, the excellent <a href="http://camera-wiki.org/wiki/Main_Page">Camera Wiki</a> resource.
+    By contrast, CameraHub centres around
+    numerical, normalised, structured data that allows easy searching and sorting and the modelling of relationships
+    between equipment and images. Relational data allows CameraHub to do things like show you all lenses that work with
+    a particular camera, or all pictures you took with a particular lens.</p>
+
+<p>CameraHub also offers unique features for cataloguing films, negatives, prints and scans.</p>
+
+<h2>Community</h2>
+
+<p>With a project like CameraHub, building a community is key. CameraHub provides a platforms, but it is useless without
+    good quality data.
+    This is where the community comes in - collectively gathering and entering data so everyone can benefit.</p>
+<p>For example, you might buy a camera on eBay, wish to catalogue it, and find that it is not yet in CameraHub. You'd do
+    some research online, enter it into
+    CameraHub and add it to your collection. The next person who wants to catalogue the same camera wouldn't need to
+    enter the data again - the camera you
+    entered is available to everyone, and anyone can add it to their collection too.
+</p>
+<p>As well as the community around CameraHub itself, there is a <a
+        href="https://www.facebook.com/camerahubapp/">CameraHub Facebook page</a> where you can keep up to date with
+    news.</p>
+
+<h2>Roadmap</h2>
+
+<p>CameraHub is an evolving project. For a detailed look at current bugs and feature requests, check out the <a
+        href="https://github.com/djjudas21/camerahub/issues">issue tracker</a>. Anyone can report bugs, request features
+    and contribute code.</p>
+
+{% endblock %}

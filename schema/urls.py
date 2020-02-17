@@ -4,6 +4,7 @@ from schema import views
 
 urlpatterns = [
   path('', views.index, name='index'),
+  path('about', views.about, name='about'),
   path('accessory/', views.AccessoryList.as_view(), name='accessory-list'),
   path('accessory/<int:pk>', views.AccessoryDetail.as_view(), name='accessory-detail'),
   path('accessory/create/', views.AccessoryCreate.as_view(), name='accessory-create'),

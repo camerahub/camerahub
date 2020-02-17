@@ -8,6 +8,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def index(request):
     return render(request, 'schema/index.html')
 
+def about(request):
+    return render(request, 'schema/about.html')
+
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
