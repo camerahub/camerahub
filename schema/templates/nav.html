@@ -1,65 +1,96 @@
 {% load static %}
 
-<h1>CameraHub</h1>
-<img src="{% static "logos/combinedlogo188.png" %}" alt="CameraHub logo">
-{% if user.is_authenticated %}
-<p><a href="{% url 'logout' %}">Logout</a> {{ user.username }}</p>
-<p><a href="{% url 'password_change' %}">Change password</a></p>
-{% else %}
-<p><a href="{% url 'login' %}">Login</a></p>
-{% endif %}
-<hr />
-<!-- insert default navigation text for every page -->
-<ul class="sidebar-nav">
-    <li><a href="{% url 'index' %}">Home</a></li>
-    <li><a href="{% url 'about' %}">About</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'accessory-list' %}">Accessories</a></li>
-    <li><a href="{% url 'archive-list' %}">Archives</a></li>
-    {% endif %}
-    <li><a href="{% url 'battery-list' %}">Batteries</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'bulkfilm-list' %}">Bulk films</a></li>
-    <li><a href="{% url 'camera-list' %}">Cameras</a></li>
-    {% endif %}
-    <li><a href="{% url 'cameramodel-list' %}">Camera models</a></li>
-    <li><a href="{% url 'developer-list' %}">Developers</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'enlarger-list' %}">Enlargers</a></li>
-    <li><a href="{% url 'film-list' %}">Films</a></li>
-    {% endif %}
-    <li><a href="{% url 'filmstock-list' %}">Film stocks</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'filter-list' %}">Filters</a></li>
-    <li><a href="{% url 'flash-list' %}">Flashes</a></li>
-    {% endif %}
-    <li><a href="{% url 'flashprotocol-list' %}">Flash protocols</a></li>
-    <li><a href="{% url 'format-list' %}">Formats</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'lens-list' %}">Lenses</a></li>
-    {% endif %}
-    <li><a href="{% url 'lensmodel-list' %}">Lens models</a></li>
-    <li><a href="{% url 'manufacturer-list' %}">Manufacturers</a></li>
-    <li><a href="{% url 'mount-list' %}">Mounts</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'mountadapter-list' %}">Mount adapters</a></li>
-    <li><a href="{% url 'negative-list' %}">Negatives</a></li>
-    {% endif %}
-    <li><a href="{% url 'negativesize-list' %}">Negative sizes</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'order-list' %}">Orders</a></li>
-    {% endif %}
-    <li><a href="{% url 'paperstock-list' %}">Paper stocks</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'person-list' %}">People</a></li></a></li>
-    <li><a href="{% url 'print-list' %}">Prints</a></li>
-    {% endif %}
-    <li><a href="{% url 'process-list' %}">Processes</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'repair-list' %}">Repairs</a></li>
-    <li><a href="{% url 'scan-list' %}">Scans</a></li>
-    <li><a href="{% url 'series-list' %}">Series</a></li>
-    <li><a href="{% url 'teleconverter-list' %}">Teleconverters</a></li>
-    {% endif %}
-    <li><a href="{% url 'toner-list' %}">Toners</a></li>
-</ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">CameraHub</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Public data
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'cameramodel-list' %}">Camera models</a>
+                    <a class="dropdown-item" href="{% url 'lensmodel-list' %}">Lens models</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'battery-list' %}">Batteries</a>
+                    <a class="dropdown-item" href="{% url 'developer-list' %}">Developers</a>
+                    <a class="dropdown-item" href="{% url 'filmstock-list' %}">Film stocks</a>
+                    <a class="dropdown-item" href="{% url 'flashprotocol-list' %}">Flash protocols</a>
+                    <a class="dropdown-item" href="{% url 'format-list' %}">Formats</a>
+                    <a class="dropdown-item" href="{% url 'manufacturer-list' %}">Manufacturers</a>
+                    <a class="dropdown-item" href="{% url 'mount-list' %}">Mounts</a>
+                    <a class="dropdown-item" href="{% url 'negativesize-list' %}">Negative sizes</a>
+                    <a class="dropdown-item" href="{% url 'paperstock-list' %}">Paper stocks</a>
+                    <a class="dropdown-item" href="{% url 'process-list' %}">Processes</a>
+                    <a class="dropdown-item" href="{% url 'toner-list' %}">Toners</a>
+                </div>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Private data
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                    <a class="dropdown-item" href="{% url 'camera-list' %}">Cameras</a>
+                    <a class="dropdown-item" href="{% url 'lens-list' %}">Lenses</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'accessory-list' %}">Accessories</a>
+                    <a class="dropdown-item" href="{% url 'archive-list' %}">Archives</a>
+                    <a class="dropdown-item" href="{% url 'bulkfilm-list' %}">Bulk films</a>
+                    <a class="dropdown-item" href="{% url 'enlarger-list' %}">Enlargers</a>
+                    <a class="dropdown-item" href="{% url 'film-list' %}">Films</a>
+                    <a class="dropdown-item" href="{% url 'filter-list' %}">Filters</a>
+                    <a class="dropdown-item" href="{% url 'flash-list' %}">Flashes</a>
+                    <a class="dropdown-item" href="{% url 'mountadapter-list' %}">Mount adapters</a>
+                    <a class="dropdown-item" href="{% url 'negative-list' %}">Negatives</a>
+                    <a class="dropdown-item" href="{% url 'order-list' %}">Orders</a>
+                    <a class="dropdown-item" href="{% url 'person-list' %}">People</a>
+                    <a class="dropdown-item" href="{% url 'print-list' %}">Prints</a>
+                    <a class="dropdown-item" href="{% url 'repair-list' %}">Repairs</a>
+                    <a class="dropdown-item" href="{% url 'scan-list' %}">Scans</a>
+                    <a class="dropdown-item" href="{% url 'series-list' %}">Series</a>
+                    <a class="dropdown-item" href="{% url 'teleconverter-list' %}">Teleconverters</a>
+                </div>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Private data</a>
+            </li>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    {{ user.username }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
+                </div>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </div>
+</nav>
