@@ -1,5 +1,15 @@
 resources:
 - deployment.yaml
 - ingress.yaml
-- secret.yaml
 - service.yaml
+
+secretGenerator:
+    - name: camerahub-secret
+      literals:
+        - CAMERAHUB_SECRET_KEY=OverrideMe!
+        - CAMERAHUB_SENDGRID_KEY=
+        - CAMERAHUB_DB_USER=postgres
+        - CAMERAHUB_DB_PASS=postgres
+        - CAMERAHUB_ADMIN_EMAIL=admin@example.com
+        - CAMERAHUB_ADMIN_PASSWORD=admin
+        - CAMERAHUB_PROD=true

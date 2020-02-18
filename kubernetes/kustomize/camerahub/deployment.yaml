@@ -48,7 +48,7 @@ spec:
               name: camerahub-secret
               key: CAMERAHUB_SENDGRID_KEY
         - name: CAMERAHUB_DB_HOST
-          value: postgres-service
+          value: postgres
         - name: CAMERAHUB_DB_NAME
           value: camerahub
         - name: CAMERAHUB_DB_PORT

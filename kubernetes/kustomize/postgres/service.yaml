@@ -1,11 +1,31 @@
-kind: Service
+---
 apiVersion: v1
+kind: Service
 metadata:
-  name: postgres-service
+  labels:
+    app: postgres
+  name: postgres
 spec:
-  selector:
-    app: postgres-container
   ports:
-    - protocol: TCP
-      port: 5432
-      targetPort: 5432
+  - name: postgres
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: postgres-replica
+  name: postgres-replica
+
+spec:
+  ports:
+  - name: postgres-replica
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: postgres-replica
