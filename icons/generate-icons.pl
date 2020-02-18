@@ -75,7 +75,7 @@ for my $resolution (@resolutions) {
 		if ($newnames{$1}) {
 			foreach my $newname (@{$newnames{$1}}) {
 				# Generate a PNG for each hash value
-				`inkscape -z -e $output/$resolution/$newname${resolution}.png -w $resolution -h $resolution $file`
+				`inkscape -z -o $output/$resolution/$newname${resolution}.png -w $resolution -h $resolution $file`
 			}
 		}
 	}
