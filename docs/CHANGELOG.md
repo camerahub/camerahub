@@ -41,3 +41,14 @@
 21 Jan 2020
 
 * Final release of 0.1.x series to validate CI
+
+## `0.2.0`
+
+18 Feb 2020
+
+* Add activation step for user sign-ups (#176)
+* Add password reset functionality (#177)
+* Add moderation of public data (#172)
+* Add 'About' page (#192)
+* Rework secrets (#187)
+* Use StatefulSet to run resilient Postgres database (#193)
