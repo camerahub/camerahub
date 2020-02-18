@@ -17,7 +17,7 @@ spec:
           servicePort: 8000
   tls:
   - hosts:
-    - myingress.com
+    - camerahub.info
     secretName: camerahub-ingress-cert
 ---
 apiVersion: apps/v1
