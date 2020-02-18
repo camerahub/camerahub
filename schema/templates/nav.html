@@ -1,0 +1,65 @@
+{% load static %}
+
+<h1>CameraHub</h1>
+<img src="{% static "logos/combinedlogo188.png" %}" alt="CameraHub logo">
+{% if user.is_authenticated %}
+<p><a href="{% url 'logout' %}">Logout</a> {{ user.username }}</p>
+<p><a href="{% url 'password_change' %}">Change password</a></p>
+{% else %}
+<p><a href="{% url 'login' %}">Login</a></p>
+{% endif %}
+<hr />
+<!-- insert default navigation text for every page -->
+<ul class="sidebar-nav">
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'accessory-list' %}">Accessories</a></li>
+    <li><a href="{% url 'archive-list' %}">Archives</a></li>
+    {% endif %}
+    <li><a href="{% url 'battery-list' %}">Batteries</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'bulkfilm-list' %}">Bulk films</a></li>
+    <li><a href="{% url 'camera-list' %}">Cameras</a></li>
+    {% endif %}
+    <li><a href="{% url 'cameramodel-list' %}">Camera models</a></li>
+    <li><a href="{% url 'developer-list' %}">Developers</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'enlarger-list' %}">Enlargers</a></li>
+    <li><a href="{% url 'film-list' %}">Films</a></li>
+    {% endif %}
+    <li><a href="{% url 'filmstock-list' %}">Film stocks</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'filter-list' %}">Filters</a></li>
+    <li><a href="{% url 'flash-list' %}">Flashes</a></li>
+    {% endif %}
+    <li><a href="{% url 'flashprotocol-list' %}">Flash protocols</a></li>
+    <li><a href="{% url 'format-list' %}">Formats</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'lens-list' %}">Lenses</a></li>
+    {% endif %}
+    <li><a href="{% url 'lensmodel-list' %}">Lens models</a></li>
+    <li><a href="{% url 'manufacturer-list' %}">Manufacturers</a></li>
+    <li><a href="{% url 'mount-list' %}">Mounts</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'mountadapter-list' %}">Mount adapters</a></li>
+    <li><a href="{% url 'negative-list' %}">Negatives</a></li>
+    {% endif %}
+    <li><a href="{% url 'negativesize-list' %}">Negative sizes</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'order-list' %}">Orders</a></li>
+    {% endif %}
+    <li><a href="{% url 'paperstock-list' %}">Paper stocks</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'person-list' %}">People</a></li></a></li>
+    <li><a href="{% url 'print-list' %}">Prints</a></li>
+    {% endif %}
+    <li><a href="{% url 'process-list' %}">Processes</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'repair-list' %}">Repairs</a></li>
+    <li><a href="{% url 'scan-list' %}">Scans</a></li>
+    <li><a href="{% url 'series-list' %}">Series</a></li>
+    <li><a href="{% url 'teleconverter-list' %}">Teleconverters</a></li>
+    {% endif %}
+    <li><a href="{% url 'toner-list' %}">Toners</a></li>
+</ul>
