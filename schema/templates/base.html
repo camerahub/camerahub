@@ -16,7 +16,7 @@
     <div class="container">
         {% block sidebar %}{% include "nav.html" %}
         {% endblock %}
-        {% block heading %}{% endblock %}
+        <h4>{% block heading %}{% endblock %}</h4>
         {% block subheading %}{% endblock %}
         {% block content %}
         <!-- default content text (typically empty) -->{% endblock %}
