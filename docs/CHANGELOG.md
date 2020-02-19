@@ -52,3 +52,11 @@
 * Add 'About' page (#192)
 * Rework secrets (#187)
 * Use StatefulSet to run resilient Postgres database (#193)
+
+## `0.2.1`
+
+19 Feb 2020
+
+* Make Django be aware of its own hostname/domain (#189)
+* Set "from" email address (#189)
+* Use absolute URL in email templates (#189)
