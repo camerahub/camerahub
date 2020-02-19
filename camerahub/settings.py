@@ -149,6 +149,9 @@ LOGOUT_REDIRECT_URL = 'index'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Email support with Sendgrid
+DEFAULT_FROM_EMAIL = env('CAMERAHUB_FROM_EMAIL', "noreply@camerahub.info"),
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
 if env('CAMERAHUB_SENDGRID_KEY'):
     EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
     SENDGRID_API_KEY = env('CAMERAHUB_SENDGRID_KEY')
