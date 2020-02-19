@@ -26,7 +26,7 @@ SECRET_KEY = env('CAMERAHUB_SECRET_KEY', 'OverrideMe!'),
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.getenv('CAMERAHUB_PROD') == 'true':
     DEBUG = False
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = [env('CAMERAHUB_DOMAIN', 'camerahub.info')]
 else:
     DEBUG = True
     ALLOWED_HOSTS = []
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django_tables2',
     'crispy_forms',
     'moderation',
+    'fullurl',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +73,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.request',
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
@@ -149,6 +149,9 @@ LOGOUT_REDIRECT_URL = 'index'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Email support with Sendgrid
+DEFAULT_FROM_EMAIL = env('CAMERAHUB_FROM_EMAIL', "noreply@camerahub.info"),
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
 if env('CAMERAHUB_SENDGRID_KEY'):
     EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
     SENDGRID_API_KEY = env('CAMERAHUB_SENDGRID_KEY')
