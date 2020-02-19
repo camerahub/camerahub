@@ -1,12 +1,9 @@
 {% load static %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#"><h3>CameraHub</h3></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
+    <a class="navbar-brand" href="#">
+        <h3>CameraHub</h3>
+    </a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -46,7 +43,6 @@
                     Private data
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
                     <a class="dropdown-item" href="{% url 'camera-list' %}">Cameras</a>
                     <a class="dropdown-item" href="{% url 'lens-list' %}">Lenses</a>
                     <div class="dropdown-divider"></div>
