@@ -2,15 +2,17 @@
 
 {% block heading %}{% include "heading.html" %}{%endblock%}
 
-{% block subheading %}<h2>{{ object }}</h2>{%endblock%}
+{% block subheading %}<h4>{{ object }}</h4>{%endblock%}
 
 {% block content %}{%endblock%}
 
 {% block actions %}
-  <h3>Actions</h3>
+<div class="container">
+  <h5>Actions</h5>
   <ul>
     <li>See all</li>
     <li><a href="{{ object.get_absolute_url }}/update">Edit</a></li>
     {% block moreactions %}{%endblock%}
   </ul>
+</div>
 {%endblock%}
