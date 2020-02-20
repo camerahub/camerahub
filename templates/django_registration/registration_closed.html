@@ -1,6 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block heading %}
+<h4>
+  <img src="{% static "icons/30/register30.png" %}" alt="Login">
+  Register</h4>
+{% endblock %}
 
 {% block content %}
-<h2>Register</h2>
 <p>User registration is currently closed</p>
 {% endblock %}

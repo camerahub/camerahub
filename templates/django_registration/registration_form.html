@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block heading %}
+<h4>
+  <img src="{% static "icons/30/register30.png" %}" alt="Login">
+  Register</h4>
+{% endblock %}
 
 {% block content %}
-  <h2>Register</h2>
-  <p>Enter your details to create a free account for CameraHub</p>
-  <form method="post">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit">Register</button>
-  </form>
+<p>Enter your details to create a free account for CameraHub</p>
+<form method="post">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button type="submit">Register</button>
+</form>
 {% endblock %}
