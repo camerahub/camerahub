@@ -14,13 +14,11 @@
 
 <body>
     <div class="container">
-        {% block sidebar %}{% include "nav.html" %}
-        {% endblock %}
-        {% block heading %}{% endblock %}
-        {% block subheading %}{% endblock %}
-        {% block content %}
-        <!-- default content text (typically empty) -->{% endblock %}
-        {% block actions %}{% endblock %}
+        <div class="container">{% block sidebar %}{% include "nav.html" %}{% endblock %}</div>
+        <div class="container">{% block heading %}{% endblock %}</div>
+        <div class="container">{% block subheading %}{% endblock %}</div>
+        <div class="container">{% block content %}{% endblock %}</div>
+        <div class="container">{% block actions %}{% endblock %}</div>
 
         {% block pagination %}
         {% if is_paginated %}
