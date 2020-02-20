@@ -45,9 +45,11 @@ my %newnames = (
 	'icons8-facebook'				=> ['facebook'],
 	'icons8-github'					=> ['github'],
 	'icons8'						=> ['icons8'],
-	'icons8-about'					=> ['about']
+	'icons8-about'					=> ['about'],
+	'icons8-login'					=> ['login'],
+	'icons8-add-user-male'			=> ['register'],
+	'icons8-sign-in-form-password'	=> ['password'],
 #unknown
-#login
 #logout
 );
 
@@ -75,7 +77,7 @@ for my $resolution (@resolutions) {
 		if ($newnames{$1}) {
 			foreach my $newname (@{$newnames{$1}}) {
 				# Generate a PNG for each hash value
-				`inkscape -z -e $output/$resolution/$newname${resolution}.png -w $resolution -h $resolution $file`
+				`inkscape -z -o $output/$resolution/$newname${resolution}.png -w $resolution -h $resolution $file`
 			}
 		}
 	}

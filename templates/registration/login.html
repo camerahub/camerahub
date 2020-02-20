@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block heading %}
+<h4>
+  <img src="{% static "icons/30/login30.png" %}" alt="Login">
+  Login</h4>
+{% endblock %}
 
 {% block content %}
-<h2>Login</h2>
 <form method="post">
   {% csrf_token %}
   {{ form|crispy }}
