@@ -1,7 +1,7 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table>
+<table class="table">
   <tr>
     <th>Filmstock</th>
     <td>{% if object.filmstock %}<a href="{% url 'filmstock-detail' object.filmstock.id %}">{{ object.filmstock }}</a>{% endif %}</td>
@@ -98,7 +98,7 @@
 
 <div style="margin-left:20px;margin-top:20px">
   <h4>Negatives</h4>
-  <table>
+  <table class="table">
     <tr>
       <th>Frame</th>
       <th>Caption</th>

@@ -1,7 +1,7 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table>
+<table class="table">
   <tr>
     <th>Manufacturer</th>
     <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
@@ -150,7 +150,7 @@
 
 <div style="margin-left:20px;margin-top:20px">
     <h4>Lenses</h4>
-    <table>
+    <table class="table">
       <tr>
         <th>Serial</th>
         <th>Acquired</th>

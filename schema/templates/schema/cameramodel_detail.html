@@ -1,7 +1,7 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table>
+<table class="table">
   <tr>
     <th>Mount</th>
     <td>{% if object.mount %}<a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a>{% endif %}</td>
@@ -188,7 +188,7 @@
 
 <div style="margin-left:20px;margin-top:20px">
   <h4>Cameras</h4>
-  <table>
+  <table class="table">
     <tr>
       <th>Serial</th>
       <th>Acquired</th>
