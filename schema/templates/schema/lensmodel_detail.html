@@ -3,6 +3,10 @@
 {% block content %}
 <table class="table">
   <tr>
+    <th>Disambiguation</th>
+    <td>{{ object.disambiguation }}</td>
+  </tr>
+  <tr>
     <th>Manufacturer</th>
     <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>

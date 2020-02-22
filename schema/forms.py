@@ -99,6 +99,7 @@ class CameraModelForm(ModelForm):
         fields = [
             'manufacturer',
             'model',
+            'disambiguation',
             'mount',
             'format',
             'focus_type',
@@ -291,6 +292,7 @@ class LensModelForm(ModelForm):
         fields = [
             'manufacturer',
             'model',
+            'disambiguation',
             'mount',
             'zoom',
             'min_focal_length',
