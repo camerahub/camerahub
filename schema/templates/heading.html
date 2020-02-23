@@ -3,5 +3,5 @@
 
 <h4><img src="{% get_static_prefix %}icons/30/{{ view.model | verbose_name | cut:" " }}30.png"
         alt="{{ view.model | verbose_name | title}}">
-    {{ view.model | verbose_name_plural | title }}</h4>
+    <a href="{% url view.model|model_list %}">{{ view.model | verbose_name_plural | title }}</a></h4>
 {% if view.model.description %}<p>{{ view.model.description }}</p>{% endif %}
