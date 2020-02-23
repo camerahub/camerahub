@@ -1,10 +1,14 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from schema import views
 
 urlpatterns = [
-  path('', views.index, name='index'),
-  path('about', views.about, name='about'),
+
+  # Static pages
+  path('', TemplateView.as_view(template_name='schema/index.html'), name='index'),
+  path('about', TemplateView.as_view(template_name='schema/about.html'), name='about'),
+
   path('accessory/', views.AccessoryList.as_view(), name='accessory-list'),
   path('accessory/<int:pk>', views.AccessoryDetail.as_view(), name='accessory-detail'),
   path('accessory/create/', views.AccessoryCreate.as_view(), name='accessory-create'),
