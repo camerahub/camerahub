@@ -1,0 +1,44 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: postgres-backup
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - env:
+                - name: PGHOST
+                  value: postgres
+                - name: PGPORT
+                  value: "5432"
+                - name: PGDATABASE
+                  value: camerahub
+                - name: PGUSER
+                  valueFrom:
+                    secretKeyRef:
+                      key: CAMERAHUB_DB_USER
+                      name: camerahub-secret
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: CAMERAHUB_DB_PASS
+                      name: camerahub-secret
+              image: rinormaloku/postgres-back-up
+              name: pgsql-backup
+              volumeMounts:
+                - mountPath: /pg_backup
+                  name: postgres-backup
+          restartPolicy: OnFailure
+      volumeClaimTemplates:
+        - metadata:
+            name: postgres-backup
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+            requests:
+              storage: 5Gi
+  schedule: "0 3 * * *"
