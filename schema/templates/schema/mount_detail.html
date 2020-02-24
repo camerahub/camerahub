@@ -24,7 +24,8 @@
   </tr>
   <tr>
     <th>Manufacturer</th>
-    <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
+    <td>{% if object.manufacturer %}<a
+        href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
 </table>
 

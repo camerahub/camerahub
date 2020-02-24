@@ -4,11 +4,13 @@
 <table class="table">
   <tr>
     <th>Film format</th>
-    <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}</td>
+    <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}
+    </td>
   </tr>
   <tr>
     <th>Filmstock</th>
-    <td>{% if object.filmstock %}<a href="{% url 'filmstock-detail' object.filmstock.id %}">{{ object.filmstock }}</a>{% endif %}</td>
+    <td>{% if object.filmstock %}<a
+        href="{% url 'filmstock-detail' object.filmstock.id %}">{{ object.filmstock }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Purchase date</th>
