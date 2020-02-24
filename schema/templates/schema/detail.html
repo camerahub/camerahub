@@ -7,8 +7,10 @@
 {% block content %}{%endblock%}
 
 {% block actions %}
-<div class="container">
-  <h5>Actions</h5>
+<a data-toggle="collapse" href="#collapseActions" role="button" aria-expanded="false" aria-controls="collapseActions">
+  Actions
+</a>
+<div class="collapse" id="collapseActions">
   <ul>
     <li>See all</li>
     <li><a href="{{ object.get_absolute_url }}/update">Edit</a></li>
