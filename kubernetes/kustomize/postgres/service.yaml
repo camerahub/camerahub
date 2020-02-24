@@ -7,10 +7,10 @@ metadata:
   name: postgres
 spec:
   ports:
-  - name: postgres
-    port: 5432
-    protocol: TCP
-    targetPort: 5432
+    - name: postgres
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
   selector:
     app: postgres
 ---
@@ -23,9 +23,9 @@ metadata:
 
 spec:
   ports:
-  - name: postgres-replica
-    port: 5432
-    protocol: TCP
-    targetPort: 5432
+    - name: postgres-replica
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
   selector:
     app: postgres-replica

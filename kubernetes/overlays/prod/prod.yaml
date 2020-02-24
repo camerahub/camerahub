@@ -8,17 +8,17 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
-  - host: camerahub.info
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: camerahub
-          servicePort: 8000
+    - host: camerahub.info
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: camerahub
+              servicePort: 8000
   tls:
-  - hosts:
-    - myingress.com
-    secretName: camerahub-ingress-cert
+    - hosts:
+        - myingress.com
+      secretName: camerahub-ingress-cert
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -29,5 +29,5 @@ spec:
   template:
     spec:
       containers:
-      - image: djjudas21/camerahub:0.2.1
-        name: camerahub
+        - image: djjudas21/camerahub:0.2.1
+          name: camerahub

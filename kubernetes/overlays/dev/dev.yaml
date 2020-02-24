@@ -14,8 +14,8 @@ spec:
   template:
     spec:
       containers:
-      - image: djjudas21/camerahub:testing
-        name: camerahub
+        - image: djjudas21/camerahub:testing
+          name: camerahub
 ---
 apiVersion: apps/v1
 kind: StatefulSet
