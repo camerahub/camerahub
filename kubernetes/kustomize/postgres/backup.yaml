@@ -4,8 +4,10 @@ kind: CronJob
 metadata:
   name: postgres-backup
 spec:
+  schedule: "0 3 * * *"
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 86400
       template:
         spec:
           containers:
@@ -36,8 +38,6 @@ spec:
             - name: postgres-backup
               persistentVolumeClaim:
                 claimName: postgres-backup
-  schedule: "0 3 * * *"
-  ttlSecondsAfterFinished: 86400
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
