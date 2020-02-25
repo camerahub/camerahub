@@ -60,3 +60,18 @@
 * Make Django be aware of its own hostname/domain (#189)
 * Set "from" email address (#189)
 * Use absolute URL in email templates (#189)
+
+## `0.3.0`
+
+25 Feb 2020
+
+* Update styling and add nav bar (#178, #197)
+* Add disambiguation to camera model & lens model (#199)
+* Shortcut static pages with views (#160)
+* Make model headings clickable (#205)
+* Collapsing subsections for inlines and actions (#131)
+* Implement daily database backups in prod (#203)
+* Swap PNG graphics for SVGs (#200)
+* Add basic stats page (#142)
+* Add homepage beta banner and jumbotron (#217)
+* Temporarily disable moderation until it works (#202)
