@@ -8,14 +8,20 @@
 {% block content %}
 <div class="alert alert-warning" role="alert">
     CameraHub is still in beta, so there may be some rough edges. Please <a
-        href="https://github.com/djjudas21/camerahub/issues"> report bugs</a> if you find them!
+        href="https://github.com/djjudas21/camerahub/issues">report bugs</a> if you find them!
 </div>
-<p>Welcome to CameraHub: an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
-{% if user.is_authenticated %}
-<p>Browse and track your collection using the links on the left.</p>
-{% else %}
-<p>Public data is available to browse without logging in.</p>
-<p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'django_registration_register' %}">register</a> to start
-    tracking your own collection!</p>
-{% endif %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to CameraHub</h1>
+    <p class="lead">an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
+    <hr class="my-4">
+    {% if user.is_authenticated %}
+    <p>Browse and track your collection using the menus above.</p>
+    {% else %}
+    <p>Public data about camera models, lens models and much more is available to browse without logging in.
+        Get started by using the public data menu above.</p>
+    <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'django_registration_register' %}">register</a> to start
+        tracking private data about your own collection!</p>
+    {% endif %}
+</div>
 {% endblock %}
