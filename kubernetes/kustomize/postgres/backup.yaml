@@ -32,13 +32,19 @@ spec:
                 - mountPath: /pg_backup
                   name: postgres-backup
           restartPolicy: OnFailure
-      volumeClaimTemplates:
-        - metadata:
-            name: postgres-backup
-          spec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-            requests:
-              storage: 5Gi
+          volumes:
+            - name: postgres-backup
+              persistentVolumeClaim:
+                claimName: postgres-backup
   schedule: "0 3 * * *"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-backup
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
