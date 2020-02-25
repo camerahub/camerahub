@@ -50,6 +50,7 @@ my %newnames = (
 	'icons8-login'					=> ['login'],
 	'icons8-add-user-male'			=> ['register'],
 	'icons8-sign-in-form-password'	=> ['password'],
+	'icons8-bar-chart'				=> ['stats'],
 #unknown
 #logout
 );
@@ -62,7 +63,7 @@ my @files = `find svg -name '*.svg'`;
 
 # Delete and recreate the dir
 `rm -rf $output`;
-`mkdir $output;
+`mkdir $output`;
 
 foreach my $file (@files) {
 	chomp $file;
