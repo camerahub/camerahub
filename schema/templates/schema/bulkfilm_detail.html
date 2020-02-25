@@ -4,11 +4,13 @@
 <table class="table">
   <tr>
     <th>Film format</th>
-    <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}</td>
+    <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}
+    </td>
   </tr>
   <tr>
     <th>Filmstock</th>
-    <td>{% if object.filmstock %}<a href="{% url 'filmstock-detail' object.filmstock.id %}">{{ object.filmstock }}</a>{% endif %}</td>
+    <td>{% if object.filmstock %}<a
+        href="{% url 'filmstock-detail' object.filmstock.id %}">{{ object.filmstock }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Purchase date</th>
@@ -32,8 +34,10 @@
   </tr>
 </table>
 
-<div style="margin-left:20px;margin-top:20px">
-  <h4>Films cut from this bulk film</h4>
+<a data-toggle="collapse" href="#collapseFilms" role="button" aria-expanded="false" aria-controls="collapseFilms">
+  Films cut from this bulk film
+</a>
+<div class="collapse" id="collapseFilms">
   <table class="table">
     <tr>
       <th>Film ID</th>
