@@ -23,3 +23,10 @@ metadata:
   name: postgres-replica
 spec:
   replicas: 0
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: postgres-backup
+spec:
+  suspend: true
