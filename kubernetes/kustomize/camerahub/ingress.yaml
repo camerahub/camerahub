@@ -4,10 +4,10 @@ metadata:
   name: camerahub
 spec:
   rules:
-  - http:
-    # host: myingress.com
-      paths:
-      - backend:
-          serviceName: camerahub
-          servicePort: 8000
-        path: /
+    - http:
+        # host: myingress.com
+        paths:
+          - backend:
+              serviceName: camerahub
+              servicePort: 8000
+            path: /

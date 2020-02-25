@@ -5,7 +5,7 @@ metadata:
 spec:
   updateStrategy:
     type: RollingUpdate
-  
+
   selector:
     matchLabels:
       app: postgres
@@ -15,67 +15,73 @@ spec:
   template:
     metadata:
       labels:
-        app: postgres 
+        app: postgres
         tier: backend
     spec:
       volumes:
         - name: postgres-config
           configMap:
             name: postgres
-            
+
       terminationGracePeriodSeconds: 10
 
       containers:
         - name: postgres
           image: postgres:10.5
-          args: ['-c', 'config_file=/etc/postgres.conf', '-c', 'hba_file=/etc/pg_hba.conf']
-          
+          args:
+            [
+              "-c",
+              "config_file=/etc/postgres.conf",
+              "-c",
+              "hba_file=/etc/pg_hba.conf",
+            ]
+
           imagePullPolicy: IfNotPresent
-        
+
           ports:
             - name: postgres
               containerPort: 5432
               protocol: TCP
-          
+
           resources:
             requests:
               cpu: 100m
               memory: 256Mi
-          
+
           env:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_DB_USER
-          
+
             - name: PGUSER
               value: postgres
-          
+
             - name: POSTGRES_DB
               value: camerahub
-            
+
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
-          
+
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_DB_PASS
-                  
+
             - name: REPLICATION_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: replicaPassword
                   name: postgres
-              
+
             - name: POD_IP
               valueFrom:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: status.podIP
-              
+
           livenessProbe:
             exec:
               command:
@@ -104,28 +110,28 @@ spec:
             - mountPath: /var/lib/postgresql/data/pgdata
               name: postgres
               subPath: postgres-db
-              
+
             - name: postgres-config
               mountPath: /etc/postgres.conf
               subPath: postgres.conf
-              
+
             - name: postgres-config
               mountPath: /etc/master.conf
               subPath: master.conf
-              
+
             - name: postgres-config
               mountPath: /etc/pg_hba.conf
               subPath: pg_hba.conf
-              
+
             - name: postgres-config
               mountPath: /docker-entrypoint-initdb.d/create-replica-user.sh
               subPath: create-replica-user.sh
-          
+
   volumeClaimTemplates:
-  - metadata:
-      name: postgres
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: postgres
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

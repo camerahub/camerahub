@@ -6,7 +6,7 @@ metadata:
   name: camerahub
 spec:
   ports:
-  - port: 8000
-    protocol: TCP
+    - port: 8000
+      protocol: TCP
   selector:
     app: camerahub-container
