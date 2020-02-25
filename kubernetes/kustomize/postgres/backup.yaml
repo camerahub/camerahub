@@ -26,7 +26,7 @@ spec:
                     secretKeyRef:
                       key: CAMERAHUB_DB_PASS
                       name: camerahub-secret
-              image: rinormaloku/postgres-back-up
+              image: djjudas21/postgres-backup:10
               name: pgsql-backup
               volumeMounts:
                 - mountPath: /pg_backup
