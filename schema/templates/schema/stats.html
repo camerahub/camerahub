@@ -9,9 +9,10 @@
 
 <div class="container">
     <div class="row justify-content-between">
-        <div class="col-sm" >
+        <div class="col-sm">
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="{% static "svg/cameramodel.svg" %}" alt="Camera models">
+                <img class="card-img-top mx-auto" src="{% static "svg/cameramodel.svg" %}" style="width: 200px"
+                    alt="Camera models">
                 <div class="card-body">
                     <h3 class="card-title">{{ num_camera_models }}</h3>
                     <p class="card-text">camera models in CameraHub</p>
@@ -23,7 +24,8 @@
         </div>
         <div class="col-sm">
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="{% static "svg/lensmodel.svg" %}" alt="Lens models">
+                <img class="card-img-top mx-auto" src="{% static "svg/lensmodel.svg" %}" style="width: 200px"
+                    alt="Lens models">
                 <div class="card-body">
                     <h3 class="card-title">{{ num_lens_models }}</h3>
                     <p class="card-text">lens models in CameraHub</p>
@@ -35,7 +37,8 @@
         </div>
         <div class="col-sm">
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="{% static "svg/filmstock.svg" %}" alt="Film stocks">
+                <img class="card-img-top mx-auto" src="{% static "svg/filmstock.svg" %}" style="width: 200px"
+                    alt="Film stocks">
                 <div class="card-body">
                     <h3 class="card-title">{{ num_filmstocks }}</h3>
                     <p class="card-text">filmstocks in CameraHub</p>
