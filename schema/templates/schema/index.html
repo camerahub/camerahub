@@ -6,6 +6,10 @@
     Welcome</h4>{%endblock%}
 
 {% block content %}
+<div class="alert alert-warning" role="alert">
+    CameraHub is still in beta, so there may be some rough edges. Please <a
+        href="https://github.com/djjudas21/camerahub/issues"> report bugs</a> if you find them!
+</div>
 <p>Welcome to CameraHub: an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
 {% if user.is_authenticated %}
 <p>Browse and track your collection using the links on the left.</p>
