@@ -2,14 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.base import TemplateView
 from django_tables2 import SingleTableView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-def index(request):
-    return render(request, 'schema/index.html')
-
-def about(request):
-    return render(request, 'schema/about.html')
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
@@ -675,3 +670,13 @@ class TonerUpdate(LoginRequiredMixin, UpdateView):
   model = Toner
   form_class = TonerForm
   template_name = 'schema/update.html'
+
+class StatsView(TemplateView):
+  template_name = "schema/stats.html"
+
+  def get_context_data(self, **kwargs):
+      context = super().get_context_data(**kwargs)
+      context['num_camera_models'] = CameraModel.objects.count
+      context['num_lens_models'] = LensModel.objects.count
+      context['num_filmstocks'] = FilmStock.objects.count
+      return context

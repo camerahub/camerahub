@@ -1,12 +1,13 @@
 #!/usr/bin/perl -w
 
-# This script generates PNG icons with the right names, at various resolutions
+# This script generates SVG icons with the right names
 # from the raw SVG icons obtained from Icons8
 
 use strict;
 use warnings;
+use File::Copy;
 
-# Set up mappings between old and new icon names. One SVG can be mapped to multiple PNGs
+# Set up mappings between old and new icon names. One source SVG can be mapped to multiple destination SVGs
 my %newnames = (
 	'icons8-camera-addon'			=> ['accessory'],
 	'icons8-collectibles'			=> ['archive'],
@@ -45,38 +46,36 @@ my %newnames = (
 	'icons8-facebook'				=> ['facebook'],
 	'icons8-github'					=> ['github'],
 	'icons8'						=> ['icons8'],
-	'icons8-about'					=> ['about']
+	'icons8-about'					=> ['about'],
+	'icons8-login'					=> ['login'],
+	'icons8-add-user-male'			=> ['register'],
+	'icons8-sign-in-form-password'	=> ['password'],
+	'icons8-bar-chart'				=> ['stats'],
 #unknown
-#login
 #logout
 );
 
-# Define what resolutions we want
-my @resolutions = @ARGV or die "Must specify at least one resolution";
-
 # Define output directory
-my $output = '../schema/static/icons';
+my $output = '../schema/static/svg';
 
 # Get list of SVGs
 my @files = `find svg -name '*.svg'`;
 
-for my $resolution (@resolutions) {
-	# Delete and recreate the dir
-	`rm -rf $output/$resolution`;
-	`mkdir $output/$resolution`;
+# Delete and recreate the dir
+`rm -rf $output`;
+`mkdir $output`;
 
-	foreach my $file (@files) {
-		chomp $file;
+foreach my $file (@files) {
+	chomp $file;
 
-		# Parse filename
-		$file =~ m/^svg\/(.+)-\d+\.svg$/;
+	# Parse filename
+	$file =~ m/^svg\/(.+)-\d+\.svg$/;
 		
-		# If a mapping exists	
-		if ($newnames{$1}) {
-			foreach my $newname (@{$newnames{$1}}) {
-				# Generate a PNG for each hash value
-				`inkscape -z -e $output/$resolution/$newname${resolution}.png -w $resolution -h $resolution $file`
-			}
+	# If a mapping exists	
+	if ($newnames{$1}) {
+		foreach my $newname (@{$newnames{$1}}) {
+			# Copy SVG under new name
+			copy($file, "$output/$newname.svg");
 		}
 	}
 }

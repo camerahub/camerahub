@@ -13,103 +13,40 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-2">
-                {% block sidebar %}
-                <h1>CameraHub</h1>
-                <img src="{% static "logos/combinedlogo188.png" %}" alt="CameraHub logo">
-                {% if user.is_authenticated %}
-                <p><a href="{% url 'logout' %}">Logout</a> {{ user.username }}</p>
-                <p><a href="{% url 'password_change' %}">Change password</a></p>
-                {% else %}
-                <p><a href="{% url 'login' %}">Login</a></p>
-                {% endif %}
-                <hr />
-                <!-- insert default navigation text for every page -->
-                <ul class="sidebar-nav">
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="{% url 'about' %}">About</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'accessory-list' %}">Accessories</a></li>
-                    <li><a href="{% url 'archive-list' %}">Archives</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'battery-list' %}">Batteries</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'bulkfilm-list' %}">Bulk films</a></li>
-                    <li><a href="{% url 'camera-list' %}">Cameras</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'cameramodel-list' %}">Camera models</a></li>
-                    <li><a href="{% url 'developer-list' %}">Developers</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'enlarger-list' %}">Enlargers</a></li>
-                    <li><a href="{% url 'film-list' %}">Films</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'filmstock-list' %}">Film stocks</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'filter-list' %}">Filters</a></li>
-                    <li><a href="{% url 'flash-list' %}">Flashes</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'flashprotocol-list' %}">Flash protocols</a></li>
-                    <li><a href="{% url 'format-list' %}">Formats</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'lens-list' %}">Lenses</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'lensmodel-list' %}">Lens models</a></li>
-                    <li><a href="{% url 'manufacturer-list' %}">Manufacturers</a></li>
-                    <li><a href="{% url 'mount-list' %}">Mounts</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'mountadapter-list' %}">Mount adapters</a></li>
-                    <li><a href="{% url 'negative-list' %}">Negatives</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'negativesize-list' %}">Negative sizes</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'order-list' %}">Orders</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'paperstock-list' %}">Paper stocks</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'person-list' %}">People</a></li></a></li>
-                    <li><a href="{% url 'print-list' %}">Prints</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'process-list' %}">Processes</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'repair-list' %}">Repairs</a></li>
-                    <li><a href="{% url 'scan-list' %}">Scans</a></li>
-                    <li><a href="{% url 'series-list' %}">Series</a></li>
-                    <li><a href="{% url 'teleconverter-list' %}">Teleconverters</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'toner-list' %}">Toners</a></li>
-                </ul>
-                {% endblock %}
-            </div>
-            <div class="col-sm-10 ">
-                {% block heading %}{% endblock %}
-                {% block subheading %}{% endblock %}
-                {% block content %}
-                <!-- default content text (typically empty) -->{% endblock %}
-                {% block actions %}{% endblock %}
-            </div>
+    <div class="container">
+        <div class="container">{% block sidebar %}{% include "nav.html" %}{% endblock %}</div>
+        <div class="container">{% block heading %}{% endblock %}</div>
+        <div class="container">{% block subheading %}{% endblock %}</div>
+        <div class="container">{% block content %}{% endblock %}</div>
+        <div class="container">{% block actions %}{% endblock %}</div>
 
-            {% block pagination %}
-            {% if is_paginated %}
-            <div class="pagination">
-                <span class="page-links">
-                    {% if page_obj.has_previous %}
-                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-                    {% endif %}
-                    <span class="page-current">
-                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                    </span>
-                    {% if page_obj.has_next %}
-                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-                    {% endif %}
+        {% block pagination %}
+        {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                 </span>
-            </div>
+                {% if page_obj.has_next %}
+                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
             {% endif %}
             {% endblock %}
+            {% block footer %}{% include "footer.html" %}{% endblock %}
         </div>
-        {% block footer %}{% include "footer.html" %}{% endblock %}
-    </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>

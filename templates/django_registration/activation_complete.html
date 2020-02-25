@@ -1,4 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block heading %}
+<h4>
+  <img src="{% static "svg/register.svg" %}" width="30" height="30" alt="Login">
+  Register</h4>
+{% endblock %}
 
 {% block content %}
 <p>Your account is now activated. <a href="{% url 'login' %}">Log in</a> now.</p>

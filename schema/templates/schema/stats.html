@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block heading %}<h4>
+    <img src="{% static "svg/stats.svg" %}" width="30" height="30" alt="Stats">
+    Stats</h4>{%endblock%}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-between">
+        <div class="col-sm">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top mx-auto" src="{% static "svg/cameramodel.svg" %}" style="width: 200px"
+                    alt="Camera models">
+                <div class="card-body">
+                    <h3 class="card-title">{{ num_camera_models }}</h3>
+                    <p class="card-text">camera models in CameraHub</p>
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'cameramodel-list' %}" class="card-link">Browse</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top mx-auto" src="{% static "svg/lensmodel.svg" %}" style="width: 200px"
+                    alt="Lens models">
+                <div class="card-body">
+                    <h3 class="card-title">{{ num_lens_models }}</h3>
+                    <p class="card-text">lens models in CameraHub</p>
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'lensmodel-list' %}" class="card-link">Browse</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top mx-auto" src="{% static "svg/filmstock.svg" %}" style="width: 200px"
+                    alt="Film stocks">
+                <div class="card-body">
+                    <h3 class="card-title">{{ num_filmstocks }}</h3>
+                    <p class="card-text">filmstocks in CameraHub</p>
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'filmstock-list' %}" class="card-link">Browse</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

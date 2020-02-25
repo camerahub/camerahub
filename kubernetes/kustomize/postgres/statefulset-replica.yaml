@@ -5,7 +5,7 @@ metadata:
 spec:
   updateStrategy:
     type: RollingUpdate
-  
+
   selector:
     matchLabels:
       app: postgres-replica
@@ -15,20 +15,20 @@ spec:
   template:
     metadata:
       labels:
-        app: postgres-replica 
+        app: postgres-replica
         tier: backend
     spec:
       volumes:
         - name: postgres-config
           configMap:
             name: postgres
-            
+
       terminationGracePeriodSeconds: 10
-      
+
       initContainers:
         - name: setup-replica-data-directory
           image: postgres:10.5
-          
+
           env:
             - name: PGPASSWORD
               valueFrom:
@@ -37,16 +37,16 @@ spec:
                   name: postgres
 
           command:
-          - sh
-          - -c
-          - |
-            if [ -z "$(ls -A /var/lib/postgresql/data/pgdata)" ]; then
-                echo "Running pg_basebackup to catch up replication server...";
-                pg_basebackup -R -h postgres -D /var/lib/postgresql/data/pgdata -P -U replication; 
-                chown -R postgres:postgres $PGDATA;
-            else
-                echo "Skipping pg_basebackup because directory is not empty"; 
-            fi
+            - sh
+            - -c
+            - |
+              if [ -z "$(ls -A /var/lib/postgresql/data/pgdata)" ]; then
+                  echo "Running pg_basebackup to catch up replication server...";
+                  pg_basebackup -R -h postgres -D /var/lib/postgresql/data/pgdata -P -U replication; 
+                  chown -R postgres:postgres $PGDATA;
+              else
+                  echo "Skipping pg_basebackup because directory is not empty"; 
+              fi
 
           volumeMounts:
             - mountPath: /var/lib/postgresql/data/pgdata
@@ -56,48 +56,48 @@ spec:
       containers:
         - name: postgres-replica
           image: postgres:10.5
-          args: ['-c', 'config_file=/etc/postgres.conf']
-          
+          args: ["-c", "config_file=/etc/postgres.conf"]
+
           imagePullPolicy: IfNotPresent
-        
+
           ports:
             - name: postgres-rep
               containerPort: 5432
               protocol: TCP
-          
+
           resources:
             requests:
               cpu: 100m
               memory: 256Mi
-          
+
           env:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_DB_USER
-          
+
             - name: PGUSER
               value: postgres
-          
+
             - name: POSTGRES_DB
               value: camerahub
-            
+
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
-          
+
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_DB_PASS
-              
+
             - name: POD_IP
               valueFrom:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: status.podIP
-              
+
           livenessProbe:
             exec:
               command:
@@ -126,7 +126,7 @@ spec:
             - mountPath: /var/lib/postgresql/data/pgdata
               name: postgres-replica
               subPath: postgres-db
-            
+
             - name: postgres-config
               mountPath: /etc/postgres.conf
               subPath: postgres.conf
@@ -134,14 +134,12 @@ spec:
             - name: postgres-config
               mountPath: /etc/replica.conf
               subPath: replica.conf
-            
-      
-          
+
   volumeClaimTemplates:
-  - metadata:
-      name: postgres-replica
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: postgres-replica
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

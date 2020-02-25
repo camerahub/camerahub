@@ -14,8 +14,8 @@ spec:
   template:
     spec:
       containers:
-      - image: djjudas21/camerahub:testing
-        name: camerahub
+        - image: djjudas21/camerahub:testing
+          name: camerahub
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -23,3 +23,10 @@ metadata:
   name: postgres-replica
 spec:
   replicas: 0
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: postgres-backup
+spec:
+  suspend: true

@@ -1,7 +1,7 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table>
+<table class="table">
   <tr>
     <th>Mount</th>
     <td>{{ object.mount }}</td>
@@ -24,13 +24,15 @@
   </tr>
   <tr>
     <th>Manufacturer</th>
-    <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
+    <td>{% if object.manufacturer %}<a
+        href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
 </table>
 
-<div style="margin-left:20px;margin-top:20px">
-  <h4>Cameras</h4>
-  <table>
+<a data-toggle="collapse" href="#collapseCameras" role="button" aria-expanded="false" aria-controls="collapseCameras">
+  Cameras</a>
+<div class="collapse" id="collapseCameras">
+  <table class="table">
     <tr>
       <th>Model</th>
       <th>Serial</th>
@@ -44,9 +46,12 @@
     {% endfor %}
     {% endfor %}
   </table>
+</div>
 
-  <h4>Lenses</h4>
-  <table>
+<a data-toggle="collapse" href="#collapseLenses" role="button" aria-expanded="false" aria-controls="collapseLenses">
+  Lenses</a>
+<div class="collapse" id="collapseLenses">
+  <table class="table">
     <tr>
       <th>Model</th>
       <th>Serial</th>

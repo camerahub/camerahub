@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block heading %}
+<h4>
+  <img src="{% static "svg/login.svg" %}" width="30" height="30" alt="Login">
+  Login</h4>
+{% endblock %}
 
 {% block content %}
-<h2>Login</h2>
 <form method="post">
   {% csrf_token %}
   {{ form|crispy }}

@@ -1,6 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block heading %}
+<h4>
+  <img src="{% static "svg/register.svg" %}" width="30" height="30" alt="Login">
+  Register</h4>
+{% endblock %}
 
 {% block content %}
-<h2>Register</h2>
 <p>Thank you for registering on CameraHub. Please check your inbox for an email to activate your account.</p>
 {% endblock %}

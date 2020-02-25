@@ -576,6 +576,7 @@ class Developer(models.Model):
 class LensModel(models.Model):
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this lens model')
   model = models.CharField(help_text='Model name of this lens', max_length=45)
+  disambiguation = models.CharField(help_text='Distinguishing notes for lens models with the same name', max_length=45, blank=True, null=True)
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Mount used by this lens model')
   zoom = models.BooleanField(help_text='Whether this is a zoom lens', blank=True, null=True)
   min_focal_length = models.PositiveIntegerField(help_text='Shortest focal length of this lens, in mm', blank=True, null=True)
@@ -609,10 +610,12 @@ class LensModel(models.Model):
   shutter_model = models.CharField(help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
   series = models.ManyToManyField(Series, blank=True)
   def __str__(self):
+    mystr = self.model
     if self.manufacturer is not None:
-      return "%s %s" % (self.manufacturer.name, self.model)
-    else:
-      return self.model
+      mystr = str(self.manufacturer) + ' ' + mystr
+    if self.disambiguation is not None:
+      mystr = mystr + ' [' + self.disambiguation + ']'
+    return mystr
   class Meta:
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "lens models"
@@ -723,6 +726,7 @@ class CameraModel(models.Model):
 
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this camera model')
   model = models.CharField(help_text='The model name of the camera', max_length=45)
+  disambiguation = models.CharField(help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, null=True)
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'})
   format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True, null=True, help_text='Film format used by this camera model')
   focus_type = models.CharField(choices=FocusType.choices, max_length=25, blank=True, null=True, help_text='Focus type used on this camera model')
@@ -769,10 +773,12 @@ class CameraModel(models.Model):
   exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
   series = models.ManyToManyField(Series, blank=True)
   def __str__(self):
+    mystr = self.model
     if self.manufacturer is not None:
-      return "%s %s" % (self.manufacturer.name, self.model)
-    else:
-      return self.model
+      mystr = str(self.manufacturer) + ' ' + mystr
+    if self.disambiguation is not None:
+      mystr = mystr + ' [' + self.disambiguation + ']'
+    return mystr
   class Meta:
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "camera models"

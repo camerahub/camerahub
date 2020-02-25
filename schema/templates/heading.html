@@ -1,7 +1,7 @@
 {% load model_name %}
 {% load static %}
 
-<h1><img src="{% get_static_prefix %}icons/50/{{ view.model | verbose_name | cut:" " }}50.png"
-        alt="{{ view.model | verbose_name | title}}">
-    {{ view.model | verbose_name_plural | title }}</h1>
+<h4><img src="{% get_static_prefix %}svg/{{ view.model | model_name }}.svg" alt="{{ view.model | verbose_name | title}}"
+        width="30" height="30">
+    <a href="{% url view.model|model_list %}">{{ view.model | verbose_name_plural | title }}</a></h4>
 {% if view.model.description %}<p>{{ view.model.description }}</p>{% endif %}

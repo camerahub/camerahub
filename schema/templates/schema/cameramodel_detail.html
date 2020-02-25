@@ -1,14 +1,19 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table>
+<table class="table">
+  <tr>
+    <th>Disambiguation</th>
+    <td>{{ object.disambiguation }}</td>
+  </tr>
   <tr>
     <th>Mount</th>
     <td>{% if object.mount %}<a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Format</th>
-    <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}</td>
+    <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}
+    </td>
   </tr>
   <tr>
     <th>Focus type</th>
@@ -44,7 +49,8 @@
   </tr>
   <tr>
     <th>Negative size</th>
-    <td>{% if object.negative_size %}<a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a>{% endif %}</td>
+    <td>{% if object.negative_size %}<a
+        href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Shutter type</th>
@@ -76,7 +82,8 @@
   </tr>
   <tr>
     <th>Lens model</th>
-    <td>{% if object.lensmodel %}<a href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a>{% endif %}</td>
+    <td>{% if object.lensmodel %}<a
+        href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a>{% endif %}</td>
   </tr>
   <tr>
     <th>Battery quantity</th>
@@ -186,9 +193,10 @@
   </tr>
 </table>
 
-<div style="margin-left:20px;margin-top:20px">
-  <h4>Cameras</h4>
-  <table>
+<a data-toggle="collapse" href="#collapseCameras" role="button" aria-expanded="false" aria-controls="collapseCameras">
+  Cameras</a>
+<div class="collapse" id="collapseCameras">
+  <table class="table">
     <tr>
       <th>Serial</th>
       <th>Acquired</th>
