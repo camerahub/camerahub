@@ -10,9 +10,6 @@
                     <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">About</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'help' %}">Help</a>
                 </li>
                 <li class="nav-item">
@@ -75,6 +72,18 @@
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Private data</a>
                 </li>
                 {% endif %}
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Help
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <a class="dropdown-item" href="{% url 'about' %}">About</a>
+                        <a class="dropdown-item" href="{% url 'concepts' %}">Concepts</a>
+                    </div>
+                </li>
 
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
