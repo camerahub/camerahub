@@ -619,6 +619,7 @@ class LensModel(models.Model):
   class Meta:
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "lens models"
+    unique_together = ['manufacturer', 'model', 'disambiguation']
   def get_absolute_url(self):
     return reverse('lensmodel-detail', kwargs={'pk': self.pk})
   def description(self):
@@ -782,6 +783,7 @@ class CameraModel(models.Model):
   class Meta:
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "camera models"
+    unique_together = ['manufacturer', 'model', 'disambiguation']
 
   def clean(self):
     # ISO
