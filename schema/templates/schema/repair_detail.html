@@ -3,23 +3,23 @@
 {% block content %}
 <table class="table">
   <tr>
-    <th>Camera</th>
+    <td>Camera</td>
     <td>{% if object.camera %}<a href="{% url 'camera-detail' object.camera.id %}">{{ object.camera }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Lens</th>
+    <td>Lens</td>
     <td>{{ object.lens }}</td>
   </tr>
   <tr>
-    <th>Date</th>
+    <td>Date</td>
     <td>{{ object.date }}</td>
   </tr>
   <tr>
-    <th>Summary</th>
+    <td>Summary</td>
     <td>{{ object.summary }}</td>
   </tr>
   <tr>
-    <th>Description</th>
+    <td>Description</td>
     <td>{{ object.detail }}</td>
   </tr>
 </table>

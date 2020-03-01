@@ -3,23 +3,23 @@
 {% block content %}
 <table class="table">
   <tr>
-    <th>Type</th>
+    <td>Type</td>
     <td>{{ object.type }}</td>
   </tr>
   <tr>
-    <th>Thread diameter</th>
+    <td>Thread diameter</td>
     <td>{{ object.thread }}</td>
   </tr>
   <tr>
-    <th>Attenuation</th>
+    <td>Attenuation</td>
     <td>{{ object.attenuation }}</td>
   </tr>
   <tr>
-    <th>Quantity</th>
+    <td>Quantity</td>
     <td>{{ object.qty }}</td>
   </tr>
   <tr>
-    <th>Manufacturer</th>
+    <td>Manufacturer</td>
     <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
 </table>

@@ -3,11 +3,11 @@
 {% block content %}
 <table class="table">
   <tr>
-    <th>Name</th>
+    <td>Name</td>
     <td>{{ object.name }}</td>
   </tr>
   <tr>
-    <th>Manufacturer</th>
+    <td>Manufacturer</td>
     <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
 </table>

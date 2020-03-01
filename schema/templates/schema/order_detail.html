@@ -3,31 +3,31 @@
 {% block content %}
 <table class="table">
   <tr>
-    <th>Negative</th>
+    <td>Negative</td>
     <td>{% if object.negative %}<a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Width</th>
+    <td>Width</td>
     <td>{{ object.width }}</td>
   </tr>
   <tr>
-    <th>Height</th>
+    <td>Height</td>
     <td>{{ object.height }}</td>
   </tr>
   <tr>
-    <th>Date added</th>
+    <td>Date added</td>
     <td>{{ object.added }}</td>
   </tr>
   <tr>
-    <th>Date printed</th>
+    <td>Date printed</td>
     <td>{{ object.printed }}</td>
   </tr>
   <tr>
-    <th>Print</th>
+    <td>Print</td>
     <td>{{ object.print }}</td>
   </tr>
   <tr>
-    <th>Recipient</th>
+    <td>Recipient</td>
     <td>{{ object.recipient }}</td>
   </tr>
 </table>

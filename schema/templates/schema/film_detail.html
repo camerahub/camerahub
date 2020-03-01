@@ -3,100 +3,100 @@
 {% block content %}
 <table class="table">
   <tr>
-    <th>Filmstock</th>
+    <td>Filmstock</td>
     <td>{% if object.filmstock %}<a
         href="{% url 'filmstock-detail' object.filmstock.id %}">{{ object.filmstock }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Exposed at</th>
+    <td>Exposed at</td>
     <td>{{ object.exposed_at }}</td>
   </tr>
   <tr>
-    <th>Film format</th>
+    <td>Film format</td>
     <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}
     </td>
   </tr>
   <tr>
-    <th>Date loaded</th>
+    <td>Date loaded</td>
     <td>{{ object.date_loaded }}</td>
   </tr>
   <tr>
-    <th>Date processed</th>
+    <td>Date processed</td>
     <td>{{ object.date_processed }}</td>
   </tr>
   <tr>
-    <th>Camera</th>
+    <td>Camera</td>
     <td>{% if object.camera %}<a href="{% url 'camera-detail' object.camera.id %}">{{ object.camera }}</a>{% endif %}
     </td>
   </tr>
   <tr>
-    <th>Title</th>
+    <td>Title</td>
     <td>{{ object.title }}</td>
   </tr>
   <tr>
-    <th>Frames</th>
+    <td>Frames</td>
     <td>{{ object.frames }}</td>
   </tr>
   <tr>
-    <th>Developer</th>
+    <td>Developer</td>
     <td>{% if object.developer %}<a
         href="{% url 'developer-detail' object.developer.id %}">{{ object.developer }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Directory</th>
+    <td>Directory</td>
     <td>{{ object.directory }}</td>
   </tr>
   <tr>
-    <th>Developer uses</th>
+    <td>Developer uses</td>
     <td>{{ object.dev_uses }}</td>
   </tr>
   <tr>
-    <th>Development time</th>
+    <td>Development time</td>
     <td>{{ object.dev_time }}</td>
   </tr>
   <tr>
-    <th>Development temperature</th>
+    <td>Development temperature</td>
     <td>{{ object.dev_temp }}</td>
   </tr>
   <tr>
-    <th>Development compensation</th>
+    <td>Development compensation</td>
     <td>{{ object.dev_n }}</td>
   </tr>
   <tr>
-    <th>Development notes</th>
+    <td>Development notes</td>
     <td>{{ object.development_notes }}</td>
   </tr>
   <tr>
-    <th>Bulk film</th>
+    <td>Bulk film</td>
     <td>{{ object.bulk_film }}</td>
   </tr>
   <tr>
-    <th>Bulk film loaded</th>
+    <td>Bulk film loaded</td>
     <td>{{ object.bulk_film_loaded }}</td>
   </tr>
   <tr>
-    <th>Batch code</th>
+    <td>Batch code</td>
     <td>{{ object.film_batch }}</td>
   </tr>
   <tr>
-    <th>Expiry date</th>
+    <td>Expiry date</td>
     <td>{{ object.expiry_date }}</td>
   </tr>
   <tr>
-    <th>Purchase date</th>
+    <td>Purchase date</td>
     <td>{{ object.purchase_date }}</td>
   </tr>
   <tr>
-    <th>Price</th>
+    <td>Price</td>
     <td>{{ object.price }}</td>
   </tr>
   <tr>
-    <th>Processed by</th>
+    <td>Processed by</td>
     <td>{% if object.processed_by %}<a
         href="{% url 'person-detail' object.processed_by.id %}">{{ object.processed_by }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Archive</th>
+    <td>Archive</td>
     <td>{% if object.archive %}<a
         href="{% url 'archive-detail' object.archive.id %}">{{ object.archive }}</a>{% endif %}</td>
   </tr>

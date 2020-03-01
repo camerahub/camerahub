@@ -3,19 +3,19 @@
 {% block content %}
 <table class="table">
   <tr>
-    <th>Name</th>
+    <td>Name</td>
     <td>{{ object.name }}</td>
   </tr>
   <tr>
-    <th>Manufacturer</th>
+    <td>Manufacturer</td>
     <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Formulation</th>
+    <td>Formulation</td>
     <td>{{ object.formulation }}</td>
   </tr>
   <tr>
-    <th>Stock dilution</th>
+    <td>Stock dilution</td>
     <td>{{ object.stock_dilution }}</td>
   </tr>
 </table>

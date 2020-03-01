@@ -3,27 +3,27 @@
 {% block content %}
 <table class="table">
   <tr>
-    <th>Mount</th>
+    <td>Mount</td>
     <td>{{ object.mount }}</td>
   </tr>
   <tr>
-    <th>Shutter in lens</th>
+    <td>Shutter in lens</td>
     <td>{{ object.shutter_in_lens }}</td>
   </tr>
   <tr>
-    <th>Type</th>
+    <td>Type</td>
     <td>{{ object.type }}</td>
   </tr>
   <tr>
-    <th>Purpose</th>
+    <td>Purpose</td>
     <td>{{ object.purpose }}</td>
   </tr>
   <tr>
-    <th>Notes</th>
+    <td>Notes</td>
     <td>{{ object.notes }}</td>
   </tr>
   <tr>
-    <th>Manufacturer</th>
+    <td>Manufacturer</td>
     <td>{% if object.manufacturer %}<a
         href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>

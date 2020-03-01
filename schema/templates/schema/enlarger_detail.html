@@ -3,47 +3,47 @@
 {% block content %}
 <table class="table">
   <tr>
-    <th>Manufacturer</th>
+    <td>Manufacturer</td>
     <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Model</th>
+    <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
   <tr>
-    <th>Negative size</th>
+    <td>Negative size</td>
     <td>{% if object.negative_size %}<a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Type</th>
+    <td>Type</td>
     <td>{{ object.type }}</td>
   </tr>
   <tr>
-    <th>Light source</th>
+    <td>Light source</td>
     <td>{{ object.light_source }}</td>
   </tr>
   <tr>
-    <th>Acquired</th>
+    <td>Acquired</td>
     <td>{{ object.acquired }}</td>
   </tr>
   <tr>
-    <th>Lost</th>
+    <td>Lost</td>
     <td>{{ object.lost }}</td>
   </tr>
   <tr>
-    <th>Introduced</th>
+    <td>Introduced</td>
     <td>{{ object.introduced }}</td>
   </tr>
   <tr>
-    <th>Discontinued</th>
+    <td>Discontinued</td>
     <td>{{ object.discontinued }}</td>
   </tr>
   <tr>
-    <th>Cost</th>
+    <td>Cost</td>
     <td>{{ object.cost }}</td>
   </tr>
   <tr>
-    <th>Lost price</th>
+    <td>Lost price</td>
     <td>{{ object.lost_price }}</td>
   </tr>
 </table>

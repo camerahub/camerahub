@@ -3,23 +3,23 @@
 {% block content %}
 <table class="table">
   <tr>
-    <th>Camera mount</th>
+    <td>Camera mount</td>
     <td>{% if object.camera_mount %}<a href="{% url 'mount-detail' object.camera_mount.id %}">{{ object.camera_mount }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Lens mount</th>
+    <td>Lens mount</td>
     <td>{% if object.lens_mount %}<a href="{% url 'mount-detail' object.lens_mount.id %}">{{ object.lens_mount }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Has optics</th>
+    <td>Has optics</td>
     <td>{{ object.has_optics }}</td>
   </tr>
   <tr>
-    <th>Infinity focus</th>
+    <td>Infinity focus</td>
     <td>{{ object.infinity_focus }}</td>
   </tr>
   <tr>
-    <th>Notes</th>
+    <td>Notes</td>
     <td>{{ object.notes }}</td>
   </tr>
 </table>
