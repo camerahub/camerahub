@@ -2,23 +2,95 @@
 
 {% block content %}
 <table class="table">
+    {% if object.disambiguation %}
   <tr>
     <td>Disambiguation</td>
     <td>{{ object.disambiguation }}</td>
   </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2">Physical</th>
+  </tr>
+  {% if object.fixed_mount %}
+  <tr>
+    <td>Fixed mount</td>
+    <td>{{ object.fixed_mount }}</td>
+  </tr>
+  <tr>
+    <td>Lens model</td>
+    <td>{% if object.lensmodel %}<a
+        href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a>{% endif %}</td>
+  </tr>
+  {% else %}
+  {% if object.mount %}
   <tr>
     <td>Mount</td>
-    <td>{% if object.mount %}<a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a>{% endif %}</td>
+    <td><a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a></td>
   </tr>
+  {% endif %}
+  {% endif %}
+  {% if object.format %}
   <tr>
     <td>Format</td>
-    <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}
+    <td><a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>
     </td>
   </tr>
+  {% endif %}
+  {% if object.introduced %}
+  <tr>
+    <td>Marketed</td>
+    <td>{{ object.introduced }}{% if object.discontinued %}-{{ object.discontinued }}{% endif %}</td>
+  </tr>
+  {% endif %}
+  {% if object.body_type %}
+  <tr>
+    <td>Body type</td>
+    <td>{{ object.body_type }}</td>
+  </tr>
+  {% endif %}
+  {% if object.weight %}
+  <tr>
+    <td>Weight</td>
+    <td>{{ object.weight }}g</td>
+  </tr>
+  {% endif %}
+  {% if object.negative_size %}
+  <tr>
+    <td>Negative size</td>
+    <td><a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
+  </tr>
+  {% endif %}
+
+
+
+  <tr>
+    <th colspan="2">Focus</th>
+  </tr>
+  {% if object.focus_type %}
   <tr>
     <td>Focus type</td>
     <td>{{ object.focus_type }}</td>
   </tr>
+  {% endif %}
+  {% if object.autofocus_points %}
+  <tr>
+    <td>Autofocus points</td>
+    <td>{{ object.af_points }}</td>
+  </tr>
+  {% endif %}
+  {% if object.viewfinder_coverage %}
+  <tr>
+    <td>Viewfinder coverage</td>
+    <td>{{ object.viewfinder_coverage }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Metering</th>
+  </tr>
+  {% if object.metering %}
   <tr>
     <td>Metering</td>
     <td>{{ object.metering }}</td>
@@ -32,140 +104,12 @@
     <td>{{ object.metering_type }}</td>
   </tr>
   <tr>
-    <td>Introduced</td>
-    <td>{{ object.introduced }}</td>
+    <td>ISO</td>
+    <td>{{ object.min_iso }}-{{ object.max_iso }}</td>
   </tr>
   <tr>
-    <td>Discontinued</td>
-    <td>{{ object.discontinued }}</td>
-  </tr>
-  <tr>
-    <td>Body type</td>
-    <td>{{ object.body_type }}</td>
-  </tr>
-  <tr>
-    <td>Weight</td>
-    <td>{{ object.weight }}</td>
-  </tr>
-  <tr>
-    <td>Negative size</td>
-    <td>{% if object.negative_size %}<a
-        href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a>{% endif %}</td>
-  </tr>
-  <tr>
-    <td>Shutter type</td>
-    <td>{{ object.shutter_type }}</td>
-  </tr>
-  <tr>
-    <td>Shutter model</td>
-    <td>{{ object.shutter_model }}</td>
-  </tr>
-  <tr>
-    <td>Cable release</td>
-    <td>{{ object.cable_release }}</td>
-  </tr>
-  <tr>
-    <td>Viewfinder coverage</td>
-    <td>{{ object.viewfinder_coverage }}</td>
-  </tr>
-  <tr>
-    <td>Power drive</td>
-    <td>{{ object.power_drive }}</td>
-  </tr>
-  <tr>
-    <td>Continuous fps</td>
-    <td>{{ object.continuous_fps }}</td>
-  </tr>
-  <tr>
-    <td>Fixed mount</td>
-    <td>{{ object.fixed_mount }}</td>
-  </tr>
-  <tr>
-    <td>Lens model</td>
-    <td>{% if object.lensmodel %}<a
-        href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a>{% endif %}</td>
-  </tr>
-  <tr>
-    <td>Battery quantity</td>
-    <td>{{ object.battery_qty }}</td>
-  </tr>
-  <tr>
-    <td>Battery type</td>
-    <td>{{ object.battery_type }}</td>
-  </tr>
-  <tr>
-    <td>Notes</td>
-    <td>{{ object.notes }}</td>
-  </tr>
-  <tr>
-    <td>Bulb</td>
-    <td>{{ object.bulb }}</td>
-  </tr>
-  <tr>
-    <td>Time</td>
-    <td>{{ object.time }}</td>
-  </tr>
-  <tr>
-    <td>Min ISO</td>
-    <td>{{ object.min_iso }}</td>
-  </tr>
-  <tr>
-    <td>Max ISO</td>
-    <td>{{ object.max_iso }}</td>
-  </tr>
-  <tr>
-    <td>Autofocus points</td>
-    <td>{{ object.af_points }}</td>
-  </tr>
-  <tr>
-    <td>Internal flash</td>
-    <td>{{ object.int_flash }}</td>
-  </tr>
-  <tr>
-    <td>Internal flash guide number</td>
-    <td>{{ object.int_flash_gn }}</td>
-  </tr>
-  <tr>
-    <td>External flash</td>
-    <td>{{ object.ext_flash }}</td>
-  </tr>
-  <tr>
-    <td>Flash metering</td>
-    <td>{{ object.flash_metering }}</td>
-  </tr>
-  <tr>
-    <td>PC sync</td>
-    <td>{{ object.pc_sync }}</td>
-  </tr>
-  <tr>
-    <td>Hotshoe</td>
-    <td>{{ object.hotshoe }}</td>
-  </tr>
-  <tr>
-    <td>Coldshoe</td>
-    <td>{{ object.coldshoe }}</td>
-  </tr>
-  <tr>
-    <td>Meter min EV</td>
-    <td>{{ object.meter_min_ev }}</td>
-  </tr>
-  <tr>
-    <td>Meter max EV</td>
-    <td>{{ object.meter_max_ev }}</td>
-  </tr>
-  <tr>
-    <td>DoF preview</td>
-    <td>{{ object.dof_preview }}</td>
-  </tr>
-  <tr>
-    <td>Tripod</td>
-    <td>{{ object.tripod }}</td>
-  </tr>
-  <tr>
-    <td>Shutter speeds</td>
-    <td>
-      {{ object.shutter_speeds.all|dictsort:"shutter_speed"|join:", " }}
-    </td>
+    <td>Meter EV</td>
+    <td>{{ object.meter_min_ev }}-{{ object.meter_max_ev }}</td>
   </tr>
   <tr>
     <td>Metering modes</td>
@@ -179,10 +123,156 @@
       {{ object.exposure_programs.all|join:", " }}
     </td>
   </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Shutter</th>
+  </tr>
+  {% if object.shutter_type %}
+  <tr>
+    <td>Shutter type</td>
+    <td>{{ object.shutter_type }}</td>
+  </tr>
+  {% endif %}
+  {% if object.shutter_model %}
+  <tr>
+    <td>Shutter model</td>
+    <td>{{ object.shutter_model }}</td>
+  </tr>
+  {% endif %}
+  {% if object.bulb %}
+  <tr>
+    <td>Bulb</td>
+    <td>{{ object.bulb }}</td>
+  </tr>
+  {% endif %}
+  {% if object.time %}
+  <tr>
+    <td>Time</td>
+    <td>{{ object.time }}</td>
+  </tr>
+  {% endif %}
+  {% if object.shutter_speeds %}
+  <tr>
+    <td>Shutter speeds</td>
+    <td>
+      {{ object.shutter_speeds.all|dictsort:"shutter_speed"|join:", " }}
+    </td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Film transport</th>
+  </tr>
+  {% if object.power_drive %}
+  <tr>
+    <td>Power drive</td>
+    <td>{{ object.power_drive }}</td>
+  </tr>
+  {% endif %}
+  {% if object.continuous_fps %}}
+  <tr>
+    <td>Continuous fps</td>
+    <td>{{ object.continuous_fps }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Batteries</th>
+  </tr>
+  {% if object.battery_qty %}
+  <tr>
+    <td>Battery quantity</td>
+    <td>{{ object.battery_qty }}</td>
+  </tr>
+  <tr>
+    <td>Battery type</td>
+    <td>{{ object.battery_type }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Flash</th>
+  </tr>
+  {% if object.int_flash %}
+  <tr>
+    <td>Internal flash</td>
+    <td>{{ object.int_flash }}</td>
+  </tr>
+  <tr>
+    <td>Internal flash guide number</td>
+    <td>{{ object.int_flash_gn }}</td>
+  </tr>
+  {% endif %}
+  {% if object.external_flash %}
+  <tr>
+    <td>External flash</td>
+    <td>{{ object.ext_flash }}</td>
+  </tr>
+  <tr>
+    <td>PC sync</td>
+    <td>{{ object.pc_sync }}</td>
+  </tr>
+  <tr>
+    <td>Hotshoe</td>
+    <td>{{ object.hotshoe }}</td>
+  </tr>
+  {% endif %}
+  {% if object.coldshoe %}
+  <tr>
+    <td>Coldshoe</td>
+    <td>{{ object.coldshoe }}</td>
+  </tr>
+  {% endif %}
+  {% if object.flash_metering %}
+  <tr>
+    <td>Flash metering</td>
+    <td>{{ object.flash_metering }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Features</th>
+  </tr>
+  {% if object.dof_preview %}
+  <tr>
+    <td>DoF preview</td>
+    <td>{{ object.dof_preview }}</td>
+  </tr>
+  {% endif %}
+  {% if object.tripod %}
+  <tr>
+    <td>Tripod</td>
+    <td>{{ object.tripod }}</td>
+  </tr>
+  {% endif %}
+  {% if object.cable_release %}
+  <tr>
+    <td>Cable release</td>
+    <td>{{ object.cable_release }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Misc</th>
+  </tr>
+  {% if object.notes %}
+  <tr>
+    <td>Notes</td>
+    <td>{{ object.notes }}</td>
+  </tr>
+  {% endif %}
+  {% if object.series %}
   <tr>
     <td>Series</td>
     <td>
-      {% if object.series %}
+      {% if object.series is None %}
       <ul>
         {% for series in object.series.all %}
         <li>{{ series.name }}</li>
@@ -191,6 +281,7 @@
       {% endif %}
     </td>
   </tr>
+  {% endif %}
 </table>
 
 <a data-toggle="collapse" href="#collapseCameras" role="button" aria-expanded="false" aria-controls="collapseCameras">
