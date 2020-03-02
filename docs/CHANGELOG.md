@@ -75,3 +75,11 @@
 * Add basic stats page (#142)
 * Add homepage beta banner and jumbotron (#217)
 * Temporarily disable moderation until it works (#202)
+
+## `0.3.1`
+
+2 Mar 2020
+
+* Require disambiguation for models with the same name (#221)
+* Fix backup manifest
+* Fix typo in doc
