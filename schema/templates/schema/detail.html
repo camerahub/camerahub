@@ -1,8 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block heading %}{% include "heading.html" %}{%endblock%}
 
-{% block subheading %}<h4>{{ object }}</h4>{%endblock%}
+{% block subheading %}<h4>{{ object }}<a href="{{ object.get_absolute_url }}/update"><img
+    src="{% static "svg/edit.svg" %}" width="20" height="20" alt="Edit"></a></h4>{%endblock%}
 
 {% block content %}{%endblock%}
 
