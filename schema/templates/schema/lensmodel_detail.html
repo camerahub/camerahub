@@ -3,8 +3,7 @@
 {% block content %}
 <table class="table">
   <tr>
-    <td>Disambiguation</td>
-    <td>{{ object.disambiguation }}</td>
+    <th colspan="2">Physical</th>
   </tr>
   <tr>
     <td>Manufacturer</td>
@@ -15,143 +14,204 @@
     <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
+  {% if object.disambiguation %}
+  <tr>
+    <td>Disambiguation</td>
+    <td>{{ object.disambiguation }}</td>
+  </tr>
+  {% endif %}
+  {% if object.fixed_mount %}
+  <tr>
+    <td>Fixed mount</td>
+    <td>{{ object.fixed_mount }}</td>
+  </tr>
+  {% elif object.mount %}
   <tr>
     <td>Mount</td>
     <td>{% if object.mount %}<a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a>{% endif %}</td>
   </tr>
+  {% endif %}
+  {% if object.introduced %}
+  <tr>
+    <td>Marketed</td>
+    <td>{{ object.introduced }}{% if object.discontinued %}-{{ object.discontinued }}{% endif %}</td>
+  </tr>
+  {% endif %}
+  {% if object.weight %}
+  <tr>
+    <td>Weight</td>
+    <td>{{ object.weight }}g</td>
+  </tr>
+  {% endif %}
+  {% if object.length %}
+  <tr>
+    <td>Length</td>
+    <td>{{ object.length }}mm</td>
+  </tr>
+  {% endif %}
+  {% if object.diameter %}
+  <tr>
+    <td>Diameter</td>
+    <td>{{ object.diameter }}mm</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Optics</th>
+  </tr>
+  {% if object.zoom %}
   <tr>
     <td>Zoom</td>
     <td>{{ object.zoom }}</td>
   </tr>
+  {% endif %}
+  {% if object.min_focal_length %}
   <tr>
-    <td>Min focal length</td>
-    <td>{{ object.min_focal_length }}</td>
+    <td>Focal length</td>
+    <td>{{ object.min_focal_length }}{% if object.max_focal_length %}-{{ object.max_focal_length }}{% endif %}mm</td>
   </tr>
-  <tr>
-    <td>Max focal length</td>
-    <td>{{ object.max_focal_length }}</td>
-  </tr>
+  {% endif %}
+  {% if object.closest_focus %}
   <tr>
     <td>Closest focus</td>
-    <td>{{ object.closest_focus }}</td>
+    <td>{{ object.closest_focus }}cm</td>
   </tr>
+  {% endif %}
+  {% if object.max_aperture %}
   <tr>
-    <td>Maximum aperture</td>
-    <td>{{ object.max_aperture }}</td>
+    <td>Aperture</td>
+    <td><em>f</em>/{{ object.max_aperture }}{% if object.max_aperture %}-{{ object.min_aperture }}{% endif %}</td>
   </tr>
-  <tr>
-    <td>Minimum aperture</td>
-    <td>{{ object.min_aperture }}</td>
-  </tr>
+  {% endif %}
+  {% if object.elements %}
   <tr>
     <td>Elements</td>
     <td>{{ object.elements }}</td>
   </tr>
+  {% endif %}
+  {% if object.groups %}
   <tr>
     <td>Groups</td>
     <td>{{ object.groups }}</td>
   </tr>
+  {% endif %}
+  {% if object.nominal_max_angle_diag %}
   <tr>
-    <td>Weight</td>
-    <td>{{ object.weight }}</td>
+    <td>Diagonal angle of view</td>
+    <td>
+      {{ object.nominal_max_angle_diag }}{% if object.nominal_min_angle_diag %}-{{ object.nominal_min_angle_diag }}{% endif %}&deg;
+    </td>
   </tr>
+  {% endif %}
+  {% if object.rectilinear %}
   <tr>
-    <td>Nominal min angle diagonal</td>
-    <td>{{ object.nominal_min_angle_diag }}</td>
+    <td>Rectilinear</td>
+    <td>{{ object.rectilinear }}</td>
   </tr>
-  <tr>
-    <td>Nominal max angle diagonal</td>
-    <td>{{ object.nominal_max_angle_diag }}</td>
-  </tr>
-  <tr>
-    <td>Aperture blades</td>
-    <td>{{ object.aperture_blades }}</td>
-  </tr>
-  <tr>
-    <td>Autofocus</td>
-    <td>{{ object.autofocus }}</td>
-  </tr>
-  <tr>
-    <td>Filter thread</td>
-    <td>{{ object.filter_thread }}</td>
-  </tr>
+  {% endif %}
+  {% if object.magnification %}
   <tr>
     <td>Maximum magnification</td>
-    <td>{{ object.magnification }}</td>
+    <td>{{ object.magnification }}&times;</td>
   </tr>
-  <tr>
-    <td>URL</td>
-    <td>{{ object.url }}</td>
-  </tr>
-  <tr>
-    <td>Introduced</td>
-    <td>{{ object.introduced }}</td>
-  </tr>
-  <tr>
-    <td>Discontinued</td>
-    <td>{{ object.discontinued }}</td>
-  </tr>
+  {% endif %}
+  {% if object.negative_size %}
   <tr>
     <td>Negative size</td>
     <td>{% if object.negative_size %}<a
         href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a>{% endif %}</td>
   </tr>
+  {% endif %}
+  {% if object.aperture_blades %}
   <tr>
-    <td>Fixed mount</td>
-    <td>{{ object.fixed_mount }}</td>
+    <td>Aperture blades</td>
+    <td>{{ object.aperture_blades }}</td>
   </tr>
-  <tr>
-    <td>Notes</td>
-    <td>{{ object.notes }}</td>
-  </tr>
-  <tr>
-    <td>Coating</td>
-    <td>{{ object.coating }}</td>
-  </tr>
-  <tr>
-    <td>Hood</td>
-    <td>{{ object.hood }}</td>
-  </tr>
-  <tr>
-    <td>Lens type</td>
-    <td>{{ object.exif_lenstype }}</td>
-  </tr>
-  <tr>
-    <td>Rectilinear</td>
-    <td>{{ object.rectilinear }}</td>
-  </tr>
-  <tr>
-    <td>Length</td>
-    <td>{{ object.length }}</td>
-  </tr>
-  <tr>
-    <td>Diameter</td>
-    <td>{{ object.diameter }}</td>
-  </tr>
+  {% endif %}
+  {% if object.image_circle %}
   <tr>
     <td>Image circle</td>
-    <td>{{ object.image_circle }}</td>
+    <td>{{ object.image_circle }}mm</td>
   </tr>
+  {% endif %}
+  {% if object.formula %}
   <tr>
     <td>Formula</td>
     <td>{{ object.formula }}</td>
   </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Features</th>
+  </tr>
+  {% if object.autofocus %}
+  <tr>
+    <td>Autofocus</td>
+    <td>{{ object.autofocus }}</td>
+  </tr>
+  {% endif %}
+  {% if object.filter_thread %}
+  <tr>
+    <td>Filter thread</td>
+    <td>{{ object.filter_thread }}</td>
+  </tr>
+  {% endif %}
+  {% if object.coating %}
+  <tr>
+    <td>Coating</td>
+    <td>{{ object.coating }}</td>
+  </tr>
+  {% endif %}
+  {% if object.hood %}
+  <tr>
+    <td>Hood</td>
+    <td>{{ object.hood }}</td>
+  </tr>
+  {% endif %}
+  {% if object.exif_lenstype %}
+  <tr>
+    <td>EXIF Lens type</td>
+    <td>{{ object.exif_lenstype }}</td>
+  </tr>
+  {% endif %}
+  {% if object.shutter_model %}
   <tr>
     <td>Shutter model</td>
     <td>{{ object.shutter_model }}</td>
   </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Misc</th>
+  </tr>
+  {% if object.notes %}
+  <tr>
+    <td>Notes</td>
+    <td>{{ object.notes }}</td>
+  </tr>
+  {% endif %}
+  {% if object.url %}
+  <tr>
+    <td>URL</td>
+    <td><a href="{{ object.url }}">{{ object.url }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.series %}
   <tr>
     <td>Series</td>
     <td>
-      {% if object.series %}
       <ul>
         {% for series in object.series.all %}
         <li>{{ series.name }}</li>
         {% endfor %}
       </ul>
-      {% endif %}
+
     </td>
   </tr>
+  {% endif %}
 </table>
 
 <a data-toggle="collapse" href="#collapseLenses" role="button" aria-expanded="false" aria-controls="collapseLenses">
