@@ -16,3 +16,7 @@ def model_name(obj):
 @register.filter
 def model_list(obj):
     return obj._meta.model_name + '-list'
+
+@register.filter
+def model_add(obj):
+    return obj._meta.model_name + '-create'
