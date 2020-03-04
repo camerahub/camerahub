@@ -2,16 +2,24 @@
 
 {% block content %}
 <table class="table">
-    {% if object.disambiguation %}
+  <tr>
+    <th colspan="2">Physical</th>
+  </tr>
+  <tr>
+    <td>Manufacturer</td>
+    <td>{% if object.manufacturer %}<a
+        href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
+  </tr>
+  <tr>
+    <td>Model</td>
+    <td>{{ object.model }}</td>
+  </tr>
+  {% if object.disambiguation %}
   <tr>
     <td>Disambiguation</td>
     <td>{{ object.disambiguation }}</td>
   </tr>
   {% endif %}
-
-  <tr>
-    <th colspan="2">Physical</th>
-  </tr>
   {% if object.fixed_mount %}
   <tr>
     <td>Fixed mount</td>
