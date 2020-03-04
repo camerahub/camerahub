@@ -765,7 +765,7 @@ class CameraModel(models.Model):
   hotshoe = models.BooleanField(help_text='Whether the camera has a hotshoe', blank=True, null=True)
   coldshoe = models.BooleanField(help_text='Whether the camera has a coldshoe or accessory shoe', blank=True, null=True)
   #x_sync = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True)
-  meter_min_ev = models.PositiveIntegerField(verbose_name='Min EV', help_text='Lowest EV/LV the built-in meter supports', blank=True, null=True)
+  meter_min_ev = models.IntegerField(verbose_name='Min EV', help_text='Lowest EV/LV the built-in meter supports', blank=True, null=True)
   meter_max_ev = models.PositiveIntegerField(verbose_name='Max EV', help_text='Highest EV/LV the built-in meter supports', blank=True, null=True)
   dof_preview = models.BooleanField(verbose_name='DoF preview', help_text='Whether the camera has depth of field preview', blank=True, null=True)
   tripod = models.BooleanField(help_text='Whether the camera has a tripod bush', blank=True, null=True)
