@@ -1,29 +1,29 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table table-hover">
   <tr>
-    <th>Name</th>
+    <td>Name</td>
     <td>{{ object.name }}</td>
   </tr>
   <tr>
-    <th>Manufacturer</th>
+    <td>Manufacturer</td>
     <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Resin coated</th>
+    <td>Resin coated</td>
     <td>{{ object.resin_coated }}</td>
   </tr>
   <tr>
-    <th>Tonable</th>
+    <td>Tonable</td>
     <td>{{ object.tonable }}</td>
   </tr>
   <tr>
-    <th>Colour</th>
+    <td>Colour</td>
     <td>{{ object.colour }}</td>
   </tr>
   <tr>
-    <th>Finish</th>
+    <td>Finish</td>
     <td>{{ object.finish }}</td>
   </tr>
 </table>

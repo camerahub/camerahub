@@ -1,82 +1,82 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table table-hover">
   <tr>
-    <th>Film</th>
+    <td>Film</td>
     <td>{{ object.film }}</td>
     <td>{% if object.film %}<a href="{% url 'film-detail' object.film.id %}">{{ object.film }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Frame</th>
+    <td>Frame</td>
     <td>{{ object.frame }}</td>
   </tr>
   <tr>
-    <th>Caption</th>
+    <td>Caption</td>
     <td>{{ object.caption }}</td>
   </tr>
   <tr>
-    <th>Date</th>
+    <td>Date</td>
     <td>{{ object.date }}</td>
   </tr>
   <tr>
-    <th>Lens</th>
+    <td>Lens</td>
     <td>{{ object.lens }}</td>
   </tr>
   <tr>
-    <th>Shutter speed</th>
+    <td>Shutter speed</td>
     <td>{{ object.shutter_speed }}</td>
   </tr>
   <tr>
-    <th>Aperture</th>
+    <td>Aperture</td>
     <td>{{ object.aperture }}</td>
   </tr>
   <tr>
-    <th>Filter</th>
+    <td>Filter</td>
     <td>{{ object.filter }}</td>
   </tr>
   <tr>
-    <th>Teleconverter</th>
+    <td>Teleconverter</td>
     <td>{{ object.teleconverter }}</td>
   </tr>
   <tr>
-    <th>Notes</th>
+    <td>Notes</td>
     <td>{{ object.notes }}</td>
   </tr>
   <tr>
-    <th>Adapter</th>
+    <td>Adapter</td>
     <td>{{ object.mount_adapter }}</td>
   </tr>
   <tr>
-    <th>Focal length</th>
+    <td>Focal length</td>
     <td>{{ object.focal_length }}</td>
   </tr>
   <tr>
-    <th>Latitude</th>
+    <td>Latitude</td>
     <td>{{ object.latitude }}</td>
   </tr>
   <tr>
-    <th>Longitude</th>
+    <td>Longitude</td>
     <td>{{ object.longitude }}</td>
   </tr>
   <tr>
-    <th>Flash</th>
+    <td>Flash</td>
     <td>{{ object.flash }}</td>
   </tr>
   <tr>
-    <th>Metering mode</th>
+    <td>Metering mode</td>
     <td>{{ object.metering_mode }}</td>
   </tr>
   <tr>
-    <th>Exposure program</th>
+    <td>Exposure program</td>
     <td>{{ object.exposure_program }}</td>
   </tr>
   <tr>
-    <th>Photographer</th>
+    <td>Photographer</td>
     <td>{{ object.photographer }}</td>
   </tr>
   <tr>
-    <th>Copy of</th>
+    <td>Copy of</td>
     <td>{{ object.copy_of }}</td>
   </tr>
 </table>
@@ -84,7 +84,7 @@
 <a data-toggle="collapse" href="#collapsePrints" role="button" aria-expanded="false" aria-controls="collapsePrints">
   Prints</a>
 <div class="collapse" id="collapsePrints">
-  <table class="table">
+  <table class="table table-hover">
     <tr>
       <th>ID</th>
     </tr>

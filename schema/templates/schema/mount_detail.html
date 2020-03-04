@@ -1,29 +1,29 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table table-hover">
   <tr>
-    <th>Mount</th>
+    <td>Mount</td>
     <td>{{ object.mount }}</td>
   </tr>
   <tr>
-    <th>Shutter in lens</th>
+    <td>Shutter in lens</td>
     <td>{{ object.shutter_in_lens }}</td>
   </tr>
   <tr>
-    <th>Type</th>
+    <td>Type</td>
     <td>{{ object.type }}</td>
   </tr>
   <tr>
-    <th>Purpose</th>
+    <td>Purpose</td>
     <td>{{ object.purpose }}</td>
   </tr>
   <tr>
-    <th>Notes</th>
+    <td>Notes</td>
     <td>{{ object.notes }}</td>
   </tr>
   <tr>
-    <th>Manufacturer</th>
+    <td>Manufacturer</td>
     <td>{% if object.manufacturer %}<a
         href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
@@ -32,7 +32,7 @@
 <a data-toggle="collapse" href="#collapseCameras" role="button" aria-expanded="false" aria-controls="collapseCameras">
   Cameras</a>
 <div class="collapse" id="collapseCameras">
-  <table class="table">
+  <table class="table table-hover">
     <tr>
       <th>Model</th>
       <th>Serial</th>
@@ -51,7 +51,7 @@
 <a data-toggle="collapse" href="#collapseLenses" role="button" aria-expanded="false" aria-controls="collapseLenses">
   Lenses</a>
 <div class="collapse" id="collapseLenses">
-  <table class="table">
+  <table class="table table-hover">
     <tr>
       <th>Model</th>
       <th>Serial</th>

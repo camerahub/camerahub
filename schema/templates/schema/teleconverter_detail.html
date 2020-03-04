@@ -1,33 +1,33 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table table-hover">
   <tr>
-    <th>Model</th>
+    <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
   <tr>
-    <th>Manufacturer</th>
+    <td>Manufacturer</td>
     <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Mount</th>
+    <td>Mount</td>
     <td>{% if object.mount %}<a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Factor</th>
+    <td>Factor</td>
     <td>{{ object.factor }}</td>
   </tr>
   <tr>
-    <th>Elements</th>
+    <td>Elements</td>
     <td>{{ object.elements }}</td>
   </tr>
   <tr>
-    <th>Groups</th>
+    <td>Groups</td>
     <td>{{ object.groups }}</td>
   </tr>
   <tr>
-    <th>Multicoated</th>
+    <td>Multicoated</td>
     <td>{{ object.multicoated }}</td>
   </tr>
 </table>

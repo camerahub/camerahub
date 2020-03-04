@@ -1,13 +1,13 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table table-hover">
   <tr>
-    <th>Film format</th>
+    <td>Film format</td>
     <td>{{ object.format }}</td>
   </tr>
   <tr>
-    <th>Negative size</th>
+    <td>Negative size</td>
     <td>{{ object.negative_size.all|join:", " }}</td>
   </tr>
 </table>
