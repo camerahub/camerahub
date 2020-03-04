@@ -5,3 +5,5 @@
         width="30" height="30">
     <a href="{% url view.model|model_list %}">{{ view.model | verbose_name_plural | title }}</a></h4>
 {% if view.model.description %}<p>{{ view.model.description }}</p>{% endif %}
+<p><a href="{% url view.model|model_add %}"><img src="{% static "svg/add.svg" %}" width="30" height="30" alt="Add"></a>
+</p>

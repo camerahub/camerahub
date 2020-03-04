@@ -1,35 +1,35 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table table-hover">
   <tr>
-    <th>Film format</th>
+    <td>Film format</td>
     <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}
     </td>
   </tr>
   <tr>
-    <th>Filmstock</th>
+    <td>Filmstock</td>
     <td>{% if object.filmstock %}<a
         href="{% url 'filmstock-detail' object.filmstock.id %}">{{ object.filmstock }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Purchase date</th>
+    <td>Purchase date</td>
     <td>{{ object.purchase_date }}</td>
   </tr>
   <tr>
-    <th>Cost</th>
+    <td>Cost</td>
     <td>{{ object.cost }}</td>
   </tr>
   <tr>
-    <th>Source</th>
+    <td>Source</td>
     <td>{{ object.source }}</td>
   </tr>
   <tr>
-    <th>Batch code</th>
+    <td>Batch code</td>
     <td>{{ object.batch }}</td>
   </tr>
   <tr>
-    <th>Expiry date</th>
+    <td>Expiry date</td>
     <td>{{ object.expiry }}</td>
   </tr>
 </table>
@@ -38,7 +38,7 @@
   Films cut from this bulk film
 </a>
 <div class="collapse" id="collapseFilms">
-  <table class="table">
+  <table class="table table-hover">
     <tr>
       <th>Film ID</th>
       <th>Title</th>

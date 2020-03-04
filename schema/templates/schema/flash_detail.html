@@ -1,85 +1,85 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table table-hover">
   <tr>
-    <th>Model</th>
+    <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
   <tr>
-    <th>Manufacturer</th>
+    <td>Manufacturer</td>
     <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Guide number</th>
+    <td>Guide number</td>
     <td>{{ object.guide_number }}</td>
   </tr>
   <tr>
-    <th>Guide number info</th>
+    <td>Guide number info</td>
     <td>{{ object.gn_info }}</td>
   </tr>
   <tr>
-    <th>Battery powered</th>
+    <td>Battery powered</td>
     <td>{{ object.battery_powered }}</td>
   </tr>
   <tr>
-    <th>PC sync</th>
+    <td>PC sync</td>
     <td>{{ object.pc_sync }}</td>
   </tr>
   <tr>
-    <th>Hot shoe</th>
+    <td>Hot shoe</td>
     <td>{{ object.hot_shoe }}</td>
   </tr>
   <tr>
-    <th>Light stand</th>
+    <td>Light stand</td>
     <td>{{ object.light_stand }}</td>
   </tr>
   <tr>
-    <th>Battery type</th>
+    <td>Battery type</td>
     <td>{{ object.battery_type }}</td>
   </tr>
   <tr>
-    <th>Battery quantity</th>
+    <td>Battery quantity</td>
     <td>{{ object.battery_qty }}</td>
   </tr>
   <tr>
-    <th>Manual power control</th>
+    <td>Manual power control</td>
     <td>{{ object.manual_control }}</td>
   </tr>
   <tr>
-    <th>Swivel head</th>
+    <td>Swivel head</td>
     <td>{{ object.swivel_head }}</td>
   </tr>
   <tr>
-    <th>Tilt head</th>
+    <td>Tilt head</td>
     <td>{{ object.tilt_head }}</td>
   </tr>
   <tr>
-    <th>Zoom</th>
+    <td>Zoom</td>
     <td>{{ object.zoom }}</td>
   </tr>
   <tr>
-    <th>TTL metering</th>
+    <td>TTL metering</td>
     <td>{{ object.ttl }}</td>
   </tr>
   <tr>
-    <th>Flash protocol</th>
+    <td>Flash protocol</td>
     <td>{{ object.flash_protocol }}</td>
   </tr>
   <tr>
-    <th>Trigger voltage</th>
+    <td>Trigger voltage</td>
     <td>{{ object.trigger_voltage }}</td>
   </tr>
   <tr>
-    <th>Owned</th>
+    <td>Owned</td>
     <td>{{ object.own }}</td>
   </tr>
   <tr>
-    <th>Acquired</th>
+    <td>Acquired</td>
     <td>{{ object.acquired }}</td>
   </tr>
   <tr>
-    <th>Cost</th>
+    <td>Cost</td>
     <td>{{ object.cost }}</td>
   </tr>
 </table>

@@ -52,6 +52,8 @@ my %newnames = (
 	'icons8-sign-in-form-password'	=> ['password'],
 	'icons8-bar-chart'				=> ['stats'],
 	'icons8-help'					=> ['help'],
+	'icons8-edit'					=> ['edit'],
+	'icons8-add'					=> ['add'],
 #unknown
 #logout
 );

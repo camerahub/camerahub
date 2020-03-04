@@ -1,33 +1,33 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table table-hover">
   <tr>
-    <th>Negative</th>
+    <td>Negative</td>
     <td>{% if object.negative %}<a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <th>Print</th>
+    <td>Print</td>
     <td>{{ object.print }}</td>
   </tr>
   <tr>
-    <th>Filename</th>
+    <td>Filename</td>
     <td>{{ object.filename }}</td>
   </tr>
   <tr>
-    <th>Date</th>
+    <td>Date</td>
     <td>{{ object.date }}</td>
   </tr>
   <tr>
-    <th>Colour</th>
+    <td>Colour</td>
     <td>{{ object.colour }}</td>
   </tr>
   <tr>
-    <th>Width</th>
+    <td>Width</td>
     <td>{{ object.width }}</td>
   </tr>
   <tr>
-    <th>Height</th>
+    <td>Height</td>
     <td>{{ object.height }}</td>
   </tr>
 </table>

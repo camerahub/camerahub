@@ -236,7 +236,7 @@ class FilmTable(tables.Table):
 class SeriesTable(tables.Table):
     class Meta:
         model = Series
-        exclude = ('id', 'owner')
+        exclude = ('id', 'owner', 'id_owner')
     def render_name(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('series-detail', args=[record.id]), value)
 
