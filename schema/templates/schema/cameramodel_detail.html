@@ -1,4 +1,5 @@
 {% extends "schema/detail.html" %}
+{% load yesnoicon %}
 
 {% block content %}
 <table class="table table-hover">
@@ -101,11 +102,11 @@
   {% if object.metering is not None %}
   <tr>
     <td>Metering</td>
-    <td>{{ object.metering }}</td>
+    <td>{{ object.metering|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Coupled metering</td>
-    <td>{{ object.coupled_metering }}</td>
+    <td>{{ object.coupled_metering|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Metering type</td>
@@ -152,13 +153,13 @@
   {% if object.bulb is not None %}
   <tr>
     <td>Bulb</td>
-    <td>{{ object.bulb }}</td>
+    <td>{{ object.bulb|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.time is not None %}
   <tr>
     <td>Time</td>
-    <td>{{ object.time }}</td>
+    <td>{{ object.time|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.shutter_speeds is not None %}
@@ -177,7 +178,7 @@
   {% if object.power_drive is not None %}
   <tr>
     <td>Power drive</td>
-    <td>{{ object.power_drive }}</td>
+    <td>{{ object.power_drive|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.continuous_fps is not None %}
@@ -209,7 +210,7 @@
   {% if object.int_flash is not None %}
   <tr>
     <td>Internal flash</td>
-    <td>{{ object.int_flash }}</td>
+    <td>{{ object.int_flash|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Internal flash guide number</td>
@@ -219,27 +220,27 @@
   {% if object.external_flash is not None %}
   <tr>
     <td>External flash</td>
-    <td>{{ object.ext_flash }}</td>
+    <td>{{ object.ext_flash|yesnoicon }}</td>
   </tr>
   <tr>
     <td>PC sync</td>
-    <td>{{ object.pc_sync }}</td>
+    <td>{{ object.pc_sync|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Hotshoe</td>
-    <td>{{ object.hotshoe }}</td>
+    <td>{{ object.hotshoe|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.coldshoe is not None %}
   <tr>
     <td>Coldshoe</td>
-    <td>{{ object.coldshoe }}</td>
+    <td>{{ object.coldshoe|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.flash_metering is not None %}
   <tr>
     <td>Flash metering</td>
-    <td>{{ object.flash_metering }}</td>
+    <td>{{ object.flash_metering|yesnoicon }}</td>
   </tr>
   {% endif %}
 
@@ -250,19 +251,19 @@
   {% if object.dof_preview is not None %}
   <tr>
     <td>DoF preview</td>
-    <td>{{ object.dof_preview }}</td>
+    <td>{{ object.dof_preview|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.tripod is not None %}
   <tr>
     <td>Tripod</td>
-    <td>{{ object.tripod }}</td>
+    <td>{{ object.tripod|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.cable_release is not None %}
   <tr>
     <td>Cable release</td>
-    <td>{{ object.cable_release }}</td>
+    <td>{{ object.cable_release|yesnoicon }}</td>
   </tr>
   {% endif %}
 
