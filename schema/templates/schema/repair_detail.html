@@ -1,7 +1,7 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table table-hover">
   <tr>
     <td>Camera</td>
     <td>{% if object.camera %}<a href="{% url 'camera-detail' object.camera.id %}">{{ object.camera }}</a>{% endif %}</td>

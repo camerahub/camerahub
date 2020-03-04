@@ -1,7 +1,7 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table table-hover">
   <tr>
     <td>Name</td>
     <td>{{ object.name }}</td>
@@ -11,7 +11,7 @@
 <a data-toggle="collapse" href="#collapseCameras" role="button" aria-expanded="false" aria-controls="collapseCameras">
   Cameras</a>
 <div class="collapse" id="collapseCameras">
-  <table class="table">
+  <table class="table table-hover">
     <tr>
       <th>Model</th>
     </tr>
@@ -28,7 +28,7 @@
 <a data-toggle="collapse" href="#collapseLenses" role="button" aria-expanded="false" aria-controls="collapseLenses">
   Lenses</a>
 <div class="collapse" id="collapseLenses">
-  <table class="table">
+  <table class="table table-hover">
     <tr>
       <th>Model</th>
     </tr>

@@ -1,7 +1,7 @@
 {% extends "schema/detail.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table table-hover">
   <tr>
     <td>Filmstock</td>
     <td>{% if object.filmstock %}<a
@@ -105,7 +105,7 @@
 <a data-toggle="collapse" href="#collapseNegatives" role="button" aria-expanded="false" aria-controls="collapseNegatives">
   Negatives</a>
 <div class="collapse" id="collapseNegatives">
-  <table class="table">
+  <table class="table table-hover">
     <tr>
       <th>Frame</th>
       <th>Caption</th>

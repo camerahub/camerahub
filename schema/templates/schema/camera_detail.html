@@ -3,7 +3,7 @@
 {% block content %}
 <h3>Your camera</h3>
 
-<table class="table">
+<table class="table table-hover">
     <tr>
         <td>Acquired</td>
         <td>{{ object.acquired }}</td>
@@ -64,7 +64,7 @@
 
 <h3>The camera model</strong></h3>
 
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>Camera model</th>
         <td>{% if object.cameramodel %}<a href="{% url 'cameramodel-detail' object.cameramodel.id %}">{{ object.cameramodel }}</a>{% endif %}</td>
