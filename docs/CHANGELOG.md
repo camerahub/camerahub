@@ -83,3 +83,12 @@
 * Require disambiguation for models with the same name (#221)
 * Fix backup manifest
 * Fix typo in doc
+
+## `0.3.2`
+
+4 Mar 2020
+
+* Add Help section with basic docs (#194)
+* Restyle camera model and lens model detail views (#133 and #136)
+* Restyle Edit link (#225)
+* Restyle Add link (#214 and #226)
