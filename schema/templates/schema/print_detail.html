@@ -4,7 +4,7 @@
 <table class="table table-hover">
   <tr>
     <td>Negative</td>
-    <td>{% if object.negative %}<a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a>{% endif %}</td>
+    <td>{% if object.negative is not None %}<a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Date</td>
@@ -12,7 +12,7 @@
   </tr>
   <tr>
     <td>Paperstock</td>
-    <td>{% if object.paper_stock %}<a href="{% url 'paper_stock-detail' object.paper_stock.id %}">{{ object.paper_stock }}</a>{% endif %}</td>
+    <td>{% if object.paper_stock is not None %}<a href="{% url 'paper_stock-detail' object.paper_stock.id %}">{{ object.paper_stock }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Height</td>
@@ -64,7 +64,7 @@
   </tr>
   <tr>
     <td>Developer</td>
-    <td>{% if object.developer %}<a href="{% url 'developer-detail' object.developer.id %}">{{ object.developer }}</a>{% endif %}</td>
+    <td>{% if object.developer is not None %}<a href="{% url 'developer-detail' object.developer.id %}">{{ object.developer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Fine</td>
@@ -76,7 +76,7 @@
   </tr>
   <tr>
     <td>Archive</td>
-    <td>{% if object.archive %}<a href="{% url 'archive-detail' object.archive.id %}">{{ object.archive }}</a>{% endif %}</td>
+    <td>{% if object.archive is not None %}<a href="{% url 'archive-detail' object.archive.id %}">{{ object.archive }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Printer</td>

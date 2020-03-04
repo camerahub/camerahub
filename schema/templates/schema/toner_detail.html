@@ -8,7 +8,7 @@
   </tr>
   <tr>
     <td>Manufacturer</td>
-    <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
+    <td>{% if object.manufacturer is not None %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Formulation</td>

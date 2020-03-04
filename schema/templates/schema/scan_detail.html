@@ -4,7 +4,7 @@
 <table class="table table-hover">
   <tr>
     <td>Negative</td>
-    <td>{% if object.negative %}<a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a>{% endif %}</td>
+    <td>{% if object.negative is not None %}<a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Print</td>

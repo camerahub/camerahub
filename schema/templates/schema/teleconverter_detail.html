@@ -8,11 +8,11 @@
   </tr>
   <tr>
     <td>Manufacturer</td>
-    <td>{% if object.manufacturer %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
+    <td>{% if object.manufacturer is not None %}<a href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Mount</td>
-    <td>{% if object.mount %}<a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a>{% endif %}</td>
+    <td>{% if object.mount is not None %}<a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Factor</td>
