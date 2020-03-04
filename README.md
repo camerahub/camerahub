@@ -1,8 +1,7 @@
 # CameraHub
 
 CameraHub is a web app for film photography that can be used to track cameras, lenses, accessories, films, negatives and prints, to fully
-catalogue a collection of photographic equipment as well as the pictures that are made with them. Read the [Concepts](docs/CONCEPTS.md)
-section for full details on the capabilities of CameraHub.
+catalogue a collection of photographic equipment as well as the pictures that are made with them.
 
 It replaces an earlier command-line project, called [PhotoDB](https://github.com/djjudas21/photodb-perl), which has now been deprecated.
 
@@ -40,7 +39,6 @@ The following environment variables are supported:
 
 ## See also
 
-* [Concepts](docs/CONCEPTS.md)
 * [Screenshots](docs/SCREENSHOTS.md)
 * [Contributing](docs/CONTRIBUTING.md)
 * [Changelog](docs/CHANGELOG.md)
