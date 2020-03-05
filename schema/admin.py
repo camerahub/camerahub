@@ -79,7 +79,7 @@ class CameraModelAdmin(admin.ModelAdmin):
       'fields': ('metering', 'metering_type', 'coupled_metering', ('min_iso', 'max_iso'), ('meter_min_ev', 'meter_max_ev'), 'metering_modes', 'exposure_programs')
     }),
     ('Flash', {
-      'fields': ('int_flash', 'int_flash_gn', 'ext_flash', 'flash_metering', 'pc_sync', 'hotshoe', 'coldshoe')
+      'fields': ('int_flash', 'int_flash_gn', 'ext_flash', 'flash_metering', 'pc_sync', 'shoe')
     }),
     ('Focus', {
       'fields': ('focus_type', 'af_points', 'dof_preview')

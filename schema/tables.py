@@ -53,7 +53,7 @@ class CameraTable(tables.Table):
 class CameraModelTable(tables.Table):
     class Meta:
         model = CameraModel
-        exclude = ('id', 'manufacturer', 'focus_type', 'metering', 'coupled_metering', 'metering_type', 'weight', 'discontinued', 'shutter_model', 'cable_release', 'viewfinder_coverage', 'power_drive', 'continuous_fps', 'fixed_mount', 'battery_qty', 'battery_type', 'notes', 'bulb', 'time', 'min_iso', 'max_iso', 'af_points', 'int_flash', 'int_flash_gn', 'ext_flash', 'flash_metering', 'pc_sync', 'hotshoe', 'coldshoe', 'meter_min_ev', 'meter_max_ev', 'dof_preview', 'tripod')
+        exclude = ('id', 'manufacturer', 'focus_type', 'metering', 'coupled_metering', 'metering_type', 'weight', 'discontinued', 'shutter_model', 'cable_release', 'viewfinder_coverage', 'power_drive', 'continuous_fps', 'fixed_mount', 'battery_qty', 'battery_type', 'notes', 'bulb', 'time', 'min_iso', 'max_iso', 'af_points', 'int_flash', 'int_flash_gn', 'ext_flash', 'flash_metering', 'pc_sync', 'shoe', 'meter_min_ev', 'meter_max_ev', 'dof_preview', 'tripod')
     def render_model(self, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('cameramodel-detail', args=[record.id]), record.manufacturer, value)
     def render_mount(self, value, record):

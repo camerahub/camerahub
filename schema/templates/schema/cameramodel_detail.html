@@ -244,15 +244,11 @@
     <td>PC sync</td>
     <td>{{ object.pc_sync|yesnoicon }}</td>
   </tr>
-  <tr>
-    <td>Hotshoe</td>
-    <td>{{ object.hotshoe|yesnoicon }}</td>
-  </tr>
   {% endif %}
-  {% if object.coldshoe is not None %}
+  {% if object.shoe is not None %}
   <tr>
-    <td>Coldshoe</td>
-    <td>{{ object.coldshoe|yesnoicon }}</td>
+    <td>Shoe</td>
+    <td>{{ object.shoe }}</td>
   </tr>
   {% endif %}
   {% if object.flash_metering is not None %}
