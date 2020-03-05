@@ -725,6 +725,12 @@ class CameraModel(models.Model):
     Selenium  = ChoiceItem()
     Silicon  = ChoiceItem()
 
+  # Choices for shoe type
+  class ShoeType(DjangoChoices):
+    No_shoe = ChoiceItem()
+    Hot_shoe = ChoiceItem()
+    Cold_shoe = ChoiceItem()
+
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this camera model')
   model = models.CharField(help_text='The model name of the camera', max_length=45)
   disambiguation = models.CharField(help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, null=True)
@@ -762,8 +768,7 @@ class CameraModel(models.Model):
   ext_flash = models.BooleanField(verbose_name='External flash', help_text='Whether the camera supports an external flash', blank=True, null=True)
   flash_metering = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True, null=True, help_text='Whether this camera model supports flash metering')
   pc_sync = models.BooleanField(verbose_name='PC sync', help_text='Whether the camera has a PC sync socket for flash', blank=True, null=True)
-  hotshoe = models.BooleanField(help_text='Whether the camera has a hotshoe', blank=True, null=True)
-  coldshoe = models.BooleanField(help_text='Whether the camera has a coldshoe or accessory shoe', blank=True, null=True)
+  shoe = models.CharField(choices=ShoeType.choices, max_length=9, blank=True, null=True, help_text='Type of flash/accessory shoe used on this camera model')
   #x_sync = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True)
   meter_min_ev = models.IntegerField(verbose_name='Min EV', help_text='Lowest EV/LV the built-in meter supports', blank=True, null=True)
   meter_max_ev = models.PositiveIntegerField(verbose_name='Max EV', help_text='Highest EV/LV the built-in meter supports', blank=True, null=True)
