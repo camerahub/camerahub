@@ -1,4 +1,5 @@
 {% extends "schema/detail.html" %}
+{% load yesnoicon %}
 
 {% block content %}
 <table class="table table-hover">
@@ -23,7 +24,7 @@
   {% if object.fixed_mount is not None %}
   <tr>
     <td>Fixed mount</td>
-    <td>{{ object.fixed_mount }}</td>
+    <td>{{ object.fixed_mount|yesnoicon }}</td>
   </tr>
   {% elif object.mount %}
   <tr>
@@ -63,7 +64,7 @@
   {% if object.zoom is not None %}
   <tr>
     <td>Zoom</td>
-    <td>{{ object.zoom }}</td>
+    <td>{{ object.zoom|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.min_focal_length is not None %}
@@ -107,7 +108,7 @@
   {% if object.rectilinear is not None %}
   <tr>
     <td>Rectilinear</td>
-    <td>{{ object.rectilinear }}</td>
+    <td>{{ object.rectilinear|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.magnification is not None %}
@@ -149,7 +150,7 @@
   {% if object.autofocus is not None %}
   <tr>
     <td>Autofocus</td>
-    <td>{{ object.autofocus }}</td>
+    <td>{{ object.autofocus|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.filter_thread is not None %}
