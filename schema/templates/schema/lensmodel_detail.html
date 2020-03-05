@@ -26,10 +26,11 @@
     <td>Fixed mount</td>
     <td>{{ object.fixed_mount|yesnoicon }}</td>
   </tr>
-  {% elif object.mount %}
+  {% endif %}
+  {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
-    <td>{% if object.mount is not None %}<a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a>{% endif %}</td>
+    <td><a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a></td>
   </tr>
   {% endif %}
   {% if object.introduced is not None %}
@@ -120,8 +121,7 @@
   {% if object.negative_size is not None %}
   <tr>
     <td>Negative size</td>
-    <td>{% if object.negative_size is not None %}<a
-        href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a>{% endif %}</td>
+    <td><a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
   </tr>
   {% endif %}
   {% if object.aperture_blades is not None %}

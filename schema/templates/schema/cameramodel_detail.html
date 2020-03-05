@@ -26,18 +26,22 @@
     <td>Fixed mount</td>
     <td>{{ object.fixed_mount }}</td>
   </tr>
+  {% endif %}
+  {% if object.fixed_mount is True %}
+    {% if object.lensmodel is not None %}
   <tr>
     <td>Lens model</td>
-    <td>{% if object.lensmodel is not None %}<a
-        href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a>{% endif %}</td>
+    <td><a
+        href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a></td>
   </tr>
+    {% endif %}
   {% else %}
-  {% if object.mount is not None %}
+    {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
     <td><a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a></td>
   </tr>
-  {% endif %}
+    {% endif %}
   {% endif %}
   {% if object.format is not None %}
   <tr>
@@ -104,28 +108,42 @@
     <td>Metering</td>
     <td>{{ object.metering|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.metering %}
+  {% if object.coupled_metering is not None %}
   <tr>
     <td>Coupled metering</td>
     <td>{{ object.coupled_metering|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.metering_type is not None %}
   <tr>
     <td>Metering type</td>
     <td>{{ object.metering_type }}</td>
   </tr>
-  <tr>
-    <td>ISO</td>
-    <td>{{ object.min_iso }}-{{ object.max_iso }}</td>
-  </tr>
+  {% endif %}
+  {% if object.meter_min_ev is not None %}
   <tr>
     <td>Meter EV</td>
     <td>{{ object.meter_min_ev }}-{{ object.meter_max_ev }}</td>
   </tr>
+  {% endif %}
+  {% if object.metering_modes is not None %}
   <tr>
     <td>Metering modes</td>
     <td>
       {{ object.metering_modes.all|join:", " }}
     </td>
   </tr>
+  {% endif %}
+  {% endif %}
+  {% if object.min_iso is not None %}
+  <tr>
+    <td>ISO</td>
+    <td>{{ object.min_iso }}-{{ object.max_iso }}</td>
+  </tr>
+  {% endif %}
+  {% if object.exposure_programs is not None %}
   <tr>
     <td>Exposure programs</td>
     <td>
