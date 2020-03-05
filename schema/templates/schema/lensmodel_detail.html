@@ -1,4 +1,5 @@
 {% extends "schema/detail.html" %}
+{% load yesnoicon %}
 
 {% block content %}
 <table class="table table-hover">
@@ -7,49 +8,50 @@
   </tr>
   <tr>
     <td>Manufacturer</td>
-    <td>{% if object.manufacturer %}<a
+    <td>{% if object.manufacturer is not None %}<a
         href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
-  {% if object.disambiguation %}
+  {% if object.disambiguation is not None %}
   <tr>
     <td>Disambiguation</td>
     <td>{{ object.disambiguation }}</td>
   </tr>
   {% endif %}
-  {% if object.fixed_mount %}
+  {% if object.fixed_mount is not None %}
   <tr>
     <td>Fixed mount</td>
-    <td>{{ object.fixed_mount }}</td>
+    <td>{{ object.fixed_mount|yesnoicon }}</td>
   </tr>
-  {% elif object.mount %}
+  {% endif %}
+  {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
-    <td>{% if object.mount %}<a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a>{% endif %}</td>
+    <td><a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a></td>
   </tr>
   {% endif %}
-  {% if object.introduced %}
+  {% if object.introduced is not None %}
   <tr>
     <td>Marketed</td>
-    <td>{{ object.introduced }}{% if object.discontinued %}-{{ object.discontinued }}{% endif %}</td>
+    <td>{{ object.introduced }}{% if object.discontinued is not None %}-{{ object.discontinued }}{% endif %}</td>
   </tr>
   {% endif %}
-  {% if object.weight %}
+  {% if object.weight is not None %}
   <tr>
     <td>Weight</td>
     <td>{{ object.weight }}g</td>
   </tr>
   {% endif %}
-  {% if object.length %}
+  {% if object.length is not None %}
   <tr>
     <td>Length</td>
     <td>{{ object.length }}mm</td>
   </tr>
   {% endif %}
-  {% if object.diameter %}
+  {% if object.diameter is not None %}
   <tr>
     <td>Diameter</td>
     <td>{{ object.diameter }}mm</td>
@@ -60,82 +62,81 @@
   <tr>
     <th colspan="2">Optics</th>
   </tr>
-  {% if object.zoom %}
+  {% if object.zoom is not None %}
   <tr>
     <td>Zoom</td>
-    <td>{{ object.zoom }}</td>
+    <td>{{ object.zoom|yesnoicon }}</td>
   </tr>
   {% endif %}
-  {% if object.min_focal_length %}
+  {% if object.min_focal_length is not None %}
   <tr>
     <td>Focal length</td>
-    <td>{{ object.min_focal_length }}{% if object.max_focal_length %}-{{ object.max_focal_length }}{% endif %}mm</td>
+    <td>{{ object.min_focal_length }}{% if object.max_focal_length is not None %}-{{ object.max_focal_length }}{% endif %}mm</td>
   </tr>
   {% endif %}
-  {% if object.closest_focus %}
+  {% if object.closest_focus is not None %}
   <tr>
     <td>Closest focus</td>
     <td>{{ object.closest_focus }}cm</td>
   </tr>
   {% endif %}
-  {% if object.max_aperture %}
+  {% if object.max_aperture is not None %}
   <tr>
     <td>Aperture</td>
-    <td><em>f</em>/{{ object.max_aperture }}{% if object.max_aperture %}-{{ object.min_aperture }}{% endif %}</td>
+    <td><em>f</em>/{{ object.max_aperture }}{% if object.max_aperture is not None %}-{{ object.min_aperture }}{% endif %}</td>
   </tr>
   {% endif %}
-  {% if object.elements %}
+  {% if object.elements is not None %}
   <tr>
     <td>Elements</td>
     <td>{{ object.elements }}</td>
   </tr>
   {% endif %}
-  {% if object.groups %}
+  {% if object.groups is not None %}
   <tr>
     <td>Groups</td>
     <td>{{ object.groups }}</td>
   </tr>
   {% endif %}
-  {% if object.nominal_max_angle_diag %}
+  {% if object.nominal_max_angle_diag is not None %}
   <tr>
     <td>Diagonal angle of view</td>
     <td>
-      {{ object.nominal_max_angle_diag }}{% if object.nominal_min_angle_diag %}-{{ object.nominal_min_angle_diag }}{% endif %}&deg;
+      {{ object.nominal_max_angle_diag }}{% if object.nominal_min_angle_diag is not None %}-{{ object.nominal_min_angle_diag }}{% endif %}&deg;
     </td>
   </tr>
   {% endif %}
-  {% if object.rectilinear %}
+  {% if object.rectilinear is not None %}
   <tr>
     <td>Rectilinear</td>
-    <td>{{ object.rectilinear }}</td>
+    <td>{{ object.rectilinear|yesnoicon }}</td>
   </tr>
   {% endif %}
-  {% if object.magnification %}
+  {% if object.magnification is not None %}
   <tr>
     <td>Maximum magnification</td>
     <td>{{ object.magnification }}&times;</td>
   </tr>
   {% endif %}
-  {% if object.negative_size %}
+  {% if object.negative_size is not None %}
   <tr>
     <td>Negative size</td>
-    <td>{% if object.negative_size %}<a
-        href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a>{% endif %}</td>
+    <td><a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
   </tr>
   {% endif %}
-  {% if object.aperture_blades %}
+  {% if object.aperture_blades is not None %}
   <tr>
     <td>Aperture blades</td>
     <td>{{ object.aperture_blades }}</td>
   </tr>
   {% endif %}
-  {% if object.image_circle %}
+  {% if object.image_circle is not None %}
   <tr>
     <td>Image circle</td>
     <td>{{ object.image_circle }}mm</td>
   </tr>
   {% endif %}
-  {% if object.formula %}
+  {% if object.formula is not None %}
   <tr>
     <td>Formula</td>
     <td>{{ object.formula }}</td>
@@ -146,37 +147,37 @@
   <tr>
     <th colspan="2">Features</th>
   </tr>
-  {% if object.autofocus %}
+  {% if object.autofocus is not None %}
   <tr>
     <td>Autofocus</td>
-    <td>{{ object.autofocus }}</td>
+    <td>{{ object.autofocus|yesnoicon }}</td>
   </tr>
   {% endif %}
-  {% if object.filter_thread %}
+  {% if object.filter_thread is not None %}
   <tr>
     <td>Filter thread</td>
-    <td>{{ object.filter_thread }}</td>
+    <td>{{ object.filter_thread }}mm</td>
   </tr>
   {% endif %}
-  {% if object.coating %}
+  {% if object.coating is not None %}
   <tr>
     <td>Coating</td>
     <td>{{ object.coating }}</td>
   </tr>
   {% endif %}
-  {% if object.hood %}
+  {% if object.hood is not None %}
   <tr>
     <td>Hood</td>
     <td>{{ object.hood }}</td>
   </tr>
   {% endif %}
-  {% if object.exif_lenstype %}
+  {% if object.exif_lenstype is not None %}
   <tr>
     <td>EXIF Lens type</td>
     <td>{{ object.exif_lenstype }}</td>
   </tr>
   {% endif %}
-  {% if object.shutter_model %}
+  {% if object.shutter_model is not None %}
   <tr>
     <td>Shutter model</td>
     <td>{{ object.shutter_model }}</td>
@@ -187,19 +188,19 @@
   <tr>
     <th colspan="2">Misc</th>
   </tr>
-  {% if object.notes %}
+  {% if object.notes is not None %}
   <tr>
     <td>Notes</td>
     <td>{{ object.notes }}</td>
   </tr>
   {% endif %}
-  {% if object.url %}
+  {% if object.url is not None %}
   <tr>
     <td>URL</td>
     <td><a href="{{ object.url }}">{{ object.url }}</a></td>
   </tr>
   {% endif %}
-  {% if object.series %}
+  {% if object.series is not None %}
   <tr>
     <td>Series</td>
     <td>

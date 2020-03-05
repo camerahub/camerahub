@@ -4,12 +4,12 @@
 <table class="table table-hover">
   <tr>
     <td>Film format</td>
-    <td>{% if object.format %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}
+    <td>{% if object.format is not None %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}
     </td>
   </tr>
   <tr>
     <td>Filmstock</td>
-    <td>{% if object.filmstock %}<a
+    <td>{% if object.filmstock is not None %}<a
         href="{% url 'filmstock-detail' object.filmstock.id %}">{{ object.filmstock }}</a>{% endif %}</td>
   </tr>
   <tr>

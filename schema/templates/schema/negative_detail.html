@@ -5,7 +5,7 @@
   <tr>
     <td>Film</td>
     <td>{{ object.film }}</td>
-    <td>{% if object.film %}<a href="{% url 'film-detail' object.film.id %}">{{ object.film }}</a>{% endif %}</td>
+    <td>{% if object.film is not None %}<a href="{% url 'film-detail' object.film.id %}">{{ object.film }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Frame</td>

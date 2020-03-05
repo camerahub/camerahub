@@ -54,6 +54,8 @@ my %newnames = (
 	'icons8-help'					=> ['help'],
 	'icons8-edit'					=> ['edit'],
 	'icons8-add'					=> ['add'],
+	'icons8-cancel'					=> ['no'],
+	'icons8-ok'						=> ['yes'],
 #unknown
 #logout
 );

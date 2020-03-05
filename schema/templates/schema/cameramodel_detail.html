@@ -1,4 +1,5 @@
 {% extends "schema/detail.html" %}
+{% load yesnoicon %}
 
 {% block content %}
 <table class="table table-hover">
@@ -7,63 +8,67 @@
   </tr>
   <tr>
     <td>Manufacturer</td>
-    <td>{% if object.manufacturer %}<a
+    <td>{% if object.manufacturer is not None %}<a
         href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
-  {% if object.disambiguation %}
+  {% if object.disambiguation is not None %}
   <tr>
     <td>Disambiguation</td>
     <td>{{ object.disambiguation }}</td>
   </tr>
   {% endif %}
-  {% if object.fixed_mount %}
+  {% if object.fixed_mount is not None %}
   <tr>
     <td>Fixed mount</td>
     <td>{{ object.fixed_mount }}</td>
   </tr>
+  {% endif %}
+  {% if object.fixed_mount is True %}
+    {% if object.lensmodel is not None %}
   <tr>
     <td>Lens model</td>
-    <td>{% if object.lensmodel %}<a
-        href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a>{% endif %}</td>
+    <td><a
+        href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a></td>
   </tr>
+    {% endif %}
   {% else %}
-  {% if object.mount %}
+    {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
     <td><a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a></td>
   </tr>
+    {% endif %}
   {% endif %}
-  {% endif %}
-  {% if object.format %}
+  {% if object.format is not None %}
   <tr>
     <td>Format</td>
     <td><a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>
     </td>
   </tr>
   {% endif %}
-  {% if object.introduced %}
+  {% if object.introduced is not None %}
   <tr>
     <td>Marketed</td>
-    <td>{{ object.introduced }}{% if object.discontinued %}-{{ object.discontinued }}{% endif %}</td>
+    <td>{{ object.introduced }}{% if object.discontinued is not None %}-{{ object.discontinued }}{% endif %}</td>
   </tr>
   {% endif %}
-  {% if object.body_type %}
+  {% if object.body_type is not None %}
   <tr>
     <td>Body type</td>
     <td>{{ object.body_type }}</td>
   </tr>
   {% endif %}
-  {% if object.weight %}
+  {% if object.weight is not None %}
   <tr>
     <td>Weight</td>
     <td>{{ object.weight }}g</td>
   </tr>
   {% endif %}
-  {% if object.negative_size %}
+  {% if object.negative_size is not None %}
   <tr>
     <td>Negative size</td>
     <td><a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
@@ -75,19 +80,19 @@
   <tr>
     <th colspan="2">Focus</th>
   </tr>
-  {% if object.focus_type %}
+  {% if object.focus_type is not None %}
   <tr>
     <td>Focus type</td>
     <td>{{ object.focus_type }}</td>
   </tr>
   {% endif %}
-  {% if object.autofocus_points %}
+  {% if object.autofocus_points is not None %}
   <tr>
     <td>Autofocus points</td>
     <td>{{ object.af_points }}</td>
   </tr>
   {% endif %}
-  {% if object.viewfinder_coverage %}
+  {% if object.viewfinder_coverage is not None %}
   <tr>
     <td>Viewfinder coverage</td>
     <td>{{ object.viewfinder_coverage }}%</td>
@@ -98,33 +103,47 @@
   <tr>
     <th colspan="2">Metering</th>
   </tr>
-  {% if object.metering %}
+  {% if object.metering is not None %}
   <tr>
     <td>Metering</td>
-    <td>{{ object.metering }}</td>
+    <td>{{ object.metering|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.metering %}
+  {% if object.coupled_metering is not None %}
   <tr>
     <td>Coupled metering</td>
-    <td>{{ object.coupled_metering }}</td>
+    <td>{{ object.coupled_metering|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.metering_type is not None %}
   <tr>
     <td>Metering type</td>
     <td>{{ object.metering_type }}</td>
   </tr>
-  <tr>
-    <td>ISO</td>
-    <td>{{ object.min_iso }}-{{ object.max_iso }}</td>
-  </tr>
+  {% endif %}
+  {% if object.meter_min_ev is not None %}
   <tr>
     <td>Meter EV</td>
     <td>{{ object.meter_min_ev }}-{{ object.meter_max_ev }}</td>
   </tr>
+  {% endif %}
+  {% if object.metering_modes is not None %}
   <tr>
     <td>Metering modes</td>
     <td>
       {{ object.metering_modes.all|join:", " }}
     </td>
   </tr>
+  {% endif %}
+  {% endif %}
+  {% if object.min_iso is not None %}
+  <tr>
+    <td>ISO</td>
+    <td>{{ object.min_iso }}-{{ object.max_iso }}</td>
+  </tr>
+  {% endif %}
+  {% if object.exposure_programs is not None %}
   <tr>
     <td>Exposure programs</td>
     <td>
@@ -137,31 +156,31 @@
   <tr>
     <th colspan="2">Shutter</th>
   </tr>
-  {% if object.shutter_type %}
+  {% if object.shutter_type is not None %}
   <tr>
     <td>Shutter type</td>
     <td>{{ object.shutter_type }}</td>
   </tr>
   {% endif %}
-  {% if object.shutter_model %}
+  {% if object.shutter_model is not None %}
   <tr>
     <td>Shutter model</td>
     <td>{{ object.shutter_model }}</td>
   </tr>
   {% endif %}
-  {% if object.bulb %}
+  {% if object.bulb is not None %}
   <tr>
     <td>Bulb</td>
-    <td>{{ object.bulb }}</td>
+    <td>{{ object.bulb|yesnoicon }}</td>
   </tr>
   {% endif %}
-  {% if object.time %}
+  {% if object.time is not None %}
   <tr>
     <td>Time</td>
-    <td>{{ object.time }}</td>
+    <td>{{ object.time|yesnoicon }}</td>
   </tr>
   {% endif %}
-  {% if object.shutter_speeds %}
+  {% if object.shutter_speeds is not None %}
   <tr>
     <td>Shutter speeds</td>
     <td>
@@ -174,13 +193,13 @@
   <tr>
     <th colspan="2">Film transport</th>
   </tr>
-  {% if object.power_drive %}
+  {% if object.power_drive is not None %}
   <tr>
     <td>Power drive</td>
-    <td>{{ object.power_drive }}</td>
+    <td>{{ object.power_drive|yesnoicon }}</td>
   </tr>
   {% endif %}
-  {% if object.continuous_fps %}
+  {% if object.continuous_fps is not None %}
   <tr>
     <td>Continuous fps</td>
     <td>{{ object.continuous_fps }}</td>
@@ -191,7 +210,7 @@
   <tr>
     <th colspan="2">Batteries</th>
   </tr>
-  {% if object.battery_qty %}
+  {% if object.battery_qty is not None %}
   <tr>
     <td>Battery quantity</td>
     <td>{{ object.battery_qty }}</td>
@@ -206,40 +225,40 @@
   <tr>
     <th colspan="2">Flash</th>
   </tr>
-  {% if object.int_flash %}
+  {% if object.int_flash is not None %}
   <tr>
     <td>Internal flash</td>
-    <td>{{ object.int_flash }}</td>
+    <td>{{ object.int_flash|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Internal flash guide number</td>
     <td>{{ object.int_flash_gn }}</td>
   </tr>
   {% endif %}
-  {% if object.external_flash %}
+  {% if object.external_flash is not None %}
   <tr>
     <td>External flash</td>
-    <td>{{ object.ext_flash }}</td>
+    <td>{{ object.ext_flash|yesnoicon }}</td>
   </tr>
   <tr>
     <td>PC sync</td>
-    <td>{{ object.pc_sync }}</td>
+    <td>{{ object.pc_sync|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Hotshoe</td>
-    <td>{{ object.hotshoe }}</td>
+    <td>{{ object.hotshoe|yesnoicon }}</td>
   </tr>
   {% endif %}
-  {% if object.coldshoe %}
+  {% if object.coldshoe is not None %}
   <tr>
     <td>Coldshoe</td>
-    <td>{{ object.coldshoe }}</td>
+    <td>{{ object.coldshoe|yesnoicon }}</td>
   </tr>
   {% endif %}
-  {% if object.flash_metering %}
+  {% if object.flash_metering is not None %}
   <tr>
     <td>Flash metering</td>
-    <td>{{ object.flash_metering }}</td>
+    <td>{{ object.flash_metering|yesnoicon }}</td>
   </tr>
   {% endif %}
 
@@ -247,22 +266,22 @@
   <tr>
     <th colspan="2">Features</th>
   </tr>
-  {% if object.dof_preview %}
+  {% if object.dof_preview is not None %}
   <tr>
     <td>DoF preview</td>
-    <td>{{ object.dof_preview }}</td>
+    <td>{{ object.dof_preview|yesnoicon }}</td>
   </tr>
   {% endif %}
-  {% if object.tripod %}
+  {% if object.tripod is not None %}
   <tr>
     <td>Tripod</td>
-    <td>{{ object.tripod }}</td>
+    <td>{{ object.tripod|yesnoicon }}</td>
   </tr>
   {% endif %}
-  {% if object.cable_release %}
+  {% if object.cable_release is not None %}
   <tr>
     <td>Cable release</td>
-    <td>{{ object.cable_release }}</td>
+    <td>{{ object.cable_release|yesnoicon }}</td>
   </tr>
   {% endif %}
 
@@ -270,13 +289,13 @@
   <tr>
     <th colspan="2">Misc</th>
   </tr>
-  {% if object.notes %}
+  {% if object.notes is not None %}
   <tr>
     <td>Notes</td>
     <td>{{ object.notes }}</td>
   </tr>
   {% endif %}
-  {% if object.series %}
+  {% if object.series is not None %}
   <tr>
     <td>Series</td>
     <td>

@@ -4,7 +4,7 @@
 <table class="table table-hover">
   <tr>
     <td>Lens model</td>
-    <td>{% if object.lensmodel %}<a href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a>{% endif %}</td>
+    <td>{% if object.lensmodel is not None %}<a href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Serial number</td>
