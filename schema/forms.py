@@ -119,54 +119,7 @@ class CameraForm(ModelForm):
 class CameraModelForm(ModelForm):
     class Meta:
         model = CameraModel
-        fields = [
-            'manufacturer',
-            'model',
-            'disambiguation',
-            'mount',
-            'format',
-            'focus_type',
-            'metering',
-            'coupled_metering',
-            'metering_type',
-            'introduced',
-            'discontinued',
-            'body_type',
-            'weight',
-            'introduced',
-            'discontinued',
-            'negative_size',
-            'shutter_type',
-            'shutter_model',
-            'cable_release',
-            'viewfinder_coverage',
-            'power_drive',
-            'continuous_fps',
-            'fixed_mount',
-            'lensmodel',
-            'battery_qty',
-            'battery_type',
-            'notes',
-            'bulb',
-            'time',
-            'min_iso',
-            'max_iso',
-            'af_points',
-            'int_flash',
-            'int_flash_gn',
-            'ext_flash',
-            'flash_metering',
-            'pc_sync',
-            'shoe',
-            'meter_min_ev',
-            'meter_max_ev',
-            'dof_preview',
-            'tripod',
-            'shutter_speeds',
-            'metering_modes',
-            'exposure_programs',
-            'series',
-        ]
+        fields = '__all__'
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
             fields.remove('mount')
@@ -178,7 +131,84 @@ class CameraModelForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CameraModelForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.layout.append(Submit('Save', 'Save'))
+
+        self.helper.layout = Layout(
+            Fieldset(
+                'Basics',
+                'manufacturer',
+                'model',
+                'disambiguation',
+                'introduced',
+                'discontinued',
+                'mount',
+                'fixed_mount',
+                'lensmodel',
+                'format',
+                'negative_size',
+            ),
+            Fieldset(
+                'Physical',
+                'body_type',
+                'weight',
+            ),
+            Fieldset(
+                'Focus',
+                'focus_type',
+                'viewfinder_coverage',
+                'af_points',
+            ),
+            Fieldset(
+                'Metering',
+                'metering',
+                'coupled_metering',
+                'metering_type',
+                'metering_modes',
+                'exposure_programs',
+                'min_iso',
+                'max_iso',
+                'meter_min_ev',
+                'meter_max_ev',
+            ),
+            Fieldset(
+                'Shutter',
+                'shutter_type',
+                'shutter_model',
+                'shutter_speeds',
+                'bulb',
+                'time',
+            ),
+            Fieldset(
+                'Flash',
+                'int_flash',
+                'int_flash_gn',
+                'ext_flash',
+                'flash_metering',
+                'pc_sync',
+                'shoe',
+            ),
+            Fieldset(
+                'Battery',
+                'battery_qty',
+                'battery_type',
+            ),
+            Fieldset(
+                'Features',
+                'cable_release',
+                'dof_preview',
+                'tripod',
+                'power_drive',
+                'continuous_fps',
+            ),
+            Fieldset(
+                'Misc',
+                'notes',
+                'series',
+            ),
+            FormActions(
+                Submit('save', 'Save changes'),
+                Button('cancel', 'Cancel')
+            )
+        )
 
 class DeveloperForm(ModelForm):
     class Meta:
