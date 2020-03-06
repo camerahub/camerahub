@@ -744,8 +744,6 @@ class CameraModel(models.Model):
   discontinued = models.PositiveIntegerField(help_text='Year in which the camera model was discontinued', blank=True, null=True)
   body_type = models.CharField(choices=BodyType.choices, max_length=25, blank=True, null=True, help_text='Body type of this camera model')
   weight = models.PositiveIntegerField(help_text='Weight of the camera body (without lens or batteries) in grammes (g)', blank=True, null=True)
-  introduced = models.PositiveIntegerField(help_text='Year in which the camera model was introduced', blank=True, null=True)
-  discontinued = models.PositiveIntegerField(help_text='Year in which the camera model was discontinued', blank=True, null=True)
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Size of negative created by this camera')
   shutter_type = models.CharField(choices=ShutterType.choices, max_length=25, blank=True, null=True, help_text='Type of shutter used on this camera model')
   shutter_model = models.CharField(help_text='Model of shutter', max_length=45, blank=True, null=True)
