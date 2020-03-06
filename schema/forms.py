@@ -377,9 +377,6 @@ class NegativeSizeForm(ModelForm):
             'name',
             'width',
             'height',
-            'crop_factor',
-            'area',
-            'aspect_ratio',
         ]
 
 class OrderForm(ModelForm):
