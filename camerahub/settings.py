@@ -170,3 +170,21 @@ SITE_ID = 1
 MODERATION_MODERATORS = []
 
 #AUTH_USER_MODEL = 'schema.User'
+
+# Emit logs of WARNING and above to stderr
+# for both production and debug mode
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console2': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console2'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'WARNING'),
+        },
+    },
+}
