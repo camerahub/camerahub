@@ -118,14 +118,6 @@ class CameraModelForm(ModelForm):
     class Meta:
         model = CameraModel
         fields = '__all__'
-        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
-            fields.remove('manufacturer')
-            fields.remove('mount')
-            fields.remove('format')
-            fields.remove('battery_type')
-            fields.remove('negative_size')
-            fields.remove('lensmodel')
-            fields.remove('flash_metering')
     def __init__(self, *args, **kwargs):
         super(CameraModelForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
