@@ -3,7 +3,7 @@ from django import forms
 from django_currentuser.middleware import (get_current_user, get_current_authenticated_user)
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div, Row, Button
-from crispy_forms.bootstrap import FormActions
+from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes
 import sys
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -149,12 +149,12 @@ class CameraModelForm(ModelForm):
             Fieldset(
                 'Physical',
                 'body_type',
-                'weight',
+                AppendedText('weight', 'g'),
             ),
             Fieldset(
                 'Focus',
                 'focus_type',
-                'viewfinder_coverage',
+                AppendedText('viewfinder_coverage', '%'),
                 'af_points',
             ),
             Fieldset(
@@ -162,8 +162,8 @@ class CameraModelForm(ModelForm):
                 'metering',
                 'coupled_metering',
                 'metering_type',
-                'metering_modes',
-                'exposure_programs',
+                InlineCheckboxes('metering_modes'),
+                InlineCheckboxes('exposure_programs'),
                 'min_iso',
                 'max_iso',
                 'meter_min_ev',
@@ -173,7 +173,7 @@ class CameraModelForm(ModelForm):
                 'Shutter',
                 'shutter_type',
                 'shutter_model',
-                'shutter_speeds',
+                InlineCheckboxes('shutter_speeds'),
                 'bulb',
                 'time',
             ),
@@ -197,7 +197,7 @@ class CameraModelForm(ModelForm):
                 'dof_preview',
                 'tripod',
                 'power_drive',
-                'continuous_fps',
+                AppendedText('continuous_fps', 'fps'),
             ),
             Fieldset(
                 'Misc',
