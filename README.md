@@ -41,5 +41,5 @@ The following environment variables are supported:
 
 * [Screenshots](docs/SCREENSHOTS.md)
 * [Contributing](docs/CONTRIBUTING.md)
-* [Changelog](docs/CHANGELOG.md)
+* [Changelog](https://github.com/djjudas21/camerahub/releases)
 * [Icons](docs/ICONS.md)
