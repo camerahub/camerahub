@@ -9,6 +9,7 @@ install:
 - docker build -t djjudas21/camerahub .
 script:
 - python manage.py test
+- python manage.py migrate
 deploy:
 - provider: pypi
   user: jgazeley
