@@ -6,8 +6,5 @@
 {% block subheading %}<h2>Add new</h2>{%endblock%}
 
 {% block content %}
-<form method="post">{% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit" value="Save">
-</form>
+{% crispy form %}
 {% endblock %}
