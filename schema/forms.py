@@ -3,7 +3,7 @@ from django import forms
 from django_currentuser.middleware import (get_current_user, get_current_authenticated_user)
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div, Row, Button
-from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes
+from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText
 import sys
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -367,51 +367,62 @@ class LensForm(ModelForm):
 class LensModelForm(ModelForm):
     class Meta:
         model = LensModel
-        fields = [
-            'manufacturer',
-            'model',
-            'disambiguation',
-            'mount',
-            'zoom',
-            'min_focal_length',
-            'max_focal_length',
-            'closest_focus',
-            'max_aperture',
-            'min_aperture',
-            'elements',
-            'groups',
-            'weight',
-            'nominal_min_angle_diag',
-            'nominal_max_angle_diag',
-            'aperture_blades',
-            'autofocus',
-            'filter_thread',
-            'magnification',
-            'url',
-            'introduced',
-            'discontinued',
-            'negative_size',
-            'fixed_mount',
-            'notes',
-            'coating',
-            'hood',
-            'exif_lenstype',
-            'rectilinear',
-            'length',
-            'diameter',
-            'image_circle',
-            'formula',
-            'shutter_model',
-            'series',
-        ]
-        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
-            fields.remove('manufacturer')
-            fields.remove('mount')
-            fields.remove('negative_size')
+        fields = '__all__'
     def __init__(self, *args, **kwargs):
         super(LensModelForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.layout.append(Submit('Save', 'Save'))
+        self.helper.layout = Layout(
+            Fieldset(
+                'Basics',
+                'manufacturer',
+                'model',
+                'disambiguation',
+                'fixed_mount',
+                'mount',
+                'introduced',
+                'discontinued',
+            ),
+            Fieldset(
+                'Optics',
+                'zoom',
+                AppendedText('min_focal_length', 'mm'),
+                AppendedText('max_focal_length', 'mm'),
+                AppendedText('closest_focus', 'cm'),
+                PrependedText('max_aperture', 'f/'),
+                PrependedText('min_aperture', 'f/'),
+                'elements',
+                'groups',
+                AppendedText('nominal_min_angle_diag', '&deg;'),
+                AppendedText('nominal_max_angle_diag', '&deg;'),
+                'rectilinear',
+                AppendedText('image_circle', 'mm'),
+                'formula',
+                'aperture_blades',
+                'autofocus',
+                AppendedText('magnification', '&times;'),
+                'negative_size',
+            ),
+            Fieldset(
+                'Physical',
+                AppendedText('weight', 'g'),
+                AppendedText('length', 'mm'),
+                AppendedText('diameter', 'mm'),
+                AppendedText('filter_thread', 'mm'),
+                'hood',
+                'shutter_model',
+            ),
+            Fieldset(
+                'Misc',
+                'notes',
+                'exif_lenstype',
+                'url',
+                'series',
+            ),
+            FormActions(
+                Submit('save', 'Save changes'),
+                Button('cancel', 'Cancel')
+            )
+        )   
 
 class ManufacturerForm(ModelForm):
     class Meta:
