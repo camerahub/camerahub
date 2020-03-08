@@ -10,7 +10,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL("UPDATE schema_cameramodel set shoe = 'No shoe' where hotshoe = FALSE AND coldshoe = FALSE;"),
-        migrations.RunSQL("UPDATE schema_cameramodel set shoe = 'Cold shoe' where coldshoe = TRUE;"),
-        migrations.RunSQL("UPDATE schema_cameramodel set shoe = 'Hot shoe' where hotshoe = TRUE;")
     ]
