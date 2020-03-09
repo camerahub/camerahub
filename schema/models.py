@@ -767,7 +767,7 @@ class CameraModel(models.Model):
   flash_metering = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True, null=True, help_text='Whether this camera model supports flash metering')
   pc_sync = models.BooleanField(verbose_name='PC sync', help_text='Whether the camera has a PC sync socket for flash', blank=True, null=True)
   shoe = models.CharField(choices=ShoeType.choices, max_length=9, blank=True, null=True, help_text='Type of flash/accessory shoe used on this camera model')
-  #x_sync = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True)
+  x_sync = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True, help_text='Flash X-sync speed', related_name='x_sync')
   meter_min_ev = models.IntegerField(verbose_name='Min EV', help_text='Lowest EV/LV the built-in meter supports', blank=True, null=True)
   meter_max_ev = models.PositiveIntegerField(verbose_name='Max EV', help_text='Highest EV/LV the built-in meter supports', blank=True, null=True)
   dof_preview = models.BooleanField(verbose_name='DoF preview', help_text='Whether the camera has depth of field preview', blank=True, null=True)
