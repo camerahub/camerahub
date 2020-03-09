@@ -175,6 +175,7 @@ class CameraModelForm(ModelForm):
                 'flash_metering',
                 'pc_sync',
                 'shoe',
+                'x_sync',
             ),
             Fieldset(
                 'Battery',

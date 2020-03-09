@@ -28,20 +28,19 @@
   </tr>
   {% endif %}
   {% if object.fixed_mount is True %}
-    {% if object.lensmodel is not None %}
+  {% if object.lensmodel is not None %}
   <tr>
     <td>Lens model</td>
-    <td><a
-        href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a></td>
+    <td><a href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a></td>
   </tr>
-    {% endif %}
+  {% endif %}
   {% else %}
-    {% if object.mount is not None %}
+  {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
     <td><a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a></td>
   </tr>
-    {% endif %}
+  {% endif %}
   {% endif %}
   {% if object.format is not None %}
   <tr>
@@ -249,6 +248,12 @@
   <tr>
     <td>Shoe</td>
     <td>{{ object.shoe }}</td>
+  </tr>
+  {% endif %}
+  {% if object.x_sync %}
+  <tr>
+    <td>X-sync spped</td>
+    <td>{{ object.x_sync }}</td>
   </tr>
   {% endif %}
   {% if object.flash_metering is not None %}
