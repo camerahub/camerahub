@@ -29,41 +29,24 @@
   </tr>
 </table>
 
-<a data-toggle="collapse" href="#collapseCameras" role="button" aria-expanded="false" aria-controls="collapseCameras">
-  Cameras</a>
+<h5><a data-toggle="collapse" href="#collapseCameras" role="button" aria-expanded="false"
+    aria-controls="collapseCameras">
+    Camera models</a></h5>
 <div class="collapse" id="collapseCameras">
-  <table class="table table-hover">
-    <tr>
-      <th>Model</th>
-      <th>Serial</th>
-    </tr>
+  <ul>
     {% for cameramodel in mount.cameramodel_set.all %}
-    {% for camera in cameramodel.camera_set.all %}
-    <tr>
-      <td>{{ cameramodel }}</td>
-      <td>{{ camera.serial }}</td>
-    </tr>
+    <li><a href="{% url 'cameramodel-detail' cameramodel.pk %}">{{ cameramodel }}</a></li>
     {% endfor %}
-    {% endfor %}
-  </table>
+  </ul>
 </div>
 
-<a data-toggle="collapse" href="#collapseLenses" role="button" aria-expanded="false" aria-controls="collapseLenses">
-  Lenses</a>
+<h5><a data-toggle="collapse" href="#collapseLenses" role="button" aria-expanded="false" aria-controls="collapseLenses">
+    Lens models</a></h5>
 <div class="collapse" id="collapseLenses">
-  <table class="table table-hover">
-    <tr>
-      <th>Model</th>
-      <th>Serial</th>
-    </tr>
+  <ul>
     {% for lensmodel in mount.lensmodel_set.all %}
-    {% for lens in lensmodel.lens_set.all %}
-    <tr>
-      <td>{{ lensmodel }}</td>
-      <td>{{ lens.serial }}</td>
-    </tr>
+    <li><a href="{% url 'lensmodel-detail' lensmodel.pk %}">{{ lensmodel }}</a></li>
     {% endfor %}
-    {% endfor %}
-  </table>
+  </ul>
 </div>
 {% endblock %}
