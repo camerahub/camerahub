@@ -189,10 +189,6 @@ class PrintTable(tables.Table):
     def render_negative(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('negative-detail', args=[value.id]), value)
 
-class ToningTable(tables.Table):
-    class Meta:
-        model = Toning
-
 class ProcessTable(tables.Table):
     class Meta:
         model = Process
@@ -239,10 +235,6 @@ class SeriesTable(tables.Table):
         exclude = ('id', 'owner', 'id_owner')
     def render_name(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('series-detail', args=[record.id]), value)
-
-class ShutterSpeedTable(tables.Table):
-    class Meta:
-        model = ShutterSpeed
 
 class TeleconverterTable(tables.Table):
     class Meta:
