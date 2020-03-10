@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'moderation',
     'fullurl',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
