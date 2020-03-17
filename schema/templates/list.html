@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+{% load django_tables2 crispy_forms_tags %}
+{% load model_name %}
+
+{% block heading %}{% include "heading.html" %}{%endblock%}
+
+{% block content %}
+{% if object_list %}
+{% if filter %}
+<p>
+  <a data-toggle="collapse" href="#filter" role="button" aria-expanded="false" aria-controls="filter">
+    Filter
+  </a>
+</p>
+<div class="collapse" id="filter">
+  <form action="" method="get" class="form">
+    {% crispy filter.form 'bootstrap4' %}
+  </form>
+</div>
+{% endif %}
+{% render_table table %}
+{% else %}
+<p>There are no objects in the list. <a href="{% url view.model|model_add %}">Add one</a> now!</p>
+{% endif %}
+{% endblock %}
