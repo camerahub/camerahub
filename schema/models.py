@@ -372,16 +372,27 @@ class Mount(models.Model):
 
 # Table to catalog different paper stocks available
 class PaperStock(models.Model):
+  # Choices for mount purposes
+  class Finish(DjangoChoices):
+    Matt = ChoiceItem()
+    Gloss = ChoiceItem()
+    Satin = ChoiceItem()
+    Semi_gloss = ChoiceItem()
+    Pearl = ChoiceItem()
+    Lustre = ChoiceItem()
+
   name = models.CharField(help_text='Name of this paper stock', max_length=45)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this paper stock')
   resin_coated = models.BooleanField(help_text='Whether the paper is resin-coated', blank=True, null=True)
   colour = models.BooleanField(help_text='Whether this is a colour paper', blank=True, null=True)
-  finish = models.CharField(help_text='The finish of the paper surface', max_length=25, blank=True, null=True)
+  finish = models.CharField(help_text='The finish of the paper surface', choices=Finish.choices, max_length=25, blank=True, null=True)
   def __str__(self):
+    mystr = self.name
     if self.manufacturer is not None:
-      return "%s %s" % (self.manufacturer.name, self.name)
-    else:
-      return self.name
+      mystr = str(self.manufacturer) + ' ' + mystr
+    if self.finish is not None:
+      mystr = mystr + ' [' + self.finish + ']'
+    return mystr
   class Meta:
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "paper stocks"
