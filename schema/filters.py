@@ -174,8 +174,7 @@ class OrderFilter(FilterSet):
 class PaperStockFilter(FilterSet):
     class Meta:
         model = PaperStock
-        fields = ('manufacturer', 'resin_coated',
-                  'tonable', 'colour', 'finish')
+        fields = ('manufacturer', 'resin_coated', 'colour', 'finish')
 
 
 class PrintFilter(FilterSet):

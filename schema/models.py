@@ -88,10 +88,22 @@ class Archive(models.Model):
 
 # Table to catalog of types of battery
 class Battery(models.Model):
+  class Chemistry(DjangoChoices):
+    Alkaline = ChoiceItem()
+    Nickel_cadmium = ChoiceItem()
+    Nickel_metal_hydride = ChoiceItem()
+    Carbon_zinc = ChoiceItem()
+    Lithium = ChoiceItem()
+    Lithium_ion = ChoiceItem()
+    Lithium_polymer = ChoiceItem()
+    Mercury = ChoiceItem()
+    Zinc_air = ChoiceItem()
+    Silver_oxide = ChoiceItem()
+
   name = models.CharField(help_text='Common name of the battery', max_length=45, unique=True)
   voltage = models.DecimalField(help_text='Nominal voltage of the battery', max_digits=5, decimal_places=2, blank=True, null=True)
-  chemistry = models.CharField(help_text='Battery chemistry (e.g. Alkaline, Lithium, etc)', max_length=45, blank=True, null=True)
-  other_names = models.CharField(help_text='Alternative names for this kind of battery', max_length=45, blank=True, null=True)
+  chemistry = models.CharField(help_text='Battery chemistry', choices=Chemistry.choices, max_length=45, blank=True, null=True)
+  compatible_with = models.ManyToManyField('Battery', blank=True, help_text='Batteries that are compatible with this one')
   def __str__(self):
     return self.name
   class Meta:
@@ -372,17 +384,27 @@ class Mount(models.Model):
 
 # Table to catalog different paper stocks available
 class PaperStock(models.Model):
+  # Choices for mount purposes
+  class Finish(DjangoChoices):
+    Matt = ChoiceItem()
+    Gloss = ChoiceItem()
+    Satin = ChoiceItem()
+    Semi_gloss = ChoiceItem()
+    Pearl = ChoiceItem()
+    Lustre = ChoiceItem()
+
   name = models.CharField(help_text='Name of this paper stock', max_length=45)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this paper stock')
   resin_coated = models.BooleanField(help_text='Whether the paper is resin-coated', blank=True, null=True)
-  tonable = models.BooleanField(help_text='Whether this paper accepts chemical toning', blank=True, null=True)
   colour = models.BooleanField(help_text='Whether this is a colour paper', blank=True, null=True)
-  finish = models.CharField(help_text='The finish of the paper surface', max_length=25, blank=True, null=True)
+  finish = models.CharField(help_text='The finish of the paper surface', choices=Finish.choices, max_length=25, blank=True, null=True)
   def __str__(self):
+    mystr = self.name
     if self.manufacturer is not None:
-      return "%s %s" % (self.manufacturer.name, self.name)
-    else:
-      return self.name
+      mystr = str(self.manufacturer) + ' ' + mystr
+    if self.finish is not None:
+      mystr = mystr + ' [' + self.finish + ']'
+    return mystr
   class Meta:
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "paper stocks"

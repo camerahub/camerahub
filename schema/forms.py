@@ -58,7 +58,7 @@ class BatteryForm(ModelForm):
             'name',
             'voltage',
             'chemistry',
-            'other_names',
+            'compatible_with',
         ]
     def __init__(self, *args, **kwargs):
         super(BatteryForm, self).__init__(*args, **kwargs)
@@ -518,7 +518,6 @@ class PaperStockForm(ModelForm):
             'name',
             'manufacturer',
             'resin_coated',
-            'tonable',
             'colour',
             'finish',
         ]
