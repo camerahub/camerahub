@@ -103,7 +103,7 @@ class Battery(models.Model):
   name = models.CharField(help_text='Common name of the battery', max_length=45, unique=True)
   voltage = models.DecimalField(help_text='Nominal voltage of the battery', max_digits=5, decimal_places=2, blank=True, null=True)
   chemistry = models.CharField(help_text='Battery chemistry', choices=Chemistry.choices, max_length=45, blank=True, null=True)
-  other_names = models.CharField(help_text='Alternative names for this kind of battery', max_length=45, blank=True, null=True)
+  compatible_with = models.ManyToManyField('Battery', blank=True, help_text='Batteries that are compatible with this one')
   def __str__(self):
     return self.name
   class Meta:

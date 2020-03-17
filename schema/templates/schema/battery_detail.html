@@ -15,8 +15,8 @@
     <td>{{ object.chemistry }}</td>
   </tr>
   <tr>
-    <td>Other names</td>
-    <td>{{ object.other_names }}</td>
+    <td>Compatible with</td>
+    <td>{{ object.compatible_with.all|join:", " }}</td>
   </tr>
 </table>
 {% endblock %}
