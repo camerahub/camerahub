@@ -157,16 +157,11 @@ class FlashProtocol(models.Model):
 # Table to catalog filters
 class Filter(models.Model):
   type = models.CharField(help_text='Filter type (e.g. Red, CPL, UV)', max_length=45) 
-  thread = models.DecimalField(help_text='Diameter of screw thread in mm', max_digits=4, decimal_places=1, blank=True, null=True)
   attenuation = models.DecimalField(help_text='Attenuation of this filter in decimal stops', max_digits=3, decimal_places=1, blank=True, null=True)
-  qty = models.PositiveIntegerField(help_text='Quantity of these filters available', default=1, blank=True, null=True)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this filter')
-  owner = CurrentUserField(editable=False)
-  id_owner = AutoSequenceField(unique_with='owner', editable=False)
   def __str__(self):
-    return "%s %smm" % (self.type, str(self.thread))
+    return self.type
   class Meta:
-    ordering = ['thread', 'type']
+    ordering = ['type']
     verbose_name_plural = "filters"
   def get_absolute_url(self):
     return reverse('filter-detail', kwargs={'pk': self.pk})

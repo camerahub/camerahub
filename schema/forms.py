@@ -266,13 +266,8 @@ class FilterForm(ModelForm):
         model = Filter
         fields = [
             'type',
-            'thread',
             'attenuation',
-            'qty',
-            'manufacturer',
         ]
-        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
-            fields.remove('manufacturer')
     def __init__(self, *args, **kwargs):
         super(FilterForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)

@@ -105,7 +105,10 @@ class FilmStockTable(tables.Table):
 class FilterTable(tables.Table):
     class Meta:
         model = Filter
-        fields = ('type', 'thread', 'manufacturer', 'id_owner')
+        fields = ('type',)
+
+    def render_type(self, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('filter-detail', args=[record.id]), value)
 
 
 class FlashTable(tables.Table):
