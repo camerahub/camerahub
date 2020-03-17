@@ -88,9 +88,21 @@ class Archive(models.Model):
 
 # Table to catalog of types of battery
 class Battery(models.Model):
+  class Chemistry(DjangoChoices):
+    Alkaline = ChoiceItem()
+    Nickel_cadmium = ChoiceItem()
+    Nickel_metal_hydride = ChoiceItem()
+    Carbon_zinc = ChoiceItem()
+    Lithium = ChoiceItem()
+    Lithium_ion = ChoiceItem()
+    Lithium_polymer = ChoiceItem()
+    Mercury = ChoiceItem()
+    Zinc_air = ChoiceItem()
+    Silver_oxide = ChoiceItem()
+
   name = models.CharField(help_text='Common name of the battery', max_length=45, unique=True)
   voltage = models.DecimalField(help_text='Nominal voltage of the battery', max_digits=5, decimal_places=2, blank=True, null=True)
-  chemistry = models.CharField(help_text='Battery chemistry (e.g. Alkaline, Lithium, etc)', max_length=45, blank=True, null=True)
+  chemistry = models.CharField(help_text='Battery chemistry', choices=Chemistry.choices, max_length=45, blank=True, null=True)
   other_names = models.CharField(help_text='Alternative names for this kind of battery', max_length=45, blank=True, null=True)
   def __str__(self):
     return self.name
