@@ -273,18 +273,12 @@ class FilmStockUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'schema/update.html'
 
 
-class FilterList(LoginRequiredMixin, SingleTableListView):
+class FilterList(SingleTableListView):
     model = Filter
     table_class = FilterTable
 
-    def get_queryset(self):
-        if self.request.user.is_authenticated:
-            return Filter.objects.filter(owner=self.request.user)
-        else:
-            return Filter.objects.none()
 
-
-class FilterDetail(LoginRequiredMixin, generic.DetailView):
+class FilterDetail(generic.DetailView):
     model = Filter
 
 
