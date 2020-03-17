@@ -233,7 +233,6 @@ class PaperStockFormHelper(FormHelper):
         Row(
             'manufacturer',
             'resin_coated',
-            'tonable',
             'colour',
             'finish',
         ),

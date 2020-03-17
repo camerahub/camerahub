@@ -518,7 +518,6 @@ class PaperStockForm(ModelForm):
             'name',
             'manufacturer',
             'resin_coated',
-            'tonable',
             'colour',
             'finish',
         ]

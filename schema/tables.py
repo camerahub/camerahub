@@ -229,7 +229,7 @@ class OrderTable(tables.Table):
 class PaperStockTable(tables.Table):
     class Meta:
         model = PaperStock
-        fields = ('name', 'resin_coated', 'tonable', 'colour', 'finish')
+        fields = ('name', 'resin_coated', 'colour', 'finish')
 
     def render_name(self, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('paperstock-detail', args=[record.id]), record.manufacturer, value)

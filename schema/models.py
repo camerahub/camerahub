@@ -375,7 +375,6 @@ class PaperStock(models.Model):
   name = models.CharField(help_text='Name of this paper stock', max_length=45)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this paper stock')
   resin_coated = models.BooleanField(help_text='Whether the paper is resin-coated', blank=True, null=True)
-  tonable = models.BooleanField(help_text='Whether this paper accepts chemical toning', blank=True, null=True)
   colour = models.BooleanField(help_text='Whether this is a colour paper', blank=True, null=True)
   finish = models.CharField(help_text='The finish of the paper surface', max_length=25, blank=True, null=True)
   def __str__(self):
