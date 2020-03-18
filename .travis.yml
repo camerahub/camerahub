@@ -21,7 +21,7 @@ deploy:
   skip_cleanup: true
   distributions: sdist bdist_wheel
 - provider: script
-  script: echo "$DOCKER_PASSWORD" | docker login -u djjudas21 --password-stdin && docker push djjudas21/camerahub
+  script: echo "$DOCKER_PASSWORD" | docker login -u djjudas21 --password-stdin && docker push djjudas21/camerahub && docker tag djjudas21/camerahub djjudas21/camerahub:$TRAVIS_TAG && docker push djjudas21/camerahub:$TRAVIS_TAG
   on:
     tags: true
 env:
