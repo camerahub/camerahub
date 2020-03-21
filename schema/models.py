@@ -810,6 +810,9 @@ class CameraModel(models.Model):
   class Meta:
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "camera models"
+    constraints = [
+      models.UniqueConstraint(fields=['manufacturer', 'model', 'disambiguation'], name='unique_name')
+    ]
 
   def save(self, *args, **kwargs): # new
     if not self.slug:
