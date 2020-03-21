@@ -8,7 +8,13 @@ from math import sqrt
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
 from django.urls import reverse
+from slugify import UniqueSlugify
 import re
+
+def cameramodel_check(text, uids):
+    if text in uids:
+        return False
+    return not CameraModel.objects.filter(slug=text).exists()
 
 # Create your models here.
 class Manufacturer(models.Model):
@@ -793,6 +799,7 @@ class CameraModel(models.Model):
   metering_modes = models.ManyToManyField(MeteringMode, blank=True)
   exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
   series = models.ManyToManyField(Series, blank=True)
+  slug = models.SlugField(editable=False, null=True, unique=True)
   def __str__(self):
     mystr = self.model
     if self.manufacturer is not None:
@@ -803,7 +810,12 @@ class CameraModel(models.Model):
   class Meta:
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "camera models"
-    unique_together = ['manufacturer', 'model', 'disambiguation']
+
+  def save(self, *args, **kwargs): # new
+    if not self.slug:
+      custom_slugify_unique = UniqueSlugify(unique_check=cameramodel_check, to_lower=True)
+      self.slug = custom_slugify_unique("{} {} {}".format(self.manufacturer.name, self.model, str(self.disambiguation or '')))
+    return super().save(*args, **kwargs)  
 
   def clean(self):
     # ISO
