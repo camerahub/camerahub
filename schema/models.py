@@ -867,7 +867,7 @@ class CameraModel(models.Model):
         'int_flash_gn': ValidationError(('Cannot set internal flash guide number if camera model has no internal flash')),
       })
   def get_absolute_url(self):
-    return reverse('cameramodel-detail', kwargs={'pk': self.pk})
+    return reverse('cameramodel-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Camera models are any camera that has been marketed'
 

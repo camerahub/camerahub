@@ -35,7 +35,7 @@
 <div class="collapse" id="collapseCameras">
   <ul>
     {% for cameramodel in mount.cameramodel_set.all %}
-    <li><a href="{% url 'cameramodel-detail' cameramodel.pk %}">{{ cameramodel }}</a></li>
+    <li><a href="{% url 'cameramodel-detail' cameramodel.slug %}">{{ cameramodel }}</a></li>
     {% endfor %}
   </ul>
 </div>

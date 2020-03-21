@@ -35,9 +35,9 @@ urlpatterns = [
   path('camera/<int:pk>/update', views.CameraUpdate.as_view(), name='camera-update'),
   
   path('cameramodel/', views.CameraModelList.as_view(), name='cameramodel-list'),
-  path('cameramodel/<int:pk>', views.CameraModelDetail.as_view(), name='cameramodel-detail'),
+  path('cameramodel/<slug:slug>', views.CameraModelDetail.as_view(), name='cameramodel-detail'),
   path('cameramodel/create/', views.CameraModelCreate.as_view(), name='cameramodel-create'),
-  path('cameramodel/<int:pk>/update', views.CameraModelUpdate.as_view(), name='cameramodel-update'),
+  path('cameramodel/<slug:slug>/update', views.CameraModelUpdate.as_view(), name='cameramodel-update'),
   
   path('developer/', views.DeveloperList.as_view(), name='developer-list'),
   path('developer/<int:pk>', views.DeveloperDetail.as_view(), name='developer-detail'),

@@ -56,7 +56,7 @@ class CameraTable(tables.Table):
         return format_html("<a href=\"{}\">{}</a>", reverse('camera-detail', args=[value]), value)
 
     def render_cameramodel(self, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('cameramodel-detail', args=[value.id]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('cameramodel-detail', args=[record.slug]), value)
 
 
 class CameraModelTable(tables.Table):
@@ -66,7 +66,7 @@ class CameraModelTable(tables.Table):
                   'introduced', 'body_type', 'negative_size', 'shutter_type')
 
     def render_model(self, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('cameramodel-detail', args=[record.id]), record.manufacturer, value)
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('cameramodel-detail', args=[record.slug]), record.manufacturer, value)
 
     def render_mount(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.id]), value)
