@@ -754,7 +754,7 @@ class CameraModel(models.Model):
     Hot_shoe = ChoiceItem()
     Cold_shoe = ChoiceItem()
 
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this camera model')
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model')
   model = models.CharField(help_text='The model name of the camera', max_length=45)
   disambiguation = models.CharField(help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, null=True)
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'})
