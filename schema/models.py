@@ -8,7 +8,7 @@ from math import sqrt
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
 from django.urls import reverse
-from slugify import UniqueSlugify
+from slugify import Slugify, UniqueSlugify
 import re
 
 def cameramodel_check(text, uids):
@@ -51,9 +51,8 @@ class Manufacturer(models.Model):
     ordering = ['name']
     verbose_name_plural = "manufacturers"
   def save(self, *args, **kwargs):
-    if not self.slug:
-      custom_slugify_unique = UniqueSlugify(to_lower=True)
-      self.slug = custom_slugify_unique(self.name)
+    custom_slugify_unique = Slugify(to_lower=True)
+    self.slug = custom_slugify_unique(self.name)
     return super().save(*args, **kwargs)
   def clean(self):
     # City/country
@@ -76,7 +75,7 @@ class Manufacturer(models.Model):
         'dissolved': ValidationError(('Dissolved date must be in the past')),
       })
   def get_absolute_url(self):
-    return reverse('manufacturer-detail', kwargs={'pk': self.pk})
+    return reverse('manufacturer-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Manufacturers are any maker or brand of camera, lenses or other photographic accessories or consumables'
   class Moderator:
@@ -143,12 +142,11 @@ class Battery(models.Model):
     ordering = ['name']
     verbose_name_plural = "batteries"
   def save(self, *args, **kwargs):
-    if not self.slug:
-      custom_slugify_unique = UniqueSlugify(to_lower=True)
-      self.slug = custom_slugify_unique(self.name)
+    custom_slugify_unique = Slugify(to_lower=True)
+    self.slug = custom_slugify_unique(self.name)
     return super().save(*args, **kwargs)
   def get_absolute_url(self):
-    return reverse('battery-detail', kwargs={'pk': self.pk})
+    return reverse('battery-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Batteries are used to power cameras, flashes and other accessories'
   class Moderator:
@@ -409,15 +407,14 @@ class Mount(models.Model):
   def __str__(self):
     return self.mount
   def save(self, *args, **kwargs):
-    if not self.slug:
-      custom_slugify_unique = UniqueSlugify(to_lower=True)
-      self.slug = custom_slugify_unique(self.mount)
+    custom_slugify_unique = Slugify(to_lower=True)
+    self.slug = custom_slugify_unique(self.mount)
     return super().save(*args, **kwargs)
   class Meta:
     ordering = ['mount']
     verbose_name_plural = "mounts"
   def get_absolute_url(self):
-    return reverse('mount-detail', kwargs={'pk': self.pk})
+    return reverse('mount-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Mounts are physical systems used to attach lenses to cameras (or enlargers, or projectors).'
 
@@ -537,7 +534,7 @@ class Toner(models.Model):
       self.slug = custom_slugify_unique("{} {}".format(self.manufacturer.name, self.name))
     return super().save(*args, **kwargs)
   def get_absolute_url(self):
-    return reverse('toner-detail', kwargs={'pk': self.pk})
+    return reverse('toner-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Toners are chemicals used to change the colour or appearance of a print.'
 
@@ -567,7 +564,7 @@ class FilmStock(models.Model):
       self.slug = custom_slugify_unique("{} {}".format(self.manufacturer.name, self.name))
     return super().save(*args, **kwargs)
   def get_absolute_url(self):
-    return reverse('filmstock-detail', kwargs={'pk': self.pk})
+    return reverse('filmstock-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Film stocks are types of film that can be exposed in a camera. They may also be known as emulsions.'
 
@@ -656,7 +653,7 @@ class Developer(models.Model):
       self.slug = custom_slugify_unique("{} {}".format(self.manufacturer.name, self.name))
     return super().save(*args, **kwargs)
   def get_absolute_url(self):
-    return reverse('developer-detail', kwargs={'pk': self.pk})
+    return reverse('developer-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Developers are chemicals that are used to process films or prints.'
 
@@ -705,11 +702,7 @@ class LensModel(models.Model):
     if self.disambiguation is not None:
       mystr = mystr + ' [' + self.disambiguation + ']'
     return mystr
-  def save(self, *args, **kwargs):
-    if not self.slug:
-      custom_slugify_unique = UniqueSlugify(unique_check=lensmodel_check, to_lower=True)
-      self.slug = custom_slugify_unique("{} {} {}".format(self.manufacturer.name, self.model, str(self.disambiguation or '')))
-    return super().save(*args, **kwargs)
+
   class Meta:
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "lens models"
@@ -717,7 +710,7 @@ class LensModel(models.Model):
       models.UniqueConstraint(fields=['manufacturer', 'model', 'disambiguation'], name='unique_name')
     ]
   def get_absolute_url(self):
-    return reverse('lensmodel-detail', kwargs={'pk': self.pk})
+    return reverse('lensmodel-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Lens models are any lens that has been marketed'
 
@@ -780,6 +773,9 @@ class LensModel(models.Model):
     # Auto-populate focal length
     if self.zoom is False and self.min_focal_length is not None:
       self.max_focal_length = self.min_focal_length
+    if not self.slug:
+      custom_slugify_unique = UniqueSlugify(unique_check=lensmodel_check, to_lower=True)
+      self.slug = custom_slugify_unique("{} {} {}".format(self.manufacturer.name, self.model, str(self.disambiguation or '')))
     super().save(*args, **kwargs)
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses

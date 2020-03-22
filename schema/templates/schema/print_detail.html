@@ -64,7 +64,7 @@
   </tr>
   <tr>
     <td>Developer</td>
-    <td>{% if object.developer is not None %}<a href="{% url 'developer-detail' object.developer.id %}">{{ object.developer }}</a>{% endif %}</td>
+    <td>{% if object.developer is not None %}<a href="{% url 'developer-detail' object.developer.slug %}">{{ object.developer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Fine</td>

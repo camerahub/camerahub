@@ -25,7 +25,7 @@
   <tr>
     <td>Manufacturer</td>
     <td>{% if object.manufacturer is not None %}<a
-        href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
+        href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
 </table>
 
@@ -45,7 +45,7 @@
 <div class="collapse" id="collapseLenses">
   <ul>
     {% for lensmodel in mount.lensmodel_set.all %}
-    <li><a href="{% url 'lensmodel-detail' lensmodel.pk %}">{{ lensmodel }}</a></li>
+    <li><a href="{% url 'lensmodel-detail' lensmodel.slug %}">{{ lensmodel }}</a></li>
     {% endfor %}
   </ul>
 </div>
