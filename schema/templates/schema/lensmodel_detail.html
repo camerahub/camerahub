@@ -71,7 +71,9 @@
   {% if object.min_focal_length is not None %}
   <tr>
     <td>Focal length</td>
-    <td>{{ object.min_focal_length }}{% if object.max_focal_length is not None %}-{{ object.max_focal_length }}{% endif %}mm</td>
+    <td>
+      {{ object.min_focal_length }}{% if object.zoom is not False and object.max_focal_length is not None %}-{{ object.max_focal_length }}{% endif %}mm
+    </td>
   </tr>
   {% endif %}
   {% if object.closest_focus is not None %}
@@ -83,9 +85,17 @@
   {% if object.max_aperture is not None %}
   <tr>
     <td>Aperture</td>
-    <td><em>f</em>/{{ object.max_aperture }}{% if object.max_aperture is not None %}-{{ object.min_aperture }}{% endif %}</td>
+    <td>
+      <em>f</em>/{{ object.max_aperture }}{% if object.max_aperture is not None %}-{{ object.min_aperture }}{% endif %}
+    </td>
   </tr>
   {% endif %}
+  {% if object.elements is not None and object.groups is not None %}
+  <tr>
+    <td>Elements/Groups</td>
+    <td>{{ object.elements }}/{{ object.groups }}</td>
+  </tr>
+  {% else %}
   {% if object.elements is not None %}
   <tr>
     <td>Elements</td>
@@ -98,11 +108,12 @@
     <td>{{ object.groups }}</td>
   </tr>
   {% endif %}
+  {% endif %}
   {% if object.nominal_max_angle_diag is not None %}
   <tr>
     <td>Diagonal angle of view</td>
     <td>
-      {{ object.nominal_max_angle_diag }}{% if object.nominal_min_angle_diag is not None %}-{{ object.nominal_min_angle_diag }}{% endif %}&deg;
+      {{ object.nominal_max_angle_diag }}{% if object.zoom is not False and object.nominal_min_angle_diag is not None %}-{{ object.nominal_min_angle_diag }}{% endif %}&deg;
     </td>
   </tr>
   {% endif %}
