@@ -186,6 +186,7 @@ class CameraModelForm(ModelForm):
                 'Features',
                 'cable_release',
                 'dof_preview',
+                'mirror_lockup',
                 'tripod',
                 'power_drive',
                 AppendedText('continuous_fps', 'fps'),

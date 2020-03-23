@@ -863,6 +863,7 @@ class CameraModel(models.Model):
   meter_min_ev = models.IntegerField(verbose_name='Min EV', help_text='Lowest EV/LV the built-in meter supports', blank=True, null=True)
   meter_max_ev = models.PositiveIntegerField(verbose_name='Max EV', help_text='Highest EV/LV the built-in meter supports', blank=True, null=True)
   dof_preview = models.BooleanField(verbose_name='DoF preview', help_text='Whether the camera has depth of field preview', blank=True, null=True)
+  mirror_lockup = models.BooleanField(verbose_name='Mirror lock-up', help_text='Whether the camera has mirror lock-up', blank=True, null=True)
   tripod = models.BooleanField(help_text='Whether the camera has a tripod bush', blank=True, null=True)
   shutter_speeds = models.ManyToManyField(ShutterSpeed, blank=True)
   metering_modes = models.ManyToManyField(MeteringMode, blank=True)
