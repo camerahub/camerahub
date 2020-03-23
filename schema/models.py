@@ -701,6 +701,10 @@ class LensModel(models.Model):
   shutter_model = models.CharField(help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
   series = models.ManyToManyField(Series, blank=True)
   slug = models.SlugField(editable=False, null=True, unique=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='lensmodel_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='lensmodel_updated_by')
   def __str__(self):
     mystr = self.model
     if self.manufacturer is not None:
@@ -875,6 +879,10 @@ class CameraModel(models.Model):
   exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
   series = models.ManyToManyField(Series, blank=True)
   slug = models.SlugField(editable=False, null=True, unique=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='cameramodel_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='cameramodel_updated_by')
   def __str__(self):
     mystr = self.model
     if self.manufacturer is not None:
