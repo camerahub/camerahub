@@ -526,7 +526,7 @@ class Toner(models.Model):
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "toners"
     constraints = [
-      models.UniqueConstraint(fields=['manufacturer', 'name'], name='unique_name')
+      models.UniqueConstraint(fields=['manufacturer', 'name'], name='toner_unique_name')
     ]
   def save(self, *args, **kwargs):
     if not self.slug:
@@ -556,7 +556,7 @@ class FilmStock(models.Model):
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "film stocks"
     constraints = [
-      models.UniqueConstraint(fields=['manufacturer', 'name'], name='unique_name')
+      models.UniqueConstraint(fields=['manufacturer', 'name'], name='filmstock_unique_name')
     ]
   def save(self, *args, **kwargs):
     if not self.slug:
@@ -645,7 +645,7 @@ class Developer(models.Model):
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "developers"
     constraints = [
-      models.UniqueConstraint(fields=['manufacturer', 'name'], name='unique_name')
+      models.UniqueConstraint(fields=['manufacturer', 'name'], name='developer_unique_name')
     ]
   def save(self, *args, **kwargs):
     if not self.slug:
@@ -707,7 +707,7 @@ class LensModel(models.Model):
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "lens models"
     constraints = [
-      models.UniqueConstraint(fields=['manufacturer', 'model', 'disambiguation'], name='unique_name')
+      models.UniqueConstraint(fields=['manufacturer', 'model', 'disambiguation'], name='lensmodel_unique_name')
     ]
   def get_absolute_url(self):
     return reverse('lensmodel-detail', kwargs={'slug': self.slug})
@@ -880,7 +880,7 @@ class CameraModel(models.Model):
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "camera models"
     constraints = [
-      models.UniqueConstraint(fields=['manufacturer', 'model', 'disambiguation'], name='unique_name')
+      models.UniqueConstraint(fields=['manufacturer', 'model', 'disambiguation'], name='cameramodel_unique_name')
     ]
 
   def save(self, *args, **kwargs):
