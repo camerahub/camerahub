@@ -109,12 +109,6 @@
   </tr>
   {% endif %}
   {% if object.metering %}
-  {% if object.coupled_metering is not None %}
-  <tr>
-    <td>Coupled metering</td>
-    <td>{{ object.coupled_metering|yesnoicon }}</td>
-  </tr>
-  {% endif %}
   {% if object.metering_type is not None %}
   <tr>
     <td>Metering type</td>

@@ -836,7 +836,6 @@ class CameraModel(models.Model):
   format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True, null=True, help_text='Film format used by this camera model')
   focus_type = models.CharField(choices=FocusType.choices, max_length=25, blank=True, null=True, help_text='Focus type used on this camera model')
   metering = models.BooleanField(help_text='Whether the camera has built-in metering', blank=True, null=True)
-  coupled_metering = models.BooleanField(help_text='Whether the camera''s meter is coupled automatically', blank=True, null=True)
   metering_type = models.CharField(choices=MeteringType.choices, max_length=25, blank=True, null=True, help_text='Metering type used on this camera model')
   introduced = models.PositiveIntegerField(help_text='Year in which the camera model was introduced', blank=True, null=True)
   discontinued = models.PositiveIntegerField(help_text='Year in which the camera model was discontinued', blank=True, null=True)
@@ -925,10 +924,6 @@ class CameraModel(models.Model):
       })
     # Metering bools
     if self.metering is not None and self.metering is False:
-      if self.coupled_metering is True:
-        raise ValidationError({
-          'couples_metering': ValidationError(('Cannot set coupled metering if camera model has no metering')),
-        })
       if self.metering_type is True:
         raise ValidationError({
           'discontinued': ValidationError(('Cannot set metering type if camera model has no metering')),
