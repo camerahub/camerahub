@@ -71,7 +71,9 @@
   {% if object.min_focal_length is not None %}
   <tr>
     <td>Focal length</td>
-    <td>{{ object.min_focal_length }}{% if object.max_focal_length is not None %}-{{ object.max_focal_length }}{% endif %}mm</td>
+    <td>
+      {{ object.min_focal_length }}{% if object.max_focal_length is not None %}-{{ object.max_focal_length }}{% endif %}mm
+    </td>
   </tr>
   {% endif %}
   {% if object.closest_focus is not None %}
@@ -83,7 +85,9 @@
   {% if object.max_aperture is not None %}
   <tr>
     <td>Aperture</td>
-    <td><em>f</em>/{{ object.max_aperture }}{% if object.max_aperture is not None %}-{{ object.min_aperture }}{% endif %}</td>
+    <td>
+      <em>f</em>/{{ object.max_aperture }}{% if object.max_aperture is not None %}-{{ object.min_aperture }}{% endif %}
+    </td>
   </tr>
   {% endif %}
   {% if object.elements is not None %}
