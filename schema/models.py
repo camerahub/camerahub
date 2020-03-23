@@ -659,6 +659,12 @@ class Developer(models.Model):
 
 # Table to catalog lens models
 class LensModel(models.Model):
+  # Choices for focus type
+  class CoatingType(DjangoChoices):
+    Uncoated = ChoiceItem()
+    Single_coated = ChoiceItem()
+    Multi_coated = ChoiceItem()
+
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this lens model')
   model = models.CharField(help_text='Model name of this lens', max_length=45)
   disambiguation = models.CharField(help_text='Distinguishing notes for lens models with the same name', max_length=45, blank=True, null=True)
@@ -684,7 +690,7 @@ class LensModel(models.Model):
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size that this lens is designed for')
   fixed_mount = models.BooleanField(help_text='Whether this is a fixed lens (i.e. on a compact camera)', blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
-  coating = models.CharField(help_text='Notes about the lens coating type', max_length=45, blank=True, null=True)
+  coating = models.CharField(choices=CoatingType.choices, help_text='Type of lens coating', max_length=15, blank=True, null=True)
   hood = models.CharField(help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
   exif_lenstype = models.CharField(help_text='EXIF LensID number, if this lens has one officially registered. See documentation at http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/', max_length=45, blank=True, null=True)
   rectilinear = models.BooleanField(help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
