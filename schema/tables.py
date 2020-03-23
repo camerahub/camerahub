@@ -62,11 +62,14 @@ class CameraTable(tables.Table):
 class CameraModelTable(tables.Table):
     class Meta:
         model = CameraModel
-        fields = ('model', 'disambiguation', 'mount', 'format',
-                  'introduced', 'body_type', 'negative_size', 'shutter_type')
+        fields = ('model', 'mount', 'format', 'introduced',
+                  'body_type', 'negative_size', 'shutter_type')
 
     def render_model(self, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('cameramodel-detail', args=[record.slug]), record.manufacturer, value)
+        if record.disambiguation:
+            return format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('cameramodel-detail', args=[record.slug]), record.manufacturer, value, record.disambiguation)
+        else:
+            return format_html("<a href=\"{}\">{} {}</a>", reverse('cameramodel-detail', args=[record.slug]), record.manufacturer, value)
 
     def render_mount(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
@@ -157,11 +160,14 @@ class LensTable(tables.Table):
 class LensModelTable(tables.Table):
     class Meta:
         model = LensModel
-        fields = ('model', 'disambiguation', 'mount', 'zoom', 'min_focal_length',
+        fields = ('model', 'mount', 'zoom', 'min_focal_length',
                   'max_aperture', 'autofocus', 'introduced', 'fixed_mount')
 
     def render_model(self, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('lensmodel-detail', args=[record.slug]), record.manufacturer, value)
+        if record.disambiguation:
+            return format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('lensmodel-detail', args=[record.slug]), record.manufacturer, value, record.disambiguation)
+        else:
+            return format_html("<a href=\"{}\">{} {}</a>", reverse('lensmodel-detail', args=[record.slug]), record.manufacturer, value)
 
     def render_mount(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
