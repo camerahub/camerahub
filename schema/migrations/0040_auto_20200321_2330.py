@@ -37,18 +37,18 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='developer',
-            constraint=models.UniqueConstraint(fields=('manufacturer', 'name'), name='unique_name'),
+            constraint=models.UniqueConstraint(fields=('manufacturer', 'name'), name='developer_unique_name'),
         ),
         migrations.AddConstraint(
             model_name='filmstock',
-            constraint=models.UniqueConstraint(fields=('manufacturer', 'name'), name='unique_name'),
+            constraint=models.UniqueConstraint(fields=('manufacturer', 'name'), name='filmstock_unique_name'),
         ),
         migrations.AddConstraint(
             model_name='lensmodel',
-            constraint=models.UniqueConstraint(fields=('manufacturer', 'model', 'disambiguation'), name='unique_name'),
+            constraint=models.UniqueConstraint(fields=('manufacturer', 'model', 'disambiguation'), name='lensmodel_unique_name'),
         ),
         migrations.AddConstraint(
             model_name='toner',
-            constraint=models.UniqueConstraint(fields=('manufacturer', 'name'), name='unique_name'),
+            constraint=models.UniqueConstraint(fields=('manufacturer', 'name'), name='toner_unique_name'),
         ),
     ]
