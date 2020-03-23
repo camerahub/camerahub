@@ -273,6 +273,12 @@
     <td>{{ object.dof_preview|yesnoicon }}</td>
   </tr>
   {% endif %}
+  {% if object.mirror_lockup is not None %}
+  <tr>
+    <td>Mirror lock-up</td>
+    <td>{{ object.mirror_lockup|yesnoicon }}</td>
+  </tr>
+  {% endif %}
   {% if object.tripod is not None %}
   <tr>
     <td>Tripod</td>
