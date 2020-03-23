@@ -395,6 +395,7 @@ class LensModelForm(ModelForm):
                 AppendedText('image_circle', 'mm'),
                 'formula',
                 'aperture_blades',
+                'coating',
                 'autofocus',
                 AppendedText('magnification', '&times;'),
                 'negative_size',
