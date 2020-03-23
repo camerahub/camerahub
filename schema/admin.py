@@ -76,7 +76,7 @@ class CameraModelAdmin(admin.ModelAdmin):
       'description': 'Enter information about this camera model',
     }),
     ('Metering', {
-      'fields': ('metering', 'metering_type', 'coupled_metering', ('min_iso', 'max_iso'), ('meter_min_ev', 'meter_max_ev'), 'metering_modes', 'exposure_programs')
+      'fields': ('metering', 'metering_type', ('min_iso', 'max_iso'), ('meter_min_ev', 'meter_max_ev'), 'metering_modes', 'exposure_programs')
     }),
     ('Flash', {
       'fields': ('int_flash', 'int_flash_gn', 'ext_flash', 'flash_metering', 'pc_sync', 'shoe')

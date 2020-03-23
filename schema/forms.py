@@ -150,7 +150,6 @@ class CameraModelForm(ModelForm):
             Fieldset(
                 'Metering',
                 'metering',
-                'coupled_metering',
                 'metering_type',
                 InlineCheckboxes('metering_modes'),
                 InlineCheckboxes('exposure_programs'),
