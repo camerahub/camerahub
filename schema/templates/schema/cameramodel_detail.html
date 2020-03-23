@@ -24,7 +24,7 @@
   {% if object.fixed_mount is not None %}
   <tr>
     <td>Fixed mount</td>
-    <td>{{ object.fixed_mount }}</td>
+    <td>{{ object.fixed_mount|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.fixed_mount is True %}
