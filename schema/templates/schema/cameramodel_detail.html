@@ -207,16 +207,16 @@
 
 
   <tr>
-    <th colspan="2">Batteries</th>
+    <th colspan="2">Power</th>
   </tr>
   {% if object.battery_qty is not None %}
+
   <tr>
-    <td>Battery quantity</td>
-    <td>{{ object.battery_qty }}</td>
-  </tr>
-  <tr>
-    <td>Battery type</td>
-    <td>{{ object.battery_type }}</td>
+    <td>Batteries</td>
+    <td>{{ object.battery_qty }}
+      {% if object.battery_type is not None %} × <a
+        href="{% url 'battery-detail' object.battery_type.slug %}">{{ object.battery_type }}</a>{% endif %}
+    </td>
   </tr>
   {% endif %}
 
