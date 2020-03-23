@@ -8,7 +8,33 @@ from math import sqrt
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
 from django.urls import reverse
+from slugify import Slugify, UniqueSlugify
 import re
+
+def cameramodel_check(text, uids):
+    if text in uids:
+        return False
+    return not CameraModel.objects.filter(slug=text).exists()
+
+def lensmodel_check(text, uids):
+    if text in uids:
+        return False
+    return not LensModel.objects.filter(slug=text).exists()
+
+def toner_check(text, uids):
+    if text in uids:
+        return False
+    return not Toner.objects.filter(slug=text).exists()
+
+def filmstock_check(text, uids):
+    if text in uids:
+        return False
+    return not FilmStock.objects.filter(slug=text).exists()
+
+def developer_check(text, uids):
+    if text in uids:
+        return False
+    return not Developer.objects.filter(slug=text).exists()
 
 # Create your models here.
 class Manufacturer(models.Model):
@@ -18,11 +44,16 @@ class Manufacturer(models.Model):
   url = models.URLField(verbose_name='URL', help_text='URL to the manufacturers main website', max_length=45, blank=True, null=True)
   founded = models.PositiveIntegerField(help_text='Year in which the manufacturer was founded', blank=True, null=True)
   dissolved = models.PositiveIntegerField(help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
+  slug = models.SlugField(editable=False, null=True, unique=True)
   def __str__(self):
     return self.name
   class Meta:
     ordering = ['name']
     verbose_name_plural = "manufacturers"
+  def save(self, *args, **kwargs):
+    custom_slugify_unique = Slugify(to_lower=True)
+    self.slug = custom_slugify_unique(self.name)
+    return super().save(*args, **kwargs)
   def clean(self):
     # City/country
     if self.country is None and self.city is not None:
@@ -44,7 +75,7 @@ class Manufacturer(models.Model):
         'dissolved': ValidationError(('Dissolved date must be in the past')),
       })
   def get_absolute_url(self):
-    return reverse('manufacturer-detail', kwargs={'pk': self.pk})
+    return reverse('manufacturer-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Manufacturers are any maker or brand of camera, lenses or other photographic accessories or consumables'
   class Moderator:
@@ -104,13 +135,18 @@ class Battery(models.Model):
   voltage = models.DecimalField(help_text='Nominal voltage of the battery', max_digits=5, decimal_places=2, blank=True, null=True)
   chemistry = models.CharField(help_text='Battery chemistry', choices=Chemistry.choices, max_length=45, blank=True, null=True)
   compatible_with = models.ManyToManyField('Battery', blank=True, help_text='Batteries that are compatible with this one')
+  slug = models.SlugField(editable=False, null=True, unique=True)
   def __str__(self):
     return self.name
   class Meta:
     ordering = ['name']
     verbose_name_plural = "batteries"
+  def save(self, *args, **kwargs):
+    custom_slugify_unique = Slugify(to_lower=True)
+    self.slug = custom_slugify_unique(self.name)
+    return super().save(*args, **kwargs)
   def get_absolute_url(self):
-    return reverse('battery-detail', kwargs={'pk': self.pk})
+    return reverse('battery-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Batteries are used to power cameras, flashes and other accessories'
   class Moderator:
@@ -367,13 +403,18 @@ class Mount(models.Model):
   purpose = models.CharField(help_text='The intended purpose of this lens mount', choices=Purpose.choices, max_length=15, blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this lens mount')
+  slug = models.SlugField(editable=False, null=True, unique=True)
   def __str__(self):
     return self.mount
+  def save(self, *args, **kwargs):
+    custom_slugify_unique = Slugify(to_lower=True)
+    self.slug = custom_slugify_unique(self.mount)
+    return super().save(*args, **kwargs)
   class Meta:
     ordering = ['mount']
     verbose_name_plural = "mounts"
   def get_absolute_url(self):
-    return reverse('mount-detail', kwargs={'pk': self.pk})
+    return reverse('mount-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Mounts are physical systems used to attach lenses to cameras (or enlargers, or projectors).'
 
@@ -472,9 +513,10 @@ class Teleconverter(models.Model):
 # Table to catalog paper toners that can be used during the printing process
 class Toner(models.Model):
   name = models.CharField(help_text='Name of the toner', max_length=45)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this toner')
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this toner')
   formulation = models.CharField(help_text='Chemical formulation of the toner', max_length=45, blank=True, null=True)
   stock_dilution = models.CharField(help_text='Stock dilution of the toner', max_length=10, blank=True, null=True)
+  slug = models.SlugField(editable=False, null=True, unique=True)
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.name)
@@ -483,19 +525,28 @@ class Toner(models.Model):
   class Meta:
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "toners"
+    constraints = [
+      models.UniqueConstraint(fields=['manufacturer', 'name'], name='unique_name')
+    ]
+  def save(self, *args, **kwargs):
+    if not self.slug:
+      custom_slugify_unique = UniqueSlugify(unique_check=toner_check, to_lower=True)
+      self.slug = custom_slugify_unique("{} {}".format(self.manufacturer.name, self.name))
+    return super().save(*args, **kwargs)
   def get_absolute_url(self):
-    return reverse('toner-detail', kwargs={'pk': self.pk})
+    return reverse('toner-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Toners are chemicals used to change the colour or appearance of a print.'
 
 # Table to list different brands of film stock
 class FilmStock(models.Model):
   name = models.CharField(help_text='Name of the filmstock', max_length=45)
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this film')
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this film')
   iso = models.PositiveIntegerField(verbose_name='ISO', help_text='Nominal ISO speed of the film', blank=True, null=True)
   colour = models.BooleanField(help_text='Whether the film is colour', blank=True, null=True)
   panchromatic = models.BooleanField(help_text='Whether this film is panchromatic', blank=True, null=True)
   process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True, help_text='Development process required by this film')
+  slug = models.SlugField(editable=False, null=True, unique=True)
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.name)
@@ -504,8 +555,16 @@ class FilmStock(models.Model):
   class Meta:
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "film stocks"
+    constraints = [
+      models.UniqueConstraint(fields=['manufacturer', 'name'], name='unique_name')
+    ]
+  def save(self, *args, **kwargs):
+    if not self.slug:
+      custom_slugify_unique = UniqueSlugify(unique_check=filmstock_check, to_lower=True)
+      self.slug = custom_slugify_unique("{} {}".format(self.manufacturer.name, self.name))
+    return super().save(*args, **kwargs)
   def get_absolute_url(self):
-    return reverse('filmstock-detail', kwargs={'pk': self.pk})
+    return reverse('filmstock-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Film stocks are types of film that can be exposed in a camera. They may also be known as emulsions.'
 
@@ -571,11 +630,12 @@ class ShutterSpeed(models.Model):
 
 # Table to list film and paper developers
 class Developer(models.Model):
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this developer')
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this developer')
   name = models.CharField(help_text='Name of the developer', max_length=45)
   for_paper = models.BooleanField(help_text='Whether this developer can be used with paper', blank=True, null=True)
   for_film = models.BooleanField(help_text='Whether this developer can be used with film', blank=True, null=True)
   chemistry = models.CharField(help_text='The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
+  slug = models.SlugField(editable=False, null=True, unique=True)
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.name)
@@ -584,14 +644,22 @@ class Developer(models.Model):
   class Meta:
     ordering = ['manufacturer', 'name']
     verbose_name_plural = "developers"
+    constraints = [
+      models.UniqueConstraint(fields=['manufacturer', 'name'], name='unique_name')
+    ]
+  def save(self, *args, **kwargs):
+    if not self.slug:
+      custom_slugify_unique = UniqueSlugify(unique_check=developer_check, to_lower=True)
+      self.slug = custom_slugify_unique("{} {}".format(self.manufacturer.name, self.name))
+    return super().save(*args, **kwargs)
   def get_absolute_url(self):
-    return reverse('developer-detail', kwargs={'pk': self.pk})
+    return reverse('developer-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Developers are chemicals that are used to process films or prints.'
 
 # Table to catalog lens models
 class LensModel(models.Model):
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this lens model')
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this lens model')
   model = models.CharField(help_text='Model name of this lens', max_length=45)
   disambiguation = models.CharField(help_text='Distinguishing notes for lens models with the same name', max_length=45, blank=True, null=True)
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Mount used by this lens model')
@@ -626,6 +694,7 @@ class LensModel(models.Model):
   formula = models.CharField(help_text='Name of the type of lens formula (e.g. Tessar)', max_length=45, blank=True, null=True)
   shutter_model = models.CharField(help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
   series = models.ManyToManyField(Series, blank=True)
+  slug = models.SlugField(editable=False, null=True, unique=True)
   def __str__(self):
     mystr = self.model
     if self.manufacturer is not None:
@@ -633,12 +702,15 @@ class LensModel(models.Model):
     if self.disambiguation is not None:
       mystr = mystr + ' [' + self.disambiguation + ']'
     return mystr
+
   class Meta:
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "lens models"
-    unique_together = ['manufacturer', 'model', 'disambiguation']
+    constraints = [
+      models.UniqueConstraint(fields=['manufacturer', 'model', 'disambiguation'], name='unique_name')
+    ]
   def get_absolute_url(self):
-    return reverse('lensmodel-detail', kwargs={'pk': self.pk})
+    return reverse('lensmodel-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Lens models are any lens that has been marketed'
 
@@ -701,6 +773,9 @@ class LensModel(models.Model):
     # Auto-populate focal length
     if self.zoom is False and self.min_focal_length is not None:
       self.max_focal_length = self.min_focal_length
+    if not self.slug:
+      custom_slugify_unique = UniqueSlugify(unique_check=lensmodel_check, to_lower=True)
+      self.slug = custom_slugify_unique("{} {} {}".format(self.manufacturer.name, self.model, str(self.disambiguation or '')))
     super().save(*args, **kwargs)
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
@@ -748,7 +823,7 @@ class CameraModel(models.Model):
     Hot_shoe = ChoiceItem()
     Cold_shoe = ChoiceItem()
 
-  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer of this camera model')
+  manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model')
   model = models.CharField(help_text='The model name of the camera', max_length=45)
   disambiguation = models.CharField(help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, null=True)
   mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'})
@@ -793,6 +868,7 @@ class CameraModel(models.Model):
   metering_modes = models.ManyToManyField(MeteringMode, blank=True)
   exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
   series = models.ManyToManyField(Series, blank=True)
+  slug = models.SlugField(editable=False, null=True, unique=True)
   def __str__(self):
     mystr = self.model
     if self.manufacturer is not None:
@@ -803,7 +879,15 @@ class CameraModel(models.Model):
   class Meta:
     ordering = ['manufacturer', 'model']
     verbose_name_plural = "camera models"
-    unique_together = ['manufacturer', 'model', 'disambiguation']
+    constraints = [
+      models.UniqueConstraint(fields=['manufacturer', 'model', 'disambiguation'], name='unique_name')
+    ]
+
+  def save(self, *args, **kwargs):
+    if not self.slug:
+      custom_slugify_unique = UniqueSlugify(unique_check=cameramodel_check, to_lower=True)
+      self.slug = custom_slugify_unique("{} {} {}".format(self.manufacturer.name, self.model, str(self.disambiguation or '')))
+    return super().save(*args, **kwargs)
 
   def clean(self):
     # ISO
@@ -852,7 +936,7 @@ class CameraModel(models.Model):
         'int_flash_gn': ValidationError(('Cannot set internal flash guide number if camera model has no internal flash')),
       })
   def get_absolute_url(self):
-    return reverse('cameramodel-detail', kwargs={'pk': self.pk})
+    return reverse('cameramodel-detail', kwargs={'slug': self.slug})
   def description(self):
     return 'Camera models are any camera that has been marketed'
 

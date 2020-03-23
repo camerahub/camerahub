@@ -5,7 +5,7 @@
   <tr>
     <td>Filmstock</td>
     <td>{% if object.filmstock is not None %}<a
-        href="{% url 'filmstock-detail' object.filmstock.id %}">{{ object.filmstock }}</a>{% endif %}</td>
+        href="{% url 'filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Exposed at</td>
@@ -40,7 +40,7 @@
   <tr>
     <td>Developer</td>
     <td>{% if object.developer is not None %}<a
-        href="{% url 'developer-detail' object.developer.id %}">{{ object.developer }}</a>{% endif %}</td>
+        href="{% url 'developer-detail' object.developer.slug %}">{{ object.developer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Directory</td>

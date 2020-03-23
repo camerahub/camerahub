@@ -9,7 +9,7 @@
   <tr>
     <td>Manufacturer</td>
     <td>{% if object.manufacturer is not None %}<a
-        href="{% url 'manufacturer-detail' object.manufacturer.id %}">{{ object.manufacturer }}</a>{% endif %}</td>
+        href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>Model</td>
@@ -31,14 +31,14 @@
   {% if object.lensmodel is not None %}
   <tr>
     <td>Lens model</td>
-    <td><a href="{% url 'lensmodel-detail' object.lensmodel.id %}">{{ object.lensmodel }}</a></td>
+    <td><a href="{% url 'lensmodel-detail' object.lensmodel.slug %}">{{ object.lensmodel }}</a></td>
   </tr>
   {% endif %}
   {% else %}
   {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
-    <td><a href="{% url 'mount-detail' object.mount.id %}">{{ object.mount }}</a></td>
+    <td><a href="{% url 'mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
   </tr>
   {% endif %}
   {% endif %}

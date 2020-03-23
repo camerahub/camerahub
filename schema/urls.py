@@ -20,9 +20,9 @@ urlpatterns = [
   path('archive/<int:pk>/update', views.ArchiveUpdate.as_view(), name='archive-update'),
   
   path('battery/', views.BatteryList.as_view(), name='battery-list'),
-  path('battery/<int:pk>', views.BatteryDetail.as_view(), name='battery-detail'),
+  path('battery/<slug:slug>', views.BatteryDetail.as_view(), name='battery-detail'),
   path('battery/create/', views.BatteryCreate.as_view(), name='battery-create'),
-  path('battery/<int:pk>/update', views.BatteryUpdate.as_view(), name='battery-update'),
+  path('battery/<slug:slug>/update', views.BatteryUpdate.as_view(), name='battery-update'),
   
   path('bulkfilm/', views.BulkFilmList.as_view(), name='bulkfilm-list'),
   path('bulkfilm/<int:pk>', views.BulkFilmDetail.as_view(), name='bulkfilm-detail'),
@@ -35,14 +35,14 @@ urlpatterns = [
   path('camera/<int:pk>/update', views.CameraUpdate.as_view(), name='camera-update'),
   
   path('cameramodel/', views.CameraModelList.as_view(), name='cameramodel-list'),
-  path('cameramodel/<int:pk>', views.CameraModelDetail.as_view(), name='cameramodel-detail'),
+  path('cameramodel/<slug:slug>', views.CameraModelDetail.as_view(), name='cameramodel-detail'),
   path('cameramodel/create/', views.CameraModelCreate.as_view(), name='cameramodel-create'),
-  path('cameramodel/<int:pk>/update', views.CameraModelUpdate.as_view(), name='cameramodel-update'),
+  path('cameramodel/<slug:slug>/update', views.CameraModelUpdate.as_view(), name='cameramodel-update'),
   
   path('developer/', views.DeveloperList.as_view(), name='developer-list'),
-  path('developer/<int:pk>', views.DeveloperDetail.as_view(), name='developer-detail'),
+  path('developer/<slug:slug>', views.DeveloperDetail.as_view(), name='developer-detail'),
   path('developer/create/', views.DeveloperCreate.as_view(), name='developer-create'),
-  path('developer/<int:pk>/update', views.DeveloperUpdate.as_view(), name='developer-update'),
+  path('developer/<slug:slug>/update', views.DeveloperUpdate.as_view(), name='developer-update'),
   
   path('enlarger/', views.EnlargerList.as_view(), name='enlarger-list'),
   path('enlarger/<int:pk>', views.EnlargerDetail.as_view(), name='enlarger-detail'),
@@ -50,9 +50,9 @@ urlpatterns = [
   path('enlarger/<int:pk>/update', views.EnlargerUpdate.as_view(), name='enlarger-update'),
   
   path('filmstock/', views.FilmStockList.as_view(), name='filmstock-list'),
-  path('filmstock/<int:pk>', views.FilmStockDetail.as_view(), name='filmstock-detail'),
+  path('filmstock/<slug:slug>', views.FilmStockDetail.as_view(), name='filmstock-detail'),
   path('filmstock/create/', views.FilmStockCreate.as_view(), name='filmstock-create'),
-  path('filmstock/<int:pk>/update', views.FilmStockUpdate.as_view(), name='filmstock-update'),
+  path('filmstock/<slug:slug>/update', views.FilmStockUpdate.as_view(), name='filmstock-update'),
   
   path('filter/', views.FilterList.as_view(), name='filter-list'),
   path('filter/<int:pk>', views.FilterDetail.as_view(), name='filter-detail'),
@@ -80,19 +80,19 @@ urlpatterns = [
   path('lens/<int:pk>/update', views.LensUpdate.as_view(), name='lens-update'),
   
   path('lensmodel/', views.LensModelList.as_view(), name='lensmodel-list'),
-  path('lensmodel/<int:pk>', views.LensModelDetail.as_view(), name='lensmodel-detail'),
+  path('lensmodel/<slug:slug>', views.LensModelDetail.as_view(), name='lensmodel-detail'),
   path('lensmodel/create/', views.LensModelCreate.as_view(), name='lensmodel-create'),
-  path('lensmodel/<int:pk>/update', views.LensModelUpdate.as_view(), name='lensmodel-update'),
+  path('lensmodel/<slug:slug>/update', views.LensModelUpdate.as_view(), name='lensmodel-update'),
   
   path('manufacturer/', views.ManufacturerList.as_view(), name='manufacturer-list'),
-  path('manufacturer/<int:pk>', views.ManufacturerDetail.as_view(), name='manufacturer-detail'),
+  path('manufacturer/<slug:slug>', views.ManufacturerDetail.as_view(), name='manufacturer-detail'),
   path('manufacturer/create/', views.ManufacturerCreate.as_view(), name='manufacturer-create'),
-  path('manufacturer/<int:pk>/update', views.ManufacturerUpdate.as_view(), name='manufacturer-update'),
+  path('manufacturer/<slug:slug>/update', views.ManufacturerUpdate.as_view(), name='manufacturer-update'),
   
   path('mount/', views.MountList.as_view(), name='mount-list'),
-  path('mount/<int:pk>', views.MountDetail.as_view(), name='mount-detail'),
+  path('mount/<slug:slug>', views.MountDetail.as_view(), name='mount-detail'),
   path('mount/create/', views.MountCreate.as_view(), name='mount-create'),
-  path('mount/<int:pk>/update', views.MountUpdate.as_view(), name='mount-update'),
+  path('mount/<slug:slug>/update', views.MountUpdate.as_view(), name='mount-update'),
   
   path('mountadapter/', views.MountAdapterList.as_view(), name='mountadapter-list'),
   path('mountadapter/<int:pk>', views.MountAdapterDetail.as_view(), name='mountadapter-detail'),
@@ -160,7 +160,7 @@ urlpatterns = [
   path('teleconverter/<int:pk>/update', views.TeleconverterUpdate.as_view(), name='teleconverter-update'),
   
   path('toner/', views.TonerList.as_view(), name='toner-list'),
-  path('toner/<int:pk>', views.TonerDetail.as_view(), name='toner-detail'),
+  path('toner/<slug:slug>', views.TonerDetail.as_view(), name='toner-detail'),
   path('toner/create/', views.TonerCreate.as_view(), name='toner-create'),
-  path('toner/<int:pk>/update', views.TonerUpdate.as_view(), name='toner-update'),
+  path('toner/<slug:slug>/update', views.TonerUpdate.as_view(), name='toner-update'),
 ]
