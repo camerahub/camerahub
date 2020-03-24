@@ -42,7 +42,7 @@ class PagedFilteredTableView(SingleTableMixin, FilterView):
     context_filter_name = 'filter'
     form_method = 'POST'
     template_name = 'list.html'
-    paginate_by = 50
+    paginate_by = 25
 
     def get_queryset(self, **kwargs):
         qs = super(PagedFilteredTableView, self).get_queryset()
