@@ -3,7 +3,7 @@ from django import forms
 from django_currentuser.middleware import (get_current_user, get_current_authenticated_user)
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div, Row, Button
-from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText
+from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
 import sys
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -130,9 +130,16 @@ class CameraModelForm(ModelForm):
                 'disambiguation',
                 'introduced',
                 'discontinued',
-                'mount',
                 'fixed_mount',
-                'lensmodel',
+
+            TabHolder(
+                Tab('Interchangeable lens',
+                    'mount',
+                ),
+                Tab('Fixed lens',
+                    'lensmodel',
+                )
+            ),
                 'format',
                 'negative_size',
             ),
