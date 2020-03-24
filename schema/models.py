@@ -45,6 +45,10 @@ class Manufacturer(models.Model):
   founded = models.PositiveIntegerField(help_text='Year in which the manufacturer was founded', blank=True, null=True)
   dissolved = models.PositiveIntegerField(help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
   slug = models.SlugField(editable=False, null=True, unique=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='manufacturer_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='manufacturer_updated_by')
   def __str__(self):
     return self.name
   class Meta:
@@ -136,6 +140,10 @@ class Battery(models.Model):
   chemistry = models.CharField(help_text='Battery chemistry', choices=Chemistry.choices, max_length=45, blank=True, null=True)
   compatible_with = models.ManyToManyField('Battery', blank=True, help_text='Batteries that are compatible with this one')
   slug = models.SlugField(editable=False, null=True, unique=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='battery_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='battery_updated_by')
   def __str__(self):
     return self.name
   class Meta:
@@ -177,6 +185,10 @@ class ExposureProgram(models.Model):
 class FlashProtocol(models.Model):
   name = models.CharField(help_text='Name of the flash protocol', max_length=45) 
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this flash protocol')
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='flashprotocol_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='flashprotocol_updated_by')
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.name)
@@ -212,6 +224,10 @@ class NegativeSize(models.Model):
   crop_factor = models.DecimalField(help_text='Crop factor of this negative size', max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
   area = models.PositiveIntegerField(help_text='Area of this negative size in sq. mm', blank=True, null=True, editable=False)
   aspect_ratio = models.DecimalField(help_text='Aspect ratio of this negative size, expressed as a single decimal (e.g. 3:2 is expressed as 1.5)',max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='negativesize_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='negativesize_updated_by')
   def __str__(self):
     return self.name
   # Override save method to calculate some fields
@@ -235,6 +251,10 @@ class NegativeSize(models.Model):
 class Format(models.Model):
   format = models.CharField(help_text='The name of this film/sensor format', max_length=45, unique=True)
   negative_size = models.ManyToManyField(NegativeSize, blank=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='format_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='format_updated_by')
   def __str__(self):
     return self.format
   class Meta:
@@ -404,6 +424,10 @@ class Mount(models.Model):
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True, help_text='Manufacturer who owns this lens mount')
   slug = models.SlugField(editable=False, null=True, unique=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='mount_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='mount_updated_by')
   def __str__(self):
     return self.mount
   def save(self, *args, **kwargs):
@@ -434,6 +458,10 @@ class PaperStock(models.Model):
   resin_coated = models.BooleanField(help_text='Whether the paper is resin-coated', blank=True, null=True)
   colour = models.BooleanField(help_text='Whether this is a colour paper', blank=True, null=True)
   finish = models.CharField(help_text='The finish of the paper surface', choices=Finish.choices, max_length=25, blank=True, null=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='paperstock_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='paperstock_updated_by')
   def __str__(self):
     mystr = self.name
     if self.manufacturer is not None:
@@ -517,6 +545,10 @@ class Toner(models.Model):
   formulation = models.CharField(help_text='Chemical formulation of the toner', max_length=45, blank=True, null=True)
   stock_dilution = models.CharField(help_text='Stock dilution of the toner', max_length=10, blank=True, null=True)
   slug = models.SlugField(editable=False, null=True, unique=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='toner_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='toner_updated_by')
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.name)
@@ -547,6 +579,10 @@ class FilmStock(models.Model):
   panchromatic = models.BooleanField(help_text='Whether this film is panchromatic', blank=True, null=True)
   process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True, null=True, help_text='Development process required by this film')
   slug = models.SlugField(editable=False, null=True, unique=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='filmstock_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='filmstock_updated_by')
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.name)
@@ -636,6 +672,10 @@ class Developer(models.Model):
   for_film = models.BooleanField(help_text='Whether this developer can be used with film', blank=True, null=True)
   chemistry = models.CharField(help_text='The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
   slug = models.SlugField(editable=False, null=True, unique=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='developer_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='developer_updated_by')
   def __str__(self):
     if self.manufacturer is not None:
       return "%s %s" % (self.manufacturer.name, self.name)
@@ -701,6 +741,10 @@ class LensModel(models.Model):
   shutter_model = models.CharField(help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
   series = models.ManyToManyField(Series, blank=True)
   slug = models.SlugField(editable=False, null=True, unique=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='lensmodel_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='lensmodel_updated_by')
   def __str__(self):
     mystr = self.model
     if self.manufacturer is not None:
@@ -875,6 +919,10 @@ class CameraModel(models.Model):
   exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
   series = models.ManyToManyField(Series, blank=True)
   slug = models.SlugField(editable=False, null=True, unique=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+  created_by = CurrentUserField(editable=False, related_name='cameramodel_created_by')
+  updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+  updated_by = CurrentUserField(on_update=True, editable=False, related_name='cameramodel_updated_by')
   def __str__(self):
     mystr = self.model
     if self.manufacturer is not None:
