@@ -932,7 +932,7 @@ class CameraModel(models.Model):
 
   # Fixed lens fields
   lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this lens model', blank=True, null=True, related_name='lens_manufacturer')
-  lens_model = models.CharField(help_text='Model name of this lens', max_length=45, blank=True, null=True)
+  lens_model_name = models.CharField(help_text='Model name of this lens', max_length=45, blank=True, null=True)
   zoom = models.BooleanField(help_text='Whether this is a zoom lens', blank=True, null=True)
   min_focal_length = models.PositiveIntegerField(help_text='Shortest focal length of this lens, in mm', blank=True, null=True)
   max_focal_length = models.PositiveIntegerField(help_text='Longest focal length of this lens, in mm', blank=True, null=True)
