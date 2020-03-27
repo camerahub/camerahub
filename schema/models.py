@@ -873,6 +873,12 @@ class CameraModel(models.Model):
     Hot_shoe = ChoiceItem()
     Cold_shoe = ChoiceItem()
 
+  # Choices for focus type
+  class CoatingType(DjangoChoices):
+    Uncoated = ChoiceItem()
+    Single_coated = ChoiceItem()
+    Multi_coated = ChoiceItem()
+
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model')
   model = models.CharField(help_text='The model name of the camera', max_length=45)
   disambiguation = models.CharField(help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, null=True)
@@ -923,6 +929,30 @@ class CameraModel(models.Model):
   created_by = CurrentUserField(editable=False, related_name='cameramodel_created_by')
   updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
   updated_by = CurrentUserField(on_update=True, editable=False, related_name='cameramodel_updated_by')
+
+  # Fixed lens fields
+  lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this lens model', blank=True, null=True, related_name='lens_manufacturer')
+  lens_model = models.CharField(help_text='Model name of this lens', max_length=45, blank=True, null=True)
+  zoom = models.BooleanField(help_text='Whether this is a zoom lens', blank=True, null=True)
+  min_focal_length = models.PositiveIntegerField(help_text='Shortest focal length of this lens, in mm', blank=True, null=True)
+  max_focal_length = models.PositiveIntegerField(help_text='Longest focal length of this lens, in mm', blank=True, null=True)
+  closest_focus = models.PositiveIntegerField(help_text='The closest focus possible with this lens, in cm', blank=True, null=True)
+  max_aperture = models.DecimalField(help_text='Maximum (widest) aperture available on this lens (numerical part only, e.g. 2.8)', max_digits=4, decimal_places=1, blank=True, null=True)
+  min_aperture = models.DecimalField(help_text='Minimum (narrowest) aperture available on this lens (numerical part only, e.g. 22)', max_digits=4, decimal_places=1, blank=True, null=True)
+  elements = models.PositiveIntegerField(help_text='Number of optical lens elements', blank=True, null=True)
+  groups = models.PositiveIntegerField(help_text='Number of optical groups', blank=True, null=True)
+  nominal_min_angle_diag = models.PositiveIntegerField(verbose_name='Min angle of view', help_text='Nominal minimum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(360)])
+  nominal_max_angle_diag = models.PositiveIntegerField(verbose_name='Max angle of view', help_text='Nominal maximum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(360)])
+  aperture_blades = models.PositiveIntegerField(help_text='Number of aperture blades', blank=True, null=True)
+  filter_thread = models.DecimalField(help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
+  magnification = models.DecimalField(help_text='Maximum magnification ratio of the lens, expressed like 0.765', max_digits=5, decimal_places=3, blank=True, null=True)
+  coating = models.CharField(choices=CoatingType.choices, help_text='Type of lens coating', max_length=15, blank=True, null=True)
+  hood = models.CharField(help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
+  exif_lenstype = models.CharField(help_text='EXIF LensID number, if this lens has one officially registered. See documentation at http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/', max_length=45, blank=True, null=True)
+  rectilinear = models.BooleanField(help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
+  image_circle = models.PositiveIntegerField(help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
+  formula = models.CharField(help_text='Name of the type of lens formula (e.g. Tessar)', max_length=45, blank=True, null=True)
+
   def __str__(self):
     mystr = self.model
     if self.manufacturer is not None:
