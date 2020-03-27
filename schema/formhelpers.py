@@ -163,7 +163,6 @@ class LensFormHelper(FormHelper):
             'lensmodel__mount',
             'lensmodel__zoom',
             'lensmodel__autofocus',
-            'lensmodel__fixed_mount'
             ),
         FormActions(
             Submit('filter', 'Filter'),
@@ -178,7 +177,6 @@ class LensModelFormHelper(FormHelper):
             'mount',
             'zoom',
             'autofocus',
-            'fixed_mount'
             ),
         FormActions(
             Submit('filter', 'Filter'),

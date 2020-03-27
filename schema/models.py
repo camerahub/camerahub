@@ -728,7 +728,6 @@ class LensModel(models.Model):
   introduced = models.PositiveIntegerField(help_text='Year in which this lens model was introduced', blank=True, null=True)
   discontinued = models.PositiveIntegerField(help_text='Year in which this lens model was discontinued', blank=True, null=True)
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size that this lens is designed for')
-  fixed_mount = models.BooleanField(help_text='Whether this is a fixed lens (i.e. on a compact camera)', blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
   coating = models.CharField(choices=CoatingType.choices, help_text='Type of lens coating', max_length=15, blank=True, null=True)
   hood = models.CharField(help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
@@ -762,7 +761,7 @@ class LensModel(models.Model):
   def get_absolute_url(self):
     return reverse('lensmodel-detail', kwargs={'slug': self.slug})
   def description(self):
-    return 'Lens models are any lens that has been marketed'
+    return 'Lens models are any interchangeable lens that has been marketed'
 
   def clean(self):
     # Check focal length
@@ -800,10 +799,6 @@ class LensModel(models.Model):
         'elements': ValidationError(("Can't have more groups than elements")),
         'groups': ValidationError(("Can't have more groups than elements")),
       })
-
-    # Fixed mount vs mount ID
-    if self.fixed_mount == True and self.mount is not None:
-      raise ValidationError({'mount': 'Do not choose a mount when fixed mount is true'})
 
     # Zoom lenses
     if self.zoom == False and self.min_focal_length and self.max_focal_length and self.min_focal_length != self.max_focal_length:
@@ -898,8 +893,6 @@ class CameraModel(models.Model):
   viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(100)])
   power_drive = models.BooleanField(help_text='Whether the camera has integrated motor drive', blank=True, null=True)
   continuous_fps = models.DecimalField(help_text='The maximum rate at which the camera can shoot, in frames per second', max_digits=4, decimal_places=1, blank=True, null=True)
-  fixed_mount = models.BooleanField(help_text='Whether the camera has a fixed lens', blank=True, null=True)
-  lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens model attached to this camera model, if it is a fixed-lens camera', limit_choices_to={'fixed_mount': True})
   battery_qty = models.PositiveIntegerField(help_text='Quantity of batteries needed', blank=True, null=True)
   battery_type = models.ForeignKey(Battery, on_delete=models.CASCADE, blank=True, null=True, help_text='Battery type that this camera model needs')
   notes = models.CharField(help_text='Freeform text field for extra notes', max_length=100, blank=True, null=True)
@@ -1136,7 +1129,6 @@ class Camera(models.Model):
   datecode = models.CharField(help_text='Date code of the camera, if different from the serial number', max_length=45, blank=True, null=True)
   manufactured = models.PositiveIntegerField(help_text='Year of manufacture of the camera', blank=True, null=True)
   own = models.BooleanField(help_text='Whether the camera is currently owned', blank=True, null=True)
-  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens attached to this camera, if it is a fixed-lens camera', limit_choices_to={'lensmodel__fixed_mount': True})
   notes = models.CharField(help_text='Freeform text field for extra notes', max_length=100, blank=True, null=True)
   lost = models.DateField(help_text='Date on which the camera was lost/sold/etc', blank=True, null=True)
   lost_price = MoneyField(help_text='Sale price of the camera', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')

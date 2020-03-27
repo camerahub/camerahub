@@ -161,7 +161,7 @@ class LensModelTable(tables.Table):
     class Meta:
         model = LensModel
         fields = ('model', 'mount', 'zoom', 'min_focal_length',
-                  'max_aperture', 'autofocus', 'introduced', 'fixed_mount')
+                  'max_aperture', 'autofocus', 'introduced')
 
     def render_model(self, value, record):
         if record.disambiguation:

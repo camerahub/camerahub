@@ -96,7 +96,6 @@ class CameraForm(ModelForm):
             'datecode',
             'manufactured',
             'own',
-            'lens',
             'notes',
             'lost',
             'lost_price',
@@ -130,8 +129,6 @@ class CameraModelForm(ModelForm):
                 'disambiguation',
                 'introduced',
                 'discontinued',
-                'fixed_mount',
-
             TabHolder(
                 Tab('Interchangeable lens',
                     'mount',
@@ -380,7 +377,6 @@ class LensModelForm(ModelForm):
                 'manufacturer',
                 'model',
                 'disambiguation',
-                'fixed_mount',
                 'mount',
                 'introduced',
                 'discontinued',
