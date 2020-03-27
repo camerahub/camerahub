@@ -21,26 +21,39 @@
     <td>{{ object.disambiguation }}</td>
   </tr>
   {% endif %}
-  {% if object.fixed_mount is not None %}
-  <tr>
-    <td>Fixed mount</td>
-    <td>{{ object.fixed_mount|yesnoicon }}</td>
-  </tr>
-  {% endif %}
-  {% if object.fixed_mount is True %}
-  {% if object.lensmodel is not None %}
-  <tr>
-    <td>Lens model</td>
-    <td><a href="{% url 'lensmodel-detail' object.lensmodel.slug %}">{{ object.lensmodel }}</a></td>
-  </tr>
-  {% endif %}
-  {% else %}
   {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
     <td><a href="{% url 'mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
   </tr>
-  {% endif %}
+  {% else %}
+  <tr>
+    <td>Lens</td>
+    <td>{{ object.lens_manufacturer }} {{ object.lens_model_name }}</td>
+  </tr>
+  <!--
+  aperture_blades
+closest_focus
+coating
+elements
+exif_lenstype
+filter_thread
+formula
+groups
+hood
+image_circle
+lens_manufacturer
+lens_model
+magnification
+max_aperture
+max_focal_length
+min_aperture
+min_focal_length
+nominal_max_angle_diag
+nominal_min_angle_diag
+rectilinear
+zoom
+-->
   {% endif %}
   {% if object.format is not None %}
   <tr>
