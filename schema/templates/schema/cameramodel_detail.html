@@ -342,7 +342,6 @@ zoom
 <div class="collapse" id="collapseCameras">
   <table class="table table-hover">
     <tr>
-      <th>Serial</th>
       <th>Acquired</th>
       <th>cost</th>
       <th>serial</th>
@@ -360,11 +359,10 @@ zoom
     </tr>
     {% for camera in cameramodel.camera_set.all %}
     <tr>
-      <td>{{ camera.serial }}</td>
       <td>{{ camera.acquired }}</td>
       <td>{{ camera.cost }}</td>
-      <td>{{ camera.serial }}</td>
-      <td>{{ camera.datecode }}</td>
+      <td><code>{{ camera.serial }}</code></td>
+      <td><code>{{ camera.datecode }}</code></td>
       <td>{{ camera.manufactured }}</td>
       <td>{{ camera.own }}</td>
       <td>{{ camera.lens }}</td>

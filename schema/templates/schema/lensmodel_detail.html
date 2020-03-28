@@ -242,7 +242,7 @@
     </tr>
     {% for lens in lensmodel.lens_set.all %}
     <tr>
-      <td>{{ lens.serial }}</td>
+      <td><code>{{ lens.serial }}</code></td>
       <td>{{ lens.acquired }}</td>
     </tr>
     {% endfor %}
