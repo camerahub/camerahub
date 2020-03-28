@@ -1008,6 +1008,41 @@ class CameraModel(models.Model):
       raise ValidationError({
         'int_flash_gn': ValidationError(('Cannot set internal flash guide number if camera model has no internal flash')),
       })
+
+        # Check focal length
+    if self.min_focal_length is not None and self.max_focal_length is not None and self.min_focal_length > self.max_focal_length:
+      raise ValidationError({
+        'min_focal_length': ValidationError(('Min focal length must be smaller than max focal length')),
+        'max_focal_length': ValidationError(('Max focal length must be larger than min focal length')),
+      })
+
+    # Angle of view
+    if self.nominal_min_angle_diag is not None and self.nominal_max_angle_diag is not None and self.nominal_min_angle_diag > self.nominal_max_angle_diag:
+      raise ValidationError({
+        'nominal_min_angle_diag': ValidationError(('Min angle of view must be smaller than max angle of view')),
+        'nominal_max_angle_diag': ValidationError(('Max angle of view must be larger than min angle of view')),
+      })
+
+    # Groups and elements
+    if self.groups is not None and self.elements is not None and self.elements < self.groups:
+      raise ValidationError({
+        'elements': ValidationError(("Can't have more groups than elements")),
+        'groups': ValidationError(("Can't have more groups than elements")),
+      })
+
+    # Zoom lenses
+    if self.zoom == False and self.min_focal_length and self.max_focal_length and self.min_focal_length != self.max_focal_length:
+      raise ValidationError({
+        'min_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
+        'max_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
+      })
+
+    # Aperture range
+    if self.max_aperture is not None and self.min_aperture is not None and self.max_aperture > self.min_aperture:
+      raise ValidationError({
+        'max_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
+        'min_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
+      })
   def get_absolute_url(self):
     return reverse('cameramodel-detail', kwargs={'slug': self.slug})
   def description(self):
