@@ -132,8 +132,7 @@ class CameraModelForm(ModelForm):
                 'format',
                 'negative_size',
             ),
-            Fieldset(
-                'Lens',
+            Div(
                 TabHolder(
                     Tab('Interchangeable lens',
                         Fieldset(
@@ -143,7 +142,7 @@ class CameraModelForm(ModelForm):
                     ),
                     Tab('Fixed lens',
                         Fieldset(
-                            'Basics',
+                            'Lens',
                             'lens_manufacturer',
                             'lens_model_name',
                         ),
@@ -173,7 +172,6 @@ class CameraModelForm(ModelForm):
                         ),
                         Fieldset(
                             'Misc',
-                            'notes',
                             'exif_lenstype',
                         ),
                     ),
