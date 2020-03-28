@@ -6,7 +6,7 @@ from schema import views
 urlpatterns = [
 
   # Static pages
-  path('', TemplateView.as_view(template_name='schema/index.html'), name='index'),
+  path('', TemplateView.as_view(template_name='index.html'), name='index'),
   path('stats', views.StatsView.as_view(), name='stats'),
 
   path('accessory/', views.AccessoryList.as_view(), name='accessory-list'),

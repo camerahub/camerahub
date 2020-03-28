@@ -82,13 +82,13 @@ class AccessoryDetail(LoginRequiredMixin, generic.DetailView):
 class AccessoryCreate(LoginRequiredMixin, CreateView):
     model = Accessory
     form_class = AccessoryForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class AccessoryUpdate(LoginRequiredMixin, UpdateView):
     model = Accessory
     form_class = AccessoryForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class ArchiveList(LoginRequiredMixin, SingleTableListView):
@@ -103,13 +103,13 @@ class ArchiveDetail(LoginRequiredMixin, generic.DetailView):
 class ArchiveCreate(LoginRequiredMixin, CreateView):
     model = Archive
     form_class = ArchiveForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class ArchiveUpdate(LoginRequiredMixin, UpdateView):
     model = Archive
     form_class = ArchiveForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class BatteryList(PagedFilteredTableView):
@@ -126,13 +126,13 @@ class BatteryDetail(generic.DetailView):
 class BatteryCreate(LoginRequiredMixin, CreateView):
     model = Battery
     form_class = BatteryForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class BatteryUpdate(LoginRequiredMixin, UpdateView):
     model = Battery
     form_class = BatteryForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class BulkFilmList(LoginRequiredMixin, PagedFilteredTableView):
@@ -149,13 +149,13 @@ class BulkFilmDetail(LoginRequiredMixin, generic.DetailView):
 class BulkFilmCreate(LoginRequiredMixin, CreateView):
     model = BulkFilm
     form_class = BulkFilmForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class BulkFilmUpdate(LoginRequiredMixin, UpdateView):
     model = BulkFilm
     form_class = BulkFilmForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class CameraList(LoginRequiredMixin, PagedFilteredTableView):
@@ -172,13 +172,13 @@ class CameraDetail(LoginRequiredMixin, generic.DetailView):
 class CameraCreate(LoginRequiredMixin, CreateView):
     model = Camera
     form_class = CameraForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class CameraUpdate(LoginRequiredMixin, UpdateView):
     model = Camera
     form_class = CameraForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class CameraModelList(PagedFilteredTableView):
@@ -195,13 +195,13 @@ class CameraModelDetail(generic.DetailView):
 class CameraModelCreate(LoginRequiredMixin, CreateView):
     model = CameraModel
     form_class = CameraModelForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class CameraModelUpdate(LoginRequiredMixin, UpdateView):
     model = CameraModel
     form_class = CameraModelForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class DeveloperList(PagedFilteredTableView):
@@ -218,13 +218,13 @@ class DeveloperDetail(generic.DetailView):
 class DeveloperCreate(LoginRequiredMixin, CreateView):
     model = Developer
     form_class = DeveloperForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class DeveloperUpdate(LoginRequiredMixin, UpdateView):
     model = Developer
     form_class = DeveloperForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class EnlargerList(LoginRequiredMixin, PagedFilteredTableView):
@@ -241,13 +241,13 @@ class EnlargerDetail(LoginRequiredMixin, generic.DetailView):
 class EnlargerCreate(LoginRequiredMixin, CreateView):
     model = Enlarger
     form_class = EnlargerForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class EnlargerUpdate(LoginRequiredMixin, UpdateView):
     model = Enlarger
     form_class = EnlargerForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class FilmStockList(PagedFilteredTableView):
@@ -264,13 +264,13 @@ class FilmStockDetail(generic.DetailView):
 class FilmStockCreate(LoginRequiredMixin, CreateView):
     model = FilmStock
     form_class = FilmStockForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class FilmStockUpdate(LoginRequiredMixin, UpdateView):
     model = FilmStock
     form_class = FilmStockForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class FilterList(SingleTableListView):
@@ -285,13 +285,13 @@ class FilterDetail(generic.DetailView):
 class FilterCreate(LoginRequiredMixin, CreateView):
     model = Filter
     form_class = FilterForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class FilterUpdate(LoginRequiredMixin, UpdateView):
     model = Filter
     form_class = FilterForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class FlashList(LoginRequiredMixin, PagedFilteredTableView):
@@ -308,13 +308,13 @@ class FlashDetail(LoginRequiredMixin, generic.DetailView):
 class FlashCreate(LoginRequiredMixin, CreateView):
     model = Flash
     form_class = FlashForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class FlashUpdate(LoginRequiredMixin, UpdateView):
     model = Flash
     form_class = FlashForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class FlashProtocolList(SingleTableListView):
@@ -329,13 +329,13 @@ class FlashProtocolDetail(generic.DetailView):
 class FlashProtocolCreate(LoginRequiredMixin, CreateView):
     model = FlashProtocol
     form_class = FlashProtocolForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class FlashProtocolUpdate(LoginRequiredMixin, UpdateView):
     model = FlashProtocol
     form_class = FlashProtocolForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class FormatList(SingleTableListView):
@@ -350,13 +350,13 @@ class FormatDetail(generic.DetailView):
 class FormatCreate(LoginRequiredMixin, CreateView):
     model = Format
     form_class = FormatForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class FormatUpdate(LoginRequiredMixin, UpdateView):
     model = Format
     form_class = FormatForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class LensList(LoginRequiredMixin, PagedFilteredTableView):
@@ -373,13 +373,13 @@ class LensDetail(LoginRequiredMixin, generic.DetailView):
 class LensCreate(LoginRequiredMixin, CreateView):
     model = Lens
     form_class = LensForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class LensUpdate(LoginRequiredMixin, UpdateView):
     model = Lens
     form_class = LensForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class LensModelList(PagedFilteredTableView):
@@ -396,13 +396,13 @@ class LensModelDetail(generic.DetailView):
 class LensModelCreate(LoginRequiredMixin, CreateView):
     model = LensModel
     form_class = LensModelForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class LensModelUpdate(LoginRequiredMixin, UpdateView):
     model = LensModel
     form_class = LensModelForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class ManufacturerList(SingleTableListView):
@@ -417,13 +417,13 @@ class ManufacturerDetail(generic.DetailView):
 class ManufacturerCreate(LoginRequiredMixin, CreateView):
     model = Manufacturer
     form_class = ManufacturerForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class ManufacturerUpdate(LoginRequiredMixin, UpdateView):
     model = Manufacturer
     form_class = ManufacturerForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class MountList(PagedFilteredTableView):
@@ -440,13 +440,13 @@ class MountDetail(generic.DetailView):
 class MountCreate(LoginRequiredMixin, CreateView):
     model = Mount
     form_class = MountForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class MountUpdate(LoginRequiredMixin, UpdateView):
     model = Mount
     form_class = MountForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class MountAdapterList(LoginRequiredMixin, PagedFilteredTableView):
@@ -463,13 +463,13 @@ class MountAdapterDetail(LoginRequiredMixin, generic.DetailView):
 class MountAdapterCreate(LoginRequiredMixin, CreateView):
     model = MountAdapter
     form_class = MountAdapterForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class MountAdapterUpdate(LoginRequiredMixin, UpdateView):
     model = MountAdapter
     form_class = MountAdapterForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class NegativeSizeList(SingleTableListView):
@@ -484,13 +484,13 @@ class NegativeSizeDetail(generic.DetailView):
 class NegativeSizeCreate(LoginRequiredMixin, CreateView):
     model = NegativeSize
     form_class = NegativeSizeForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class NegativeSizeUpdate(LoginRequiredMixin, UpdateView):
     model = NegativeSize
     form_class = NegativeSizeForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class OrderList(LoginRequiredMixin, PagedFilteredTableView):
@@ -507,13 +507,13 @@ class OrderDetail(LoginRequiredMixin, generic.DetailView):
 class OrderCreate(LoginRequiredMixin, CreateView):
     model = Order
     form_class = OrderForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class OrderUpdate(LoginRequiredMixin, UpdateView):
     model = Order
     form_class = OrderForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class PaperStockList(PagedFilteredTableView):
@@ -530,13 +530,13 @@ class PaperStockDetail(generic.DetailView):
 class PaperStockCreate(LoginRequiredMixin, CreateView):
     model = PaperStock
     form_class = PaperStockForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class PaperStockUpdate(LoginRequiredMixin, UpdateView):
     model = PaperStock
     form_class = PaperStockForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class PersonList(LoginRequiredMixin, SingleTableListView):
@@ -557,13 +557,13 @@ class PersonDetail(LoginRequiredMixin, generic.DetailView):
 class PersonCreate(LoginRequiredMixin, CreateView):
     model = Person
     form_class = PersonForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class PersonUpdate(LoginRequiredMixin, UpdateView):
     model = Person
     form_class = PersonForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class PrintList(LoginRequiredMixin, PagedFilteredTableView):
@@ -580,13 +580,13 @@ class PrintDetail(LoginRequiredMixin, generic.DetailView):
 class PrintCreate(LoginRequiredMixin, CreateView):
     model = Print
     form_class = PrintForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class PrintUpdate(LoginRequiredMixin, UpdateView):
     model = Print
     form_class = PrintForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class ProcessList(SingleTableListView):
@@ -601,13 +601,13 @@ class ProcessDetail(generic.DetailView):
 class ProcessCreate(LoginRequiredMixin, CreateView):
     model = Process
     form_class = ProcessForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class ProcessUpdate(LoginRequiredMixin, UpdateView):
     model = Process
     form_class = ProcessForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class RepairList(LoginRequiredMixin, PagedFilteredTableView):
@@ -624,13 +624,13 @@ class RepairDetail(LoginRequiredMixin, generic.DetailView):
 class RepairCreate(LoginRequiredMixin, CreateView):
     model = Repair
     form_class = RepairForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class RepairUpdate(LoginRequiredMixin, UpdateView):
     model = Repair
     form_class = RepairForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class ScanList(LoginRequiredMixin, SingleTableListView):
@@ -651,13 +651,13 @@ class ScanDetail(LoginRequiredMixin, generic.DetailView):
 class ScanCreate(LoginRequiredMixin, CreateView):
     model = Scan
     form_class = ScanForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class ScanUpdate(LoginRequiredMixin, UpdateView):
     model = Scan
     form_class = ScanForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class NegativeList(LoginRequiredMixin, PagedFilteredTableView):
@@ -674,13 +674,13 @@ class NegativeDetail(LoginRequiredMixin, generic.DetailView):
 class NegativeCreate(LoginRequiredMixin, CreateView):
     model = Negative
     form_class = NegativeForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class NegativeUpdate(LoginRequiredMixin, UpdateView):
     model = Negative
     form_class = NegativeForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class FilmList(LoginRequiredMixin, PagedFilteredTableView):
@@ -697,13 +697,13 @@ class FilmDetail(LoginRequiredMixin, generic.DetailView):
 class FilmCreate(LoginRequiredMixin, CreateView):
     model = Film
     form_class = FilmForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class FilmUpdate(LoginRequiredMixin, UpdateView):
     model = Film
     form_class = FilmForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class SeriesList(LoginRequiredMixin, SingleTableListView):
@@ -724,13 +724,13 @@ class SeriesDetail(LoginRequiredMixin, generic.DetailView):
 class SeriesCreate(LoginRequiredMixin, CreateView):
     model = Series
     form_class = SeriesForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class SeriesUpdate(LoginRequiredMixin, UpdateView):
     model = Series
     form_class = SeriesForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class TeleconverterList(LoginRequiredMixin, PagedFilteredTableView):
@@ -747,13 +747,13 @@ class TeleconverterDetail(LoginRequiredMixin, generic.DetailView):
 class TeleconverterCreate(LoginRequiredMixin, CreateView):
     model = Teleconverter
     form_class = TeleconverterForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class TeleconverterUpdate(LoginRequiredMixin, UpdateView):
     model = Teleconverter
     form_class = TeleconverterForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class TonerList(PagedFilteredTableView):
@@ -770,17 +770,17 @@ class TonerDetail(generic.DetailView):
 class TonerCreate(LoginRequiredMixin, CreateView):
     model = Toner
     form_class = TonerForm
-    template_name = 'schema/create.html'
+    template_name = 'create.html'
 
 
 class TonerUpdate(LoginRequiredMixin, UpdateView):
     model = Toner
     form_class = TonerForm
-    template_name = 'schema/update.html'
+    template_name = 'update.html'
 
 
 class StatsView(TemplateView):
-    template_name = "schema/stats.html"
+    template_name = "stats.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
