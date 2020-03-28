@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load yesnoicon %}
 
 {% block content %}
 <table class="table table-hover">
@@ -8,11 +9,11 @@
   </tr>
   <tr>
     <td>Colour</td>
-    <td>{{ object.colour }}</td>
+    <td>{{ object.colour|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Positive</td>
-    <td>{{ object.positive }}</td>
+    <td>{{ object.positive|yesnoicon }}</td>
   </tr>
   <tr>
     <th colspan="2">Misc</th>

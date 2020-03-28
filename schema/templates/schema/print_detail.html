@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load yesnoicon %}
 
 {% block content %}
 <table class="table table-hover">
@@ -44,7 +45,7 @@
   </tr>
   <tr>
     <td>Own</td>
-    <td>{{ object.own }}</td>
+    <td>{{ object.own|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Location</td>
@@ -68,7 +69,7 @@
   </tr>
   <tr>
     <td>Fine</td>
-    <td>{{ object.fine }}</td>
+    <td>{{ object.fine|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Notes</td>

@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load yesnoicon %}
 
 {% block content %}
 <h3>Your camera</h3>
@@ -26,7 +27,7 @@
     </tr>
     <tr>
         <td>Own</td>
-        <td>{{ object.own }}</td>
+        <td>{{ object.own|yesnoicon }}</td>
     </tr>
     <tr>
         <td>Lens</td>

@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load yesnoicon %}
 
 {% block content %}
 <table class="table table-hover">
@@ -12,11 +13,11 @@
   </tr>
   <tr>
     <td>For paper</td>
-    <td>{{ object.for_paper }}</td>
+    <td>{{ object.for_paper|yesnoicon }}</td>
   </tr>
   <tr>
     <td>For film</td>
-    <td>{{ object.for_film }}</td>
+    <td>{{ object.for_film|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Chemistry</td>

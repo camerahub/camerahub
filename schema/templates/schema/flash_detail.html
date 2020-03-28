@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load yesnoicon %}
 
 {% block content %}
 <table class="table table-hover">
@@ -20,11 +21,11 @@
   </tr>
   <tr>
     <td>Battery powered</td>
-    <td>{{ object.battery_powered }}</td>
+    <td>{{ object.battery_powered|yesnoicon }}</td>
   </tr>
   <tr>
     <td>PC sync</td>
-    <td>{{ object.pc_sync }}</td>
+    <td>{{ object.pc_sync|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Hot shoe</td>
@@ -32,7 +33,7 @@
   </tr>
   <tr>
     <td>Light stand</td>
-    <td>{{ object.light_stand }}</td>
+    <td>{{ object.light_stand|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Battery type</td>
@@ -44,19 +45,19 @@
   </tr>
   <tr>
     <td>Manual power control</td>
-    <td>{{ object.manual_control }}</td>
+    <td>{{ object.manual_control|yesnoicon}}</td>
   </tr>
   <tr>
     <td>Swivel head</td>
-    <td>{{ object.swivel_head }}</td>
+    <td>{{ object.swivel_head|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Tilt head</td>
-    <td>{{ object.tilt_head }}</td>
+    <td>{{ object.tilt_head|yesnoicon }}</td>
   </tr>
   <tr>
     <td>Zoom</td>
-    <td>{{ object.zoom }}</td>
+    <td>{{ object.zoom|yesnoicon}}</td>
   </tr>
   <tr>
     <td>TTL metering</td>

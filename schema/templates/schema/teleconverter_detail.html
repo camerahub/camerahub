@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load yesnoicon %}
 
 {% block content %}
 <table class="table table-hover">
@@ -28,7 +29,7 @@
   </tr>
   <tr>
     <td>Multicoated</td>
-    <td>{{ object.multicoated }}</td>
+    <td>{{ object.multicoated|yesnoicon }}</td>
   </tr>
 </table>
 {% endblock %}
