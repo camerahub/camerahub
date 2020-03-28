@@ -3,7 +3,7 @@ from django import forms
 from django_currentuser.middleware import (get_current_user, get_current_authenticated_user)
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div, Row, Button
-from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText
+from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
 import sys
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -96,7 +96,6 @@ class CameraForm(ModelForm):
             'datecode',
             'manufactured',
             'own',
-            'lens',
             'notes',
             'lost',
             'lost_price',
@@ -130,11 +129,54 @@ class CameraModelForm(ModelForm):
                 'disambiguation',
                 'introduced',
                 'discontinued',
-                'mount',
-                'fixed_mount',
-                'lensmodel',
                 'format',
                 'negative_size',
+            ),
+            Div(
+                TabHolder(
+                    Tab('Interchangeable lens',
+                        Fieldset(
+                            'Lens mount',
+                            'mount',
+                        ),
+                    ),
+                    Tab('Fixed lens',
+                        Fieldset(
+                            'Lens',
+                            'lens_manufacturer',
+                            'lens_model_name',
+                        ),
+                        Fieldset(
+                            'Optics',
+                            'zoom',
+                            AppendedText('min_focal_length', 'mm'),
+                            AppendedText('max_focal_length', 'mm'),
+                            AppendedText('closest_focus', 'cm'),
+                            PrependedText('max_aperture', 'f/'),
+                            PrependedText('min_aperture', 'f/'),
+                            'elements',
+                            'groups',
+                            AppendedText('nominal_min_angle_diag', '&deg;'),
+                            AppendedText('nominal_max_angle_diag', '&deg;'),
+                            'rectilinear',
+                            AppendedText('image_circle', 'mm'),
+                            'formula',
+                            'aperture_blades',
+                            'coating',
+                            AppendedText('magnification', '&times;'),
+                        ),
+                        Fieldset(
+                            'Physical',
+                            AppendedText('filter_thread', 'mm'),
+                            'hood',
+                        ),
+                        Fieldset(
+                            'Misc',
+                            'exif_lenstype',
+                        ),
+                    ),
+                ),
+                css_class="border",    
             ),
             Fieldset(
                 'Physical',
@@ -373,7 +415,6 @@ class LensModelForm(ModelForm):
                 'manufacturer',
                 'model',
                 'disambiguation',
-                'fixed_mount',
                 'mount',
                 'introduced',
                 'discontinued',

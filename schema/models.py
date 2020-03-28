@@ -728,7 +728,6 @@ class LensModel(models.Model):
   introduced = models.PositiveIntegerField(help_text='Year in which this lens model was introduced', blank=True, null=True)
   discontinued = models.PositiveIntegerField(help_text='Year in which this lens model was discontinued', blank=True, null=True)
   negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True, null=True, help_text='Largest negative size that this lens is designed for')
-  fixed_mount = models.BooleanField(help_text='Whether this is a fixed lens (i.e. on a compact camera)', blank=True, null=True)
   notes = models.CharField(help_text='Freeform notes field', max_length=100, blank=True, null=True)
   coating = models.CharField(choices=CoatingType.choices, help_text='Type of lens coating', max_length=15, blank=True, null=True)
   hood = models.CharField(help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
@@ -762,7 +761,7 @@ class LensModel(models.Model):
   def get_absolute_url(self):
     return reverse('lensmodel-detail', kwargs={'slug': self.slug})
   def description(self):
-    return 'Lens models are any lens that has been marketed'
+    return 'Lens models are any interchangeable lens that has been marketed'
 
   def clean(self):
     # Check focal length
@@ -800,10 +799,6 @@ class LensModel(models.Model):
         'elements': ValidationError(("Can't have more groups than elements")),
         'groups': ValidationError(("Can't have more groups than elements")),
       })
-
-    # Fixed mount vs mount ID
-    if self.fixed_mount == True and self.mount is not None:
-      raise ValidationError({'mount': 'Do not choose a mount when fixed mount is true'})
 
     # Zoom lenses
     if self.zoom == False and self.min_focal_length and self.max_focal_length and self.min_focal_length != self.max_focal_length:
@@ -873,6 +868,12 @@ class CameraModel(models.Model):
     Hot_shoe = ChoiceItem()
     Cold_shoe = ChoiceItem()
 
+  # Choices for focus type
+  class CoatingType(DjangoChoices):
+    Uncoated = ChoiceItem()
+    Single_coated = ChoiceItem()
+    Multi_coated = ChoiceItem()
+
   manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model')
   model = models.CharField(help_text='The model name of the camera', max_length=45)
   disambiguation = models.CharField(help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, null=True)
@@ -892,8 +893,6 @@ class CameraModel(models.Model):
   viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(100)])
   power_drive = models.BooleanField(help_text='Whether the camera has integrated motor drive', blank=True, null=True)
   continuous_fps = models.DecimalField(help_text='The maximum rate at which the camera can shoot, in frames per second', max_digits=4, decimal_places=1, blank=True, null=True)
-  fixed_mount = models.BooleanField(help_text='Whether the camera has a fixed lens', blank=True, null=True)
-  lensmodel = models.ForeignKey(LensModel, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens model attached to this camera model, if it is a fixed-lens camera', limit_choices_to={'fixed_mount': True})
   battery_qty = models.PositiveIntegerField(help_text='Quantity of batteries needed', blank=True, null=True)
   battery_type = models.ForeignKey(Battery, on_delete=models.CASCADE, blank=True, null=True, help_text='Battery type that this camera model needs')
   notes = models.CharField(help_text='Freeform text field for extra notes', max_length=100, blank=True, null=True)
@@ -923,6 +922,30 @@ class CameraModel(models.Model):
   created_by = CurrentUserField(editable=False, related_name='cameramodel_created_by')
   updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
   updated_by = CurrentUserField(on_update=True, editable=False, related_name='cameramodel_updated_by')
+
+  # Fixed lens fields
+  lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this lens model', blank=True, null=True, related_name='lens_manufacturer')
+  lens_model_name = models.CharField(help_text='Model name of this lens', max_length=45, blank=True, null=True)
+  zoom = models.BooleanField(help_text='Whether this is a zoom lens', blank=True, null=True)
+  min_focal_length = models.PositiveIntegerField(help_text='Shortest focal length of this lens, in mm', blank=True, null=True)
+  max_focal_length = models.PositiveIntegerField(help_text='Longest focal length of this lens, in mm', blank=True, null=True)
+  closest_focus = models.PositiveIntegerField(help_text='The closest focus possible with this lens, in cm', blank=True, null=True)
+  max_aperture = models.DecimalField(help_text='Maximum (widest) aperture available on this lens (numerical part only, e.g. 2.8)', max_digits=4, decimal_places=1, blank=True, null=True)
+  min_aperture = models.DecimalField(help_text='Minimum (narrowest) aperture available on this lens (numerical part only, e.g. 22)', max_digits=4, decimal_places=1, blank=True, null=True)
+  elements = models.PositiveIntegerField(help_text='Number of optical lens elements', blank=True, null=True)
+  groups = models.PositiveIntegerField(help_text='Number of optical groups', blank=True, null=True)
+  nominal_min_angle_diag = models.PositiveIntegerField(verbose_name='Min angle of view', help_text='Nominal minimum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(360)])
+  nominal_max_angle_diag = models.PositiveIntegerField(verbose_name='Max angle of view', help_text='Nominal maximum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0),MaxValueValidator(360)])
+  aperture_blades = models.PositiveIntegerField(help_text='Number of aperture blades', blank=True, null=True)
+  filter_thread = models.DecimalField(help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
+  magnification = models.DecimalField(help_text='Maximum magnification ratio of the lens, expressed like 0.765', max_digits=5, decimal_places=3, blank=True, null=True)
+  coating = models.CharField(choices=CoatingType.choices, help_text='Type of lens coating', max_length=15, blank=True, null=True)
+  hood = models.CharField(help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
+  exif_lenstype = models.CharField(help_text='EXIF LensID number, if this lens has one officially registered. See documentation at http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/', max_length=45, blank=True, null=True)
+  rectilinear = models.BooleanField(help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
+  image_circle = models.PositiveIntegerField(help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
+  formula = models.CharField(help_text='Name of the type of lens formula (e.g. Tessar)', max_length=45, blank=True, null=True)
+
   def __str__(self):
     mystr = self.model
     if self.manufacturer is not None:
@@ -944,6 +967,13 @@ class CameraModel(models.Model):
     return super().save(*args, **kwargs)
 
   def clean(self):
+    # Enforce either fixed or interchangeable lens
+    if self.mount is not None and (self.lens_manufacturer is not None or self.lens_manufacturer is not None):
+      raise ValidationError({
+        'mount': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+        'lens_model_name': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+    })
+
     # ISO
     if self.min_iso is not None and self.max_iso is not None and self.min_iso > self.max_iso:
       raise ValidationError({
@@ -984,6 +1014,41 @@ class CameraModel(models.Model):
     if self.int_flash is False and self.int_flash_gn is not None:
       raise ValidationError({
         'int_flash_gn': ValidationError(('Cannot set internal flash guide number if camera model has no internal flash')),
+      })
+
+        # Check focal length
+    if self.min_focal_length is not None and self.max_focal_length is not None and self.min_focal_length > self.max_focal_length:
+      raise ValidationError({
+        'min_focal_length': ValidationError(('Min focal length must be smaller than max focal length')),
+        'max_focal_length': ValidationError(('Max focal length must be larger than min focal length')),
+      })
+
+    # Angle of view
+    if self.nominal_min_angle_diag is not None and self.nominal_max_angle_diag is not None and self.nominal_min_angle_diag > self.nominal_max_angle_diag:
+      raise ValidationError({
+        'nominal_min_angle_diag': ValidationError(('Min angle of view must be smaller than max angle of view')),
+        'nominal_max_angle_diag': ValidationError(('Max angle of view must be larger than min angle of view')),
+      })
+
+    # Groups and elements
+    if self.groups is not None and self.elements is not None and self.elements < self.groups:
+      raise ValidationError({
+        'elements': ValidationError(("Can't have more groups than elements")),
+        'groups': ValidationError(("Can't have more groups than elements")),
+      })
+
+    # Zoom lenses
+    if self.zoom == False and self.min_focal_length and self.max_focal_length and self.min_focal_length != self.max_focal_length:
+      raise ValidationError({
+        'min_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
+        'max_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
+      })
+
+    # Aperture range
+    if self.max_aperture is not None and self.min_aperture is not None and self.max_aperture > self.min_aperture:
+      raise ValidationError({
+        'max_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
+        'min_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
       })
   def get_absolute_url(self):
     return reverse('cameramodel-detail', kwargs={'slug': self.slug})
@@ -1106,7 +1171,6 @@ class Camera(models.Model):
   datecode = models.CharField(help_text='Date code of the camera, if different from the serial number', max_length=45, blank=True, null=True)
   manufactured = models.PositiveIntegerField(help_text='Year of manufacture of the camera', blank=True, null=True)
   own = models.BooleanField(help_text='Whether the camera is currently owned', blank=True, null=True)
-  lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True, help_text='Lens attached to this camera, if it is a fixed-lens camera', limit_choices_to={'lensmodel__fixed_mount': True})
   notes = models.CharField(help_text='Freeform text field for extra notes', max_length=100, blank=True, null=True)
   lost = models.DateField(help_text='Date on which the camera was lost/sold/etc', blank=True, null=True)
   lost_price = MoneyField(help_text='Sale price of the camera', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')

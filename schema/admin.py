@@ -72,7 +72,7 @@ admin.site.register(Camera, CameraAdmin)
 class CameraModelAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
-      'fields': ('manufacturer', 'model', 'mount', 'format', 'body_type', 'weight', ('introduced', 'discontinued'), 'negative_size', 'cable_release', 'viewfinder_coverage', ('power_drive', 'continuous_fps'), 'fixed_mount', 'lensmodel', ('battery_qty', 'battery_type'), 'notes', 'tripod', 'series'),
+      'fields': ('manufacturer', 'model', 'mount', 'format', 'body_type', 'weight', ('introduced', 'discontinued'), 'negative_size', 'cable_release', 'viewfinder_coverage', ('power_drive', 'continuous_fps'), ('battery_qty', 'battery_type'), 'notes', 'tripod', 'series'),
       'description': 'Enter information about this camera model',
     }),
     ('Metering', {
@@ -124,7 +124,7 @@ admin.site.register(Lens, LensAdmin)
 class LensModelAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
-      'fields': ('manufacturer', 'model', 'fixed_mount', 'mount'),
+      'fields': ('manufacturer', 'model', 'mount'),
       'description': 'Enter information about this camera model',
     }),
     ('Optics', {
