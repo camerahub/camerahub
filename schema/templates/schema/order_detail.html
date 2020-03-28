@@ -7,12 +7,8 @@
     <td>{% if object.negative is not None %}<a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <td>Width</td>
-    <td>{{ object.width }}</td>
-  </tr>
-  <tr>
-    <td>Height</td>
-    <td>{{ object.height }}</td>
+    <td>Size</td>
+    <td>{{ object.width }} &times; {{ object.height }}</td>
   </tr>
   <tr>
     <td>Date added</td>

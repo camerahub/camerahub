@@ -16,16 +16,12 @@
     <td>{% if object.paper_stock is not None %}<a href="{% url 'paper_stock-detail' object.paper_stock.id %}">{{ object.paper_stock }}</a>{% endif %}</td>
   </tr>
   <tr>
-    <td>Height</td>
-    <td>{{ object.height }}</td>
-  </tr>
-  <tr>
-    <td>Width</td>
-    <td>{{ object.width }}</td>
+    <td>Size</td>
+    <td>{{ object.width }} &times; {{ object.height }}</td>
   </tr>
   <tr>
     <td>Aperture</td>
-    <td>{{ object.aperture }}</td>
+    <td><em>f</em>/{{ object.aperture }}</td>
   </tr>
   <tr>
     <td>Exposure time</td>

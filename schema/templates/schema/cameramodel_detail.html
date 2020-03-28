@@ -221,7 +221,7 @@ zoom
   <tr>
     <td>Batteries</td>
     <td>{{ object.battery_qty }}
-      {% if object.battery_type is not None %} × <a
+      {% if object.battery_type is not None %} &times; <a
         href="{% url 'battery-detail' object.battery_type.slug %}">{{ object.battery_type }}</a>{% endif %}
     </td>
   </tr>
