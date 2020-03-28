@@ -967,6 +967,13 @@ class CameraModel(models.Model):
     return super().save(*args, **kwargs)
 
   def clean(self):
+    # Enforce either fixed or interchangeable lens
+    if self.mount is not None and (self.lens_manufacturer is not None or self.lens_manufacturer is not None):
+      raise ValidationError({
+        'mount': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+        'lens_model_name': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+    })
+
     # ISO
     if self.min_iso is not None and self.max_iso is not None and self.min_iso > self.max_iso:
       raise ValidationError({
