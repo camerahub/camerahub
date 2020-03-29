@@ -1,4 +1,4 @@
-{% extends "schema/detail.html" %}
+{% extends "detail.html" %}
 
 {% block content %}
 <table class="table table-hover">
@@ -6,26 +6,30 @@
     <td>Name</td>
     <td>{{ object.name }}</td>
   </tr>
+  {% if object.width is not None and object.height is not None %}
   <tr>
-    <td>Width</td>
-    <td>{{ object.width }}</td>
+    <td>Size</td>
+    <td>{{ object.width }} &times; {{ object.height }}mm</td>
   </tr>
-  <tr>
-    <td>Height</td>
-    <td>{{ object.height }}</td>
-  </tr>
+  {% endif %}
+  {% if object.crop_factor is not None %}
   <tr>
     <td>Crop factor</td>
-    <td>{{ object.crop_factor }}</td>
+    <td>{{ object.crop_factor }}&times;</td>
   </tr>
+  {% endif %}
+  {% if object.area is not None %}
   <tr>
     <td>Area</td>
-    <td>{{ object.area }}</td>
+    <td>{{ object.area }}mm&sup2;</td>
   </tr>
+  {% endif %}
+  {% if object.aspect_ratio is not None %}
   <tr>
     <td>Aspect ratio</td>
     <td>{{ object.aspect_ratio }}</td>
   </tr>
+  {% endif %}
   <tr>
     <th colspan="2">Misc</th>
   </tr>

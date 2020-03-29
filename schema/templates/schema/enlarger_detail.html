@@ -1,50 +1,70 @@
-{% extends "schema/detail.html" %}
+{% extends "detail.html" %}
 
 {% block content %}
 <table class="table table-hover">
+  {% if object.manufacturer is not None %}
   <tr>
     <td>Manufacturer</td>
-    <td>{% if object.manufacturer is not None %}<a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a>{% endif %}</td>
+    <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a></td>
   </tr>
+  {% endif %}
   <tr>
     <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
+  {% if object.negative_size is not None %}
   <tr>
     <td>Negative size</td>
-    <td>{% if object.negative_size is not None %}<a href="{% url 'negativesize-detail' object.negative_size.slug %}">{{ object.negative_size }}</a>{% endif %}</td>
+    <td><a href="{% url 'negativesize-detail' object.negative_size.slug %}">{{ object.negative_size }}</a></td>
   </tr>
+  {% endif %}
+  {% if object.type is not None %}
   <tr>
     <td>Type</td>
     <td>{{ object.type }}</td>
   </tr>
+  {% endif %}
+  {% if object.light_source is not None %}
   <tr>
     <td>Light source</td>
     <td>{{ object.light_source }}</td>
   </tr>
+  {% endif %}
+  {% if object.acquired is not None %}
   <tr>
     <td>Acquired</td>
     <td>{{ object.acquired }}</td>
   </tr>
+  {% endif %}
+  {% if object.lost is not None %}
   <tr>
     <td>Lost</td>
     <td>{{ object.lost }}</td>
   </tr>
+  {% endif %}
+  {% if object.introduced is not None %}
   <tr>
     <td>Introduced</td>
     <td>{{ object.introduced }}</td>
   </tr>
+  {% endif %}
+  {% if object.discontinued is not None %}
   <tr>
     <td>Discontinued</td>
     <td>{{ object.discontinued }}</td>
   </tr>
+  {% endif %}
+    {% if object.cost is not None %}
   <tr>
     <td>Cost</td>
     <td>{{ object.cost }}</td>
   </tr>
+  {% endif %}
+  {% if object.lens is not None %}
   <tr>
     <td>Lost price</td>
     <td>{{ object.lost_price }}</td>
   </tr>
+  {% endif %}
 </table>
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "schema/detail.html" %}
+{% extends "detail.html" %}
 
 {% block content %}
 <table class="table table-hover">
@@ -6,18 +6,24 @@
     <td>Name</td>
     <td>{{ object.name }}</td>
   </tr>
+  {% if object.manufacturer is not None %}
   <tr>
     <td>Manufacturer</td>
-    <td>{% if object.manufacturer is not None %}<a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a>{% endif %}</td>
+    <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a></td>
   </tr>
+  {% endif %}
+  {% if object.formulation is not None %}
   <tr>
     <td>Formulation</td>
     <td>{{ object.formulation }}</td>
   </tr>
+  {% endif %}
+  {% if object.stock_dilution is not None %}
   <tr>
     <td>Stock dilution</td>
     <td>{{ object.stock_dilution }}</td>
   </tr>
+  {% endif %}
   <tr>
     <th colspan="2">Misc</th>
   </tr>
