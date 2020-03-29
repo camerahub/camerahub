@@ -12,22 +12,30 @@
     <td>{% if object.manufacturer is not None %}<a
         href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
+  {% if object.iso is not None %}
   <tr>
     <td>ISO</td>
     <td>{{ object.iso }}</td>
   </tr>
+  {% endif %}
+  {% if object.colour is not None %}
   <tr>
     <td>Colour</td>
     <td>{{ object.colour|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.panchromatic is not None %}
   <tr>
     <td>Panchromatic</td>
     <td>{{ object.panchromatic|yesnoicon}}</td>
   </tr>
+  {% endif %}
+  {% if object.process is not None %}
   <tr>
     <td>Process</td>
     <td>{{ object.process }}</td>
   </tr>
+  {% endif %}
   <tr>
     <th colspan="2">Misc</th>
   </tr>

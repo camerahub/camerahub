@@ -6,18 +6,24 @@
     <td>Battery name</td>
     <td>{{ object.name }}</td>
   </tr>
+  {% if object.voltage is not None %}
   <tr>
     <td>Voltage</td>
     <td>{{ object.voltage }}V</td>
   </tr>
+  {% endif %}
+  {% if object.chemistry is not None %}
   <tr>
     <td>Chemistry</td>
     <td>{{ object.chemistry }}</td>
   </tr>
+  {% endif %}
+  {% if object.compatible_with is not None %}
   <tr>
     <td>Compatible with</td>
     <td>{{ object.compatible_with.all|join:", " }}</td>
   </tr>
+  {% endif %}
   <tr>
     <th colspan="2">Misc</th>
   </tr>

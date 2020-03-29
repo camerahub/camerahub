@@ -11,17 +11,23 @@
     <td>Lens mount</td>
     <td>{% if object.lens_mount is not None %}<a href="{% url 'mount-detail' object.lens_mount.slug %}">{{ object.lens_mount }}</a>{% endif %}</td>
   </tr>
+  {% if object.has_optics is not None %}
   <tr>
     <td>Has optics</td>
     <td>{{ object.has_optics|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.infinity_focus is not None %}
   <tr>
     <td>Infinity focus</td>
     <td>{{ object.infinity_focus|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.notes is not None %}
   <tr>
     <td>Notes</td>
     <td>{{ object.notes }}</td>
   </tr>
+  {% endif %}
 </table>
 {% endblock %}

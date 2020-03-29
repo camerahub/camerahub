@@ -10,21 +10,29 @@
     <td>Size</td>
     <td>{{ object.width }} &times; {{ object.height }}</td>
   </tr>
+  {% if object.added is not None %}
   <tr>
     <td>Date added</td>
     <td>{{ object.added }}</td>
   </tr>
+  {% endif %}
+  {% if object.printed is not None %}
   <tr>
     <td>Date printed</td>
     <td>{{ object.printed }}</td>
   </tr>
+  {% endif %}
+  {% if object.print is not None %}
   <tr>
     <td>Print</td>
     <td>{{ object.print }}</td>
   </tr>
+  {% endif %}
+  {% if object.recipient is not None %}
   <tr>
     <td>Recipient</td>
     <td>{{ object.recipient }}</td>
   </tr>
+  {% endif %}
 </table>
 {% endblock %}

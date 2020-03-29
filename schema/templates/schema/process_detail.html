@@ -7,14 +7,18 @@
     <td>Process name</td>
     <td>{{ object.name }}</td>
   </tr>
+  {% if object.colour is not None %}
   <tr>
     <td>Colour</td>
     <td>{{ object.colour|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.positive is not None %}
   <tr>
     <td>Positive</td>
     <td>{{ object.positive|yesnoicon }}</td>
   </tr>
+  {% endif %}
   <tr>
     <th colspan="2">Misc</th>
   </tr>

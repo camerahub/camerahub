@@ -6,10 +6,12 @@
     <td>Film format</td>
     <td>{{ object.format }}</td>
   </tr>
+  {% if object.negative_size is not None %}
   <tr>
     <td>Negative size</td>
     <td>{{ object.negative_size.all|join:", " }}</td>
   </tr>
+  {% endif %}
   <tr>
     <th colspan="2">Misc</th>
   </tr>

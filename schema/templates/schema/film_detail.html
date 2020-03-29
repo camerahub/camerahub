@@ -7,89 +7,129 @@
     <td>{% if object.filmstock is not None %}<a
         href="{% url 'filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a>{% endif %}</td>
   </tr>
+  {% if object.exposed_at is not None %}
   <tr>
     <td>Exposed at</td>
     <td>{{ object.exposed_at }}</td>
   </tr>
+  {% endif %}
+  {% if object.format is not None %}
   <tr>
     <td>Film format</td>
     <td>{% if object.format is not None %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}
     </td>
   </tr>
+  {% endif %}
+  {% if object.date_loaded is not None %}
   <tr>
     <td>Date loaded</td>
     <td>{{ object.date_loaded }}</td>
   </tr>
+  {% endif %}
+  {% if object.date_processed is not None %}
   <tr>
     <td>Date processed</td>
     <td>{{ object.date_processed }}</td>
   </tr>
+  {% endif %}
+  {% if object.camera is not None %}
   <tr>
     <td>Camera</td>
     <td>{% if object.camera is not None %}<a href="{% url 'camera-detail' object.camera.id %}">{{ object.camera }}</a>{% endif %}
     </td>
   </tr>
+  {% endif %}
+  {% if object.title is not None %}
   <tr>
     <td>Title</td>
     <td>{{ object.title }}</td>
   </tr>
+  {% endif %}
+  {% if object.frames is not None %}
   <tr>
     <td>Frames</td>
     <td>{{ object.frames }}</td>
   </tr>
+  {% endif %}
+  {% if object.developer is not None %}
   <tr>
     <td>Developer</td>
     <td>{% if object.developer is not None %}<a
         href="{% url 'developer-detail' object.developer.slug %}">{{ object.developer }}</a>{% endif %}</td>
   </tr>
+  {% endif %}
+  {% if object.directory is not None %}
   <tr>
     <td>Directory</td>
     <td>{{ object.directory }}</td>
   </tr>
+  {% endif %}
+  {% if object.dev_uses is not None %}
   <tr>
     <td>Developer uses</td>
     <td>{{ object.dev_uses }}</td>
   </tr>
+  {% endif %}
+  {% if object.dev_time is not None %}
   <tr>
     <td>Development time</td>
     <td>{{ object.dev_time }}</td>
   </tr>
+  {% endif %}
+  {% if object.dev_temp is not None %}
   <tr>
     <td>Development temperature</td>
     <td>{{ object.dev_temp }}°C</td>
   </tr>
+  {% endif %}
+  {% if object.dev_n is not None %}
   <tr>
     <td>Development compensation</td>
     <td>{{ object.dev_n }}</td>
   </tr>
+  {% endif %}
+  {% if object.developerment_notes is not None %}
   <tr>
     <td>Development notes</td>
     <td>{{ object.development_notes }}</td>
   </tr>
+  {% endif %}
+  {% if object.bulk_film is not None %}
   <tr>
     <td>Bulk film</td>
     <td>{{ object.bulk_film }}</td>
   </tr>
+  {% endif %}
+  {% if object.bulk_film_loaded is not None %}
   <tr>
     <td>Bulk film loaded</td>
     <td>{{ object.bulk_film_loaded }}</td>
   </tr>
+  {% endif %}
+  {% if object.film_batch is not None %}
   <tr>
     <td>Batch code</td>
     <td><code>{{ object.film_batch }}</code></td>
   </tr>
+  {% endif %}
+  {% if object.expiry_date is not None %}
   <tr>
     <td>Expiry date</td>
     <td>{{ object.expiry_date }}</td>
   </tr>
+  {% endif %}
+  {% if object.purchase_date is not None %}
   <tr>
     <td>Purchase date</td>
     <td>{{ object.purchase_date }}</td>
   </tr>
+  {% endif %}
+  {% if object.price is not None %}
   <tr>
     <td>Price</td>
     <td>{{ object.price }}</td>
   </tr>
+  {% endif %}
   <tr>
     <td>Processed by</td>
     <td>{% if object.processed_by is not None %}<a

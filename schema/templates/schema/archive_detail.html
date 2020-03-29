@@ -4,29 +4,31 @@
 {% block content %}
 <table class="table table-hover">
   <tr>
-    <td>Archive type</td>
-    <td>{{ object.type }}</td>
-  </tr>
-  <tr>
     <td>Archive name</td>
     <td>{{ object.name }}</td>
   </tr>
   <tr>
-    <td>Max width</td>
-    <td>{{ object.max_width }}</td>
+    <td>Archive type</td>
+    <td>{{ object.type }}</td>
   </tr>
+  {% if object.max_width is not None %}
   <tr>
     <td>Max object size</td>
     <td>{{ object.max_width }} &times; {{ object.max_height }}</td>
   </tr>
+  {% endif %}
+  {% if object.location is not None %}
   <tr>
     <td>Location</td>
     <td>{{ object.location }}</td>
   </tr>
+  {% endif %}
+  {% if object.storage is not None %}
   <tr>
     <td>Storage</td>
     <td>{{ object.storage }}</td>
   </tr>
+  {% endif %}
   <tr>
     <td>Sealed</td>
     <td>{{ object.sealed|yesnoicon }}</td>

@@ -7,25 +7,35 @@
     <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
+  {% if object.manufacturer is not None %}
   <tr>
     <td>Manufacturer</td>
     <td>{% if object.manufacturer is not None %}<a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a>{% endif %}</td>
   </tr>
+  {% endif %}
+  {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
     <td>{% if object.mount is not None %}<a href="{% url 'mount-detail' object.mount.slug %}">{{ object.mount }}</a>{% endif %}</td>
   </tr>
+  {% endif %}
+  {% if object.factor is not None %}
   <tr>
     <td>Factor</td>
-    <td>{{ object.factor }}</td>
+    <td>{{ object.factor }}&times;</td>
   </tr>
+  {% endif %}
+  {% if object.elements is not None %}
   <tr>
-    <td>Elements</td>
+    <td>Elements/Groups</td>
     <td>{{ object.elements }}/{{ object.groups }}</td>
   </tr>
+  {% endif %}
+  {% if object.multicoated is not None %}
   <tr>
     <td>Multicoated</td>
     <td>{{ object.multicoated|yesnoicon }}</td>
   </tr>
+  {% endif %}
 </table>
 {% endblock %}

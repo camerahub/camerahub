@@ -11,18 +11,24 @@
     <td>Name</td>
     <td>{{ object.name }}</td>
   </tr>
+  {% if object.for_paper is not None %}
   <tr>
     <td>For paper</td>
     <td>{{ object.for_paper|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.for_film is not None %}
   <tr>
     <td>For film</td>
     <td>{{ object.for_film|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.chemistry is not None %}
   <tr>
     <td>Chemistry</td>
     <td>{{ object.chemistry }}</td>
   </tr>
+  {% endif %}
   <tr>
     <th colspan="2">Misc</th>
   </tr>

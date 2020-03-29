@@ -6,9 +6,11 @@
     <td>Type</td>
     <td>{{ object.type }}</td>
   </tr>
+  {% if object.attenuations is not None %}
   <tr>
     <td>Attenuation</td>
     <td>{{ object.attenuation }}</td>
   </tr>
+  {% endif %}
 </table>
 {% endblock %}

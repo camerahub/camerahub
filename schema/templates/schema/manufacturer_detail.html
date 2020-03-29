@@ -6,26 +6,36 @@
     <td>Name</td>
     <td>{{ object.name }}</td>
   </tr>
+  {% if object.city is not None %}
   <tr>
     <td>City</td>
     <td>{{ object.city }}</td>
   </tr>
+  {% endif %}
+  {% if object.country is not None %}
   <tr>
     <td>Country</td>
     <td>{{ object.country }}</td>
   </tr>
+  {% endif %}
+  {% if object.url is not None %}
   <tr>
     <td>URL</td>
     <td><a href="{{ object.url }}">{{ object.url }}</a></td>
   </tr>
+  {% endif %}
+  {% if object.founded is not None %}
   <tr>
     <td>Founded</td>
     <td>{{ object.founded }}</td>
   </tr>
+  {% endif %}
+  {% if object.dissolved is not None %}
   <tr>
     <td>Dissolved</td>
     <td>{{ object.dissolved }}</td>
   </tr>
+  {% endif %}
   <tr>
     <th colspan="2">Misc</th>
   </tr>

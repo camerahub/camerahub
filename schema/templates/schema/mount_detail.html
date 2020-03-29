@@ -7,22 +7,30 @@
     <td>Mount</td>
     <td>{{ object.mount }}</td>
   </tr>
+  {% if object.shutter_in_lens is not None %}
   <tr>
     <td>Shutter in lens</td>
     <td>{{ object.shutter_in_lens|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.type is not None %}
   <tr>
     <td>Type</td>
     <td>{{ object.type }}</td>
   </tr>
+  {% endif %}
+  {% if object.purpose is not None %}
   <tr>
     <td>Purpose</td>
     <td>{{ object.purpose }}</td>
   </tr>
+  {% endif %}
+  {% if object.notes is not None %}
   <tr>
     <td>Notes</td>
     <td>{{ object.notes }}</td>
   </tr>
+  {% endif %}
   <tr>
     <td>Manufacturer</td>
     <td>{% if object.manufacturer is not None %}<a
