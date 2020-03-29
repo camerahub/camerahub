@@ -3,10 +3,12 @@
 
 {% block content %}
 <table class="table table-hover">
+  {% if object.lensmodel is not None %}
   <tr>
     <td>Lens model</td>
-    <td>{% if object.lensmodel is not None %}<a href="{% url 'lensmodel-detail' object.lensmodel.slug %}">{{ object.lensmodel }}</a>{% endif %}</td>
+    <td><a href="{% url 'lensmodel-detail' object.lensmodel.slug %}">{{ object.lensmodel }}</a></td>
   </tr>
+  {% endif %}
   {% if object.serial is not None %}
   <tr>
     <td>Serial number</td>

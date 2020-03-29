@@ -2,14 +2,18 @@
 
 {% block content %}
 <table class="table table-hover">
+  {% if object.camera is not None %}
   <tr>
     <td>Camera</td>
-    <td>{% if object.camera is not None %}<a href="{% url 'camera-detail' object.camera.id %}">{{ object.camera }}</a>{% endif %}</td>
+    <td><a href="{% url 'camera-detail' object.camera.id %}">{{ object.camera }}</a></td>
   </tr>
+  {% endif %}
+  {% if object.lens is not None %}
   <tr>
     <td>Lens</td>
-    <td>{% if object.lens is not None %}<a href="{% url 'lens-detail' object.lens.id %}">{{ object.lens }}</a>{% endif %}</td>
+    <td><a href="{% url 'lens-detail' object.lens.id %}">{{ object.lens }}</a></td>
   </tr>
+  {% endif %}
   {% if object.date is not None %}
   <tr>
     <td>Date</td>

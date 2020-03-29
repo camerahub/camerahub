@@ -2,16 +2,18 @@
 
 {% block content %}
 <table class="table table-hover">
+  {% if object.format is not None %}
   <tr>
     <td>Film format</td>
-    <td>{% if object.format is not None %}<a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>{% endif %}
-    </td>
+    <td><a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a></td>
   </tr>
+  {% endif %}
+  {% if object.filmstock is not None %}
   <tr>
     <td>Filmstock</td>
-    <td>{% if object.filmstock is not None %}<a
-        href="{% url 'filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a>{% endif %}</td>
+    <td><a href="{% url 'filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a></td>
   </tr>
+  {% endif %}
   {% if object.purchase_date is not None %}
   <tr>
     <td>Purchase date</td>

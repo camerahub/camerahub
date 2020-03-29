@@ -2,10 +2,12 @@
 
 {% block content %}
 <table class="table table-hover">
+  {% if object.negative is not None %}
   <tr>
     <td>Negative</td>
-    <td>{% if object.negative is not None %}<a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a>{% endif %}</td>
+    <td><a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a></td>
   </tr>
+  {% endif %}
   <tr>
     <td>Size</td>
     <td>{{ object.width }} &times; {{ object.height }}</td>

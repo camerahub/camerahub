@@ -2,11 +2,12 @@
 
 {% block content %}
 <table class="table table-hover">
+  {% if object.film is not None %}
   <tr>
     <td>Film</td>
-    <td>{{ object.film }}</td>
-    <td>{% if object.film is not None %}<a href="{% url 'film-detail' object.film.id %}">{{ object.film }}</a>{% endif %}</td>
+    <td><a href="{% url 'film-detail' object.film.id %}">{{ object.film }}</a></td>
   </tr>
+  {% endif %}
   <tr>
     <td>Frame</td>
     <td>{{ object.frame }}</td>
