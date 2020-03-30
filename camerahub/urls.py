@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from watson import urls
 
 urlpatterns = [
     path('', include('schema.urls')),
@@ -23,7 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('search/', include('watson.urls', namespace="watson")),
     path('', include('favicon.urls')),
 ]
 
