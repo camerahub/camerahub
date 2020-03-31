@@ -16,7 +16,7 @@ admin.site.site_url = None
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from schema.models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
+from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
 
 # Define inlines that can be embedded into other admin pages
 class CameraInline(admin.TabularInline):
@@ -72,7 +72,7 @@ admin.site.register(Camera, CameraAdmin)
 class CameraModelAdmin(admin.ModelAdmin):
   fieldsets = (
     (None, {
-      'fields': ('manufacturer', 'model', 'mount', 'format', 'body_type', 'weight', ('introduced', 'discontinued'), 'negative_size', 'cable_release', 'viewfinder_coverage', ('power_drive', 'continuous_fps'), ('battery_qty', 'battery_type'), 'notes', 'tripod', 'series'),
+      'fields': ('manufacturer', 'model', 'mount', 'format', 'body_type', 'weight', ('introduced', 'discontinued'), 'negative_size', 'cable_release', 'viewfinder_coverage', ('power_drive', 'continuous_fps'), ('battery_qty', 'battery_type'), 'notes', 'tripod'),
       'description': 'Enter information about this camera model',
     }),
     ('Metering', {
@@ -91,10 +91,10 @@ class CameraModelAdmin(admin.ModelAdmin):
   inlines = [
     CameraInline,
   ]
-  filter_horizontal = ('metering_modes', 'exposure_programs', 'series', 'shutter_speeds')
+  filter_horizontal = ('metering_modes', 'exposure_programs', 'shutter_speeds')
   search_fields = ['manufacturer__name', 'model', 'notes']
   list_display = ('__str__', 'mount', 'format', 'body_type', 'introduced')
-  list_filter = ('manufacturer__name', 'mount', 'format', 'body_type', 'series')
+  list_filter = ('manufacturer__name', 'mount', 'format', 'body_type')
 admin.site.register(CameraModel, CameraModelAdmin)
 
 admin.site.register(Developer)
@@ -134,13 +134,12 @@ class LensModelAdmin(admin.ModelAdmin):
       'fields': ('length', 'diameter', 'weight'),
     }),
     ('Other', {
-      'fields': ('aperture_blades', 'autofocus', 'filter_thread', 'url', 'introduced', 'discontinued', 'negative_size', 'notes', 'coating', 'hood', 'exif_lenstype', 'rectilinear', 'image_circle', 'formula', 'shutter_model', 'series'),
+      'fields': ('aperture_blades', 'autofocus', 'filter_thread', 'url', 'introduced', 'discontinued', 'negative_size', 'notes', 'coating', 'hood', 'exif_lenstype', 'rectilinear', 'image_circle', 'formula', 'shutter_model'),
     })
   )
   inlines = [
     LensInline,
   ]
-  filter_horizontal = ('series',)
   search_fields = ['manufacturer__name', 'model', 'notes']
   list_display = ('__str__', 'mount', 'min_focal_length', 'max_aperture', 'introduced')
   list_filter = ('manufacturer__name', 'mount')
@@ -248,10 +247,6 @@ class FilmAdmin(admin.ModelAdmin):
   ]
   exclude = ('owner',)
 admin.site.register(Film, FilmAdmin)
-
-class SeriesAdmin(admin.ModelAdmin):
-  exclude = ('owner',)
-admin.site.register(Series, SeriesAdmin)
 
 class ShutterSpeedAdmin(admin.ModelAdmin):
   readonly_fields = ('duration',)

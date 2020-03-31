@@ -38,7 +38,6 @@ my %newnames = (
 	'icons8-lab-items'				=> ['process'],
 	'icons8-screwdriver'			=> ['repair'],
 	'icons8-jpg'					=> ['scan'],
-	'icons8-diversity'				=> ['series'],
 	'icons8-exposure'				=> ['shutterspeed'],
 	'icons8-small-lens'				=> ['teleconverter'],
 	'icons8-test-tube'				=> ['toner'],

@@ -9,7 +9,7 @@ import sys
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from schema.models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
+from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
 
 class AccessoryForm(ModelForm):
     class Meta:
@@ -235,7 +235,6 @@ class CameraModelForm(ModelForm):
             Fieldset(
                 'Misc',
                 'notes',
-                'series',
             ),
             FormActions(
                 Submit('save', 'Save changes'),
@@ -454,7 +453,6 @@ class LensModelForm(ModelForm):
                 'notes',
                 'exif_lenstype',
                 'url',
-                'series',
             ),
             FormActions(
                 Submit('save', 'Save changes'),
@@ -737,15 +735,6 @@ class FilmForm(ModelForm):
             fields.remove('filmstock')
             fields.remove('developer')
             fields.remove('format')
-
-class SeriesForm(ModelForm):
-    class Meta:
-        model = Series
-        fields = ['name']
-    def __init__(self, *args, **kwargs):
-        super(SeriesForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.layout.append(Submit('Save', 'Save'))
 
 class TeleconverterForm(ModelForm):
     class Meta:
