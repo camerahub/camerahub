@@ -175,6 +175,11 @@ class CameraCreate(LoginRequiredMixin, CreateView):
     form_class = CameraForm
     template_name = 'create.html'
 
+    def get_initial(self):
+        initial = super(CameraCreate, self).get_initial()
+        initial.update({'cameramodel': self.request.GET['cameramodel']})
+        return initial
+
 
 class CameraUpdate(LoginRequiredMixin, UpdateView):
     model = Camera
