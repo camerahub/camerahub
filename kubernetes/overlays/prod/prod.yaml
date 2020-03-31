@@ -29,5 +29,5 @@ spec:
   template:
     spec:
       containers:
-        - image: djjudas21/camerahub:0.5.0
+        - image: djjudas21/camerahub:0.6.0
           name: camerahub
