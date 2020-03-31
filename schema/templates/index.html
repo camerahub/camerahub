@@ -12,8 +12,16 @@
 </div>
 
 <div class="jumbotron">
-    <h1 class="display-4">Welcome to CameraHub</h1>
-    <p class="lead">an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
+    <div class="row">
+        <div class="col-sm-9">
+            <h1 class="display-4">Welcome to CameraHub</h1>
+            <p class="lead">an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
+        </div>
+        <div class="col-sm-3">
+            <img src="{% static "svg/camera.svg" %}" class="float-right img-fluid" style="max-width:128px"
+                alt="CameraHub">
+        </div>
+    </div>
     <hr class="my-4">
     {% if user.is_authenticated %}
     <p>Browse and track your collection using the menus above.</p>
