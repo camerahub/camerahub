@@ -380,6 +380,11 @@ class LensCreate(LoginRequiredMixin, CreateView):
     form_class = LensForm
     template_name = 'create.html'
 
+    def get_initial(self):
+        initial = super(LensCreate, self).get_initial()
+        initial.update({'lensmodel': self.request.GET['lensmodel']})
+        return initial
+
 
 class LensUpdate(LoginRequiredMixin, UpdateView):
     model = Lens
