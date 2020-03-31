@@ -117,8 +117,6 @@ class CameraForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
-        self.fields['lens'].queryset = Lens.objects.filter(
-            owner=get_current_user())
         self.fields['display_lens'].queryset = Lens.objects.filter(
             owner=get_current_user())
         self.helper = FormHelper(self)
