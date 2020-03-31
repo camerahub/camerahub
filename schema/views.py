@@ -7,6 +7,7 @@ from django_tables2 import SingleTableView, RequestConfig
 from django_tables2.views import SingleTableMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
+from watson.views import SearchMixin
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
@@ -788,3 +789,9 @@ class StatsView(TemplateView):
         context['num_lens_models'] = LensModel.objects.count
         context['num_filmstocks'] = FilmStock.objects.count
         return context
+
+class SearchView(SearchMixin, generic.ListView):
+
+    """View that performs a search and returns the search results."""
+
+    template_name = "search.html"

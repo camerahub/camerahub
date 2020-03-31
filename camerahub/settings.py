@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'moderation',
     'fullurl',
     'django_filters',
+    'watson',
 ]
 
 MIDDLEWARE = [
