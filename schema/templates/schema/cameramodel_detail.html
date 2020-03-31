@@ -310,20 +310,6 @@ zoom
     <td>{{ object.notes }}</td>
   </tr>
   {% endif %}
-  {% if object.series is not None %}
-  <tr>
-    <td>Series</td>
-    <td>
-      {% if object.series is None %}
-      <ul>
-        {% for series in object.series.all %}
-        <li>{{ series.name }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-    </td>
-  </tr>
-  {% endif %}
   {% if object.created_at is not None %}
   <tr>
     <td>Created</td>

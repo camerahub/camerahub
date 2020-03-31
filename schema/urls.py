@@ -150,11 +150,6 @@ urlpatterns = [
   path('film/create/', views.FilmCreate.as_view(), name='film-create'),
   path('film/<int:pk>/update', views.FilmUpdate.as_view(), name='film-update'),
   
-  path('series/', views.SeriesList.as_view(), name='series-list'),
-  path('series/<int:pk>', views.SeriesDetail.as_view(), name='series-detail'),
-  path('series/create/', views.SeriesCreate.as_view(), name='series-create'),
-  path('series/<int:pk>/update', views.SeriesUpdate.as_view(), name='series-update'),
-  
   path('teleconverter/', views.TeleconverterList.as_view(), name='teleconverter-list'),
   path('teleconverter/<int:pk>', views.TeleconverterDetail.as_view(), name='teleconverter-detail'),
   path('teleconverter/create/', views.TeleconverterCreate.as_view(), name='teleconverter-create'),

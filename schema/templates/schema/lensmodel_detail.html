@@ -206,19 +206,6 @@
     <td><a href="{{ object.url }}">{{ object.url }}</a></td>
   </tr>
   {% endif %}
-  {% if object.series is not None %}
-  <tr>
-    <td>Series</td>
-    <td>
-      <ul>
-        {% for series in object.series.all %}
-        <li>{{ series.name }}</li>
-        {% endfor %}
-      </ul>
-
-    </td>
-  </tr>
-  {% endif %}
   {% if object.created_at is not None %}
   <tr>
     <td>Created</td>

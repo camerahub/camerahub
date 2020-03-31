@@ -265,21 +265,6 @@ class Format(models.Model):
   def description(self):
     return 'Format is the type of film a camera uses. It is a bit different from negative size as one film format can be used for various different negative sizes.'
 
-# Table to list all series of cameras and lenses
-class Series(models.Model):
-  name = models.CharField(help_text='Name of this collection, e.g. Canon FD SLRs', max_length=45, unique=True)
-  owner = CurrentUserField(editable=False)
-  id_owner = AutoSequenceField(unique_with='owner', editable=False)
-  def __str__(self):
-    return self.name
-  class Meta:
-    ordering = ['name']
-    verbose_name_plural = "series"
-  def get_absolute_url(self):
-    return reverse('series-detail', kwargs={'pk': self.pk})
-  def description(self):
-    return 'Series are arbitrary groups that you can sort your cameras and lenses into. Example series might be Canon SLRs or Japanese lenses.'
-
 # Table to catalog flashes, flashguns and speedlights
 class Flash(models.Model):
   model = models.CharField(help_text='Model name/number of the flash', max_length=45)
@@ -738,7 +723,6 @@ class LensModel(models.Model):
   image_circle = models.PositiveIntegerField(help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
   formula = models.CharField(help_text='Name of the type of lens formula (e.g. Tessar)', max_length=45, blank=True, null=True)
   shutter_model = models.CharField(help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
-  series = models.ManyToManyField(Series, blank=True)
   slug = models.SlugField(editable=False, null=True, unique=True)
   created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
   created_by = CurrentUserField(editable=False, related_name='lensmodel_created_by')
@@ -916,7 +900,6 @@ class CameraModel(models.Model):
   shutter_speeds = models.ManyToManyField(ShutterSpeed, blank=True)
   metering_modes = models.ManyToManyField(MeteringMode, blank=True)
   exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
-  series = models.ManyToManyField(Series, blank=True)
   slug = models.SlugField(editable=False, null=True, unique=True)
   created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
   created_by = CurrentUserField(editable=False, related_name='cameramodel_created_by')

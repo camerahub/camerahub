@@ -6,7 +6,7 @@ from django.urls import reverse
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from schema.models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
+from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
 
 
 class AccessoryTable(tables.Table):
@@ -317,15 +317,6 @@ class FilmTable(tables.Table):
 
     def render_format(self, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('format-detail', args=[value.id]), value)
-
-
-class SeriesTable(tables.Table):
-    class Meta:
-        model = Series
-        fields = ('name',)
-
-    def render_name(self, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('series-detail', args=[record.id]), value)
 
 
 class TeleconverterTable(tables.Table):

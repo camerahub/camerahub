@@ -12,17 +12,17 @@ from watson.views import SearchMixin
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from schema.models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
+from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
 
 from schema.tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, FilmStockTable, FilterTable
 from schema.tables import FlashTable, FlashProtocolTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
 from schema.tables import MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable
-from schema.tables import ProcessTable, RepairTable, ScanTable, NegativeTable, FilmTable, SeriesTable, TeleconverterTable, TonerTable
+from schema.tables import ProcessTable, RepairTable, ScanTable, NegativeTable, FilmTable, TeleconverterTable, TonerTable
 
 from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
 from schema.forms import FlashForm, FlashProtocolForm, FormatForm, LensForm, LensModelForm, ManufacturerForm
 from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
-from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, SeriesForm, TeleconverterForm, TonerForm
+from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, TeleconverterForm, TonerForm
 
 from schema.filters import AccessoryFilter, BatteryFilter, BulkFilmFilter, CameraFilter, CameraModelFilter, DeveloperFilter
 from schema.filters import EnlargerFilter, FilmFilter, FilmStockFilter, FlashFilter, LensFilter, LensModelFilter
@@ -704,33 +704,6 @@ class FilmCreate(LoginRequiredMixin, CreateView):
 class FilmUpdate(LoginRequiredMixin, UpdateView):
     model = Film
     form_class = FilmForm
-    template_name = 'update.html'
-
-
-class SeriesList(LoginRequiredMixin, SingleTableListView):
-    model = Series
-    table_class = SeriesTable
-
-    def get_queryset(self):
-        if self.request.user.is_authenticated:
-            return Series.objects.filter(owner=self.request.user)
-        else:
-            return Series.objects.none()
-
-
-class SeriesDetail(LoginRequiredMixin, generic.DetailView):
-    model = Series
-
-
-class SeriesCreate(LoginRequiredMixin, CreateView):
-    model = Series
-    form_class = SeriesForm
-    template_name = 'create.html'
-
-
-class SeriesUpdate(LoginRequiredMixin, UpdateView):
-    model = Series
-    form_class = SeriesForm
     template_name = 'update.html'
 
 
