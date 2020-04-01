@@ -20,10 +20,6 @@ deploy:
   skip_existing: true
   skip_cleanup: true
   distributions: sdist bdist_wheel
-- provider: script
-  script: echo "$DOCKER_PASSWORD" | docker login -u djjudas21 --password-stdin && docker push djjudas21/camerahub && docker tag djjudas21/camerahub djjudas21/camerahub:$TRAVIS_TAG && docker push djjudas21/camerahub:$TRAVIS_TAG
-  on:
-    tags: true
 env:
   global:
     secure: HHdnv3gD2mjRGUJohnxK3WBMJFXyKrgxvC8qyqzCJK3ctZdTNNi8yLnohPWnFk8dhy3iCUjMQZCardc6QBNnM1hcBJllGsLYRnmp4jjDVJMrwKuPkyzrlttGKOk35KmZZRWtcaueEBxRSZLXIbiIURgsqxnGzTK7vpRUsUr4w8hOSMFW4L6fBCUHbVsj9u2s8lTmsyORzGU0I6OXlX550MoCKGp64mI17dkPgg3+DN53f50Ya6dYDR2Sp4Xud09EFH7SObzSl2TivC3cdoAkQgGTRmpMQ11DIpjgOALkMf4lV63l0nSBn9nQ9bgfqnm96i1HuuWoENETHXEkP0znioJJfNtJBF+UaI0eyI6kFGCmOO2g6fK2SUCD9L2DNWKSoR1ubbckIgVcDmNWX1vDl2I3zcjTvqwMqzEdczQ0694Rn6W5aJqSbb/nrPE2CIkuXem56RAqz5Kc6a3FzIlRpNBc8+Gm9Fb4XQcEshkXQTxDL5K4KB+Baz6WDr4NAajTzG3hWCL4FJUH0w5Z7gDL+IZDNDXg6KsaAdBtPnbsX02VQ3xttbGRk310UTSxeyZeNDoHjj/2n5ZEK24btWOGVD2teLxA6AmKuUn0LPz2gjxhuxn92ZaNYuy3CMBTuACCrIpf48ls6qXJ1W/lqc6gpGwUbVGCuri0z4XWU8TNuSk=
