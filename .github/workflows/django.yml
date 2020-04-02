@@ -40,8 +40,13 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Build Python package
       run: |
-        python setup.py sdist
-        python setup.py bdist_wheel
+        pip install wheel
+        python setup.py sdist bdist_wheel
+    - name: Upload Python artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: dist
+        path: dist
     - name: Build Docker image
       uses: docker/build-push-action@v1
       with:
@@ -49,11 +54,16 @@ jobs:
         tags: testing
         push: false
   publish:
+    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
     runs-on: ubuntu-latest
     needs: build
     steps:
+    - uses: actions/checkout@v2
+    - name: Download Python artifacts
+      uses: actions/download-artifact@v1
+      with:
+        name: dist
     - name: Publish to Docker Hub
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: docker/build-push-action@v1
       with:
         username: djjudas21
@@ -62,7 +72,6 @@ jobs:
         tag_with_ref: true
         tag: latest
     - name: Publish to PyPI
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
       with:
         user: __token__
