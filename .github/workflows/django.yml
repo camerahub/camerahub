@@ -31,9 +31,32 @@ jobs:
     needs: test
     steps:
     - uses: actions/checkout@v2
+    - name: Build Python package
+      run: |
+        python setup.py sdist
+        python setup.py bdist_wheel
     - name: Build Docker image
       uses: docker/build-push-action@v1
       with:
         repository: djjudas21/camerahub
-        tags: v1
+        tags: testing
         push: false
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Publish to Docker Hub
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+      uses: docker/build-push-action@v1
+      with:
+        username: djjudas21
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        repository: djjudas21/camerahub
+        tag_with_ref: true
+        tag: latest
+    - name: Publish to PyPI
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.pypi_password }}
