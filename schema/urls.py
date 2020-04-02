@@ -159,4 +159,6 @@ urlpatterns = [
   path('toner/<slug:slug>', views.TonerDetail.as_view(), name='toner-detail'),
   path('toner/create/', views.TonerCreate.as_view(), name='toner-create'),
   path('toner/<slug:slug>/update', views.TonerUpdate.as_view(), name='toner-update'),
+
+  path('actions/loadfilm', views.FilmLoad.as_view(), name='film-load'),
 ]

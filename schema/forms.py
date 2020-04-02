@@ -770,3 +770,20 @@ class TonerForm(ModelForm):
         super(TonerForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
+
+class FilmLoadForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(FilmLoadForm, self).__init__(*args, **kwargs)
+        self.fields['camera'].queryset = Camera.objects.filter(owner = get_current_user())
+        self.helper = FormHelper(self)
+        self.helper.layout.append(Submit('Save', 'Save'))
+    class Meta:
+        model = Film
+        fields = [
+            'exposed_at',
+            'date_loaded',
+            'camera',
+            'title',
+            'frames',
+        ]

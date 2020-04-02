@@ -108,5 +108,8 @@
 {% endblock %}
 
 {% block moreactions %}
-<li>Load film, or something</li>
-{%endblock%}
+<form action="{% url 'film-load' %}">
+  <input type="hidden" name="camera" value="{{ object.id }}">
+  <button class="btn btn-primary" type="submit">Add to collection</button>
+</form>
+{% endblock %}

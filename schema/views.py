@@ -23,6 +23,7 @@ from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, 
 from schema.forms import FlashForm, FlashProtocolForm, FormatForm, LensForm, LensModelForm, ManufacturerForm
 from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
 from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, TeleconverterForm, TonerForm
+from schema.forms import FilmLoadForm
 
 from schema.filters import AccessoryFilter, BatteryFilter, BulkFilmFilter, CameraFilter, CameraModelFilter, DeveloperFilter
 from schema.filters import EnlargerFilter, FilmFilter, FilmStockFilter, FlashFilter, LensFilter, LensModelFilter
@@ -778,3 +779,8 @@ class SearchView(SearchMixin, generic.ListView):
     """View that performs a search and returns the search results."""
 
     template_name = "search.html"
+
+class FilmLoad(LoginRequiredMixin, UpdateView):
+    model = Film
+    form_class = FilmLoadForm
+    template_name = 'update.html'
