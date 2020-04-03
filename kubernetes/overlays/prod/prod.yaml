@@ -31,3 +31,10 @@ spec:
       containers:
         - image: djjudas21/camerahub:0.6.2
           name: camerahub
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-cluster
+spec:
+  replicas: 2
