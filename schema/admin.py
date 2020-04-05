@@ -1,6 +1,6 @@
 from django.contrib import admin
 from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
-from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
+from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 

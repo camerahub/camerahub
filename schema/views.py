@@ -1,9 +1,7 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView
-from django_tables2 import SingleTableView, RequestConfig
+from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
@@ -11,8 +9,8 @@ from watson.views import SearchMixin
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
-from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
+from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
+from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
 
 from schema.tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, FilmStockTable, FilterTable
 from schema.tables import FlashTable, FlashProtocolTable, FormatTable, LensTable, LensModelTable, ManufacturerTable

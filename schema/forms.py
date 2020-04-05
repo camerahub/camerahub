@@ -1,16 +1,14 @@
 import sys
 from django.forms import ModelForm
-from django import forms
-from django_currentuser.middleware import (
-    get_current_user, get_current_authenticated_user)
+from django_currentuser.middleware import get_current_user
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div, Row, Button
+from crispy_forms.layout import Layout, Fieldset, Submit, Div, Button
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
-from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
+from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
+from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
 
 
 class AccessoryForm(ModelForm):
