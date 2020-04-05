@@ -1,3 +1,4 @@
+import sys
 from django.forms import ModelForm
 from django import forms
 from django_currentuser.middleware import (
@@ -5,7 +6,6 @@ from django_currentuser.middleware import (
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div, Row, Button
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
-import sys
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
