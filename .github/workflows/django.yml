@@ -9,10 +9,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: GitHub Action for pylint
+      - uses: actions/checkout@v2
+      - name: Run pylint
         uses: cclauss/GitHub-Action-for-pylint@0.7.0
         with:
-          args: "pip install -r requirements.txt ; pylint **/*.py"
+          args: "pip install -r requirements.txt; pylint **/*.py"
   test:
     runs-on: ubuntu-latest
     needs: lint
