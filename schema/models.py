@@ -1130,7 +1130,7 @@ class LensModel(models.Model):
             })
 
         # Zoom lenses
-        if self.zoom == False and self.min_focal_length and self.max_focal_length and self.min_focal_length != self.max_focal_length:
+        if self.zoom is False and self.min_focal_length and self.max_focal_length and self.min_focal_length != self.max_focal_length:
             raise ValidationError({
                 'min_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
                 'max_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
@@ -1437,7 +1437,7 @@ class CameraModel(models.Model):
             })
 
         # Zoom lenses
-        if self.zoom == False and self.min_focal_length and self.max_focal_length and self.min_focal_length != self.max_focal_length:
+        if self.zoom is False and self.min_focal_length and self.max_focal_length and self.min_focal_length != self.max_focal_length:
             raise ValidationError({
                 'min_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
                 'max_focal_length': ValidationError(('Min and max focal lengths must be equal for non-zoom lenses')),
