@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='lensmodel',
             name='coating',
-            field=models.CharField(blank=True, choices=[('Uncoated', 'Uncoated'), ('Single coated', 'Single coated'), ('Multi coated', 'Multi coated')], help_text='Type of lens coating', max_length=15, null=True),
+            field=models.CharField(blank=True, choices=[('Uncoated', 'Uncoated'), ('Single coated', 'Single coated'), (
+                'Multi coated', 'Multi coated')], help_text='Type of lens coating', max_length=15, null=True),
         ),
     ]

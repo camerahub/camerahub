@@ -763,6 +763,7 @@ class StatsView(TemplateView):
         context['num_filmstocks'] = FilmStock.objects.count
         return context
 
+
 class SearchView(SearchMixin, generic.ListView):
 
     """View that performs a search and returns the search results."""

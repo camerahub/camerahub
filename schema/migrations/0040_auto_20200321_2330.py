@@ -14,22 +14,26 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='developer',
             name='manufacturer',
-            field=models.ForeignKey(help_text='Manufacturer of this developer', on_delete=django.db.models.deletion.CASCADE, to='schema.Manufacturer'),
+            field=models.ForeignKey(help_text='Manufacturer of this developer',
+                                    on_delete=django.db.models.deletion.CASCADE, to='schema.Manufacturer'),
         ),
         migrations.AlterField(
             model_name='filmstock',
             name='manufacturer',
-            field=models.ForeignKey(help_text='Manufacturer of this film', on_delete=django.db.models.deletion.CASCADE, to='schema.Manufacturer'),
+            field=models.ForeignKey(help_text='Manufacturer of this film',
+                                    on_delete=django.db.models.deletion.CASCADE, to='schema.Manufacturer'),
         ),
         migrations.AlterField(
             model_name='lensmodel',
             name='manufacturer',
-            field=models.ForeignKey(help_text='Manufacturer of this lens model', on_delete=django.db.models.deletion.CASCADE, to='schema.Manufacturer'),
+            field=models.ForeignKey(help_text='Manufacturer of this lens model',
+                                    on_delete=django.db.models.deletion.CASCADE, to='schema.Manufacturer'),
         ),
         migrations.AlterField(
             model_name='toner',
             name='manufacturer',
-            field=models.ForeignKey(help_text='Manufacturer of this toner', on_delete=django.db.models.deletion.CASCADE, to='schema.Manufacturer'),
+            field=models.ForeignKey(help_text='Manufacturer of this toner',
+                                    on_delete=django.db.models.deletion.CASCADE, to='schema.Manufacturer'),
         ),
         migrations.AlterUniqueTogether(
             name='lensmodel',
@@ -37,18 +41,22 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='developer',
-            constraint=models.UniqueConstraint(fields=('manufacturer', 'name'), name='developer_unique_name'),
+            constraint=models.UniqueConstraint(
+                fields=('manufacturer', 'name'), name='developer_unique_name'),
         ),
         migrations.AddConstraint(
             model_name='filmstock',
-            constraint=models.UniqueConstraint(fields=('manufacturer', 'name'), name='filmstock_unique_name'),
+            constraint=models.UniqueConstraint(
+                fields=('manufacturer', 'name'), name='filmstock_unique_name'),
         ),
         migrations.AddConstraint(
             model_name='lensmodel',
-            constraint=models.UniqueConstraint(fields=('manufacturer', 'model', 'disambiguation'), name='lensmodel_unique_name'),
+            constraint=models.UniqueConstraint(fields=(
+                'manufacturer', 'model', 'disambiguation'), name='lensmodel_unique_name'),
         ),
         migrations.AddConstraint(
             model_name='toner',
-            constraint=models.UniqueConstraint(fields=('manufacturer', 'name'), name='toner_unique_name'),
+            constraint=models.UniqueConstraint(
+                fields=('manufacturer', 'name'), name='toner_unique_name'),
         ),
     ]

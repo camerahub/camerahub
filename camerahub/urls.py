@@ -26,4 +26,4 @@ urlpatterns = [
 ]
 
 
-namespace='author-polls'
+namespace = 'author-polls'

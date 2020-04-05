@@ -28,6 +28,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='cameramodel',
             name='updated_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(
+                default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
     ]

@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='paperstock',
             name='finish',
-            field=models.CharField(blank=True, choices=[('Matt', 'Matt'), ('Gloss', 'Gloss'), ('Satin', 'Satin'), ('Semi gloss', 'Semi gloss'), ('Pearl', 'Pearl'), ('Lustre', 'Lustre')], help_text='The finish of the paper surface', max_length=25, null=True),
+            field=models.CharField(blank=True, choices=[('Matt', 'Matt'), ('Gloss', 'Gloss'), ('Satin', 'Satin'), ('Semi gloss', 'Semi gloss'), (
+                'Pearl', 'Pearl'), ('Lustre', 'Lustre')], help_text='The finish of the paper surface', max_length=25, null=True),
         ),
     ]

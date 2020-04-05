@@ -1,8 +1,10 @@
 from django.apps import AppConfig
 from watson import search as watson
 
+
 class SchemaConfig(AppConfig):
     name = 'schema'
+
     def ready(self):
         # Index public data for searching
         CameraModel = self.get_model("CameraModel")
