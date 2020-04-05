@@ -5,8 +5,7 @@ kind: Kustomization
 bases:
   - ./camerahub
   - ./postgres
-
-commonLabels:
+  - ./redis
 
 secretGenerator:
   - name: camerahub-secret
