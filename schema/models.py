@@ -12,7 +12,6 @@ from django.urls import reverse
 from slugify import Slugify, UniqueSlugify
 
 
-
 def cameramodel_check(text, uids):
     if text in uids:
         return False
@@ -103,7 +102,8 @@ class Manufacturer(models.Model):
     def get_absolute_url(self):
         return reverse('manufacturer-detail', kwargs={'slug': self.slug})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Manufacturers are any maker or brand of camera, lenses or other photographic accessories or consumables'
 
     class Moderator:
@@ -155,7 +155,8 @@ class Archive(models.Model):
     def get_absolute_url(self):
         return reverse('archive-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Archives are places where prints, negatives, or slides are stored'
 
 # Table to catalog of types of battery
@@ -206,7 +207,8 @@ class Battery(models.Model):
     def get_absolute_url(self):
         return reverse('battery-detail', kwargs={'slug': self.slug})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Batteries are used to power cameras, flashes and other accessories'
 
     class Moderator:
@@ -276,7 +278,8 @@ class FlashProtocol(models.Model):
     def get_absolute_url(self):
         return reverse('flashprotocol-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Flash protocols are systems that cameras use to communicate with flash systems'
 
 # Table to catalog filters
@@ -298,7 +301,8 @@ class Filter(models.Model):
     def get_absolute_url(self):
         return reverse('filter-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Filters are glass or gelatin attachments for lenses which affect the image in some way'
 
 # Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
@@ -345,7 +349,8 @@ class NegativeSize(models.Model):
     def get_absolute_url(self):
         return reverse('negativesize-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Negative size is the dimensions of an image taken by a camera. It is different from film format as one film format can be used for various different negative sizes.'
 
 # Table to catalogue different film formats. These are distinct from negative sizes.
@@ -373,7 +378,8 @@ class Format(models.Model):
     def get_absolute_url(self):
         return reverse('format-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Format is the type of film a camera uses. It is a bit different from negative size as one film format can be used for various different negative sizes.'
 
 # Table to catalog flashes, flashguns and speedlights
@@ -443,7 +449,8 @@ class Flash(models.Model):
     def get_absolute_url(self):
         return reverse('flash-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Flashes are any kind of external device to provide light. This includes battery-powered and mains-powered flashes.'
 
 # Table to list enlargers
@@ -528,7 +535,8 @@ class Enlarger(models.Model):
     def get_absolute_url(self):
         return reverse('enlarger-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Enlargers are devices used to create prints from negatives.'
 
 # Metering modes as defined by EXIF tag MeteringMode
@@ -601,7 +609,8 @@ class Mount(models.Model):
     def get_absolute_url(self):
         return reverse('mount-detail', kwargs={'slug': self.slug})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Mounts are physical systems used to attach lenses to cameras (or enlargers, or projectors).'
 
 # Table to catalog different paper stocks available
@@ -650,7 +659,8 @@ class PaperStock(models.Model):
     def get_absolute_url(self):
         return reverse('paperstock-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Paper stocks are types of paper available for printing with'
 
 # Table to catalog photographers
@@ -672,7 +682,8 @@ class Person(models.Model):
     def get_absolute_url(self):
         return reverse('person-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'People listed here can be selected as photographers, developers or printers.'
 
 # Table to catalog chemical processes that can be used to develop film and paper
@@ -696,7 +707,8 @@ class Process(models.Model):
     def get_absolute_url(self):
         return reverse('process-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Processes are methods of developing film or prints'
 
 # Table to catalog teleconverters (multipliers)
@@ -741,7 +753,8 @@ class Teleconverter(models.Model):
     def get_absolute_url(self):
         return reverse('teleconverter-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Teleconverters are extra lenses that can be used to increase the focal length of a lens. They are sometimes known as doublers.'
 
 # Table to catalog paper toners that can be used during the printing process
@@ -789,7 +802,8 @@ class Toner(models.Model):
     def get_absolute_url(self):
         return reverse('toner-detail', kwargs={'slug': self.slug})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Toners are chemicals used to change the colour or appearance of a print.'
 
 # Table to list different brands of film stock
@@ -841,7 +855,8 @@ class FilmStock(models.Model):
     def get_absolute_url(self):
         return reverse('filmstock-detail', kwargs={'slug': self.slug})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Film stocks are types of film that can be exposed in a camera. They may also be known as emulsions.'
 
 # Table to record bulk film stock, from which individual films can be cut
@@ -874,7 +889,8 @@ class BulkFilm(models.Model):
     def get_absolute_url(self):
         return reverse('bulkfilm-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Bulk films are large reels of film stock that can be cut up to make individual films.'
 
 # Table to catalog adapters to mount lenses on other cameras
@@ -904,7 +920,8 @@ class MountAdapter(models.Model):
     def get_absolute_url(self):
         return reverse('mountadapter-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Mount adapters can be used to convert the mount used on a camera or lens.'
 
 # Table to list all possible shutter speeds
@@ -982,7 +999,8 @@ class Developer(models.Model):
     def get_absolute_url(self):
         return reverse('developer-detail', kwargs={'slug': self.slug})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Developers are chemicals that are used to process films or prints.'
 
 # Table to catalog lens models
@@ -1089,7 +1107,8 @@ class LensModel(models.Model):
     def get_absolute_url(self):
         return reverse('lensmodel-detail', kwargs={'slug': self.slug})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Lens models are any interchangeable lens that has been marketed'
 
     def clean(self):
@@ -1453,7 +1472,8 @@ class CameraModel(models.Model):
     def get_absolute_url(self):
         return reverse('cameramodel-detail', kwargs={'slug': self.slug})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Camera models are any camera that has been marketed'
 
 # Table to catalog accessories that are not tracked in more specific tables
@@ -1522,7 +1542,8 @@ class Accessory(models.Model):
     def get_absolute_url(self):
         return reverse('accessory-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Accessories include most photographic items which may be used with cameras or lenses. Exceptions are filters, flashes and teleconverters, which are tracked separately.'
 
 # Table to catalog lenses
@@ -1594,7 +1615,8 @@ class Lens(models.Model):
     def get_absolute_url(self):
         return reverse('lens-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Lenses are specific examples of lens models that exist in your collection'
 
 # Table to catalog cameras - both cameras with fixed lenses and cameras with interchangeable lenses
@@ -1669,7 +1691,8 @@ class Camera(models.Model):
     def get_absolute_url(self):
         return reverse('camera-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Cameras are specific examples of camera models that exist in your collection'
 
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
@@ -1753,7 +1776,8 @@ class Film(models.Model):
     def get_absolute_url(self):
         return reverse('film-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'A film is a specific example of a film stock which exists in your collection, and contains one or more negatives. A film is generally one roll film or one sheet of sheet film.'
 
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
@@ -1842,7 +1866,8 @@ class Negative(models.Model):
     def get_absolute_url(self):
         return reverse('negative-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Negatives are exposures made on film. Exposures made on positive (slide) film are also known as negatives.'
 
 # Table to catalog prints made from negatives
@@ -1913,7 +1938,8 @@ class Print(models.Model):
     def get_absolute_url(self):
         return reverse('print-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Prints are images made on paper stock from negatives on film'
 
 # Table to track which toners were used on which print
@@ -1962,7 +1988,8 @@ class Repair(models.Model):
     def get_absolute_url(self):
         return reverse('repair-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Repairs are any maintenance work performed on cameras or lenses'
 
 # Table to record all the images that have been scanned digitally
@@ -2003,7 +2030,8 @@ class Scan(models.Model):
     def get_absolute_url(self):
         return reverse('scan-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Scans are digital recreations of negatives or prints'
 
 # Table to record orders for prints
@@ -2037,5 +2065,6 @@ class Order(models.Model):
     def get_absolute_url(self):
         return reverse('order-detail', kwargs={'pk': self.pk})
 
-    def description(self):
+    @classmethod
+    def description(cls):
         return 'Orders are a to-do list of images to print'
