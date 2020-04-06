@@ -223,10 +223,10 @@ class Condition(models.Model):
         help_text='Condition shortcode (e.g. EXC)', max_length=6)
     name = models.CharField(
         help_text='Full name of condition (e.g. Excellent)', max_length=45)
-    min_rating = models.PositiveIntegerField(help_text='The lowest percentage rating that encompasses this condition', validators=[
-                                             MinValueValidator(0), MaxValueValidator(100)])
-    max_rating = models.PositiveIntegerField(help_text='The highest percentage rating that encompasses this condition', validators=[
-                                             MinValueValidator(0), MaxValueValidator(100)])
+    min_rating = models.PositiveIntegerField(help_text='The lowest percentage rating that encompasses this condition',
+                                             validators=[MinValueValidator(0), MaxValueValidator(100)])
+    max_rating = models.PositiveIntegerField(help_text='The highest percentage rating that encompasses this condition',
+                                             validators=[MinValueValidator(0), MaxValueValidator(100)])
     description = models.CharField(
         help_text='Longer description of condition', max_length=300)
 
@@ -1258,8 +1258,8 @@ class CameraModel(models.Model):
         help_text='Model of shutter', max_length=45, blank=True, null=True)
     cable_release = models.BooleanField(
         help_text='Whether the camera has the facility for a remote cable release', blank=True, null=True)
-    viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True, validators=[
-                                                      MinValueValidator(0), MaxValueValidator(100)])
+    viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True,
+                                                      validators=[MinValueValidator(0), MaxValueValidator(100)])
     power_drive = models.BooleanField(
         help_text='Whether the camera has integrated motor drive', blank=True, null=True)
     continuous_fps = models.DecimalField(
