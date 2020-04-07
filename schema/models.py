@@ -267,9 +267,10 @@ class FlashProtocol(models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            return "%s %s" % (self.manufacturer.name, self.name)
+            mystr = "%s %s" % (self.manufacturer.name, self.name)
         else:
-            return self.name
+            mystr = self.name
+        return mystr
 
     class Meta:
         ordering = ['name']
@@ -431,9 +432,10 @@ class Flash(models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            return "%s %s" % (self.manufacturer.name, self.model)
+            mystr = "%s %s" % (self.manufacturer.name, self.model)
         else:
-            return self.model
+            mystr = self.model
+        return mystr
 
     class Meta:
         ordering = ['manufacturer', 'model']
@@ -494,9 +496,10 @@ class Enlarger(models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            return "%s %s" % (self.manufacturer.name, self.model)
+            mystr = "%s %s" % (self.manufacturer.name, self.model)
         else:
-            return self.model
+            mystr = self.model
+        return mystr
 
     class Meta:
         ordering = ['manufacturer', 'model']
@@ -734,9 +737,10 @@ class Teleconverter(models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            return "%s %s" % (self.manufacturer.name, self.model)
+            mystr = "%s %s" % (self.manufacturer.name, self.model)
         else:
-            return self.model
+            mystr = self.model
+        return mystr
 
     class Meta:
         ordering = ['manufacturer', 'model']
@@ -779,9 +783,10 @@ class Toner(models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            return "%s %s" % (self.manufacturer.name, self.name)
+            mystr = "%s %s" % (self.manufacturer.name, self.name)
         else:
-            return self.name
+            mystr = self.name
+        return mystr
 
     class Meta:
         ordering = ['manufacturer', 'name']
@@ -832,9 +837,10 @@ class FilmStock(models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            return "%s %s" % (self.manufacturer.name, self.name)
+            mystr = "%s %s" % (self.manufacturer.name, self.name)
         else:
-            return self.name
+            mystr = self.name
+        return mystr
 
     class Meta:
         ordering = ['manufacturer', 'name']
@@ -976,9 +982,10 @@ class Developer(models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            return "%s %s" % (self.manufacturer.name, self.name)
+            mystr = "%s %s" % (self.manufacturer.name, self.name)
         else:
-            return self.name
+            mystr = self.name
+        return mystr
 
     class Meta:
         ordering = ['manufacturer', 'name']
@@ -1515,9 +1522,10 @@ class Accessory(models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            return "%s %s" % (self.manufacturer.name, self.model)
+            mystr = "%s %s" % (self.manufacturer.name, self.model)
         else:
-            return self.model
+            mystr = self.model
+        return mystr
 
     class Meta:
         ordering = ['manufacturer', 'model']

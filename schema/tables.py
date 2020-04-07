@@ -74,9 +74,12 @@ class CameraModelTable(tables.Table):
     @classmethod
     def render_model(cls, value, record):
         if record.disambiguation:
-            return format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('cameramodel-detail', args=[record.slug]), record.manufacturer, value, record.disambiguation)
+            mystr = format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('cameramodel-detail', args=[
+                record.slug]), record.manufacturer, value, record.disambiguation)
         else:
-            return format_html("<a href=\"{}\">{} {}</a>", reverse('cameramodel-detail', args=[record.slug]), record.manufacturer, value)
+            mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
+                'cameramodel-detail', args=[record.slug]), record.manufacturer, value)
+        return mystr
 
     @classmethod
     def render_mount(cls, value):
@@ -145,9 +148,12 @@ class FlashProtocolTable(tables.Table):
     @classmethod
     def render_name(cls, value, record):
         if record.manufacturer is not None:
-            return format_html("<a href=\"{}\">{} {}</a>", reverse('flashprotocol-detail', args=[record.id]), record.manufacturer, value)
+            mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
+                'flashprotocol-detail', args=[record.id]), record.manufacturer, value)
         else:
-            return format_html("<a href=\"{}\">{}</a>", reverse('flashprotocol-detail', args=[record.id]), value)
+            mystr = format_html(
+                "<a href=\"{}\">{}</a>", reverse('flashprotocol-detail', args=[record.id]), value)
+        return mystr
 
 
 class FormatTable(tables.Table):
@@ -184,9 +190,12 @@ class LensModelTable(tables.Table):
     @classmethod
     def render_model(cls, value, record):
         if record.disambiguation:
-            return format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('lensmodel-detail', args=[record.slug]), record.manufacturer, value, record.disambiguation)
+            mystr = format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('lensmodel-detail', args=[
+                record.slug]), record.manufacturer, value, record.disambiguation)
         else:
-            return format_html("<a href=\"{}\">{} {}</a>", reverse('lensmodel-detail', args=[record.slug]), record.manufacturer, value)
+            mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
+                'lensmodel-detail', args=[record.slug]), record.manufacturer, value)
+        return mystr
 
     @classmethod
     def render_mount(cls, value):
@@ -195,11 +204,13 @@ class LensModelTable(tables.Table):
     @classmethod
     def render_min_focal_length(cls, record):
         if record.zoom is True:
-            return format_html("{}-{}mm", record.min_focal_length, record.max_focal_length)
+            mystr = format_html(
+                "{}-{}mm", record.min_focal_length, record.max_focal_length)
         elif record.zoom is False:
-            return format_html("{}mm", record.min_focal_length)
+            mystr = format_html("{}mm", record.min_focal_length)
         else:
-            return format_html("?")
+            mystr = format_html("?")
+        return mystr
 
 
 class ManufacturerTable(tables.Table):

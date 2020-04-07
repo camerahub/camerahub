@@ -544,9 +544,10 @@ class PersonList(LoginRequiredMixin, SingleTableListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Person.objects.filter(owner=self.request.user)
+            mystr = Person.objects.filter(owner=self.request.user)
         else:
-            return Person.objects.none()
+            mystr = Person.objects.none()
+        return mystr
 
 
 class PersonDetail(LoginRequiredMixin, generic.DetailView):
@@ -638,9 +639,10 @@ class ScanList(LoginRequiredMixin, SingleTableListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Scan.objects.filter(owner=self.request.user)
+            mystr = Scan.objects.filter(owner=self.request.user)
         else:
-            return Scan.objects.none()
+            mystr = Scan.objects.none()
+        return mystr
 
 
 class ScanDetail(LoginRequiredMixin, generic.DetailView):
