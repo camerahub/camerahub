@@ -1,9 +1,9 @@
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
 from watson.views import SearchMixin
 

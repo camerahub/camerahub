@@ -2,13 +2,13 @@ from datetime import datetime
 from math import sqrt
 import re
 from django.db import models
-from djmoney.models.fields import MoneyField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
+from django.urls import reverse
+from djmoney.models.fields import MoneyField
 from djchoices import DjangoChoices, ChoiceItem
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
-from django.urls import reverse
 from slugify import Slugify, UniqueSlugify
 
 
