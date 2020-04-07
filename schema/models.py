@@ -945,13 +945,13 @@ class ShutterSpeed(models.Model):
 
     def save(self, *args, **kwargs):
         # Test if format is 1/125
-        m0 = re.match(r'^(\d{1})/(\d+)$', self.shutter_speed)
+        fractional = re.match(r'^(\d{1})/(\d+)$', self.shutter_speed)
         # Test if format is 1 or 1"
-        m1 = re.match(r'^(\d+)"?$', self.shutter_speed)
-        if m0:
-            self.duration = int(m0.group(1)) / int(m0.group(2))
-        elif m1:
-            self.duration = m1.group(1)
+        integer = re.match(r'^(\d+)"?$', self.shutter_speed)
+        if fractional:
+            self.duration = int(fractional.group(1)) / int(fractional.group(2))
+        elif integer:
+            self.duration = integer.group(1)
         super().save(*args, **kwargs)
 
     class Meta:
