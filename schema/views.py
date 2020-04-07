@@ -45,9 +45,9 @@ class PagedFilteredTableView(SingleTableMixin, FilterView):
 
     def get_queryset(self):
         qs = super(PagedFilteredTableView, self).get_queryset()
-        self.filter = self.filter_class(self.request.GET, queryset=qs)
-        self.filter.form.helper = self.formhelper_class()
-        return self.filter.qs
+        myfilter = self.filter_class(self.request.GET, queryset=qs)
+        myfilter.form.helper = self.formhelper_class()
+        return myfilter.qs
 
  #   def get_table(self, **kwargs):
  #       table = super(PagedFilteredTableView, self).get_table()
