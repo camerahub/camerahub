@@ -1,4 +1,4 @@
-from moderation import moderation
+#from moderation import moderation
 from moderation.moderator import GenericModerator
 
 #from schema.models import Manufacturer, Battery, FlashProtocol, NegativeSize, Format, Mount, PaperStock, Process, Toner, FilmStock, Developer, LensModel, CameraModel
