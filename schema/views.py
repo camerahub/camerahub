@@ -43,11 +43,12 @@ class PagedFilteredTableView(SingleTableMixin, FilterView):
     template_name = 'list.html'
     paginate_by = 25
 
+    # pylint: disable=not-callable,attribute-defined-outside-init
     def get_queryset(self):
         qs = super(PagedFilteredTableView, self).get_queryset()
-        myfilter = self.filter_class(self.request.GET, queryset=qs)
-        myfilter.form.helper = self.formhelper_class()
-        return myfilter.qs
+        self.filter = self.filter_class(self.request.GET, queryset=qs)
+        self.filter.form.helper = self.formhelper_class()
+        return self.filter.qs
 
  #   def get_table(self, **kwargs):
  #       table = super(PagedFilteredTableView, self).get_table()
