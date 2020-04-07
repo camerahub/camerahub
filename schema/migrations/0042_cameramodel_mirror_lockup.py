@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='cameramodel',
             name='mirror_lockup',
-            field=models.BooleanField(blank=True, help_text='Whether the camera has mirror lock-up', null=True, verbose_name='Mirror lock-up'),
+            field=models.BooleanField(
+                blank=True, help_text='Whether the camera has mirror lock-up', null=True, verbose_name='Mirror lock-up'),
         ),
     ]

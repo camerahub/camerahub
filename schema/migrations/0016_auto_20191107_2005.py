@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='lensmodel',
             name='url',
-            field=models.URLField(blank=True, help_text='URL to more information about this lens', null=True, verbose_name='URL'),
+            field=models.URLField(
+                blank=True, help_text='URL to more information about this lens', null=True, verbose_name='URL'),
         ),
     ]

@@ -13,7 +13,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='cameramodel',
             name='metering_type',
-            field=models.CharField(blank=True, choices=[('Cadmium sulphide CdS', 'Cadmium sulphide CdS'), ('Selenium', 'Selenium'), ('Silicon', 'Silicon')], help_text='Metering type used on this camera model', max_length=25, null=True),
+            field=models.CharField(blank=True, choices=[('Cadmium sulphide CdS', 'Cadmium sulphide CdS'), ('Selenium', 'Selenium'), (
+                'Silicon', 'Silicon')], help_text='Metering type used on this camera model', max_length=25, null=True),
         ),
         migrations.DeleteModel(
             name='MeteringType',
