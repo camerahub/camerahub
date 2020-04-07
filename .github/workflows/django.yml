@@ -33,6 +33,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
+        python manage.py check
         python manage.py test
         python manage.py migrate
   build:
