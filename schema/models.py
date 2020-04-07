@@ -1757,7 +1757,7 @@ class Film(models.Model):
     id_owner = AutoSequenceField(unique_with='owner', editable=False)
 
     def __str__(self):
-        return "#%i %s" % (self.id_owner, self.title)
+        return "#%s %s" % (self.id_owner, self.title)
 
     class Meta:
         verbose_name_plural = "films"
