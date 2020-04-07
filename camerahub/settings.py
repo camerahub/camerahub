@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('CAMERAHUB_SECRET_KEY', 'OverrideMe!'),
+SECRET_KEY = env('CAMERAHUB_SECRET_KEY', 'OverrideMe!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.getenv('CAMERAHUB_PROD') == 'true':
@@ -154,7 +154,7 @@ LOGOUT_REDIRECT_URL = 'index'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Email support with Sendgrid
-DEFAULT_FROM_EMAIL = env('CAMERAHUB_FROM_EMAIL', "noreply@camerahub.info"),
+DEFAULT_FROM_EMAIL = env('CAMERAHUB_FROM_EMAIL', "noreply@camerahub.info")
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 if env('CAMERAHUB_SENDGRID_KEY'):
