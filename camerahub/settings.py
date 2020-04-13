@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'fullurl',
     'django_filters',
     'watson',
+    'taggit',
 ]
 
 MIDDLEWARE = [
