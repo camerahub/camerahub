@@ -47,6 +47,11 @@ spec:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_SENDGRID_KEY
+            - name: CAMERAHUB_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: camerahub-secret
+                  key: CAMERAHUB_DOMAIN
             - name: CAMERAHUB_DB_HOST
               value: postgres
             - name: CAMERAHUB_DB_NAME
