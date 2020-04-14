@@ -30,7 +30,8 @@
   {% else %}
   <tr>
     <td>Lens</td>
-    <td>{{ object.lens_manufacturer }} {{ object.lens_model_name }}</td>
+    <td>{% if object.lens_manufacturer is not None %}{{ object.lens_manufacturer }} {% endif %}{{ object.lens_model_name }}
+    </td>
   </tr>
   <!--
   aperture_blades
