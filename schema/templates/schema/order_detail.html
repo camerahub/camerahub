@@ -1,34 +1,40 @@
-{% extends "schema/detail.html" %}
+{% extends "detail.html" %}
 
 {% block content %}
 <table class="table table-hover">
+  {% if object.negative is not None %}
   <tr>
     <td>Negative</td>
-    <td>{% if object.negative is not None %}<a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a>{% endif %}</td>
+    <td><a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a></td>
   </tr>
+  {% endif %}
   <tr>
-    <td>Width</td>
-    <td>{{ object.width }}</td>
+    <td>Size</td>
+    <td>{{ object.width }} &times; {{ object.height }}</td>
   </tr>
-  <tr>
-    <td>Height</td>
-    <td>{{ object.height }}</td>
-  </tr>
+  {% if object.added is not None %}
   <tr>
     <td>Date added</td>
     <td>{{ object.added }}</td>
   </tr>
+  {% endif %}
+  {% if object.printed is not None %}
   <tr>
     <td>Date printed</td>
     <td>{{ object.printed }}</td>
   </tr>
+  {% endif %}
+  {% if object.print is not None %}
   <tr>
     <td>Print</td>
     <td>{{ object.print }}</td>
   </tr>
+  {% endif %}
+  {% if object.recipient is not None %}
   <tr>
     <td>Recipient</td>
     <td>{{ object.recipient }}</td>
   </tr>
+  {% endif %}
 </table>
 {% endblock %}

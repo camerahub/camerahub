@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='cameramodel',
-            constraint=models.UniqueConstraint(fields=('manufacturer', 'model', 'disambiguation'), name='cameramodel_unique_name'),
+            constraint=models.UniqueConstraint(fields=(
+                'manufacturer', 'model', 'disambiguation'), name='cameramodel_unique_name'),
         ),
     ]

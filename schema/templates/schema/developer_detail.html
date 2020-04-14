@@ -1,26 +1,50 @@
-{% extends "schema/detail.html" %}
+{% extends "detail.html" %}
+{% load yesnoicon %}
 
 {% block content %}
 <table class="table table-hover">
+  {% if object.manufacturer is not None %}
   <tr>
     <td>Manufacturer</td>
-    <td>{% if object.manufacturer is not None %}<a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a>{% endif %}</td>
+    <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a></td>
   </tr>
+  {% endif %}
   <tr>
     <td>Name</td>
     <td>{{ object.name }}</td>
   </tr>
+  {% if object.for_paper is not None %}
   <tr>
     <td>For paper</td>
-    <td>{{ object.for_paper }}</td>
+    <td>{{ object.for_paper|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.for_film is not None %}
   <tr>
     <td>For film</td>
-    <td>{{ object.for_film }}</td>
+    <td>{{ object.for_film|yesnoicon }}</td>
   </tr>
+  {% endif %}
+  {% if object.chemistry is not None %}
   <tr>
     <td>Chemistry</td>
     <td>{{ object.chemistry }}</td>
   </tr>
+  {% endif %}
+  <tr>
+    <th colspan="2">Misc</th>
+  </tr>
+  {% if object.created_at is not None %}
+  <tr>
+    <td>Created</td>
+    <td>{{ object.created_at }}{% if object.created_by is not None %} by {{ object.created_by }}{% endif %}</td>
+  </tr>
+  {% endif %}
+  {% if object.updated_at is not None %}
+  <tr>
+    <td>Last updated</td>
+    <td>{{ object.updated_at }}{% if object.updated_by is not None %} by {{ object.updated_by }}{% endif %}</td>
+  </tr>
+  {% endif %}
 </table>
 {% endblock %}

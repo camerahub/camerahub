@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% load watson %}
+
+{% block heading %}<h4>
+    <img src="{% static "svg/search.svg" %}" width="30" height="30" alt="Search">
+    Search results</h4>{%endblock%}
+
+{% block content %}
+<p>Search results{% if query %} for &ldquo;{{query}}&rdquo;{% endif %}</p>
+{% if search_results %}
+{% search_results search_results %}
+{% else %}
+{% if query %}
+<p><em>There are no results to display.</em></p>
+<p><em>Try entering a less specific search term.</em></p>
+{% else %}
+<p><em>Please enter a query in the search form.</em></p>
+{% endif %}
+{% endif %}
+{% endblock %}

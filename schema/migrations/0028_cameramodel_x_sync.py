@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='cameramodel',
             name='x_sync',
-            field=models.ForeignKey(blank=True, help_text='Flash X-sync speed', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='x_sync', to='schema.ShutterSpeed'),
+            field=models.ForeignKey(blank=True, help_text='Flash X-sync speed', null=True,
+                                    on_delete=django.db.models.deletion.CASCADE, related_name='x_sync', to='schema.ShutterSpeed'),
         ),
     ]

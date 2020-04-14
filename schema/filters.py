@@ -1,12 +1,11 @@
 from django_filters import FilterSet
-from django_currentuser.middleware import (
-    get_current_user, get_current_authenticated_user)
+from django_currentuser.middleware import get_current_user
 
 # Import all models that need admin pages
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
-from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from schema.models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock
+from schema.models import Flash, Lens, LensModel
+from schema.models import Mount, MountAdapter, Order, PaperStock, Print
+from schema.models import Repair, Negative, Film, Teleconverter, Toner
 
 
 class AccessoryFilter(FilterSet):
@@ -127,7 +126,6 @@ class LensFilter(FilterSet):
                   'lensmodel__mount',
                   'lensmodel__zoom',
                   'lensmodel__autofocus',
-                  'lensmodel__fixed_mount'
                   )
 
     @property
@@ -139,7 +137,7 @@ class LensFilter(FilterSet):
 class LensModelFilter(FilterSet):
     class Meta:
         model = LensModel
-        fields = ('manufacturer', 'mount', 'zoom', 'autofocus', 'fixed_mount')
+        fields = ('manufacturer', 'mount', 'zoom', 'autofocus')
 
 
 class MountFilter(FilterSet):

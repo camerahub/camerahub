@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='battery',
             name='chemistry',
-            field=models.CharField(blank=True, choices=[('Alkaline', 'Alkaline'), ('Nickel cadmium', 'Nickel cadmium'), ('Nickel metal hydride', 'Nickel metal hydride'), ('Carbon zinc', 'Carbon zinc'), ('Lithium', 'Lithium'), ('Lithium ion', 'Lithium ion'), ('Lithium polymer', 'Lithium polymer'), ('Mercury', 'Mercury'), ('Zinc air', 'Zinc air'), ('Silver oxide', 'Silver oxide')], help_text='Battery chemistry', max_length=45, null=True),
+            field=models.CharField(blank=True, choices=[('Alkaline', 'Alkaline'), ('Nickel cadmium', 'Nickel cadmium'), ('Nickel metal hydride', 'Nickel metal hydride'), ('Carbon zinc', 'Carbon zinc'), ('Lithium', 'Lithium'), (
+                'Lithium ion', 'Lithium ion'), ('Lithium polymer', 'Lithium polymer'), ('Mercury', 'Mercury'), ('Zinc air', 'Zinc air'), ('Silver oxide', 'Silver oxide')], help_text='Battery chemistry', max_length=45, null=True),
         ),
     ]

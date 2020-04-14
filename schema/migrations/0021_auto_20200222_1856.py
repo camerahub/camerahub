@@ -13,11 +13,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='cameramodel',
             name='disambiguation',
-            field=models.CharField(blank=True, help_text='Distinguishing notes for camera models with the same name', max_length=45, null=True),
+            field=models.CharField(
+                blank=True, help_text='Distinguishing notes for camera models with the same name', max_length=45, null=True),
         ),
         migrations.AddField(
             model_name='lensmodel',
             name='disambiguation',
-            field=models.CharField(blank=True, help_text='Distinguishing notes for lens models with the same name', max_length=45, null=True),
+            field=models.CharField(
+                blank=True, help_text='Distinguishing notes for lens models with the same name', max_length=45, null=True),
         ),
     ]

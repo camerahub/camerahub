@@ -1,15 +1,15 @@
-from django.forms import ModelForm
-from django import forms
-from django_currentuser.middleware import (get_current_user, get_current_authenticated_user)
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div, Row, Button
-from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText
 import sys
+from django.forms import ModelForm
+from django_currentuser.middleware import get_current_user
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, Submit, Div, Button
+from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
-from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from schema.models import Process, Repair, Scan, Negative, Film, Series, ShutterSpeed, Teleconverter, Toner
+from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
+from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
+
 
 class AccessoryForm(ModelForm):
     class Meta:
@@ -29,10 +29,12 @@ class AccessoryForm(ModelForm):
             fields.remove('manufacturer')
             fields.remove('camera_model_compatibility')
             fields.remove('lens_model_compatibility')
+
     def __init__(self, *args, **kwargs):
         super(AccessoryForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class ArchiveForm(ModelForm):
     class Meta:
@@ -46,10 +48,12 @@ class ArchiveForm(ModelForm):
             'storage',
             'sealed',
         ]
+
     def __init__(self, *args, **kwargs):
         super(ArchiveForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class BatteryForm(ModelForm):
     class Meta:
@@ -60,10 +64,12 @@ class BatteryForm(ModelForm):
             'chemistry',
             'compatible_with',
         ]
+
     def __init__(self, *args, **kwargs):
         super(BatteryForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class BulkFilmForm(ModelForm):
     class Meta:
@@ -80,10 +86,12 @@ class BulkFilmForm(ModelForm):
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('filmstock')
             fields.remove('format')
+
     def __init__(self, *args, **kwargs):
         super(BulkFilmForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class CameraForm(ModelForm):
     class Meta:
@@ -96,7 +104,6 @@ class CameraForm(ModelForm):
             'datecode',
             'manufactured',
             'own',
-            'lens',
             'notes',
             'lost',
             'lost_price',
@@ -107,17 +114,22 @@ class CameraForm(ModelForm):
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('cameramodel')
+
     def __init__(self, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
-        self.fields['lens'].queryset = Lens.objects.filter(owner = get_current_user())
-        self.fields['display_lens'].queryset = Lens.objects.filter(owner = get_current_user())
+        self.fields['lens'].queryset = Lens.objects.filter(
+            owner=get_current_user())
+        self.fields['display_lens'].queryset = Lens.objects.filter(
+            owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class CameraModelForm(ModelForm):
     class Meta:
         model = CameraModel
         fields = '__all__'
+
     def __init__(self, *args, **kwargs):
         super(CameraModelForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
@@ -130,11 +142,54 @@ class CameraModelForm(ModelForm):
                 'disambiguation',
                 'introduced',
                 'discontinued',
-                'mount',
-                'fixed_mount',
-                'lensmodel',
                 'format',
                 'negative_size',
+            ),
+            Div(
+                TabHolder(
+                    Tab('Interchangeable lens',
+                        Fieldset(
+                            'Lens mount',
+                            'mount',
+                        ),
+                        ),
+                    Tab('Fixed lens',
+                        Fieldset(
+                            'Lens',
+                            'lens_manufacturer',
+                            'lens_model_name',
+                        ),
+                        Fieldset(
+                            'Optics',
+                            'zoom',
+                            AppendedText('min_focal_length', 'mm'),
+                            AppendedText('max_focal_length', 'mm'),
+                            AppendedText('closest_focus', 'cm'),
+                            PrependedText('max_aperture', 'f/'),
+                            PrependedText('min_aperture', 'f/'),
+                            'elements',
+                            'groups',
+                            AppendedText('nominal_min_angle_diag', '&deg;'),
+                            AppendedText('nominal_max_angle_diag', '&deg;'),
+                            'rectilinear',
+                            AppendedText('image_circle', 'mm'),
+                            'formula',
+                            'aperture_blades',
+                            'coating',
+                            AppendedText('magnification', '&times;'),
+                        ),
+                        Fieldset(
+                            'Physical',
+                            AppendedText('filter_thread', 'mm'),
+                            'hood',
+                        ),
+                        Fieldset(
+                            'Misc',
+                            'exif_lenstype',
+                        ),
+                        ),
+                ),
+                css_class="border",
             ),
             Fieldset(
                 'Physical',
@@ -150,7 +205,6 @@ class CameraModelForm(ModelForm):
             Fieldset(
                 'Metering',
                 'metering',
-                'coupled_metering',
                 'metering_type',
                 InlineCheckboxes('metering_modes'),
                 InlineCheckboxes('exposure_programs'),
@@ -186,6 +240,7 @@ class CameraModelForm(ModelForm):
                 'Features',
                 'cable_release',
                 'dof_preview',
+                'mirror_lockup',
                 'tripod',
                 'power_drive',
                 AppendedText('continuous_fps', 'fps'),
@@ -193,13 +248,13 @@ class CameraModelForm(ModelForm):
             Fieldset(
                 'Misc',
                 'notes',
-                'series',
             ),
             FormActions(
                 Submit('save', 'Save changes'),
                 Button('cancel', 'Cancel')
             )
         )
+
 
 class DeveloperForm(ModelForm):
     class Meta:
@@ -213,10 +268,12 @@ class DeveloperForm(ModelForm):
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
+
     def __init__(self, *args, **kwargs):
         super(DeveloperForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class EnlargerForm(ModelForm):
     class Meta:
@@ -237,10 +294,12 @@ class EnlargerForm(ModelForm):
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
             fields.remove('negative_size')
+
     def __init__(self, *args, **kwargs):
         super(EnlargerForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class FilmStockForm(ModelForm):
     class Meta:
@@ -256,10 +315,12 @@ class FilmStockForm(ModelForm):
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
             fields.remove('process')
+
     def __init__(self, *args, **kwargs):
         super(FilmStockForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class FilterForm(ModelForm):
     class Meta:
@@ -268,10 +329,12 @@ class FilterForm(ModelForm):
             'type',
             'attenuation',
         ]
+
     def __init__(self, *args, **kwargs):
         super(FilterForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class FlashForm(ModelForm):
     class Meta:
@@ -302,10 +365,12 @@ class FlashForm(ModelForm):
             fields.remove('manufacturer')
             fields.remove('flash_protocol')
             fields.remove('battery_type')
+
     def __init__(self, *args, **kwargs):
         super(FlashForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class FlashProtocolForm(ModelForm):
     class Meta:
@@ -316,10 +381,12 @@ class FlashProtocolForm(ModelForm):
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
+
     def __init__(self, *args, **kwargs):
         super(FlashProtocolForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class FormatForm(ModelForm):
     class Meta:
@@ -330,10 +397,12 @@ class FormatForm(ModelForm):
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('negative_size')
+
     def __init__(self, *args, **kwargs):
         super(FormatForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class LensForm(ModelForm):
     class Meta:
@@ -355,15 +424,18 @@ class LensForm(ModelForm):
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('lensmodel')
+
     def __init__(self, *args, **kwargs):
         super(LensForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
+
 class LensModelForm(ModelForm):
     class Meta:
         model = LensModel
         fields = '__all__'
+
     def __init__(self, *args, **kwargs):
         super(LensModelForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
@@ -373,7 +445,6 @@ class LensModelForm(ModelForm):
                 'manufacturer',
                 'model',
                 'disambiguation',
-                'fixed_mount',
                 'mount',
                 'introduced',
                 'discontinued',
@@ -394,6 +465,7 @@ class LensModelForm(ModelForm):
                 AppendedText('image_circle', 'mm'),
                 'formula',
                 'aperture_blades',
+                'coating',
                 'autofocus',
                 AppendedText('magnification', '&times;'),
                 'negative_size',
@@ -412,13 +484,13 @@ class LensModelForm(ModelForm):
                 'notes',
                 'exif_lenstype',
                 'url',
-                'series',
             ),
             FormActions(
                 Submit('save', 'Save changes'),
                 Button('cancel', 'Cancel')
             )
-        )   
+        )
+
 
 class ManufacturerForm(ModelForm):
     class Meta:
@@ -431,10 +503,12 @@ class ManufacturerForm(ModelForm):
             'founded',
             'dissolved',
         ]
+
     def __init__(self, *args, **kwargs):
         super(ManufacturerForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class MountForm(ModelForm):
     class Meta:
@@ -449,10 +523,12 @@ class MountForm(ModelForm):
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
+
     def __init__(self, *args, **kwargs):
         super(MountForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class MountAdapterForm(ModelForm):
     class Meta:
@@ -467,10 +543,12 @@ class MountAdapterForm(ModelForm):
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('camera_mount')
             fields.remove('lens_mount')
+
     def __init__(self, *args, **kwargs):
         super(MountAdapterForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class NegativeSizeForm(ModelForm):
     class Meta:
@@ -480,20 +558,26 @@ class NegativeSizeForm(ModelForm):
             'width',
             'height',
         ]
+
     def __init__(self, *args, **kwargs):
         super(NegativeSizeForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
+
 class OrderForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
-        self.fields['negative'].queryset = Negative.objects.filter(owner = get_current_user())
-        self.fields['print'].queryset = Print.objects.filter(owner = get_current_user())
-        self.fields['recipient'].queryset = Person.objects.filter(owner = get_current_user())
-    
+        self.fields['negative'].queryset = Negative.objects.filter(
+            owner=get_current_user())
+        self.fields['print'].queryset = Print.objects.filter(
+            owner=get_current_user())
+        self.fields['recipient'].queryset = Person.objects.filter(
+            owner=get_current_user())
+
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
     class Meta:
         model = Order
         fields = [
@@ -505,6 +589,7 @@ class OrderForm(ModelForm):
             'print',
             'recipient',
         ]
+
 
 class PaperStockForm(ModelForm):
     class Meta:
@@ -518,30 +603,40 @@ class PaperStockForm(ModelForm):
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
+
     def __init__(self, *args, **kwargs):
         super(PaperStockForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
+
 class PersonForm(ModelForm):
     class Meta:
         model = Person
         fields = ['name']
+
     def __init__(self, *args, **kwargs):
         super(PersonForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
+
 class PrintForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(PrintForm, self).__init__(*args, **kwargs)
-        self.fields['negative'].queryset = Negative.objects.filter(owner = get_current_user())
-        self.fields['enlarger'].queryset = Enlarger.objects.filter(owner = get_current_user())
-        self.fields['lens'].queryset = Lens.objects.filter(owner = get_current_user())
-        self.fields['archive'].queryset = Archive.objects.filter(owner = get_current_user())
-        self.fields['printer'].queryset = Person.objects.filter(owner = get_current_user())
+        self.fields['negative'].queryset = Negative.objects.filter(
+            owner=get_current_user())
+        self.fields['enlarger'].queryset = Enlarger.objects.filter(
+            owner=get_current_user())
+        self.fields['lens'].queryset = Lens.objects.filter(
+            owner=get_current_user())
+        self.fields['archive'].queryset = Archive.objects.filter(
+            owner=get_current_user())
+        self.fields['printer'].queryset = Person.objects.filter(
+            owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
     class Meta:
         model = Print
         fields = [
@@ -571,6 +666,7 @@ class PrintForm(ModelForm):
             fields.remove('developer')
             fields.remove('toner')
 
+
 class ProcessForm(ModelForm):
     class Meta:
         model = Process
@@ -579,18 +675,23 @@ class ProcessForm(ModelForm):
             'colour',
             'positive',
         ]
+
     def __init__(self, *args, **kwargs):
         super(ProcessForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
+
 class RepairForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(RepairForm, self).__init__(*args, **kwargs)
-        self.fields['camera'].queryset = Camera.objects.filter(owner = get_current_user())
-        self.fields['lens'].queryset = Lens.objects.filter(owner = get_current_user())
+        self.fields['camera'].queryset = Camera.objects.filter(
+            owner=get_current_user())
+        self.fields['lens'].queryset = Lens.objects.filter(
+            owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
     class Meta:
         model = Repair
         fields = [
@@ -601,13 +702,17 @@ class RepairForm(ModelForm):
             'detail',
         ]
 
+
 class ScanForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ScanForm, self).__init__(*args, **kwargs)
-        self.fields['negative'].queryset = Negative.objects.filter(owner = get_current_user())
-        self.fields['print'].queryset = Print.objects.filter(owner = get_current_user())
+        self.fields['negative'].queryset = Negative.objects.filter(
+            owner=get_current_user())
+        self.fields['print'].queryset = Print.objects.filter(
+            owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
     class Meta:
         model = Scan
         fields = [
@@ -620,17 +725,25 @@ class ScanForm(ModelForm):
             'height',
         ]
 
+
 class NegativeForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(NegativeForm, self).__init__(*args, **kwargs)
-        self.fields['film'].queryset = Film.objects.filter(owner = get_current_user())
-        self.fields['lens'].queryset = Lens.objects.filter(owner = get_current_user())
-        self.fields['mount_adapter'].queryset = MountAdapter.objects.filter(owner = get_current_user())
-        self.fields['film'].queryset = Film.objects.filter(owner = get_current_user())
-        self.fields['photographer'].queryset = Person.objects.filter(owner = get_current_user())
-        self.fields['copy_of'].queryset = Negative.objects.filter(owner = get_current_user())
+        self.fields['film'].queryset = Film.objects.filter(
+            owner=get_current_user())
+        self.fields['lens'].queryset = Lens.objects.filter(
+            owner=get_current_user())
+        self.fields['mount_adapter'].queryset = MountAdapter.objects.filter(
+            owner=get_current_user())
+        self.fields['film'].queryset = Film.objects.filter(
+            owner=get_current_user())
+        self.fields['photographer'].queryset = Person.objects.filter(
+            owner=get_current_user())
+        self.fields['copy_of'].queryset = Negative.objects.filter(
+            owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
     class Meta:
         model = Negative
         fields = [
@@ -655,15 +768,21 @@ class NegativeForm(ModelForm):
             'copy_of',
         ]
 
+
 class FilmForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(FilmForm, self).__init__(*args, **kwargs)
-        self.fields['camera'].queryset = Camera.objects.filter(owner = get_current_user())
-        self.fields['bulk_film'].queryset = BulkFilm.objects.filter(owner = get_current_user())
-        self.fields['processed_by'].queryset = Person.objects.filter(owner = get_current_user())
-        self.fields['archive'].queryset = Archive.objects.filter(owner = get_current_user())
+        self.fields['camera'].queryset = Camera.objects.filter(
+            owner=get_current_user())
+        self.fields['bulk_film'].queryset = BulkFilm.objects.filter(
+            owner=get_current_user())
+        self.fields['processed_by'].queryset = Person.objects.filter(
+            owner=get_current_user())
+        self.fields['archive'].queryset = Archive.objects.filter(
+            owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
     class Meta:
         model = Film
         fields = [
@@ -696,14 +815,6 @@ class FilmForm(ModelForm):
             fields.remove('developer')
             fields.remove('format')
 
-class SeriesForm(ModelForm):
-    class Meta:
-        model = Series
-        fields = ['name']
-    def __init__(self, *args, **kwargs):
-        super(SeriesForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.layout.append(Submit('Save', 'Save'))
 
 class TeleconverterForm(ModelForm):
     class Meta:
@@ -720,10 +831,12 @@ class TeleconverterForm(ModelForm):
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
             fields.remove('mount')
+
     def __init__(self, *args, **kwargs):
         super(TeleconverterForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
 
 class TonerForm(ModelForm):
     class Meta:
@@ -736,6 +849,7 @@ class TonerForm(ModelForm):
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
+
     def __init__(self, *args, **kwargs):
         super(TonerForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)

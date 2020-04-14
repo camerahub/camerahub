@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='print',
             name='toner',
-            field=models.ManyToManyField(blank=True, help_text='Toners and bleaches used to treat this print', through='schema.Toning', to='schema.Toner'),
+            field=models.ManyToManyField(
+                blank=True, help_text='Toners and bleaches used to treat this print', through='schema.Toning', to='schema.Toner'),
         ),
     ]

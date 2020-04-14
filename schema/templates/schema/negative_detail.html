@@ -1,84 +1,113 @@
-{% extends "schema/detail.html" %}
+{% extends "detail.html" %}
 
 {% block content %}
 <table class="table table-hover">
+  {% if object.film is not None %}
   <tr>
     <td>Film</td>
-    <td>{{ object.film }}</td>
-    <td>{% if object.film is not None %}<a href="{% url 'film-detail' object.film.id %}">{{ object.film }}</a>{% endif %}</td>
+    <td><a href="{% url 'film-detail' object.film.id %}">{{ object.film }}</a></td>
   </tr>
+  {% endif %}
   <tr>
     <td>Frame</td>
     <td>{{ object.frame }}</td>
   </tr>
+  {% if object.caption is not None %}
   <tr>
     <td>Caption</td>
     <td>{{ object.caption }}</td>
   </tr>
+  {% endif %}
+  {% if object.date is not None %}
   <tr>
     <td>Date</td>
     <td>{{ object.date }}</td>
   </tr>
+  {% endif %}
+  {% if object.lens is not None %}
   <tr>
     <td>Lens</td>
     <td>{{ object.lens }}</td>
   </tr>
+  {% endif %}
+  {% if object.shutter_speed is not None %}
   <tr>
     <td>Shutter speed</td>
     <td>{{ object.shutter_speed }}</td>
   </tr>
+  {% endif %}
+  {% if object.aperture is not None %}
   <tr>
     <td>Aperture</td>
     <td>{{ object.aperture }}</td>
   </tr>
+  {% endif %}
+  {% if object.filter is not None %}
   <tr>
     <td>Filter</td>
     <td>{{ object.filter }}</td>
   </tr>
+  {% endif %}
+  {% if object.teleconverter is not None %}
   <tr>
     <td>Teleconverter</td>
     <td>{{ object.teleconverter }}</td>
   </tr>
+  {% endif %}
+  {% if object.notes is not None %}
   <tr>
     <td>Notes</td>
     <td>{{ object.notes }}</td>
   </tr>
+  {% endif %}
+  {% if object.mount_adapter is not None %}
   <tr>
     <td>Adapter</td>
     <td>{{ object.mount_adapter }}</td>
   </tr>
+  {% endif %}
+  {% if object.focal_length is not None %}
   <tr>
     <td>Focal length</td>
-    <td>{{ object.focal_length }}</td>
+    <td>{{ object.focal_length }}mm</td>
   </tr>
+  {% endif %}
+  {% if object.latitude is not None and object.longitude is not None %}
   <tr>
-    <td>Latitude</td>
-    <td>{{ object.latitude }}</td>
+    <td>Location</td>
+    <td>{{ object.latitude }}°, {{ object.longitude }}°</td>
   </tr>
-  <tr>
-    <td>Longitude</td>
-    <td>{{ object.longitude }}</td>
-  </tr>
+  {% endif %}
+  {% if object.flash is not None %}
   <tr>
     <td>Flash</td>
     <td>{{ object.flash }}</td>
   </tr>
+  {% endif %}
+  {% if object.metering_mode is not None %}
   <tr>
     <td>Metering mode</td>
     <td>{{ object.metering_mode }}</td>
   </tr>
+  {% endif %}
+  {% if object.exposure_program is not None %}
   <tr>
     <td>Exposure program</td>
     <td>{{ object.exposure_program }}</td>
   </tr>
+  {% endif %}
+  {% if object.photographer is not None %}
   <tr>
     <td>Photographer</td>
     <td>{{ object.photographer }}</td>
   </tr>
+  {% endif %}
+  {% if object.copy_of is not None %}
   <tr>
     <td>Copy of</td>
     <td>{{ object.copy_of }}</td>
   </tr>
+  {% endif %}
 </table>
 
 <a data-toggle="collapse" href="#collapsePrints" role="button" aria-expanded="false" aria-controls="collapsePrints">

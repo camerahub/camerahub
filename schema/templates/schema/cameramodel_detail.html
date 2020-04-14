@@ -1,4 +1,4 @@
-{% extends "schema/detail.html" %}
+{% extends "detail.html" %}
 {% load yesnoicon %}
 
 {% block content %}
@@ -6,11 +6,12 @@
   <tr>
     <th colspan="2">Physical</th>
   </tr>
+  {% if object.manufacturer is not None %}
   <tr>
     <td>Manufacturer</td>
-    <td>{% if object.manufacturer is not None %}<a
-        href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a>{% endif %}</td>
+    <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a></td>
   </tr>
+  {% endif %}
   <tr>
     <td>Model</td>
     <td>{{ object.model }}</td>
@@ -21,26 +22,39 @@
     <td>{{ object.disambiguation }}</td>
   </tr>
   {% endif %}
-  {% if object.fixed_mount is not None %}
-  <tr>
-    <td>Fixed mount</td>
-    <td>{{ object.fixed_mount }}</td>
-  </tr>
-  {% endif %}
-  {% if object.fixed_mount is True %}
-  {% if object.lensmodel is not None %}
-  <tr>
-    <td>Lens model</td>
-    <td><a href="{% url 'lensmodel-detail' object.lensmodel.slug %}">{{ object.lensmodel }}</a></td>
-  </tr>
-  {% endif %}
-  {% else %}
   {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
     <td><a href="{% url 'mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
   </tr>
-  {% endif %}
+  {% else %}
+  <tr>
+    <td>Lens</td>
+    <td>{{ object.lens_manufacturer }} {{ object.lens_model_name }}</td>
+  </tr>
+  <!--
+  aperture_blades
+closest_focus
+coating
+elements
+exif_lenstype
+filter_thread
+formula
+groups
+hood
+image_circle
+lens_manufacturer
+lens_model
+magnification
+max_aperture
+max_focal_length
+min_aperture
+min_focal_length
+nominal_max_angle_diag
+nominal_min_angle_diag
+rectilinear
+zoom
+-->
   {% endif %}
   {% if object.format is not None %}
   <tr>
@@ -109,12 +123,6 @@
   </tr>
   {% endif %}
   {% if object.metering %}
-  {% if object.coupled_metering is not None %}
-  <tr>
-    <td>Coupled metering</td>
-    <td>{{ object.coupled_metering|yesnoicon }}</td>
-  </tr>
-  {% endif %}
   {% if object.metering_type is not None %}
   <tr>
     <td>Metering type</td>
@@ -207,16 +215,16 @@
 
 
   <tr>
-    <th colspan="2">Batteries</th>
+    <th colspan="2">Power</th>
   </tr>
   {% if object.battery_qty is not None %}
+
   <tr>
-    <td>Battery quantity</td>
-    <td>{{ object.battery_qty }}</td>
-  </tr>
-  <tr>
-    <td>Battery type</td>
-    <td>{{ object.battery_type }}</td>
+    <td>Batteries</td>
+    <td>{{ object.battery_qty }}
+      {% if object.battery_type is not None %} &times; <a
+        href="{% url 'battery-detail' object.battery_type.slug %}">{{ object.battery_type }}</a>{% endif %}
+    </td>
   </tr>
   {% endif %}
 
@@ -252,7 +260,7 @@
   {% endif %}
   {% if object.x_sync %}
   <tr>
-    <td>X-sync spped</td>
+    <td>X-sync speed</td>
     <td>{{ object.x_sync }}</td>
   </tr>
   {% endif %}
@@ -271,6 +279,12 @@
   <tr>
     <td>DoF preview</td>
     <td>{{ object.dof_preview|yesnoicon }}</td>
+  </tr>
+  {% endif %}
+  {% if object.mirror_lockup is not None %}
+  <tr>
+    <td>Mirror lock-up</td>
+    <td>{{ object.mirror_lockup|yesnoicon }}</td>
   </tr>
   {% endif %}
   {% if object.tripod is not None %}
@@ -296,18 +310,16 @@
     <td>{{ object.notes }}</td>
   </tr>
   {% endif %}
-  {% if object.series is not None %}
+  {% if object.created_at is not None %}
   <tr>
-    <td>Series</td>
-    <td>
-      {% if object.series is None %}
-      <ul>
-        {% for series in object.series.all %}
-        <li>{{ series.name }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-    </td>
+    <td>Created</td>
+    <td>{{ object.created_at }}{% if object.created_by is not None %} by {{ object.created_by }}{% endif %}</td>
+  </tr>
+  {% endif %}
+  {% if object.updated_at is not None %}
+  <tr>
+    <td>Last updated</td>
+    <td>{{ object.updated_at }}{% if object.updated_by is not None %} by {{ object.updated_by }}{% endif %}</td>
   </tr>
   {% endif %}
 </table>
@@ -317,7 +329,6 @@
 <div class="collapse" id="collapseCameras">
   <table class="table table-hover">
     <tr>
-      <th>Serial</th>
       <th>Acquired</th>
       <th>cost</th>
       <th>serial</th>
@@ -335,11 +346,10 @@
     </tr>
     {% for camera in cameramodel.camera_set.all %}
     <tr>
-      <td>{{ camera.serial }}</td>
       <td>{{ camera.acquired }}</td>
       <td>{{ camera.cost }}</td>
-      <td>{{ camera.serial }}</td>
-      <td>{{ camera.datecode }}</td>
+      <td><code>{{ camera.serial }}</code></td>
+      <td><code>{{ camera.datecode }}</code></td>
       <td>{{ camera.manufactured }}</td>
       <td>{{ camera.own }}</td>
       <td>{{ camera.lens }}</td>

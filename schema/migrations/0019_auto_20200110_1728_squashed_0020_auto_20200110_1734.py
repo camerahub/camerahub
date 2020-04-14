@@ -6,7 +6,8 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    replaces = [('schema', '0019_auto_20200110_1728'), ('schema', '0020_auto_20200110_1734')]
+    replaces = [('schema', '0019_auto_20200110_1728'),
+                ('schema', '0020_auto_20200110_1734')]
 
     dependencies = [
         ('schema', '0018_auto_20191217_2303'),
@@ -16,92 +17,110 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='archive',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='accessory',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='bulkfilm',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='camera',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='enlarger',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='film',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='filter',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='flash',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='lens',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='mountadapter',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='negative',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='order',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='person',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='print',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='repair',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='scan',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='series',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterField(
             model_name='teleconverter',
             name='id_owner',
-            field=autosequence.fields.AutoSequenceField(unique_with=('owner',)),
+            field=autosequence.fields.AutoSequenceField(
+                unique_with=('owner',)),
         ),
         migrations.AlterUniqueTogether(
             name='accessory',

@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='cameramodel',
             name='shoe',
-            field=models.CharField(blank=True, choices=[('No shoe', 'No shoe'), ('Hot shoe', 'Hot shoe'), ('Cold shoe', 'Cold shoe')], help_text='Type of flash/accessory shoe used on this camera model', max_length=9, null=True),
+            field=models.CharField(blank=True, choices=[('No shoe', 'No shoe'), ('Hot shoe', 'Hot shoe'), (
+                'Cold shoe', 'Cold shoe')], help_text='Type of flash/accessory shoe used on this camera model', max_length=9, null=True),
         ),
     ]

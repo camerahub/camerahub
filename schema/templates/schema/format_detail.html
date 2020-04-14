@@ -1,4 +1,4 @@
-{% extends "schema/detail.html" %}
+{% extends "detail.html" %}
 
 {% block content %}
 <table class="table table-hover">
@@ -6,9 +6,26 @@
     <td>Film format</td>
     <td>{{ object.format }}</td>
   </tr>
+  {% if object.negative_size is not None %}
   <tr>
     <td>Negative size</td>
     <td>{{ object.negative_size.all|join:", " }}</td>
   </tr>
+  {% endif %}
+  <tr>
+    <th colspan="2">Misc</th>
+  </tr>
+  {% if object.created_at is not None %}
+  <tr>
+    <td>Created</td>
+    <td>{{ object.created_at }}{% if object.created_by is not None %} by {{ object.created_by }}{% endif %}</td>
+  </tr>
+  {% endif %}
+  {% if object.updated_at is not None %}
+  <tr>
+    <td>Last updated</td>
+    <td>{{ object.updated_at }}{% if object.updated_by is not None %} by {{ object.updated_by }}{% endif %}</td>
+  </tr>
+  {% endif %}
 </table>
 {% endblock %}

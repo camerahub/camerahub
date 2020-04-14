@@ -36,6 +36,9 @@ The following environment variables are supported:
 | `CAMERAHUB_SENDGRID_KEY`   | API key for Sendgrid email backend                                                               |                                          |
 | `CAMERAHUB_FROM_EMAIL`     | [from email address](https://docs.djangoproject.com/en/3.0/ref/settings/#default-from-email)     | `noreply@camerahub.info`                 |
 | `CAMERAHUB_DOMAIN`         | [site domain](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts)                 | `camerahub.info`                         |
+| `CAMERAHUB_REDIS`          | enable [Redis caching](https://docs.djangoproject.com/en/3.0/topics/cache/)                      | `false`                                  |
+| `CAMERAHUB_REDIS_HOST`     | Redis hostname or IP address                                                                     | `127.0.0.1`                              |
+| `CAMERAHUB_REDIS_PORT`     | Redis port                                                                                       | `6379`                                   |
 
 ## See also
 
