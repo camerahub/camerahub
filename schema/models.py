@@ -10,6 +10,7 @@ from djchoices import DjangoChoices, ChoiceItem
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
 from slugify import Slugify, UniqueSlugify
+from taggit.managers import TaggableManager
 
 
 def cameramodel_check(text, uids):
@@ -1322,6 +1323,7 @@ class CameraModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='cameramodel_updated_by')
+    tags = TaggableManager()
 
     # Fixed lens fields
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
