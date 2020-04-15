@@ -4,7 +4,6 @@ kind: Ingress
 metadata:
   name: camerahub
   annotations:
-    kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
@@ -26,8 +25,3 @@ metadata:
   name: camerahub
 spec:
   replicas: 2
-  template:
-    spec:
-      containers:
-        - image: djjudas21/camerahub:0.6.2
-          name: camerahub
