@@ -22,7 +22,7 @@ spec:
   template:
     spec:
       containers:
-        - image: djjudas21/camerahub:0.6.2
+        - image: localhost:32000/camerahub:testing
           name: camerahub
 ---
 apiVersion: apps/v1

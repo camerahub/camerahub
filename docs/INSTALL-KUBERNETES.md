@@ -52,6 +52,13 @@ which is buit from git `master` on every push. It uses a single Postgresql repli
 on `localhost` on a high port.
 
 ```sh
+# Build testing image
+docker build -t camerahub:testing .
+
+# Push to local registry
+docker tag camerahub:testing localhost:32000/camerahub:testing
+docker push localhost:32000/camerahub:testing
+
 # Apply development manifests
 kubectl apply -k kubernetes/overlays/dev
 ```
@@ -62,4 +69,4 @@ Run the following command to get the IP address and port that CameraHub is runni
 kubectl get -o jsonpath="http://{.spec.clusterIP}:{.spec.ports[0].port}" service camerahub
 ```
 
-Then navigate to it, like [http://10.10.10.10:32000](http://10.10.10.10:32000). Login with default username `admin` and password `admin`.
+Then navigate to [http://localhost:80](http://localhost:80). Login with default username `admin` and password `admin`.
