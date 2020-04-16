@@ -10,5 +10,8 @@ patchesStrategicMerge:
 
 secretGenerator:
   - name: camerahub-secret
-    env: dev.env
     behavior: merge
+    literals:
+    - CAMERAHUB_PROD=false
+    - CAMERAHUB_SECRET_KEY=0h^xg)1v7(u4@$0@@5(r4!jd63et8lrl2bq_$fx0zqco8wu&!o
+    - CAMERAHUB_DOMAIN=localhost
