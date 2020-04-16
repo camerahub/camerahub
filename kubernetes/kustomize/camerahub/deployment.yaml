@@ -52,6 +52,7 @@ spec:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_DOMAIN
+                  optional: true
             - name: CAMERAHUB_DB_HOST
               value: postgres
             - name: CAMERAHUB_DB_NAME
@@ -65,6 +66,7 @@ spec:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_PROD
+                  optional: true
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
