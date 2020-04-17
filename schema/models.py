@@ -1324,6 +1324,8 @@ class CameraModel(models.Model):
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='cameramodel_updated_by')
     tags = TaggableManager()
+    url = models.URLField(
+        verbose_name='URL', help_text='URL to more information about this camera model', blank=True, null=True)
 
     # Fixed lens fields
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,

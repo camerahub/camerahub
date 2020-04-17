@@ -249,6 +249,7 @@ class CameraModelForm(ModelForm):
                 'Misc',
                 'notes',
                 'tags',
+                'url',
             ),
             FormActions(
                 Submit('save', 'Save changes'),
