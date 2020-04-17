@@ -248,6 +248,7 @@ class CameraModelForm(ModelForm):
             Fieldset(
                 'Misc',
                 'notes',
+                'tags',
             ),
             FormActions(
                 Submit('save', 'Save changes'),

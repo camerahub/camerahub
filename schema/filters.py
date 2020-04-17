@@ -1,5 +1,6 @@
-from django_filters import FilterSet
+from django_filters import FilterSet, CharFilter
 from django_currentuser.middleware import get_current_user
+from taggit.managers import TaggableManager
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock
@@ -74,6 +75,15 @@ class CameraModelFilter(FilterSet):
             'negative_size',
             'body_type',
         ]
+        exclude = ['tags']
+        filter_overrides = {
+            TaggableManager: {
+                'filter_class': CharFilter,
+                'extra': lambda f: {
+                    'lookup_expr': 'icontains',
+                },
+            },
+        }
 
 
 class DeveloperFilter(FilterSet):
