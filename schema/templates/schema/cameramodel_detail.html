@@ -311,6 +311,12 @@ zoom
     <td>{{ object.notes }}</td>
   </tr>
   {% endif %}
+  {% if object.url is not None %}
+  <tr>
+    <td>URL</td>
+    <td><a href="{{ object.url }}">{{ object.url }}</a></td>
+  </tr>
+  {% endif %}
   {% if object.created_at is not None %}
   <tr>
     <td>Created</td>
