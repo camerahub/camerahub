@@ -446,19 +446,17 @@
   <table class="table table-hover">
     <tr>
       <th>Acquired</th>
-      <th>cost</th>
-      <th>serial</th>
-      <th>datecode</th>
-      <th>manufactured</th>
-      <th>own</th>
-      <th>lens</th>
-      <th>notes</th>
-      <th>lost</th>
-      <th>lost_price</th>
-      <th>source</th>
-      <th>condition</th>
-      <th>condition_notes</th>
-      <th>display_lens</th>
+      <th>Cost</th>
+      <th>Serial</th>
+      <th>Datecode</th>
+      <th>Manufactured</th>
+      <th>Own</th>
+      <th>Notes</th>
+      <th>Lost</th>
+      <th>Lost price</th>
+      <th>Source</th>
+      <th>Condition</th>
+      <th>Display lens</th>
     </tr>
     {% for camera in cameramodel.camera_set.all %}
     <tr>
@@ -468,13 +466,11 @@
       <td><code>{{ camera.datecode }}</code></td>
       <td>{{ camera.manufactured }}</td>
       <td>{{ camera.own }}</td>
-      <td>{{ camera.lens }}</td>
       <td>{{ camera.notes }}</td>
       <td>{{ camera.lost }}</td>
       <td>{{ camera.lost_price }}</td>
       <td>{{ camera.source }}</td>
       <td>{{ camera.condition }}</td>
-      <td>{{ camera.condition_notes }}</td>
       <td>{{ camera.display_lens }}</td>
     </tr>
     {% endfor %}
