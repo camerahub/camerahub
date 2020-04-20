@@ -20,7 +20,7 @@ spec:
         app: camerahub-container
     spec:
       containers:
-        - image: djjudas21/camerahub:0.6.0
+        - image: djjudas21/camerahub:0.6.3
           imagePullPolicy: Always
           name: camerahub
           resources: {}
@@ -47,6 +47,12 @@ spec:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_SENDGRID_KEY
+            - name: CAMERAHUB_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: camerahub-secret
+                  key: CAMERAHUB_DOMAIN
+                  optional: true
             - name: CAMERAHUB_DB_HOST
               value: postgres
             - name: CAMERAHUB_DB_NAME
@@ -60,6 +66,7 @@ spec:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_PROD
+                  optional: true
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

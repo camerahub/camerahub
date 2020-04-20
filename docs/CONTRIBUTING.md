@@ -18,13 +18,49 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
+## Testing
+
+### Using the integrated web server
+
 CameraHub will run out of the box with no additional configuration, by creating an Sqlite database in its own directory.
 
-Run CameraHub by using the integrated web server. Editing and saving the code will cause the server to reload so you can test your changes.
+Run CameraHub by using the integrated web server. Editing and saving the code will cause the server to reload so you can quickly test your changes.
 
 ```sh
 python manage.py runserver
 ```
+
+Then browse to [http://localhost:80](http://localhost:8000). Login with default username `admin` and password `admin`.
+
+### Using microk8s
+
+The integrated web server is extremely convenient but does not test all aspects of CameraHub, especially the Postgres database backend,
+Redis caching and other production-like features. The best way to test these features is to run microk8s on your local computer, which gives
+you a full Kubernetes environment.
+
+After installing microk8s, ensure you have these addons:
+
+```sh
+microk8s.enable dns ingress storage registry
+```
+
+The development Kustomize overlay configures CameraHub as a single replica deployment of CameraHub, deployed from the `testing` Docker image,
+which is built locally on your system. It uses a single Postgresql replica to store its data. It creates a NodePort Service resource on
+`localhost` on a high port.
+
+```sh
+# Build testing image
+docker build -t camerahub:testing .
+
+# Push to local registry
+docker tag camerahub:testing localhost:32000/camerahub:testing
+docker push localhost:32000/camerahub:testing
+
+# Apply development manifests
+kubectl apply -k kubernetes/overlays/dev
+```
+
+Then browse to [http://localhost:80](http://localhost:80). Login with default username `admin` and password `admin`.
 
 ## Migrations
 

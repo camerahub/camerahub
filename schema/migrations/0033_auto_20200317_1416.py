@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='battery',
             name='compatible_with',
-            field=models.ManyToManyField(blank=True, help_text='Batteries that are compatible with this one', to='schema.Battery'),
+            field=models.ManyToManyField(
+                blank=True, help_text='Batteries that are compatible with this one', to='schema.Battery'),
         ),
     ]

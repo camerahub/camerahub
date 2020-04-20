@@ -29,7 +29,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='accessory',
             name='type',
-            field=models.CharField(choices=[('Battery grip', 'Battery grip'), ('Case', 'Case'), ('Film back', 'Film back'), ('Focusing screen', 'Focusing screen'), ('Lens hood', 'Lens hood'), ('Lens cap', 'Lens cap'), ('Power winder', 'Power winder'), ('Viewfinder', 'Viewfinder'), ('Rangefinder', 'Rangefinder'), ('Projector', 'Projector'), ('Light meter', 'Light meter')], help_text='Type of accessory', max_length=15),
+            field=models.CharField(choices=[('Battery grip', 'Battery grip'), ('Case', 'Case'), ('Film back', 'Film back'), ('Focusing screen', 'Focusing screen'), ('Lens hood', 'Lens hood'), ('Lens cap', 'Lens cap'), (
+                'Power winder', 'Power winder'), ('Viewfinder', 'Viewfinder'), ('Rangefinder', 'Rangefinder'), ('Projector', 'Projector'), ('Light meter', 'Light meter')], help_text='Type of accessory', max_length=15),
         ),
         migrations.DeleteModel(
             name='LightMeter',

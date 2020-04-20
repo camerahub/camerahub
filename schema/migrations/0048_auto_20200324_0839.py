@@ -23,7 +23,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='battery',
             name='created_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='battery_created_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user,
+                                                                       editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='battery_created_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='battery',
@@ -33,7 +34,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='battery',
             name='updated_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True, on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='battery_updated_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True,
+                                                                       on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='battery_updated_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='developer',
@@ -43,7 +45,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='developer',
             name='created_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='developer_created_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False,
+                                                                       null=True, on_delete=django.db.models.deletion.CASCADE, related_name='developer_created_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='developer',
@@ -53,7 +56,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='developer',
             name='updated_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True, on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='developer_updated_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True,
+                                                                       on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='developer_updated_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='filmstock',
@@ -63,7 +67,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='filmstock',
             name='created_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='filmstock_created_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False,
+                                                                       null=True, on_delete=django.db.models.deletion.CASCADE, related_name='filmstock_created_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='filmstock',
@@ -73,7 +78,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='filmstock',
             name='updated_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True, on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='filmstock_updated_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True,
+                                                                       on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='filmstock_updated_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='flashprotocol',
@@ -83,7 +89,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='flashprotocol',
             name='created_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='flashprotocol_created_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False,
+                                                                       null=True, on_delete=django.db.models.deletion.CASCADE, related_name='flashprotocol_created_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='flashprotocol',
@@ -93,7 +100,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='flashprotocol',
             name='updated_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True, on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='flashprotocol_updated_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True,
+                                                                       on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='flashprotocol_updated_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='format',
@@ -103,7 +111,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='format',
             name='created_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='format_created_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user,
+                                                                       editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='format_created_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='format',
@@ -113,7 +122,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='format',
             name='updated_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True, on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='format_updated_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True,
+                                                                       on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='format_updated_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='manufacturer',
@@ -123,7 +133,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='manufacturer',
             name='created_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='manufacturer_created_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False,
+                                                                       null=True, on_delete=django.db.models.deletion.CASCADE, related_name='manufacturer_created_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='manufacturer',
@@ -133,7 +144,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='manufacturer',
             name='updated_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True, on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='manufacturer_updated_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True,
+                                                                       on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='manufacturer_updated_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='mount',
@@ -143,7 +155,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='mount',
             name='created_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='mount_created_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user,
+                                                                       editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='mount_created_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='mount',
@@ -153,7 +166,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='mount',
             name='updated_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True, on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='mount_updated_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True,
+                                                                       on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='mount_updated_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='negativesize',
@@ -163,7 +177,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='negativesize',
             name='created_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='negativesize_created_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False,
+                                                                       null=True, on_delete=django.db.models.deletion.CASCADE, related_name='negativesize_created_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='negativesize',
@@ -173,7 +188,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='negativesize',
             name='updated_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True, on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='negativesize_updated_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True,
+                                                                       on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='negativesize_updated_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='paperstock',
@@ -183,7 +199,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='paperstock',
             name='created_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='paperstock_created_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False,
+                                                                       null=True, on_delete=django.db.models.deletion.CASCADE, related_name='paperstock_created_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='paperstock',
@@ -193,7 +210,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='paperstock',
             name='updated_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True, on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='paperstock_updated_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True,
+                                                                       on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='paperstock_updated_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='toner',
@@ -203,7 +221,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='toner',
             name='created_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='toner_created_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user,
+                                                                       editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='toner_created_by', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='toner',
@@ -213,6 +232,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='toner',
             name='updated_by',
-            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True, on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='toner_updated_by', to=settings.AUTH_USER_MODEL),
+            field=django_currentuser.db.models.fields.CurrentUserField(default=django_currentuser.middleware.get_current_authenticated_user, null=True,
+                                                                       on_delete=django.db.models.deletion.CASCADE, on_update=True, related_name='toner_updated_by', to=settings.AUTH_USER_MODEL),
         ),
     ]

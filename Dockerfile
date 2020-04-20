@@ -1,5 +1,5 @@
 # CameraHub
-FROM python:3-alpine
+FROM python:3.8-alpine
 LABEL maintainer "Jonathan Gazeley"
 
 # Project Files and Settings
@@ -17,9 +17,6 @@ RUN apk --no-cache add pcre mailcap libpq \
   && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git \
   && pip install . --no-cache-dir \
   && apk --no-cache del .build-deps
-
-# Specify production mode
-ENV CAMERAHUB_PROD=true
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
 RUN python manage.py collectstatic --noinput

@@ -1,17 +1,11 @@
-from django.forms import ModelForm
-from django import forms
-from django_currentuser.middleware import (
-    get_current_user, get_current_authenticated_user)
-from crispy_forms import helper, layout, bootstrap
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div, Row, Button, Field
-from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText
-import sys
+from crispy_forms.layout import Layout, Submit, Row
+from crispy_forms.bootstrap import FormActions
 
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
-from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock
+from schema.models import Flash, Lens, LensModel
+from schema.models import Mount, MountAdapter, Order, PaperStock, Print
+from schema.models import Repair, Negative, Film, Teleconverter, Toner
 
 # These helpers are just for the filter forms
 
@@ -62,6 +56,7 @@ class BulkFilmFormHelper(FormHelper):
 
 
 class CameraFormHelper(FormHelper):
+    model = Camera
     layout = Layout(
         Row(
             'cameramodel__manufacturer',
@@ -77,6 +72,7 @@ class CameraFormHelper(FormHelper):
 
 
 class CameraModelFormHelper(FormHelper):
+    model = CameraModel
     layout = Layout(
         Row(
             'manufacturer',

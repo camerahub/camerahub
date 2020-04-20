@@ -7,7 +7,7 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
-    - host: camerahub.info
+    - host: chub.jonathangazeley.com
       http:
         paths:
           - path: /
@@ -16,12 +16,12 @@ spec:
               servicePort: 8000
   tls:
     - hosts:
-        - camerahub.info
-      secretName: camerahub-ingress-cert
+        - chub.jonathangazeley.com
+      secretName: camerahub-preprod-ingress-cert
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: camerahub
 spec:
-  replicas: 2
+  replicas: 1

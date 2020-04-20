@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='cameramodel',
             name='meter_min_ev',
-            field=models.IntegerField(blank=True, help_text='Lowest EV/LV the built-in meter supports', null=True, verbose_name='Min EV'),
+            field=models.IntegerField(
+                blank=True, help_text='Lowest EV/LV the built-in meter supports', null=True, verbose_name='Min EV'),
         ),
     ]

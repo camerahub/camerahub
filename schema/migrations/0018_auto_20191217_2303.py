@@ -15,92 +15,110 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='accessory',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='archive',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='bulkfilm',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='camera',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='enlarger',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='film',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='filter',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='flash',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='lens',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='mountadapter',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='negative',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='order',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='person',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='print',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='repair',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='scan',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='series',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AddField(
             model_name='teleconverter',
             name='id_owner',
-            field=models.PositiveIntegerField(blank=True, help_text='Per-user incrementing number', null=True),
+            field=models.PositiveIntegerField(
+                blank=True, help_text='Per-user incrementing number', null=True),
         ),
         migrations.AlterUniqueTogether(
             name='accessory',

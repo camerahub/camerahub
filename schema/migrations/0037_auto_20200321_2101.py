@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='cameramodel',
             name='manufacturer',
-            field=models.ForeignKey(help_text='Manufacturer of this camera model', on_delete=django.db.models.deletion.CASCADE, to='schema.Manufacturer'),
+            field=models.ForeignKey(help_text='Manufacturer of this camera model',
+                                    on_delete=django.db.models.deletion.CASCADE, to='schema.Manufacturer'),
         ),
     ]

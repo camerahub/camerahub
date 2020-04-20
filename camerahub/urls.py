@@ -24,6 +24,3 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('favicon.urls')),
 ]
-
-
-namespace='author-polls'

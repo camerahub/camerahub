@@ -1,18 +1,16 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView
-from django_tables2 import SingleTableView, RequestConfig
-from django_tables2.views import SingleTableMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django_tables2 import SingleTableView
+from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from watson.views import SearchMixin
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
-from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print, Toning
-from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
+from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
+from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
 
 from schema.tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, FilmStockTable, FilterTable
 from schema.tables import FlashTable, FlashProtocolTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
@@ -46,7 +44,8 @@ class PagedFilteredTableView(SingleTableMixin, FilterView):
     template_name = 'list.html'
     paginate_by = 25
 
-    def get_queryset(self, **kwargs):
+    # pylint: disable=not-callable,attribute-defined-outside-init
+    def get_queryset(self):
         qs = super(PagedFilteredTableView, self).get_queryset()
         self.filter = self.filter_class(self.request.GET, queryset=qs)
         self.filter.form.helper = self.formhelper_class()
@@ -557,9 +556,10 @@ class PersonList(LoginRequiredMixin, SingleTableListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Person.objects.filter(owner=self.request.user)
+            mystr = Person.objects.filter(owner=self.request.user)
         else:
-            return Person.objects.none()
+            mystr = Person.objects.none()
+        return mystr
 
 
 class PersonDetail(LoginRequiredMixin, generic.DetailView):
@@ -651,9 +651,10 @@ class ScanList(LoginRequiredMixin, SingleTableListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Scan.objects.filter(owner=self.request.user)
+            mystr = Scan.objects.filter(owner=self.request.user)
         else:
-            return Scan.objects.none()
+            mystr = Scan.objects.none()
+        return mystr
 
 
 class ScanDetail(LoginRequiredMixin, generic.DetailView):
@@ -773,6 +774,7 @@ class StatsView(TemplateView):
         context['num_lens_models'] = LensModel.objects.count
         context['num_filmstocks'] = FilmStock.objects.count
         return context
+
 
 class SearchView(SearchMixin, generic.ListView):
 

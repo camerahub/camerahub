@@ -43,23 +43,4 @@ Run the following command to get the IP address that CameraHub is running on:
 kubectl get -o jsonpath="{.spec.clusterIP}" service camerahub
 ```
 
-Then navigate to it by IP address, like [http://1.2.3.4:8000](http://1.2.3.4:8000). Login with default username `admin` and password `admin`.
-
-## Development
-
-The development Kustomize overlay configures CameraHub as a single replica deployment of CameraHub, deployed from the `testing` Docker image,
-which is buit from git `master` on every push. It uses a single Postgresql replica to store its data. It creates a NodePort Service resource
-on `localhost` on a high port.
-
-```sh
-# Apply development manifests
-kubectl apply -k kubernetes/overlays/dev
-```
-
-Run the following command to get the IP address and port that CameraHub is running on:
-
-```sh
-kubectl get -o jsonpath="http://{.spec.clusterIP}:{.spec.ports[0].port}" service camerahub
-```
-
-Then navigate to it, like [http://10.10.10.10:32000](http://10.10.10.10:32000). Login with default username `admin` and password `admin`.
+Then browse to it by IP address, like [http://1.2.3.4:8000](http://1.2.3.4:8000). Login with default username `admin` and password `admin`.
