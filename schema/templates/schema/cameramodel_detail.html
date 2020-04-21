@@ -444,6 +444,7 @@
 <h4>Cameras</h4>
 <table class="table table-hover">
   <tr>
+    <th>ID</th>
     <th>Acquired</th>
     <th>Cost</th>
     <th>Serial</th>
@@ -459,6 +460,7 @@
   </tr>
   {% for camera in cameramodel.camera_set.all %}
   <tr>
+    <td><a href="{% url 'camera-detail' camera.id %}">#{{ camera.id }}</a></td>
     <td>{{ camera.acquired }}</td>
     <td>{{ camera.cost }}</td>
     <td><code>{{ camera.serial }}</code></td>
