@@ -174,6 +174,11 @@ class CameraCreate(LoginRequiredMixin, CreateView):
     form_class = CameraForm
     template_name = 'create.html'
 
+    def get_initial(self):
+        initial = super(CameraCreate, self).get_initial()
+        initial.update({'cameramodel': self.request.GET['cameramodel']})
+        return initial
+
 
 class CameraUpdate(LoginRequiredMixin, UpdateView):
     model = Camera
@@ -374,6 +379,11 @@ class LensCreate(LoginRequiredMixin, CreateView):
     model = Lens
     form_class = LensForm
     template_name = 'create.html'
+
+    def get_initial(self):
+        initial = super(LensCreate, self).get_initial()
+        initial.update({'lensmodel': self.request.GET['lensmodel']})
+        return initial
 
 
 class LensUpdate(LoginRequiredMixin, UpdateView):

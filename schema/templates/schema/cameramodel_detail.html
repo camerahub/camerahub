@@ -30,32 +30,141 @@
   {% else %}
   <tr>
     <td>Lens</td>
-    <td>{% if object.lens_manufacturer is not None %}{{ object.lens_manufacturer }} {% endif %}{{ object.lens_model_name }}
+    <td>{% if object.lens_manufacturer is not None %}{{ object.lens_manufacturer }}
+      {% endif %}{{ object.lens_model_name }}
     </td>
   </tr>
-  <!--
-  aperture_blades
-closest_focus
-coating
-elements
-exif_lenstype
-filter_thread
-formula
-groups
-hood
-image_circle
-lens_manufacturer
-lens_model
-magnification
-max_aperture
-max_focal_length
-min_aperture
-min_focal_length
-nominal_max_angle_diag
-nominal_min_angle_diag
-rectilinear
-zoom
--->
+
+
+  {% if object.lens_manufacturer is not None %}
+  <tr>
+    <td>Lens manufacturer</td>
+    <td><a href="{% url 'manufacturer-detail' object.lens_manufacturer.slug %}">{{ object.lens_manufacturer }}</a></td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Optics</th>
+  </tr>
+  {% if object.zoom is not None %}
+  <tr>
+    <td>Zoom</td>
+    <td>{{ object.zoom|yesnoicon }}</td>
+  </tr>
+  {% endif %}
+  {% if object.min_focal_length is not None %}
+  <tr>
+    <td>Focal length</td>
+    <td>
+      {{ object.min_focal_length }}{% if object.zoom is not False and object.max_focal_length is not None %}-{{ object.max_focal_length }}{% endif %}mm
+    </td>
+  </tr>
+  {% endif %}
+  {% if object.closest_focus is not None %}
+  <tr>
+    <td>Closest focus</td>
+    <td>{{ object.closest_focus }}cm</td>
+  </tr>
+  {% endif %}
+  {% if object.max_aperture is not None %}
+  <tr>
+    <td>Aperture</td>
+    <td>
+      <em>f</em>/{{ object.max_aperture }}{% if object.max_aperture is not None %}-{{ object.min_aperture }}{% endif %}
+    </td>
+  </tr>
+  {% endif %}
+  {% if object.elements is not None and object.groups is not None %}
+  <tr>
+    <td>Elements/Groups</td>
+    <td>{{ object.elements }}/{{ object.groups }}</td>
+  </tr>
+  {% else %}
+  {% if object.elements is not None %}
+  <tr>
+    <td>Elements</td>
+    <td>{{ object.elements }}</td>
+  </tr>
+  {% endif %}
+  {% if object.groups is not None %}
+  <tr>
+    <td>Groups</td>
+    <td>{{ object.groups }}</td>
+  </tr>
+  {% endif %}
+  {% endif %}
+  {% if object.nominal_max_angle_diag is not None %}
+  <tr>
+    <td>Diagonal angle of view</td>
+    <td>
+      {{ object.nominal_max_angle_diag }}{% if object.zoom is not False and object.nominal_min_angle_diag is not None %}-{{ object.nominal_min_angle_diag }}{% endif %}&deg;
+    </td>
+  </tr>
+  {% endif %}
+  {% if object.rectilinear is not None %}
+  <tr>
+    <td>Rectilinear</td>
+    <td>{{ object.rectilinear|yesnoicon }}</td>
+  </tr>
+  {% endif %}
+  {% if object.magnification is not None %}
+  <tr>
+    <td>Maximum magnification</td>
+    <td>{{ object.magnification }}&times;</td>
+  </tr>
+  {% endif %}
+  {% if object.negative_size is not None %}
+  {% endif %}
+  {% if object.aperture_blades is not None %}
+  <tr>
+    <td>Aperture blades</td>
+    <td>{{ object.aperture_blades }}</td>
+  </tr>
+  {% endif %}
+  {% if object.image_circle is not None %}
+  <tr>
+    <td>Image circle</td>
+    <td>{{ object.image_circle }}mm</td>
+  </tr>
+  {% endif %}
+  {% if object.formula is not None %}
+  <tr>
+    <td>Formula</td>
+    <td>{{ object.formula }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2">Features</th>
+  </tr>
+  {% if object.filter_thread is not None %}
+  <tr>
+    <td>Filter thread</td>
+    <td>{{ object.filter_thread }}mm</td>
+  </tr>
+  {% endif %}
+  {% if object.coating is not None %}
+  <tr>
+    <td>Coating</td>
+    <td>{{ object.coating }}</td>
+  </tr>
+  {% endif %}
+  {% if object.hood is not None %}
+  <tr>
+    <td>Hood</td>
+    <td>{{ object.hood }}</td>
+  </tr>
+  {% endif %}
+  {% if object.exif_lenstype is not None %}
+  <tr>
+    <td>EXIF Lens type</td>
+    <td>{{ object.exif_lenstype }}</td>
+  </tr>
+  {% endif %}
+
+
   {% endif %}
   {% if object.format is not None %}
   <tr>
@@ -331,44 +440,48 @@ zoom
   {% endif %}
 </table>
 
-<a data-toggle="collapse" href="#collapseCameras" role="button" aria-expanded="false" aria-controls="collapseCameras">
-  Cameras</a>
-<div class="collapse" id="collapseCameras">
-  <table class="table table-hover">
-    <tr>
-      <th>Acquired</th>
-      <th>cost</th>
-      <th>serial</th>
-      <th>datecode</th>
-      <th>manufactured</th>
-      <th>own</th>
-      <th>lens</th>
-      <th>notes</th>
-      <th>lost</th>
-      <th>lost_price</th>
-      <th>source</th>
-      <th>condition</th>
-      <th>condition_notes</th>
-      <th>display_lens</th>
-    </tr>
-    {% for camera in cameramodel.camera_set.all %}
-    <tr>
-      <td>{{ camera.acquired }}</td>
-      <td>{{ camera.cost }}</td>
-      <td><code>{{ camera.serial }}</code></td>
-      <td><code>{{ camera.datecode }}</code></td>
-      <td>{{ camera.manufactured }}</td>
-      <td>{{ camera.own }}</td>
-      <td>{{ camera.lens }}</td>
-      <td>{{ camera.notes }}</td>
-      <td>{{ camera.lost }}</td>
-      <td>{{ camera.lost_price }}</td>
-      <td>{{ camera.source }}</td>
-      <td>{{ camera.condition }}</td>
-      <td>{{ camera.condition_notes }}</td>
-      <td>{{ camera.display_lens }}</td>
-    </tr>
-    {% endfor %}
-  </table>
-</div>
+{% if cameramodel.camera_set.all %}
+<h4>Cameras</h4>
+<table class="table table-hover">
+  <tr>
+    <th>ID</th>
+    <th>Acquired</th>
+    <th>Cost</th>
+    <th>Serial</th>
+    <th>Datecode</th>
+    <th>Manufactured</th>
+    <th>Own</th>
+    <th>Notes</th>
+    <th>Lost</th>
+    <th>Lost price</th>
+    <th>Source</th>
+    <th>Condition</th>
+    <th>Display lens</th>
+  </tr>
+  {% for camera in cameramodel.camera_set.all %}
+  <tr>
+    <td><a href="{% url 'camera-detail' camera.id %}">#{{ camera.id }}</a></td>
+    <td>{{ camera.acquired }}</td>
+    <td>{{ camera.cost }}</td>
+    <td><code>{{ camera.serial }}</code></td>
+    <td><code>{{ camera.datecode }}</code></td>
+    <td>{{ camera.manufactured }}</td>
+    <td>{{ camera.own }}</td>
+    <td>{{ camera.notes }}</td>
+    <td>{{ camera.lost }}</td>
+    <td>{{ camera.lost_price }}</td>
+    <td>{{ camera.source }}</td>
+    <td>{{ camera.condition }}</td>
+    <td>{{ camera.display_lens }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}
+
+{% block moreactions %}
+<form action="{% url 'camera-create' %}">
+  <input type="hidden" name="cameramodel" value="{{ object.id }}">
+  <button class="btn btn-primary" type="submit">Add to collection</button>
+</form>
 {% endblock %}
