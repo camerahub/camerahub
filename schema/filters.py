@@ -78,10 +78,7 @@ class CameraModelFilter(FilterSet):
         exclude = ['tags']
         filter_overrides = {
             TaggableManager: {
-                'filter_class': CharFilter,
-                'extra': lambda f: {
-                    'lookup_expr': 'icontains',
-                },
+                'filterset_class': CharFilter,
             },
         }
 
