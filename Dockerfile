@@ -14,7 +14,7 @@ ENV PYTHONUNBUFFERED 1
 
 # Install deps from apk and pip
 RUN apk --no-cache add pcre mailcap libpq \
-  && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git poetry \
+  && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git poetry --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
   && poetry install \
   && apk --no-cache del .build-deps
 
