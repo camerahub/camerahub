@@ -17,7 +17,7 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6"
 Django = "^2.2"
 pytz = "*"
 django-money = "^0.15"
