@@ -20,7 +20,7 @@ RUN apk --no-cache add pcre mailcap libpq \
   && apk --no-cache del .build-deps
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
-RUN python manage.py collectstatic --noinput
+RUN poetry run python manage.py collectstatic --noinput
 
 # Tell uWSGI where to find your wsgi file:
 ENV UWSGI_WSGI_FILE=camerahub/wsgi.py
