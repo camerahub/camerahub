@@ -16,11 +16,12 @@ ENV PYTHONUNBUFFERED 1
 RUN apk --no-cache add pcre mailcap libpq \
   && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git libffi-dev\
   && pip install poetry \
+  && poetry config settings.virtualenvs.create false \
   && poetry install \
   && apk --no-cache del .build-deps
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
-RUN poetry run python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 # Tell uWSGI where to find your wsgi file:
 ENV UWSGI_WSGI_FILE=camerahub/wsgi.py
