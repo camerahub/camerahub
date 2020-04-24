@@ -7,6 +7,14 @@ license = "Apache-2.0"
 readme = "README.md"
 homepage = "https://camerahub.info/"
 repository = "https://github.com/djjudas21/camerahub"
+packages = [
+    { include = "camerahub" },
+    { include = "schema" },
+    { include = "help" },
+]
+include = [
+    "static",
+]
 
 [tool.poetry.dependencies]
 python = "^3.7"
