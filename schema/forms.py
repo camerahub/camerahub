@@ -265,6 +265,7 @@ class DeveloperForm(ModelForm):
             'for_paper',
             'for_film',
             'chemistry',
+            'tags',
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
@@ -311,6 +312,7 @@ class FilmStockForm(ModelForm):
             'colour',
             'panchromatic',
             'process',
+            'tags',
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
@@ -482,6 +484,7 @@ class LensModelForm(ModelForm):
             Fieldset(
                 'Misc',
                 'notes',
+                'tags',
                 'exif_lenstype',
                 'url',
             ),
@@ -502,6 +505,7 @@ class ManufacturerForm(ModelForm):
             'url',
             'founded',
             'dissolved',
+            'tags',
         ]
 
     def __init__(self, *args, **kwargs):
@@ -520,6 +524,7 @@ class MountForm(ModelForm):
             'purpose',
             'notes',
             'manufacturer',
+            'tags',
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
@@ -600,6 +605,7 @@ class PaperStockForm(ModelForm):
             'resin_coated',
             'colour',
             'finish',
+            'tags',
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
@@ -846,6 +852,7 @@ class TonerForm(ModelForm):
             'manufacturer',
             'formulation',
             'stock_dilution',
+            'tags',
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')

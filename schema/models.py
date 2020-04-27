@@ -59,6 +59,7 @@ class Manufacturer(models.Model):
     dissolved = models.PositiveIntegerField(
         help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager()
     created_at = models.DateTimeField(
         auto_now_add=True, null=True, editable=False)
     created_by = CurrentUserField(
@@ -590,6 +591,7 @@ class Mount(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                      blank=True, null=True, help_text='Manufacturer who owns this lens mount')
     slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager()
     created_at = models.DateTimeField(
         auto_now_add=True, null=True, editable=False)
     created_by = CurrentUserField(
@@ -640,6 +642,7 @@ class PaperStock(models.Model):
         help_text='Whether this is a colour paper', blank=True, null=True)
     finish = models.CharField(help_text='The finish of the paper surface',
                               choices=Finish.choices, max_length=25, blank=True, null=True)
+    tags = TaggableManager()
     created_at = models.DateTimeField(
         auto_now_add=True, null=True, editable=False)
     created_by = CurrentUserField(
@@ -774,6 +777,7 @@ class Toner(models.Model):
     stock_dilution = models.CharField(
         help_text='Stock dilution of the toner', max_length=10, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager()
     created_at = models.DateTimeField(
         auto_now_add=True, null=True, editable=False)
     created_by = CurrentUserField(
@@ -828,6 +832,7 @@ class FilmStock(models.Model):
     process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True,
                                 null=True, help_text='Development process required by this film')
     slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager()
     created_at = models.DateTimeField(
         auto_now_add=True, null=True, editable=False)
     created_by = CurrentUserField(
@@ -973,6 +978,7 @@ class Developer(models.Model):
     chemistry = models.CharField(
         help_text='The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager()
     created_at = models.DateTimeField(
         auto_now_add=True, null=True, editable=False)
     created_by = CurrentUserField(
@@ -1088,6 +1094,7 @@ class LensModel(models.Model):
     shutter_model = models.CharField(
         help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager()
     created_at = models.DateTimeField(
         auto_now_add=True, null=True, editable=False)
     created_by = CurrentUserField(

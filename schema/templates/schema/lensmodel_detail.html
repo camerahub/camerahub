@@ -200,6 +200,12 @@
     <td>{{ object.notes }}</td>
   </tr>
   {% endif %}
+  {% if object.tags is not None %}
+  <tr>
+    <td>Tags</td>
+    <td>{{ object.tags.all|join:", " }}</td>
+  </tr>
+  {% endif %}
   {% if object.url is not None %}
   <tr>
     <td>URL</td>
