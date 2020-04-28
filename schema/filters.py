@@ -1,5 +1,6 @@
-from django_filters import FilterSet
+from django_filters import FilterSet, CharFilter
 from django_currentuser.middleware import get_current_user
+from tagging.forms import TagField
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock
@@ -7,6 +8,13 @@ from schema.models import Flash, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
 from schema.models import Repair, Negative, Film, Teleconverter, Toner
 
+# Define a custom tag filter
+class TagFilter(CharFilter):
+    field_class = TagField
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('lookup_expr', 'in')
+        super().__init__(*args, **kwargs)
 
 class AccessoryFilter(FilterSet):
     class Meta:
@@ -65,6 +73,7 @@ class CameraFilter(FilterSet):
 
 
 class CameraModelFilter(FilterSet):
+    tags = TagFilter(field_name='tags__name', label='Tags')
     class Meta:
         model = CameraModel
         fields = [

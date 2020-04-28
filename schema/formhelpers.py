@@ -80,6 +80,7 @@ class CameraModelFormHelper(FormHelper):
             'format',
             'negative_size',
             'body_type',
+            'tags',
         ),
         FormActions(
             Submit('filter', 'Filter'),
