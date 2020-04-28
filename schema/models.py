@@ -75,7 +75,6 @@ class Manufacturer(models.Model):
         ordering = ['name']
         verbose_name_plural = "manufacturers"
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         custom_slugify_unique = Slugify(to_lower=True)
         self.slug = custom_slugify_unique(self.name)
@@ -202,7 +201,6 @@ class Battery(models.Model):
         ordering = ['name']
         verbose_name_plural = "batteries"
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         custom_slugify_unique = Slugify(to_lower=True)
         self.slug = custom_slugify_unique(self.name)
@@ -338,7 +336,6 @@ class NegativeSize(models.Model):
         return self.name
     # Override save method to calculate some fields
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         if self.width is not None and self.height is not None:
             self.aspect_ratio = self.width/self.height
@@ -606,7 +603,6 @@ class Mount(models.Model):
     def __str__(self):
         return self.mount
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         custom_slugify_unique = Slugify(to_lower=True)
         self.slug = custom_slugify_unique(self.mount)
@@ -805,7 +801,6 @@ class Toner(models.Model):
                 fields=['manufacturer', 'name'], name='toner_unique_name')
         ]
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         if not self.slug:
             custom_slugify_unique = UniqueSlugify(
@@ -861,7 +856,6 @@ class FilmStock(models.Model):
                 fields=['manufacturer', 'name'], name='filmstock_unique_name')
         ]
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         if not self.slug:
             custom_slugify_unique = UniqueSlugify(
@@ -955,7 +949,6 @@ class ShutterSpeed(models.Model):
     def __str__(self):
         return self.shutter_speed
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         # Test if format is 1/125
         fractional = re.match(r'^(\d{1})/(\d+)$', self.shutter_speed)
@@ -1009,7 +1002,6 @@ class Developer(models.Model):
                 fields=['manufacturer', 'name'], name='developer_unique_name')
         ]
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         if not self.slug:
             custom_slugify_unique = UniqueSlugify(
@@ -1185,7 +1177,6 @@ class LensModel(models.Model):
                 'min_aperture': ValidationError(('Max aperture must be smaller than min aperture')),
             })
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         # Auto-populate focal length
         if self.zoom is False and self.min_focal_length is not None:
@@ -1403,7 +1394,6 @@ class CameraModel(models.Model):
                 fields=['manufacturer', 'model', 'disambiguation'], name='cameramodel_unique_name')
         ]
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         if not self.slug:
             custom_slugify_unique = UniqueSlugify(
@@ -1791,7 +1781,6 @@ class Film(models.Model):
                 'date_processed': ValidationError(('Date processed cannot be earlier than the date the film was loaded')),
             })
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         # Auto-populate values from bulk films
         if self.bulk_film:
@@ -1885,7 +1874,6 @@ class Negative(models.Model):
                     'focal_length': ValidationError(('Focal length cannot be longer than the maximum focal length of the lens')),
                 })
 
-    # pylint: disable=arguments-differ
     def save(self, *args, **kwargs):
         # Auto-populate focal length
         if self.lens:
