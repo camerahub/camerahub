@@ -1,5 +1,6 @@
 {% extends "detail.html" %}
 {% load yesnoicon %}
+{% load tagging_tags %}
 
 {% block content %}
 <table class="table table-hover">
@@ -424,6 +425,15 @@
   <tr>
     <td>URL</td>
     <td><a href="{{ object.url }}">{{ object.url }}</a></td>
+  </tr>
+  {% endif %}
+  {% tags_for_object object as tag_list %}
+  {% if tag_list  %}
+  <tr>
+    <td>Tags</td>
+    <td>{% for tag in tag_list %}
+      <kbd>{{tag}}</kbd>
+      {% endfor %}</td>
   </tr>
   {% endif %}
   {% if object.created_at is not None %}

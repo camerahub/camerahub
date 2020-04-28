@@ -27,6 +27,15 @@
   <tr>
     <th colspan="2">Misc</th>
   </tr>
+  {% tags_for_object object as tag_list %}
+  {% if tag_list  %}
+  <tr>
+    <td>Tags</td>
+    <td>{% for tag in tag_list %}
+      <kbd>{{tag}}</kbd>
+      {% endfor %}</td>
+  </tr>
+  {% endif %}
   {% if object.created_at is not None %}
   <tr>
     <td>Created</td>
