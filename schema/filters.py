@@ -1,6 +1,6 @@
 from django_filters import FilterSet, CharFilter
 from django_currentuser.middleware import get_current_user
-from taggit.managers import TaggableManager
+from taggit.forms import TagField
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock
@@ -8,6 +8,13 @@ from schema.models import Flash, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
 from schema.models import Repair, Negative, Film, Teleconverter, Toner
 
+# Define a custom tag filter
+class TagFilter(CharFilter):
+    field_class = TagField
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('lookup_expr', 'in')
+        super().__init__(*args, **kwargs)
 
 class AccessoryFilter(FilterSet):
     class Meta:
@@ -66,6 +73,7 @@ class CameraFilter(FilterSet):
 
 
 class CameraModelFilter(FilterSet):
+    tags = TagFilter(field_name='tags__name', label='Tags')
     class Meta:
         model = CameraModel
         fields = [
@@ -75,15 +83,10 @@ class CameraModelFilter(FilterSet):
             'negative_size',
             'body_type',
         ]
-        exclude = ['tags']
-        filter_overrides = {
-            TaggableManager: {
-                'filterset_class': CharFilter,
-            },
-        }
 
 
 class DeveloperFilter(FilterSet):
+    tags = TagFilter(field_name='tags__name', label='Tags')
     class Meta:
         model = Developer
         fields = ('manufacturer', 'for_paper', 'for_film')
@@ -101,6 +104,7 @@ class EnlargerFilter(FilterSet):
 
 
 class FilmStockFilter(FilterSet):
+    tags = TagFilter(field_name='tags__name', label='Tags')
     class Meta:
         model = FilmStock
         fields = ('manufacturer', 'colour', 'panchromatic', 'process')
@@ -142,12 +146,14 @@ class LensFilter(FilterSet):
 
 
 class LensModelFilter(FilterSet):
+    tags = TagFilter(field_name='tags__name', label='Tags')
     class Meta:
         model = LensModel
         fields = ('manufacturer', 'mount', 'zoom', 'autofocus')
 
 
 class MountFilter(FilterSet):
+    tags = TagFilter(field_name='tags__name', label='Tags')
     class Meta:
         model = Mount
         fields = ('shutter_in_lens', 'type', 'purpose')
@@ -177,6 +183,7 @@ class OrderFilter(FilterSet):
 
 
 class PaperStockFilter(FilterSet):
+    tags = TagFilter(field_name='tags__name', label='Tags')
     class Meta:
         model = PaperStock
         fields = ('manufacturer', 'resin_coated', 'colour', 'finish')
@@ -256,6 +263,7 @@ class TeleconverterFilter(FilterSet):
 
 
 class TonerFilter(FilterSet):
+    tags = TagFilter(field_name='tags__name', label='Tags')
     class Meta:
         model = Toner
         fields = ('manufacturer',)
