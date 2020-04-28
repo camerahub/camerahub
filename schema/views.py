@@ -1,11 +1,15 @@
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.apps import apps
+from django.shortcuts import get_object_or_404
 from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from watson.views import SearchMixin
+
+from taggit.models import Tag
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
@@ -780,3 +784,26 @@ class SearchView(SearchMixin, generic.ListView):
     """View that performs a search and returns the search results."""
 
     template_name = "search.html"
+
+
+class TagList(ListView):
+    model = Tag
+    template_name = 'tag-list.html'
+
+
+class TagDetail(generic.DetailView):
+    model = Tag
+    template_name = 'tag-detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        taggeditems = self.get_object().taggit_taggeditem_items.all()
+
+        items = []
+        for item in taggeditems:
+            model = apps.get_model('schema', item.content_type.model)
+            detailitem = get_object_or_404(model, pk=item.object_id)
+            items.append(detailitem)
+
+        context['taggeditems'] = items
+        return context
