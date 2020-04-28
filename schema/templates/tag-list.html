@@ -8,7 +8,7 @@
 {% block content %}
 {% if object_list %}
 {% for tag in object_list %}
-<kbd>{{ tag }}</kbd>
+<a class="btn btn-outline-primary" href="{% url 'tag-detail' tag %}" role="button">{{ tag }}</a>
 {% endfor %}
 {% endif %}
 {% endblock %}

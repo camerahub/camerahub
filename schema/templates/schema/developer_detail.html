@@ -39,7 +39,7 @@
   <tr>
     <td>Tags</td>
     <td>{% for tag in tag_list %}
-      <kbd>{{tag}}</kbd>
+      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag %}" role="button">{{ tag }}</a>
       {% endfor %}</td>
   </tr>
   {% endif %}

@@ -200,6 +200,14 @@
     <td>{{ object.notes }}</td>
   </tr>
   {% endif %}
+  {% if object.tags is not None %}
+  <tr>
+    <td>Tags</td>
+    <td>{% for tag in tag_list %}
+      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag %}" role="button">{{ tag }}</a>
+      {% endfor %}</td>
+  </tr>
+  {% endif %}
   {% if object.url is not None %}
   <tr>
     <td>URL</td>

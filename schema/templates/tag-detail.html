@@ -6,5 +6,5 @@
     Tags</h4>{%endblock%}
 
 {% block content %}
-<kbd>{{ tag }}</kbd>
+<a class="btn btn-outline-primary" href="{% url 'tag-detail' object %}" role="button">{{ object }}</a>
 {% endblock %}
