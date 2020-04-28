@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block heading %}<h4>
+    <img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Tag">
+    Tags</h4>{%endblock%}
+
+{% block content %}
+{% if object_list %}
+{% for tag in object_list %}
+<kbd>{{ tag }}</kbd>
+{% endfor %}
+{% endif %}
+{% endblock %}

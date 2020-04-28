@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block heading %}<h4>
+    <img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Tag">
+    Tags</h4>{%endblock%}
+
+{% block content %}
+<kbd>{{ tag }}</kbd>
+{% endblock %}

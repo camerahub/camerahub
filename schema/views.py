@@ -1,11 +1,13 @@
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from watson.views import SearchMixin
+
+from taggit.models import Tag
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
@@ -780,3 +782,12 @@ class SearchView(SearchMixin, generic.ListView):
     """View that performs a search and returns the search results."""
 
     template_name = "search.html"
+
+
+class TagList(ListView):
+    model = Tag
+    template_name = 'tag-list.html'
+
+class TagDetail(generic.DetailView):
+    model = Tag
+    template_name = 'tag-detail.html'
