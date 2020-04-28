@@ -11,7 +11,7 @@ urlpatterns = [
     path('search/', views.SearchView.as_view(), name='search'),
 
     path('tag/', views.TagList.as_view(), name='tag-list'),
-    path('tag/<pk>', views.TagDetail.as_view(), name='tag-detail'),
+    path('tag/<slug:slug>', views.TagDetail.as_view(), name='tag-detail'),
 
     path('accessory/', views.AccessoryList.as_view(), name='accessory-list'),
     path('accessory/<int:pk>', views.AccessoryDetail.as_view(),
