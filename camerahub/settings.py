@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'django_filters',
     'watson',
     'tagging',
-    'tagging_autocomplete',
+    'tagging_autocomplete_new',
 ]
 
 MIDDLEWARE = [

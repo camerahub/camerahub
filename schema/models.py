@@ -10,7 +10,7 @@ from djchoices import DjangoChoices, ChoiceItem
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
 from slugify import Slugify, UniqueSlugify
-from tagging_autocomplete.models import TagAutocompleteField
+from tagging_autocomplete_new.models import TagAutocompleteField
 
 
 def cameramodel_check(text, uids):

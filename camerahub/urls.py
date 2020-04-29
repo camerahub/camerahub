@@ -23,5 +23,5 @@ urlpatterns = [
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('favicon.urls')),
-    path('tagging_autocomplete/', include('tagging_autocomplete.urls')),
+    path('tagging_autocomplete_new/', include('tagging_autocomplete_new.urls')),
 ]

@@ -23,4 +23,4 @@ django-watson>=1.5.5,<2.0.0
 django-redis>=4.11.0,<5.0.0
 pylint-django>=2.0.14,<3.0.0
 django-tagging
-django-tagging-autocomplete>=0.5.1,<1.0.0
+django-tagging-autocomplete-new>=0.6.3,<1.0.0
