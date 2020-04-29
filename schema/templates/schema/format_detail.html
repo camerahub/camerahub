@@ -9,7 +9,12 @@
   {% if object.negative_size is not None %}
   <tr>
     <td>Negative size</td>
-    <td>{{ object.negative_size.all|join:", " }}</td>
+    <td>
+      <ul class="list-inline">{% for negative_size in object.negative_size.all %}
+        <li class="list-inline-item"><a href="{% url 'negativesize-detail' negative_size.id %}">{{ negative_size }}</a>
+        </li>
+        {% endfor %}</ul>
+    </td>
   </tr>
   {% endif %}
   <tr>

@@ -54,7 +54,12 @@
   {% if object.toner is not None %}
   <tr>
     <td>Toner</td>
-    <td>{{ object.toner.all|join:", " }}</td>
+    <td>
+      <ul class="list-inline">
+        {% for toner in object.toner.all %}
+        <li class="list-inline-item"><a href="{% url 'toner-detail' toner.slug %}">{{ toner }}</a></li>
+        {% endfor %}</ul>
+    </td>
   </tr>
   {% endif %}
   {% if object.own is not None %}

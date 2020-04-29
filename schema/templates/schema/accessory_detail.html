@@ -10,7 +10,7 @@
   <tr>
     <td>Manufacturer</td>
     <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a></td>
-  {% endif %}
+    {% endif %}
   </tr>
   <tr>
     <td>Model</td>
@@ -43,13 +43,22 @@
   {% if object.camera_model_compatibility is not None %}
   <tr>
     <td>Camera model compatibility</td>
-    <td>{{ object.camera_model_compatibility.all|join:", " }}</td>
+    <td>
+      <ul class="list-inline">{% for camera in object.camera_model_compatibility.all %}
+        <li class="list-inline-item"><a href="{% url 'cameramodel-detail' camera.slug %}">{{ camera }}</a></li>
+        {% endfor %}</ul>
+    </td>
   </tr>
   {% endif %}
   {% if object.lens_model_compatibility is not None %}
   <tr>
     <td>Lens model compatibility</td>
-    <td>{{ object.lens_model_compatibility.all|join:", " }}</td>
+    <td>
+      <ul class="list-inline">
+        {% for lens in object.lens_model_compatibility.all %}
+        <li class="list-inline-item"><a href="{% url 'lensmodel-detail' lens.slug %}">{{ lens }}</a></li>
+        {% endfor %}</ul>
+    </td>
   </tr>
   {% endif %}
 </table>
