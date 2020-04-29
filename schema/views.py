@@ -7,7 +7,7 @@ from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from watson.views import SearchMixin
 
-from taggit.models import Tag
+from tagging.models import Tag
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
