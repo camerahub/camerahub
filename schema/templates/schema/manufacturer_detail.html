@@ -44,7 +44,7 @@
   <tr>
     <td>Tags</td>
     <td>{% for tag in tag_list %}
-      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag %}" role="button">{{ tag }}</a>
+      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag.name %}" role="button">{{ tag }}</a>
       {% endfor %}</td>
   </tr>
   {% endif %}
