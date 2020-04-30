@@ -3,7 +3,8 @@
 
 {% block heading %}<h4>
     <img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Tag">
-    Tags</h4>{%endblock%}
+    <a href="{% url 'tag-list' %}">Tags</a></h4>
+    <p>Public objects can be tagged</p>{%endblock%}
 
 {% block content %}
 <a class="btn btn-outline-primary" href="{% url 'tag-detail' object %}" role="button">{{ object }}</a>
