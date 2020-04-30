@@ -1,6 +1,7 @@
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView, ListView
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
@@ -788,6 +789,11 @@ class TagList(ListView):
     model = Tag
     template_name = 'tag-list.html'
 
+
 class TagDetail(generic.DetailView):
     model = Tag
     template_name = 'tag-detail.html'
+
+    # Alias slug to name
+    def get_object(self):
+        return get_object_or_404(Tag, name=self.kwargs['slug'])
