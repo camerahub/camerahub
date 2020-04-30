@@ -21,7 +21,12 @@
   {% if object.compatible_with is not None %}
   <tr>
     <td>Compatible with</td>
-    <td>{{ object.compatible_with.all|join:", " }}</td>
+    <td>
+      <ul class="list-inline">
+        {% for compat in object.compatible_with.all %}
+        <li class="list-inline-item"><a href="{% url 'battery-detail' compat.slug %}">{{ compat }}</a></li>
+        {% endfor %}</ul>
+    </td>
   </tr>
   {% endif %}
   <tr>
