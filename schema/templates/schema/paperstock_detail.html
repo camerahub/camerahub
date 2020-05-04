@@ -55,4 +55,13 @@
   </tr>
   {% endif %}
 </table>
+
+{% if related %}
+<h4>Similar paper stocks</h4>
+<ul>
+  {% for relateditem in related %}
+  <li><a href="{% url 'paperstock-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
 {% endblock %}

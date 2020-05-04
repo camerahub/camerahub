@@ -55,4 +55,13 @@
   </tr>
   {% endif %}
 </table>
+
+{% if related %}
+<h4>Similar developers</h4>
+<ul>
+  {% for relateditem in related %}
+  <li><a href="{% url 'developer-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
 {% endblock %}

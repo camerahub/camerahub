@@ -200,6 +200,11 @@ class CameraModelList(PagedFilteredTableView):
 class CameraModelDetail(generic.DetailView):
     model = CameraModel
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
+
 
 class CameraModelCreate(LoginRequiredMixin, CreateView):
     model = CameraModel
@@ -222,6 +227,11 @@ class DeveloperList(PagedFilteredTableView):
 
 class DeveloperDetail(generic.DetailView):
     model = Developer
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class DeveloperCreate(LoginRequiredMixin, CreateView):
@@ -268,6 +278,11 @@ class FilmStockList(PagedFilteredTableView):
 
 class FilmStockDetail(generic.DetailView):
     model = FilmStock
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class FilmStockCreate(LoginRequiredMixin, CreateView):
@@ -406,6 +421,11 @@ class LensModelList(PagedFilteredTableView):
 class LensModelDetail(generic.DetailView):
     model = LensModel
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
+
 
 class LensModelCreate(LoginRequiredMixin, CreateView):
     model = LensModel
@@ -426,6 +446,11 @@ class ManufacturerList(SingleTableListView):
 
 class ManufacturerDetail(generic.DetailView):
     model = Manufacturer
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class ManufacturerCreate(LoginRequiredMixin, CreateView):
@@ -449,6 +474,11 @@ class MountList(PagedFilteredTableView):
 
 class MountDetail(generic.DetailView):
     model = Mount
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class MountCreate(LoginRequiredMixin, CreateView):
@@ -539,6 +569,11 @@ class PaperStockList(PagedFilteredTableView):
 
 class PaperStockDetail(generic.DetailView):
     model = PaperStock
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class PaperStockCreate(LoginRequiredMixin, CreateView):
@@ -754,6 +789,11 @@ class TonerList(PagedFilteredTableView):
 
 class TonerDetail(generic.DetailView):
     model = Toner
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class TonerCreate(LoginRequiredMixin, CreateView):

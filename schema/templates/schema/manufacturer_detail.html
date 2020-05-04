@@ -60,4 +60,13 @@
   </tr>
   {% endif %}
 </table>
+
+{% if related %}
+<h4>Similar manufacturers</h4>
+<ul>
+  {% for relateditem in related %}
+  <li><a href="{% url 'manufacturer-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
 {% endblock %}

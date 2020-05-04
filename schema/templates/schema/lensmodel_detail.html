@@ -228,6 +228,15 @@
   {% endif %}
 </table>
 
+{% if related %}
+<h4>Similar lens models</h4>
+<ul>
+  {% for relateditem in related %}
+  <li><a href="{% url 'model-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
 <a data-toggle="collapse" href="#collapseLenses" role="button" aria-expanded="false" aria-controls="collapseLenses">
   Lenses</a>
 <div class="collapse" id="collapseLenses">
