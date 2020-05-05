@@ -249,7 +249,10 @@
   <tr>
     <td>Metering modes</td>
     <td>
-      {{ object.metering_modes.all|join:", " }}
+      <ul class="list-inline">{% for meteringmode in object.metering_modes.all %}
+        <li class="list-inline-item">{{ meteringmode }}</li>
+        {% endfor %}
+      </ul>
     </td>
   </tr>
   {% endif %}
@@ -264,7 +267,10 @@
   <tr>
     <td>Exposure programs</td>
     <td>
-      {{ object.exposure_programs.all|join:", " }}
+      <ul class="list-inline">{% for exposureprogram in object.exposure_programs.all %}
+        <li class="list-inline-item">{{ exposureprogram }}</li>
+        {% endfor %}
+      </ul>
     </td>
   </tr>
   {% endif %}
@@ -301,7 +307,10 @@
   <tr>
     <td>Shutter speeds</td>
     <td>
-      {{ object.shutter_speeds.all|dictsort:"shutter_speed"|join:", " }}
+      <ul class="list-inline">{% for shutter_speed in object.shutter_speeds.all %}
+        <li class="list-inline-item">{{ shutter_speed }}</li>
+        {% endfor %}
+      </ul>
     </td>
   </tr>
   {% endif %}
@@ -494,6 +503,13 @@
   {% endfor %}
 </table>
 {% endif %}
+{% endblock %}
+
+{% block moreactions %}
+<form action="{% url 'camera-create' %}">
+  <input type="hidden" name="cameramodel" value="{{ object.id }}">
+  <button class="btn btn-primary" type="submit">Add to collection</button>
+</form>
 {% endblock %}
 
 {% block moreactions %}
