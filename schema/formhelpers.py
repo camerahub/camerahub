@@ -80,6 +80,7 @@ class CameraModelFormHelper(FormHelper):
             'format',
             'negative_size',
             'body_type',
+            'tags',
         ),
         FormActions(
             Submit('filter', 'Filter'),
@@ -94,6 +95,7 @@ class DeveloperFormHelper(FormHelper):
             'manufacturer',
             'for_paper',
             'for_film',
+            'tags',
         ),
         FormActions(
             Submit('filter', 'Filter'),
@@ -124,6 +126,7 @@ class FilmStockFormHelper(FormHelper):
             'colour',
             'panchromatic',
             'process',
+            'tags',
         ),
         FormActions(
             Submit('filter', 'Filter'),
@@ -173,6 +176,7 @@ class LensModelFormHelper(FormHelper):
             'mount',
             'zoom',
             'autofocus',
+            'tags',
             ),
         FormActions(
             Submit('filter', 'Filter'),
@@ -187,6 +191,7 @@ class MountFormHelper(FormHelper):
             'shutter_in_lens',
             'type',
             'purpose',
+            'tags',
         ),
         FormActions(
             Submit('filter', 'Filter'),
@@ -229,6 +234,7 @@ class PaperStockFormHelper(FormHelper):
             'resin_coated',
             'colour',
             'finish',
+            'tags',
         ),
         FormActions(
             Submit('filter', 'Filter'),
@@ -315,6 +321,7 @@ class TonerFormHelper(FormHelper):
     layout = Layout(
         Row(
             'manufacturer',
+            'tags',
         ),
         FormActions(
             Submit('filter', 'Filter'),

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block heading %}<h4>
+    <img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Tag">
+    <a href="{% url 'tag-list' %}">Tags</a></h4>
+<p>Public objects can be tagged</p>{%endblock%}
+
+{% block content %}
+{% if object_list %}
+<h5>All tags</h5>
+{% for tag in object_list %}
+<a class="btn btn-outline-primary" href="{% url 'tag-detail' tag|lower %}" role="button">{{ tag }}</a>
+{% endfor %}
+{% else %}
+<p>No tags defined yet</p>
+{% endif %}
+{% endblock %}

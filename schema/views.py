@@ -1,11 +1,15 @@
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.apps import apps
+from django.shortcuts import get_object_or_404
 from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from watson.views import SearchMixin
+
+from taggit.models import Tag
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
@@ -36,7 +40,7 @@ from schema.formhelpers import OrderFormHelper, PaperStockFormHelper, PrintFormH
 
 
 class PagedFilteredTableView(SingleTableMixin, FilterView):
-    filter_class = None
+    filterset_class = None
     formhelper_class = None
     context_filter_name = 'filter'
     form_method = 'POST'
@@ -46,7 +50,7 @@ class PagedFilteredTableView(SingleTableMixin, FilterView):
     # pylint: disable=not-callable,attribute-defined-outside-init
     def get_queryset(self):
         qs = super(PagedFilteredTableView, self).get_queryset()
-        self.filter = self.filter_class(self.request.GET, queryset=qs)
+        self.filter = self.filterset_class(self.request.GET, queryset=qs)
         self.filter.form.helper = self.formhelper_class()
         return self.filter.qs
 
@@ -71,7 +75,7 @@ class SingleTableListView(SingleTableView):
 class AccessoryList(LoginRequiredMixin, PagedFilteredTableView):
     model = Accessory
     table_class = AccessoryTable
-    filter_class = AccessoryFilter
+    filterset_class = AccessoryFilter
     formhelper_class = AccessoryFormHelper
 
 
@@ -115,7 +119,7 @@ class ArchiveUpdate(LoginRequiredMixin, UpdateView):
 class BatteryList(PagedFilteredTableView):
     model = Battery
     table_class = BatteryTable
-    filter_class = BatteryFilter
+    filterset_class = BatteryFilter
     formhelper_class = BatteryFormHelper
 
 
@@ -138,7 +142,7 @@ class BatteryUpdate(LoginRequiredMixin, UpdateView):
 class BulkFilmList(LoginRequiredMixin, PagedFilteredTableView):
     model = BulkFilm
     table_class = BulkFilmTable
-    filter_class = BulkFilmFilter
+    filterset_class = BulkFilmFilter
     formhelper_class = BulkFilmFormHelper
 
 
@@ -161,7 +165,7 @@ class BulkFilmUpdate(LoginRequiredMixin, UpdateView):
 class CameraList(LoginRequiredMixin, PagedFilteredTableView):
     model = Camera
     table_class = CameraTable
-    filter_class = CameraFilter
+    filterset_class = CameraFilter
     formhelper_class = CameraFormHelper
 
 
@@ -189,12 +193,17 @@ class CameraUpdate(LoginRequiredMixin, UpdateView):
 class CameraModelList(PagedFilteredTableView):
     model = CameraModel
     table_class = CameraModelTable
-    filter_class = CameraModelFilter
+    filterset_class = CameraModelFilter
     formhelper_class = CameraModelFormHelper
 
 
 class CameraModelDetail(generic.DetailView):
     model = CameraModel
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class CameraModelCreate(LoginRequiredMixin, CreateView):
@@ -212,12 +221,17 @@ class CameraModelUpdate(LoginRequiredMixin, UpdateView):
 class DeveloperList(PagedFilteredTableView):
     model = Developer
     table_class = DeveloperTable
-    filter_class = DeveloperFilter
+    filterset_class = DeveloperFilter
     formhelper_class = DeveloperFormHelper
 
 
 class DeveloperDetail(generic.DetailView):
     model = Developer
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class DeveloperCreate(LoginRequiredMixin, CreateView):
@@ -235,7 +249,7 @@ class DeveloperUpdate(LoginRequiredMixin, UpdateView):
 class EnlargerList(LoginRequiredMixin, PagedFilteredTableView):
     model = Enlarger
     table_class = EnlargerTable
-    filter_class = EnlargerFilter
+    filterset_class = EnlargerFilter
     formhelper_class = EnlargerFormHelper
 
 
@@ -258,12 +272,17 @@ class EnlargerUpdate(LoginRequiredMixin, UpdateView):
 class FilmStockList(PagedFilteredTableView):
     model = FilmStock
     table_class = FilmStockTable
-    filter_class = FilmStockFilter
+    filterset_class = FilmStockFilter
     formhelper_class = FilmStockFormHelper
 
 
 class FilmStockDetail(generic.DetailView):
     model = FilmStock
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class FilmStockCreate(LoginRequiredMixin, CreateView):
@@ -302,7 +321,7 @@ class FilterUpdate(LoginRequiredMixin, UpdateView):
 class FlashList(LoginRequiredMixin, PagedFilteredTableView):
     model = Flash
     table_class = FlashTable
-    filter_class = FlashFilter
+    filterset_class = FlashFilter
     formhelper_class = FlashFormHelper
 
 
@@ -367,7 +386,7 @@ class FormatUpdate(LoginRequiredMixin, UpdateView):
 class LensList(LoginRequiredMixin, PagedFilteredTableView):
     model = Lens
     table_class = LensTable
-    filter_class = LensFilter
+    filterset_class = LensFilter
     formhelper_class = LensFormHelper
 
 
@@ -395,12 +414,17 @@ class LensUpdate(LoginRequiredMixin, UpdateView):
 class LensModelList(PagedFilteredTableView):
     model = LensModel
     table_class = LensModelTable
-    filter_class = LensModelFilter
+    filterset_class = LensModelFilter
     formhelper_class = LensModelFormHelper
 
 
 class LensModelDetail(generic.DetailView):
     model = LensModel
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class LensModelCreate(LoginRequiredMixin, CreateView):
@@ -423,6 +447,11 @@ class ManufacturerList(SingleTableListView):
 class ManufacturerDetail(generic.DetailView):
     model = Manufacturer
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
+
 
 class ManufacturerCreate(LoginRequiredMixin, CreateView):
     model = Manufacturer
@@ -439,12 +468,17 @@ class ManufacturerUpdate(LoginRequiredMixin, UpdateView):
 class MountList(PagedFilteredTableView):
     model = Mount
     table_class = MountTable
-    filter_class = MountFilter
+    filterset_class = MountFilter
     formhelper_class = MountFormHelper
 
 
 class MountDetail(generic.DetailView):
     model = Mount
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class MountCreate(LoginRequiredMixin, CreateView):
@@ -462,7 +496,7 @@ class MountUpdate(LoginRequiredMixin, UpdateView):
 class MountAdapterList(LoginRequiredMixin, PagedFilteredTableView):
     model = MountAdapter
     table_class = MountAdapterTable
-    filter_class = MountAdapterFilter
+    filterset_class = MountAdapterFilter
     formhelper_class = MountAdapterFormHelper
 
 
@@ -506,7 +540,7 @@ class NegativeSizeUpdate(LoginRequiredMixin, UpdateView):
 class OrderList(LoginRequiredMixin, PagedFilteredTableView):
     model = Order
     table_class = OrderTable
-    filter_class = OrderFilter
+    filterset_class = OrderFilter
     formhelper_class = OrderFormHelper
 
 
@@ -529,12 +563,17 @@ class OrderUpdate(LoginRequiredMixin, UpdateView):
 class PaperStockList(PagedFilteredTableView):
     model = PaperStock
     table_class = PaperStockTable
-    filter_class = PaperStockFilter
+    filterset_class = PaperStockFilter
     formhelper_class = PaperStockFormHelper
 
 
 class PaperStockDetail(generic.DetailView):
     model = PaperStock
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class PaperStockCreate(LoginRequiredMixin, CreateView):
@@ -580,7 +619,7 @@ class PersonUpdate(LoginRequiredMixin, UpdateView):
 class PrintList(LoginRequiredMixin, PagedFilteredTableView):
     model = Print
     table_class = PrintTable
-    filter_class = PrintFilter
+    filterset_class = PrintFilter
     formhelper_class = PrintFormHelper
 
 
@@ -624,7 +663,7 @@ class ProcessUpdate(LoginRequiredMixin, UpdateView):
 class RepairList(LoginRequiredMixin, PagedFilteredTableView):
     model = Repair
     table_class = RepairTable
-    filter_class = RepairFilter
+    filterset_class = RepairFilter
     formhelper_class = RepairFormHelper
 
 
@@ -675,7 +714,7 @@ class ScanUpdate(LoginRequiredMixin, UpdateView):
 class NegativeList(LoginRequiredMixin, PagedFilteredTableView):
     model = Negative
     table_class = NegativeTable
-    filter_class = NegativeFilter
+    filterset_class = NegativeFilter
     formhelper_class = NegativeFormHelper
 
 
@@ -698,7 +737,7 @@ class NegativeUpdate(LoginRequiredMixin, UpdateView):
 class FilmList(LoginRequiredMixin, PagedFilteredTableView):
     model = Film
     table_class = FilmTable
-    filter_class = FilmFilter
+    filterset_class = FilmFilter
     formhelper_class = FilmFormHelper
 
 
@@ -721,7 +760,7 @@ class FilmUpdate(LoginRequiredMixin, UpdateView):
 class TeleconverterList(LoginRequiredMixin, PagedFilteredTableView):
     model = Teleconverter
     table_class = TeleconverterTable
-    filter_class = TeleconverterFilter
+    filterset_class = TeleconverterFilter
     formhelper_class = TeleconverterFormHelper
 
 
@@ -744,12 +783,17 @@ class TeleconverterUpdate(LoginRequiredMixin, UpdateView):
 class TonerList(PagedFilteredTableView):
     model = Toner
     table_class = TonerTable
-    filter_class = TonerFilter
+    filterset_class = TonerFilter
     formhelper_class = TonerFormHelper
 
 
 class TonerDetail(generic.DetailView):
     model = Toner
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related'] = self.get_object().tags.similar_objects()
+        return context
 
 
 class TonerCreate(LoginRequiredMixin, CreateView):
@@ -780,3 +824,26 @@ class SearchView(SearchMixin, generic.ListView):
     """View that performs a search and returns the search results."""
 
     template_name = "search.html"
+
+
+class TagList(ListView):
+    model = Tag
+    template_name = 'tag-list.html'
+
+
+class TagDetail(generic.DetailView):
+    model = Tag
+    template_name = 'tag-detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        taggeditems = self.get_object().taggit_taggeditem_items.all()
+
+        items = []
+        for item in taggeditems:
+            model = apps.get_model('schema', item.content_type.model)
+            detailitem = get_object_or_404(model, pk=item.object_id)
+            items.append(detailitem)
+
+        context['taggeditems'] = items
+        return context
