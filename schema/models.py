@@ -1626,7 +1626,7 @@ class Lens(models.Model):
                 raise ValidationError({
                     'manufactured': ValidationError(('Manufactured date cannot be earlier than the date the lens model was introduced')),
                 })
-            if self.lensmodel.discontinued is not None and self.manufactured < self.lensmodel.discontinued:
+            if self.lensmodel.discontinued is not None and self.manufactured > self.lensmodel.discontinued:
                 raise ValidationError({
                     'manufactured': ValidationError(('Manufactured date cannot be later than the date the lens model was discontinued')),
                 })
@@ -1702,7 +1702,7 @@ class Camera(models.Model):
                 raise ValidationError({
                     'manufactured': ValidationError(('Manufactured date cannot be earlier than the date the camera model was introduced')),
                 })
-            if self.cameramodel.discontinued is not None and self.manufactured < self.cameramodel.discontinued:
+            if self.cameramodel.discontinued is not None and self.manufactured > self.cameramodel.discontinued:
                 raise ValidationError({
                     'manufactured': ValidationError(('Manufactured date cannot be later than the date the camera model was discontinued')),
                 })
