@@ -232,7 +232,7 @@
 <h4>Similar lens models</h4>
 <ul>
   {% for relateditem in related %}
-  <li><a href="{% url 'model-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+  <li><a href="{% url 'lensmodel-detail' relateditem.slug %}">{{ relateditem }}</a></li>
   {% endfor %}
 </ul>
 {% endif %}
