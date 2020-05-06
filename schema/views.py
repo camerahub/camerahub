@@ -180,7 +180,8 @@ class CameraCreate(LoginRequiredMixin, CreateView):
 
     def get_initial(self):
         initial = super(CameraCreate, self).get_initial()
-        initial.update({'cameramodel': self.request.GET['cameramodel']})
+        if 'cameramodel' in self.request.GET:
+            initial.update({'cameramodel': self.request.GET['cameramodel']})
         return initial
 
 
@@ -401,7 +402,8 @@ class LensCreate(LoginRequiredMixin, CreateView):
 
     def get_initial(self):
         initial = super(LensCreate, self).get_initial()
-        initial.update({'lensmodel': self.request.GET['lensmodel']})
+        if 'lensmodel' in self.request.GET:
+            initial.update({'lensmodel': self.request.GET['lensmodel']})
         return initial
 
 
