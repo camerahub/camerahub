@@ -178,7 +178,7 @@ class LensTable(tables.Table):
 
     @classmethod
     def render_lensmodel(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('lensmodel-detail', args=[value.lensmodel.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('lensmodel-detail', args=[value.slug]), value)
 
 
 class LensModelTable(tables.Table):
