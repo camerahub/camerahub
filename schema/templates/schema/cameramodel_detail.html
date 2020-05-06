@@ -466,6 +466,7 @@
 </ul>
 {% endif %}
 
+{% if user.is_authenticated %}
 {% if cameramodel.camera_set.all %}
 <h4>Cameras</h4>
 <table class="table table-hover">
@@ -502,6 +503,7 @@
   </tr>
   {% endfor %}
 </table>
+{% endif %}
 {% endif %}
 {% endblock %}
 
