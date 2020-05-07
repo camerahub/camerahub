@@ -2,9 +2,13 @@
 {% load yesnoicon %}
 
 {% block content %}
-<h3>Your camera</h3>
-
 <table class="table table-hover">
+    <tr>
+        <th>Camera model</th>
+        <td>{% if object.cameramodel is not None %}<a
+                href="{% url 'cameramodel-detail' object.cameramodel.slug %}">{{ object.cameramodel }}</a>{% endif %}
+        </td>
+    </tr>
     {% if object.acquired is not None %}
     <tr>
         <td>Acquired</td>
@@ -89,21 +93,6 @@
         <td>{{ object.display_lens }}</td>
     </tr>
     {% endif %}
-</table>
-
-<h3>The camera model</strong></h3>
-
-<table class="table table-hover">
-    <tr>
-        <th>Camera model</th>
-        <td>{% if object.cameramodel is not None %}<a
-                href="{% url 'cameramodel-detail' object.cameramodel.slug %}">{{ object.cameramodel }}</a>{% endif %}
-        </td>
-    </tr>
-    <tr>
-        <th>Introduced</th>
-        <td>{{object.cameramodel.introduced }}</td>
-    </tr>
 </table>
 {% endblock %}
 
