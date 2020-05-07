@@ -472,32 +472,24 @@
 <table class="table table-hover">
   <tr>
     <th>ID</th>
-    <th>Acquired</th>
-    <th>Cost</th>
     <th>Serial</th>
     <th>Datecode</th>
     <th>Manufactured</th>
+    <th>Acquired</th>
+    <th>Cost</th>
     <th>Own</th>
-    <th>Notes</th>
-    <th>Lost</th>
-    <th>Lost price</th>
-    <th>Source</th>
     <th>Condition</th>
     <th>Display lens</th>
   </tr>
   {% for camera in cameramodel.camera_set.all %}
   <tr>
     <td><a href="{% url 'camera-detail' camera.id %}">#{{ camera.id }}</a></td>
-    <td>{{ camera.acquired }}</td>
-    <td>{{ camera.cost }}</td>
     <td><code>{{ camera.serial }}</code></td>
     <td><code>{{ camera.datecode }}</code></td>
     <td>{{ camera.manufactured }}</td>
+    <td>{{ camera.acquired }}</td>
+    <td>{{ camera.cost }}</td>
     <td>{{ camera.own }}</td>
-    <td>{{ camera.notes }}</td>
-    <td>{{ camera.lost }}</td>
-    <td>{{ camera.lost_price }}</td>
-    <td>{{ camera.source }}</td>
     <td>{{ camera.condition }}</td>
     <td>{{ camera.display_lens }}</td>
   </tr>
