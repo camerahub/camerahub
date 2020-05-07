@@ -240,15 +240,39 @@
 {% if user.is_authenticated %}
 {% if lensmodel.lens_set.all %}
 <h4>In your collection</h4>
+
+
+
+
 <table class="table table-hover">
   <tr>
-    <th>Serial</th>
+    <th>ID</th>
     <th>Acquired</th>
+    <th>Cost</th>
+    <th>Serial</th>
+    <th>Datecode</th>
+    <th>Manufactured</th>
+    <th>Own</th>
+    <th>Notes</th>
+    <th>Lost</th>
+    <th>Lost price</th>
+    <th>Source</th>
+    <th>Condition</th>
   </tr>
   {% for lens in lensmodel.lens_set.all %}
   <tr>
-    <td><code>{{ lens.serial }}</code></td>
+    <td><a href="{% url 'lens-detail' lens.id %}">#{{ lens.id }}</a></td>
     <td>{{ lens.acquired }}</td>
+    <td>{{ lens.cost }}</td>
+    <td><code>{{ lens.serial }}</code></td>
+    <td><code>{{ lens.datecode }}</code></td>
+    <td>{{ lens.manufactured }}</td>
+    <td>{{ lens.own }}</td>
+    <td>{{ lens.notes }}</td>
+    <td>{{ lens.lost }}</td>
+    <td>{{ lens.lost_price }}</td>
+    <td>{{ lens.source }}</td>
+    <td>{{ lens.condition }}</td>
   </tr>
   {% endfor %}
 </table>
