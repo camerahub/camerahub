@@ -62,7 +62,7 @@ class CameraTable(tables.Table):
 
     @classmethod
     def render_cameramodel(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('cameramodel-detail', args=[record.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('cameramodel-detail', args=[record.cameramodel.slug]), value)
 
 
 class CameraModelTable(tables.Table):

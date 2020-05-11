@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'fullurl',
     'django_filters',
     'watson',
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -212,3 +213,5 @@ else:
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
     }
+
+TAGGIT_CASE_INSENSITIVE = True

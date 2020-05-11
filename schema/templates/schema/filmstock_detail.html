@@ -40,6 +40,14 @@
   <tr>
     <th colspan="2">Misc</th>
   </tr>
+  {% if object.tags is not None %}
+  <tr>
+    <td>Tags</td>
+    <td>{% for tag in object.tags.all %}
+      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag|lower %}" role="button">{{ tag }}</a>
+      {% endfor %}</td>
+  </tr>
+  {% endif %}
   {% if object.created_at is not None %}
   <tr>
     <td>Created</td>
@@ -53,6 +61,15 @@
   </tr>
   {% endif %}
 </table>
+
+{% if related %}
+<h4>Similar film stocks</h4>
+<ul>
+  {% for relateditem in related %}
+  <li><a href="{% url 'filmstock-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
 
 <a data-toggle="collapse" href="#collapseFilms" role="button" aria-expanded="false" aria-controls="collapseFilms">
   Films</a>

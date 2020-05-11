@@ -200,6 +200,14 @@
     <td>{{ object.notes }}</td>
   </tr>
   {% endif %}
+  {% if object.tags is not None %}
+  <tr>
+    <td>Tags</td>
+    <td>{% for tag in object.tags.all %}
+      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag|lower %}" role="button">{{ tag }}</a>
+      {% endfor %}</td>
+  </tr>
+  {% endif %}
   {% if object.url is not None %}
   <tr>
     <td>URL</td>
@@ -220,6 +228,16 @@
   {% endif %}
 </table>
 
+{% if related %}
+<h4>Similar lens models</h4>
+<ul>
+  {% for relateditem in related %}
+  <li><a href="{% url 'lensmodel-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if user.is_authenticated %}
 <a data-toggle="collapse" href="#collapseLenses" role="button" aria-expanded="false" aria-controls="collapseLenses">
   Lenses</a>
 <div class="collapse" id="collapseLenses">
@@ -236,6 +254,7 @@
     {% endfor %}
   </table>
 </div>
+{% endif %}
 {% endblock %}
 
 {% block moreactions %}
