@@ -57,7 +57,7 @@
     </tr>
     {% for film in bulkfilm.film_set.all %}
     <tr>
-      <td><a href="{% url 'film-detail' film.id %}"">{{ film.id }}</a></td>
+      <td><a href="{% url 'film-detail' film.id_owner %}">{{ film.id_owner }}</a></td>
       <td>{{ film.title }}</td>
     </tr>
     {% endfor %}

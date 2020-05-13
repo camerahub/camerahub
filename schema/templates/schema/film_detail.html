@@ -35,7 +35,7 @@
   {% if object.camera is not None %}
   <tr>
     <td>Camera</td>
-    <td><a href="{% url 'camera-detail' object.camera.id %}">{{ object.camera }}</a></td>
+    <td><a href="{% url 'camera-detail' object.camera.id_owner %}">{{ object.camera }}</a></td>
   </tr>
   {% endif %}
   {% if object.title is not None %}
@@ -131,13 +131,13 @@
   {% if object.processed_by is not None %}
   <tr>
     <td>Processed by</td>
-    <td><a href="{% url 'person-detail' object.processed_by.id %}">{{ object.processed_by }}</a></td>
+    <td><a href="{% url 'person-detail' object.processed_by.id_owner %}">{{ object.processed_by }}</a></td>
   </tr>
   {% endif %}
   {% if object.archive is not None %}
   <tr>
     <td>Archive</td>
-    <td><a href="{% url 'archive-detail' object.archive.id %}">{{ object.archive }}</a></td>
+    <td><a href="{% url 'archive-detail' object.archive.id_owner %}">{{ object.archive }}</a></td>
   </tr>
   {% endif %}
 </table>

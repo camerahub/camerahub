@@ -14,17 +14,17 @@ urlpatterns = [
     path('tag/<slug:slug>', views.TagDetail.as_view(), name='tag-detail'),
 
     path('accessory/', views.AccessoryList.as_view(), name='accessory-list'),
-    path('accessory/<int:pk>', views.AccessoryDetail.as_view(),
+    path('accessory/<int:id_owner>', views.AccessoryDetail.as_view(),
          name='accessory-detail'),
     path('accessory/create/', views.AccessoryCreate.as_view(),
          name='accessory-create'),
-    path('accessory/<int:pk>/update',
+    path('accessory/<int:id_owner>/update',
          views.AccessoryUpdate.as_view(), name='accessory-update'),
 
     path('archive/', views.ArchiveList.as_view(), name='archive-list'),
-    path('archive/<int:pk>', views.ArchiveDetail.as_view(), name='archive-detail'),
+    path('archive/<int:id_owner>', views.ArchiveDetail.as_view(), name='archive-detail'),
     path('archive/create/', views.ArchiveCreate.as_view(), name='archive-create'),
-    path('archive/<int:pk>/update',
+    path('archive/<int:id_owner>/update',
          views.ArchiveUpdate.as_view(), name='archive-update'),
 
     path('battery/', views.BatteryList.as_view(), name='battery-list'),
@@ -34,15 +34,15 @@ urlpatterns = [
          views.BatteryUpdate.as_view(), name='battery-update'),
 
     path('bulkfilm/', views.BulkFilmList.as_view(), name='bulkfilm-list'),
-    path('bulkfilm/<int:pk>', views.BulkFilmDetail.as_view(), name='bulkfilm-detail'),
+    path('bulkfilm/<int:id_owner>', views.BulkFilmDetail.as_view(), name='bulkfilm-detail'),
     path('bulkfilm/create/', views.BulkFilmCreate.as_view(), name='bulkfilm-create'),
-    path('bulkfilm/<int:pk>/update',
+    path('bulkfilm/<int:id_owner>/update',
          views.BulkFilmUpdate.as_view(), name='bulkfilm-update'),
 
     path('camera/', views.CameraList.as_view(), name='camera-list'),
-    path('camera/<int:pk>', views.CameraDetail.as_view(), name='camera-detail'),
+    path('camera/<int:id_owner>', views.CameraDetail.as_view(), name='camera-detail'),
     path('camera/create/', views.CameraCreate.as_view(), name='camera-create'),
-    path('camera/<int:pk>/update',
+    path('camera/<int:id_owner>/update',
          views.CameraUpdate.as_view(), name='camera-update'),
 
     path('cameramodel/', views.CameraModelList.as_view(), name='cameramodel-list'),
@@ -62,9 +62,9 @@ urlpatterns = [
          views.DeveloperUpdate.as_view(), name='developer-update'),
 
     path('enlarger/', views.EnlargerList.as_view(), name='enlarger-list'),
-    path('enlarger/<int:pk>', views.EnlargerDetail.as_view(), name='enlarger-detail'),
+    path('enlarger/<int:id_owner>', views.EnlargerDetail.as_view(), name='enlarger-detail'),
     path('enlarger/create/', views.EnlargerCreate.as_view(), name='enlarger-create'),
-    path('enlarger/<int:pk>/update',
+    path('enlarger/<int:id_owner>/update',
          views.EnlargerUpdate.as_view(), name='enlarger-update'),
 
     path('filmstock/', views.FilmStockList.as_view(), name='filmstock-list'),
@@ -82,9 +82,9 @@ urlpatterns = [
          views.FilterUpdate.as_view(), name='filter-update'),
 
     path('flash/', views.FlashList.as_view(), name='flash-list'),
-    path('flash/<int:pk>', views.FlashDetail.as_view(), name='flash-detail'),
+    path('flash/<int:id_owner>', views.FlashDetail.as_view(), name='flash-detail'),
     path('flash/create/', views.FlashCreate.as_view(), name='flash-create'),
-    path('flash/<int:pk>/update', views.FlashUpdate.as_view(), name='flash-update'),
+    path('flash/<int:id_owner>/update', views.FlashUpdate.as_view(), name='flash-update'),
 
     path('flashprotocol/', views.FlashProtocolList.as_view(),
          name='flashprotocol-list'),
@@ -102,9 +102,9 @@ urlpatterns = [
          views.FormatUpdate.as_view(), name='format-update'),
 
     path('lens/', views.LensList.as_view(), name='lens-list'),
-    path('lens/<int:pk>', views.LensDetail.as_view(), name='lens-detail'),
+    path('lens/<int:id_owner>', views.LensDetail.as_view(), name='lens-detail'),
     path('lens/create/', views.LensCreate.as_view(), name='lens-create'),
-    path('lens/<int:pk>/update', views.LensUpdate.as_view(), name='lens-update'),
+    path('lens/<int:id_owner>/update', views.LensUpdate.as_view(), name='lens-update'),
 
     path('lensmodel/', views.LensModelList.as_view(), name='lensmodel-list'),
     path('lensmodel/<slug:slug>', views.LensModelDetail.as_view(),
@@ -131,11 +131,11 @@ urlpatterns = [
 
     path('mountadapter/', views.MountAdapterList.as_view(),
          name='mountadapter-list'),
-    path('mountadapter/<int:pk>', views.MountAdapterDetail.as_view(),
+    path('mountadapter/<int:id_owner>', views.MountAdapterDetail.as_view(),
          name='mountadapter-detail'),
     path('mountadapter/create/', views.MountAdapterCreate.as_view(),
          name='mountadapter-create'),
-    path('mountadapter/<int:pk>/update',
+    path('mountadapter/<int:id_owner>/update',
          views.MountAdapterUpdate.as_view(), name='mountadapter-update'),
 
     path('negativesize/', views.NegativeSizeList.as_view(),
@@ -148,9 +148,9 @@ urlpatterns = [
          views.NegativeSizeUpdate.as_view(), name='negativesize-update'),
 
     path('order/', views.OrderList.as_view(), name='order-list'),
-    path('order/<int:pk>', views.OrderDetail.as_view(), name='order-detail'),
+    path('order/<int:id_owner>', views.OrderDetail.as_view(), name='order-detail'),
     path('order/create/', views.OrderCreate.as_view(), name='order-create'),
-    path('order/<int:pk>/update', views.OrderUpdate.as_view(), name='order-update'),
+    path('order/<int:id_owner>/update', views.OrderUpdate.as_view(), name='order-update'),
 
     path('paperstock/', views.PaperStockList.as_view(), name='paperstock-list'),
     path('paperstock/<int:pk>', views.PaperStockDetail.as_view(),
@@ -161,15 +161,15 @@ urlpatterns = [
          views.PaperStockUpdate.as_view(), name='paperstock-update'),
 
     path('person/', views.PersonList.as_view(), name='person-list'),
-    path('person/<int:pk>', views.PersonDetail.as_view(), name='person-detail'),
+    path('person/<int:id_owner>', views.PersonDetail.as_view(), name='person-detail'),
     path('person/create/', views.PersonCreate.as_view(), name='person-create'),
-    path('person/<int:pk>/update',
+    path('person/<int:id_owner>/update',
          views.PersonUpdate.as_view(), name='person-update'),
 
     path('print/', views.PrintList.as_view(), name='print-list'),
-    path('print/<int:pk>', views.PrintDetail.as_view(), name='print-detail'),
+    path('print/<int:id_owner>', views.PrintDetail.as_view(), name='print-detail'),
     path('print/create/', views.PrintCreate.as_view(), name='print-create'),
-    path('print/<int:pk>/update', views.PrintUpdate.as_view(), name='print-update'),
+    path('print/<int:id_owner>/update', views.PrintUpdate.as_view(), name='print-update'),
 
     path('process/', views.ProcessList.as_view(), name='process-list'),
     path('process/<int:pk>', views.ProcessDetail.as_view(), name='process-detail'),
@@ -178,34 +178,34 @@ urlpatterns = [
          views.ProcessUpdate.as_view(), name='process-update'),
 
     path('repair/', views.RepairList.as_view(), name='repair-list'),
-    path('repair/<int:pk>', views.RepairDetail.as_view(), name='repair-detail'),
+    path('repair/<int:id_owner>', views.RepairDetail.as_view(), name='repair-detail'),
     path('repair/create/', views.RepairCreate.as_view(), name='repair-create'),
-    path('repair/<int:pk>/update',
+    path('repair/<int:id_owner>/update',
          views.RepairUpdate.as_view(), name='repair-update'),
 
     path('scan/', views.ScanList.as_view(), name='scan-list'),
-    path('scan/<int:pk>', views.ScanDetail.as_view(), name='scan-detail'),
+    path('scan/<int:id_owner>', views.ScanDetail.as_view(), name='scan-detail'),
     path('scan/create/', views.ScanCreate.as_view(), name='scan-create'),
-    path('scan/<int:pk>/update', views.ScanUpdate.as_view(), name='scan-update'),
+    path('scan/<int:id_owner>/update', views.ScanUpdate.as_view(), name='scan-update'),
 
     path('negative/', views.NegativeList.as_view(), name='negative-list'),
-    path('negative/<int:pk>', views.NegativeDetail.as_view(), name='negative-detail'),
+    path('negative/<int:id_owner>', views.NegativeDetail.as_view(), name='negative-detail'),
     path('negative/create/', views.NegativeCreate.as_view(), name='negative-create'),
-    path('negative/<int:pk>/update',
+    path('negative/<int:id_owner>/update',
          views.NegativeUpdate.as_view(), name='negative-update'),
 
     path('film/', views.FilmList.as_view(), name='film-list'),
-    path('film/<int:pk>', views.FilmDetail.as_view(), name='film-detail'),
+    path('film/<int:id_owner>', views.FilmDetail.as_view(), name='film-detail'),
     path('film/create/', views.FilmCreate.as_view(), name='film-create'),
-    path('film/<int:pk>/update', views.FilmUpdate.as_view(), name='film-update'),
+    path('film/<int:id_owner>/update', views.FilmUpdate.as_view(), name='film-update'),
 
     path('teleconverter/', views.TeleconverterList.as_view(),
          name='teleconverter-list'),
-    path('teleconverter/<int:pk>', views.TeleconverterDetail.as_view(),
+    path('teleconverter/<int:id_owner>', views.TeleconverterDetail.as_view(),
          name='teleconverter-detail'),
     path('teleconverter/create/', views.TeleconverterCreate.as_view(),
          name='teleconverter-create'),
-    path('teleconverter/<int:pk>/update',
+    path('teleconverter/<int:id_owner>/update',
          views.TeleconverterUpdate.as_view(), name='teleconverter-update'),
 
     path('toner/', views.TonerList.as_view(), name='toner-list'),
