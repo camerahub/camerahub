@@ -247,19 +247,15 @@
     <th>Serial</th>
     <th>Datecode</th>
     <th>Manufactured</th>
-    <th>Acquired</th>
-    <th>Cost</th>
     <th>Own</th>
     <th>Condition</th>
   </tr>
   {% for lens in mine %}
   <tr>
-    <td><a href="{% url 'lens-detail' lens.id %}">#{{ lens.id }}</a></td>
+    <td><a href="{% url 'lens-detail' lens.id_owner %}">#{{ lens.id_owner }}</a></td>
     <td><code>{{ lens.serial }}</code></td>
     <td><code>{{ lens.datecode }}</code></td>
     <td>{{ lens.manufactured }}</td>
-    <td>{{ lens.acquired }}</td>
-    <td>{{ lens.cost }}</td>
     <td>{{ lens.own }}</td>
     <td>{{ lens.condition }}</td>
   </tr>

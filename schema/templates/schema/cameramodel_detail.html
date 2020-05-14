@@ -481,9 +481,7 @@
   </tr>
   {% for camera in mine %}
   <tr>
-    <td><a href="{% url 'camera-detail' camera.id_owner %}">#{{ camera.id }}</a></td>
-    <td>{{ camera.acquired }}</td>
-    <td>{{ camera.cost }}</td>
+    <td><a href="{% url 'camera-detail' camera.id_owner %}">#{{ camera.id_owner }}</a></td>
     <td><code>{{ camera.serial }}</code></td>
     <td><code>{{ camera.datecode }}</code></td>
     <td>{{ camera.manufactured }}</td>
