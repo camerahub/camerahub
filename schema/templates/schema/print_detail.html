@@ -6,7 +6,7 @@
   {% if object.negative is not None %}
   <tr>
     <td>Negative</td>
-    <td><a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a></td>
+    <td><a href="{% url 'negative-detail' object.negative.id_owner %}">{{ object.negative }}</a></td>
   </tr>
   {% endif %}
   {% if object.date is not None %}
@@ -86,6 +86,7 @@
     <td>{{ object.enlarger }}</td>
   </tr>
   {% endif %}
+  {% if object.lens is not None %}
   <tr>
     <td>Enlarger lens</td>
     <td>{{ object.lens }}</td>
@@ -108,11 +109,11 @@
     <td>Notes</td>
     <td>{{ object.notes }}</td>
   </tr>
-  {% notes %}
+  {% endif %}
   {% if object.archive is not None %}
   <tr>
     <td>Archive</td>
-    <td><a href="{% url 'archive-detail' object.archive.id %}">{{ object.archive }}</a></td>
+    <td><a href="{% url 'archive-detail' object.archive.id_owner %}">{{ object.archive }}</a></td>
   </tr>
   {% endif %}
   {% if object.printer is not None %}

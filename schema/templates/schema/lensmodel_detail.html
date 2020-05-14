@@ -246,7 +246,7 @@
       <th>Serial</th>
       <th>Acquired</th>
     </tr>
-    {% for lens in lensmodel.lens_set.all %}
+    {% for lens in mine %}
     <tr>
       <td><code>{{ lens.serial }}</code></td>
       <td>{{ lens.acquired }}</td>
