@@ -2069,8 +2069,8 @@ class Order(models.Model):
         help_text='Whether the print has been made', blank=True, null=True)
     print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True,
                               null=True, help_text='Print that was made to fulfil this order')
-    recipient = models.ForeignKey(
-        Person, on_delete=models.CASCADE, help_text='Person who placed this order')
+    recipient = models.ForeignKey(Person, on_delete=models.CASCADE,
+                                  help_text='Person who placed this order', blank=True, null=True)
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(unique_with='owner', editable=False)
 
