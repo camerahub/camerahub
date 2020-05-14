@@ -1,5 +1,5 @@
 {% extends "detail.html" %}
-{% load yesnoicon %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -28,13 +28,13 @@
   {% if object.battery_powered is not None %}
   <tr>
     <td>Battery powered</td>
-    <td>{{ object.battery_powered|yesnoicon }}</td>
+    <td>{{ object.battery_powered|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.pc_sync is not None %}
   <tr>
     <td>PC sync</td>
-    <td>{{ object.pc_sync|yesnoicon }}</td>
+    <td>{{ object.pc_sync|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.hot_shoe is not None %}
@@ -46,7 +46,7 @@
   {% if object.light_stand is not None %}
   <tr>
     <td>Light stand</td>
-    <td>{{ object.light_stand|yesnoicon }}</td>
+    <td>{{ object.light_stand|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.battery_type is not None %}
@@ -64,25 +64,25 @@
   {% if object.manual_control is not None %}
   <tr>
     <td>Manual power control</td>
-    <td>{{ object.manual_control|yesnoicon}}</td>
+    <td>{{ object.manual_control|boolicontag}}</td>
   </tr>
   {% endif %}
   {% if object.swivel_head is not None %}
   <tr>
     <td>Swivel head</td>
-    <td>{{ object.swivel_head|yesnoicon }}</td>
+    <td>{{ object.swivel_head|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.tilt_head is not None %}
   <tr>
     <td>Tilt head</td>
-    <td>{{ object.tilt_head|yesnoicon }}</td>
+    <td>{{ object.tilt_head|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.zoom is not None %}
   <tr>
     <td>Zoom</td>
-    <td>{{ object.zoom|yesnoicon}}</td>
+    <td>{{ object.zoom|boolicontag}}</td>
   </tr>
   {% endif %}
   {% if object.ttl is not None %}

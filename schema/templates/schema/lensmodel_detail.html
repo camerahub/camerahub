@@ -1,5 +1,5 @@
 {% extends "detail.html" %}
-{% load yesnoicon %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -60,7 +60,7 @@
   {% if object.zoom is not None %}
   <tr>
     <td>Zoom</td>
-    <td>{{ object.zoom|yesnoicon }}</td>
+    <td>{{ object.zoom|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.min_focal_length is not None %}
@@ -115,7 +115,7 @@
   {% if object.rectilinear is not None %}
   <tr>
     <td>Rectilinear</td>
-    <td>{{ object.rectilinear|yesnoicon }}</td>
+    <td>{{ object.rectilinear|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.magnification is not None %}
@@ -156,7 +156,7 @@
   {% if object.autofocus is not None %}
   <tr>
     <td>Autofocus</td>
-    <td>{{ object.autofocus|yesnoicon }}</td>
+    <td>{{ object.autofocus|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.filter_thread is not None %}

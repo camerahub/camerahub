@@ -1,6 +1,7 @@
 import django_tables2 as tables
 from django.utils.html import format_html
 from django.urls import reverse
+from schema.funcs import boolicon
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -61,7 +62,8 @@ class BulkFilmTable(tables.Table):
 class CameraTable(tables.Table):
     class Meta:
         model = Camera
-        fields = ('id_owner', 'cameramodel', 'serial', 'manufactured', 'cameramodel__lens_model_name')
+        fields = ('id_owner', 'cameramodel', 'serial',
+                  'manufactured', 'cameramodel__lens_model_name')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -114,6 +116,14 @@ class DeveloperTable(tables.Table):
     def render_name(cls, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('developer-detail', args=[record.slug]), record.manufacturer, value)
 
+    @classmethod
+    def render_for_paper(cls, value):
+        return format_html(boolicon(value))
+
+    @classmethod
+    def render_for_film(cls, value):
+        return format_html(boolicon(value))
+
 
 class EnlargerTable(tables.Table):
     class Meta:
@@ -137,6 +147,14 @@ class FilmStockTable(tables.Table):
     @classmethod
     def render_name(cls, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('filmstock-detail', args=[record.slug]), record.manufacturer, value)
+
+    @classmethod
+    def render_colour(cls, value):
+        return format_html(boolicon(value))
+
+    @classmethod
+    def render_panchromatic(cls, value):
+        return format_html(boolicon(value))
 
 
 class FilterTable(tables.Table):
@@ -247,6 +265,14 @@ class LensModelTable(tables.Table):
             mystr = format_html("?")
         return mystr
 
+    @classmethod
+    def render_zoom(cls, value):
+        return format_html(boolicon(value))
+
+    @classmethod
+    def render_autofocus(cls, value):
+        return format_html(boolicon(value))
+
 
 class ManufacturerTable(tables.Table):
     class Meta:
@@ -266,6 +292,10 @@ class MountTable(tables.Table):
     @classmethod
     def render_mount(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[record.slug]), value)
+
+    @classmethod
+    def render_shutter_in_lens(cls, value):
+        return format_html(boolicon(value))
 
 
 class MountAdapterTable(tables.Table):
@@ -338,6 +368,14 @@ class PaperStockTable(tables.Table):
     def render_name(cls, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('paperstock-detail', args=[record.id]), record.manufacturer, value)
 
+    @classmethod
+    def render_resin_coated(cls, value):
+        return format_html(boolicon(value))
+
+    @classmethod
+    def render_colour(cls, value):
+        return format_html(boolicon(value))
+
 
 class PersonTable(tables.Table):
     class Meta:
@@ -376,6 +414,14 @@ class ProcessTable(tables.Table):
     @classmethod
     def render_name(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('process-detail', args=[record.id]), value)
+
+    @classmethod
+    def render_colour(cls, value):
+        return format_html(boolicon(value))
+
+    @classmethod
+    def render_positive(cls, value):
+        return format_html(boolicon(value))
 
 
 class RepairTable(tables.Table):
