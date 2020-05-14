@@ -1,5 +1,5 @@
 {% extends "detail.html" %}
-{% load yesnoicon %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -65,7 +65,7 @@
   {% if object.own is not None %}
   <tr>
     <td>Own</td>
-    <td>{{ object.own|yesnoicon }}</td>
+    <td>{{ object.own|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.location is not None %}
@@ -101,7 +101,7 @@
   {% if object.fine is not None %}
   <tr>
     <td>Fine</td>
-    <td>{{ object.fine|yesnoicon }}</td>
+    <td>{{ object.fine|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.notes is not None %}

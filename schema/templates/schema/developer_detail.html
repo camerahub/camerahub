@@ -1,5 +1,5 @@
 {% extends "detail.html" %}
-{% load yesnoicon %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -16,13 +16,13 @@
   {% if object.for_paper is not None %}
   <tr>
     <td>For paper</td>
-    <td>{{ object.for_paper|yesnoicon }}</td>
+    <td>{{ object.for_paper|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.for_film is not None %}
   <tr>
     <td>For film</td>
-    <td>{{ object.for_film|yesnoicon }}</td>
+    <td>{{ object.for_film|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.chemistry is not None %}

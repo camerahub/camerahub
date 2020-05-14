@@ -1,5 +1,5 @@
 {% extends "detail.html" %}
-{% load yesnoicon %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -31,7 +31,7 @@
   {% endif %}
   <tr>
     <td>Sealed</td>
-    <td>{{ object.sealed|yesnoicon }}</td>
+    <td>{{ object.sealed|boolicontag }}</td>
   </tr>
 </table>
 {% endblock %}
