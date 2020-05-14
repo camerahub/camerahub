@@ -236,6 +236,7 @@ class CameraModelDetail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['related'] = self.get_object().tags.similar_objects()
+        context['mine'] = self.get_object().camera_set.filter(owner=self.request.user)
         return context
 
 
@@ -482,6 +483,7 @@ class LensModelDetail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['related'] = self.get_object().tags.similar_objects()
+        context['mine'] = self.get_object().lens_set.filter(owner=self.request.user)
         return context
 
 
