@@ -12,7 +12,11 @@ from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, 
 class AccessoryTable(tables.Table):
     class Meta:
         model = Accessory
-        fields = ('model', 'type')
+        fields = ('id_owner', 'model', 'type')
+
+    @classmethod
+    def render_id_owner(cls, value):
+        return format_html("<a href=\"{}\">#{}</a>", reverse('accessory-detail', args=[value]), value)
 
     @classmethod
     def render_model(cls, value, record):
@@ -43,7 +47,7 @@ class BatteryTable(tables.Table):
 class BulkFilmTable(tables.Table):
     class Meta:
         model = BulkFilm
-        fields = ('id', 'format', 'filmstock', 'id_owner')
+        fields = ('id_owner', 'format', 'filmstock')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -57,7 +61,7 @@ class CameraTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('camera-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('camera-detail', args=[value]), value)
 
     @classmethod
     def render_cameramodel(cls, value, record):
@@ -102,7 +106,11 @@ class DeveloperTable(tables.Table):
 class EnlargerTable(tables.Table):
     class Meta:
         model = Enlarger
-        fields = ('model', 'negative_size', 'type', 'id_owner')
+        fields = ('id_owner', 'model', 'negative_size', 'type')
+
+    @classmethod
+    def render_id_owner(cls, value):
+        return format_html("<a href=\"{}\">#{}</a>", reverse('enlarger-detail', args=[value]), value)
 
     @classmethod
     def render_model(cls, value, record):
@@ -132,7 +140,11 @@ class FilterTable(tables.Table):
 class FlashTable(tables.Table):
     class Meta:
         model = Flash
-        fields = ('model', 'guide_number', 'ttl', 'flash_protocol', 'id_owner')
+        fields = ('id_owner', 'model', 'guide_number', 'ttl', 'flash_protocol')
+
+    @classmethod
+    def render_id_owner(cls, value):
+        return format_html("<a href=\"{}\">#{}</a>", reverse('flash-detail', args=[value]), value)
 
     @classmethod
     def render_model(cls, value, record):
@@ -168,11 +180,12 @@ class FormatTable(tables.Table):
 class LensTable(tables.Table):
     class Meta:
         model = Lens
-        fields = ('id_owner', 'lensmodel', 'serial', 'manufactured', 'acquired')
+        fields = ('id_owner', 'lensmodel', 'serial',
+                  'manufactured', 'acquired')
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('lens-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('lens-detail', args=[value]), value)
 
     @classmethod
     def render_lensmodel(cls, value):
@@ -234,12 +247,12 @@ class MountTable(tables.Table):
 class MountAdapterTable(tables.Table):
     class Meta:
         model = MountAdapter
-        fields = ('id', 'camera_mount', 'lens_mount',
-                  'has_optics', 'infinity_focus', 'id_owner')
+        fields = ('id_owner', 'camera_mount', 'lens_mount',
+                  'has_optics', 'infinity_focus')
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('mountadapter-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('mountadapter-detail', args=[value]), value)
 
     @classmethod
     def render_camera_mount(cls, value):
@@ -264,12 +277,12 @@ class NegativeSizeTable(tables.Table):
 class OrderTable(tables.Table):
     class Meta:
         model = Order
-        fields = ('id', 'negative', 'width', 'height', 'added',
-                  'printed', 'print', 'recipient', 'id_owner')
+        fields = ('id_owner', 'negative', 'width', 'height',
+                  'added', 'printed', 'print', 'recipient')
 
     @classmethod
-    def render_id(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('order-detail', args=[value]), value)
+    def render_id_owner(cls, value):
+        return format_html("<a href=\"{}\">#{}</a>", reverse('order-detail', args=[value]), value)
 
 
 class PaperStockTable(tables.Table):
@@ -285,7 +298,11 @@ class PaperStockTable(tables.Table):
 class PersonTable(tables.Table):
     class Meta:
         model = Person
-        fields = ('name', 'id_owner')
+        fields = ('id_owner', 'name')
+
+    @classmethod
+    def render_id_owner(cls, value):
+        return format_html("<a href=\"{}\">#{}</a>", reverse('person-detail', args=[value]), value)
 
     @classmethod
     def render_name(cls, value, record):
@@ -295,12 +312,12 @@ class PersonTable(tables.Table):
 class PrintTable(tables.Table):
     class Meta:
         model = Print
-        fields = ('id', 'negative', 'date', 'paper_stock', 'height',
-                  'width', 'location', 'archive', 'id_owner')
+        fields = ('id_owner', 'negative', 'date', 'paper_stock',
+                  'height', 'width', 'location', 'archive')
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('print-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('print-detail', args=[value]), value)
 
     @classmethod
     def render_negative(cls, value):
@@ -320,11 +337,11 @@ class ProcessTable(tables.Table):
 class RepairTable(tables.Table):
     class Meta:
         model = Repair
-        fields = ('id', 'camera', 'lens', 'date', 'summary', 'id_owner')
+        fields = ('id_owner', 'camera', 'lens', 'date', 'summary')
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('repair-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('repair-detail', args=[value]), value)
 
     @classmethod
     def render_camera(cls, value):
@@ -338,25 +355,33 @@ class RepairTable(tables.Table):
 class ScanTable(tables.Table):
     class Meta:
         model = Scan
-        fields = ('negative', 'print', 'filename', 'date',
-                  'colour', 'width', 'height', 'id_owner')
+        fields = ('id_owner', 'negative', 'print', 'filename',
+                  'date', 'colour', 'width', 'height')
+
+    @classmethod
+    def render_id_owner(cls, value):
+        return format_html("<a href=\"{}\">#{}</a>", reverse('scan-detail', args=[value]), value)
 
 
 class NegativeTable(tables.Table):
     class Meta:
         model = Negative
-        fields = ('film', 'frame', 'caption', 'date', 'lens',
-                  'shutter_speed', 'aperture', 'id_owner')
+        fields = ('id_owner', 'film', 'frame', 'caption',
+                  'date', 'lens', 'shutter_speed', 'aperture')
+
+    @classmethod
+    def render_id_owner(cls, value):
+        return format_html("<a href=\"{}\">#{}</a>", reverse('negative-detail', args=[value]), value)
 
 
 class FilmTable(tables.Table):
     class Meta:
         model = Film
-        fields = ('id', 'title', 'filmstock', 'format', 'camera', 'id_owner')
+        fields = ('id_owner', 'title', 'filmstock', 'format', 'camera')
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('film-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('film-detail', args=[value]), value)
 
     @classmethod
     def render_filmstock(cls, value):
@@ -370,7 +395,11 @@ class FilmTable(tables.Table):
 class TeleconverterTable(tables.Table):
     class Meta:
         model = Teleconverter
-        fields = ('model', 'mount', 'factor', 'id_owner')
+        fields = ('id_owner', 'model', 'mount', 'factor')
+
+    @classmethod
+    def render_id_owner(cls, value):
+        return format_html("<a href=\"{}\">#{}</a>", reverse('teleconverter-detail', args=[value]), value)
 
     @classmethod
     def render_model(cls, value, record):
