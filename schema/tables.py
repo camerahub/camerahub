@@ -61,7 +61,7 @@ class BulkFilmTable(tables.Table):
 class CameraTable(tables.Table):
     class Meta:
         model = Camera
-        fields = ('id_owner', 'cameramodel', 'serial', 'manufactured', 'lens')
+        fields = ('id_owner', 'cameramodel', 'serial', 'manufactured', 'cameramodel__lens_model_name')
 
     @classmethod
     def render_id_owner(cls, value):
