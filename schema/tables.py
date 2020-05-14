@@ -47,6 +47,7 @@ class BatteryTable(tables.Table):
     def render_voltage(cls, value):
         return format_html("{}V", value)
 
+
 class BulkFilmTable(tables.Table):
     class Meta:
         model = BulkFilm
@@ -102,6 +103,7 @@ class CameraModelTable(tables.Table):
     @classmethod
     def render_negative_size(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('negativesize-detail', args=[value.id]), value)
+
 
 class DeveloperTable(tables.Table):
     class Meta:
@@ -190,8 +192,8 @@ class FormatTable(tables.Table):
 class LensTable(tables.Table):
     class Meta:
         model = Lens
-        fields = ('id_owner', 'lensmodel', 'serial',
-                  'manufactured', 'acquired')
+        fields = ('id_owner', 'lensmodel', 'lensmodel__mount',
+                  'serial', 'manufactured')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -202,8 +204,13 @@ class LensTable(tables.Table):
         return format_html("<a href=\"{}\">{}</a>", reverse('lensmodel-detail', args=[value.slug]), value)
 
     @classmethod
+    def render_lensmodel__mount(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
+
+    @classmethod
     def render_serial(cls, value):
         return format_html("<code>{}</code>", value)
+
 
 class LensModelTable(tables.Table):
     class Meta:
