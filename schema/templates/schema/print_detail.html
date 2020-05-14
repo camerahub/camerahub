@@ -86,6 +86,7 @@
     <td>{{ object.enlarger }}</td>
   </tr>
   {% endif %}
+  {% if object.lens is not None %}
   <tr>
     <td>Enlarger lens</td>
     <td>{{ object.lens }}</td>
@@ -108,7 +109,7 @@
     <td>Notes</td>
     <td>{{ object.notes }}</td>
   </tr>
-  {% notes %}
+  {% endif %}
   {% if object.archive is not None %}
   <tr>
     <td>Archive</td>
