@@ -5,7 +5,7 @@
   {% if object.film is not None %}
   <tr>
     <td>Film</td>
-    <td><a href="{% url 'film-detail' object.film.id %}">{{ object.film }}</a></td>
+    <td><a href="{% url 'film-detail' object.film.id_owner %}">{{ object.film }}</a></td>
   </tr>
   {% endif %}
   <tr>

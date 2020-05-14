@@ -155,7 +155,7 @@ class Archive(models.Model):
         verbose_name_plural = "archives"
 
     def get_absolute_url(self):
-        return reverse('archive-detail', kwargs={'pk': self.pk})
+        return reverse('archive-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -451,7 +451,7 @@ class Flash(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('flash-detail', kwargs={'pk': self.pk})
+        return reverse('flash-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -538,7 +538,7 @@ class Enlarger(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('enlarger-detail', kwargs={'pk': self.pk})
+        return reverse('enlarger-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -687,7 +687,7 @@ class Person(models.Model):
         verbose_name_plural = "people"
 
     def get_absolute_url(self):
-        return reverse('person-detail', kwargs={'pk': self.pk})
+        return reverse('person-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -759,7 +759,7 @@ class Teleconverter(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('teleconverter-detail', kwargs={'pk': self.pk})
+        return reverse('teleconverter-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -899,7 +899,7 @@ class BulkFilm(models.Model):
         verbose_name_plural = "bulk films"
 
     def get_absolute_url(self):
-        return reverse('bulkfilm-detail', kwargs={'pk': self.pk})
+        return reverse('bulkfilm-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -930,7 +930,7 @@ class MountAdapter(models.Model):
         verbose_name_plural = "mount adapters"
 
     def get_absolute_url(self):
-        return reverse('mountadapter-detail', kwargs={'pk': self.pk})
+        return reverse('mountadapter-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1559,7 +1559,7 @@ class Accessory(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('accessory-detail', kwargs={'pk': self.pk})
+        return reverse('accessory-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1632,7 +1632,7 @@ class Lens(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('lens-detail', kwargs={'pk': self.pk})
+        return reverse('lens-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1708,7 +1708,7 @@ class Camera(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('camera-detail', kwargs={'pk': self.pk})
+        return reverse('camera-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1793,7 +1793,7 @@ class Film(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('film-detail', kwargs={'pk': self.pk})
+        return reverse('film-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1845,7 +1845,7 @@ class Negative(models.Model):
     id_owner = AutoSequenceField(unique_with='owner', editable=False)
 
     def __str__(self):
-        return "%s/%s %s" % (self.film.pk, self.frame, self.caption)
+        return "%s/%s %s" % (self.film.id_owner, self.frame, self.caption)
 
     class Meta:
         ordering = ['film', 'frame']
@@ -1883,7 +1883,7 @@ class Negative(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('negative-detail', kwargs={'pk': self.pk})
+        return reverse('negative-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1955,7 +1955,7 @@ class Print(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('print-detail', kwargs={'pk': self.pk})
+        return reverse('print-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -2005,7 +2005,7 @@ class Repair(models.Model):
         verbose_name_plural = "repairs"
 
     def get_absolute_url(self):
-        return reverse('repair-detail', kwargs={'pk': self.pk})
+        return reverse('repair-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -2047,7 +2047,7 @@ class Scan(models.Model):
         verbose_name_plural = "scans"
 
     def get_absolute_url(self):
-        return reverse('scan-detail', kwargs={'pk': self.pk})
+        return reverse('scan-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -2069,8 +2069,8 @@ class Order(models.Model):
         help_text='Whether the print has been made', blank=True, null=True)
     print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True,
                               null=True, help_text='Print that was made to fulfil this order')
-    recipient = models.ForeignKey(
-        Person, on_delete=models.CASCADE, help_text='Person who placed this order')
+    recipient = models.ForeignKey(Person, on_delete=models.CASCADE,
+                                  help_text='Person who placed this order', blank=True, null=True)
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(unique_with='owner', editable=False)
 
@@ -2082,7 +2082,7 @@ class Order(models.Model):
         verbose_name_plural = "orders"
 
     def get_absolute_url(self):
-        return reverse('order-detail', kwargs={'pk': self.pk})
+        return reverse('order-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):

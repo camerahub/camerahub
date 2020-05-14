@@ -467,7 +467,7 @@
 {% endif %}
 
 {% if user.is_authenticated %}
-{% if cameramodel.camera_set.all %}
+{% if mine %}
 <h4>In your collection</h4>
 <table class="table table-hover">
   <tr>
@@ -475,20 +475,18 @@
     <th>Serial</th>
     <th>Datecode</th>
     <th>Manufactured</th>
-    <th>Acquired</th>
-    <th>Cost</th>
     <th>Own</th>
     <th>Condition</th>
     <th>Display lens</th>
   </tr>
-  {% for camera in cameramodel.camera_set.all %}
+  {% for camera in mine %}
   <tr>
-    <td><a href="{% url 'camera-detail' camera.id %}">#{{ camera.id }}</a></td>
+    <td><a href="{% url 'camera-detail' camera.id_owner %}">#{{ camera.id }}</a></td>
+    <td>{{ camera.acquired }}</td>
+    <td>{{ camera.cost }}</td>
     <td><code>{{ camera.serial }}</code></td>
     <td><code>{{ camera.datecode }}</code></td>
     <td>{{ camera.manufactured }}</td>
-    <td>{{ camera.acquired }}</td>
-    <td>{{ camera.cost }}</td>
     <td>{{ camera.own }}</td>
     <td>{{ camera.condition }}</td>
     <td>{{ camera.display_lens }}</td>

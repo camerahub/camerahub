@@ -238,11 +238,8 @@
 {% endif %}
 
 {% if user.is_authenticated %}
-{% if lensmodel.lens_set.all %}
+{% if mine %}
 <h4>In your collection</h4>
-
-
-
 
 <table class="table table-hover">
   <tr>
@@ -255,7 +252,7 @@
     <th>Own</th>
     <th>Condition</th>
   </tr>
-  {% for lens in lensmodel.lens_set.all %}
+  {% for lens in mine %}
   <tr>
     <td><a href="{% url 'lens-detail' lens.id %}">#{{ lens.id }}</a></td>
     <td><code>{{ lens.serial }}</code></td>

@@ -5,7 +5,7 @@
   {% if object.negative is not None %}
   <tr>
     <td>Negative</td>
-    <td><a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a></td>
+    <td><a href="{% url 'negative-detail' object.negative.id_owner %}">{{ object.negative }}</a></td>
   </tr>
   {% endif %}
   <tr>
