@@ -11,6 +11,7 @@ from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, 
 
 class AccessoryTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Accessory
         fields = ('id_owner', 'model', 'type')
 
@@ -25,6 +26,7 @@ class AccessoryTable(tables.Table):
 
 class ArchiveTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Archive
         fields = ('name', 'type', 'location', 'storage', 'sealed')
         sequence = ('name',)
@@ -36,6 +38,7 @@ class ArchiveTable(tables.Table):
 
 class BatteryTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Battery
         fields = ('name', 'voltage', 'chemistry')
 
@@ -46,6 +49,7 @@ class BatteryTable(tables.Table):
 
 class BulkFilmTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = BulkFilm
         fields = ('id_owner', 'format', 'filmstock')
 
@@ -56,6 +60,7 @@ class BulkFilmTable(tables.Table):
 
 class CameraTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Camera
         fields = ('id_owner', 'cameramodel', 'serial', 'manufactured', 'lens')
 
@@ -70,6 +75,7 @@ class CameraTable(tables.Table):
 
 class CameraModelTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = CameraModel
         fields = ('model', 'mount', 'format', 'introduced',
                   'body_type', 'negative_size', 'shutter_type')
@@ -95,6 +101,7 @@ class CameraModelTable(tables.Table):
 
 class DeveloperTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Developer
         fields = ('name', 'for_paper', 'for_film')
 
@@ -105,6 +112,7 @@ class DeveloperTable(tables.Table):
 
 class EnlargerTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Enlarger
         fields = ('id_owner', 'model', 'negative_size', 'type')
 
@@ -119,6 +127,7 @@ class EnlargerTable(tables.Table):
 
 class FilmStockTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = FilmStock
         fields = ('name', 'iso', 'colour', 'panchromatic', 'process')
 
@@ -129,6 +138,7 @@ class FilmStockTable(tables.Table):
 
 class FilterTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Filter
         fields = ('type',)
 
@@ -139,6 +149,7 @@ class FilterTable(tables.Table):
 
 class FlashTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Flash
         fields = ('id_owner', 'model', 'guide_number', 'ttl', 'flash_protocol')
 
@@ -153,6 +164,7 @@ class FlashTable(tables.Table):
 
 class FlashProtocolTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = FlashProtocol
         fields = ('name',)
 
@@ -169,6 +181,7 @@ class FlashProtocolTable(tables.Table):
 
 class FormatTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Format
         fields = ('format',)
 
@@ -179,6 +192,7 @@ class FormatTable(tables.Table):
 
 class LensTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Lens
         fields = ('id_owner', 'lensmodel', 'serial',
                   'manufactured', 'acquired')
@@ -194,6 +208,7 @@ class LensTable(tables.Table):
 
 class LensModelTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = LensModel
         fields = ('model', 'mount', 'zoom', 'min_focal_length',
                   'max_aperture', 'autofocus', 'introduced')
@@ -226,6 +241,7 @@ class LensModelTable(tables.Table):
 
 class ManufacturerTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Manufacturer
         fields = ('name', 'city', 'country', 'founded', 'dissolved')
 
@@ -236,6 +252,7 @@ class ManufacturerTable(tables.Table):
 
 class MountTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Mount
         fields = ('mount', 'shutter_in_lens', 'type', 'purpose')
 
@@ -246,6 +263,7 @@ class MountTable(tables.Table):
 
 class MountAdapterTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = MountAdapter
         fields = ('id_owner', 'camera_mount', 'lens_mount',
                   'has_optics', 'infinity_focus')
@@ -265,6 +283,7 @@ class MountAdapterTable(tables.Table):
 
 class NegativeSizeTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = NegativeSize
         fields = ('name', 'width', 'height',
                   'crop_factor', 'area', 'aspect_ratio')
@@ -276,6 +295,7 @@ class NegativeSizeTable(tables.Table):
 
 class OrderTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Order
         fields = ('id_owner', 'negative', 'width', 'height',
                   'added', 'printed', 'print', 'recipient')
@@ -287,6 +307,7 @@ class OrderTable(tables.Table):
 
 class PaperStockTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = PaperStock
         fields = ('name', 'resin_coated', 'colour', 'finish')
 
@@ -297,6 +318,7 @@ class PaperStockTable(tables.Table):
 
 class PersonTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Person
         fields = ('id_owner', 'name')
 
@@ -311,6 +333,7 @@ class PersonTable(tables.Table):
 
 class PrintTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Print
         fields = ('id_owner', 'negative', 'date', 'paper_stock',
                   'height', 'width', 'location', 'archive')
@@ -326,6 +349,7 @@ class PrintTable(tables.Table):
 
 class ProcessTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Process
         fields = ('name', 'colour', 'positive')
 
@@ -336,6 +360,7 @@ class ProcessTable(tables.Table):
 
 class RepairTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Repair
         fields = ('id_owner', 'camera', 'lens', 'date', 'summary')
 
@@ -354,6 +379,7 @@ class RepairTable(tables.Table):
 
 class ScanTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Scan
         fields = ('id_owner', 'negative', 'print', 'filename',
                   'date', 'colour', 'width', 'height')
@@ -365,6 +391,7 @@ class ScanTable(tables.Table):
 
 class NegativeTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Negative
         fields = ('id_owner', 'film', 'frame', 'caption',
                   'date', 'lens', 'shutter_speed', 'aperture')
@@ -376,6 +403,7 @@ class NegativeTable(tables.Table):
 
 class FilmTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Film
         fields = ('id_owner', 'title', 'filmstock', 'format', 'camera')
 
@@ -394,6 +422,7 @@ class FilmTable(tables.Table):
 
 class TeleconverterTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Teleconverter
         fields = ('id_owner', 'model', 'mount', 'factor')
 
@@ -408,6 +437,7 @@ class TeleconverterTable(tables.Table):
 
 class TonerTable(tables.Table):
     class Meta:
+        attrs = {"class": "table table-hover"}
         model = Toner
         fields = ('name', 'formulation', 'stock_dilution')
 
