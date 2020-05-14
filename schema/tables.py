@@ -43,6 +43,9 @@ class BatteryTable(tables.Table):
     def render_name(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('battery-detail', args=[record.slug]), value)
 
+    @classmethod
+    def render_voltage(cls, value):
+        return format_html("{}V", value)
 
 class BulkFilmTable(tables.Table):
     class Meta:
@@ -66,6 +69,10 @@ class CameraTable(tables.Table):
     @classmethod
     def render_cameramodel(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('cameramodel-detail', args=[record.cameramodel.slug]), value)
+
+    @classmethod
+    def render_serial(cls, value):
+        return format_html("<code>{}</code>", value)
 
 
 class CameraModelTable(tables.Table):
@@ -92,6 +99,9 @@ class CameraModelTable(tables.Table):
     def render_format(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('format-detail', args=[value.id]), value)
 
+    @classmethod
+    def render_negative_size(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('negativesize-detail', args=[value.id]), value)
 
 class DeveloperTable(tables.Table):
     class Meta:
@@ -191,6 +201,9 @@ class LensTable(tables.Table):
     def render_lensmodel(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('lensmodel-detail', args=[value.slug]), value)
 
+    @classmethod
+    def render_serial(cls, value):
+        return format_html("<code>{}</code>", value)
 
 class LensModelTable(tables.Table):
     class Meta:
@@ -211,6 +224,10 @@ class LensModelTable(tables.Table):
     @classmethod
     def render_mount(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
+
+    @classmethod
+    def render_max_aperture(cls, value):
+        return format_html("<em>f</em>/{}", value)
 
     @classmethod
     def render_min_focal_length(cls, record):
@@ -272,6 +289,26 @@ class NegativeSizeTable(tables.Table):
     @classmethod
     def render_name(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('negativesize-detail', args=[record.id]), value)
+
+    @classmethod
+    def render_width(cls, value):
+        return format_html("{}mm", value)
+
+    @classmethod
+    def render_height(cls, value):
+        return format_html("{}mm", value)
+
+    @classmethod
+    def render_crop_factor(cls, value):
+        return format_html("{}&times;", value)
+
+    @classmethod
+    def render_area(cls, value):
+        return format_html("{}mm&sup2;", value)
+
+    @classmethod
+    def render_aspect_ratio(cls, value):
+        return format_html("{}&times;", value)
 
 
 class OrderTable(tables.Table):
