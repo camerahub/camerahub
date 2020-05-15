@@ -68,7 +68,7 @@ class CameraTable(tables.Table):
         attrs = {"class": "table table-hover"}
         model = Camera
         fields = ('id_owner', 'cameramodel', 'serial',
-                  'manufactured', 'cameramodel__lens_model_name')
+                  'manufactured', 'cameramodel__lens_model_name', 'own')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -81,6 +81,10 @@ class CameraTable(tables.Table):
     @classmethod
     def render_serial(cls, value):
         return format_html("<code>{}</code>", value)
+
+    @classmethod
+    def render_own(cls, value):
+        return format_html(boolicon(value))
 
 
 class CameraModelTable(tables.Table):
@@ -225,7 +229,7 @@ class LensTable(tables.Table):
         attrs = {"class": "table table-hover"}
         model = Lens
         fields = ('id_owner', 'lensmodel', 'lensmodel__mount',
-                  'serial', 'manufactured')
+                  'serial', 'manufactured', 'own')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -242,6 +246,10 @@ class LensTable(tables.Table):
     @classmethod
     def render_serial(cls, value):
         return format_html("<code>{}</code>", value)
+
+    @classmethod
+    def render_own(cls, value):
+        return format_html(boolicon(value))
 
 
 class LensModelTable(tables.Table):

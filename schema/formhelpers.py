@@ -64,6 +64,7 @@ class CameraFormHelper(FormHelper):
             'cameramodel__format',
             'cameramodel__negative_size',
             'cameramodel__body_type',
+            'own',
         ),
         FormActions(
             Submit('filter', 'Filter'),
@@ -162,6 +163,7 @@ class LensFormHelper(FormHelper):
             'lensmodel__mount',
             'lensmodel__zoom',
             'lensmodel__autofocus',
+            'own',
             ),
         FormActions(
             Submit('filter', 'Filter'),
