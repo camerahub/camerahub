@@ -20,7 +20,7 @@ spec:
         app: camerahub-container
     spec:
       containers:
-        - image: djjudas21/camerahub:0.8.2
+        - image: djjudas21/camerahub:0.9.0
           imagePullPolicy: Always
           name: camerahub
           resources: {}
