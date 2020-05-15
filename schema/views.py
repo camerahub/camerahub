@@ -230,6 +230,13 @@ class CameraModelList(PagedFilteredTableView):
     filterset_class = CameraModelFilter
     formhelper_class = CameraModelFormHelper
 
+    # Pass request object to table context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        table = self.table_class
+        table.request = self.request
+        return context
+
 
 class CameraModelDetail(generic.DetailView):
     model = CameraModel
@@ -477,6 +484,13 @@ class LensModelList(PagedFilteredTableView):
     table_class = LensModelTable
     filterset_class = LensModelFilter
     formhelper_class = LensModelFormHelper
+
+    # Pass request object to table context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        table = self.table_class
+        table.request = self.request
+        return context
 
 
 class LensModelDetail(generic.DetailView):
@@ -978,6 +992,7 @@ class StatsView(TemplateView):
         context['stats'] = stats
         context['title'] = "Public stats"
         return context
+
 
 class MyStatsView(LoginRequiredMixin, TemplateView):
     template_name = "stats.html"
