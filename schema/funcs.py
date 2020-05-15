@@ -8,5 +8,7 @@ def boolicon(obj):
             return_value = mark_safe(img.format('yes', 'Yes'))
         else:
             return_value = mark_safe(img.format('no', 'No'))
+    else:
+        return_value = None
 
     return return_value
