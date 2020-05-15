@@ -1,3 +1,5 @@
+# pylint: disable=no-member
+
 import django_tables2 as tables
 from django.utils.html import format_html
 from django.urls import reverse
@@ -98,7 +100,17 @@ class CameraModelTable(tables.Table):
         else:
             mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
                 'cameramodel-detail', args=[record.slug]), record.manufacturer, value)
-        return mystr
+        if cls.request.user.is_authenticated:
+            qty = Camera.objects.filter(
+                owner=cls.request.user, cameramodel=record).count()
+            if qty > 0:
+                badge = format_html(
+                    " <span class=\"badge badge-pill badge-primary\">{}</span>", qty)
+            else:
+                badge = format_html("")
+        else:
+            badge = format_html("")
+        return mystr+badge
 
     @classmethod
     def render_mount(cls, value):
@@ -259,7 +271,17 @@ class LensModelTable(tables.Table):
         else:
             mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
                 'lensmodel-detail', args=[record.slug]), record.manufacturer, value)
-        return mystr
+        if cls.request.user.is_authenticated:
+            qty = Lens.objects.filter(
+                owner=cls.request.user, lensmodel=record).count()
+            if qty > 0:
+                badge = format_html(
+                    " <span class=\"badge badge-pill badge-primary\">{}</span>", qty)
+            else:
+                badge = format_html("")
+        else:
+            badge = format_html("")
+        return mystr+badge
 
     @classmethod
     def render_mount(cls, value):
