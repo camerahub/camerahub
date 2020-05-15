@@ -8,6 +8,7 @@ urlpatterns = [
     # Static pages
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
     path('stats', views.StatsView.as_view(), name='stats'),
+    path('mystats', views.MyStatsView.as_view(), name='mystats'),
     path('search/', views.SearchView.as_view(), name='search'),
 
     path('tag/', views.TagList.as_view(), name='tag-list'),
