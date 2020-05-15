@@ -4,6 +4,7 @@ from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.apps import apps
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
@@ -236,7 +237,8 @@ class CameraModelDetail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['related'] = self.get_object().tags.similar_objects()
-        context['mine'] = self.get_object().camera_set.filter(owner=self.request.user)
+        context['mine'] = self.get_object().camera_set.filter(
+            owner=self.request.user)
         return context
 
 
@@ -483,7 +485,8 @@ class LensModelDetail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['related'] = self.get_object().tags.similar_objects()
-        context['mine'] = self.get_object().lens_set.filter(owner=self.request.user)
+        context['mine'] = self.get_object().lens_set.filter(
+            owner=self.request.user)
         return context
 
 
@@ -945,9 +948,35 @@ class StatsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['num_camera_models'] = CameraModel.objects.count
-        context['num_lens_models'] = LensModel.objects.count
-        context['num_filmstocks'] = FilmStock.objects.count
+        stats = [
+            {
+                'image': "svg/cameramodel.svg",
+                'url': reverse('cameramodel-list'),
+                'item': "camera models in CameraHub",
+                'value': CameraModel.objects.count,
+            },
+            {
+                'image': "svg/lensmodel.svg",
+                'url': reverse('lensmodel-list'),
+                'item': "lens models in CameraHub",
+                'value': LensModel.objects.count,
+            },
+            {
+                'image': "svg/filmstock.svg",
+                'url': reverse('filmstock-list'),
+                'item': "film stocks in CameraHub",
+                'value': FilmStock.objects.count
+            },
+            {
+                'image': "svg/manufacturer.svg",
+                'url': reverse('manufacturer-list'),
+                'item': "manufacturers in CameraHub",
+                'value': Manufacturer.objects.count
+            },
+        ]
+
+        context['stats'] = stats
+        context['title'] = "Public stats"
         return context
 
 
