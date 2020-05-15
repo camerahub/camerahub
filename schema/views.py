@@ -979,6 +979,48 @@ class StatsView(TemplateView):
         context['title'] = "Public stats"
         return context
 
+class MyStatsView(LoginRequiredMixin, TemplateView):
+    template_name = "stats.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        stats = [
+            {
+                'image': "svg/camera.svg",
+                'url': reverse('camera-list'),
+                'item': "cameras in your collection",
+                'value': Camera.objects.filter(owner=self.request.user).count,
+            },
+            {
+                'image': "svg/lens.svg",
+                'url': reverse('lens-list'),
+                'item': "lenses in your collection",
+                'value': Lens.objects.filter(owner=self.request.user).count,
+            },
+            {
+                'image': "svg/film.svg",
+                'url': reverse('film-list'),
+                'item': "films in your collection",
+                'value': Film.objects.filter(owner=self.request.user).count,
+            },
+            {
+                'image': "svg/negative.svg",
+                'url': reverse('negative-list'),
+                'item': "negatives in your collection",
+                'value': Negative.objects.filter(owner=self.request.user).count,
+            },
+            {
+                'image': "svg/print.svg",
+                'url': reverse('print-list'),
+                'item': "prints in your collection",
+                'value': Print.objects.filter(owner=self.request.user).count,
+            },
+        ]
+
+        context['stats'] = stats
+        context['title'] = "Private stats"
+        return context
+
 
 class SearchView(SearchMixin, generic.ListView):
 
