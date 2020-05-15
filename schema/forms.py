@@ -342,8 +342,8 @@ class FlashForm(ModelForm):
     class Meta:
         model = Flash
         fields = [
-            'model',
             'manufacturer',
+            'model',
             'guide_number',
             'gn_info',
             'battery_powered',
