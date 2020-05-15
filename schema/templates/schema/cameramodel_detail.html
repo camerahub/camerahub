@@ -473,19 +473,15 @@
   <tr>
     <th>ID</th>
     <th>Serial</th>
-    <th>Datecode</th>
     <th>Manufactured</th>
     <th>Own</th>
-    <th>Condition</th>
   </tr>
   {% for camera in mine %}
   <tr>
     <td><a href="{% url 'camera-detail' camera.id_owner %}">#{{ camera.id_owner }}</a></td>
     <td><code>{{ camera.serial }}</code></td>
-    <td><code>{{ camera.datecode }}</code></td>
     <td>{{ camera.manufactured }}</td>
-    <td>{{ camera.own }}</td>
-    <td>{{ camera.condition }}</td>
+    <td>{{ camera.own|boolicontag }}</td>
   </tr>
   {% endfor %}
 </table>
