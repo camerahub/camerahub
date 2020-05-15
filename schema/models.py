@@ -1668,8 +1668,6 @@ class Camera(models.Model):
                                   blank=True, null=True, help_text='Condition of this camera')
     condition_notes = models.CharField(
         help_text='Description of condition', max_length=150, blank=True, null=True)
-    display_lens = models.OneToOneField(Lens, on_delete=models.CASCADE, blank=True, null=True,
-                                        help_text='Lens that this camera should be displayed with', related_name='display_camera')
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 

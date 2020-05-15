@@ -110,15 +110,12 @@ class CameraForm(ModelForm):
             'source',
             'condition',
             'condition_notes',
-            'display_lens',
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('cameramodel')
 
     def __init__(self, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
-        self.fields['display_lens'].queryset = Lens.objects.filter(
-            owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
