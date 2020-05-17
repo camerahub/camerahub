@@ -31,8 +31,11 @@ class ArchiveTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Archive
-        fields = ('name', 'type', 'location', 'storage', 'sealed')
-        sequence = ('name',)
+        fields = ('id_owner', 'name', 'type', 'location', 'storage', 'sealed')
+
+    @classmethod
+    def render_id_owner(cls, value):
+        return format_html("<a href=\"{}\">#{}</a>", reverse('archive-detail', args=[value]), value)
 
     @classmethod
     def render_name(cls, value, record):
