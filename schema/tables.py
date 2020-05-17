@@ -186,7 +186,7 @@ class FilterTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Filter
-        fields = ('type', 'shortname')
+        fields = ('type', 'shortname', 'attenuation')
 
     @classmethod
     def render_type(cls, value, record):
