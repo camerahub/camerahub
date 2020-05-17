@@ -290,7 +290,9 @@ class FlashProtocol(models.Model):
 
 class Filter(models.Model):
     type = models.CharField(
-        help_text='Filter type (e.g. Red, CPL, UV)', max_length=45)
+        help_text='Filter type (e.g. Red, Circular polariser, Ultraviolet)', max_length=45)
+    shortname = models.CharField(
+        help_text='Filter type shortname (e.g. Red, CPL, UV)', max_length=45, blank=True, null=True)
     attenuation = models.DecimalField(
         help_text='Attenuation of this filter in decimal stops', max_digits=3, decimal_places=1, blank=True, null=True)
 
