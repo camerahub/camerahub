@@ -31,13 +31,19 @@ class ArchiveTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Archive
-        fields = ('name', 'type', 'location', 'storage', 'sealed')
-        sequence = ('name',)
+        fields = ('id_owner', 'name', 'type', 'location', 'storage', 'sealed')
+
+    @classmethod
+    def render_id_owner(cls, value):
+        return format_html("<a href=\"{}\">#{}</a>", reverse('archive-detail', args=[value]), value)
 
     @classmethod
     def render_name(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('archive-detail', args=[record.id_owner]), value)
 
+    @classmethod
+    def render_sealed(cls, value):
+        return format_html(boolicon(value))
 
 class BatteryTable(tables.Table):
     class Meta:
@@ -206,6 +212,10 @@ class FlashTable(tables.Table):
     @classmethod
     def render_model(cls, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('flash-detail', args=[record.id_owner]), record.manufacturer, value)
+
+    @classmethod
+    def render_ttl(cls, value):
+        return format_html(boolicon(value))
 
 
 class FlashProtocolTable(tables.Table):
