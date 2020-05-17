@@ -15,9 +15,9 @@ class AccessoryForm(ModelForm):
     class Meta:
         model = Accessory
         fields = [
-            'type',
             'manufacturer',
             'model',
+            'type',
             'acquired',
             'cost',
             'lost',
