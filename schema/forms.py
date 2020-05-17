@@ -326,6 +326,7 @@ class FilterForm(ModelForm):
         model = Filter
         fields = [
             'type',
+            'shortname',
             'attenuation',
         ]
 
