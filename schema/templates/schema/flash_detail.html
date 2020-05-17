@@ -88,7 +88,7 @@
   {% if object.ttl is not None %}
   <tr>
     <td>TTL metering</td>
-    <td>{{ object.ttl }}</td>
+    <td>{{ object.ttl|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.flash_protocol is not None %}
