@@ -466,7 +466,7 @@ class PrintTable(tables.Table):
         attrs = {"class": "table table-hover"}
         model = Print
         fields = ('id_owner', 'negative', 'date', 'paper_stock',
-                  'height', 'width', 'location', 'archive')
+                  'width', 'height', 'location', 'archive')
 
     @classmethod
     def render_id_owner(cls, value):
