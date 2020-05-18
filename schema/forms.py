@@ -2,7 +2,7 @@ import sys
 from django.forms import ModelForm
 from django_currentuser.middleware import get_current_user
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Submit, Div, Button
+from crispy_forms.layout import Layout, Fieldset, Submit, Div
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -46,13 +46,13 @@ class ArchiveForm(ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Div(
-            'name',
+                'name',
                 'type',
                 AppendedText('max_width', '"'),
                 AppendedText('max_height', '"'),
-            'location',
-            'storage',
-            'sealed',
+                'location',
+                'storage',
+                'sealed',
             ),
             FormActions(
                 Submit('save', 'Save'),
@@ -253,8 +253,7 @@ class CameraModelForm(ModelForm):
                 'url',
             ),
             FormActions(
-                Submit('save', 'Save changes'),
-                Button('cancel', 'Cancel')
+                Submit('save', 'Save')
             )
         )
 
@@ -493,8 +492,7 @@ class LensModelForm(ModelForm):
                 'url',
             ),
             FormActions(
-                Submit('save', 'Save changes'),
-                Button('cancel', 'Cancel')
+                Submit('save', 'Save')
             )
         )
 
@@ -846,8 +844,7 @@ class TeleconverterForm(ModelForm):
                 'multicoated',
             ),
             FormActions(
-                Submit('save', 'Save changes'),
-                Button('cancel', 'Cancel')
+                Submit('save', 'Save')
             )
         )
 
