@@ -562,7 +562,13 @@ class TeleconverterTable(tables.Table):
 
     @classmethod
     def render_model(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('teleconverter-detail', args=[record.id_owner]), record.manufacturer, value)
+        if record.manufacturer is not None:
+            mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
+                'teleconverter-detail', args=[record.id_owner]), record.manufacturer, value)
+        else:
+            mystr = format_html(
+                "<a href=\"{}\">{}</a>", reverse('teleconverter-detail', args=[record.id]), value)
+        return mystr
 
     @classmethod
     def render_factor(cls, value):
