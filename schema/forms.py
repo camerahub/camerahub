@@ -39,20 +39,26 @@ class AccessoryForm(ModelForm):
 class ArchiveForm(ModelForm):
     class Meta:
         model = Archive
-        fields = [
-            'type',
-            'name',
-            'max_width',
-            'max_height',
-            'location',
-            'storage',
-            'sealed',
-        ]
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super(ArchiveForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.layout.append(Submit('Save', 'Save'))
+        self.helper.layout = Layout(
+            Div(
+            'name',
+                'type',
+                AppendedText('max_width', '"'),
+                AppendedText('max_height', '"'),
+            'location',
+            'storage',
+            'sealed',
+            ),
+            FormActions(
+                Submit('save', 'Save'),
+            )
+        )
+
 
 
 class BatteryForm(ModelForm):
