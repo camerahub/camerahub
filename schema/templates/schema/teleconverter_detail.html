@@ -25,11 +25,24 @@
     <td>{{ object.factor }}&times;</td>
   </tr>
   {% endif %}
-  {% if object.elements is not None %}
+  {% if object.elements is not None and object.groups is not None %}
   <tr>
     <td>Elements/Groups</td>
     <td>{{ object.elements }}/{{ object.groups }}</td>
   </tr>
+  {% else %}
+  {% if object.elements is not None %}
+  <tr>
+    <td>Elements</td>
+    <td>{{ object.elements }}</td>
+  </tr>
+  {% endif %}
+  {% if object.groups is not None %}
+  <tr>
+    <td>Groups</td>
+    <td>{{ object.groups }}</td>
+  </tr>
+  {% endif %}
   {% endif %}
   {% if object.multicoated is not None %}
   <tr>
