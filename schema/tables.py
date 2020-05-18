@@ -564,6 +564,9 @@ class TeleconverterTable(tables.Table):
     def render_model(cls, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('teleconverter-detail', args=[record.id_owner]), record.manufacturer, value)
 
+    @classmethod
+    def render_factor(cls, value):
+        return format_html("{}&times;", value)
 
 class TonerTable(tables.Table):
     class Meta:

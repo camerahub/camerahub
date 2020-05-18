@@ -823,23 +823,27 @@ class FilmForm(ModelForm):
 class TeleconverterForm(ModelForm):
     class Meta:
         model = Teleconverter
-        fields = [
-            'model',
-            'manufacturer',
-            'mount',
-            'factor',
-            'elements',
-            'groups',
-            'multicoated',
-        ]
-        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
-            fields.remove('manufacturer')
-            fields.remove('mount')
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super(TeleconverterForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.layout.append(Submit('Save', 'Save'))
+        self.helper.layout = Layout(
+            Fieldset(
+                'Basics',
+                'model',
+                'manufacturer',
+                'mount',
+                AppendedText('factor', '&times;'),
+                'elements',
+                'groups',
+                'multicoated',
+            ),
+            FormActions(
+                Submit('save', 'Save changes'),
+                Button('cancel', 'Cancel')
+            )
+        )
 
 
 class TonerForm(ModelForm):
