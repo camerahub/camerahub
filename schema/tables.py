@@ -31,7 +31,7 @@ class ArchiveTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Archive
-        fields = ('id_owner', 'name', 'type', 'location', 'storage', 'sealed')
+        fields = ('id_owner', 'name', 'type', 'max_width', 'max_height', 'sealed')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -44,6 +44,14 @@ class ArchiveTable(tables.Table):
     @classmethod
     def render_sealed(cls, value):
         return format_html(boolicon(value))
+
+    @classmethod
+    def render_max_width(cls, value):
+        return format_html("{}\"", value)
+
+    @classmethod
+    def render_max_height(cls, value):
+        return format_html("{}\"", value)
 
 class BatteryTable(tables.Table):
     class Meta:
@@ -458,7 +466,7 @@ class PrintTable(tables.Table):
         attrs = {"class": "table table-hover"}
         model = Print
         fields = ('id_owner', 'negative', 'date', 'paper_stock',
-                  'height', 'width', 'location', 'archive')
+                  'width', 'height', 'location', 'archive')
 
     @classmethod
     def render_id_owner(cls, value):
