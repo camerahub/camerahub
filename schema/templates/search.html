@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load watson %}
+{% load model_name %}
 
 {% block heading %}<h4>
     <img src="{% static "svg/search.svg" %}" width="30" height="30" alt="Search">
@@ -9,9 +10,12 @@
 {% block content %}
 <p>Search results{% if query %} for &ldquo;{{query}}&rdquo;{% endif %}</p>
 {% if search_results %}
-<ul>
+<ul class="list-unstyled">
     {% for result in search_results %}
-    <li><a href="{{ result.url }}">{{ result }}</a></li>
+    <li class="media my-4">
+        <img class="mr-3" src="{% get_static_prefix %}svg/{{ result.object|model_name }}.svg"
+            alt="{{ result.object|model_name|title }}" width="30" height="30"><a
+            href="{{ result.url }}">{{ result }}</a></li>
     {% endfor %}
 </ul>
 {% else %}
