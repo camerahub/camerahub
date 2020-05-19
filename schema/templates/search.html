@@ -9,7 +9,11 @@
 {% block content %}
 <p>Search results{% if query %} for &ldquo;{{query}}&rdquo;{% endif %}</p>
 {% if search_results %}
-{% search_results search_results %}
+<ul>
+    {% for result in search_results %}
+    <li><a href="{{ result.url }}">{{ result }}</a></li>
+    {% endfor %}
+</ul>
 {% else %}
 {% if query %}
 <p><em>There are no results to display.</em></p>
