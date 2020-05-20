@@ -31,7 +31,8 @@ class ArchiveTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Archive
-        fields = ('id_owner', 'name', 'type', 'max_width', 'max_height', 'sealed')
+        fields = ('id_owner', 'name', 'type',
+                  'max_width', 'max_height', 'sealed')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -52,6 +53,7 @@ class ArchiveTable(tables.Table):
     @classmethod
     def render_max_height(cls, value):
         return format_html("{}\"", value)
+
 
 class BatteryTable(tables.Table):
     class Meta:
@@ -108,7 +110,7 @@ class CameraModelTable(tables.Table):
         attrs = {"class": "table table-hover"}
         model = CameraModel
         fields = ('model', 'mount', 'format', 'introduced',
-                  'body_type', 'negative_size', 'shutter_type')
+                  'body_type', 'negative_size')
 
     @classmethod
     def render_model(cls, value, record):
@@ -581,6 +583,7 @@ class TeleconverterTable(tables.Table):
     @classmethod
     def render_factor(cls, value):
         return format_html("{}&times;", value)
+
 
 class TonerTable(tables.Table):
     class Meta:
