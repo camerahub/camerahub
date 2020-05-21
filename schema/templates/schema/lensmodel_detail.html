@@ -251,9 +251,9 @@
   {% for lens in mine %}
   <tr>
     <td><a href="{% url 'lens-detail' lens.id_owner %}">#{{ lens.id_owner }}</a></td>
-    <td><code>{{ lens.serial }}</code></td>
-    <td>{{ lens.manufactured }}</td>
-    <td>{{ lens.own|boolicontag }}</td>
+    <td>{% if lens.serial is not None %}<code>{{ lens.serial }}</code>{% endif %}</td>
+    <td>{% if lens.manufactured is not None %}{{ lens.manufactured }}{% endif %}</td>
+    <td>{% if lens.own is not None %}{{ lens.own|boolicontag }}{% endif %}</td>
   </tr>
   {% endfor %}
 </table>
