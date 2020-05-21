@@ -1593,7 +1593,11 @@ class Lens(models.Model):
     id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
+        if self.serial is not None:
+            mystr = "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
+        else:
+            mystr = "%s %s" % (self.lensmodel.manufacturer.name, self.lensmodel.model)
+        return mystr
 
     class Meta:
         ordering = ['lensmodel__manufacturer', 'lensmodel__model', 'serial']
@@ -1666,7 +1670,11 @@ class Camera(models.Model):
     id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
+        if self.serial is not None:
+            mystr = "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
+        else:
+            mystr = "%s %s" % (self.cameramodel.manufacturer.name, self.cameramodel.model)
+        return mystr
 
     class Meta:
         ordering = ['cameramodel__manufacturer',
