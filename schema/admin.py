@@ -173,7 +173,7 @@ class LensModelAdmin(admin.ModelAdmin):
             'fields': ('length', 'diameter', 'weight'),
         }),
         ('Other', {
-            'fields': ('aperture_blades', 'autofocus', 'filter_thread', 'url', 'introduced', 'discontinued', 'negative_size', 'notes', 'coating', 'hood', 'exif_lenstype', 'rectilinear', 'image_circle', 'formula', 'shutter_model'),
+            'fields': ('aperture_blades', 'autofocus', 'filter_thread', 'url', 'introduced', 'discontinued', 'negative_size', 'notes', 'coating', 'hood', 'rectilinear', 'image_circle', 'shutter_model'),
         })
     )
     inlines = [
