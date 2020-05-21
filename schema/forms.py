@@ -60,7 +60,6 @@ class ArchiveForm(ModelForm):
         )
 
 
-
 class BatteryForm(ModelForm):
     class Meta:
         model = Battery
@@ -174,7 +173,6 @@ class CameraModelForm(ModelForm):
                             AppendedText('nominal_max_angle_diag', '&deg;'),
                             'rectilinear',
                             AppendedText('image_circle', 'mm'),
-                            'formula',
                             'aperture_blades',
                             'coating',
                             AppendedText('magnification', '&times;'),
@@ -183,10 +181,6 @@ class CameraModelForm(ModelForm):
                             'Physical',
                             AppendedText('filter_thread', 'mm'),
                             'hood',
-                        ),
-                        Fieldset(
-                            'Misc',
-                            'exif_lenstype',
                         ),
                         ),
                 ),
@@ -468,7 +462,6 @@ class LensModelForm(ModelForm):
                 AppendedText('nominal_max_angle_diag', '&deg;'),
                 'rectilinear',
                 AppendedText('image_circle', 'mm'),
-                'formula',
                 'aperture_blades',
                 'coating',
                 'autofocus',
@@ -488,7 +481,6 @@ class LensModelForm(ModelForm):
                 'Misc',
                 'notes',
                 'tags',
-                'exif_lenstype',
                 'url',
             ),
             FormActions(

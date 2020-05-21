@@ -1081,8 +1081,6 @@ class LensModel(models.Model):
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
-    exif_lenstype = models.CharField(
-        help_text='EXIF LensID number, if this lens has one officially registered. See documentation at http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/', max_length=45, blank=True, null=True)
     rectilinear = models.BooleanField(
         help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
     length = models.PositiveIntegerField(
@@ -1091,8 +1089,6 @@ class LensModel(models.Model):
         help_text='Width of lens in mm', blank=True, null=True)
     image_circle = models.PositiveIntegerField(
         help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
-    formula = models.CharField(
-        help_text='Name of the type of lens formula (e.g. Tessar)', max_length=45, blank=True, null=True)
     shutter_model = models.CharField(
         help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
@@ -1371,14 +1367,10 @@ class CameraModel(models.Model):
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
-    exif_lenstype = models.CharField(
-        help_text='EXIF LensID number, if this lens has one officially registered. See documentation at http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/', max_length=45, blank=True, null=True)
     rectilinear = models.BooleanField(
         help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
     image_circle = models.PositiveIntegerField(
         help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
-    formula = models.CharField(
-        help_text='Name of the type of lens formula (e.g. Tessar)', max_length=45, blank=True, null=True)
 
     def __str__(self):
         mystr = self.model
