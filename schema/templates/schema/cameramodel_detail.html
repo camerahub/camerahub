@@ -61,6 +61,12 @@
     </td>
   </tr>
   {% endif %}
+  {% if object.zoom_ratio is not None %}
+  <tr>
+    <td>Zoom ratio</td>
+    <td>{{ object.zoom_ratio }}&times;</td>
+  </tr>
+  {% endif %}
   {% if object.max_aperture is not None %}
   <tr>
     <td>Aperture</td>

@@ -1043,6 +1043,8 @@ class LensModel(models.Model):
         help_text='Shortest focal length of this lens, in mm', blank=True, null=True)
     max_focal_length = models.PositiveIntegerField(
         help_text='Longest focal length of this lens, in mm', blank=True, null=True)
+    zoom_ratio = models.DecimalField(
+        help_text='Ratio between minimum and maximum focal lengths', max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
     closest_focus = models.PositiveIntegerField(
         help_text='The closest focus possible with this lens, in cm', blank=True, null=True)
     max_aperture = models.DecimalField(
@@ -1179,6 +1181,9 @@ class LensModel(models.Model):
         # Auto-populate focal length
         if self.zoom is False and self.min_focal_length is not None:
             self.max_focal_length = self.min_focal_length
+        # Auto-populate zoom ratio
+        if self.zoom is True and self.min_focal_length is not None and self.max_focal_length is not None:
+            self.zoom_ratio = self.max_focal_length / self.min_focal_length
         if not self.slug:
             custom_slugify_unique = UniqueSlugify(
                 unique_check=lensmodel_check, to_lower=True)
@@ -1343,6 +1348,8 @@ class CameraModel(models.Model):
         help_text='Shortest focal length of this lens, in mm', blank=True, null=True)
     max_focal_length = models.PositiveIntegerField(
         help_text='Longest focal length of this lens, in mm', blank=True, null=True)
+    zoom_ratio = models.DecimalField(
+        help_text='Ratio between minimum and maximum focal lengths', max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
     closest_focus = models.PositiveIntegerField(
         help_text='The closest focus possible with this lens, in cm', blank=True, null=True)
     max_aperture = models.DecimalField(
@@ -1389,6 +1396,12 @@ class CameraModel(models.Model):
         ]
 
     def save(self, *args, **kwargs):
+        # Auto-populate focal length
+        if self.zoom is False and self.min_focal_length is not None:
+            self.max_focal_length = self.min_focal_length
+        # Auto-populate zoom ratio
+        if self.zoom is True and self.min_focal_length is not None and self.max_focal_length is not None:
+            self.zoom_ratio = self.max_focal_length / self.min_focal_length
         if not self.slug:
             custom_slugify_unique = UniqueSlugify(
                 unique_check=cameramodel_check, to_lower=True)
