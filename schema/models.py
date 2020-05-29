@@ -1045,8 +1045,8 @@ class LensModel(models.Model):
         help_text='Longest focal length of this lens, in mm', blank=True, null=True)
     zoom_ratio = models.DecimalField(
         help_text='Ratio between minimum and maximum focal lengths', max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
-    closest_focus = models.PositiveIntegerField(
-        help_text='The closest focus possible with this lens, in cm', blank=True, null=True)
+    closest_focus = models.DecimalField(
+        help_text='The closest focus possible with this lens, in m', max_digits=6, decimal_places=2, blank=True, null=True)
     max_aperture = models.DecimalField(
         help_text='Maximum (widest) aperture available on this lens (numerical part only, e.g. 2.8)', max_digits=4, decimal_places=1, blank=True, null=True)
     min_aperture = models.DecimalField(
@@ -1350,8 +1350,8 @@ class CameraModel(models.Model):
         help_text='Longest focal length of this lens, in mm', blank=True, null=True)
     zoom_ratio = models.DecimalField(
         help_text='Ratio between minimum and maximum focal lengths', max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
-    closest_focus = models.PositiveIntegerField(
-        help_text='The closest focus possible with this lens, in cm', blank=True, null=True)
+    closest_focus = models.DecimalField(
+        help_text='The closest focus possible with this lens, in m', max_digits=6, decimal_places=2, blank=True, null=True)
     max_aperture = models.DecimalField(
         help_text='Maximum (widest) aperture available on this lens (numerical part only, e.g. 2.8)', max_digits=4, decimal_places=1, blank=True, null=True)
     min_aperture = models.DecimalField(
