@@ -76,7 +76,7 @@ description = "A high-level Python Web framework that encourages rapid developme
 name = "django"
 optional = false
 python-versions = ">=3.5"
-version = "2.2"
+version = "2.2.13"
 
 [package.dependencies]
 pytz = "*"
@@ -114,8 +114,8 @@ category = "main"
 description = "Best way to have Django DRY forms"
 name = "django-crispy-forms"
 optional = false
-python-versions = "*"
-version = "1.9.0"
+python-versions = ">=3.5"
+version = "1.9.1"
 
 [[package]]
 category = "main"
@@ -143,11 +143,11 @@ category = "main"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
 name = "django-filter"
 optional = false
-python-versions = ">=3.4"
-version = "2.2.0"
+python-versions = ">=3.5"
+version = "2.3.0"
 
 [package.dependencies]
-Django = ">=1.11"
+Django = ">=2.2"
 
 [[package]]
 category = "main"
@@ -167,29 +167,6 @@ name = "django-getenv"
 optional = false
 python-versions = "*"
 version = "1.3.2"
-
-[[package]]
-category = "main"
-description = "Django model mixins and utilities"
-name = "django-model-utils"
-optional = false
-python-versions = "*"
-version = "4.0.0"
-
-[package.dependencies]
-Django = ">=2.0.1"
-
-[[package]]
-category = "main"
-description = "Generic Django objects moderation application"
-name = "django-moderation"
-optional = false
-python-versions = "*"
-version = "0.7.0"
-
-[package.dependencies]
-django = ">=1.11,<=2.2"
-django-model-utils = "*"
 
 [[package]]
 category = "main"
@@ -214,11 +191,11 @@ description = "Full featured redis cache backend for Django."
 name = "django-redis"
 optional = false
 python-versions = ">=3.5"
-version = "4.11.0"
+version = "4.12.1"
 
 [package.dependencies]
-Django = ">=1.11"
-redis = ">=2.10.0"
+Django = ">=2.2"
+redis = ">=3.0.0"
 
 [[package]]
 category = "main"
@@ -328,7 +305,7 @@ description = "More routines for operating on iterables, beyond itertools"
 name = "more-itertools"
 optional = false
 python-versions = ">=3.5"
-version = "8.2.0"
+version = "8.3.0"
 
 [[package]]
 category = "dev"
@@ -336,7 +313,7 @@ description = "Core utilities for Python packages"
 name = "packaging"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-version = "20.3"
+version = "20.4"
 
 [package.dependencies]
 pyparsing = ">=2.0.2"
@@ -441,7 +418,7 @@ description = "pytest: simple powerful testing with Python"
 name = "pytest"
 optional = false
 python-versions = ">=3.5"
-version = "5.4.2"
+version = "5.4.3"
 
 [package.dependencies]
 atomicwrites = ">=1.0"
@@ -483,7 +460,7 @@ description = "Python client for Redis key-value store"
 name = "redis"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-version = "3.5.1"
+version = "3.5.3"
 
 [package.extras]
 hiredis = ["hiredis (>=0.1.3)"]
@@ -494,7 +471,7 @@ description = "Alternative regular expression module, to replace re."
 name = "regex"
 optional = false
 python-versions = "*"
-version = "2020.5.13"
+version = "2020.5.14"
 
 [[package]]
 category = "main"
@@ -502,7 +479,7 @@ description = "Twilio SendGrid library for Python"
 name = "sendgrid"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-version = "6.3.0"
+version = "6.3.1"
 
 [package.dependencies]
 python-http-client = ">=3.2.1"
@@ -513,7 +490,7 @@ description = "Python 2 and 3 compatibility utilities"
 name = "six"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
-version = "1.14.0"
+version = "1.15.0"
 
 [[package]]
 category = "main"
@@ -529,7 +506,7 @@ description = "Python Library for Tom's Obvious, Minimal Language"
 name = "toml"
 optional = false
 python-versions = "*"
-version = "0.10.0"
+version = "0.10.1"
 
 [[package]]
 category = "main"
@@ -558,11 +535,11 @@ version = "2.0.18"
 
 [[package]]
 category = "dev"
-description = "Measures number of Terminal column cells of wide-character codes"
+description = "Measures the displayed width of unicode strings in a terminal"
 name = "wcwidth"
 optional = false
 python-versions = "*"
-version = "0.1.9"
+version = "0.2.3"
 
 [[package]]
 category = "main"
@@ -586,7 +563,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "ee068af07ffafb8bd7aef97d74aee5e8994f27e450bd519581bd5313bd5058c7"
+content-hash = "4f0f0d8d5cd08254a499ab3434774769ee9593b1b2a88e6fbbe54c3a9c248648"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -614,8 +591,8 @@ confusable-homoglyphs = [
     {file = "confusable_homoglyphs-3.2.0.tar.gz", hash = "sha256:3b4a0d9fa510669498820c91a0bfc0c327568cecec90648cf3819d4a6fc6a751"},
 ]
 django = [
-    {file = "Django-2.2-py3-none-any.whl", hash = "sha256:a2814bffd1f007805b19194eb0b9a331933b82bd5da1c3ba3d7b7ba16e06dc4b"},
-    {file = "Django-2.2.tar.gz", hash = "sha256:7c3543e4fb070d14e10926189a7fcf42ba919263b7473dceaefce34d54e8a119"},
+    {file = "Django-2.2.13-py3-none-any.whl", hash = "sha256:e8fe3c2b2212dce6126becab7a693157f1a441a07b62ec994c046c76af5bb66d"},
+    {file = "Django-2.2.13.tar.gz", hash = "sha256:84f370f6acedbe1f3c41e1a02de44ac206efda3355e427139ecb785b5f596d80"},
 ]
 django-autosequence = [
     {file = "django-autosequence-0.7.0.tar.gz", hash = "sha256:7bbe7c1ea170484139e4ab90bc9e0b2113b8813ad55149715ba1ac32b187d63f"},
@@ -626,8 +603,8 @@ django-choices = [
     {file = "django_choices-1.7.1-py2.py3-none-any.whl", hash = "sha256:010b773c2ffc58e616701ba417bafdbf5ae23b5bcd18d6101d2c9755e0c2b4de"},
 ]
 django-crispy-forms = [
-    {file = "django-crispy-forms-1.9.0.tar.gz", hash = "sha256:67e73ac863d3159500029fbbcdcb788f287a3fd357becebc1a0b51f73896dce3"},
-    {file = "django_crispy_forms-1.9.0-py2.py3-none-any.whl", hash = "sha256:50032184708ce351e3c9f0008ac35d659d9d5973fa2db218066f2e0a76eb41d9"},
+    {file = "django-crispy-forms-1.9.1.tar.gz", hash = "sha256:fbe9c2c9698b6590afe37940cb08194d1e722015f6bc5bee83f679362406ea30"},
+    {file = "django_crispy_forms-1.9.1-py2.py3-none-any.whl", hash = "sha256:ad943285508f0ed0e271d00399b9399c22b8795a4f969029bce0fd29522a8e2d"},
 ]
 django-currentuser = [
     {file = "django-currentuser-0.5.0.tar.gz", hash = "sha256:c66ce0979af76a769726d85a61905759f7fb885c22ef5bd0125216de76d5a343"},
@@ -637,8 +614,8 @@ django-favicon = [
     {file = "django-favicon-0.1.3.tar.gz", hash = "sha256:6b2783fceef91c0e0111c0675f87bb80bf381ec00f0c13e52458a032adda1421"},
 ]
 django-filter = [
-    {file = "django-filter-2.2.0.tar.gz", hash = "sha256:c3deb57f0dd7ff94d7dce52a047516822013e2b441bed472b722a317658cfd14"},
-    {file = "django_filter-2.2.0-py3-none-any.whl", hash = "sha256:558c727bce3ffa89c4a7a0b13bc8976745d63e5fd576b3a9a851650ef11c401b"},
+    {file = "django-filter-2.3.0.tar.gz", hash = "sha256:11e63dd759835d9ba7a763926ffb2662cf8a6dcb4c7971a95064de34dbc7e5af"},
+    {file = "django_filter-2.3.0-py3-none-any.whl", hash = "sha256:616848eab6fc50193a1b3730140c49b60c57a3eda1f7fc57fa8505ac156c6c75"},
 ]
 django-fullurl = [
     {file = "django_fullurl-1.1-py2.py3-none-any.whl", hash = "sha256:eb05be83671f29544f1ca000b96320b4d17033339b2bec509d88d4e8b285c2ee"},
@@ -647,21 +624,13 @@ django-getenv = [
     {file = "django-getenv-1.3.2.tar.gz", hash = "sha256:cede44ed68570aefe91a32925b28f1d111c93023bb387c5adb36bbd42c0e5739"},
     {file = "django_getenv-1.3.2-py2.py3-none-any.whl", hash = "sha256:d292571cefb84904a25d163689fc8f451c3cd090be72c6b3dc60a9c44730baee"},
 ]
-django-model-utils = [
-    {file = "django-model-utils-4.0.0.tar.gz", hash = "sha256:adf09e5be15122a7f4e372cb5a6dd512bbf8d78a23a90770ad0983ee9d909061"},
-    {file = "django_model_utils-4.0.0-py2.py3-none-any.whl", hash = "sha256:9cf882e5b604421b62dbe57ad2b18464dc9c8f963fc3f9831badccae66c1139c"},
-]
-django-moderation = [
-    {file = "django-moderation-0.7.0.tar.gz", hash = "sha256:31f7c1b02070b70f7d072f4d76aac1324316bafc9bdc6d7a375d286f48153433"},
-    {file = "django_moderation-0.7.0-py2-none-any.whl", hash = "sha256:bd227300d81a3f4347e029626c7f94065091a29505dab4691b62d6f07e7f977a"},
-]
 django-money = [
     {file = "django-money-0.15.1.tar.gz", hash = "sha256:88b5a0ee36565a87c39581efedbe4834b6f3f4a9a348887678ed2f45f4f8a192"},
     {file = "django_money-0.15.1-py2.py3-none-any.whl", hash = "sha256:61b06e495f5c08795504bd0f8708295e3db3649aae7db8297f1a55a9755b5611"},
 ]
 django-redis = [
-    {file = "django-redis-4.11.0.tar.gz", hash = "sha256:a5b1e3ffd3198735e6c529d9bdf38ca3fcb3155515249b98dc4d966b8ddf9d2b"},
-    {file = "django_redis-4.11.0-py3-none-any.whl", hash = "sha256:e1aad4cc5bd743d8d0b13d5cae0cef5410eaace33e83bff5fc3a139ad8db50b4"},
+    {file = "django-redis-4.12.1.tar.gz", hash = "sha256:306589c7021e6468b2656edc89f62b8ba67e8d5a1c8877e2688042263daa7a63"},
+    {file = "django_redis-4.12.1-py3-none-any.whl", hash = "sha256:1133b26b75baa3664164c3f44b9d5d133d1b8de45d94d79f38d1adc5b1d502e5"},
 ]
 django-registration = [
     {file = "django-registration-3.1.tar.gz", hash = "sha256:2437a098e6e06983e4b4b442680b1c49a2e979f1a0ef3a504beb3a84ff36131d"},
@@ -717,12 +686,12 @@ mccabe = [
     {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
 ]
 more-itertools = [
-    {file = "more-itertools-8.2.0.tar.gz", hash = "sha256:b1ddb932186d8a6ac451e1d95844b382f55e12686d51ca0c68b6f61f2ab7a507"},
-    {file = "more_itertools-8.2.0-py3-none-any.whl", hash = "sha256:5dd8bcf33e5f9513ffa06d5ad33d78f31e1931ac9a18f33d37e77a180d393a7c"},
+    {file = "more-itertools-8.3.0.tar.gz", hash = "sha256:558bb897a2232f5e4f8e2399089e35aecb746e1f9191b6584a151647e89267be"},
+    {file = "more_itertools-8.3.0-py3-none-any.whl", hash = "sha256:7818f596b1e87be009031c7653d01acc46ed422e6656b394b0f765ce66ed4982"},
 ]
 packaging = [
-    {file = "packaging-20.3-py2.py3-none-any.whl", hash = "sha256:82f77b9bee21c1bafbf35a84905d604d5d1223801d639cf3ed140bd651c08752"},
-    {file = "packaging-20.3.tar.gz", hash = "sha256:3c292b474fda1671ec57d46d739d072bfd495a4f51ad01a055121d81e952b7a3"},
+    {file = "packaging-20.4-py2.py3-none-any.whl", hash = "sha256:998416ba6962ae7fbd6596850b80e17859a5753ba17c32284f67bfff33784181"},
+    {file = "packaging-20.4.tar.gz", hash = "sha256:4357f74f47b9c12db93624a82154e9b120fa8293699949152b22065d556079f8"},
 ]
 pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
@@ -785,8 +754,8 @@ pyparsing = [
     {file = "pyparsing-2.4.7.tar.gz", hash = "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1"},
 ]
 pytest = [
-    {file = "pytest-5.4.2-py3-none-any.whl", hash = "sha256:95c710d0a72d91c13fae35dce195633c929c3792f54125919847fdcdf7caa0d3"},
-    {file = "pytest-5.4.2.tar.gz", hash = "sha256:eb2b5e935f6a019317e455b6da83dd8650ac9ffd2ee73a7b657a30873d67a698"},
+    {file = "pytest-5.4.3-py3-none-any.whl", hash = "sha256:5c0db86b698e8f170ba4582a492248919255fcd4c79b1ee64ace34301fb589a1"},
+    {file = "pytest-5.4.3.tar.gz", hash = "sha256:7979331bfcba207414f5e1263b5a0f8f521d0f457318836a7355531ed1a4c7d8"},
 ]
 python-http-client = [
     {file = "python_http_client-3.2.7.tar.gz", hash = "sha256:93d6a26b426e48b04e589c1f103e7c040193e4ccc379ea50cd6e12f94cca7c69"},
@@ -796,49 +765,47 @@ pytz = [
     {file = "pytz-2020.1.tar.gz", hash = "sha256:c35965d010ce31b23eeb663ed3cc8c906275d6be1a34393a1d73a41febf4a048"},
 ]
 redis = [
-    {file = "redis-3.5.1-py2.py3-none-any.whl", hash = "sha256:a5b0e25890d216d8189636742c50ab992e42eea699bcc1b08cc2d6bf3adff52a"},
-    {file = "redis-3.5.1.tar.gz", hash = "sha256:6e9d2722a95d10ddf854596e66516d316d99c6a483e5db3b35c34e1158b2bfa1"},
+    {file = "redis-3.5.3-py2.py3-none-any.whl", hash = "sha256:432b788c4530cfe16d8d943a09d40ca6c16149727e4afe8c2c9d5580c59d9f24"},
+    {file = "redis-3.5.3.tar.gz", hash = "sha256:0e7e0cfca8660dea8b7d5cd8c4f6c5e29e11f31158c0b0ae91a397f00e5a05a2"},
 ]
 regex = [
-    {file = "regex-2020.5.13-cp27-cp27m-win32.whl", hash = "sha256:d20ba8d3a844d6cd9bbe127a60cc8f61cfe2d2b77da997775639999a48fbbfe3"},
-    {file = "regex-2020.5.13-cp27-cp27m-win_amd64.whl", hash = "sha256:2cdf6bb8112a6b49092a9320edc823d41b21a06c8c7ac88a845b73462193f3ac"},
-    {file = "regex-2020.5.13-cp36-cp36m-manylinux1_i686.whl", hash = "sha256:9d801d3693c5a6af5a506f9905b0e6d8ae419a00054d8d80ed9d65f81fc37e1f"},
-    {file = "regex-2020.5.13-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:705e334ac42cf807f33d4daafe58da33e23a93389233ab2f80f63dee09488d9b"},
-    {file = "regex-2020.5.13-cp36-cp36m-manylinux2010_i686.whl", hash = "sha256:78014742b047ea2c9849e85db2dc84cad365b7f2dee404f86882d1fb9ff38df2"},
-    {file = "regex-2020.5.13-cp36-cp36m-manylinux2010_x86_64.whl", hash = "sha256:078024a52a72c98f157c380bea7beab7e0b907854ca337e3d4eecd44b363d4fb"},
-    {file = "regex-2020.5.13-cp36-cp36m-win32.whl", hash = "sha256:4088da3b99f1341c2904679ffbfe6f08f5cc13e5cad1c6b053728da7cf68d28c"},
-    {file = "regex-2020.5.13-cp36-cp36m-win_amd64.whl", hash = "sha256:14026bf953137a5cdc6a2a8fda314a0296ce5cd6da6e46fe79d6e03caf3c1bac"},
-    {file = "regex-2020.5.13-cp37-cp37m-manylinux1_i686.whl", hash = "sha256:03284826c5f5cd4b252ab7d510cb4d6b7e7f849cdea8e1b384c57e0996a9a3f9"},
-    {file = "regex-2020.5.13-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:36e6e7ca33a70f859e532110c2b1af28f98622424681e2e158f0f49735f1a9c8"},
-    {file = "regex-2020.5.13-cp37-cp37m-manylinux2010_i686.whl", hash = "sha256:707d2fcfdce12ca946830839c4c243c1b258c0d2c61350dc2efe0af00a4d2fdf"},
-    {file = "regex-2020.5.13-cp37-cp37m-manylinux2010_x86_64.whl", hash = "sha256:76668d1f91af08275313799bbd6ab04971ab08919defde886f5c94c7fc0f4623"},
-    {file = "regex-2020.5.13-cp37-cp37m-win32.whl", hash = "sha256:0be1cb724d43a7fb017e868d809640de03be7db88ab83d212fd802bc3d0277a0"},
-    {file = "regex-2020.5.13-cp37-cp37m-win_amd64.whl", hash = "sha256:9d42213927eede46bd4eb0c225600d82cf2b3c8882eb449f00b7cfa9bbf0975e"},
-    {file = "regex-2020.5.13-cp38-cp38-manylinux1_i686.whl", hash = "sha256:7163cac9621e9099dc8768ddec32372f50893c934be961f58826d46f0668ea0c"},
-    {file = "regex-2020.5.13-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:efae79f5eb3a6e2d9fa246605870887e0187ed66a4c56fc4cf22da00aa2ec220"},
-    {file = "regex-2020.5.13-cp38-cp38-manylinux2010_i686.whl", hash = "sha256:89d4a97682170c32a13c4223e72cf75f9d0c6223b40fb4abe717bbb6c271c6ea"},
-    {file = "regex-2020.5.13-cp38-cp38-manylinux2010_x86_64.whl", hash = "sha256:4f144eb977800d7ef593893204c2e7f1f109e8a943f6e822990d22385b12c5d6"},
-    {file = "regex-2020.5.13-cp38-cp38-win32.whl", hash = "sha256:3b7f9c0051179325d7efd76271b783de593a50608e48e130c1590a95ea411f59"},
-    {file = "regex-2020.5.13-cp38-cp38-win_amd64.whl", hash = "sha256:3cec763e0428beb8668edf004aa9a8a4c1b502d0ecb97dc4d77e5a67a9077186"},
-    {file = "regex-2020.5.13.tar.gz", hash = "sha256:cd931f9cca663617ba7a74b6500c6857405271b142edff68b2530e458b80a116"},
+    {file = "regex-2020.5.14-cp27-cp27m-win32.whl", hash = "sha256:e565569fc28e3ba3e475ec344d87ed3cd8ba2d575335359749298a0899fe122e"},
+    {file = "regex-2020.5.14-cp27-cp27m-win_amd64.whl", hash = "sha256:d466967ac8e45244b9dfe302bbe5e3337f8dc4dec8d7d10f5e950d83b140d33a"},
+    {file = "regex-2020.5.14-cp36-cp36m-manylinux1_i686.whl", hash = "sha256:27ff7325b297fb6e5ebb70d10437592433601c423f5acf86e5bc1ee2919b9561"},
+    {file = "regex-2020.5.14-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:ea55b80eb0d1c3f1d8d784264a6764f931e172480a2f1868f2536444c5f01e01"},
+    {file = "regex-2020.5.14-cp36-cp36m-manylinux2010_i686.whl", hash = "sha256:c9bce6e006fbe771a02bda468ec40ffccbf954803b470a0345ad39c603402577"},
+    {file = "regex-2020.5.14-cp36-cp36m-manylinux2010_x86_64.whl", hash = "sha256:d881c2e657c51d89f02ae4c21d9adbef76b8325fe4d5cf0e9ad62f850f3a98fd"},
+    {file = "regex-2020.5.14-cp36-cp36m-win32.whl", hash = "sha256:99568f00f7bf820c620f01721485cad230f3fb28f57d8fbf4a7967ec2e446994"},
+    {file = "regex-2020.5.14-cp36-cp36m-win_amd64.whl", hash = "sha256:70c14743320a68c5dac7fc5a0f685be63bc2024b062fe2aaccc4acc3d01b14a1"},
+    {file = "regex-2020.5.14-cp37-cp37m-manylinux1_i686.whl", hash = "sha256:a7c37f048ec3920783abab99f8f4036561a174f1314302ccfa4e9ad31cb00eb4"},
+    {file = "regex-2020.5.14-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:89d76ce33d3266173f5be80bd4efcbd5196cafc34100fdab814f9b228dee0fa4"},
+    {file = "regex-2020.5.14-cp37-cp37m-manylinux2010_i686.whl", hash = "sha256:51f17abbe973c7673a61863516bdc9c0ef467407a940f39501e786a07406699c"},
+    {file = "regex-2020.5.14-cp37-cp37m-manylinux2010_x86_64.whl", hash = "sha256:ce5cc53aa9fbbf6712e92c7cf268274eaff30f6bd12a0754e8133d85a8fb0f5f"},
+    {file = "regex-2020.5.14-cp37-cp37m-win32.whl", hash = "sha256:8044d1c085d49673aadb3d7dc20ef5cb5b030c7a4fa253a593dda2eab3059929"},
+    {file = "regex-2020.5.14-cp37-cp37m-win_amd64.whl", hash = "sha256:c2062c7d470751b648f1cacc3f54460aebfc261285f14bc6da49c6943bd48bdd"},
+    {file = "regex-2020.5.14-cp38-cp38-manylinux1_i686.whl", hash = "sha256:329ba35d711e3428db6b45a53b1b13a0a8ba07cbbcf10bbed291a7da45f106c3"},
+    {file = "regex-2020.5.14-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:579ea215c81d18da550b62ff97ee187b99f1b135fd894a13451e00986a080cad"},
+    {file = "regex-2020.5.14-cp38-cp38-manylinux2010_i686.whl", hash = "sha256:3a9394197664e35566242686d84dfd264c07b20f93514e2e09d3c2b3ffdf78fe"},
+    {file = "regex-2020.5.14-cp38-cp38-manylinux2010_x86_64.whl", hash = "sha256:ce367d21f33e23a84fb83a641b3834dd7dd8e9318ad8ff677fbfae5915a239f7"},
+    {file = "regex-2020.5.14-cp38-cp38-win32.whl", hash = "sha256:1386e75c9d1574f6aa2e4eb5355374c8e55f9aac97e224a8a5a6abded0f9c927"},
+    {file = "regex-2020.5.14-cp38-cp38-win_amd64.whl", hash = "sha256:7e61be8a2900897803c293247ef87366d5df86bf701083b6c43119c7c6c99108"},
+    {file = "regex-2020.5.14.tar.gz", hash = "sha256:ce450ffbfec93821ab1fea94779a8440e10cf63819be6e176eb1973a6017aff5"},
 ]
 sendgrid = [
-    {file = "sendgrid-6.3.0-py3-none-any.whl", hash = "sha256:37d8215974ec3c79085fc455332961bb788eb5d899adde1469640b605a940ec4"},
-    {file = "sendgrid-6.3.0-py3.6.egg", hash = "sha256:a74a70faf8d84be4ca07924bf229ca0e28f5607e0b10cb0adffce23e03bb9ccb"},
-    {file = "sendgrid-6.3.0.tar.gz", hash = "sha256:692c0ac35a6afed093e66e883b86dc7ec60b6b774bf5ef931d42efd19443a1fc"},
+    {file = "sendgrid-6.3.1-py3-none-any.whl", hash = "sha256:838e1f7b0f84d56714be6a18ef66fbcf8fba0bda782eee35c47c04d7a16efde8"},
+    {file = "sendgrid-6.3.1.tar.gz", hash = "sha256:38c0853494c7bfbef64f33934c25bf98bb7648cf0e66a0cfb22410927e4ef4c7"},
 ]
 six = [
-    {file = "six-1.14.0-py2.py3-none-any.whl", hash = "sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c"},
-    {file = "six-1.14.0.tar.gz", hash = "sha256:236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a"},
+    {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
+    {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
 ]
 sqlparse = [
     {file = "sqlparse-0.3.1-py2.py3-none-any.whl", hash = "sha256:022fb9c87b524d1f7862b3037e541f68597a730a8843245c349fc93e1643dc4e"},
     {file = "sqlparse-0.3.1.tar.gz", hash = "sha256:e162203737712307dfe78860cc56c8da8a852ab2ee33750e33aeadf38d12c548"},
 ]
 toml = [
-    {file = "toml-0.10.0-py2.7.egg", hash = "sha256:f1db651f9657708513243e61e6cc67d101a39bad662eaa9b5546f789338e07a3"},
-    {file = "toml-0.10.0-py2.py3-none-any.whl", hash = "sha256:235682dd292d5899d361a811df37e04a8828a5b1da3115886b73cf81ebc9100e"},
-    {file = "toml-0.10.0.tar.gz", hash = "sha256:229f81c57791a41d65e399fc06bf0848bab550a9dfd5ed66df18ce5f05e73d5c"},
+    {file = "toml-0.10.1-py2.py3-none-any.whl", hash = "sha256:bda89d5935c2eac546d648028b9901107a595863cb36bae0c73ac804a9b4ce88"},
+    {file = "toml-0.10.1.tar.gz", hash = "sha256:926b612be1e5ce0634a2ca03470f95169cf16f939018233a670519cb4ac58b0f"},
 ]
 typed-ast = [
     {file = "typed_ast-1.4.1-cp35-cp35m-manylinux1_i686.whl", hash = "sha256:73d785a950fc82dd2a25897d525d003f6378d1cb23ab305578394694202a58c3"},
@@ -871,8 +838,8 @@ uwsgi = [
     {file = "uwsgi-2.0.18.tar.gz", hash = "sha256:4972ac538800fb2d421027f49b4a1869b66048839507ccf0aa2fda792d99f583"},
 ]
 wcwidth = [
-    {file = "wcwidth-0.1.9-py2.py3-none-any.whl", hash = "sha256:cafe2186b3c009a04067022ce1dcd79cb38d8d65ee4f4791b8888d6599d1bbe1"},
-    {file = "wcwidth-0.1.9.tar.gz", hash = "sha256:ee73862862a156bf77ff92b09034fc4825dd3af9cf81bc5b360668d425f3c5f1"},
+    {file = "wcwidth-0.2.3-py2.py3-none-any.whl", hash = "sha256:980fbf4f3c196c0f329cdcd1e84c554d6a211f18e252e525a0cf4223154a41d6"},
+    {file = "wcwidth-0.2.3.tar.gz", hash = "sha256:edbc2b718b4db6cdf393eefe3a420183947d6aa312505ce6754516f458ff8830"},
 ]
 wrapt = [
     {file = "wrapt-1.12.1.tar.gz", hash = "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"},

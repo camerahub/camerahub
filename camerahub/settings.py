@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'favicon',
     'django_tables2',
     'crispy_forms',
-    'moderation',
     'fullurl',
     'django_filters',
     'watson',
@@ -170,9 +169,6 @@ REGISTRATION_OPEN = True  # allow sign-ups
 
 # Required for django.contrib.sites
 SITE_ID = 1
-
-# Moderation
-MODERATION_MODERATORS = []
 
 #AUTH_USER_MODEL = 'schema.User'
 

@@ -18,7 +18,7 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-Django = "^2.2"
+Django = "^2.2.13"
 pytz = "*"
 django-money = "^0.15"
 django-choices = "^1.7.0"
@@ -32,7 +32,6 @@ django-crispy-forms = "^1.9.0"
 django-autosequence = "^0"
 django-sendgrid-v5 = "^0"
 django-registration = "^3.0"
-django-moderation = "^0.7"
 django-fullurl = "^1"
 django-filter = "^2.2"
 awesome-slugify = "^1.6.5"
