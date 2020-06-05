@@ -10,12 +10,13 @@ Features should be developed in branches and submitted via pull request. Pull re
 
 ## Development environment
 
+CameraHub requires [Poetry](https://python-poetry.org/) to manage its build environment, so install this first with your usual package manager.
 Fork and clone CameraHub, then do the following to set up your development environment:
 
 ```sh
-pip install -r .
-python manage.py migrate
-python manage.py createsuperuser
+poetry install --no-root
+poetry run python manage.py migrate
+poetry run python manage.py createsuperuser
 ```
 
 ## Testing
@@ -27,7 +28,7 @@ CameraHub will run out of the box with no additional configuration, by creating 
 Run CameraHub by using the integrated web server. Editing and saving the code will cause the server to reload so you can quickly test your changes.
 
 ```sh
-python manage.py runserver
+poetry run python manage.py runserver
 ```
 
 Then browse to [http://localhost:80](http://localhost:8000). Login with default username `admin` and password `admin`.

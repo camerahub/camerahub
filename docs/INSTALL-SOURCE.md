@@ -19,18 +19,18 @@ If you wish to use an external database then copy `camerahub/local_settings/loca
 After the database is configured, apply the migrations and create your user account:
 
 ```sh
-python manage.py migrate
-python manage.py createsuperuser
+poetry run python manage.py migrate
+poetry run python manage.py createsuperuser
 ```
 
 To run CameraHub, run:
 
 ```sh
 # Use default SQLite database
-python manage.py runserver
+poetry run python manage.py runserver
 
 # Override database
-CAMERAHUB_DB_HOST=localhost CAMERAHUB_DB_ENGINE=django.db.backends.postgresql CAMERAHUB_DB_USER=admin CAMERAHUB_DB_PASS=admin CAMERAHUB_DB_PORT=5432 CAMERAHUB_DB_NAME=camerahub python3 manage.py runserver
+CAMERAHUB_DB_HOST=localhost CAMERAHUB_DB_ENGINE=django.db.backends.postgresql CAMERAHUB_DB_USER=admin CAMERAHUB_DB_PASS=admin CAMERAHUB_DB_PORT=5432 CAMERAHUB_DB_NAME=camerahub poetry run python manage.py runserver
 ```
 
 and navigate to [http://localhost:8000](http://localhost:8000). Log in with the superuser account you created above.
