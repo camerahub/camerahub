@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "camerahub"
-version = "0.7.0"
+version = "0.9.3"
 description = "App for cataloguing vintage cameras, lenses, films, negatives & prints"
 authors = ["Jonathan Gazeley <camerahub@jonathangazeley.com>"]
 license = "Apache-2.0"
