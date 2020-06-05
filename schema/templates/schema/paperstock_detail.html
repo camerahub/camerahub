@@ -1,5 +1,5 @@
 {% extends "detail.html" %}
-{% load yesnoicon %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -16,13 +16,13 @@
   {% if object.resin_coated is not None %}
   <tr>
     <td>Resin coated</td>
-    <td>{{ object.resin_coated|yesnoicon }}</td>
+    <td>{{ object.resin_coated|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.colour is not None %}
   <tr>
     <td>Colour</td>
-    <td>{{ object.colour|yesnoicon }}</td>
+    <td>{{ object.colour|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.finish is not None %}

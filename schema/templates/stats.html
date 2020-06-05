@@ -2,49 +2,23 @@
 {% load static %}
 
 {% block heading %}<h4>
-    <img src="{% static "svg/stats.svg" %}" width="30" height="30" alt="Stats">
-    Stats</h4>{%endblock%}
+    <img src="{% static "svg/stats.svg" %}" width="30" height="30" alt="{{ title }}">
+    {{ title }}</h4>{%endblock%}
 
 {% block content %}
-<div class="row justify-content-between">
-    <div class="col-sm">
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top mx-auto" src="{% static "svg/cameramodel.svg" %}" style="width: 200px"
-                alt="Camera models">
-            <div class="card-body">
-                <h3 class="card-title">{{ num_camera_models }}</h3>
-                <p class="card-text">camera models in CameraHub</p>
-            </div>
-            <div class="card-body">
-                <a href="{% url 'cameramodel-list' %}" class="card-link">Browse</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm">
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top mx-auto" src="{% static "svg/lensmodel.svg" %}" style="width: 200px"
-                alt="Lens models">
-            <div class="card-body">
-                <h3 class="card-title">{{ num_lens_models }}</h3>
-                <p class="card-text">lens models in CameraHub</p>
-            </div>
-            <div class="card-body">
-                <a href="{% url 'lensmodel-list' %}" class="card-link">Browse</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm">
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top mx-auto" src="{% static "svg/filmstock.svg" %}" style="width: 200px"
-                alt="Film stocks">
-            <div class="card-body">
-                <h3 class="card-title">{{ num_filmstocks }}</h3>
-                <p class="card-text">filmstocks in CameraHub</p>
-            </div>
-            <div class="card-body">
-                <a href="{% url 'filmstock-list' %}" class="card-link">Browse</a>
-            </div>
-        </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <ul class="list-unstyled">
+            {% for stat in stats %}
+            <li class="media my-4">
+                <a href="{{ stat.url }}"><img class="mr-3" src="{% static stat.image %}" style="width: 80px"></a>
+                <div class="media-body">
+                    <h4 class="mt-0 mb-1">{{ stat.value }}</h4>
+                    <p>{{ stat.item }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% endblock %}

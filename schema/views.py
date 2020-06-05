@@ -4,6 +4,7 @@ from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.apps import apps
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
@@ -82,6 +83,10 @@ class AccessoryList(LoginRequiredMixin, PagedFilteredTableView):
 class AccessoryDetail(LoginRequiredMixin, generic.DetailView):
     model = Accessory
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Accessory, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class AccessoryCreate(LoginRequiredMixin, CreateView):
     model = Accessory
@@ -94,6 +99,10 @@ class AccessoryUpdate(LoginRequiredMixin, UpdateView):
     form_class = AccessoryForm
     template_name = 'update.html'
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Accessory, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class ArchiveList(LoginRequiredMixin, SingleTableListView):
     model = Archive
@@ -102,6 +111,10 @@ class ArchiveList(LoginRequiredMixin, SingleTableListView):
 
 class ArchiveDetail(LoginRequiredMixin, generic.DetailView):
     model = Archive
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Archive, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class ArchiveCreate(LoginRequiredMixin, CreateView):
@@ -114,6 +127,10 @@ class ArchiveUpdate(LoginRequiredMixin, UpdateView):
     model = Archive
     form_class = ArchiveForm
     template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Archive, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class BatteryList(PagedFilteredTableView):
@@ -149,6 +166,10 @@ class BulkFilmList(LoginRequiredMixin, PagedFilteredTableView):
 class BulkFilmDetail(LoginRequiredMixin, generic.DetailView):
     model = BulkFilm
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(BulkFilm, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class BulkFilmCreate(LoginRequiredMixin, CreateView):
     model = BulkFilm
@@ -161,6 +182,10 @@ class BulkFilmUpdate(LoginRequiredMixin, UpdateView):
     form_class = BulkFilmForm
     template_name = 'update.html'
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(BulkFilm, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class CameraList(LoginRequiredMixin, PagedFilteredTableView):
     model = Camera
@@ -171,6 +196,10 @@ class CameraList(LoginRequiredMixin, PagedFilteredTableView):
 
 class CameraDetail(LoginRequiredMixin, generic.DetailView):
     model = Camera
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Camera, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class CameraCreate(LoginRequiredMixin, CreateView):
@@ -190,12 +219,23 @@ class CameraUpdate(LoginRequiredMixin, UpdateView):
     form_class = CameraForm
     template_name = 'update.html'
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Camera, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class CameraModelList(PagedFilteredTableView):
     model = CameraModel
     table_class = CameraModelTable
     filterset_class = CameraModelFilter
     formhelper_class = CameraModelFormHelper
+
+    # Pass request object to table context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        table = self.table_class
+        table.request = self.request
+        return context
 
 
 class CameraModelDetail(generic.DetailView):
@@ -204,6 +244,8 @@ class CameraModelDetail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['related'] = self.get_object().tags.similar_objects()
+        context['mine'] = self.get_object().camera_set.filter(
+            owner=self.request.user)
         return context
 
 
@@ -257,6 +299,10 @@ class EnlargerList(LoginRequiredMixin, PagedFilteredTableView):
 class EnlargerDetail(LoginRequiredMixin, generic.DetailView):
     model = Enlarger
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Enlarger, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class EnlargerCreate(LoginRequiredMixin, CreateView):
     model = Enlarger
@@ -268,6 +314,10 @@ class EnlargerUpdate(LoginRequiredMixin, UpdateView):
     model = Enlarger
     form_class = EnlargerForm
     template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Enlarger, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class FilmStockList(PagedFilteredTableView):
@@ -329,6 +379,10 @@ class FlashList(LoginRequiredMixin, PagedFilteredTableView):
 class FlashDetail(LoginRequiredMixin, generic.DetailView):
     model = Flash
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Flash, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class FlashCreate(LoginRequiredMixin, CreateView):
     model = Flash
@@ -340,6 +394,10 @@ class FlashUpdate(LoginRequiredMixin, UpdateView):
     model = Flash
     form_class = FlashForm
     template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Flash, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class FlashProtocolList(SingleTableListView):
@@ -394,6 +452,10 @@ class LensList(LoginRequiredMixin, PagedFilteredTableView):
 class LensDetail(LoginRequiredMixin, generic.DetailView):
     model = Lens
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Lens, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class LensCreate(LoginRequiredMixin, CreateView):
     model = Lens
@@ -412,12 +474,23 @@ class LensUpdate(LoginRequiredMixin, UpdateView):
     form_class = LensForm
     template_name = 'update.html'
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Lens, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class LensModelList(PagedFilteredTableView):
     model = LensModel
     table_class = LensModelTable
     filterset_class = LensModelFilter
     formhelper_class = LensModelFormHelper
+
+    # Pass request object to table context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        table = self.table_class
+        table.request = self.request
+        return context
 
 
 class LensModelDetail(generic.DetailView):
@@ -426,6 +499,8 @@ class LensModelDetail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['related'] = self.get_object().tags.similar_objects()
+        context['mine'] = self.get_object().lens_set.filter(
+            owner=self.request.user)
         return context
 
 
@@ -505,6 +580,10 @@ class MountAdapterList(LoginRequiredMixin, PagedFilteredTableView):
 class MountAdapterDetail(LoginRequiredMixin, generic.DetailView):
     model = MountAdapter
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(MountAdapter, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class MountAdapterCreate(LoginRequiredMixin, CreateView):
     model = MountAdapter
@@ -516,6 +595,10 @@ class MountAdapterUpdate(LoginRequiredMixin, UpdateView):
     model = MountAdapter
     form_class = MountAdapterForm
     template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(MountAdapter, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class NegativeSizeList(SingleTableListView):
@@ -549,6 +632,10 @@ class OrderList(LoginRequiredMixin, PagedFilteredTableView):
 class OrderDetail(LoginRequiredMixin, generic.DetailView):
     model = Order
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Order, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class OrderCreate(LoginRequiredMixin, CreateView):
     model = Order
@@ -560,6 +647,10 @@ class OrderUpdate(LoginRequiredMixin, UpdateView):
     model = Order
     form_class = OrderForm
     template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Order, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class PaperStockList(PagedFilteredTableView):
@@ -605,6 +696,10 @@ class PersonList(LoginRequiredMixin, SingleTableListView):
 class PersonDetail(LoginRequiredMixin, generic.DetailView):
     model = Person
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Person, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class PersonCreate(LoginRequiredMixin, CreateView):
     model = Person
@@ -617,6 +712,10 @@ class PersonUpdate(LoginRequiredMixin, UpdateView):
     form_class = PersonForm
     template_name = 'update.html'
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Person, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class PrintList(LoginRequiredMixin, PagedFilteredTableView):
     model = Print
@@ -627,6 +726,10 @@ class PrintList(LoginRequiredMixin, PagedFilteredTableView):
 
 class PrintDetail(LoginRequiredMixin, generic.DetailView):
     model = Print
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Print, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class PrintCreate(LoginRequiredMixin, CreateView):
@@ -639,6 +742,10 @@ class PrintUpdate(LoginRequiredMixin, UpdateView):
     model = Print
     form_class = PrintForm
     template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Print, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class ProcessList(SingleTableListView):
@@ -672,6 +779,10 @@ class RepairList(LoginRequiredMixin, PagedFilteredTableView):
 class RepairDetail(LoginRequiredMixin, generic.DetailView):
     model = Repair
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Repair, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class RepairCreate(LoginRequiredMixin, CreateView):
     model = Repair
@@ -683,6 +794,10 @@ class RepairUpdate(LoginRequiredMixin, UpdateView):
     model = Repair
     form_class = RepairForm
     template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Repair, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class ScanList(LoginRequiredMixin, SingleTableListView):
@@ -700,6 +815,10 @@ class ScanList(LoginRequiredMixin, SingleTableListView):
 class ScanDetail(LoginRequiredMixin, generic.DetailView):
     model = Scan
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Scan, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class ScanCreate(LoginRequiredMixin, CreateView):
     model = Scan
@@ -712,6 +831,10 @@ class ScanUpdate(LoginRequiredMixin, UpdateView):
     form_class = ScanForm
     template_name = 'update.html'
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Scan, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class NegativeList(LoginRequiredMixin, PagedFilteredTableView):
     model = Negative
@@ -722,6 +845,10 @@ class NegativeList(LoginRequiredMixin, PagedFilteredTableView):
 
 class NegativeDetail(LoginRequiredMixin, generic.DetailView):
     model = Negative
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Negative, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class NegativeCreate(LoginRequiredMixin, CreateView):
@@ -735,6 +862,10 @@ class NegativeUpdate(LoginRequiredMixin, UpdateView):
     form_class = NegativeForm
     template_name = 'update.html'
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Negative, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class FilmList(LoginRequiredMixin, PagedFilteredTableView):
     model = Film
@@ -745,6 +876,10 @@ class FilmList(LoginRequiredMixin, PagedFilteredTableView):
 
 class FilmDetail(LoginRequiredMixin, generic.DetailView):
     model = Film
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class FilmCreate(LoginRequiredMixin, CreateView):
@@ -758,6 +893,10 @@ class FilmUpdate(LoginRequiredMixin, UpdateView):
     form_class = FilmForm
     template_name = 'update.html'
 
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
 
 class TeleconverterList(LoginRequiredMixin, PagedFilteredTableView):
     model = Teleconverter
@@ -768,6 +907,10 @@ class TeleconverterList(LoginRequiredMixin, PagedFilteredTableView):
 
 class TeleconverterDetail(LoginRequiredMixin, generic.DetailView):
     model = Teleconverter
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Teleconverter, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class TeleconverterCreate(LoginRequiredMixin, CreateView):
@@ -780,6 +923,10 @@ class TeleconverterUpdate(LoginRequiredMixin, UpdateView):
     model = Teleconverter
     form_class = TeleconverterForm
     template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Teleconverter, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class TonerList(PagedFilteredTableView):
@@ -815,9 +962,78 @@ class StatsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['num_camera_models'] = CameraModel.objects.count
-        context['num_lens_models'] = LensModel.objects.count
-        context['num_filmstocks'] = FilmStock.objects.count
+        stats = [
+            {
+                'image': "svg/cameramodel.svg",
+                'url': reverse('cameramodel-list'),
+                'item': "camera models in CameraHub",
+                'value': CameraModel.objects.count,
+            },
+            {
+                'image': "svg/lensmodel.svg",
+                'url': reverse('lensmodel-list'),
+                'item': "lens models in CameraHub",
+                'value': LensModel.objects.count,
+            },
+            {
+                'image': "svg/filmstock.svg",
+                'url': reverse('filmstock-list'),
+                'item': "film stocks in CameraHub",
+                'value': FilmStock.objects.count
+            },
+            {
+                'image': "svg/manufacturer.svg",
+                'url': reverse('manufacturer-list'),
+                'item': "manufacturers in CameraHub",
+                'value': Manufacturer.objects.count
+            },
+        ]
+
+        context['stats'] = stats
+        context['title'] = "Public stats"
+        return context
+
+
+class MyStatsView(LoginRequiredMixin, TemplateView):
+    template_name = "stats.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        stats = [
+            {
+                'image': "svg/camera.svg",
+                'url': reverse('camera-list'),
+                'item': "cameras in your collection",
+                'value': Camera.objects.filter(owner=self.request.user).count,
+            },
+            {
+                'image': "svg/lens.svg",
+                'url': reverse('lens-list'),
+                'item': "lenses in your collection",
+                'value': Lens.objects.filter(owner=self.request.user).count,
+            },
+            {
+                'image': "svg/film.svg",
+                'url': reverse('film-list'),
+                'item': "films in your collection",
+                'value': Film.objects.filter(owner=self.request.user).count,
+            },
+            {
+                'image': "svg/negative.svg",
+                'url': reverse('negative-list'),
+                'item': "negatives in your collection",
+                'value': Negative.objects.filter(owner=self.request.user).count,
+            },
+            {
+                'image': "svg/print.svg",
+                'url': reverse('print-list'),
+                'item': "prints in your collection",
+                'value': Print.objects.filter(owner=self.request.user).count,
+            },
+        ]
+
+        context['stats'] = stats
+        context['title'] = "Private stats"
         return context
 
 

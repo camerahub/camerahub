@@ -145,7 +145,7 @@ class Archive(models.Model):
     sealed = models.BooleanField(
         help_text='Whether or not this archive is sealed (closed to new additions)', default=0)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return self.name
@@ -155,7 +155,7 @@ class Archive(models.Model):
         verbose_name_plural = "archives"
 
     def get_absolute_url(self):
-        return reverse('archive-detail', kwargs={'pk': self.pk})
+        return reverse('archive-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -290,7 +290,9 @@ class FlashProtocol(models.Model):
 
 class Filter(models.Model):
     type = models.CharField(
-        help_text='Filter type (e.g. Red, CPL, UV)', max_length=45)
+        help_text='Filter type (e.g. Red, Circular polariser, Ultraviolet)', max_length=45)
+    shortname = models.CharField(
+        help_text='Filter type shortname (e.g. Red, CPL, UV)', max_length=45, blank=True, null=True)
     attenuation = models.DecimalField(
         help_text='Attenuation of this filter in decimal stops', max_digits=3, decimal_places=1, blank=True, null=True)
 
@@ -430,7 +432,7 @@ class Flash(models.Model):
     cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
                       decimal_places=2, blank=True, null=True, default_currency='GBP')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -451,7 +453,7 @@ class Flash(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('flash-detail', kwargs={'pk': self.pk})
+        return reverse('flash-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -494,7 +496,7 @@ class Enlarger(models.Model):
     lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12,
                             decimal_places=2, blank=True, null=True, default_currency='GBP')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -538,7 +540,7 @@ class Enlarger(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('enlarger-detail', kwargs={'pk': self.pk})
+        return reverse('enlarger-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -677,7 +679,7 @@ class Person(models.Model):
     name = models.CharField(
         help_text='Name of the photographer', max_length=45, unique=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return self.name
@@ -687,7 +689,7 @@ class Person(models.Model):
         verbose_name_plural = "people"
 
     def get_absolute_url(self):
-        return reverse('person-detail', kwargs={'pk': self.pk})
+        return reverse('person-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -737,7 +739,7 @@ class Teleconverter(models.Model):
     multicoated = models.BooleanField(
         help_text='Whether this teleconverter is multi-coated', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -759,7 +761,7 @@ class Teleconverter(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('teleconverter-detail', kwargs={'pk': self.pk})
+        return reverse('teleconverter-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -890,7 +892,7 @@ class BulkFilm(models.Model):
     expiry = models.DateField(
         help_text='Expiry date of this bulk roll', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%s %s %s" % (self.id_owner, self.filmstock.manufacturer.name, self.filmstock.name)
@@ -899,7 +901,7 @@ class BulkFilm(models.Model):
         verbose_name_plural = "bulk films"
 
     def get_absolute_url(self):
-        return reverse('bulkfilm-detail', kwargs={'pk': self.pk})
+        return reverse('bulkfilm-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -920,7 +922,7 @@ class MountAdapter(models.Model):
     notes = models.CharField(help_text='Freeform notes',
                              max_length=100, blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "%s - %s" % (self.camera_mount, self.lens_mount)
@@ -930,7 +932,7 @@ class MountAdapter(models.Model):
         verbose_name_plural = "mount adapters"
 
     def get_absolute_url(self):
-        return reverse('mountadapter-detail', kwargs={'pk': self.pk})
+        return reverse('mountadapter-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1041,8 +1043,10 @@ class LensModel(models.Model):
         help_text='Shortest focal length of this lens, in mm', blank=True, null=True)
     max_focal_length = models.PositiveIntegerField(
         help_text='Longest focal length of this lens, in mm', blank=True, null=True)
-    closest_focus = models.PositiveIntegerField(
-        help_text='The closest focus possible with this lens, in cm', blank=True, null=True)
+    zoom_ratio = models.DecimalField(
+        help_text='Ratio between minimum and maximum focal lengths', max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
+    closest_focus = models.DecimalField(
+        help_text='The closest focus possible with this lens, in m', max_digits=6, decimal_places=2, blank=True, null=True)
     max_aperture = models.DecimalField(
         help_text='Maximum (widest) aperture available on this lens (numerical part only, e.g. 2.8)', max_digits=4, decimal_places=1, blank=True, null=True)
     min_aperture = models.DecimalField(
@@ -1079,8 +1083,6 @@ class LensModel(models.Model):
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
-    exif_lenstype = models.CharField(
-        help_text='EXIF LensID number, if this lens has one officially registered. See documentation at http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/', max_length=45, blank=True, null=True)
     rectilinear = models.BooleanField(
         help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
     length = models.PositiveIntegerField(
@@ -1089,8 +1091,6 @@ class LensModel(models.Model):
         help_text='Width of lens in mm', blank=True, null=True)
     image_circle = models.PositiveIntegerField(
         help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
-    formula = models.CharField(
-        help_text='Name of the type of lens formula (e.g. Tessar)', max_length=45, blank=True, null=True)
     shutter_model = models.CharField(
         help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
@@ -1181,6 +1181,9 @@ class LensModel(models.Model):
         # Auto-populate focal length
         if self.zoom is False and self.min_focal_length is not None:
             self.max_focal_length = self.min_focal_length
+        # Auto-populate zoom ratio
+        if self.zoom is True and self.min_focal_length is not None and self.max_focal_length is not None:
+            self.zoom_ratio = self.max_focal_length / self.min_focal_length
         if not self.slug:
             custom_slugify_unique = UniqueSlugify(
                 unique_check=lensmodel_check, to_lower=True)
@@ -1345,8 +1348,10 @@ class CameraModel(models.Model):
         help_text='Shortest focal length of this lens, in mm', blank=True, null=True)
     max_focal_length = models.PositiveIntegerField(
         help_text='Longest focal length of this lens, in mm', blank=True, null=True)
-    closest_focus = models.PositiveIntegerField(
-        help_text='The closest focus possible with this lens, in cm', blank=True, null=True)
+    zoom_ratio = models.DecimalField(
+        help_text='Ratio between minimum and maximum focal lengths', max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
+    closest_focus = models.DecimalField(
+        help_text='The closest focus possible with this lens, in m', max_digits=6, decimal_places=2, blank=True, null=True)
     max_aperture = models.DecimalField(
         help_text='Maximum (widest) aperture available on this lens (numerical part only, e.g. 2.8)', max_digits=4, decimal_places=1, blank=True, null=True)
     min_aperture = models.DecimalField(
@@ -1369,14 +1374,10 @@ class CameraModel(models.Model):
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
-    exif_lenstype = models.CharField(
-        help_text='EXIF LensID number, if this lens has one officially registered. See documentation at http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/', max_length=45, blank=True, null=True)
     rectilinear = models.BooleanField(
         help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
     image_circle = models.PositiveIntegerField(
         help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
-    formula = models.CharField(
-        help_text='Name of the type of lens formula (e.g. Tessar)', max_length=45, blank=True, null=True)
 
     def __str__(self):
         mystr = self.model
@@ -1395,6 +1396,12 @@ class CameraModel(models.Model):
         ]
 
     def save(self, *args, **kwargs):
+        # Auto-populate focal length
+        if self.zoom is False and self.min_focal_length is not None:
+            self.max_focal_length = self.min_focal_length
+        # Auto-populate zoom ratio
+        if self.zoom is True and self.min_focal_length is not None and self.max_focal_length is not None:
+            self.zoom_ratio = self.max_focal_length / self.min_focal_length
         if not self.slug:
             custom_slugify_unique = UniqueSlugify(
                 unique_check=cameramodel_check, to_lower=True)
@@ -1529,7 +1536,7 @@ class Accessory(models.Model):
         CameraModel, blank=True)
     lens_model_compatibility = models.ManyToManyField(LensModel, blank=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1559,7 +1566,7 @@ class Accessory(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('accessory-detail', kwargs={'pk': self.pk})
+        return reverse('accessory-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1596,10 +1603,14 @@ class Lens(models.Model):
     condition_notes = models.CharField(
         help_text='Description of condition', max_length=150, blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
+        if self.serial is not None:
+            mystr = "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
+        else:
+            mystr = "%s %s" % (self.lensmodel.manufacturer.name, self.lensmodel.model)
+        return mystr
 
     class Meta:
         ordering = ['lensmodel__manufacturer', 'lensmodel__model', 'serial']
@@ -1632,7 +1643,7 @@ class Lens(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('lens-detail', kwargs={'pk': self.pk})
+        return reverse('lens-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1668,13 +1679,15 @@ class Camera(models.Model):
                                   blank=True, null=True, help_text='Condition of this camera')
     condition_notes = models.CharField(
         help_text='Description of condition', max_length=150, blank=True, null=True)
-    display_lens = models.OneToOneField(Lens, on_delete=models.CASCADE, blank=True, null=True,
-                                        help_text='Lens that this camera should be displayed with', related_name='display_camera')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
+        if self.serial is not None:
+            mystr = "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
+        else:
+            mystr = "%s %s" % (self.cameramodel.manufacturer.name, self.cameramodel.model)
+        return mystr
 
     class Meta:
         ordering = ['cameramodel__manufacturer',
@@ -1708,7 +1721,7 @@ class Camera(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('camera-detail', kwargs={'pk': self.pk})
+        return reverse('camera-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1765,7 +1778,7 @@ class Film(models.Model):
     archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True,
                                 null=True, help_text='Archive that this film is stored in')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%s %s" % (self.id_owner, self.title)
@@ -1793,7 +1806,7 @@ class Film(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('film-detail', kwargs={'pk': self.pk})
+        return reverse('film-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1842,10 +1855,10 @@ class Negative(models.Model):
     copy_of = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True,
                                 related_name='copy', help_text='Negative that this was duplicated from')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "%s/%s %s" % (self.film.pk, self.frame, self.caption)
+        return "%s/%s %s" % (self.film.id_owner, self.frame, self.caption)
 
     class Meta:
         ordering = ['film', 'frame']
@@ -1883,7 +1896,7 @@ class Negative(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('negative-detail', kwargs={'pk': self.pk})
+        return reverse('negative-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1934,7 +1947,7 @@ class Print(models.Model):
     printer = models.ForeignKey(Person, on_delete=models.CASCADE,
                                 blank=True, null=True, help_text='Person who made this print')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%i" % (self.id_owner)
@@ -1955,7 +1968,7 @@ class Print(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('print-detail', kwargs={'pk': self.pk})
+        return reverse('print-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1995,7 +2008,7 @@ class Repair(models.Model):
     detail = models.CharField(
         help_text='Longer description of the repair', max_length=500, blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%i" % (self.id_owner)
@@ -2005,7 +2018,7 @@ class Repair(models.Model):
         verbose_name_plural = "repairs"
 
     def get_absolute_url(self):
-        return reverse('repair-detail', kwargs={'pk': self.pk})
+        return reverse('repair-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -2030,7 +2043,7 @@ class Scan(models.Model):
     height = models.PositiveIntegerField(
         help_text='Height of the scanned image in pixels', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return self.filename
@@ -2047,7 +2060,7 @@ class Scan(models.Model):
         verbose_name_plural = "scans"
 
     def get_absolute_url(self):
-        return reverse('scan-detail', kwargs={'pk': self.pk})
+        return reverse('scan-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -2069,10 +2082,10 @@ class Order(models.Model):
         help_text='Whether the print has been made', blank=True, null=True)
     print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True,
                               null=True, help_text='Print that was made to fulfil this order')
-    recipient = models.ForeignKey(
-        Person, on_delete=models.CASCADE, help_text='Person who placed this order')
+    recipient = models.ForeignKey(Person, on_delete=models.CASCADE,
+                                  help_text='Person who placed this order', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%i" % (self.id_owner)
@@ -2082,7 +2095,7 @@ class Order(models.Model):
         verbose_name_plural = "orders"
 
     def get_absolute_url(self):
-        return reverse('order-detail', kwargs={'pk': self.pk})
+        return reverse('order-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):

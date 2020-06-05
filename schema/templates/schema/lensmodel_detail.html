@@ -1,5 +1,5 @@
 {% extends "detail.html" %}
-{% load yesnoicon %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -60,7 +60,7 @@
   {% if object.zoom is not None %}
   <tr>
     <td>Zoom</td>
-    <td>{{ object.zoom|yesnoicon }}</td>
+    <td>{{ object.zoom|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.min_focal_length is not None %}
@@ -71,10 +71,10 @@
     </td>
   </tr>
   {% endif %}
-  {% if object.closest_focus is not None %}
+  {% if object.zoom_ratio is not None %}
   <tr>
-    <td>Closest focus</td>
-    <td>{{ object.closest_focus }}cm</td>
+    <td>Zoom ratio</td>
+    <td>{{ object.zoom_ratio }}&times;</td>
   </tr>
   {% endif %}
   {% if object.max_aperture is not None %}
@@ -83,6 +83,12 @@
     <td>
       <em>f</em>/{{ object.max_aperture }}{% if object.max_aperture is not None %}-{{ object.min_aperture }}{% endif %}
     </td>
+  </tr>
+  {% endif %}
+  {% if object.closest_focus is not None %}
+  <tr>
+    <td>Closest focus</td>
+    <td>{{ object.closest_focus }}m</td>
   </tr>
   {% endif %}
   {% if object.elements is not None and object.groups is not None %}
@@ -115,7 +121,7 @@
   {% if object.rectilinear is not None %}
   <tr>
     <td>Rectilinear</td>
-    <td>{{ object.rectilinear|yesnoicon }}</td>
+    <td>{{ object.rectilinear|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.magnification is not None %}
@@ -142,12 +148,6 @@
     <td>{{ object.image_circle }}mm</td>
   </tr>
   {% endif %}
-  {% if object.formula is not None %}
-  <tr>
-    <td>Formula</td>
-    <td>{{ object.formula }}</td>
-  </tr>
-  {% endif %}
 
 
   <tr>
@@ -156,7 +156,7 @@
   {% if object.autofocus is not None %}
   <tr>
     <td>Autofocus</td>
-    <td>{{ object.autofocus|yesnoicon }}</td>
+    <td>{{ object.autofocus|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.filter_thread is not None %}
@@ -175,12 +175,6 @@
   <tr>
     <td>Hood</td>
     <td>{{ object.hood }}</td>
-  </tr>
-  {% endif %}
-  {% if object.exif_lenstype is not None %}
-  <tr>
-    <td>EXIF Lens type</td>
-    <td>{{ object.exif_lenstype }}</td>
   </tr>
   {% endif %}
   {% if object.shutter_model is not None %}
@@ -238,22 +232,26 @@
 {% endif %}
 
 {% if user.is_authenticated %}
-<a data-toggle="collapse" href="#collapseLenses" role="button" aria-expanded="false" aria-controls="collapseLenses">
-  Lenses</a>
-<div class="collapse" id="collapseLenses">
-  <table class="table table-hover">
-    <tr>
-      <th>Serial</th>
-      <th>Acquired</th>
-    </tr>
-    {% for lens in lensmodel.lens_set.all %}
-    <tr>
-      <td><code>{{ lens.serial }}</code></td>
-      <td>{{ lens.acquired }}</td>
-    </tr>
-    {% endfor %}
-  </table>
-</div>
+{% if mine %}
+<h4>In your collection</h4>
+
+<table class="table table-hover">
+  <tr>
+    <th>ID</th>
+    <th>Serial</th>
+    <th>Manufactured</th>
+    <th>Own</th>
+  </tr>
+  {% for lens in mine %}
+  <tr>
+    <td><a href="{% url 'lens-detail' lens.id_owner %}">#{{ lens.id_owner }}</a></td>
+    <td>{% if lens.serial is not None %}<code>{{ lens.serial }}</code>{% endif %}</td>
+    <td>{% if lens.manufactured is not None %}{{ lens.manufactured }}{% endif %}</td>
+    <td>{% if lens.own is not None %}{{ lens.own|boolicontag }}{% endif %}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
 {% endif %}
 {% endblock %}
 

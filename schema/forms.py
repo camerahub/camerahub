@@ -2,7 +2,7 @@ import sys
 from django.forms import ModelForm
 from django_currentuser.middleware import get_current_user
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Submit, Div, Button
+from crispy_forms.layout import Layout, Fieldset, Submit, Div
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -15,9 +15,9 @@ class AccessoryForm(ModelForm):
     class Meta:
         model = Accessory
         fields = [
-            'type',
             'manufacturer',
             'model',
+            'type',
             'acquired',
             'cost',
             'lost',
@@ -39,20 +39,25 @@ class AccessoryForm(ModelForm):
 class ArchiveForm(ModelForm):
     class Meta:
         model = Archive
-        fields = [
-            'type',
-            'name',
-            'max_width',
-            'max_height',
-            'location',
-            'storage',
-            'sealed',
-        ]
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super(ArchiveForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.layout.append(Submit('Save', 'Save'))
+        self.helper.layout = Layout(
+            Div(
+                'name',
+                'type',
+                AppendedText('max_width', '"'),
+                AppendedText('max_height', '"'),
+                'location',
+                'storage',
+                'sealed',
+            ),
+            FormActions(
+                Submit('save', 'Save'),
+            )
+        )
 
 
 class BatteryForm(ModelForm):
@@ -110,15 +115,12 @@ class CameraForm(ModelForm):
             'source',
             'condition',
             'condition_notes',
-            'display_lens',
         ]
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('cameramodel')
 
     def __init__(self, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
-        self.fields['display_lens'].queryset = Lens.objects.filter(
-            owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -162,16 +164,15 @@ class CameraModelForm(ModelForm):
                             'zoom',
                             AppendedText('min_focal_length', 'mm'),
                             AppendedText('max_focal_length', 'mm'),
-                            AppendedText('closest_focus', 'cm'),
                             PrependedText('max_aperture', 'f/'),
                             PrependedText('min_aperture', 'f/'),
+                            AppendedText('closest_focus', 'm'),
                             'elements',
                             'groups',
                             AppendedText('nominal_min_angle_diag', '&deg;'),
                             AppendedText('nominal_max_angle_diag', '&deg;'),
                             'rectilinear',
                             AppendedText('image_circle', 'mm'),
-                            'formula',
                             'aperture_blades',
                             'coating',
                             AppendedText('magnification', '&times;'),
@@ -180,10 +181,6 @@ class CameraModelForm(ModelForm):
                             'Physical',
                             AppendedText('filter_thread', 'mm'),
                             'hood',
-                        ),
-                        Fieldset(
-                            'Misc',
-                            'exif_lenstype',
                         ),
                         ),
                 ),
@@ -250,8 +247,7 @@ class CameraModelForm(ModelForm):
                 'url',
             ),
             FormActions(
-                Submit('save', 'Save changes'),
-                Button('cancel', 'Cancel')
+                Submit('save', 'Save')
             )
         )
 
@@ -329,6 +325,7 @@ class FilterForm(ModelForm):
         model = Filter
         fields = [
             'type',
+            'shortname',
             'attenuation',
         ]
 
@@ -342,8 +339,8 @@ class FlashForm(ModelForm):
     class Meta:
         model = Flash
         fields = [
-            'model',
             'manufacturer',
+            'model',
             'guide_number',
             'gn_info',
             'battery_powered',
@@ -456,16 +453,15 @@ class LensModelForm(ModelForm):
                 'zoom',
                 AppendedText('min_focal_length', 'mm'),
                 AppendedText('max_focal_length', 'mm'),
-                AppendedText('closest_focus', 'cm'),
                 PrependedText('max_aperture', 'f/'),
                 PrependedText('min_aperture', 'f/'),
+                AppendedText('closest_focus', 'm'),
                 'elements',
                 'groups',
                 AppendedText('nominal_min_angle_diag', '&deg;'),
                 AppendedText('nominal_max_angle_diag', '&deg;'),
                 'rectilinear',
                 AppendedText('image_circle', 'mm'),
-                'formula',
                 'aperture_blades',
                 'coating',
                 'autofocus',
@@ -485,12 +481,10 @@ class LensModelForm(ModelForm):
                 'Misc',
                 'notes',
                 'tags',
-                'exif_lenstype',
                 'url',
             ),
             FormActions(
-                Submit('save', 'Save changes'),
-                Button('cancel', 'Cancel')
+                Submit('save', 'Save')
             )
         )
 
@@ -825,23 +819,26 @@ class FilmForm(ModelForm):
 class TeleconverterForm(ModelForm):
     class Meta:
         model = Teleconverter
-        fields = [
-            'model',
-            'manufacturer',
-            'mount',
-            'factor',
-            'elements',
-            'groups',
-            'multicoated',
-        ]
-        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
-            fields.remove('manufacturer')
-            fields.remove('mount')
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super(TeleconverterForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.layout.append(Submit('Save', 'Save'))
+        self.helper.layout = Layout(
+            Fieldset(
+                'Basics',
+                'model',
+                'manufacturer',
+                'mount',
+                AppendedText('factor', '&times;'),
+                'elements',
+                'groups',
+                'multicoated',
+            ),
+            FormActions(
+                Submit('save', 'Save')
+            )
+        )
 
 
 class TonerForm(ModelForm):

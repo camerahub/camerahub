@@ -1,5 +1,5 @@
 {% extends "detail.html" %}
-{% load yesnoicon %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -50,7 +50,7 @@
   {% if object.zoom is not None %}
   <tr>
     <td>Zoom</td>
-    <td>{{ object.zoom|yesnoicon }}</td>
+    <td>{{ object.zoom|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.min_focal_length is not None %}
@@ -61,10 +61,10 @@
     </td>
   </tr>
   {% endif %}
-  {% if object.closest_focus is not None %}
+  {% if object.zoom_ratio is not None %}
   <tr>
-    <td>Closest focus</td>
-    <td>{{ object.closest_focus }}cm</td>
+    <td>Zoom ratio</td>
+    <td>{{ object.zoom_ratio }}&times;</td>
   </tr>
   {% endif %}
   {% if object.max_aperture is not None %}
@@ -73,6 +73,12 @@
     <td>
       <em>f</em>/{{ object.max_aperture }}{% if object.max_aperture is not None %}-{{ object.min_aperture }}{% endif %}
     </td>
+  </tr>
+  {% endif %}
+  {% if object.closest_focus is not None %}
+  <tr>
+    <td>Closest focus</td>
+    <td>{{ object.closest_focus }}m</td>
   </tr>
   {% endif %}
   {% if object.elements is not None and object.groups is not None %}
@@ -105,7 +111,7 @@
   {% if object.rectilinear is not None %}
   <tr>
     <td>Rectilinear</td>
-    <td>{{ object.rectilinear|yesnoicon }}</td>
+    <td>{{ object.rectilinear|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.magnification is not None %}
@@ -126,12 +132,6 @@
   <tr>
     <td>Image circle</td>
     <td>{{ object.image_circle }}mm</td>
-  </tr>
-  {% endif %}
-  {% if object.formula is not None %}
-  <tr>
-    <td>Formula</td>
-    <td>{{ object.formula }}</td>
   </tr>
   {% endif %}
 
@@ -155,12 +155,6 @@
   <tr>
     <td>Hood</td>
     <td>{{ object.hood }}</td>
-  </tr>
-  {% endif %}
-  {% if object.exif_lenstype is not None %}
-  <tr>
-    <td>EXIF Lens type</td>
-    <td>{{ object.exif_lenstype }}</td>
   </tr>
   {% endif %}
 
@@ -229,7 +223,7 @@
   {% if object.metering is not None %}
   <tr>
     <td>Metering</td>
-    <td>{{ object.metering|yesnoicon }}</td>
+    <td>{{ object.metering|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.metering %}
@@ -294,13 +288,13 @@
   {% if object.bulb is not None %}
   <tr>
     <td>Bulb</td>
-    <td>{{ object.bulb|yesnoicon }}</td>
+    <td>{{ object.bulb|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.time is not None %}
   <tr>
     <td>Time</td>
-    <td>{{ object.time|yesnoicon }}</td>
+    <td>{{ object.time|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.shutter_speeds is not None %}
@@ -322,7 +316,7 @@
   {% if object.power_drive is not None %}
   <tr>
     <td>Power drive</td>
-    <td>{{ object.power_drive|yesnoicon }}</td>
+    <td>{{ object.power_drive|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.continuous_fps is not None %}
@@ -354,7 +348,7 @@
   {% if object.int_flash is not None %}
   <tr>
     <td>Internal flash</td>
-    <td>{{ object.int_flash|yesnoicon }}</td>
+    <td>{{ object.int_flash|boolicontag }}</td>
   </tr>
   <tr>
     <td>Internal flash guide number</td>
@@ -364,11 +358,11 @@
   {% if object.external_flash is not None %}
   <tr>
     <td>External flash</td>
-    <td>{{ object.ext_flash|yesnoicon }}</td>
+    <td>{{ object.ext_flash|boolicontag }}</td>
   </tr>
   <tr>
     <td>PC sync</td>
-    <td>{{ object.pc_sync|yesnoicon }}</td>
+    <td>{{ object.pc_sync|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.shoe is not None %}
@@ -386,7 +380,7 @@
   {% if object.flash_metering is not None %}
   <tr>
     <td>Flash metering</td>
-    <td>{{ object.flash_metering|yesnoicon }}</td>
+    <td>{{ object.flash_metering|boolicontag }}</td>
   </tr>
   {% endif %}
 
@@ -397,25 +391,25 @@
   {% if object.dof_preview is not None %}
   <tr>
     <td>DoF preview</td>
-    <td>{{ object.dof_preview|yesnoicon }}</td>
+    <td>{{ object.dof_preview|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.mirror_lockup is not None %}
   <tr>
     <td>Mirror lock-up</td>
-    <td>{{ object.mirror_lockup|yesnoicon }}</td>
+    <td>{{ object.mirror_lockup|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.tripod is not None %}
   <tr>
     <td>Tripod</td>
-    <td>{{ object.tripod|yesnoicon }}</td>
+    <td>{{ object.tripod|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.cable_release is not None %}
   <tr>
     <td>Cable release</td>
-    <td>{{ object.cable_release|yesnoicon }}</td>
+    <td>{{ object.cable_release|boolicontag }}</td>
   </tr>
   {% endif %}
 
@@ -467,39 +461,21 @@
 {% endif %}
 
 {% if user.is_authenticated %}
-{% if cameramodel.camera_set.all %}
-<h4>Cameras</h4>
+{% if mine %}
+<h4>In your collection</h4>
 <table class="table table-hover">
   <tr>
     <th>ID</th>
-    <th>Acquired</th>
-    <th>Cost</th>
     <th>Serial</th>
-    <th>Datecode</th>
     <th>Manufactured</th>
     <th>Own</th>
-    <th>Notes</th>
-    <th>Lost</th>
-    <th>Lost price</th>
-    <th>Source</th>
-    <th>Condition</th>
-    <th>Display lens</th>
   </tr>
-  {% for camera in cameramodel.camera_set.all %}
+  {% for camera in mine %}
   <tr>
-    <td><a href="{% url 'camera-detail' camera.id %}">#{{ camera.id }}</a></td>
-    <td>{{ camera.acquired }}</td>
-    <td>{{ camera.cost }}</td>
-    <td><code>{{ camera.serial }}</code></td>
-    <td><code>{{ camera.datecode }}</code></td>
-    <td>{{ camera.manufactured }}</td>
-    <td>{{ camera.own }}</td>
-    <td>{{ camera.notes }}</td>
-    <td>{{ camera.lost }}</td>
-    <td>{{ camera.lost_price }}</td>
-    <td>{{ camera.source }}</td>
-    <td>{{ camera.condition }}</td>
-    <td>{{ camera.display_lens }}</td>
+    <td><a href="{% url 'camera-detail' camera.id_owner %}">#{{ camera.id_owner }}</a></td>
+    <td>{% if camera.serial is not None %}<code>{{ camera.serial }}</code>{% endif %}</td>
+    <td>{% if camera.manufactured is not None %}{{ camera.manufactured }}{% endif %}</td>
+    <td>{% if camera.own is not None %}{{ camera.own|boolicontag }}{% endif %}</td>
   </tr>
   {% endfor %}
 </table>

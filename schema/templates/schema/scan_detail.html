@@ -1,12 +1,12 @@
 {% extends "detail.html" %}
-{% load yesnoicon %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
   {% if object.negative is not None %}
   <tr>
     <td>Negative</td>
-    <td><a href="{% url 'negative-detail' object.negative.id %}">{{ object.negative }}</a></td>
+    <td><a href="{% url 'negative-detail' object.negative.id_owner %}">{{ object.negative }}</a></td>
   </tr>
   {% endif %}
   {% if object.print is not None %}
@@ -30,7 +30,7 @@
   {% if object.colour is not None %}
   <tr>
     <td>Colour</td>
-    <td>{{ object.colour|yesnoicon }}</td>
+    <td>{{ object.colour|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.width is not None and object.height is not None %}

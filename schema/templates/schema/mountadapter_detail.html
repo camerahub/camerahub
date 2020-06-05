@@ -1,5 +1,5 @@
 {% extends "detail.html" %}
-{% load yesnoicon %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -18,13 +18,13 @@
   {% if object.has_optics is not None %}
   <tr>
     <td>Has optics</td>
-    <td>{{ object.has_optics|yesnoicon }}</td>
+    <td>{{ object.has_optics|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.infinity_focus is not None %}
   <tr>
     <td>Infinity focus</td>
-    <td>{{ object.infinity_focus|yesnoicon }}</td>
+    <td>{{ object.infinity_focus|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.notes is not None %}
