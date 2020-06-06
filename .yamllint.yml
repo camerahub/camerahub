@@ -1,0 +1,5 @@
+---
+rules:
+  line-length: enable
+  truthy:
+    level: warning
