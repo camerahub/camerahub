@@ -23,7 +23,7 @@ pytz = "*"
 django-money = "^0.15"
 django-choices = "^1.7.0"
 django-favicon = "^0.1.3"
-psycopg2-binary = "^2.8"
+psycopg2-binary = { version = "^2.8", optional = true }
 django-currentuser = "^0.5"
 uWSGI = "^2.0.0"
 django-getenv = "^1.3.2"
@@ -42,6 +42,10 @@ django-taggit = "^1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+wheel
+
+[tool.poetry.extras]
+pgsql = ["psycopg2-binary"]
 
 [build-system]
 requires = ["poetry>=0.12"]
