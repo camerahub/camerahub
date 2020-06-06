@@ -1,4 +1,4 @@
-from pbr.version import VersionInfo
+import poetry_version
 
-# Check the PBR version module docs for other options than release_string()
-__version__ = VersionInfo('CameraHub').release_string()
+# Extract version from poetry pyproject.toml file
+__version__ = poetry_version.extract(source_file=__file__)
