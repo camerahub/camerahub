@@ -12,13 +12,16 @@ WORKDIR $PROJECT_DIR
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Install deps from apk and pip
+# Install deps from apk and poetry
 RUN apk --no-cache add pcre mailcap libpq \
   && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git libffi-dev\
   && pip install poetry \
   && poetry config virtualenvs.create false \
-  && poetry install -E pgsql --no-dev -n \
+  && poetry install -E pgsql --no-dev --no-root -n \
   && apk --no-cache del .build-deps
+
+# Now install our actual app
+RUN poetry install
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
 RUN python manage.py collectstatic --noinput
