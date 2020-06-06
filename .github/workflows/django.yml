@@ -10,7 +10,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    needs: lint
     strategy:
       max-parallel: 4
       matrix:
