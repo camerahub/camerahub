@@ -15,7 +15,7 @@ jobs:
       - name: Run pylint
         uses: cclauss/GitHub-Action-for-pylint@0.7.0
         with:
-          args: "poetry install --no-root; pylint --rcfile=.pylintrc **/*.py"
+          args: "poetry install --no-root; poetry run pylint --rcfile=.pylintrc **/*.py"
   test:
     runs-on: ubuntu-latest
     needs: lint
