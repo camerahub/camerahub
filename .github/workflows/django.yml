@@ -34,9 +34,7 @@ jobs:
       run: poetry install
       if: steps.cache.outputs.cache-hit != 'true'
     - name: Run pylint
-      uses: cclauss/GitHub-Action-for-pylint@0.7.0
-      with:
-        args: "pylint --rcfile=.pylintrc **/*.py"
+      run: "poetry run pylint --rcfile=.pylintrc **/*.py"
     - name: Run Tests
       run: |
         poetry run python manage.py check
