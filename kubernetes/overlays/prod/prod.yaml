@@ -1,3 +1,4 @@
+---
 # TLS/SSL certs
 apiVersion: extensions/v1beta1
 kind: Ingress
