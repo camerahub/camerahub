@@ -17,7 +17,7 @@ RUN apk --no-cache add pcre mailcap libpq \
   && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git libffi-dev\
   && pip install poetry \
   && poetry config virtualenvs.create false \
-  && poetry install -E pgsql -n \
+  && poetry install -E pgsql --no-dev -n \
   && apk --no-cache del .build-deps
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
