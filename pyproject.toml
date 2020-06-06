@@ -42,7 +42,6 @@ django-taggit = "^1"
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 pylint-django = "^2.0.14"
-wheel = "*"
 
 [tool.poetry.extras]
 pgsql = ["psycopg2-binary"]
