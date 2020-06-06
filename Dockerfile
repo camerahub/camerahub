@@ -12,13 +12,11 @@ WORKDIR $PROJECT_DIR
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Install poetry
-RUN pip install poetry \
-  && poetry config virtualenvs.create false
-
 # Install deps from apk and poetry
 RUN apk --no-cache add pcre mailcap libpq \
   && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git libffi-dev\
+  && pip install poetry \
+  && poetry config virtualenvs.create false \
   && poetry install -E pgsql --no-dev --no-root -n \
   && apk --no-cache del .build-deps
 
