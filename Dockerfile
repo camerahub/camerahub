@@ -21,7 +21,7 @@ RUN apk --no-cache add pcre mailcap libpq \
   && apk --no-cache del .build-deps
 
 # Now install our actual app
-RUN poetry install
+RUN poetry install -E pgsql --no-dev -n
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
 RUN python manage.py collectstatic --noinput
