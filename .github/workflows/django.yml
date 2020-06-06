@@ -9,6 +9,15 @@ on:
     types: [published]
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: yaml-lint
+        uses: ibiqlik/action-yamllint@v1
+        with:
+          config_file: .yamllint.yml
+
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -41,6 +50,7 @@ jobs:
           poetry run python manage.py check
           poetry run python manage.py test
           poetry run python manage.py migrate
+
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -78,6 +88,7 @@ jobs:
           repository: djjudas21/camerahub
           tags: testing
           push: false
+
   publish:
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
