@@ -10,12 +10,13 @@ Features should be developed in branches and submitted via pull request. Pull re
 
 ## Development environment
 
+CameraHub requires [Poetry](https://python-poetry.org/) to manage its build environment, so install this first with your usual package manager.
 Fork and clone CameraHub, then do the following to set up your development environment:
 
 ```sh
-pip install -r .
-python manage.py migrate
-python manage.py createsuperuser
+poetry install --no-root
+poetry run python manage.py migrate
+poetry run python manage.py createsuperuser
 ```
 
 ## Testing
@@ -27,7 +28,7 @@ CameraHub will run out of the box with no additional configuration, by creating 
 Run CameraHub by using the integrated web server. Editing and saving the code will cause the server to reload so you can quickly test your changes.
 
 ```sh
-python manage.py runserver
+poetry run python manage.py runserver
 ```
 
 Then browse to [http://localhost:80](http://localhost:8000). Login with default username `admin` and password `admin`.
@@ -85,8 +86,7 @@ The schema can be reset at any time by deleting `db.sqlite`. After this you will
 CameraHub uses [semver](https://semver.org/) versioning. To make a new release:
 
 1. Ensure that everything you need is merged into `master` and all tests are passing
-1. Decide which version number to use by looking at previous versions `git tag`
-1. Add a new section to [CHANGELOG.md](../docs/CHANGELOG.md) outlining the new features/fixes
+1. Increment the version number using `poetry version (patch|minor|major)`
 1. Update references to the version number, e.g. the Docker tag in the Kubernetes [deployment](../kubernetes/kustomize/camerahub/deployment.yaml)
-1. Create a new release from `master` in Github which includes the CHANGELOG notes
-1. [Travis CI](https://travis-ci.org/djjudas21/camerahub) will build the release and publish in on [PyPI](https://pypi.org/project/CameraHub) and [Docker Hub](https://hub.docker.com/repository/docker/djjudas21/camerahub)
+1. Create a new release from `master` in Github which includes details of PRs in that release
+1. [Github Actions](https://github.com/djjudas21/camerahub/actions) will build the release and publish in on [PyPI](https://pypi.org/project/CameraHub) and [Docker Hub](https://hub.docker.com/repository/docker/djjudas21/camerahub)

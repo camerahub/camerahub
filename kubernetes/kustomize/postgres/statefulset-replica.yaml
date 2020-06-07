@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -42,10 +43,10 @@ spec:
             - |
               if [ -z "$(ls -A /var/lib/postgresql/data/pgdata)" ]; then
                   echo "Running pg_basebackup to catch up replication server...";
-                  pg_basebackup -R -h postgres -D /var/lib/postgresql/data/pgdata -P -U replication; 
+                  pg_basebackup -R -h postgres -D /var/lib/postgresql/data/pgdata -P -U replication;
                   chown -R postgres:postgres $PGDATA;
               else
-                  echo "Skipping pg_basebackup because directory is not empty"; 
+                  echo "Skipping pg_basebackup because directory is not empty";
               fi
 
           volumeMounts:
