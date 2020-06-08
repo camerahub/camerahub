@@ -95,6 +95,8 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
+      - name: Check tag matches version
+        run: "[[ $(poetry version | cut -d ' ' -f 2) == ${{ github.ref }} ]] && exit 0 || exit 1"
       - name: Download Python artifacts
         uses: actions/download-artifact@v1
         with:
