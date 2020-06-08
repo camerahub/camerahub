@@ -108,7 +108,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: djjudas21/camerahub
           tag_with_ref: true
-          tag: latest
+          tags: latest
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
