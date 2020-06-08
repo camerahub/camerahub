@@ -77,11 +77,6 @@ jobs:
         run: |
           poetry install
           poetry build
-      - name: Upload Python artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: dist
-          path: dist
       - name: Build Docker image
         uses: docker/build-push-action@v1
         with:
@@ -95,12 +90,22 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
+      - name: Install Poetry
+        uses: dschep/install-poetry-action@v1.2
       - name: Check tag matches version
         run: "[[ $(poetry version | cut -d ' ' -f 2) == ${{ github.ref }} ]] && exit 0 || exit 1"
-      - name: Download Python artifacts
-        uses: actions/download-artifact@v1
+      - name: Cache Poetry virtualenv
+        uses: actions/cache@v1
+        id: cache
         with:
-          name: dist
+          path: ~/.virtualenvs
+          key: poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            poetry-${{ hashFiles('**/poetry.lock') }}
+      - name: Build Python package
+        run: |
+          poetry install
+          poetry build
       - name: Publish to Docker Hub
         uses: docker/build-push-action@v1
         with:
