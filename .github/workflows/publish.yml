@@ -22,10 +22,8 @@ jobs:
         run: echo ::set-output name=TAG::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Bump poetry version
         run: poetry version ${{ steps.get_tag.outputs.TAG }}
-      - name: Build Python package
-        run: |
-          poetry install
-          poetry build
+      - name: Publish to PyPI
+        run: poetry publish -n --build --username __token__ --password ${{ secrets.pypi_password }}
       - name: Publish to Docker Hub
         uses: docker/build-push-action@v1
         with:
@@ -34,8 +32,3 @@ jobs:
           repository: djjudas21/camerahub
           tag_with_ref: true
           tags: latest
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          user: __token__
-          password: ${{ secrets.pypi_password }}
