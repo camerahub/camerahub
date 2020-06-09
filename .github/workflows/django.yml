@@ -53,16 +53,13 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.8]
     needs: test
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.8
       - name: Install Poetry
         uses: dschep/install-poetry-action@v1.2
       - name: Cache Poetry virtualenv
@@ -90,6 +87,10 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
       - name: Install Poetry
         uses: dschep/install-poetry-action@v1.2
       - name: Parse the git tag
