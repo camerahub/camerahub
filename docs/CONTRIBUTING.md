@@ -86,7 +86,6 @@ The schema can be reset at any time by deleting `db.sqlite`. After this you will
 CameraHub uses [semver](https://semver.org/) versioning. To make a new release:
 
 1. Ensure that everything you need is merged into `master` and all tests are passing
-1. Increment the version number using `poetry version (patch|minor|major)`
 1. Update references to the version number, e.g. the Docker tag in the Kubernetes [deployment](../kubernetes/kustomize/camerahub/deployment.yaml)
-1. Create a new release from `master` in Github which includes details of PRs in that release
+1. Create a new release from `master` in Github with semver which includes details of PRs in that release
 1. [Github Actions](https://github.com/djjudas21/camerahub/actions) will build the release and publish in on [PyPI](https://pypi.org/project/CameraHub) and [Docker Hub](https://hub.docker.com/repository/docker/djjudas21/camerahub)
