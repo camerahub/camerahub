@@ -92,8 +92,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install Poetry
         uses: dschep/install-poetry-action@v1.2
+      - name: Parse the git tag
+        id: get_tag
+        run: echo ::set-output name=TAG::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Bump poetry version
-        run: poetry version ${{ github.ref }}
+        run: poetry version ${{ steps.get_tag.outputs.TAG }}
       - name: Cache Poetry virtualenv
         uses: actions/cache@v1
         id: cache
