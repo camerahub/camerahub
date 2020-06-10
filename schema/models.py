@@ -5,6 +5,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 from djmoney.models.fields import MoneyField
 from djchoices import DjangoChoices, ChoiceItem
 from django_currentuser.db.models import CurrentUserField
@@ -1599,7 +1600,7 @@ class Lens(models.Model):
     source = models.CharField(
         help_text='Place where the lens was acquired from', max_length=150, blank=True, null=True)
     condition = models.ForeignKey(Condition, on_delete=models.CASCADE,
-                                  blank=True, null=True, help_text='Condition of this lens')
+                                  blank=True, null=True, help_text=mark_safe('Condition of this lens. Refer to <a href="/help/condition">condition grading</a>'))
     condition_notes = models.CharField(
         help_text='Description of condition', max_length=150, blank=True, null=True)
     owner = CurrentUserField(editable=False)
@@ -1676,7 +1677,7 @@ class Camera(models.Model):
     source = models.CharField(
         help_text='Where the camera was acquired from', max_length=150, blank=True, null=True)
     condition = models.ForeignKey(Condition, on_delete=models.CASCADE,
-                                  blank=True, null=True, help_text='Condition of this camera')
+                                  blank=True, null=True, help_text=mark_safe('Condition of this camera. Refer to <a href="/help/condition">condition grading</a>'))
     condition_notes = models.CharField(
         help_text='Description of condition', max_length=150, blank=True, null=True)
     owner = CurrentUserField(editable=False)
