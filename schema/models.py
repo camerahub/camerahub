@@ -233,7 +233,7 @@ class Condition(models.Model):
         help_text='Longer description of condition', max_length=300)
 
     def __str__(self):
-        return "%s - %s" % (self.name, self.description)
+        return self.name
 
     class Meta:
         verbose_name_plural = "conditions"
