@@ -1,3 +1,8 @@
-#from django.shortcuts import render
+from django.views.generic.list import ListView
 
-# Create your views here.
+from schema.models import Condition
+
+class ConditionListView(ListView):
+
+    model = Condition
+    template_name = "condition.html"
