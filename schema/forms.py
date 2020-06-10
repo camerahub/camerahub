@@ -101,29 +101,31 @@ class BulkFilmForm(ModelForm):
 class CameraForm(ModelForm):
     class Meta:
         model = Camera
-        fields = [
-            'cameramodel',
-            'acquired',
-            'cost',
-            'serial',
-            'datecode',
-            'manufactured',
-            'own',
-            'notes',
-            'lost',
-            'lost_price',
-            'source',
-            'condition',
-            'condition_notes',
-        ]
-        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
-            fields.remove('cameramodel')
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.layout.append(Submit('Save', 'Save'))
-
+        self.helper.layout = Layout(
+            Div(
+                'cameramodel',
+                'acquired',
+                'cost',
+                'serial',
+                'datecode',
+                'manufactured',
+                'own',
+                'notes',
+                'lost',
+                'lost_price',
+                'source',
+                'condition',
+                'condition_notes',
+            ),
+            FormActions(
+                Submit('save', 'Save')
+            )
+        )
 
 class CameraModelForm(ModelForm):
     class Meta:
