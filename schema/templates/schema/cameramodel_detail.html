@@ -350,10 +350,14 @@
     <td>Internal flash</td>
     <td>{{ object.int_flash|boolicontag }}</td>
   </tr>
+  {% endif %}
+  {% if object.int_flash %}
+  {% if object.int_flash_gn is not None %}
   <tr>
     <td>Internal flash guide number</td>
     <td>{{ object.int_flash_gn }}</td>
   </tr>
+  {% endif %}
   {% endif %}
   {% if object.external_flash is not None %}
   <tr>
