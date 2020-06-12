@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block heading %}<h4>
+    <img src="{% static "svg/condition.svg" %}" width="30" height="30" alt="Condition">
+    Condition grading</h4>{%endblock%}
+
+{% block content %}
+
+<p>CameraHub uses this system for grading the condition of cameras and lenses.</p>
+
+{% if object_list %}
+<table class="table table-hover">
+    <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Rating</th>
+        <th>Description</th>
+    </tr>
+    {% for object in object_list %}
+    <tr>
+        <td>{{ object.code }}</td>
+        <td>{{ object.name }}</td>
+        <td>{% if object.min_rating == object.max_rating %}
+            {{ object.min_rating }}%
+            {% else %}
+            {{ object.min_rating }}-{{ object.max_rating }}%
+            {% endif %}</td>
+        <td>{{ object.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}
