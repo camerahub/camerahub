@@ -50,6 +50,7 @@ django-watson = "^1.5.5"
 django-redis = "^4.11"
 django-taggit = "^1"
 poetry-version = "*"
+django-prometheus = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
