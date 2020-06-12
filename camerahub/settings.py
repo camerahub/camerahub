@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'camerahub.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env('CAMERAHUB_DB_ENGINE', 'django.db.backends.sqlite3'),
+        'ENGINE': env('CAMERAHUB_DB_ENGINE', 'django_prometheus.db.backends.sqlite3'),
         'NAME': env('CAMERAHUB_DB_NAME', os.path.join(BASE_DIR, 'db', 'db.sqlite3')),
         'USER': env('CAMERAHUB_DB_USER'),
         'PASSWORD': env('CAMERAHUB_DB_PASS'),
