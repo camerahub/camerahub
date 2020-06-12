@@ -12,6 +12,7 @@ from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
 from slugify import Slugify, UniqueSlugify
 from taggit.managers import TaggableManager
+from django_prometheus.models import ExportModelOperationsMixin
 
 
 def cameramodel_check(text, uids):
@@ -1023,7 +1024,7 @@ class Developer(models.Model):
 # Table to catalog lens models
 
 
-class LensModel(models.Model):
+class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
     # Choices for focus type
     class CoatingType(DjangoChoices):
         Uncoated = ChoiceItem()
@@ -1195,7 +1196,7 @@ class LensModel(models.Model):
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
 
 
-class CameraModel(models.Model):
+class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     # Choices for body types
     class BodyType(DjangoChoices):
         Box_camera = ChoiceItem()
