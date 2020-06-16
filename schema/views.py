@@ -243,7 +243,16 @@ class CameraModelDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['related'] = self.get_object().tags.similar_objects()
+
+        # Find similar objects of the same type
+        similarobjects = self.get_object().tags.similar_objects()
+        items = []
+        for item in similarobjects:
+            if type(item) == type(self.get_object()):
+                detailitem = get_object_or_404(type(item), pk=item.pk)
+                items.append(detailitem)
+        context['related'] = items
+
         if self.request.user.is_authenticated:
             context['mine'] = self.get_object().camera_set.filter(
                 owner=self.request.user)
@@ -274,7 +283,14 @@ class DeveloperDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['related'] = self.get_object().tags.similar_objects()
+        # Find similar objects of the same type
+        similarobjects = self.get_object().tags.similar_objects()
+        items = []
+        for item in similarobjects:
+            if type(item) == type(self.get_object()):
+                detailitem = get_object_or_404(type(item), pk=item.pk)
+                items.append(detailitem)
+        context['related'] = items
         return context
 
 
@@ -333,7 +349,14 @@ class FilmStockDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['related'] = self.get_object().tags.similar_objects()
+        # Find similar objects of the same type
+        similarobjects = self.get_object().tags.similar_objects()
+        items = []
+        for item in similarobjects:
+            if type(item) == type(self.get_object()):
+                detailitem = get_object_or_404(type(item), pk=item.pk)
+                items.append(detailitem)
+        context['related'] = items
         return context
 
 
@@ -499,7 +522,16 @@ class LensModelDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['related'] = self.get_object().tags.similar_objects()
+
+        # Find similar objects of the same type
+        similarobjects = self.get_object().tags.similar_objects()
+        items = []
+        for item in similarobjects:
+            if type(item) == type(self.get_object()):
+                detailitem = get_object_or_404(type(item), pk=item.pk)
+                items.append(detailitem)
+        context['related'] = items
+
         if self.request.user.is_authenticated:
             context['mine'] = self.get_object().lens_set.filter(
                 owner=self.request.user)
@@ -528,7 +560,16 @@ class ManufacturerDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['related'] = self.get_object().tags.similar_objects()
+
+        # Find similar objects of the same type
+        similarobjects = self.get_object().tags.similar_objects()
+        items = []
+        for item in similarobjects:
+            if type(item) == type(self.get_object()):
+                detailitem = get_object_or_404(type(item), pk=item.pk)
+                items.append(detailitem)
+        context['related'] = items
+
         return context
 
 
@@ -556,7 +597,16 @@ class MountDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['related'] = self.get_object().tags.similar_objects()
+
+        # Find similar objects of the same type
+        similarobjects = self.get_object().tags.similar_objects()
+        items = []
+        for item in similarobjects:
+            if type(item) == type(self.get_object()):
+                detailitem = get_object_or_404(type(item), pk=item.pk)
+                items.append(detailitem)
+        context['related'] = items
+
         return context
 
 
@@ -667,7 +717,16 @@ class PaperStockDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['related'] = self.get_object().tags.similar_objects()
+
+        # Find similar objects of the same type
+        similarobjects = self.get_object().tags.similar_objects()
+        items = []
+        for item in similarobjects:
+            if type(item) == type(self.get_object()):
+                detailitem = get_object_or_404(type(item), pk=item.pk)
+                items.append(detailitem)
+        context['related'] = items
+
         return context
 
 
@@ -943,7 +1002,16 @@ class TonerDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['related'] = self.get_object().tags.similar_objects()
+
+        # Find similar objects of the same type
+        similarobjects = self.get_object().tags.similar_objects()
+        items = []
+        for item in similarobjects:
+            if type(item) == type(self.get_object()):
+                detailitem = get_object_or_404(type(item), pk=item.pk)
+                items.append(detailitem)
+        context['related'] = items
+
         return context
 
 
