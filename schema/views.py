@@ -248,7 +248,7 @@ class CameraModelDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()):
+            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
@@ -287,7 +287,7 @@ class DeveloperDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()):
+            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
@@ -353,7 +353,7 @@ class FilmStockDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()):
+            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
@@ -527,7 +527,7 @@ class LensModelDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()):
+            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
@@ -565,7 +565,7 @@ class ManufacturerDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()):
+            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
@@ -602,7 +602,7 @@ class MountDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()):
+            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
@@ -722,7 +722,7 @@ class PaperStockDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()):
+            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
@@ -1007,7 +1007,7 @@ class TonerDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()):
+            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
