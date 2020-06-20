@@ -1,4 +1,5 @@
 from django.contrib import admin
+from simple_history.admin import SimpleHistoryAdmin
 from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
@@ -75,7 +76,7 @@ class ArchiveAdmin(admin.ModelAdmin):
 
 admin.site.register(Archive, ArchiveAdmin)
 
-admin.site.register(Battery)
+admin.site.register(Battery, SimpleHistoryAdmin)
 
 
 class BulkFilmAdmin(admin.ModelAdmin):
@@ -92,7 +93,7 @@ class CameraAdmin(admin.ModelAdmin):
 admin.site.register(Camera, CameraAdmin)
 
 
-class CameraModelAdmin(admin.ModelAdmin):
+class CameraModelAdmin(SimpleHistoryAdmin):
     fieldsets = (
         (None, {
             'fields': ('manufacturer', 'model', 'mount', 'format', 'body_type', 'weight', ('introduced', 'discontinued'), 'negative_size', 'cable_release', 'viewfinder_coverage', ('power_drive', 'continuous_fps'), ('battery_qty', 'battery_type'), 'notes', 'tripod'),
@@ -123,7 +124,7 @@ class CameraModelAdmin(admin.ModelAdmin):
 
 admin.site.register(CameraModel, CameraModelAdmin)
 
-admin.site.register(Developer)
+admin.site.register(Developer, SimpleHistoryAdmin)
 
 
 class EnlargerAdmin(admin.ModelAdmin):
@@ -132,7 +133,7 @@ class EnlargerAdmin(admin.ModelAdmin):
 
 admin.site.register(Enlarger, EnlargerAdmin)
 
-admin.site.register(FilmStock)
+admin.site.register(FilmStock, SimpleHistoryAdmin)
 
 
 class FilterAdmin(admin.ModelAdmin):
@@ -148,9 +149,9 @@ class FlashAdmin(admin.ModelAdmin):
 
 admin.site.register(Flash, FlashAdmin)
 
-admin.site.register(FlashProtocol)
+admin.site.register(FlashProtocol, SimpleHistoryAdmin)
 
-admin.site.register(Format)
+admin.site.register(Format, SimpleHistoryAdmin)
 
 
 class LensAdmin(admin.ModelAdmin):
@@ -160,7 +161,7 @@ class LensAdmin(admin.ModelAdmin):
 admin.site.register(Lens, LensAdmin)
 
 
-class LensModelAdmin(admin.ModelAdmin):
+class LensModelAdmin(SimpleHistoryAdmin):
     fieldsets = (
         (None, {
             'fields': ('manufacturer', 'model', 'mount'),
@@ -187,9 +188,9 @@ class LensModelAdmin(admin.ModelAdmin):
 
 admin.site.register(LensModel, LensModelAdmin)
 
-admin.site.register(Manufacturer)
+admin.site.register(Manufacturer, SimpleHistoryAdmin)
 
-admin.site.register(Mount)
+admin.site.register(Mount, SimpleHistoryAdmin)
 
 
 class MountAdapterAdmin(admin.ModelAdmin):
@@ -199,7 +200,7 @@ class MountAdapterAdmin(admin.ModelAdmin):
 admin.site.register(MountAdapter, MountAdapterAdmin)
 
 
-class NegativeSizeAdmin(admin.ModelAdmin):
+class NegativeSizeAdmin(SimpleHistoryAdmin):
     readonly_fields = ('area', 'crop_factor', 'aspect_ratio')
 
 
@@ -212,7 +213,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 admin.site.register(Order, OrderAdmin)
 
-admin.site.register(PaperStock)
+admin.site.register(PaperStock, SimpleHistoryAdmin)
 
 
 class PersonAdmin(admin.ModelAdmin):
@@ -331,4 +332,4 @@ class TeleconverterAdmin(admin.ModelAdmin):
 
 admin.site.register(Teleconverter, TeleconverterAdmin)
 
-admin.site.register(Toner)
+admin.site.register(Toner, SimpleHistoryAdmin)
