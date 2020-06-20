@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% load render_table from django_tables2 %}
+{% load django_tables2 crispy_forms_tags %}
+{% load model_name %}
+
+{% block heading %}<h4>
+  <img src="{% static "svg/history.svg" %}" width="30" height="30" alt="History">
+  History</h4>
+  <p>History</p>{%endblock%}
+
+
+{% block content %}
+{% if object_list %}
+<ul>
+  {% for object in object_list %}
+      <li>{{ object }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>There are no objects in the list. <a href="{% url view.model|model_add %}">Add one</a> now!</p>
+{% endif %}
+{% endblock %}

@@ -1,3 +1,5 @@
+# pylint: disable=no-member
+
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView, ListView
@@ -1135,3 +1137,11 @@ class TagDetail(generic.DetailView):
 
         context['taggeditems'] = items
         return context
+
+
+class CameraModelHistory(generic.ListView):
+    model = CameraModel.history.model
+    template_name = 'history.html'
+
+    def get_queryset(self):
+        return CameraModel.history.model.objects.filter(slug=self.kwargs['slug'])
