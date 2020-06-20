@@ -13,6 +13,7 @@ from autosequence.fields import AutoSequenceField
 from slugify import Slugify, UniqueSlugify
 from taggit.managers import TaggableManager
 from django_prometheus.models import ExportModelOperationsMixin
+from simple_history.models import HistoricalRecords
 
 
 def cameramodel_check(text, uids):
@@ -69,6 +70,7 @@ class Manufacturer(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='manufacturer_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -195,6 +197,7 @@ class Battery(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='battery_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -268,6 +271,7 @@ class FlashProtocol(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='flashprotocol_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -335,6 +339,7 @@ class NegativeSize(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='negativesize_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -374,6 +379,7 @@ class Format(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='format_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.format
@@ -603,6 +609,7 @@ class Mount(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='mount_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.mount
@@ -654,6 +661,7 @@ class PaperStock(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='paperstock_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         mystr = self.name
@@ -789,6 +797,7 @@ class Toner(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='toner_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -844,6 +853,7 @@ class FilmStock(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='filmstock_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -990,6 +1000,7 @@ class Developer(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='developer_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1104,6 +1115,7 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='lensmodel_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         mystr = self.model
@@ -1335,6 +1347,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='cameramodel_updated_by')
+    history = HistoricalRecords()
     tags = TaggableManager(blank=True)
     url = models.URLField(
         verbose_name='URL', help_text='URL to more information about this camera model', blank=True, null=True)
