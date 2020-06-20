@@ -1409,9 +1409,21 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
                 unique_check=cameramodel_check, to_lower=True)
             self.slug = custom_slugify_unique("{} {} {}".format(
                 self.manufacturer.name, self.model, str(self.disambiguation or '')))
+
+       # super().save(*args, **kwargs)
+        self.tags.add('test',)
+        self.tags.clear()
+        #super().save(*args, **kwargs)
+
+        # Add some tags automatically
+        #if self.model:
+
         return super().save(*args, **kwargs)
+        #return super(CameraModel, self).save(*args, **kwargs)
 
     def clean(self):
+        #self.tags.add("test",)
+
         # Enforce either fixed or interchangeable lens
         if self.mount is not None and (self.lens_manufacturer is not None or self.lens_manufacturer is not None):
             raise ValidationError({
