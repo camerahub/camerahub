@@ -145,6 +145,13 @@ class BatteryList(PagedFilteredTableView):
 class BatteryDetail(generic.DetailView):
     model = Battery
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+        return context
+
 
 class BatteryCreate(LoginRequiredMixin, CreateView):
     model = Battery
@@ -250,7 +257,7 @@ class CameraModelDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
@@ -258,6 +265,10 @@ class CameraModelDetail(generic.DetailView):
         if self.request.user.is_authenticated:
             context['mine'] = self.get_object().camera_set.filter(
                 owner=self.request.user)
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+
         return context
 
 
@@ -289,10 +300,14 @@ class DeveloperDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+
         return context
 
 
@@ -355,10 +370,14 @@ class FilmStockDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+
         return context
 
 
@@ -430,6 +449,12 @@ class FlashProtocolList(SingleTableListView):
     model = FlashProtocol
     table_class = FlashProtocolTable
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+        return context
+
 
 class FlashProtocolDetail(generic.DetailView):
     model = FlashProtocol
@@ -454,6 +479,12 @@ class FormatList(SingleTableListView):
 
 class FormatDetail(generic.DetailView):
     model = Format
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+        return context
 
 
 class FormatCreate(LoginRequiredMixin, CreateView):
@@ -529,7 +560,7 @@ class LensModelDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
@@ -537,6 +568,10 @@ class LensModelDetail(generic.DetailView):
         if self.request.user.is_authenticated:
             context['mine'] = self.get_object().lens_set.filter(
                 owner=self.request.user)
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+
         return context
 
 
@@ -567,10 +602,13 @@ class ManufacturerDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -604,10 +642,13 @@ class MountDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -658,6 +699,12 @@ class MountAdapterUpdate(LoginRequiredMixin, UpdateView):
 class NegativeSizeList(SingleTableListView):
     model = NegativeSize
     table_class = NegativeSizeTable
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+        return context
 
 
 class NegativeSizeDetail(generic.DetailView):
@@ -724,10 +771,13 @@ class PaperStockDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -1009,10 +1059,13 @@ class TonerDetail(generic.DetailView):
         similarobjects = self.get_object().tags.similar_objects()
         items = []
         for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -1137,11 +1190,3 @@ class TagDetail(generic.DetailView):
 
         context['taggeditems'] = items
         return context
-
-
-class CameraModelHistory(generic.ListView):
-    model = CameraModel.history.model
-    template_name = 'history.html'
-
-    def get_queryset(self):
-        return CameraModel.history.model.objects.filter(slug=self.kwargs['slug'])

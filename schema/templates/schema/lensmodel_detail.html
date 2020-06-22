@@ -231,6 +231,8 @@
 </ul>
 {% endif %}
 
+{% if history %}{% include "history.html" %}{% endif %}
+
 {% if user.is_authenticated %}
 {% if mine %}
 <h4>In your collection</h4>
