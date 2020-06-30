@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'watson',
     'taggit',
     'django_prometheus',
+    'simple_history',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 

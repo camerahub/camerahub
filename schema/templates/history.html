@@ -1,0 +1,7 @@
+<h4>Edit history</h4>
+<ul>
+    {% for historyitem in history %}
+    <li>{{ historyitem.history_object }} edited {{ historyitem.history_date }}{% if historyitem.history_user %} by
+        {{ historyitem.history_user }}{% endif %}</li>
+    {% endfor %}
+</ul>

@@ -57,6 +57,7 @@ my %newnames = (
 	'icons8-ok'						=> ['yes'],
 	'icons8-search-more'			=> ['search'],
 	'icons8-price-tag'				=> ['tag'],
+	'icons8-ios'					=> ['history'],
 #unknown
 #logout
 );
