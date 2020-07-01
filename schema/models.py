@@ -112,10 +112,6 @@ class Manufacturer(models.Model):
     def description(cls):
         return 'Manufacturers are any maker or brand of camera, lenses or other photographic accessories or consumables'
 
-    class Moderator:
-        visible_until_rejected = True
-        keep_history = True
-
 # Table to list all archives that exist for storing physical media
 
 
@@ -217,10 +213,6 @@ class Battery(models.Model):
     @classmethod
     def description(cls):
         return 'Batteries are used to power cameras, flashes and other accessories'
-
-    class Moderator:
-        visible_until_rejected = True
-        keep_history = True
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 
