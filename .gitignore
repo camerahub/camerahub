@@ -107,4 +107,7 @@ venv.bak/
 
 # vscode
 .vscode/
-sent_emails
+
+# CameraHub components
+sent_emails/
+images/
