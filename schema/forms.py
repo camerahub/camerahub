@@ -247,6 +247,7 @@ class CameraModelForm(ModelForm):
                 'notes',
                 'tags',
                 'url',
+                'image',
             ),
             FormActions(
                 Submit('save', 'Save')
@@ -484,6 +485,8 @@ class LensModelForm(ModelForm):
                 'notes',
                 'tags',
                 'url',
+                'image',
+                'diagram',
             ),
             FormActions(
                 Submit('save', 'Save')
