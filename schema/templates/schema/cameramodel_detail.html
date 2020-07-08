@@ -454,6 +454,12 @@
   </tr>
   {% endif %}
 </table>
+{% if object.image %}
+<h4>Image</h4>
+<div class="text-center">
+  <img src="{{ object.image.url }}" class="img-fluid img-thumbnail" />
+</div>
+{% endif %}
 
 {% if history %}{% include "history.html" %}{% endif %}
 
