@@ -13,8 +13,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Install deps from apk and poetry
-RUN apk --no-cache add pcre mailcap libpq \
-  && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git libffi-dev\
+RUN apk --no-cache add pcre mailcap libpq jpeg libmagic \
+  && apk --no-cache add --virtual .build-deps gcc musl-dev linux-headers pcre-dev postgresql-dev git libffi-dev zlib-dev jpeg-dev \
   && pip install poetry \
   && poetry config virtualenvs.create false \
   && poetry install -E pgsql --no-dev -n \
