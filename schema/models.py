@@ -1109,9 +1109,9 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         on_update=True, editable=False, related_name='lensmodel_updated_by')
     history = HistoricalRecords()
     image = VersatileImageField(
-        upload_to='images/', help_text='Image of the lens model', blank=True, null=True)
+        help_text='Image of the lens model', blank=True, null=True)
     diagram = VersatileImageField(
-        upload_to='images/', help_text='Block diagram of the optics', blank=True, null=True)
+        help_text='Block diagram of the optics', blank=True, null=True)
 
     def __str__(self):
         mystr = self.model
@@ -1348,7 +1348,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     url = models.URLField(
         verbose_name='URL', help_text='URL to more information about this camera model', blank=True, null=True)
     image = VersatileImageField(
-        upload_to='images/', help_text='Image of the camera model', blank=True, null=True)
+        help_text='Image of the camera model', blank=True, null=True)
 
     # Fixed lens fields
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,

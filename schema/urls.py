@@ -1,5 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 
 from schema import views
 
@@ -23,7 +25,8 @@ urlpatterns = [
          views.AccessoryUpdate.as_view(), name='accessory-update'),
 
     path('archive/', views.ArchiveList.as_view(), name='archive-list'),
-    path('archive/<int:id_owner>', views.ArchiveDetail.as_view(), name='archive-detail'),
+    path('archive/<int:id_owner>',
+         views.ArchiveDetail.as_view(), name='archive-detail'),
     path('archive/create/', views.ArchiveCreate.as_view(), name='archive-create'),
     path('archive/<int:id_owner>/update',
          views.ArchiveUpdate.as_view(), name='archive-update'),
@@ -35,7 +38,8 @@ urlpatterns = [
          views.BatteryUpdate.as_view(), name='battery-update'),
 
     path('bulkfilm/', views.BulkFilmList.as_view(), name='bulkfilm-list'),
-    path('bulkfilm/<int:id_owner>', views.BulkFilmDetail.as_view(), name='bulkfilm-detail'),
+    path('bulkfilm/<int:id_owner>',
+         views.BulkFilmDetail.as_view(), name='bulkfilm-detail'),
     path('bulkfilm/create/', views.BulkFilmCreate.as_view(), name='bulkfilm-create'),
     path('bulkfilm/<int:id_owner>/update',
          views.BulkFilmUpdate.as_view(), name='bulkfilm-update'),
@@ -63,7 +67,8 @@ urlpatterns = [
          views.DeveloperUpdate.as_view(), name='developer-update'),
 
     path('enlarger/', views.EnlargerList.as_view(), name='enlarger-list'),
-    path('enlarger/<int:id_owner>', views.EnlargerDetail.as_view(), name='enlarger-detail'),
+    path('enlarger/<int:id_owner>',
+         views.EnlargerDetail.as_view(), name='enlarger-detail'),
     path('enlarger/create/', views.EnlargerCreate.as_view(), name='enlarger-create'),
     path('enlarger/<int:id_owner>/update',
          views.EnlargerUpdate.as_view(), name='enlarger-update'),
@@ -85,7 +90,8 @@ urlpatterns = [
     path('flash/', views.FlashList.as_view(), name='flash-list'),
     path('flash/<int:id_owner>', views.FlashDetail.as_view(), name='flash-detail'),
     path('flash/create/', views.FlashCreate.as_view(), name='flash-create'),
-    path('flash/<int:id_owner>/update', views.FlashUpdate.as_view(), name='flash-update'),
+    path('flash/<int:id_owner>/update',
+         views.FlashUpdate.as_view(), name='flash-update'),
 
     path('flashprotocol/', views.FlashProtocolList.as_view(),
          name='flashprotocol-list'),
@@ -105,7 +111,8 @@ urlpatterns = [
     path('lens/', views.LensList.as_view(), name='lens-list'),
     path('lens/<int:id_owner>', views.LensDetail.as_view(), name='lens-detail'),
     path('lens/create/', views.LensCreate.as_view(), name='lens-create'),
-    path('lens/<int:id_owner>/update', views.LensUpdate.as_view(), name='lens-update'),
+    path('lens/<int:id_owner>/update',
+         views.LensUpdate.as_view(), name='lens-update'),
 
     path('lensmodel/', views.LensModelList.as_view(), name='lensmodel-list'),
     path('lensmodel/<slug:slug>', views.LensModelDetail.as_view(),
@@ -151,7 +158,8 @@ urlpatterns = [
     path('order/', views.OrderList.as_view(), name='order-list'),
     path('order/<int:id_owner>', views.OrderDetail.as_view(), name='order-detail'),
     path('order/create/', views.OrderCreate.as_view(), name='order-create'),
-    path('order/<int:id_owner>/update', views.OrderUpdate.as_view(), name='order-update'),
+    path('order/<int:id_owner>/update',
+         views.OrderUpdate.as_view(), name='order-update'),
 
     path('paperstock/', views.PaperStockList.as_view(), name='paperstock-list'),
     path('paperstock/<int:pk>', views.PaperStockDetail.as_view(),
@@ -170,7 +178,8 @@ urlpatterns = [
     path('print/', views.PrintList.as_view(), name='print-list'),
     path('print/<int:id_owner>', views.PrintDetail.as_view(), name='print-detail'),
     path('print/create/', views.PrintCreate.as_view(), name='print-create'),
-    path('print/<int:id_owner>/update', views.PrintUpdate.as_view(), name='print-update'),
+    path('print/<int:id_owner>/update',
+         views.PrintUpdate.as_view(), name='print-update'),
 
     path('process/', views.ProcessList.as_view(), name='process-list'),
     path('process/<int:pk>', views.ProcessDetail.as_view(), name='process-detail'),
@@ -187,10 +196,12 @@ urlpatterns = [
     path('scan/', views.ScanList.as_view(), name='scan-list'),
     path('scan/<int:id_owner>', views.ScanDetail.as_view(), name='scan-detail'),
     path('scan/create/', views.ScanCreate.as_view(), name='scan-create'),
-    path('scan/<int:id_owner>/update', views.ScanUpdate.as_view(), name='scan-update'),
+    path('scan/<int:id_owner>/update',
+         views.ScanUpdate.as_view(), name='scan-update'),
 
     path('negative/', views.NegativeList.as_view(), name='negative-list'),
-    path('negative/<int:id_owner>', views.NegativeDetail.as_view(), name='negative-detail'),
+    path('negative/<int:id_owner>',
+         views.NegativeDetail.as_view(), name='negative-detail'),
     path('negative/create/', views.NegativeCreate.as_view(), name='negative-create'),
     path('negative/<int:id_owner>/update',
          views.NegativeUpdate.as_view(), name='negative-update'),
@@ -198,7 +209,8 @@ urlpatterns = [
     path('film/', views.FilmList.as_view(), name='film-list'),
     path('film/<int:id_owner>', views.FilmDetail.as_view(), name='film-detail'),
     path('film/create/', views.FilmCreate.as_view(), name='film-create'),
-    path('film/<int:id_owner>/update', views.FilmUpdate.as_view(), name='film-update'),
+    path('film/<int:id_owner>/update',
+         views.FilmUpdate.as_view(), name='film-update'),
 
     path('teleconverter/', views.TeleconverterList.as_view(),
          name='teleconverter-list'),
@@ -214,4 +226,4 @@ urlpatterns = [
     path('toner/create/', views.TonerCreate.as_view(), name='toner-create'),
     path('toner/<slug:slug>/update',
          views.TonerUpdate.as_view(), name='toner-update'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
