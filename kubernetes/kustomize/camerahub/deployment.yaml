@@ -68,8 +68,16 @@ spec:
                   name: camerahub-secret
                   key: CAMERAHUB_PROD
                   optional: true
+          volumeMounts:
+            - name: media
+              mountPath: /var/www/camerahub/media
+              readOnly: false
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: media

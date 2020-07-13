@@ -14,7 +14,7 @@ from slugify import Slugify, UniqueSlugify
 from taggit.managers import TaggableManager
 from django_prometheus.models import ExportModelOperationsMixin
 from simple_history.models import HistoricalRecords
-
+from versatileimagefield.fields import VersatileImageField
 
 def cameramodel_check(text, uids):
     if text in uids:
@@ -1108,6 +1108,10 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
     updated_by = CurrentUserField(
         on_update=True, editable=False, related_name='lensmodel_updated_by')
     history = HistoricalRecords()
+    image = VersatileImageField(
+        help_text='Image of the lens model', blank=True, null=True)
+    diagram = VersatileImageField(
+        help_text='Block diagram of the optics', blank=True, null=True)
 
     def __str__(self):
         mystr = self.model
@@ -1343,6 +1347,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     tags = TaggableManager(blank=True)
     url = models.URLField(
         verbose_name='URL', help_text='URL to more information about this camera model', blank=True, null=True)
+    image = VersatileImageField(
+        help_text='Image of the camera model', blank=True, null=True)
 
     # Fixed lens fields
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
