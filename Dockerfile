@@ -4,7 +4,7 @@ LABEL maintainer "Jonathan Gazeley"
 
 # Project Files and Settings
 ARG PROJECT_DIR=/var/www/camerahub
-RUN mkdir -p $PROJECT_DIR/static
+RUN mkdir -p $PROJECT_DIR/static $PROJECT_DIR/media
 ADD . $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
@@ -34,6 +34,7 @@ ENV UWSGI_WORKERS=2 UWSGI_THREADS=4
 
 # uWSGI static file serving configuration (customize or comment out if not needed):
 ENV UWSGI_STATIC_MAP="/static/=/var/www/camerahub/static/" UWSGI_STATIC_EXPIRES_URI="/static/.*\.[a-f0-9]{12,}\.(css|js|png|jpg|jpeg|gif|ico|woff|ttf|otf|svg|scss|map|txt) 315360000"
+ENV UWSGI_STATIC_MAP="/media/=/var/www/camerahub/media/" UWSGI_STATIC_EXPIRES_URI="/media/.*\.[a-f0-9]{12,}\.(css|js|png|jpg|jpeg|gif|ico|woff|ttf|otf|svg|scss|map|txt) 315360000"
 
 # Deny invalid hosts before they get to Django (uncomment and change to your hostname(s)):
 # ENV UWSGI_ROUTE_HOST="^(?!localhost:8000$) break:400"

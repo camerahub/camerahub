@@ -147,11 +147,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+# Where to put static files when they are collected
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# Where to serve static files from
 STATIC_URL = '/static/'
 
+# Where to store uploaded assets
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Where to serve uploaded assets from
 MEDIA_URL = '/media/'
+
+# Add media to the list of static dirs
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'media/'),
+]
 
 FAVICON_PATH = STATIC_URL + 'favicon.ico'
 
