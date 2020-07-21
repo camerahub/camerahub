@@ -130,7 +130,12 @@ class CameraModelTable(tables.Table):
                 badge = format_html("")
         else:
             badge = format_html("")
-        return mystr+badge
+        if record.image:
+            icon = format_html(
+                " <img src=\"/static/svg/camera.svg\" width=\"18\" height=\"18\" alt=\"This camera model has a photo\" title=\"This camera model has a photo\">")
+        else:
+            icon = format_html("")
+        return mystr+icon+badge
 
     @classmethod
     def render_mount(cls, value):
@@ -309,7 +314,12 @@ class LensModelTable(tables.Table):
                 badge = format_html("")
         else:
             badge = format_html("")
-        return mystr+badge
+        if record.image:
+            icon = format_html(
+                " <img src=\"/static/svg/camera.svg\" width=\"18\" height=\"18\" alt=\"This camera model has a photo\" title=\"This camera model has a photo\">")
+        else:
+            icon = format_html("")
+        return mystr+icon+badge
 
     @classmethod
     def render_mount(cls, value):
