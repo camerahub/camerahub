@@ -9,8 +9,7 @@ ADD . $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 
 # Install deps from apk and poetry
 RUN apk --no-cache add pcre mailcap libpq jpeg libmagic \
