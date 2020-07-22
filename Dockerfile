@@ -31,4 +31,4 @@ STOPSIGNAL SIGINT
 
 # Start uWSGI
 ENTRYPOINT ["./entrypoint.sh"]
-CMD ["uwsgi", "--ini uwsgi.ini"]
+CMD ["uwsgi", "uwsgi.ini"]
