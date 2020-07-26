@@ -54,6 +54,42 @@ spec:
                   name: camerahub-secret
                   key: CAMERAHUB_DOMAIN
                   optional: true
+            - name: CAMERAHUB_EMAIL_USE_TLS
+              valueFrom:
+                secretKeyRef:
+                  name: camerahub-secret
+                  key: CAMERAHUB_EMAIL_USE_TLS
+                  optional: true
+            - name: CAMERAHUB_EMAIL_USE_SSL
+              valueFrom:
+                secretKeyRef:
+                  name: camerahub-secret
+                  key: CAMERAHUB_EMAIL_USE_SSL
+                  optional: true
+            - name: CAMERAHUB_EMAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: camerahub-secret
+                  key: CAMERAHUB_EMAIL_HOST
+                  optional: true
+            - name: CAMERAHUB_EMAIL_HOST_USER
+              valueFrom:
+                secretKeyRef:
+                  name: camerahub-secret
+                  key: CAMERAHUB_EMAIL_HOST_USER
+                  optional: true
+            - name: CAMERAHUB_EMAIL_HOST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: camerahub-secret
+                  key: CAMERAHUB_EMAIL_HOST_PASSWORD
+                  optional: true
+            - name: CAMERAHUB_EMAIL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: camerahub-secret
+                  key: CAMERAHUB_EMAIL_HOST_PORT
+                  optional: true
             - name: CAMERAHUB_DB_HOST
               value: postgres
             - name: CAMERAHUB_DB_NAME
