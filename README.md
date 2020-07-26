@@ -34,12 +34,12 @@ The following environment variables are supported:
 | `CAMERAHUB_PROD`                | enable [Django production mode](https://docs.djangoproject.com/en/3.0/ref/settings/#debug)       | `false`                      |
 | `CAMERAHUB_SECRET_KEY`          | random secret value. Generate [here](https://miniwebtool.com/django-secret-key-generator/)       | `OverrideMe!`                |
 | `CAMERAHUB_SENDGRID_KEY`        | API key for Sendgrid email backend                                                               |                              |
-| `CAMERAHUB_EMAIL_USE_TLS`'      | enable TLS for SMTP                                                                              | `true`                       |
-| `CAMERAHUB_EMAIL_USE_SSL`'      | enable TLS for SMTP                                                                              | `false`                      |
+| `CAMERAHUB_EMAIL_USE_TLS`'      | enable TLS for SMTP                                                                              |                              |
+| `CAMERAHUB_EMAIL_USE_SSL`'      | enable TLS for SMTP                                                                              |                              |
 | `CAMERAHUB_EMAIL_HOST`          | SMTP server hostname                                                                             |                              |
 | `CAMERAHUB_EMAIL_HOST_USER`     | SMTP server username                                                                             |                              |
 | `CAMERAHUB_EMAIL_HOST_PASSWORD` | SMTP server password                                                                             |                              |
-| `CAMERAHUB_EMAIL_PORT`          | SMTP server port number                                                                          | `587`                        |
+| `CAMERAHUB_EMAIL_PORT`          | SMTP server port number                                                                          |                              |
 | `CAMERAHUB_FROM_EMAIL`          | [from email address](https://docs.djangoproject.com/en/3.0/ref/settings/#default-from-email)     | `noreply@camerahub.info`     |
 | `CAMERAHUB_DOMAIN`              | [site domain](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts)                 | `camerahub.info`             |
 | `CAMERAHUB_REDIS`               | enable [Redis caching](https://docs.djangoproject.com/en/3.0/topics/cache/)                      | `false`                      |
