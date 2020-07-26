@@ -5,7 +5,7 @@ import os
 
 
 def forwards_func(apps, schema_editor):
-    User.objects.create_superuser('admin', email=env(
+    User.objects.create_superuser('admin', email=os.getenv(
         'CAMERAHUB_ADMIN_EMAIL', 'admin@example.com'), password=os.getenv('CAMERAHUB_ADMIN_PASSWORD', 'admin'))
 
 
