@@ -173,11 +173,19 @@ LOGOUT_REDIRECT_URL = 'index'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# Email support with Sendgrid
+# Email support
 DEFAULT_FROM_EMAIL = env('CAMERAHUB_FROM_EMAIL', "noreply@camerahub.info")
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
-if env('CAMERAHUB_SENDGRID_KEY'):
+if env('CAMERAHUB_EMAIL_HOST'):
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = env('CAMERAHUB_EMAIL_USE_TLS', True)
+    EMAIL_USE_SSL = env('CAMERAHUB_EMAIL_USE_SSL', False)
+    EMAIL_HOST = env('CAMERAHUB_EMAIL_HOST')
+    EMAIL_HOST_USER = env('CAMERAHUB_EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('CAMERAHUB_EMAIL_HOST_PASSWORD')
+    EMAIL_PORT = env('CAMERAHUB_EMAIL_PORT', '587')
+elif env('CAMERAHUB_SENDGRID_KEY'):
     EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
     SENDGRID_API_KEY = env('CAMERAHUB_SENDGRID_KEY')
 else:
