@@ -135,7 +135,8 @@ class CameraModelTable(tables.Table):
     @classmethod
     def render_image(cls, value):
         if value:
-            return format_html('<img src="/static/svg/camera.svg" width="20" height="20" alt="This camera model has a photo" title="This camera model has a photo">')
+            icon = format_html('<img src="/static/svg/camera.svg" width="20" height="20" alt="This camera model has a photo" title="This camera model has a photo">')
+        return icon
 
     @classmethod
     def render_mount(cls, value):
@@ -319,7 +320,8 @@ class LensModelTable(tables.Table):
     @classmethod
     def render_image(cls, value):
         if value:
-            return format_html('<img src="/static/svg/camera.svg" width="20" height="20" alt="This lens model has a photo" title="This lens model has a photo">')
+            icon = format_html('<img src="/static/svg/camera.svg" width="20" height="20" alt="This lens model has a photo" title="This lens model has a photo">')
+        return icon
 
     @classmethod
     def render_mount(cls, value):
