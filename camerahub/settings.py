@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-from getenv import env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('CAMERAHUB_SECRET_KEY', 'OverrideMe!')
+SECRET_KEY = os.getenv('CAMERAHUB_SECRET_KEY', 'OverrideMe!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.getenv('CAMERAHUB_PROD') == 'true':
     DEBUG = False
-    ALLOWED_HOSTS = [env('CAMERAHUB_DOMAIN', 'camerahub.info')]
+    ALLOWED_HOSTS = [os.getenv('CAMERAHUB_DOMAIN', 'camerahub.info')]
 else:
     DEBUG = True
     ALLOWED_HOSTS = []
@@ -102,12 +101,12 @@ WSGI_APPLICATION = 'camerahub.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env('CAMERAHUB_DB_ENGINE', 'django_prometheus.db.backends.sqlite3'),
-        'NAME': env('CAMERAHUB_DB_NAME', os.path.join(BASE_DIR, 'db', 'db.sqlite3')),
-        'USER': env('CAMERAHUB_DB_USER'),
-        'PASSWORD': env('CAMERAHUB_DB_PASS'),
-        'HOST': env('CAMERAHUB_DB_HOST'),
-        'PORT': env('CAMERAHUB_DB_PORT'),
+        'ENGINE': os.getenv('CAMERAHUB_DB_ENGINE', 'django_prometheus.db.backends.sqlite3'),
+        'NAME': os.getenv('CAMERAHUB_DB_NAME', os.path.join(BASE_DIR, 'db', 'db.sqlite3')),
+        'USER': os.getenv('CAMERAHUB_DB_USER'),
+        'PASSWORD': os.getenv('CAMERAHUB_DB_PASS'),
+        'HOST': os.getenv('CAMERAHUB_DB_HOST'),
+        'PORT': os.getenv('CAMERAHUB_DB_PORT'),
     }
 }
 
@@ -174,20 +173,20 @@ LOGOUT_REDIRECT_URL = 'index'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Email support
-DEFAULT_FROM_EMAIL = env('CAMERAHUB_FROM_EMAIL', "noreply@camerahub.info")
+DEFAULT_FROM_EMAIL = os.getenv('CAMERAHUB_FROM_EMAIL', "noreply@camerahub.info")
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
-if env('CAMERAHUB_EMAIL_HOST'):
+if os.getenv('CAMERAHUB_EMAIL_HOST'):
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_USE_TLS = env('CAMERAHUB_EMAIL_USE_TLS', True)
-    EMAIL_USE_SSL = env('CAMERAHUB_EMAIL_USE_SSL', False)
-    EMAIL_HOST = env('CAMERAHUB_EMAIL_HOST')
-    EMAIL_HOST_USER = env('CAMERAHUB_EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = env('CAMERAHUB_EMAIL_HOST_PASSWORD')
-    EMAIL_PORT = env('CAMERAHUB_EMAIL_PORT', '587')
-elif env('CAMERAHUB_SENDGRID_KEY'):
+    EMAIL_USE_TLS = os.getenv('CAMERAHUB_EMAIL_USE_TLS', 'true')
+    EMAIL_USE_SSL = os.getenv('CAMERAHUB_EMAIL_USE_SSL', 'false')
+    EMAIL_HOST = os.getenv('CAMERAHUB_EMAIL_HOST')
+    EMAIL_HOST_USER = os.getenv('CAMERAHUB_EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.getenv('CAMERAHUB_EMAIL_HOST_PASSWORD')
+    EMAIL_PORT = os.getenv('CAMERAHUB_EMAIL_PORT', '587')
+elif os.getenv('CAMERAHUB_SENDGRID_KEY'):
     EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-    SENDGRID_API_KEY = env('CAMERAHUB_SENDGRID_KEY')
+    SENDGRID_API_KEY = os.getenv('CAMERAHUB_SENDGRID_KEY')
 else:
     EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
     EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
@@ -223,8 +222,8 @@ if os.getenv('CAMERAHUB_REDIS') == 'true':
         'default': {
             'BACKEND': 'django_redis.cache.RedisCache',
             'LOCATION': "redis://{}:{}/1".format(
-                env('CAMERAHUB_REDIS_HOST', '127.0.0.1'),
-                env('CAMERAHUB_REDIS_PORT', '6379'),
+                os.getenv('CAMERAHUB_REDIS_HOST', '127.0.0.1'),
+                os.getenv('CAMERAHUB_REDIS_PORT', '6379'),
             ),
             'OPTIONS': {
                 'CLIENT_CLASS': 'django_redis.client.DefaultClient',
