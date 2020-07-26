@@ -162,14 +162,6 @@ Django = ">=1.8"
 
 [[package]]
 category = "main"
-description = "Read settings from environment variables."
-name = "django-getenv"
-optional = false
-python-versions = "*"
-version = "1.3.2"
-
-[[package]]
-category = "main"
 description = "Adds support for using money and currency fields in django models and forms. Uses py-moneyed as the money implementation."
 name = "django-money"
 optional = false
@@ -666,7 +658,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "5e6867cf2e6874fd70bb74de157ec4bec6895c2dd5ae949c3941517641e01152"
+content-hash = "0da1465985432f2988a3c4b6ce3716bff2eab7fbbe770fc5d0c343532b4905b2"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -722,10 +714,6 @@ django-filter = [
 ]
 django-fullurl = [
     {file = "django_fullurl-1.1-py2.py3-none-any.whl", hash = "sha256:eb05be83671f29544f1ca000b96320b4d17033339b2bec509d88d4e8b285c2ee"},
-]
-django-getenv = [
-    {file = "django-getenv-1.3.2.tar.gz", hash = "sha256:cede44ed68570aefe91a32925b28f1d111c93023bb387c5adb36bbd42c0e5739"},
-    {file = "django_getenv-1.3.2-py2.py3-none-any.whl", hash = "sha256:d292571cefb84904a25d163689fc8f451c3cd090be72c6b3dc60a9c44730baee"},
 ]
 django-money = [
     {file = "django-money-0.15.1.tar.gz", hash = "sha256:88b5a0ee36565a87c39581efedbe4834b6f3f4a9a348887678ed2f45f4f8a192"},

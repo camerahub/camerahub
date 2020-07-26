@@ -2,12 +2,11 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 from django.contrib.auth.models import User
 import os
-from getenv import env
 
 
 def forwards_func(apps, schema_editor):
     User.objects.create_superuser('admin', email=env(
-        'CAMERAHUB_ADMIN_EMAIL', 'admin@example.com'), password=env('CAMERAHUB_ADMIN_PASSWORD', 'admin'))
+        'CAMERAHUB_ADMIN_EMAIL', 'admin@example.com'), password=os.getenv('CAMERAHUB_ADMIN_PASSWORD', 'admin'))
 
 
 def reverse_func(apps, schema_editor):
