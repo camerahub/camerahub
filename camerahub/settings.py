@@ -178,12 +178,12 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 if os.getenv('CAMERAHUB_EMAIL_HOST'):
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_USE_TLS = os.getenv('CAMERAHUB_EMAIL_USE_TLS', 'true')
-    EMAIL_USE_SSL = os.getenv('CAMERAHUB_EMAIL_USE_SSL', 'false')
+    EMAIL_USE_TLS = os.getenv('CAMERAHUB_EMAIL_USE_TLS')
+    EMAIL_USE_SSL = os.getenv('CAMERAHUB_EMAIL_USE_SSL')
     EMAIL_HOST = os.getenv('CAMERAHUB_EMAIL_HOST')
     EMAIL_HOST_USER = os.getenv('CAMERAHUB_EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.getenv('CAMERAHUB_EMAIL_HOST_PASSWORD')
-    EMAIL_PORT = os.getenv('CAMERAHUB_EMAIL_PORT', '587')
+    EMAIL_PORT = os.getenv('CAMERAHUB_EMAIL_PORT')
 elif os.getenv('CAMERAHUB_SENDGRID_KEY'):
     EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
     SENDGRID_API_KEY = os.getenv('CAMERAHUB_SENDGRID_KEY')
