@@ -10,5 +10,10 @@ patchesStrategicMerge:
 
 secretGenerator:
   - name: camerahub-secret
-    env: preprod.env
+    env: preprod-secret.env
+    behavior: merge
+
+configMapGenerator:
+  - name: camerahub-config
+    env: preprod-config.env
     behavior: merge

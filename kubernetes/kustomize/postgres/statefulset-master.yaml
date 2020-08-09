@@ -52,8 +52,8 @@ spec:
           env:
             - name: POSTGRES_USER
               valueFrom:
-                secretKeyRef:
-                  name: camerahub-secret
+                configMapKeyRef:
+                  name: camerahub-config
                   key: CAMERAHUB_DB_USER
 
             - name: PGUSER

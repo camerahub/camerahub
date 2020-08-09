@@ -9,5 +9,10 @@ bases:
 
 secretGenerator:
   - name: camerahub-secret
-    env: camerahub.env
+    env: camerahub-secret.env
+    behavior: merge
+
+configMapGenerator:
+  - name: camerahub-config
+    env: camerahub-config.env
     behavior: merge
