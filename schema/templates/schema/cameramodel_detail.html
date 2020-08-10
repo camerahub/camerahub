@@ -410,6 +410,12 @@
     <td>{{ object.tripod|boolicontag }}</td>
   </tr>
   {% endif %}
+  {% if object.self_timer is not None %}
+  <tr>
+    <td>Self timer</td>
+    <td>{{ object.self_timer|boolicontag }}</td>
+  </tr>
+  {% endif %}
   {% if object.cable_release is not None %}
   <tr>
     <td>Cable release</td>

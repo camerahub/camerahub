@@ -239,6 +239,7 @@ class CameraModelForm(ModelForm):
                 'dof_preview',
                 'mirror_lockup',
                 'tripod',
+                'self_timer',
                 'power_drive',
                 AppendedText('continuous_fps', 'fps'),
             ),
