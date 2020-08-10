@@ -40,7 +40,7 @@
     <th colspan="2">Misc</th>
   </tr>
   {% if object.created_at is not None %}
-  {% if object.tags is not None %}
+  {% if object.tags.all %}
   <tr>
     <td>Tags</td>
     <td>{% for tag in object.tags.all %}
