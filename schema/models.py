@@ -1332,6 +1332,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         verbose_name='Mirror lock-up', help_text='Whether the camera has mirror lock-up', blank=True, null=True)
     tripod = models.BooleanField(
         help_text='Whether the camera has a tripod bush', blank=True, null=True)
+    self_timer = models.BooleanField(
+        help_text='Whether the camera has a self-timer', blank=True, null=True)
     shutter_speeds = models.ManyToManyField(ShutterSpeed, blank=True)
     metering_modes = models.ManyToManyField(MeteringMode, blank=True)
     exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
