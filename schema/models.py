@@ -1458,16 +1458,6 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
             raise ValidationError({
                 'discontinued': ValidationError(('Discontinued date must be in the past')),
             })
-        # Metering bools
-        if self.metering is not None and self.metering is False:
-            if self.metering_type is True:
-                raise ValidationError({
-                    'discontinued': ValidationError(('Cannot set metering type if camera model has no metering')),
-                })
-            if self.metering_modes is True:
-                raise ValidationError({
-                    'discontinued': ValidationError(('Cannot set metering modes if camera model has no metering')),
-                })
         # int_flash_gn
         if self.int_flash is False and self.int_flash_gn is not None:
             raise ValidationError({
