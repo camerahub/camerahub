@@ -73,6 +73,7 @@ class PagedFilteredTableView(SingleTableMixin, FilterView):
 
 class SingleTableListView(SingleTableView):
     template_name = 'list.html'
+    paginate_by = 25
 
 
 class AccessoryList(LoginRequiredMixin, PagedFilteredTableView):
