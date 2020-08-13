@@ -347,7 +347,7 @@ class NegativeSize(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ['area']
+        ordering = ['name']
         verbose_name_plural = "negative sizes"
 
     def get_absolute_url(self):
