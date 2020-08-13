@@ -2,6 +2,15 @@
 {% load boolicontag %}
 
 {% block content %}
+{% if object.image %}
+<div class="text-center">
+  <figure class="figure img-thumbnail">
+    <img src="{{ object.image.url }}" class="figure-img img-fluid rounded" alt="{{ object }}">
+    <figcaption class="figure-caption text-center">{{ object }}</figcaption>
+  </figure>
+</div>
+{% endif %}
+
 <table class="table table-hover">
   <tr>
     <th colspan="2">Physical</th>
@@ -460,12 +469,6 @@
   </tr>
   {% endif %}
 </table>
-{% if object.image %}
-<h4>Image</h4>
-<div class="text-center">
-  <img src="{{ object.image.url }}" class="img-fluid img-thumbnail" />
-</div>
-{% endif %}
 
 {% if history %}{% include "history.html" %}{% endif %}
 
