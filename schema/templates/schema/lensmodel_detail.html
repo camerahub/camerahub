@@ -127,6 +127,12 @@
     </td>
   </tr>
   {% endif %}
+  {% if object.lens_type %}
+  <tr>
+    <td>Lens type</td>
+    <td>{{ object.lens_type }}</td>
+  </tr>
+  {% endif %}
   {% if object.rectilinear is not None %}
   <tr>
     <td>Rectilinear</td>

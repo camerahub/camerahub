@@ -464,6 +464,7 @@ class LensModelForm(ModelForm):
                 'groups',
                 AppendedText('nominal_min_angle_diag', '&deg;'),
                 AppendedText('nominal_max_angle_diag', '&deg;'),
+                'lens_type',
                 'rectilinear',
                 AppendedText('image_circle', 'mm'),
                 'aperture_blades',
