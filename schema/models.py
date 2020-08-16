@@ -1034,6 +1034,16 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         Single_coated = ChoiceItem()
         Multi_coated = ChoiceItem()
 
+    # Choices for lens type
+    class LensType(DjangoChoices):
+        Super_telephoto = ChoiceItem()
+        Medium_telephoto = ChoiceItem()
+        Short_telephoto = ChoiceItem()
+        Normal = ChoiceItem()
+        Wide_angle = ChoiceItem()
+        Super_wide_angle = ChoiceItem()
+        Fisheye = ChoiceItem()
+
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this lens model')
     model = models.CharField(
@@ -1066,6 +1076,8 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         verbose_name='Min angle of view', help_text='Nominal minimum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0), MaxValueValidator(360)])
     nominal_max_angle_diag = models.PositiveIntegerField(
         verbose_name='Max angle of view', help_text='Nominal maximum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0), MaxValueValidator(360)])
+    lens_type = models.CharField(
+        choices=LensType.choices, help_text='Type of lens based on its angle of view', max_length=16, blank=True, null=True)
     aperture_blades = models.PositiveIntegerField(
         help_text='Number of aperture blades', blank=True, null=True)
     autofocus = models.BooleanField(
