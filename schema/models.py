@@ -1211,6 +1211,22 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
                 unique_check=lensmodel_check, to_lower=True)
             self.slug = custom_slugify_unique("{} {} {}".format(
                 self.manufacturer.name, self.model, str(self.disambiguation or '')))
+        # Auto-populate lens type
+        if not self.lens_type and self.nominal_max_angle_diag and self.nominal_min_angle_diag:
+            if self.nominal_min_angle_diag <= 8:
+                self.lens_type = 'Super telephoto'
+            elif self.nominal_min_angle_diag > 8 and self.nominal_min_angle_diag <= 25:
+                self.lens_type = 'Medium telephoto'
+            elif self.nominal_min_angle_diag > 25 and self.nominal_min_angle_diag <= 30:
+                self.lens_type = 'Short telephoto'
+            elif self.nominal_min_angle_diag > 39 and self.nominal_min_angle_diag <= 62:
+                self.lens_type = 'Normal'
+            elif self.nominal_max_angle_diag > 62 and self.nominal_max_angle_diag <= 84:
+                self.lens_type = 'Wide angle'
+            elif self.nominal_max_angle_diag > 84 and self.nominal_max_angle_diag <= 120:
+                self.lens_type = 'Super wide angle'
+            elif self.nominal_max_angle_diag > 120:
+                self.lens_type = 'Fisheye'
         super().save(*args, **kwargs)
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
