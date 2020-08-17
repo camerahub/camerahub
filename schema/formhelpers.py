@@ -179,6 +179,7 @@ class LensModelFormHelper(FormHelper):
             'zoom',
             'autofocus',
             'tags',
+            'lens_type',
             ),
         FormActions(
             Submit('filter', 'Filter'),
