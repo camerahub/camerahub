@@ -1,5 +1,6 @@
 {% extends "detail.html" %}
 {% load boolicontag %}
+{% load formatting %}
 
 {% block content %}
 {% if object.image %}
@@ -311,7 +312,7 @@
     <td>Shutter speeds</td>
     <td>
       <ul class="list-inline">{% for shutter_speed in object.shutter_speeds.all %}
-        <li class="list-inline-item">{{ shutter_speed }}</li>
+        <li class="list-inline-item">{{ shutter_speed|shutter }}</li>
         {% endfor %}
       </ul>
     </td>
