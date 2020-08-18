@@ -1,5 +1,6 @@
 {% extends "detail.html" %}
 {% load boolicontag %}
+{% load formatting %}
 
 {% block content %}
 {% if object.image %}
@@ -23,7 +24,7 @@
   {% endif %}
   <tr>
     <td>Model</td>
-    <td>{{ object.model }}</td>
+    <td>{{ object.model|aperture }}</td>
   </tr>
   {% if object.disambiguation is not None %}
   <tr>
