@@ -1,4 +1,6 @@
+from math import degrees
 from django.utils.safestring import mark_safe
+from numpy import arctan
 
 
 def boolicon(obj):
@@ -12,3 +14,9 @@ def boolicon(obj):
         return_value = None
 
     return return_value
+
+
+def angle_of_view(diag, focal):
+    # fov = 2 arctan (d / 2f)
+    angle = round(degrees(2 * arctan(float(diag) / (2*float(focal)))))
+    return angle

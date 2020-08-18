@@ -15,6 +15,7 @@ from taggit.managers import TaggableManager
 from django_prometheus.models import ExportModelOperationsMixin
 from simple_history.models import HistoricalRecords
 from versatileimagefield.fields import VersatileImageField
+from .funcs import angle_of_view
 
 def cameramodel_check(text, uids):
     if text in uids:
@@ -1213,6 +1214,15 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
                 unique_check=lensmodel_check, to_lower=True)
             self.slug = custom_slugify_unique("{} {} {}".format(
                 self.manufacturer.name, self.model, str(self.disambiguation or '')))
+        # Auto-populate angle of view
+        if not self.nominal_max_angle_diag:
+            if self.negative_size and self.min_focal_length:
+                self.nominal_max_angle_diag = angle_of_view(
+                    self.negative_size.diagonal, self.min_focal_length)
+        if not self.nominal_min_angle_diag:
+            if self.negative_size and self.max_focal_length:
+                self.nominal_min_angle_diag = angle_of_view(
+                    self.negative_size.diagonal, self.max_focal_length)
         # Auto-populate lens type
         if not self.lens_type and self.nominal_max_angle_diag and self.nominal_min_angle_diag:
             if self.nominal_min_angle_diag <= 8:
