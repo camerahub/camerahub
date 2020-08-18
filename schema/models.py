@@ -318,6 +318,8 @@ class NegativeSize(models.Model):
                                 max_digits=4, decimal_places=1, blank=True, null=True)
     height = models.DecimalField(help_text='Height of the negative size in mm',
                                  max_digits=4, decimal_places=1, blank=True, null=True)
+    diagonal = models.DecimalField(help_text='Diagonal of the negative size in mm',
+                                   max_digits=5, decimal_places=1, blank=True, null=True, editable=False)
     crop_factor = models.DecimalField(help_text='Crop factor of this negative size',
                                       max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
     area = models.PositiveIntegerField(
@@ -341,9 +343,9 @@ class NegativeSize(models.Model):
         if self.width is not None and self.height is not None:
             self.aspect_ratio = self.width/self.height
             self.area = self.width*self.height
-            diag = sqrt(self.width**2 + self.height**2)
+            self.diagonal = sqrt(self.width**2 + self.height**2)
             diag35mm = 43.2666
-            self.crop_factor = diag35mm/diag
+            self.crop_factor = diag35mm/self.diagonal
         super().save(*args, **kwargs)
 
     class Meta:
