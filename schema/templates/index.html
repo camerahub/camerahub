@@ -24,12 +24,14 @@
     </div>
     <hr class="my-4">
     {% if user.is_authenticated %}
-    <p>Browse and track your collection using the menus above.</p>
+    <p>Welcome back, {{ user.username }}.
     {% else %}
-    <p>Public data about camera models, lens models and much more is available to browse without logging in.
-        Get started by using the public data menu above.</p>
-    <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'django_registration_register' %}">register</a> to start
-        tracking private data about your own collection!</p>
+    <p>CameraHub is a public database of cameras, lenses and accessories, available to everyone. Registered users can
+        add or edit data. They can also keep a private collection of their cameras and lenses.</p>
+    <p><a class="btn btn-primary btn-sm" href="{% url 'login' %}" role="button">Login</a> or <a
+            class="btn btn-primary btn-sm" href="{% url 'django_registration_register' %}" role="button">Register</a> to
+        start tracking private data about your own collection.
     {% endif %}
+        Get started using the icons below, or use the menus above.</p>
 </div>
 {% endblock %}
