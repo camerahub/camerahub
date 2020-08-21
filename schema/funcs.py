@@ -16,6 +16,19 @@ def boolicon(obj):
     return return_value
 
 
+def colouricon(obj):
+    img = '<img src="/static/svg/{}.svg" width="30" height="30" alt="{}">'
+    if obj is not None:
+        if bool(obj):
+            return_value = mark_safe(img.format('colour', 'Colour'))
+        else:
+            return_value = mark_safe(img.format('bw', 'Black & White'))
+    else:
+        return_value = None
+
+    return return_value
+
+
 def angle_of_view(diag, focal):
     # fov = 2 arctan (d / 2f)
     angle = round(degrees(2 * arctan(float(diag) / (2*float(focal)))))
