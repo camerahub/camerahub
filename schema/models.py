@@ -1103,8 +1103,6 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
-    rectilinear = models.BooleanField(
-        help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
     length = models.PositiveIntegerField(
         help_text='Length of lens in mm', blank=True, null=True)
     diameter = models.PositiveIntegerField(
@@ -1429,8 +1427,6 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
-    rectilinear = models.BooleanField(
-        help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
     image_circle = models.PositiveIntegerField(
         help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
 
