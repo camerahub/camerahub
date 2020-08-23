@@ -1214,11 +1214,11 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
                 self.manufacturer.name, self.model, str(self.disambiguation or '')))
         # Auto-populate angle of view
         if not self.nominal_max_angle_diag:
-            if self.negative_size and self.min_focal_length:
+            if self.negative_size and self.negative_size.diagonal and self.min_focal_length:
                 self.nominal_max_angle_diag = angle_of_view(
                     self.negative_size.diagonal, self.min_focal_length)
         if not self.nominal_min_angle_diag:
-            if self.negative_size and self.max_focal_length:
+            if self.negative_size and self.negative_size.diagonal and self.max_focal_length:
                 self.nominal_min_angle_diag = angle_of_view(
                     self.negative_size.diagonal, self.max_focal_length)
         # Auto-populate lens type
