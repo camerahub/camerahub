@@ -31,5 +31,8 @@ def colouricon(obj):
 
 def angle_of_view(diag, focal):
     # fov = 2 arctan (d / 2f)
-    angle = round(degrees(2 * arctan(float(diag) / (2*float(focal)))))
+    if diag is not None and focal is not None:
+        angle = round(degrees(2 * arctan(float(diag) / (2*float(focal)))))
+    else:
+        angle = None
     return angle
