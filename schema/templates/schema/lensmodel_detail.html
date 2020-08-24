@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 {% load formatting %}
 
@@ -14,7 +15,8 @@
 
 <table class="table table-hover">
   <tr>
-    <th colspan="2">Physical</th><a name="physical">
+    <th colspan="2"><img src="{% static "svg/weight.svg" %}" width="30" height="30" alt="Home"> Physical</th><a
+      name="physical">
   </tr>
   {% if object.manufacturer is not None %}
   <tr>
@@ -65,7 +67,8 @@
 
 
   <tr>
-    <th colspan="2">Optics</th><a name="optics">
+    <th colspan="2"><img src="{% static "svg/optics.svg" %}" width="30" height="30" alt="Home"> Optics</th><a
+      name="optics">
   </tr>
   {% if object.zoom is not None %}
   <tr>
@@ -161,7 +164,8 @@
 
 
   <tr>
-    <th colspan="2">Features</th><a name="features">
+    <th colspan="2"><img src="{% static "svg/features.svg" %}" width="30" height="30" alt="Home"> Features</th><a
+      name="features">
   </tr>
   {% if object.autofocus is not None %}
   <tr>
@@ -196,7 +200,7 @@
 
 
   <tr>
-    <th colspan="2">Misc</th><a name="misc">
+    <th colspan="2"><img src="{% static "svg/misc.svg" %}" width="30" height="30" alt="Home"> Misc</th><a name="misc">
   </tr>
   {% if object.notes is not None %}
   <tr>
