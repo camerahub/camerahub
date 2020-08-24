@@ -12,6 +12,12 @@
     <td>{{ object.width }} &times; {{ object.height }}mm</td>
   </tr>
   {% endif %}
+  {% if object.diagonal is not None %}
+  <tr>
+    <td>Diagonal</td>
+    <td>{{ object.diagonal }}mm</td>
+  </tr>
+  {% endif %}
   {% if object.crop_factor is not None %}
   <tr>
     <td>Crop factor</td>
