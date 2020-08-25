@@ -1296,6 +1296,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         help_text='Whether the camera has a tripod bush', blank=True, null=True)
     self_timer = models.BooleanField(
         help_text='Whether the camera has a self-timer', blank=True, null=True)
+    date_imprint = models.BooleanField(
+        help_text='Whether the camera has a date imprint feature', blank=True, null=True)
     shutter_speeds = models.ManyToManyField(ShutterSpeed, blank=True)
     metering_modes = models.ManyToManyField(MeteringMode, blank=True)
     exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
