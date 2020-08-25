@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 {% load formatting %}
 
@@ -14,7 +15,8 @@
 
 <table class="table table-hover">
   <tr>
-    <th colspan="2">Physical</th>
+    <th colspan="2" id="physical"><img src="{% static "svg/weight.svg" %}" width="30" height="30" alt="Physical"> <a
+        href="#physical">Physical</a></th>
   </tr>
   {% if object.manufacturer is not None %}
   <tr>
@@ -55,7 +57,8 @@
 
 
   <tr>
-    <th colspan="2">Optics</th>
+    <th colspan="2" id="optics"><img src="{% static "svg/optics.svg" %}" width="30" height="30" alt="Optics"> <a
+        href="#optics">Optics</a></th>
   </tr>
   {% if object.zoom is not None %}
   <tr>
@@ -141,7 +144,8 @@
 
 
   <tr>
-    <th colspan="2">Features</th>
+    <th colspan="2" id="features"><img src="{% static "svg/features.svg" %}" width="30" height="30" alt="Features"> <a
+        href="#features">Features</a></th>
   </tr>
   {% if object.filter_thread is not None %}
   <tr>
@@ -199,7 +203,8 @@
 
 
   <tr>
-    <th colspan="2">Focus</th>
+    <th colspan="2" id="focus"><img src="{% static "svg/focus.svg" %}" width="30" height="30" alt="Focus"> <a
+        href="#focus">Focus</a></th>
   </tr>
   {% if object.focus_type is not None %}
   <tr>
@@ -222,7 +227,8 @@
 
 
   <tr>
-    <th colspan="2">Metering</th>
+    <th colspan="2" id="metering"><img src="{% static "svg/meter.svg" %}" width="30" height="30" alt="Metering"> <a
+        href="#metering">Metering</a></th>
   </tr>
   {% if object.metering is not None %}
   <tr>
@@ -275,7 +281,8 @@
 
 
   <tr>
-    <th colspan="2">Shutter</th>
+    <th colspan="2" id="shutter"><img src="{% static "svg/shutter.svg" %}" width="30" height="30" alt="Shutter"> <a
+        href="#shutter">Shutter</a></th>
   </tr>
   {% if object.shutter_type is not None %}
   <tr>
@@ -315,7 +322,8 @@
 
 
   <tr>
-    <th colspan="2">Film transport</th>
+    <th colspan="2" id="filmtransport"><img src="{% static "svg/next.svg" %}" width="30" height="30" alt="Film transport"> <a
+        href="#filmtransport">Film transport</a></th>
   </tr>
   {% if object.power_drive is not None %}
   <tr>
@@ -332,7 +340,8 @@
 
 
   <tr>
-    <th colspan="2">Power</th>
+    <th colspan="2" id="power"><img src="{% static "svg/battery.svg" %}" width="30" height="30" alt="Power"> <a
+        href="#power">Power</a></th>
   </tr>
   {% if object.battery_qty is not None %}
 
@@ -347,7 +356,8 @@
 
 
   <tr>
-    <th colspan="2">Flash</th>
+    <th colspan="2" id="flash"><img src="{% static "svg/flash.svg" %}" width="30" height="30" alt="Flash"> <a
+        href="#flash">Flash</a></th>
   </tr>
   {% if object.int_flash is not None %}
   <tr>
@@ -394,7 +404,8 @@
 
 
   <tr>
-    <th colspan="2">Features</th>
+    <th colspan="2" id="features"><img src="{% static "svg/features.svg" %}" width="30" height="30" alt="Features"> <a
+        href="#features">Features</a></th>
   </tr>
   {% if object.dof_preview is not None %}
   <tr>
@@ -429,7 +440,8 @@
 
 
   <tr>
-    <th colspan="2">Misc</th>
+    <th colspan="2" id="misc"><img src="{% static "svg/misc.svg" %}" width="30" height="30" alt="Misc"> <a
+        href="#misc">Misc</a></th>
   </tr>
   {% if object.notes is not None %}
   <tr>
