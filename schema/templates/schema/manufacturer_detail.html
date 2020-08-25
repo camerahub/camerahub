@@ -39,24 +39,12 @@
   <tr>
     <th colspan="2" id="misc"><a href="#misc">Misc</a></th>
   </tr>
-  {% if object.created_at is not None %}
-  {% if object.tags.all %}
+    {% if object.tags.all %}
   <tr>
     <td>Tags</td>
     <td>{% for tag in object.tags.all %}
       <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag|lower %}" role="button">{{ tag }}</a>
       {% endfor %}</td>
-  </tr>
-  {% endif %}
-  <tr>
-    <td>Created</td>
-    <td>{{ object.created_at }}{% if object.created_by is not None %} by {{ object.created_by }}{% endif %}</td>
-  </tr>
-  {% endif %}
-  {% if object.updated_at is not None %}
-  <tr>
-    <td>Last updated</td>
-    <td>{{ object.updated_at }}{% if object.updated_by is not None %} by {{ object.updated_by }}{% endif %}</td>
   </tr>
   {% endif %}
 </table>
