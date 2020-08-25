@@ -64,13 +64,6 @@ class Manufacturer(models.Model):
         help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='manufacturer_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='manufacturer_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -187,13 +180,6 @@ class Battery(models.Model):
     compatible_with = models.ManyToManyField(
         'Battery', blank=True, help_text='Batteries that are compatible with this one')
     slug = models.SlugField(editable=False, null=True, unique=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='battery_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='battery_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -257,13 +243,6 @@ class FlashProtocol(models.Model):
         help_text='Name of the flash protocol', max_length=45)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                      blank=True, null=True, help_text='Manufacturer who owns this flash protocol')
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='flashprotocol_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='flashprotocol_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -327,13 +306,6 @@ class NegativeSize(models.Model):
         help_text='Area of this negative size in sq. mm', blank=True, null=True, editable=False)
     aspect_ratio = models.DecimalField(help_text='Aspect ratio of this negative size, expressed as a single decimal (e.g. 3:2 is expressed as 1.5)',
                                        max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='negativesize_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='negativesize_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -367,13 +339,6 @@ class Format(models.Model):
     format = models.CharField(
         help_text='The name of this film/sensor format', max_length=45, unique=True)
     negative_size = models.ManyToManyField(NegativeSize, blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='format_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='format_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -597,13 +562,6 @@ class Mount(models.Model):
                                      blank=True, null=True, help_text='Manufacturer who owns this lens mount')
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='mount_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='mount_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -649,13 +607,6 @@ class PaperStock(models.Model):
     finish = models.CharField(help_text='The finish of the paper surface',
                               choices=Finish.choices, max_length=25, blank=True, null=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='paperstock_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='paperstock_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -710,6 +661,7 @@ class Process(models.Model):
         help_text='Whether this is a colour process', blank=True, null=True)
     positive = models.BooleanField(
         help_text='Whether this is a positive/reversal process', blank=True, null=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -785,13 +737,6 @@ class Toner(models.Model):
         help_text='Stock dilution of the toner', max_length=10, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='toner_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='toner_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -841,13 +786,6 @@ class FilmStock(models.Model):
                                 null=True, help_text='Development process required by this film')
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='filmstock_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='filmstock_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -988,13 +926,6 @@ class Developer(models.Model):
         help_text='The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='developer_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='developer_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -1113,13 +1044,6 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='lensmodel_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='lensmodel_updated_by')
     history = HistoricalRecords()
     image = VersatileImageField(
         help_text='Image of the lens model', blank=True, null=True)
@@ -1376,13 +1300,6 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     metering_modes = models.ManyToManyField(MeteringMode, blank=True)
     exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='cameramodel_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='cameramodel_updated_by')
     history = HistoricalRecords()
     tags = TaggableManager(blank=True)
     url = models.URLField(
