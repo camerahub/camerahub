@@ -239,6 +239,7 @@ class CameraModelForm(ModelForm):
                 'mirror_lockup',
                 'tripod',
                 'self_timer',
+                'date_imprint',
                 'power_drive',
                 AppendedText('continuous_fps', 'fps'),
             ),

@@ -431,6 +431,12 @@
     <td>{{ object.self_timer|boolicontag }}</td>
   </tr>
   {% endif %}
+  {% if object.date_imprint is not None %}
+  <tr>
+    <td>Date imprint</td>
+    <td>{{ object.date_imprint|boolicontag }}</td>
+  </tr>
+  {% endif %}
   {% if object.cable_release is not None %}
   <tr>
     <td>Cable release</td>
