@@ -17,6 +17,7 @@ from simple_history.models import HistoricalRecords
 from versatileimagefield.fields import VersatileImageField
 from .funcs import angle_of_view
 
+
 def cameramodel_check(text, uids):
     if text in uids:
         return False
@@ -139,7 +140,8 @@ class Archive(models.Model):
     sealed = models.BooleanField(
         help_text='Whether or not this archive is sealed (closed to new additions)', default=0)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return self.name
@@ -400,7 +402,8 @@ class Flash(models.Model):
     cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
                       decimal_places=2, blank=True, null=True, default_currency='GBP')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -464,7 +467,8 @@ class Enlarger(models.Model):
     lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12,
                             decimal_places=2, blank=True, null=True, default_currency='GBP')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -635,7 +639,8 @@ class Person(models.Model):
     name = models.CharField(
         help_text='Name of the photographer', max_length=45, unique=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return self.name
@@ -696,7 +701,8 @@ class Teleconverter(models.Model):
     multicoated = models.BooleanField(
         help_text='Whether this teleconverter is multi-coated', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -837,7 +843,8 @@ class BulkFilm(models.Model):
     expiry = models.DateField(
         help_text='Expiry date of this bulk roll', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%s %s %s" % (self.id_owner, self.filmstock.manufacturer.name, self.filmstock.name)
@@ -867,7 +874,8 @@ class MountAdapter(models.Model):
     notes = models.CharField(help_text='Freeform notes',
                              max_length=100, blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "%s - %s" % (self.camera_mount, self.lens_mount)
@@ -1496,7 +1504,8 @@ class Accessory(models.Model):
         CameraModel, blank=True)
     lens_model_compatibility = models.ManyToManyField(LensModel, blank=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1563,13 +1572,16 @@ class Lens(models.Model):
     condition_notes = models.CharField(
         help_text='Description of condition', max_length=150, blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.serial is not None:
-            mystr = "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
+            mystr = "%s %s (#%s)" % (
+                self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
         else:
-            mystr = "%s %s" % (self.lensmodel.manufacturer.name, self.lensmodel.model)
+            mystr = "%s %s" % (
+                self.lensmodel.manufacturer.name, self.lensmodel.model)
         return mystr
 
     class Meta:
@@ -1640,13 +1652,16 @@ class Camera(models.Model):
     condition_notes = models.CharField(
         help_text='Description of condition', max_length=150, blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.serial is not None:
-            mystr = "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
+            mystr = "%s %s (#%s)" % (
+                self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
         else:
-            mystr = "%s %s" % (self.cameramodel.manufacturer.name, self.cameramodel.model)
+            mystr = "%s %s" % (
+                self.cameramodel.manufacturer.name, self.cameramodel.model)
         return mystr
 
     class Meta:
@@ -1738,7 +1753,8 @@ class Film(models.Model):
     archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True,
                                 null=True, help_text='Archive that this film is stored in')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%s %s" % (self.id_owner, self.title)
@@ -1815,7 +1831,8 @@ class Negative(models.Model):
     copy_of = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True,
                                 related_name='copy', help_text='Negative that this was duplicated from')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "%s/%s %s" % (self.film.id_owner, self.frame, self.caption)
@@ -1907,7 +1924,8 @@ class Print(models.Model):
     printer = models.ForeignKey(Person, on_delete=models.CASCADE,
                                 blank=True, null=True, help_text='Person who made this print')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%i" % (self.id_owner)
@@ -1968,7 +1986,8 @@ class Repair(models.Model):
     detail = models.CharField(
         help_text='Longer description of the repair', max_length=500, blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%i" % (self.id_owner)
@@ -2003,7 +2022,8 @@ class Scan(models.Model):
     height = models.PositiveIntegerField(
         help_text='Height of the scanned image in pixels', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return self.filename
@@ -2045,7 +2065,8 @@ class Order(models.Model):
     recipient = models.ForeignKey(Person, on_delete=models.CASCADE,
                                   help_text='Person who placed this order', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%i" % (self.id_owner)
