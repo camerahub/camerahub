@@ -1354,8 +1354,6 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
-    image_circle = models.PositiveIntegerField(
-        help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
 
     def __str__(self):
         mystr = self.model

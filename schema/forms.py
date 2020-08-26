@@ -173,7 +173,6 @@ class CameraModelForm(ModelForm):
                             'groups',
                             AppendedText('nominal_min_angle_diag', '&deg;'),
                             AppendedText('nominal_max_angle_diag', '&deg;'),
-                            AppendedText('image_circle', 'mm'),
                             'aperture_blades',
                             'coating',
                             AppendedText('magnification', '&times;'),
