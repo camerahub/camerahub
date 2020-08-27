@@ -1306,6 +1306,10 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         help_text='Whether the camera has a self-timer', blank=True, null=True)
     date_imprint = models.BooleanField(
         help_text='Whether the camera has a date imprint feature', blank=True, null=True)
+    fastest_shutter_speed = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True,
+                                              help_text='Fastest shutter speed available on this camera', related_name='fastest_shutter_speed')
+    slowest_shutter_speed = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True,
+                                              help_text='Slowest shutter speed available on this camera', related_name='slowest_shutter_speed')
     shutter_speeds = models.ManyToManyField(ShutterSpeed, blank=True)
     metering_modes = models.ManyToManyField(MeteringMode, blank=True)
     exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)

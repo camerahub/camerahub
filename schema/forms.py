@@ -212,6 +212,8 @@ class CameraModelForm(ModelForm):
                 'Shutter',
                 'shutter_type',
                 'shutter_model',
+                'fastest_shutter_speed',
+                'slowest_shutter_speed',
                 InlineCheckboxes('shutter_speeds'),
                 'bulb',
                 'time',
