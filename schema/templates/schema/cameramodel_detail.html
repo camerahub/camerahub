@@ -302,22 +302,17 @@
     <td>{{ object.time|boolicontag }}</td>
   </tr>
   {% endif %}
-  {% if object.shutter_speeds is not None %}
+  {% if object.fastest_shutter_speed is not None %}
   <tr>
     <td>Shutter speeds</td>
-    <td>
-      <ul class="list-inline">{% for shutter_speed in object.shutter_speeds.all %}
-        <li class="list-inline-item">{{ shutter_speed|shutter }}</li>
-        {% endfor %}
-      </ul>
-    </td>
+    <td>{{ object.fastest_shutter_speed|shutter }}{% if object.slowest_shutter_speed is not None %} - {{ object.slowest_shutter_speed|shutter }}{% endif %}</td>
   </tr>
   {% endif %}
 
 
   <tr>
-    <th colspan="2" id="filmtransport"><img src="{% static "svg/next.svg" %}" width="30" height="30" alt="Film transport"> <a
-        href="#filmtransport">Film transport</a></th>
+    <th colspan="2" id="filmtransport"><img src="{% static "svg/next.svg" %}" width="30" height="30"
+        alt="Film transport"> <a href="#filmtransport">Film transport</a></th>
   </tr>
   {% if object.power_drive is not None %}
   <tr>
