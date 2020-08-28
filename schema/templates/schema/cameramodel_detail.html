@@ -314,17 +314,6 @@
     <td>{{ object.slowest_shutter_speed|shutter }}</td>
   </tr>
   {% endif %}
-  {% if object.shutter_speeds is not None %}
-  <tr>
-    <td>Shutter speeds</td>
-    <td>
-      <ul class="list-inline">{% for shutter_speed in object.shutter_speeds.all %}
-        <li class="list-inline-item">{{ shutter_speed|shutter }}</li>
-        {% endfor %}
-      </ul>
-    </td>
-  </tr>
-  {% endif %}
 
 
   <tr>

@@ -109,14 +109,13 @@ class CameraModelAdmin(SimpleHistoryAdmin):
             'fields': ('focus_type', 'af_points', 'dof_preview')
         }),
         ('Shutter', {
-            'fields': ('shutter_type', 'shutter_model', 'shutter_speeds', 'bulb', 'time'),
+            'fields': ('shutter_type', 'shutter_model', 'fastest_shutter_speed', 'slowest_shutter_speed', 'bulb', 'time'),
         }),
     )
     inlines = [
         CameraInline,
     ]
-    filter_horizontal = (
-        'metering_modes', 'exposure_programs', 'shutter_speeds')
+    filter_horizontal = ('metering_modes', 'exposure_programs')
     search_fields = ['manufacturer__name', 'model', 'notes']
     list_display = ('__str__', 'mount', 'format', 'body_type', 'introduced')
     list_filter = ('manufacturer__name', 'mount', 'format', 'body_type')
