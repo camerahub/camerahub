@@ -304,14 +304,8 @@
   {% endif %}
   {% if object.fastest_shutter_speed is not None %}
   <tr>
-    <td>Fastest shutter speed</td>
-    <td>{{ object.fastest_shutter_speed|shutter }}</td>
-  </tr>
-  {% endif %}
-  {% if object.slowest_shutter_speed is not None %}
-  <tr>
-    <td>Slowest shutter speed</td>
-    <td>{{ object.slowest_shutter_speed|shutter }}</td>
+    <td>Shutter speeds</td>
+    <td>{{ object.fastest_shutter_speed|shutter }}{% if object.slowest_shutter_speed is not None %} - {{ object.slowest_shutter_speed|shutter }}{% endif %}</td>
   </tr>
   {% endif %}
 
