@@ -8,7 +8,7 @@
 {% block content %}
 {% if object_list %}
 {% if filter %}
-<div class="alert alert-secondary" role="alert">
+<div class="d-flex p-2 align-items-end">  
   <form action="" method="get" class="form">
     {% crispy filter.form 'bootstrap4' %}
   </form>
