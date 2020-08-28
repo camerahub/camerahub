@@ -1,7 +1,6 @@
 {% extends "detail.html" %}
 {% load static %}
 {% load boolicontag %}
-{% load formatting %}
 
 {% block content %}
 {% if object.image %}
@@ -305,7 +304,8 @@
   {% if object.fastest_shutter_speed is not None %}
   <tr>
     <td>Shutter speeds</td>
-    <td>{{ object.fastest_shutter_speed|shutter }}{% if object.slowest_shutter_speed is not None %} - {{ object.slowest_shutter_speed|shutter }}{% endif %}</td>
+    <td>{{ object.fastest_shutter_speed }}{% if object.slowest_shutter_speed is not None %} -
+      {{ object.slowest_shutter_speed }}{% endif %}</td>
   </tr>
   {% endif %}
 

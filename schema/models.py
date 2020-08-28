@@ -2,7 +2,7 @@ from datetime import datetime
 from math import sqrt
 import re
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -896,23 +896,26 @@ class MountAdapter(models.Model):
 
 class ShutterSpeed(models.Model):
     shutter_speed = models.CharField(
-        help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True)
-    # field validation: like 1/500 or 2
+        help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True, validators=[RegexValidator(regex=r'^\d+(/\d+(\.\d+)?)?$', message="Shutter speed must be expressed like 1/125, 2, or 2.5")])
     duration = models.DecimalField(
         help_text='Shutter speed in decimal notation, e.g. 0.04', max_digits=9, decimal_places=5, editable=False)
 
     def __str__(self):
-        return self.shutter_speed
+        # Test if format is 1/125
+        fractional = re.match(r'^(\d)/(\d+(\.\d+)?)$', self.shutter_speed)
+        if fractional:
+            mystring = mark_safe(self.shutter_speed.replace('1/', '&sup1;/'))
+        else:
+            mystring = self.shutter_speed + '"'
+        return mystring
 
     def save(self, *args, **kwargs):
         # Test if format is 1/125
         fractional = re.match(r'^(\d{1})/(\d+)$', self.shutter_speed)
-        # Test if format is 1 or 1"
-        integer = re.match(r'^(\d+)"?$', self.shutter_speed)
         if fractional:
             self.duration = int(fractional.group(1)) / int(fractional.group(2))
-        elif integer:
-            self.duration = integer.group(1)
+        else:
+            self.duration = self.shutter_speed
         super().save(*args, **kwargs)
 
     class Meta:
