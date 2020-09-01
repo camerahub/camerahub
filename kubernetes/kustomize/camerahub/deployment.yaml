@@ -48,6 +48,11 @@ spec:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_SENDGRID_KEY
+            - name: CAMERAHUB_EMAIL_BACKEND
+              valueFrom:
+                secretKeyRef:
+                  name: camerahub-secret
+                  key: CAMERAHUB_EMAIL_BACKEND
             - name: CAMERAHUB_DOMAIN
               valueFrom:
                 secretKeyRef:
