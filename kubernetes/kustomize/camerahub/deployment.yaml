@@ -48,6 +48,7 @@ spec:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_SENDGRID_KEY
+                  optional: true
             - name: CAMERAHUB_DOMAIN
               valueFrom:
                 secretKeyRef:
