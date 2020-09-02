@@ -67,6 +67,7 @@ my %newnames = (
 	'icons8-voltmeter'				=> ['meter'],
 	'icons8-aperture'				=> ['shutter'],
 	'icons8-fast-forward'			=> ['next'],
+	'icons8-envelope'				=> ['mail'],
 #unknown
 #logout
 );
