@@ -38,7 +38,7 @@ Default: `django.db.backends.sqlite3`
 
 ### `CAMERAHUB_DB_HOST`
 
-[Database hostname or IP address](https://docs.djangoproject.com/en/3.0/ref/settings/#host)
+[Database hostname or IP address](https://docs.djangoproject.com/en/3.0/ref/settings/#host) if an engine other than SQLite is configured
 
 ### `CAMERAHUB_DB_NAME`
 
@@ -47,15 +47,15 @@ Default: `django.db.backends.sqlite3`
 
 ### `CAMERAHUB_DB_PASS`
 
-[Database password](https://docs.djangoproject.com/en/3.0/ref/settings/#password)
+[Database password](https://docs.djangoproject.com/en/3.0/ref/settings/#password) if an engine other than SQLite is configured
 
 ### `CAMERAHUB_DB_PORT`
 
-[Database port](https://docs.djangoproject.com/en/3.0/ref/settings/#port)
+[Database port](https://docs.djangoproject.com/en/3.0/ref/settings/#port) if an engine other than SQLite is configured
 
 ### `CAMERAHUB_DB_USER`
 
-[Database username](https://docs.djangoproject.com/en/3.0/ref/settings/#user)
+[Database username](https://docs.djangoproject.com/en/3.0/ref/settings/#user) if an engine other than SQLite is configured
 
 ### `CAMERAHUB_PROD`
 
@@ -64,7 +64,7 @@ Default: `false`
 
 ### `CAMERAHUB_SECRET_KEY`
 
-Random secret value. Generate [here](https://miniwebtool.com/django-secret-key-generator/)
+Random secret value. The default string is for testing only and is insecure in production. Generate a new one [here](https://miniwebtool.com/django-secret-key-generator/)
 Default: `OverrideMe!`
 
 ### `CAMERAHUB_EMAIL_BACKEND`
