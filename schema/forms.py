@@ -240,8 +240,13 @@ class CameraModelForm(ModelForm):
                 'tripod',
                 'self_timer',
                 'date_imprint',
+                'interchangeable_backs',
+                'interchangeable_finders',
+                'strap_lugs',
+                'multiple_exposures',
                 'power_drive',
                 AppendedText('continuous_fps', 'fps'),
+                'external_power_drive',
             ),
             Fieldset(
                 'Misc',

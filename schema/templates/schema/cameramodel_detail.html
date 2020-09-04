@@ -316,7 +316,7 @@
   </tr>
   {% if object.power_drive is not None %}
   <tr>
-    <td>Power drive</td>
+    <td>Internal power drive</td>
     <td>{{ object.power_drive|boolicontag }}</td>
   </tr>
   {% endif %}
@@ -324,6 +324,12 @@
   <tr>
     <td>Continuous fps</td>
     <td>{{ object.continuous_fps }}</td>
+  </tr>
+  {% endif %}
+  {% if object.external_power_drive is not None %}
+  <tr>
+    <td>External power drive</td>
+    <td>{{ object.external_power_drive|boolicontag }}</td>
   </tr>
   {% endif %}
 
@@ -430,6 +436,30 @@
   <tr>
     <td>Cable release</td>
     <td>{{ object.cable_release|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.interchangeable_backs is not None %}
+  <tr>
+    <td></td>
+    <td>{{ object.interchangeable_backs|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.interchangeable_finders is not None %}
+  <tr>
+    <td></td>
+    <td>{{ object.interchangeable_finders|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.strap_lugs is not None %}
+  <tr>
+    <td></td>
+    <td>{{ object.strap_lugs|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.multiple_exposures is not None %}
+  <tr>
+    <td></td>
+    <td>{{ object.multiple_exposures|boolicontag }}</td>
   </tr>
   {% endif %}
 
