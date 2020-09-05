@@ -244,7 +244,7 @@ class CameraModelForm(ModelForm):
                 'interchangeable_finders',
                 'strap_lugs',
                 'multiple_exposures',
-                'power_drive',
+                'internal_power_drive',
                 AppendedText('continuous_fps', 'fps'),
                 'external_power_drive',
             ),

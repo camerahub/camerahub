@@ -96,7 +96,7 @@ admin.site.register(Camera, CameraAdmin)
 class CameraModelAdmin(SimpleHistoryAdmin):
     fieldsets = (
         (None, {
-            'fields': ('manufacturer', 'model', 'mount', 'format', 'body_type', 'weight', ('introduced', 'discontinued'), 'negative_size', 'cable_release', 'viewfinder_coverage', ('power_drive', 'continuous_fps'), ('battery_qty', 'battery_type'), 'notes', 'tripod'),
+            'fields': ('manufacturer', 'model', 'mount', 'format', 'body_type', 'weight', ('introduced', 'discontinued'), 'negative_size', 'cable_release', 'viewfinder_coverage', ('internal_power_drive', 'continuous_fps'), ('battery_qty', 'battery_type'), 'notes', 'tripod'),
             'description': 'Enter information about this camera model',
         }),
         ('Metering', {

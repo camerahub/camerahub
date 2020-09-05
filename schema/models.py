@@ -1261,7 +1261,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         help_text='Whether the camera has the facility for a remote cable release', blank=True, null=True)
     viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True,
                                                       validators=[MinValueValidator(0), MaxValueValidator(100)])
-    power_drive = models.BooleanField(
+    internal_power_drive = models.BooleanField(
         help_text='Whether the camera has integrated motor drive', blank=True, null=True)
     continuous_fps = models.DecimalField(
         help_text='The maximum rate at which the camera can shoot, in frames per second', max_digits=4, decimal_places=1, blank=True, null=True)

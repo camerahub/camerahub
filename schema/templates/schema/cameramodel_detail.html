@@ -314,10 +314,10 @@
     <th colspan="2" id="filmtransport"><img src="{% static "svg/next.svg" %}" width="30" height="30"
         alt="Film transport"> <a href="#filmtransport">Film transport</a></th>
   </tr>
-  {% if object.power_drive is not None %}
+  {% if object.internal_power_drive is not None %}
   <tr>
     <td>Internal power drive</td>
-    <td>{{ object.power_drive|boolicontag }}</td>
+    <td>{{ object.internal_power_drive|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.continuous_fps is not None %}
