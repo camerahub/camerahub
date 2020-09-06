@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'taggit',
     'django_prometheus',
     'simple_history',
+    'django_social_share',
 ]
 
 MIDDLEWARE = [
