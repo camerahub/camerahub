@@ -1,6 +1,7 @@
 {% extends "detail.html" %}
 {% load static %}
 {% load boolicontag %}
+{% load formatting %}
 
 {% block content %}
 {% if object.image %}
@@ -42,7 +43,7 @@
   <tr>
     <td>Lens</td>
     <td>{% if object.lens_manufacturer is not None %}{{ object.lens_manufacturer }}
-      {% endif %}{{ object.lens_model_name }}
+      {% endif %}{{ object.lens_model_name|aperture }}
     </td>
   </tr>
 
