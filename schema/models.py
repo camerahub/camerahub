@@ -1261,7 +1261,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         help_text='Whether the camera has the facility for a remote cable release', blank=True, null=True)
     viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True,
                                                       validators=[MinValueValidator(0), MaxValueValidator(100)])
-    power_drive = models.BooleanField(
+    internal_power_drive = models.BooleanField(
         help_text='Whether the camera has integrated motor drive', blank=True, null=True)
     continuous_fps = models.DecimalField(
         help_text='The maximum rate at which the camera can shoot, in frames per second', max_digits=4, decimal_places=1, blank=True, null=True)
@@ -1309,6 +1309,16 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         help_text='Whether the camera has a self-timer', blank=True, null=True)
     date_imprint = models.BooleanField(
         help_text='Whether the camera has a date imprint feature', blank=True, null=True)
+    interchangeable_backs = models.BooleanField(
+        help_text='Whether the camera has interchangeable backs', blank=True, null=True)
+    interchangeable_finders = models.BooleanField(
+        help_text='Whether the camera has interchangeable finders', blank=True, null=True)
+    strap_lugs = models.BooleanField(
+        help_text='Whether the camera has strap lugs', blank=True, null=True)
+    multiple_exposures = models.BooleanField(
+        help_text='Whether the camera can do multiple exposures', blank=True, null=True)
+    external_power_drive = models.BooleanField(
+        help_text='Whether the camera supports an external power drive', blank=True, null=True)
     fastest_shutter_speed = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True,
                                               help_text='Fastest shutter speed available on this camera', related_name='fastest_shutter_speed')
     slowest_shutter_speed = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True,
