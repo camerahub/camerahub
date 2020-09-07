@@ -60,13 +60,17 @@
     </td>
   </tr>
   {% endif %}
+  {% if history %}
+  <tr>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
+  </tr>
+  {% endif %}
   <tr>
     <td>Sharing</td>
     <td>{% include "sharing.html" %}</td>
   </tr>
 </table>
-
-{% if history %}{% include "history.html" %}{% endif %}
 
 <a data-toggle="collapse" href="#collapseFilms" role="button" aria-expanded="false" aria-controls="collapseFilms">
   Films</a>

@@ -36,7 +36,11 @@
     <td>{{ object.aspect_ratio }}</td>
   </tr>
   {% endif %}
+  {% if history %}
+  <tr>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
+  </tr>
+  {% endif %}
 </table>
-
-{% if history %}{% include "history.html" %}{% endif %}
 {% endblock %}

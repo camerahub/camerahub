@@ -235,6 +235,12 @@
     <td><a href="{{ object.url }}">{{ object.url }}</a></td>
   </tr>
   {% endif %}
+  {% if history %}
+  <tr>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
+  </tr>
+  {% endif %}
   <tr>
     <td>Sharing</td>
     <td>{% include "sharing.html" %}</td>
@@ -247,8 +253,6 @@
   <img src="{{ object.diagram.url }}" class="img-fluid img-thumbnail" />
 </div>
 {% endif %}
-
-{% if history %}{% include "history.html" %}{% endif %}
 
 {% if user.is_authenticated %}
 {% if mine %}
