@@ -48,20 +48,23 @@
       {% endfor %}</td>
   </tr>
   {% endif %}
+  {% if related %}
+  <tr>
+    <td>Similar film stocks</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'filmstock-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
   <tr>
     <td>Sharing</td>
     <td>{% include "sharing.html" %}</td>
   </tr>
 </table>
-
-{% if related %}
-<h4>Similar film stocks</h4>
-<ul>
-  {% for relateditem in related %}
-  <li><a href="{% url 'filmstock-detail' relateditem.slug %}">{{ relateditem }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
 
 {% if history %}{% include "history.html" %}{% endif %}
 
