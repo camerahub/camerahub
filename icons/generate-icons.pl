@@ -68,6 +68,9 @@ my %newnames = (
 	'icons8-aperture'				=> ['shutter'],
 	'icons8-fast-forward'			=> ['next'],
 	'icons8-envelope'				=> ['mail'],
+	'icons8-google-plus'			=> ['googleplus'],
+	'icons8-reddit'					=> ['reddit'],
+	'icons8-twitter'				=> ['twitter'],
 #unknown
 #logout
 );
