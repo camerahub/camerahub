@@ -48,22 +48,29 @@
       {% endfor %}</td>
   </tr>
   {% endif %}
+  {% if related %}
+  <tr>
+    <td>Similar mounts</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'mount-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+  {% if history %}
+  <tr>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
+  </tr>
+  {% endif %}
   <tr>
     <td>Sharing</td>
     <td>{% include "sharing.html" %}</td>
   </tr>
 </table>
-
-{% if related %}
-<h4>Similar mounts</h4>
-<ul>
-  {% for relateditem in related %}
-  <li><a href="{% url 'mount-detail' relateditem.slug %}">{{ relateditem }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
-
-{% if history %}{% include "history.html" %}{% endif %}
 {% endblock %}
 
 {% block moreactions %}

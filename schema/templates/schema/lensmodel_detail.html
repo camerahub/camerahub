@@ -161,7 +161,37 @@
     <td>{{ object.image_circle }}mm</td>
   </tr>
   {% endif %}
+  {% if object.diagram %}
+  <tr>
+    <td>Optical diagram</td>
+    <td>
+      <a href="#diagram" data-toggle="modal">
+        <img src="{{ object.diagram.url }}" style="width: 200px;" class="img-fluid img-thumbnail" />
+      </a>
 
+      <!-- Modal -->
+      <div class="modal fade" id="diagram" tabindex="-1" role="dialog" aria-labelledby="diagramLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="diagramLabel">{{ object }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <img src="{{ object.diagram.url }}" class="img-thumbnail" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  {% endif %}
 
   <tr>
     <th colspan="2" id="features"><img src="{% static "svg/features.svg" %}" width="30" height="30" alt="Features"> <a
@@ -217,10 +247,28 @@
       {% endfor %}</td>
   </tr>
   {% endif %}
+  {% if related %}
+  <tr>
+    <td>Similar lens models</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'lensmodel-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
   {% if object.url is not None %}
   <tr>
     <td>URL</td>
     <td><a href="{{ object.url }}">{{ object.url }}</a></td>
+  </tr>
+  {% endif %}
+  {% if history %}
+  <tr>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
   </tr>
   {% endif %}
   <tr>
@@ -228,23 +276,6 @@
     <td>{% include "sharing.html" %}</td>
   </tr>
 </table>
-
-{% if object.diagram %}
-<h4>Optical diagram</h4>
-<div class="text-center">
-  <img src="{{ object.diagram.url }}" class="img-fluid img-thumbnail" />
-</div>
-{% endif %}
-{% if related %}
-<h4>Similar lens models</h4>
-<ul>
-  {% for relateditem in related %}
-  <li><a href="{% url 'lensmodel-detail' relateditem.slug %}">{{ relateditem }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
-
-{% if history %}{% include "history.html" %}{% endif %}
 
 {% if user.is_authenticated %}
 {% if mine %}
