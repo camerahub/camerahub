@@ -1129,13 +1129,25 @@ class MyStatsView(LoginRequiredMixin, TemplateView):
             {
                 'image': "svg/camera.svg",
                 'url': reverse('camera-list'),
-                'item': "cameras in your collection",
+                'item': "cameras in your collection right now",
+                'value': Camera.objects.filter(owner=self.request.user, own=True).count,
+            },
+            {
+                'image': "svg/camera.svg",
+                'url': reverse('camera-list'),
+                'item': "cameras ever in your collection",
                 'value': Camera.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/lens.svg",
                 'url': reverse('lens-list'),
-                'item': "lenses in your collection",
+                'item': "lenses in your collection right now",
+                'value': Lens.objects.filter(owner=self.request.user, own=True).count,
+            },
+            {
+                'image': "svg/lens.svg",
+                'url': reverse('lens-list'),
+                'item': "lenses ever in your collection",
                 'value': Lens.objects.filter(owner=self.request.user).count,
             },
             {
