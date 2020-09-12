@@ -4,6 +4,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
 from django.apps import apps
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -1112,6 +1113,11 @@ class StatsView(TemplateView):
                 'url': reverse('manufacturer-list'),
                 'item': "manufacturers in CameraHub",
                 'value': Manufacturer.objects.count
+            },
+            {
+                'image': "svg/person.svg",
+                'item': "users on CameraHub",
+                'value': get_user_model().objects.count
             },
         ]
 
