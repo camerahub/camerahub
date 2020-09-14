@@ -1,10 +1,22 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
+{% load formatting %}
 
 {% block content %}
+{% if object.image %}
+<div class="text-center">
+  <figure class="figure img-thumbnail">
+    <img src="{{ object.image.url }}" class="figure-img img-fluid rounded" alt="{{ object }}">
+    <figcaption class="figure-caption text-center">{{ object }}</figcaption>
+  </figure>
+</div>
+{% endif %}
+
 <table class="table table-hover">
   <tr>
-    <th colspan="2">Physical</th>
+    <th colspan="2" id="physical"><img src="{% static "svg/weight.svg" %}" width="30" height="30" alt="Physical"> <a
+        href="#physical">Physical</a></th>
   </tr>
   {% if object.manufacturer is not None %}
   <tr>
@@ -14,7 +26,7 @@
   {% endif %}
   <tr>
     <td>Model</td>
-    <td>{{ object.model }}</td>
+    <td>{{ object.model|aperture }}</td>
   </tr>
   {% if object.disambiguation is not None %}
   <tr>
@@ -55,7 +67,8 @@
 
 
   <tr>
-    <th colspan="2">Optics</th>
+    <th colspan="2" id="optics"><img src="{% static "svg/optics.svg" %}" width="30" height="30" alt="Optics"> <a
+        href="#optics">Optics</a></th>
   </tr>
   {% if object.zoom is not None %}
   <tr>
@@ -118,10 +131,10 @@
     </td>
   </tr>
   {% endif %}
-  {% if object.rectilinear is not None %}
+  {% if object.lens_type %}
   <tr>
-    <td>Rectilinear</td>
-    <td>{{ object.rectilinear|boolicontag }}</td>
+    <td>Lens type</td>
+    <td>{{ object.lens_type }}</td>
   </tr>
   {% endif %}
   {% if object.magnification is not None %}
@@ -148,10 +161,41 @@
     <td>{{ object.image_circle }}mm</td>
   </tr>
   {% endif %}
+  {% if object.diagram %}
+  <tr>
+    <td>Optical diagram</td>
+    <td>
+      <a href="#diagram" data-toggle="modal">
+        <img src="{{ object.diagram.url }}" style="width: 200px;" class="img-fluid img-thumbnail" />
+      </a>
 
+      <!-- Modal -->
+      <div class="modal fade" id="diagram" tabindex="-1" role="dialog" aria-labelledby="diagramLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="diagramLabel">{{ object }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <img src="{{ object.diagram.url }}" class="img-thumbnail" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  {% endif %}
 
   <tr>
-    <th colspan="2">Features</th>
+    <th colspan="2" id="features"><img src="{% static "svg/features.svg" %}" width="30" height="30" alt="Features"> <a
+        href="#features">Features</a></th>
   </tr>
   {% if object.autofocus is not None %}
   <tr>
@@ -186,7 +230,8 @@
 
 
   <tr>
-    <th colspan="2">Misc</th>
+    <th colspan="2" id="misc"><img src="{% static "svg/misc.svg" %}" width="30" height="30" alt="Misc"> <a
+        href="#misc">Misc</a></th>
   </tr>
   {% if object.notes is not None %}
   <tr>
@@ -194,12 +239,24 @@
     <td>{{ object.notes }}</td>
   </tr>
   {% endif %}
-  {% if object.tags is not None %}
+  {% if object.tags.all %}
   <tr>
     <td>Tags</td>
     <td>{% for tag in object.tags.all %}
       <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag|lower %}" role="button">{{ tag }}</a>
       {% endfor %}</td>
+  </tr>
+  {% endif %}
+  {% if related %}
+  <tr>
+    <td>Similar lens models</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'lensmodel-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        {% endfor %}
+      </ul>
+    </td>
   </tr>
   {% endif %}
   {% if object.url is not None %}
@@ -208,42 +265,17 @@
     <td><a href="{{ object.url }}">{{ object.url }}</a></td>
   </tr>
   {% endif %}
-  {% if object.created_at is not None %}
+  {% if history %}
   <tr>
-    <td>Created</td>
-    <td>{{ object.created_at }}{% if object.created_by is not None %} by {{ object.created_by }}{% endif %}</td>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
   </tr>
   {% endif %}
-  {% if object.updated_at is not None %}
   <tr>
-    <td>Last updated</td>
-    <td>{{ object.updated_at }}{% if object.updated_by is not None %} by {{ object.updated_by }}{% endif %}</td>
+    <td>Sharing</td>
+    <td>{% include "sharing.html" %}</td>
   </tr>
-  {% endif %}
 </table>
-{% if object.image %}
-<h4>Image</h4>
-<div class="text-center">
-  <img src="{{ object.image.url }}" class="img-fluid img-thumbnail" />
-</div>
-{% endif %}
-
-{% if object.diagram %}
-<h4>Optical diagram</h4>
-<div class="text-center">
-  <img src="{{ object.diagram.url }}" class="img-fluid img-thumbnail" />
-</div>
-{% endif %}
-{% if related %}
-<h4>Similar lens models</h4>
-<ul>
-  {% for relateditem in related %}
-  <li><a href="{% url 'lensmodel-detail' relateditem.slug %}">{{ relateditem }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
-
-{% if history %}{% include "history.html" %}{% endif %}
 
 {% if user.is_authenticated %}
 {% if mine %}

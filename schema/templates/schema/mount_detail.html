@@ -38,9 +38,9 @@
   </tr>
   {% endif %}
   <tr>
-    <th colspan="2">Misc</th>
+    <th colspan="2" id="misc"><a href="#misc">Misc</a></th>
   </tr>
-  {% if object.tags is not None %}
+  {% if object.tags.all %}
   <tr>
     <td>Tags</td>
     <td>{% for tag in object.tags.all %}
@@ -48,49 +48,32 @@
       {% endfor %}</td>
   </tr>
   {% endif %}
-  {% if object.created_at is not None %}
+  {% if related %}
   <tr>
-    <td>Created</td>
-    <td>{{ object.created_at }}{% if object.created_by is not None %} by {{ object.created_by }}{% endif %}</td>
+    <td>Similar mounts</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'mount-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        {% endfor %}
+      </ul>
+    </td>
   </tr>
   {% endif %}
-  {% if object.updated_at is not None %}
+  {% if history %}
   <tr>
-    <td>Last updated</td>
-    <td>{{ object.updated_at }}{% if object.updated_by is not None %} by {{ object.updated_by }}{% endif %}</td>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
   </tr>
   {% endif %}
+  <tr>
+    <td>Sharing</td>
+    <td>{% include "sharing.html" %}</td>
+  </tr>
 </table>
+{% endblock %}
 
-{% if related %}
-<h4>Similar mounts</h4>
-<ul>
-  {% for relateditem in related %}
-  <li><a href="{% url 'mount-detail' relateditem.slug %}">{{ relateditem }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
-
-{% if history %}{% include "history.html" %}{% endif %}
-
-<h5><a data-toggle="collapse" href="#collapseCameras" role="button" aria-expanded="false"
-    aria-controls="collapseCameras">
-    Camera models</a></h5>
-<div class="collapse" id="collapseCameras">
-  <ul>
-    {% for cameramodel in mount.cameramodel_set.all %}
-    <li><a href="{% url 'cameramodel-detail' cameramodel.slug %}">{{ cameramodel }}</a></li>
-    {% endfor %}
-  </ul>
-</div>
-
-<h5><a data-toggle="collapse" href="#collapseLenses" role="button" aria-expanded="false" aria-controls="collapseLenses">
-    Lens models</a></h5>
-<div class="collapse" id="collapseLenses">
-  <ul>
-    {% for lensmodel in mount.lensmodel_set.all %}
-    <li><a href="{% url 'lensmodel-detail' lensmodel.slug %}">{{ lensmodel }}</a></li>
-    {% endfor %}
-  </ul>
-</div>
+{% block moreactions %}
+<li><a href="{% url 'cameramodel-list' %}?mount={{ mount.id }}">View camera models with this mount</a></li>
+<li><a href="{% url 'lensmodel-list' %}?mount={{ mount.id }}">View lens models with this mount</a></li>
 {% endblock %}

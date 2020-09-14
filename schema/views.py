@@ -73,6 +73,7 @@ class PagedFilteredTableView(SingleTableMixin, FilterView):
 
 class SingleTableListView(SingleTableView):
     template_name = 'list.html'
+    paginate_by = 25
 
 
 class AccessoryList(LoginRequiredMixin, PagedFilteredTableView):
@@ -700,15 +701,15 @@ class NegativeSizeList(SingleTableListView):
     model = NegativeSize
     table_class = NegativeSizeTable
 
+
+class NegativeSizeDetail(generic.DetailView):
+    model = NegativeSize
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.get_object().history.all():
             context['history'] = self.get_object().history.all()
         return context
-
-
-class NegativeSizeDetail(generic.DetailView):
-    model = NegativeSize
 
 
 class NegativeSizeCreate(LoginRequiredMixin, CreateView):

@@ -21,7 +21,7 @@ spec:
         app: camerahub-container
     spec:
       containers:
-        - image: djjudas21/camerahub:0.10.8
+        - image: djjudas21/camerahub:0.15.3
           imagePullPolicy: Always
           name: camerahub
           resources: {}
@@ -48,6 +48,13 @@ spec:
                 secretKeyRef:
                   name: camerahub-secret
                   key: CAMERAHUB_SENDGRID_KEY
+                  optional: true
+            - name: CAMERAHUB_EMAIL_BACKEND
+              valueFrom:
+                secretKeyRef:
+                  name: camerahub-secret
+                  key: CAMERAHUB_EMAIL_BACKEND
+                  optional: true
             - name: CAMERAHUB_DOMAIN
               valueFrom:
                 configMapKeyRef:

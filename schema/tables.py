@@ -3,7 +3,7 @@
 import django_tables2 as tables
 from django.utils.html import format_html
 from django.urls import reverse
-from schema.funcs import boolicon
+from schema.funcs import boolicon, colouricon
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -197,7 +197,7 @@ class FilmStockTable(tables.Table):
 
     @classmethod
     def render_colour(cls, value):
-        return format_html(boolicon(value))
+        return format_html(colouricon(value))
 
     @classmethod
     def render_panchromatic(cls, value):
