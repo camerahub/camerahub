@@ -28,11 +28,7 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           env:
-            - name: CAMERAHUB_DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: camerahub-config
-                  key: CAMERAHUB_DB_USER
+            # Secrets first
             - name: CAMERAHUB_DB_PASS
               valueFrom:
                 secretKeyRef:
@@ -55,6 +51,18 @@ spec:
                   name: camerahub-secret
                   key: CAMERAHUB_EMAIL_BACKEND
                   optional: true
+            - name: CAMERAHUB_EMAIL_HOST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: camerahub-secret
+                  key: CAMERAHUB_EMAIL_HOST_PASSWORD
+                  optional: true
+            # then config
+            - name: CAMERAHUB_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: camerahub-config
+                  key: CAMERAHUB_DB_USER            
             - name: CAMERAHUB_DOMAIN
               valueFrom:
                 configMapKeyRef:
@@ -84,12 +92,6 @@ spec:
                 configMapKeyRef:
                   name: camerahub-config
                   key: CAMERAHUB_EMAIL_HOST_USER
-                  optional: true
-            - name: CAMERAHUB_EMAIL_HOST_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: camerahub-secret
-                  key: CAMERAHUB_EMAIL_HOST_PASSWORD
                   optional: true
             - name: CAMERAHUB_EMAIL_PORT
               valueFrom:
