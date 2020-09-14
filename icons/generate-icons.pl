@@ -71,6 +71,8 @@ my %newnames = (
 	'icons8-google-plus'			=> ['googleplus'],
 	'icons8-reddit'					=> ['reddit'],
 	'icons8-twitter'				=> ['twitter'],
+	'icons8-vintage-camera'			=> ['vintagecamera'],
+	'icons8-slr-camera'				=> ['bigcamera'],
 #unknown
 #logout
 );

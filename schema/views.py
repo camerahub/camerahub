@@ -1121,6 +1121,32 @@ class StatsView(TemplateView):
             },
         ]
 
+        oldestcamera = CameraModel.objects.filter(
+            introduced__isnull=False).order_by('introduced').first()
+        if oldestcamera:
+            stats.append(
+                {
+                    'image': "svg/vintagecamera.svg",
+                    'url': oldestcamera.get_absolute_url,
+                    'item': "oldest camera on CameraHub",
+                    'subheading': oldestcamera.introduced,
+                    'value': oldestcamera,
+                }
+            )
+
+        heaviestcamera = CameraModel.objects.filter(
+            weight__isnull=False).order_by('weight').last()
+        if heaviestcamera:
+            stats.append(
+                {
+                    'image': "svg/bigcamera.svg",
+                    'url': heaviestcamera.get_absolute_url,
+                    'item': "heaviest camera on CameraHub",
+                    'subheading': str(heaviestcamera.weight) + 'g',
+                    'value': heaviestcamera
+                }
+            )
+
         context['stats'] = stats
         context['title'] = "Public stats"
         return context
