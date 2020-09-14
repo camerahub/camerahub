@@ -15,5 +15,7 @@ secretGenerator:
 
 configMapGenerator:
   - name: camerahub-config
-    env: preprod-config.env
     behavior: merge
+    literals:
+      - CAMERAHUB_PROD=true
+      - CAMERAHUB_DOMAIN=testing.camerahub.info
