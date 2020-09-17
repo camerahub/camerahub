@@ -4,6 +4,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
 from django.apps import apps
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -1113,7 +1114,64 @@ class StatsView(TemplateView):
                 'item': "manufacturers in CameraHub",
                 'value': Manufacturer.objects.count
             },
+            {
+                'image': "svg/person.svg",
+                'item': "users on CameraHub",
+                'value': get_user_model().objects.count
+            },
         ]
+
+        oldestcamera = CameraModel.objects.filter(
+            introduced__isnull=False).order_by('introduced').first()
+        if oldestcamera:
+            stats.append(
+                {
+                    'image': "svg/vintagecamera.svg",
+                    'url': oldestcamera.get_absolute_url,
+                    'item': "oldest camera on CameraHub",
+                    'subheading': oldestcamera.introduced,
+                    'value': oldestcamera,
+                }
+            )
+
+        heaviestcamera = CameraModel.objects.filter(
+            weight__isnull=False).order_by('weight').last()
+        if heaviestcamera:
+            stats.append(
+                {
+                    'image': "svg/bigcamera.svg",
+                    'url': heaviestcamera.get_absolute_url,
+                    'item': "heaviest camera on CameraHub",
+                    'subheading': str(heaviestcamera.weight) + 'g',
+                    'value': heaviestcamera
+                }
+            )
+
+        longestlens = LensModel.objects.filter(
+            max_focal_length__isnull=False).order_by('max_focal_length').last()
+        if longestlens:
+            stats.append(
+                {
+                    'image': "svg/lens.svg",
+                    'url': longestlens.get_absolute_url,
+                    'item': "longest lens on CameraHub",
+                    'subheading': str(longestlens.max_focal_length) + 'mm',
+                    'value': longestlens
+                }
+            )
+
+        fastestlens = LensModel.objects.filter(
+            max_aperture__isnull=False).order_by('max_aperture').first()
+        if fastestlens:
+            stats.append(
+                {
+                    'image': "svg/teleconverter.svg",
+                    'url': fastestlens.get_absolute_url,
+                    'item': "fastest lens on CameraHub",
+                    'subheading': 'f/' + str(fastestlens.max_aperture),
+                    'value': fastestlens
+                }
+            )
 
         context['stats'] = stats
         context['title'] = "Public stats"
@@ -1129,13 +1187,25 @@ class MyStatsView(LoginRequiredMixin, TemplateView):
             {
                 'image': "svg/camera.svg",
                 'url': reverse('camera-list'),
-                'item': "cameras in your collection",
+                'item': "cameras in your collection right now",
+                'value': Camera.objects.filter(owner=self.request.user, own=True).count,
+            },
+            {
+                'image': "svg/camera.svg",
+                'url': reverse('camera-list'),
+                'item': "cameras ever in your collection",
                 'value': Camera.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/lens.svg",
                 'url': reverse('lens-list'),
-                'item': "lenses in your collection",
+                'item': "lenses in your collection right now",
+                'value': Lens.objects.filter(owner=self.request.user, own=True).count,
+            },
+            {
+                'image': "svg/lens.svg",
+                'url': reverse('lens-list'),
+                'item': "lenses ever in your collection",
                 'value': Lens.objects.filter(owner=self.request.user).count,
             },
             {
