@@ -1147,6 +1147,32 @@ class StatsView(TemplateView):
                 }
             )
 
+        longestlens = LensModel.objects.filter(
+            max_focal_length__isnull=False).order_by('max_focal_length').last()
+        if longestlens:
+            stats.append(
+                {
+                    'image': "svg/lens.svg",
+                    'url': longestlens.get_absolute_url,
+                    'item': "longest lens on CameraHub",
+                    'subheading': str(longestlens.max_focal_length) + 'mm',
+                    'value': longestlens
+                }
+            )
+
+        fastestlens = LensModel.objects.filter(
+            max_aperture__isnull=False).order_by('max_aperture').first()
+        if fastestlens:
+            stats.append(
+                {
+                    'image': "svg/teleconverter.svg",
+                    'url': fastestlens.get_absolute_url,
+                    'item': "fastest lens on CameraHub",
+                    'subheading': 'f/' + str(fastestlens.max_aperture),
+                    'value': fastestlens
+                }
+            )
+
         context['stats'] = stats
         context['title'] = "Public stats"
         return context
