@@ -13,4 +13,9 @@ secretGenerator:
       - CAMERAHUB_DB_PASS=postgres
       - CAMERAHUB_ADMIN_EMAIL=admin@example.com
       - CAMERAHUB_ADMIN_PASSWORD=admin
+
+configMapGenerator:
+  - name: camerahub-config
+    literals:
+      - CAMERAHUB_DB_USER=postgres
       - CAMERAHUB_PROD=true
