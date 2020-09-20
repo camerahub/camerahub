@@ -11,6 +11,10 @@
         href="https://github.com/djjudas21/camerahub/issues">report bugs</a> if you find them!
 </div>
 
+{% if "test" in request.get_host or "localhost" in request.get_host %}
+<div class="alert alert-warning" role="alert">CameraHub is running in development or testing mode</div>
+{% endif %}
+
 <div class="jumbotron">
     <div class="row">
         <div class="col-sm-9">
