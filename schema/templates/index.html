@@ -25,13 +25,42 @@
     <hr class="my-4">
     {% if user.is_authenticated %}
     <p>Welcome back, {{ user.username }}.
-    {% else %}
+        {% else %}
     <p>CameraHub is a public database of cameras, lenses and accessories, available to everyone. Registered users can
         add or edit data. They can also keep a private collection of their cameras and lenses.</p>
     <p><a class="btn btn-primary btn-sm" href="{% url 'login' %}" role="button">Login</a> or <a
             class="btn btn-primary btn-sm" href="{% url 'django_registration_register' %}" role="button">Register</a> to
         start tracking private data about your own collection.
-    {% endif %}
+        {% endif %}
         Get started using the icons below, or use the menus above.</p>
+    <div class="card-deck">
+        <div class="card">
+            <a href="{% url 'cameramodel-list' %}"><img class="card-img-top p-5" src="{% static "svg/camera.svg" %}"
+                    alt="Camera models"></a>
+            <div class="card-body">
+                <a href="{% url 'cameramodel-list' %}">
+                    <h5 class="card-title">Camera models</h5>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <a href="{% url 'lensmodel-list' %}"><img class="card-img-top p-5"
+                    src="{% static "svg/teleconverter.svg" %}" alt="Lens models"></a>
+            <div class="card-body">
+                <a href="{% url 'lensmodel-list' %}">
+                    <h5 class="card-title">Lens models</h5>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <a href="{% url 'filmstock-list' %}"><img class="card-img-top p-5" src="{% static "svg/film.svg" %}"
+                    alt="Film stocks"></a>
+            <div class="card-body">
+                <a href="{% url 'filmstock-list' %}">
+                    <h5 class="card-title">Film stocks</h5>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
