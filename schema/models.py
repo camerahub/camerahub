@@ -1027,6 +1027,8 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         help_text='Number of aperture blades', blank=True, null=True)
     autofocus = models.BooleanField(
         help_text='Whether this lens has autofocus capability', blank=True, null=True)
+    perspective_control = models.BooleanField(
+        help_text='Whether this lens has perspective control / tilt-shift', blank=True, null=True)
     filter_thread = models.DecimalField(
         help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
     magnification = models.DecimalField(

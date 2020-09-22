@@ -203,6 +203,12 @@
     <td>{{ object.autofocus|boolicontag }}</td>
   </tr>
   {% endif %}
+  {% if object.perspective_control is not None %}
+  <tr>
+    <td>Perspective control</td>
+    <td>{{ object.perspective_control|boolicontag }}</td>
+  </tr>
+  {% endif %}
   {% if object.filter_thread is not None %}
   <tr>
     <td>Filter thread</td>
