@@ -474,6 +474,7 @@ class LensModelForm(ModelForm):
                 'aperture_blades',
                 'coating',
                 'autofocus',
+                'perspective_control',
                 AppendedText('magnification', '&times;'),
                 'negative_size',
             ),
