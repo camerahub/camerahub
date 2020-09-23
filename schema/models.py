@@ -2,7 +2,7 @@ from datetime import datetime
 from math import sqrt
 import re
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -16,6 +16,7 @@ from django_prometheus.models import ExportModelOperationsMixin
 from simple_history.models import HistoricalRecords
 from versatileimagefield.fields import VersatileImageField
 from .funcs import angle_of_view
+
 
 def cameramodel_check(text, uids):
     if text in uids:
@@ -64,13 +65,6 @@ class Manufacturer(models.Model):
         help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='manufacturer_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='manufacturer_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -146,7 +140,8 @@ class Archive(models.Model):
     sealed = models.BooleanField(
         help_text='Whether or not this archive is sealed (closed to new additions)', default=0)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return self.name
@@ -187,13 +182,6 @@ class Battery(models.Model):
     compatible_with = models.ManyToManyField(
         'Battery', blank=True, help_text='Batteries that are compatible with this one')
     slug = models.SlugField(editable=False, null=True, unique=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='battery_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='battery_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -257,13 +245,6 @@ class FlashProtocol(models.Model):
         help_text='Name of the flash protocol', max_length=45)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                      blank=True, null=True, help_text='Manufacturer who owns this flash protocol')
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='flashprotocol_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='flashprotocol_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -327,13 +308,6 @@ class NegativeSize(models.Model):
         help_text='Area of this negative size in sq. mm', blank=True, null=True, editable=False)
     aspect_ratio = models.DecimalField(help_text='Aspect ratio of this negative size, expressed as a single decimal (e.g. 3:2 is expressed as 1.5)',
                                        max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='negativesize_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='negativesize_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -367,13 +341,6 @@ class Format(models.Model):
     format = models.CharField(
         help_text='The name of this film/sensor format', max_length=45, unique=True)
     negative_size = models.ManyToManyField(NegativeSize, blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='format_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='format_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -435,7 +402,8 @@ class Flash(models.Model):
     cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
                       decimal_places=2, blank=True, null=True, default_currency='GBP')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -499,7 +467,8 @@ class Enlarger(models.Model):
     lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12,
                             decimal_places=2, blank=True, null=True, default_currency='GBP')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -597,13 +566,6 @@ class Mount(models.Model):
                                      blank=True, null=True, help_text='Manufacturer who owns this lens mount')
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='mount_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='mount_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -649,13 +611,6 @@ class PaperStock(models.Model):
     finish = models.CharField(help_text='The finish of the paper surface',
                               choices=Finish.choices, max_length=25, blank=True, null=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='paperstock_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='paperstock_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -684,7 +639,8 @@ class Person(models.Model):
     name = models.CharField(
         help_text='Name of the photographer', max_length=45, unique=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return self.name
@@ -710,6 +666,7 @@ class Process(models.Model):
         help_text='Whether this is a colour process', blank=True, null=True)
     positive = models.BooleanField(
         help_text='Whether this is a positive/reversal process', blank=True, null=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -744,7 +701,8 @@ class Teleconverter(models.Model):
     multicoated = models.BooleanField(
         help_text='Whether this teleconverter is multi-coated', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -785,13 +743,6 @@ class Toner(models.Model):
         help_text='Stock dilution of the toner', max_length=10, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='toner_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='toner_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -841,13 +792,6 @@ class FilmStock(models.Model):
                                 null=True, help_text='Development process required by this film')
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='filmstock_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='filmstock_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -899,7 +843,8 @@ class BulkFilm(models.Model):
     expiry = models.DateField(
         help_text='Expiry date of this bulk roll', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%s %s %s" % (self.id_owner, self.filmstock.manufacturer.name, self.filmstock.name)
@@ -929,7 +874,8 @@ class MountAdapter(models.Model):
     notes = models.CharField(help_text='Freeform notes',
                              max_length=100, blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "%s - %s" % (self.camera_mount, self.lens_mount)
@@ -950,23 +896,26 @@ class MountAdapter(models.Model):
 
 class ShutterSpeed(models.Model):
     shutter_speed = models.CharField(
-        help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True)
-    # field validation: like 1/500 or 2
+        help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True, validators=[RegexValidator(regex=r'^\d+(/\d+(\.\d+)?)?$', message="Shutter speed must be expressed like 1/125, 2, or 2.5")])
     duration = models.DecimalField(
         help_text='Shutter speed in decimal notation, e.g. 0.04', max_digits=9, decimal_places=5, editable=False)
 
     def __str__(self):
-        return self.shutter_speed
+        # Test if format is 1/125
+        fractional = re.match(r'^(\d)/(\d+(\.\d+)?)$', self.shutter_speed)
+        if fractional:
+            mystring = mark_safe(self.shutter_speed.replace('1/', '&sup1;/'))
+        else:
+            mystring = self.shutter_speed + '"'
+        return mystring
 
     def save(self, *args, **kwargs):
         # Test if format is 1/125
         fractional = re.match(r'^(\d{1})/(\d+)$', self.shutter_speed)
-        # Test if format is 1 or 1"
-        integer = re.match(r'^(\d+)"?$', self.shutter_speed)
         if fractional:
             self.duration = int(fractional.group(1)) / int(fractional.group(2))
-        elif integer:
-            self.duration = integer.group(1)
+        else:
+            self.duration = self.shutter_speed
         super().save(*args, **kwargs)
 
     class Meta:
@@ -988,13 +937,6 @@ class Developer(models.Model):
         help_text='The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='developer_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='developer_updated_by')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -1085,6 +1027,8 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         help_text='Number of aperture blades', blank=True, null=True)
     autofocus = models.BooleanField(
         help_text='Whether this lens has autofocus capability', blank=True, null=True)
+    perspective_control = models.BooleanField(
+        help_text='Whether this lens has perspective control / tilt-shift', blank=True, null=True)
     filter_thread = models.DecimalField(
         help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
     magnification = models.DecimalField(
@@ -1113,13 +1057,6 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='lensmodel_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='lensmodel_updated_by')
     history = HistoricalRecords()
     image = VersatileImageField(
         help_text='Image of the lens model', blank=True, null=True)
@@ -1214,11 +1151,11 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
                 self.manufacturer.name, self.model, str(self.disambiguation or '')))
         # Auto-populate angle of view
         if not self.nominal_max_angle_diag:
-            if self.negative_size and self.min_focal_length:
+            if self.negative_size and self.negative_size.diagonal and self.min_focal_length:
                 self.nominal_max_angle_diag = angle_of_view(
                     self.negative_size.diagonal, self.min_focal_length)
         if not self.nominal_min_angle_diag:
-            if self.negative_size and self.max_focal_length:
+            if self.negative_size and self.negative_size.diagonal and self.max_focal_length:
                 self.nominal_min_angle_diag = angle_of_view(
                     self.negative_size.diagonal, self.max_focal_length)
         # Auto-populate lens type
@@ -1326,7 +1263,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         help_text='Whether the camera has the facility for a remote cable release', blank=True, null=True)
     viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True,
                                                       validators=[MinValueValidator(0), MaxValueValidator(100)])
-    power_drive = models.BooleanField(
+    internal_power_drive = models.BooleanField(
         help_text='Whether the camera has integrated motor drive', blank=True, null=True)
     continuous_fps = models.DecimalField(
         help_text='The maximum rate at which the camera can shoot, in frames per second', max_digits=4, decimal_places=1, blank=True, null=True)
@@ -1355,7 +1292,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     flash_metering = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True,
                                        null=True, help_text='Whether this camera model supports flash metering')
     pc_sync = models.BooleanField(
-        verbose_name='PC sync', help_text='Whether the camera has a PC sync socket for flash', blank=True, null=True)
+        verbose_name='PC sync', help_text='Whether the camera has a PC sync socket for flash (sometimes known as a German socket)', blank=True, null=True)
     shoe = models.CharField(choices=ShoeType.choices, max_length=9, blank=True,
                             null=True, help_text='Type of flash/accessory shoe used on this camera model')
     x_sync = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True,
@@ -1372,17 +1309,25 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         help_text='Whether the camera has a tripod bush', blank=True, null=True)
     self_timer = models.BooleanField(
         help_text='Whether the camera has a self-timer', blank=True, null=True)
-    shutter_speeds = models.ManyToManyField(ShutterSpeed, blank=True)
+    date_imprint = models.BooleanField(
+        help_text='Whether the camera has a date imprint feature', blank=True, null=True)
+    interchangeable_backs = models.BooleanField(
+        help_text='Whether the camera has interchangeable backs', blank=True, null=True)
+    interchangeable_finders = models.BooleanField(
+        help_text='Whether the camera has interchangeable finders', blank=True, null=True)
+    strap_lugs = models.BooleanField(
+        help_text='Whether the camera has strap lugs', blank=True, null=True)
+    multiple_exposures = models.BooleanField(
+        help_text='Whether the camera can do multiple exposures', blank=True, null=True)
+    external_power_drive = models.BooleanField(
+        help_text='Whether the camera supports an external power drive', blank=True, null=True)
+    fastest_shutter_speed = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True,
+                                              help_text='Fastest shutter speed available on this camera', related_name='fastest_shutter_speed')
+    slowest_shutter_speed = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True,
+                                              help_text='Slowest shutter speed available on this camera', related_name='slowest_shutter_speed')
     metering_modes = models.ManyToManyField(MeteringMode, blank=True)
     exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='cameramodel_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='cameramodel_updated_by')
     history = HistoricalRecords()
     tags = TaggableManager(blank=True)
     url = models.URLField(
@@ -1427,8 +1372,6 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
-    image_circle = models.PositiveIntegerField(
-        help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
 
     def __str__(self):
         mystr = self.model
@@ -1577,7 +1520,8 @@ class Accessory(models.Model):
         CameraModel, blank=True)
     lens_model_compatibility = models.ManyToManyField(LensModel, blank=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1644,13 +1588,16 @@ class Lens(models.Model):
     condition_notes = models.CharField(
         help_text='Description of condition', max_length=150, blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.serial is not None:
-            mystr = "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
+            mystr = "%s %s (#%s)" % (
+                self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
         else:
-            mystr = "%s %s" % (self.lensmodel.manufacturer.name, self.lensmodel.model)
+            mystr = "%s %s" % (
+                self.lensmodel.manufacturer.name, self.lensmodel.model)
         return mystr
 
     class Meta:
@@ -1721,13 +1668,16 @@ class Camera(models.Model):
     condition_notes = models.CharField(
         help_text='Description of condition', max_length=150, blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.serial is not None:
-            mystr = "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
+            mystr = "%s %s (#%s)" % (
+                self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
         else:
-            mystr = "%s %s" % (self.cameramodel.manufacturer.name, self.cameramodel.model)
+            mystr = "%s %s" % (
+                self.cameramodel.manufacturer.name, self.cameramodel.model)
         return mystr
 
     class Meta:
@@ -1819,7 +1769,8 @@ class Film(models.Model):
     archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True,
                                 null=True, help_text='Archive that this film is stored in')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%s %s" % (self.id_owner, self.title)
@@ -1896,7 +1847,8 @@ class Negative(models.Model):
     copy_of = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True,
                                 related_name='copy', help_text='Negative that this was duplicated from')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "%s/%s %s" % (self.film.id_owner, self.frame, self.caption)
@@ -1988,7 +1940,8 @@ class Print(models.Model):
     printer = models.ForeignKey(Person, on_delete=models.CASCADE,
                                 blank=True, null=True, help_text='Person who made this print')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%i" % (self.id_owner)
@@ -2049,7 +2002,8 @@ class Repair(models.Model):
     detail = models.CharField(
         help_text='Longer description of the repair', max_length=500, blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%i" % (self.id_owner)
@@ -2084,7 +2038,8 @@ class Scan(models.Model):
     height = models.PositiveIntegerField(
         help_text='Height of the scanned image in pixels', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return self.filename
@@ -2126,7 +2081,8 @@ class Order(models.Model):
     recipient = models.ForeignKey(Person, on_delete=models.CASCADE,
                                   help_text='Person who placed this order', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%i" % (self.id_owner)

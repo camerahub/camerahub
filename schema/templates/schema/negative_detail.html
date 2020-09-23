@@ -1,5 +1,4 @@
 {% extends "detail.html" %}
-{% load formatting %}
 
 {% block content %}
 <table class="table table-hover">
@@ -34,13 +33,13 @@
   {% if object.shutter_speed is not None %}
   <tr>
     <td>Shutter speed</td>
-    <td>{{ object.shutter_speed|shutter }}</td>
+    <td>{{ object.shutter_speed }}</td>
   </tr>
   {% endif %}
   {% if object.aperture is not None %}
   <tr>
     <td>Aperture</td>
-    <td>{{ object.aperture }}</td>
+    <td><em>f</em>/{{ object.aperture }}</td>
   </tr>
   {% endif %}
   {% if object.filter is not None %}

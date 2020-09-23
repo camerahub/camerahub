@@ -10,5 +10,12 @@ patchesStrategicMerge:
 
 secretGenerator:
   - name: camerahub-secret
-    env: preprod.env
+    env: preprod-secret.env
     behavior: merge
+
+configMapGenerator:
+  - name: camerahub-config
+    behavior: merge
+    literals:
+      - CAMERAHUB_PROD=true
+      - CAMERAHUB_DOMAIN=testing.camerahub.info

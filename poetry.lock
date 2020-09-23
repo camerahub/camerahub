@@ -238,6 +238,14 @@ six = "*"
 
 [[package]]
 category = "main"
+description = "Templatetags for 'tweet this' and 'share on facebook'"
+name = "django-social-share"
+optional = false
+python-versions = "*"
+version = "2.0.0"
+
+[[package]]
+category = "main"
 description = "Table/data-grid framework for Django"
 name = "django-tables2"
 optional = false
@@ -745,6 +753,10 @@ django-sendgrid-v5 = [
 django-simple-history = [
     {file = "django-simple-history-2.11.0.tar.gz", hash = "sha256:d147d441165b802082647c86ca14776fe3574986053bbba90a9eaee1b315b826"},
     {file = "django_simple_history-2.11.0-py2.py3-none-any.whl", hash = "sha256:b46191e97bb59b82e0ef20ae316021f7337fec50e5acbbd5a757b37910759af0"},
+]
+django-social-share = [
+    {file = "django-social-share-2.0.0.tar.gz", hash = "sha256:52331fd59e30a185448d02ee97afcde8b986120d4eb62512a76f5dbcac218907"},
+    {file = "django_social_share-2.0.0-py2.py3-none-any.whl", hash = "sha256:b5f2402338098bffeda31ac1afa20b80ef3609ce438b2b07c54fd1553dddd52b"},
 ]
 django-tables2 = [
     {file = "django-tables2-2.3.1.tar.gz", hash = "sha256:28da782f81f046c7d921246f43e7ba2df430cafe5a0e00a0f9dadef25a0e487d"},

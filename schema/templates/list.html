@@ -8,12 +8,7 @@
 {% block content %}
 {% if object_list %}
 {% if filter %}
-<p>
-  <a data-toggle="collapse" href="#filter" role="button" aria-expanded="false" aria-controls="filter">
-    Filter
-  </a>
-</p>
-<div class="collapse" id="filter">
+<div class="d-flex p-2 align-items-end">  
   <form action="" method="get" class="form">
     {% crispy filter.form 'bootstrap4' %}
   </form>

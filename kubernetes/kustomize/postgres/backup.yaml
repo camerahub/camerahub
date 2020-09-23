@@ -20,9 +20,9 @@ spec:
                   value: camerahub
                 - name: PGUSER
                   valueFrom:
-                    secretKeyRef:
+                    configMapKeyRef:
                       key: CAMERAHUB_DB_USER
-                      name: camerahub-secret
+                      name: camerahub-config
                 - name: PGPASSWORD
                   valueFrom:
                     secretKeyRef:

@@ -28,7 +28,7 @@ my %newnames = (
 	'icons8-lens'					=> ['lens', 'lensmodel'],
 	'icons8-factory'				=> ['manufacturer'],
 	'icons8-slr-small-lens'			=> ['mount'],
-	'icons8-metamorphose'			=> ['mountadapter'],
+	'icons8-metamorphose'			=> ['mountadapter', 'misc'],
 	'icons8-movie'					=> ['negative'],
 	'icons8-surface'				=> ['negativesize'],
 	'icons8-transaction-list'		=> ['order'],
@@ -60,6 +60,19 @@ my %newnames = (
 	'icons8-ios'					=> ['history'],
 	'icons8-color-wheel'			=> ['colour'],
 	'icons8-color-wheel-mono'		=> ['bw'],
+	'icons8-true-false'				=> ['features'],
+	'icons8-weight'					=> ['weight'],
+	'icons8-focal-length'			=> ['optics'],
+	'icons8-width'					=> ['focus'],
+	'icons8-voltmeter'				=> ['meter'],
+	'icons8-aperture'				=> ['shutter'],
+	'icons8-fast-forward'			=> ['next'],
+	'icons8-envelope'				=> ['mail'],
+	'icons8-google-plus'			=> ['googleplus'],
+	'icons8-reddit'					=> ['reddit'],
+	'icons8-twitter'				=> ['twitter'],
+	'icons8-vintage-camera'			=> ['vintagecamera'],
+	'icons8-slr-camera'				=> ['bigcamera'],
 #unknown
 #logout
 );
