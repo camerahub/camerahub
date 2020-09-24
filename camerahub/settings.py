@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'schema',
     'help',
     'djmoney',
-    'favicon',
     'django_tables2',
     'crispy_forms',
     'fullurl',
@@ -163,8 +162,6 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'media/'),
 ]
-
-FAVICON_PATH = STATIC_URL + 'favicon.ico'
 
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 
