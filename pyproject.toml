@@ -57,6 +57,7 @@ django-social-share = "^2.0.0"
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 pylint-django = "^2.0.14"
+autopep8 = "^1.5.4"
 
 [tool.poetry.extras]
 pgsql = ["psycopg2-binary"]
