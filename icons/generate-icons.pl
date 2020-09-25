@@ -73,6 +73,7 @@ my %newnames = (
 	'icons8-twitter'				=> ['twitter'],
 	'icons8-vintage-camera'			=> ['vintagecamera'],
 	'icons8-slr-camera'				=> ['bigcamera'],
+	'icons8-ruler'					=> ['ruler'],
 #unknown
 #logout
 );

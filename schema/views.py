@@ -3,6 +3,7 @@
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView, ListView
+from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.apps import apps
@@ -1172,6 +1173,24 @@ class StatsView(TemplateView):
                     'value': fastestlens
                 }
             )
+
+        stats.append(
+            {
+                'image': "svg/weight.svg",
+                'url': reverse('cameramodel-list'),
+                'item': "total weight of all cameras in CameraHub",
+                'value': str(round((CameraModel.objects.all().aggregate(totalweight=Sum('weight'))['totalweight'] or 0.00)/1000)) + 'kg',
+            }
+        )
+
+        stats.append(
+            {
+                'image': "svg/ruler.svg",
+                'url': reverse('lensmodel-list'),
+                'item': "total length of all lenses in CameraHub, laid end to end",
+                'value': str(round((LensModel.objects.all().aggregate(totallength=Sum('length'))['totallength'] or 0.00)/1000)) + 'm',
+            }
+        )
 
         context['stats'] = stats
         context['title'] = "Public stats"
