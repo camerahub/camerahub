@@ -144,6 +144,14 @@ version = ">=1.11.17,<3.1"
 
 [[package]]
 category = "main"
+description = "Tiny stuff for Django that won't fit into separate apps."
+name = "django-etc"
+optional = false
+python-versions = "*"
+version = "1.2.0"
+
+[[package]]
+category = "main"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
 name = "django-filter"
 optional = false
@@ -686,8 +694,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "255d65e22b61781a140e78787968686893f6701bc3e40eb035fd06bb614dc492"
-lock-version = "1.0"
+content-hash = "b103c0e2024b99501dcd16394de24307e485c84e89c12008b68e1b3a599c442d"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -736,6 +743,10 @@ django-crispy-forms = [
 django-currentuser = [
     {file = "django-currentuser-0.5.0.tar.gz", hash = "sha256:c66ce0979af76a769726d85a61905759f7fb885c22ef5bd0125216de76d5a343"},
     {file = "django_currentuser-0.5.0-py2.py3-none-any.whl", hash = "sha256:3da5ab0716c565bbef9e0973e8f6ef15e110cadf55aaffd7bb84fc26f80c4efb"},
+]
+django-etc = [
+    {file = "django-etc-1.2.0.tar.gz", hash = "sha256:bacb6a7a748106c07dc6c1b40a3efd48b7f4ddd5135d7050400b9477e86a24be"},
+    {file = "django_etc-1.2.0-py2.py3-none-any.whl", hash = "sha256:728a4bd73e56e858110be2b647bef3787e5b60b06666bde93def86dcf72e6fa8"},
 ]
 django-filter = [
     {file = "django-filter-2.3.0.tar.gz", hash = "sha256:11e63dd759835d9ba7a763926ffb2662cf8a6dcb4c7971a95064de34dbc7e5af"},
@@ -886,8 +897,6 @@ pillow = [
     {file = "Pillow-7.2.0-cp38-cp38-manylinux2014_aarch64.whl", hash = "sha256:5e51ee2b8114def244384eda1c82b10e307ad9778dac5c83fb0943775a653cd8"},
     {file = "Pillow-7.2.0-cp38-cp38-win32.whl", hash = "sha256:725aa6cfc66ce2857d585f06e9519a1cc0ef6d13f186ff3447ab6dff0a09bc7f"},
     {file = "Pillow-7.2.0-cp38-cp38-win_amd64.whl", hash = "sha256:a060cf8aa332052df2158e5a119303965be92c3da6f2d93b6878f0ebca80b2f6"},
-    {file = "Pillow-7.2.0-pp36-pypy36_pp73-macosx_10_10_x86_64.whl", hash = "sha256:9c87ef410a58dd54b92424ffd7e28fd2ec65d2f7fc02b76f5e9b2067e355ebf6"},
-    {file = "Pillow-7.2.0-pp36-pypy36_pp73-manylinux2010_x86_64.whl", hash = "sha256:e901964262a56d9ea3c2693df68bc9860b8bdda2b04768821e4c44ae797de117"},
     {file = "Pillow-7.2.0-pp36-pypy36_pp73-win32.whl", hash = "sha256:25930fadde8019f374400f7986e8404c8b781ce519da27792cbe46eabec00c4d"},
     {file = "Pillow-7.2.0.tar.gz", hash = "sha256:97f9e7953a77d5a70f49b9a48da7776dc51e9b738151b22dacf101641594a626"},
 ]
