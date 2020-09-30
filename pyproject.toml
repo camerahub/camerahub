@@ -53,6 +53,7 @@ django-simple-history = "^2.11.0"
 django-versatileimagefield = "^2.0"
 numpy = "^1.19.1"
 django-social-share = "^2.0.0"
+django-collectionfield = "^0.0.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
