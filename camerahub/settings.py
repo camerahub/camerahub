@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django_prometheus',
     'simple_history',
     'django_social_share',
+    'django_countries',
 ]
 
 MIDDLEWARE = [

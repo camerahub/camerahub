@@ -15,6 +15,7 @@ from taggit.managers import TaggableManager
 from django_prometheus.models import ExportModelOperationsMixin
 from simple_history.models import HistoricalRecords
 from versatileimagefield.fields import VersatileImageField
+from django_countries.fields import CountryField
 from .funcs import angle_of_view
 
 
@@ -55,8 +56,8 @@ class Manufacturer(models.Model):
         help_text='Name of the manufacturer', max_length=45, blank=True, unique=True)
     city = models.CharField(
         help_text='City in which the manufacturer is based', max_length=45, blank=True, null=True)
-    country = models.CharField(
-        help_text='Country in which the manufacturer is based', max_length=45, blank=True, null=True)
+    country = CountryField(
+        help_text='Country in which the manufacturer is based', blank=True, null=True)
     url = models.URLField(
         verbose_name='URL', help_text='URL to the manufacturers main website', max_length=45, blank=True, null=True)
     founded = models.PositiveIntegerField(
