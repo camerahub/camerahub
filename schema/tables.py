@@ -361,6 +361,10 @@ class ManufacturerTable(tables.Table):
     def render_name(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('manufacturer-detail', args=[record.slug]), value)
 
+    @classmethod
+    def render_country(cls, record):
+        return format_html("{} <img src=\"{}\">", record.country.name, record.country.flag)
+
 
 class MountTable(tables.Table):
     class Meta:
