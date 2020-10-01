@@ -100,6 +100,14 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 category = "main"
+description = "Custom Django model field to store multiple values. Updated from original library to support Django 2."
+name = "django-2-collectionfield"
+optional = false
+python-versions = "*"
+version = "0.0.4"
+
+[[package]]
+category = "main"
 description = "A Django model field providing a configurable automatic sequence of values."
 name = "django-autosequence"
 optional = false
@@ -120,14 +128,6 @@ version = "1.7.1"
 [package.dependencies]
 Django = ">=1.11"
 six = ">=1.13.0"
-
-[[package]]
-category = "main"
-description = "Custom Django model field to store multiple values."
-name = "django-collectionfield"
-optional = false
-python-versions = "*"
-version = "0.0.4"
 
 [[package]]
 category = "main"
@@ -706,7 +706,7 @@ testing = ["pytest (>=3.5,<3.7.3 || >3.7.3)", "pytest-checkdocs (>=1.2.3)", "pyt
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "2a426f6df2ec272321c0966e9b9498116d109b1b02903ee8fed9cbb94e4ebce0"
+content-hash = "1d37da289be07e91961e7b166c6c1f638fb3ddec4d8cd84c352c7b8d5c3a75ef"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -740,6 +740,10 @@ django = [
     {file = "Django-2.2.16-py3-none-any.whl", hash = "sha256:83ced795a0f239f41d8ecabf51cc5fad4b97462a6008dc12e5af3cb9288724ec"},
     {file = "Django-2.2.16.tar.gz", hash = "sha256:62cf45e5ee425c52e411c0742e641a6588b7e8af0d2c274a27940931b2786594"},
 ]
+django-2-collectionfield = [
+    {file = "django-2-collectionfield-0.0.4.tar.gz", hash = "sha256:9345527a7bf414431d80e06e4781bf879e36481c9ce3a312c43387b919cdd256"},
+    {file = "django_2_collectionfield-0.0.4-py2.py3-none-any.whl", hash = "sha256:1c255ee71dac55658a8cd024dcd552514d513d025782cc895647153cd22a28a6"},
+]
 django-autosequence = [
     {file = "django-autosequence-0.7.0.tar.gz", hash = "sha256:7bbe7c1ea170484139e4ab90bc9e0b2113b8813ad55149715ba1ac32b187d63f"},
     {file = "django_autosequence-0.7.0-py3-none-any.whl", hash = "sha256:6e17b196216f4e85f4eda38d3f91795aab727ce4cc9494cf10d71afa28868025"},
@@ -747,10 +751,6 @@ django-autosequence = [
 django-choices = [
     {file = "django-choices-1.7.1.tar.gz", hash = "sha256:5fa69f54c57ea4b99c55f261e0862a7c59d2950363cf1f80a7b2c7393fd5c6e3"},
     {file = "django_choices-1.7.1-py2.py3-none-any.whl", hash = "sha256:010b773c2ffc58e616701ba417bafdbf5ae23b5bcd18d6101d2c9755e0c2b4de"},
-]
-django-collectionfield = [
-    {file = "django-collectionfield-0.0.4.tar.gz", hash = "sha256:cd52aeee21736d36e52871e2efa4ca327469a6af29131865f2ef9840113646b1"},
-    {file = "django_collectionfield-0.0.4-py2.py3-none-any.whl", hash = "sha256:36de566775cb0b336251bec9d1396cf172916ba5a56e8ee471967201bd8ca56d"},
 ]
 django-countries = [
     {file = "django-countries-6.1.3.tar.gz", hash = "sha256:64015977a5989bcb0e645007299b19fe8ac117466af375161b26bcfa32ae2808"},
