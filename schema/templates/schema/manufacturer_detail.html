@@ -15,7 +15,8 @@
   {% if object.country is not None %}
   <tr>
     <td>Country</td>
-    <td>{{ object.country }}</td>
+    <td>{{ object.country.name }} <img src="{{ object.country.flag }}"
+        alt="{{ object.country.code }}"></td>
   </tr>
   {% endif %}
   {% if object.url is not None %}
