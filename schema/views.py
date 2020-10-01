@@ -54,19 +54,19 @@ class PagedFilteredTableView(SingleTableMixin, FilterView):
 
     # pylint: disable=not-callable,attribute-defined-outside-init
     def get_queryset(self):
-        qs = super(PagedFilteredTableView, self).get_queryset()
+        qs = super().get_queryset()
         self.filter = self.filterset_class(self.request.GET, queryset=qs)
         self.filter.form.helper = self.formhelper_class()
         return self.filter.qs
 
  #   def get_table(self, **kwargs):
- #       table = super(PagedFilteredTableView, self).get_table()
+ #       table = super().get_table()
  #       RequestConfig(self.request, paginate={'page': self.kwargs['page'],
  #                           "per_page": self.paginate_by}).configure(table)
  #       return table
 
     def get_context_data(self, **kwargs):
-        context = super(PagedFilteredTableView, self).get_context_data()
+        context = super().get_context_data()
         context[self.context_filter_name] = self.filter
         return context
 
@@ -220,7 +220,7 @@ class CameraCreate(LoginRequiredMixin, CreateView):
     template_name = 'create.html'
 
     def get_initial(self):
-        initial = super(CameraCreate, self).get_initial()
+        initial = super().get_initial()
         if 'cameramodel' in self.request.GET:
             initial.update({'cameramodel': self.request.GET['cameramodel']})
         return initial
@@ -523,7 +523,7 @@ class LensCreate(LoginRequiredMixin, CreateView):
     template_name = 'create.html'
 
     def get_initial(self):
-        initial = super(LensCreate, self).get_initial()
+        initial = super().get_initial()
         if 'lensmodel' in self.request.GET:
             initial.update({'lensmodel': self.request.GET['lensmodel']})
         return initial
