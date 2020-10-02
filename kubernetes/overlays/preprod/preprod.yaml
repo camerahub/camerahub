@@ -1,6 +1,6 @@
 ---
 # TLS/SSL certs
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: camerahub
@@ -12,9 +12,12 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: camerahub
-              servicePort: 8000
+              service:
+                name: camerahub
+                port:
+                  number: 8000
   tls:
     - hosts:
         - testing.camerahub.info
