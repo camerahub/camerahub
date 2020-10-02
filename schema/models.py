@@ -1235,7 +1235,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model')
     model = models.CharField(
         help_text='The model name of the camera', max_length=45)
-    other_names = CollectionField(help_text='Other model names that this camera may be known by, for example in other parts of the world')
+    other_names = CollectionField(help_text='Other model names that this camera may be known by, e.g. in other parts of the world. Separate with commas.', blank=True, null=True)
     disambiguation = models.CharField(
         help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, null=True)
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True,
