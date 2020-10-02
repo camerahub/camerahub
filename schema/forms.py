@@ -141,6 +141,7 @@ class CameraModelForm(ModelForm):
                 'Basics',
                 'manufacturer',
                 'model',
+                'other_names',
                 'disambiguation',
                 'introduced',
                 'discontinued',
