@@ -22,7 +22,7 @@
   <tr>
     <td>Manufacturer</td>
     <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}
-        {% if object.manufacturer.country %}<img src="{{ object.manufacturer.country.flag }}" 
+        {% if object.manufacturer.country %}<img src="{{ object.manufacturer.country.flag }}"
           alt="{{ object.manufacturer.country.code }}">{% endif %}</a></td>
   </tr>
   {% endif %}
@@ -30,6 +30,17 @@
     <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
+  {% if object.other_names %}
+  <tr>
+    <td>Other names</td>
+    <td>
+      <ul class="list-inline">{% for othername in object.other_names %}
+        <li class="list-inline-item">{{ othername }}</li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
   {% if object.disambiguation is not None %}
   <tr>
     <td>Disambiguation</td>
