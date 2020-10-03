@@ -21,10 +21,9 @@
   </tr>
   {% if object.manufacturer is not None %}
   <tr>
-    <td>Manufacturer <abbr title="{% model_field_help_text from cameramodel.manufacturer %}"><img src="{% static "svg/info.svg" %}" width="16" height="16" alt="Info"></abbr></td>
-    <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}
+    <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a>
         {% if object.manufacturer.country %}<img src="{{ object.manufacturer.country.flag }}"
-          alt="{{ object.manufacturer.country.code }}">{% endif %}</a></td>
+          alt="{{ object.manufacturer.country.code }}">{% endif %}</td>
   </tr>
   {% endif %}
   <tr>
