@@ -100,6 +100,14 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 category = "main"
+description = "Custom Django model field to store multiple values. Updated from original library to support Django 2."
+name = "django-2-collectionfield"
+optional = false
+python-versions = "*"
+version = "0.0.4"
+
+[[package]]
+category = "main"
 description = "A Django model field providing a configurable automatic sequence of values."
 name = "django-autosequence"
 optional = false
@@ -698,7 +706,7 @@ testing = ["pytest (>=3.5,<3.7.3 || >3.7.3)", "pytest-checkdocs (>=1.2.3)", "pyt
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "42ee8fbfd0353bf4340578a9e1734b3ce2898378c754881e15acd034fa22f7e2"
+content-hash = "1d37da289be07e91961e7b166c6c1f638fb3ddec4d8cd84c352c7b8d5c3a75ef"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -731,6 +739,10 @@ confusable-homoglyphs = [
 django = [
     {file = "Django-2.2.16-py3-none-any.whl", hash = "sha256:83ced795a0f239f41d8ecabf51cc5fad4b97462a6008dc12e5af3cb9288724ec"},
     {file = "Django-2.2.16.tar.gz", hash = "sha256:62cf45e5ee425c52e411c0742e641a6588b7e8af0d2c274a27940931b2786594"},
+]
+django-2-collectionfield = [
+    {file = "django-2-collectionfield-0.0.4.tar.gz", hash = "sha256:9345527a7bf414431d80e06e4781bf879e36481c9ce3a312c43387b919cdd256"},
+    {file = "django_2_collectionfield-0.0.4-py2.py3-none-any.whl", hash = "sha256:1c255ee71dac55658a8cd024dcd552514d513d025782cc895647153cd22a28a6"},
 ]
 django-autosequence = [
     {file = "django-autosequence-0.7.0.tar.gz", hash = "sha256:7bbe7c1ea170484139e4ab90bc9e0b2113b8813ad55149715ba1ac32b187d63f"},
