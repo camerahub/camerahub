@@ -31,7 +31,7 @@ class AccessoryForm(ModelForm):
             fields.remove('lens_model_compatibility')
 
     def __init__(self, *args, **kwargs):
-        super(AccessoryForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -42,7 +42,7 @@ class ArchiveForm(ModelForm):
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super(ArchiveForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Div(
@@ -71,7 +71,7 @@ class BatteryForm(ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        super(BatteryForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -93,7 +93,7 @@ class BulkFilmForm(ModelForm):
             fields.remove('format')
 
     def __init__(self, *args, **kwargs):
-        super(BulkFilmForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -104,7 +104,7 @@ class CameraForm(ModelForm):
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super(CameraForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Div(
@@ -133,7 +133,7 @@ class CameraModelForm(ModelForm):
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super(CameraModelForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
 
         self.helper.layout = Layout(
@@ -141,6 +141,7 @@ class CameraModelForm(ModelForm):
                 'Basics',
                 'manufacturer',
                 'model',
+                'other_names',
                 'disambiguation',
                 'introduced',
                 'discontinued',
@@ -276,7 +277,7 @@ class DeveloperForm(ModelForm):
             fields.remove('manufacturer')
 
     def __init__(self, *args, **kwargs):
-        super(DeveloperForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -302,7 +303,7 @@ class EnlargerForm(ModelForm):
             fields.remove('negative_size')
 
     def __init__(self, *args, **kwargs):
-        super(EnlargerForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -324,7 +325,7 @@ class FilmStockForm(ModelForm):
             fields.remove('process')
 
     def __init__(self, *args, **kwargs):
-        super(FilmStockForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -339,7 +340,7 @@ class FilterForm(ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        super(FilterForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -375,7 +376,7 @@ class FlashForm(ModelForm):
             fields.remove('battery_type')
 
     def __init__(self, *args, **kwargs):
-        super(FlashForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -391,7 +392,7 @@ class FlashProtocolForm(ModelForm):
             fields.remove('manufacturer')
 
     def __init__(self, *args, **kwargs):
-        super(FlashProtocolForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -407,7 +408,7 @@ class FormatForm(ModelForm):
             fields.remove('negative_size')
 
     def __init__(self, *args, **kwargs):
-        super(FormatForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -434,7 +435,7 @@ class LensForm(ModelForm):
             fields.remove('lensmodel')
 
     def __init__(self, *args, **kwargs):
-        super(LensForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -445,7 +446,7 @@ class LensModelForm(ModelForm):
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super(LensModelForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
@@ -515,7 +516,7 @@ class ManufacturerForm(ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        super(ManufacturerForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -536,7 +537,7 @@ class MountForm(ModelForm):
             fields.remove('manufacturer')
 
     def __init__(self, *args, **kwargs):
-        super(MountForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -556,7 +557,7 @@ class MountAdapterForm(ModelForm):
             fields.remove('lens_mount')
 
     def __init__(self, *args, **kwargs):
-        super(MountAdapterForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -571,14 +572,14 @@ class NegativeSizeForm(ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        super(NegativeSizeForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
 
 class OrderForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(OrderForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['negative'].queryset = Negative.objects.filter(
             owner=get_current_user())
         self.fields['print'].queryset = Print.objects.filter(
@@ -617,7 +618,7 @@ class PaperStockForm(ModelForm):
             fields.remove('manufacturer')
 
     def __init__(self, *args, **kwargs):
-        super(PaperStockForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
@@ -628,14 +629,14 @@ class PersonForm(ModelForm):
         fields = ['name']
 
     def __init__(self, *args, **kwargs):
-        super(PersonForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
 
 class PrintForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(PrintForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['negative'].queryset = Negative.objects.filter(
             owner=get_current_user())
         self.fields['enlarger'].queryset = Enlarger.objects.filter(
@@ -689,14 +690,14 @@ class ProcessForm(ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        super(ProcessForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
 
 
 class RepairForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(RepairForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['camera'].queryset = Camera.objects.filter(
             owner=get_current_user())
         self.fields['lens'].queryset = Lens.objects.filter(
@@ -717,7 +718,7 @@ class RepairForm(ModelForm):
 
 class ScanForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(ScanForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['negative'].queryset = Negative.objects.filter(
             owner=get_current_user())
         self.fields['print'].queryset = Print.objects.filter(
@@ -740,7 +741,7 @@ class ScanForm(ModelForm):
 
 class NegativeForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(NegativeForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['film'].queryset = Film.objects.filter(
             owner=get_current_user())
         self.fields['lens'].queryset = Lens.objects.filter(
@@ -783,7 +784,7 @@ class NegativeForm(ModelForm):
 
 class FilmForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(FilmForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['camera'].queryset = Camera.objects.filter(
             owner=get_current_user())
         self.fields['bulk_film'].queryset = BulkFilm.objects.filter(
@@ -834,7 +835,7 @@ class TeleconverterForm(ModelForm):
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super(TeleconverterForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
@@ -867,6 +868,6 @@ class TonerForm(ModelForm):
             fields.remove('manufacturer')
 
     def __init__(self, *args, **kwargs):
-        super(TonerForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))

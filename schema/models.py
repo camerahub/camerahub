@@ -15,6 +15,8 @@ from taggit.managers import TaggableManager
 from django_prometheus.models import ExportModelOperationsMixin
 from simple_history.models import HistoricalRecords
 from versatileimagefield.fields import VersatileImageField
+from collectionfield.models import CollectionField
+from django_countries.fields import CountryField
 from .funcs import angle_of_view
 
 
@@ -55,8 +57,8 @@ class Manufacturer(models.Model):
         help_text='Name of the manufacturer', max_length=45, blank=True, unique=True)
     city = models.CharField(
         help_text='City in which the manufacturer is based', max_length=45, blank=True, null=True)
-    country = models.CharField(
-        help_text='Country in which the manufacturer is based', max_length=45, blank=True, null=True)
+    country = CountryField(
+        help_text='Country in which the manufacturer is based', blank=True, null=True)
     url = models.URLField(
         verbose_name='URL', help_text='URL to the manufacturers main website', max_length=45, blank=True, null=True)
     founded = models.PositiveIntegerField(
@@ -1233,6 +1235,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model')
     model = models.CharField(
         help_text='The model name of the camera', max_length=45)
+    other_names = CollectionField(help_text='Other model names that this camera may be known by, e.g. in other parts of the world. Separate with commas.', blank=True, null=True)
     disambiguation = models.CharField(
         help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, null=True)
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True,
