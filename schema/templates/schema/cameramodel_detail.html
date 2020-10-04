@@ -21,9 +21,10 @@
   </tr>
   {% if object.manufacturer is not None %}
   <tr>
+    <td>Manufacturer<br><small class="text-muted">{% model_field_help_text from object.manufacturer %}</small></td>
     <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a>
-        {% if object.manufacturer.country %}<img src="{{ object.manufacturer.country.flag }}"
-          alt="{{ object.manufacturer.country.code }}">{% endif %}</td>
+      {% if object.manufacturer.country %}<img src="{{ object.manufacturer.country.flag }}"
+        alt="{{ object.manufacturer.country.code }}">{% endif %}</td>
   </tr>
   {% endif %}
   <tr>
