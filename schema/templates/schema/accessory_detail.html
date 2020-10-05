@@ -9,9 +9,7 @@
   {% if object.manufacturer is not None %}
   <tr>
     <td>Manufacturer</td>
-    <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}
-        {% if object.manufacturer.country %}<img src="{{ object.manufacturer.country.flag }}" 
-          alt="{{ object.manufacturer.country.code }}">{% endif %}</a></td>
+    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
     {% endif %}
   </tr>
   <tr>
