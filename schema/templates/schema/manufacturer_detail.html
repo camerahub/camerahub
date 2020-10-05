@@ -54,7 +54,7 @@
     <td>
       <ul class="list-inline">
         {% for relateditem in related %}
-        <li class="list-inline-item"><a href="{% url 'manufacturer-detail' relateditem.slug %}">{{ relateditem }}</a>
+        <li class="list-inline-item">{% include "manufacturer.html" with manufacturer=relateditem %}</a>
         </li>
         {% endfor %}
       </ul>
