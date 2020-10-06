@@ -28,7 +28,7 @@
   </tr>
   {% endif %}
   <tr>
-    <td>Model</td>
+    <td>Model<br><small class="text-muted">{% model_field_help_text from object.model %}</small></td>
     <td>{{ object.model }}</td>
   </tr>
   {% if object.other_names %}
@@ -44,18 +44,18 @@
   {% endif %}
   {% if object.disambiguation is not None %}
   <tr>
-    <td>Disambiguation</td>
+    <td>Disambiguation<br><small class="text-muted">{% model_field_help_text from object.disambiguation %}</small></td>
     <td>{{ object.disambiguation }}</td>
   </tr>
   {% endif %}
   {% if object.mount is not None %}
   <tr>
-    <td>Mount</td>
+    <td>Mount<br><small class="text-muted">{% model_field_help_text from object.mount %}</small></td>
     <td><a href="{% url 'mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
   </tr>
   {% else %}
   <tr>
-    <td>Lens</td>
+    <td>Lens<br><small class="text-muted">{% model_field_help_text from object.lens_model_name %}</small></td>
     <td>{% if object.lens_manufacturer is not None %}{{ object.lens_manufacturer }}
       {% endif %}{{ object.lens_model_name|aperture }}
     </td>
@@ -64,7 +64,7 @@
 
   {% if object.lens_manufacturer is not None %}
   <tr>
-    <td>Lens manufacturer</td>
+    <td>Lens manufacturer<br><small class="text-muted">{% model_field_help_text from object.lens_manufacturer %}</small></td>
     <td><a href="{% url 'manufacturer-detail' object.lens_manufacturer.slug %}">{{ object.lens_manufacturer }}</a></td>
   </tr>
   {% endif %}
@@ -76,7 +76,7 @@
   </tr>
   {% if object.zoom is not None %}
   <tr>
-    <td>Zoom</td>
+    <td>Zoom<br><small class="text-muted">{% model_field_help_text from object.zoom %}</small></td>
     <td>{{ object.zoom|boolicontag }}</td>
   </tr>
   {% endif %}
