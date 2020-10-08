@@ -26,7 +26,8 @@
     <p>Welcome back, {{ user.username }}.
         {% else %}
     <p>CameraHub is a public database of cameras, lenses and accessories, available to everyone. Registered users can
-        add or edit data. They can also keep a private collection of their cameras and lenses.</p>
+        add or edit data. They can also keep a private collection of their cameras and lenses. Check out the <a
+            href="{% url 'concepts' %}">Concepts</a> page for more info.</p>
     <p><a class="btn btn-primary btn-sm" href="{% url 'login' %}" role="button">Login</a> or <a
             class="btn btn-primary btn-sm" href="{% url 'django_registration_register' %}" role="button">Register</a> to
         start tracking private data about your own collection.
