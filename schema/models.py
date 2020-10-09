@@ -1062,8 +1062,12 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
     history = HistoricalRecords()
     image = VersatileImageField(
         help_text='Image of the lens model', blank=True, null=True)
+    image_attribution = models.CharField(help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_url = models.URLField(help_text='Attribution URL for this image', blank=True, null=True)
     diagram = VersatileImageField(
         help_text='Block diagram of the optics', blank=True, null=True)
+    diagram_attribution = models.CharField(help_text='Author of this diagram', max_length=50, blank=True, null=True)
+    diagram_attribution_url = models.URLField(help_text='Attribution URL for this diagram', blank=True, null=True)
 
     def __str__(self):
         mystr = self.model
@@ -1337,6 +1341,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         verbose_name='URL', help_text='URL to more information about this camera model', blank=True, null=True)
     image = VersatileImageField(
         help_text='Image of the camera model', blank=True, null=True)
+    image_attribution = models.CharField(help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_url = models.URLField(help_text='Attribution URL for this image', blank=True, null=True)
 
     # Fixed lens fields
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,

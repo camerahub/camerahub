@@ -255,6 +255,8 @@ class CameraModelForm(ModelForm):
                 'tags',
                 'url',
                 'image',
+                'image_attribution',
+                'image_attribution_url',
             ),
             FormActions(
                 Submit('save', 'Save')
@@ -494,7 +496,11 @@ class LensModelForm(ModelForm):
                 'tags',
                 'url',
                 'image',
+                'image_attribution',
+                'image_attribution_url',
                 'diagram',
+                'diagram_attribution',
+                'diagram_attribution_url',
             ),
             FormActions(
                 Submit('save', 'Save')
