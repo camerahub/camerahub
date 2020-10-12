@@ -251,7 +251,6 @@ class FilmFilter(FilterSet):
             'filmstock',
             'format',
             'camera',
-            'developer',
             'bulk_film',
             'archive',
         ]
