@@ -568,12 +568,20 @@ class FilmTable(tables.Table):
         return format_html("<a href=\"{}\">#{}</a>", reverse('film-detail', args=[value]), value)
 
     @classmethod
+    def render_title(cls, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('film-detail', args=[record.id_owner]), value)
+
+    @classmethod
     def render_filmstock(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('filmstock-detail', args=[value.slug]), value)
 
     @classmethod
     def render_format(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('format-detail', args=[value.id]), value)
+
+    @classmethod
+    def render_camera(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('camera-detail', args=[value.id_owner]), value)
 
 
 class TeleconverterTable(tables.Table):
