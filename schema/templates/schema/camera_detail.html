@@ -54,7 +54,7 @@
     {% if object.notes is not None %}
     <tr>
         <td>Notes</td>
-        <td>{{ object.notes }}</td>
+        <td>{{ object.notes|linebreaks }}</td>
     </tr>
     {% endif %}
     {% if object.lost is not None %}
@@ -84,7 +84,7 @@
     {% if object.condition_notes is not None %}
     <tr>
         <td>Condition notes</td>
-        <td>{{ object.condition_notes }}</td>
+        <td>{{ object.condition_notes|linebreaks }}</td>
     </tr>
     {% endif %}
 </table>

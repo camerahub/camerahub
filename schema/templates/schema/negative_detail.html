@@ -57,7 +57,7 @@
   {% if object.notes is not None %}
   <tr>
     <td>Notes</td>
-    <td>{{ object.notes }}</td>
+    <td>{{ object.notes|linebreaks }}</td>
   </tr>
   {% endif %}
   {% if object.mount_adapter is not None %}

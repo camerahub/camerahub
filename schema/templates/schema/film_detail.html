@@ -89,7 +89,7 @@
   {% if object.developerment_notes is not None %}
   <tr>
     <td>Development notes</td>
-    <td>{{ object.development_notes }}</td>
+    <td>{{ object.development_notes|linebreaks }}</td>
   </tr>
   {% endif %}
   {% if object.bulk_film is not None %}
