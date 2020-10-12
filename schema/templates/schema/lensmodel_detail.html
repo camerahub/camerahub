@@ -8,7 +8,10 @@
 <div class="text-center">
   <figure class="figure img-thumbnail">
     <img src="{{ object.image.url }}" class="figure-img img-fluid rounded" alt="{{ object }}">
-    <figcaption class="figure-caption text-center">{{ object }}</figcaption>
+    <figcaption class="figure-caption text-center">{{ object }}{% if object.image_attribution %} by
+      {% if object.image_attribution_url %}<a
+        href="{{ object.image_attribution_url}}">{{ object.image_attribution }}</a>{% else %}{{ object.image_attribution }}{% endif %}{% endif %}
+    </figcaption>
   </figure>
 </div>
 {% endif %}
@@ -181,7 +184,13 @@
               </button>
             </div>
             <div class="modal-body">
-              <img src="{{ object.diagram.url }}" class="img-thumbnail" />
+              <figure class="figure">
+                <img src="{{ object.diagram.url }}" class="figure-img img-fluid rounded" alt="{{ object }}">
+                {% if object.diagram_attribution %}<figcaption class="figure-caption text-center">Credit:
+                  {% if object.diagram_attribution_url %}<a
+                    href="{{ object.diagram_attribution_url}}">{{ object.diagram_attribution }}</a>{% else %}{{ object.diagram_attribution }}{% endif %}
+                </figcaption>{% endif %}
+              </figure>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
