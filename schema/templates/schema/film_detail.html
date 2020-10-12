@@ -20,6 +20,12 @@
     <td><a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a></td>
   </tr>
   {% endif %}
+  {% if object.status is not None %}
+  <tr>
+    <td>Status</td>
+    <td>{{ object.status }}</td>
+  </tr>
+  {% endif %}
   {% if object.date_loaded is not None %}
   <tr>
     <td>Date loaded</td>
