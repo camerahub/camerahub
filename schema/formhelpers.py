@@ -264,6 +264,7 @@ class FilmFormHelper(FormHelper):
         Row(
             Field('filmstock', css_class="form-control-sm"),
             Field('format', css_class="form-control-sm"),
+            Field('status', css_class="form-control-sm"),
             Field('camera', css_class="form-control-sm"),
             Field('bulk_film', css_class="form-control-sm"),
             Field('archive', css_class="form-control-sm"),

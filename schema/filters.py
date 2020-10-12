@@ -250,6 +250,7 @@ class FilmFilter(FilterSet):
         fields = [
             'filmstock',
             'format',
+            'status',
             'camera',
             'bulk_film',
             'archive',

@@ -561,7 +561,7 @@ class FilmTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Film
-        fields = ('id_owner', 'title', 'filmstock', 'format', 'camera')
+        fields = ('id_owner', 'title', 'filmstock', 'format', 'status', 'camera')
 
     @classmethod
     def render_id_owner(cls, value):

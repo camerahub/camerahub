@@ -808,6 +808,7 @@ class FilmForm(ModelForm):
             'filmstock',
             'exposed_at',
             'format',
+            'status',
             'date_loaded',
             'date_processed',
             'camera',

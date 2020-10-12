@@ -1723,12 +1723,21 @@ class Camera(models.Model):
 
 
 class Film(models.Model):
+
+    # Choices for film status
+    class Status(DjangoChoices):
+        Available = ChoiceItem()
+        Loaded = ChoiceItem()
+        Developed = ChoiceItem()
+        Archived = ChoiceItem()
+
     filmstock = models.ForeignKey(
         FilmStock, on_delete=models.CASCADE, help_text='Filmstock that this film is')
     exposed_at = models.PositiveIntegerField(
         help_text='ISO at which the film was exposed', blank=True, null=True)
     format = models.ForeignKey(
         Format, on_delete=models.CASCADE, help_text='Film format of this film')
+    status = models.CharField(max_length=9, choices=Status.choices, help_text='Status of this film', default='Available')
     date_loaded = models.DateField(
         help_text='Date when the film was loaded into a camera', blank=True, null=True)
     date_processed = models.DateField(
