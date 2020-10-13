@@ -1796,6 +1796,10 @@ class Film(models.Model):
             })
 
     def save(self, *args, **kwargs):
+        # Populate EI with box speed
+        if not self.exposed_at:
+            if self.filmstock.iso:
+                self.exposed_at = self.filmstock.iso
         # Auto-populate values from bulk films
         if self.bulk_film:
             if self.bulk_film.expiry:
