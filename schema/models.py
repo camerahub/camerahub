@@ -1786,6 +1786,7 @@ class Film(models.Model):
 
     class Meta:
         verbose_name_plural = "films"
+        ordering = ['id_owner']
 
     def clean(self):
         # Date constraints
