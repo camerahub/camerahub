@@ -317,8 +317,8 @@
 {% endblock %}
 
 {% block moreactions %}
-<form action="{% url 'lens-create' %}">
+<li><form action="{% url 'lens-create' %}">
   <input type="hidden" name="lensmodel" value="{{ object.id }}">
   <button class="btn btn-primary" type="submit">Add to collection</button>
-</form>
+</form></li>
 {% endblock %}

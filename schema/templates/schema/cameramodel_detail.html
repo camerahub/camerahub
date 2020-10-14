@@ -552,8 +552,8 @@
 {% endblock %}
 
 {% block moreactions %}
-<form action="{% url 'camera-create' %}">
+<li><form action="{% url 'camera-create' %}">
   <input type="hidden" name="cameramodel" value="{{ object.id }}">
   <button class="btn btn-primary" type="submit">Add to collection</button>
-</form>
+</form></li>
 {% endblock %}

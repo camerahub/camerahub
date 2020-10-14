@@ -74,6 +74,6 @@
 {% endblock %}
 
 {% block moreactions %}
-<li><a href="{% url 'cameramodel-list' %}?mount={{ mount.id }}">View camera models with this mount</a></li>
-<li><a href="{% url 'lensmodel-list' %}?mount={{ mount.id }}">View lens models with this mount</a></li>
+<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?mount={{ mount.id }}" role="button">View camera models with this mount</a></li>
+<li><a class="btn btn-primary" href="{% url 'lensmodel-list' %}?mount={{ mount.id }}" role="button">View lens models with this mount</a></li>
 {% endblock %}
