@@ -11,11 +11,11 @@
         <ul class="navbar-nav mr-auto">
 
             <li class="nav-item active dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="#" id="publicnavbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     Public data
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu" aria-labelledby="publicnavbarDropdown">
                     <a class="dropdown-item" href="{% url 'cameramodel-list' %}">Camera models</a>
                     <a class="dropdown-item" href="{% url 'lensmodel-list' %}">Lens models</a>
                     <div class="dropdown-divider"></div>
@@ -37,11 +37,11 @@
 
             {% if user.is_authenticated %}
             <li class="nav-item active dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="#" id="privatenavbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     Private data
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu" aria-labelledby="privatenavbarDropdown">
                     <a class="dropdown-item" href="{% url 'camera-list' %}">Cameras</a>
                     <a class="dropdown-item" href="{% url 'lens-list' %}">Lenses</a>
                     <div class="dropdown-divider"></div>
@@ -64,11 +64,11 @@
             {% endif %}
 
             <li class="nav-item active dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="#" id="helpnavbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     Help
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu" aria-labelledby="helpnavbarDropdown">
 
                     <a class="dropdown-item" href="{% url 'about' %}">About</a>
                     <a class="dropdown-item" href="{% url 'concepts' %}">Concepts</a>
@@ -80,11 +80,11 @@
 
             {% if user.is_authenticated %}
             <li class="nav-item active dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="#" id="usernavbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     {{ user.username }}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu" aria-labelledby="usernavbarDropdown">
                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
                     <a class="dropdown-item" href="{% url 'mystats' %}">My stats</a>
