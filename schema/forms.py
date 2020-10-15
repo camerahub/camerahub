@@ -2,7 +2,7 @@ import sys
 from django.forms import ModelForm
 from django_currentuser.middleware import get_current_user
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Submit, Div
+from crispy_forms.layout import Layout, Fieldset, Submit, Div, Hidden, Field
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -789,51 +789,114 @@ class NegativeForm(ModelForm):
 
 
 class FilmForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['camera'].queryset = Camera.objects.filter(
-            owner=get_current_user())
-        self.fields['bulk_film'].queryset = BulkFilm.objects.filter(
-            owner=get_current_user())
-        self.fields['processed_by'].queryset = Person.objects.filter(
-            owner=get_current_user())
-        self.fields['archive'].queryset = Archive.objects.filter(
-            owner=get_current_user())
-        self.helper = FormHelper(self)
-        self.helper.layout.append(Submit('Save', 'Save'))
-
     class Meta:
         model = Film
-        fields = [
-            'filmstock',
-            'exposed_at',
-            'format',
-            'status',
-            'date_loaded',
-            'date_processed',
-            'camera',
-            'title',
-            'frames',
-            'developer',
-            'directory',
-            'dev_uses',
-            'dev_time',
-            'dev_temp',
-            'dev_n',
-            'development_notes',
-            'bulk_film',
-            'bulk_film_loaded',
-            'film_batch',
-            'expiry_date',
-            'purchase_date',
-            'price',
-            'processed_by',
-            'archive',
-        ]
-        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
-            fields.remove('filmstock')
-            fields.remove('developer')
-            fields.remove('format')
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['bulk_film'].queryset = BulkFilm.objects.filter(
+            owner=get_current_user())
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset(
+                'Add',
+                'filmstock',
+                'format',
+                Hidden('status', 'Available'),
+                'frames',
+                'bulk_film',
+                'bulk_film_loaded',
+                'film_batch',
+                'expiry_date',
+                'purchase_date',
+                'price',
+            ),
+            FormActions(
+                Submit('save', 'Save'),
+            ),
+        )
+
+
+class FilmLoadForm(ModelForm):
+    class Meta:
+        model = Film
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['camera'].queryset = Camera.objects.filter(owner=get_current_user())
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset(
+                'Load',
+                Field('filmstock', type="hidden"),
+                Field('format', type="hidden"),
+                'exposed_at',
+                Hidden('status', 'Loaded'),
+                'date_loaded',
+                'camera',
+                'title',
+                'frames',
+            ),
+            FormActions(
+                Submit('save', 'Save'),
+            ),
+        )
+
+
+class FilmDevelopForm(ModelForm):
+    class Meta:
+        model = Film
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['processed_by'].queryset = Person.objects.filter(owner=get_current_user())
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset(
+                'Develop',
+                Hidden('status', 'Developed'),
+                Field('filmstock', type="hidden"),
+                Field('format', type="hidden"),
+                'date_processed',
+                'developer',
+                'directory',
+                'dev_uses',
+                'dev_time',
+                'dev_temp',
+                'dev_n',
+                'development_notes',
+                'processed_by',
+            ),
+            FormActions(
+                Submit('save', 'Save'),
+            ),
+        )
+
+
+class FilmArchiveForm(ModelForm):
+    class Meta:
+        model = Film
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['processed_by'].queryset = Person.objects.filter(owner=get_current_user())
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset(
+                'Develop',
+                Hidden('status', 'Archived'),
+                Field('filmstock', type="hidden"),
+                Field('format', type="hidden"),
+                'archive',
+            ),
+            FormActions(
+                Submit('save', 'Save'),
+            ),
+        )
 
 
 class TeleconverterForm(ModelForm):

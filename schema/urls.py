@@ -211,6 +211,9 @@ urlpatterns = [
     path('film/create/', views.FilmCreate.as_view(), name='film-create'),
     path('film/<int:id_owner>/update',
          views.FilmUpdate.as_view(), name='film-update'),
+    path('film/<int:id_owner>/load', views.FilmLoad.as_view(), name='film-load'),
+    path('film/<int:id_owner>/develop', views.FilmDevelop.as_view(), name='film-develop'),
+    path('film/<int:id_owner>/archive', views.FilmArchive.as_view(), name='film-archive'),
 
     path('teleconverter/', views.TeleconverterList.as_view(),
          name='teleconverter-list'),

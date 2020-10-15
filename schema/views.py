@@ -29,7 +29,7 @@ from schema.tables import ProcessTable, RepairTable, ScanTable, NegativeTable, F
 from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
 from schema.forms import FlashForm, FlashProtocolForm, FormatForm, LensForm, LensModelForm, ManufacturerForm
 from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
-from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, TeleconverterForm, TonerForm
+from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TonerForm
 
 from schema.filters import AccessoryFilter, BatteryFilter, BulkFilmFilter, CameraFilter, CameraModelFilter, DeveloperFilter
 from schema.filters import EnlargerFilter, FilmFilter, FilmStockFilter, FlashFilter, LensFilter, LensModelFilter
@@ -1007,6 +1007,36 @@ class FilmCreate(LoginRequiredMixin, CreateView):
 class FilmUpdate(LoginRequiredMixin, UpdateView):
     model = Film
     form_class = FilmForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+class FilmLoad(LoginRequiredMixin, UpdateView):
+    model = Film
+    form_class = FilmLoadForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+class FilmDevelop(LoginRequiredMixin, UpdateView):
+    model = Film
+    form_class = FilmDevelopForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+class FilmArchive(LoginRequiredMixin, UpdateView):
+    model = Film
+    form_class = FilmArchiveForm
     template_name = 'update.html'
 
     # Restrict to objects we own
