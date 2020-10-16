@@ -168,7 +168,7 @@
 {% endblock %}
 
 {% block moreactions %}
-{% if object.status == "Available" %}<li><a class="btn btn-primary" href="{% url 'film-load' object.id_owner %}" role="button">Load film into a camera</a></li>{% endif %}
-{% if object.status == "Loaded" %}<li><a class="btn btn-primary" href="{% url 'film-develop' object.id_owner %}" role="button">Develop film</a></li>{% endif %}
-{% if object.status == "Developed" %}<li><a class="btn btn-primary" href="{% url 'film-archive' object.id_owner %}" role="button">Archive film</a></li>{% endif %}
+{% if object.status == "Available" %}<li><a class="btn btn-primary" href="{% url 'film-load' object.id_owner %}" role="button">Load this film into a camera</a></li>{% endif %}
+{% if object.status == "Loaded" %}<li><a class="btn btn-primary" href="{% url 'film-develop' object.id_owner %}" role="button">Develop this film</a></li>{% endif %}
+{% if object.status == "Developed" %}<li><a class="btn btn-primary" href="{% url 'film-archive' object.id_owner %}" role="button">Archive this film</a></li>{% endif %}
 {%endblock%}

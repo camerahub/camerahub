@@ -2,7 +2,7 @@ import sys
 from django.forms import ModelForm
 from django_currentuser.middleware import get_current_user
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Submit, Div, Hidden, Field
+from crispy_forms.layout import Layout, Fieldset, Submit, Div, Hidden, Field, HTML
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -800,18 +800,29 @@ class FilmForm(ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
-                'Add',
+                'Add a new film to your collection',
                 'filmstock',
                 'format',
-                Hidden('status', 'Available'),
                 'frames',
-                'bulk_film',
-                'bulk_film_loaded',
-                'film_batch',
-                'expiry_date',
-                'purchase_date',
-                'price',
+                Div(
+                    TabHolder(
+                        Tab('Single film',
+                            HTML("<p>Choose Single Film for regular roll or sheet films</p>"),
+                            'film_batch',
+                            'expiry_date',
+                            'purchase_date',
+                            'price',
+                        ),
+                        Tab('Bulk film',
+                            HTML("<p>Choose Bulk Film for film that has been cut from a bulk roll</p>"),
+                            'bulk_film',
+                            'bulk_film_loaded',
+                        ),
+                    ),
+                css_class="border",
+                ),
             ),
+            Hidden('status', 'Available'),
             FormActions(
                 Submit('save', 'Save'),
             ),
@@ -829,16 +840,16 @@ class FilmLoadForm(ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
-                'Load',
-                Field('filmstock', type="hidden"),
-                Field('format', type="hidden"),
-                'exposed_at',
-                Hidden('status', 'Loaded'),
-                'date_loaded',
+                'Load this film into a camera',
                 'camera',
                 'title',
+                'exposed_at',
+                'date_loaded',
                 'frames',
             ),
+            Field('filmstock', type="hidden"),
+            Field('format', type="hidden"),
+            Hidden('status', 'Loaded'),
             FormActions(
                 Submit('save', 'Save'),
             ),
@@ -856,20 +867,20 @@ class FilmDevelopForm(ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
-                'Develop',
-                Hidden('status', 'Developed'),
-                Field('filmstock', type="hidden"),
-                Field('format', type="hidden"),
+                'Develop this film',
                 'date_processed',
                 'developer',
                 'directory',
                 'dev_uses',
                 'dev_time',
-                'dev_temp',
+                AppendedText('dev_temp', '&deg;C'),
                 'dev_n',
                 'development_notes',
                 'processed_by',
             ),
+            Hidden('status', 'Developed'),
+            Field('filmstock', type="hidden"),
+            Field('format', type="hidden"),
             FormActions(
                 Submit('save', 'Save'),
             ),
@@ -887,12 +898,12 @@ class FilmArchiveForm(ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
-                'Develop',
-                Hidden('status', 'Archived'),
-                Field('filmstock', type="hidden"),
-                Field('format', type="hidden"),
+                'Archive this film',
                 'archive',
             ),
+            Hidden('status', 'Archived'),
+            Field('filmstock', type="hidden"),
+            Field('format', type="hidden"),
             FormActions(
                 Submit('save', 'Save'),
             ),
