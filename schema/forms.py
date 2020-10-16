@@ -1,5 +1,6 @@
 import sys
 from django.forms import ModelForm
+from django.db.models import Q
 from django_currentuser.middleware import get_current_user
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, Div, Hidden, Field
@@ -649,8 +650,7 @@ class PrintForm(ModelForm):
             owner=get_current_user())
         self.fields['lens'].queryset = Lens.objects.filter(
             owner=get_current_user())
-        self.fields['archive'].queryset = Archive.objects.filter(
-            owner=get_current_user())
+        self.fields['archive'].queryset = Archive.objects.filter(owner=get_current_user(), type='Print', sealed=False)
         self.fields['printer'].queryset = Person.objects.filter(
             owner=get_current_user())
         self.helper = FormHelper(self)
@@ -884,6 +884,7 @@ class FilmArchiveForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['processed_by'].queryset = Person.objects.filter(owner=get_current_user())
+        self.fields['archive'].queryset = Archive.objects.filter(Q(type='Negative') | Q(type='Slide'), owner=get_current_user(), sealed=False)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
