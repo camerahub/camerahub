@@ -1,18 +1,23 @@
 {% extends "detail.html" %}
+{% load static %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="basics"><img src="{% static "svg/misc.svg" %}" width="30" height="30" alt="Misc"> <a
+        href="#basics">Basics</a></th>
+  </tr>
   {% if object.filmstock is not None %}
   <tr>
     <td>Filmstock</td>
     <td><a href="{% url 'filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a></td>
   </tr>
-  {% endif %}
-  {% if object.exposed_at is not None %}
+  {% if object.filmstock.iso %}
   <tr>
-    <td>Exposed at</td>
-    <td>{{ object.exposed_at }}</td>
+    <td>Box speed</td>
+    <td>{{ object.filmstock.iso }}</td>
   </tr>
+  {% endif %}
   {% endif %}
   {% if object.format is not None %}
   <tr>
@@ -26,28 +31,22 @@
     <td>{{ object.status }}</td>
   </tr>
   {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="exposure"><img src="{% static "svg/camera.svg" %}" width="30" height="30" alt="Exposure"> <a
+        href="#exposure">Exposure</a></th>
+  </tr>
   {% if object.date_loaded is not None %}
   <tr>
     <td>Date loaded</td>
     <td>{{ object.date_loaded }}</td>
   </tr>
-  {% endif %}
-  {% if object.date_processed is not None %}
-  <tr>
-    <td>Date processed</td>
-    <td>{{ object.date_processed }}</td>
-  </tr>
-  {% endif %}
+  {% endif %}  
   {% if object.camera is not None %}
   <tr>
     <td>Camera</td>
     <td><a href="{% url 'camera-detail' object.camera.id_owner %}">{{ object.camera }}</a></td>
-  </tr>
-  {% endif %}
-  {% if object.title is not None %}
-  <tr>
-    <td>Title</td>
-    <td>{{ object.title }}</td>
   </tr>
   {% endif %}
   {% if object.frames is not None %}
@@ -56,10 +55,28 @@
     <td>{{ object.frames }}</td>
   </tr>
   {% endif %}
+  {% if object.exposed_at is not None %}
+  <tr>
+    <td>Exposed at</td>
+    <td>{{ object.exposed_at }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="development"><img src="{% static "svg/developer.svg" %}" width="30" height="30" alt="Development"> <a
+        href="#development">Development</a></th>
+  </tr>
   {% if object.developer is not None %}
   <tr>
     <td>Developer</td>
     <td><a href="{% url 'developer-detail' object.developer.slug %}">{{ object.developer }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.date_processed is not None %}
+  <tr>
+    <td>Date processed</td>
+    <td>{{ object.date_processed }}</td>
   </tr>
   {% endif %}
   {% if object.directory is not None %}
@@ -92,7 +109,7 @@
     <td>{{ object.dev_n }}</td>
   </tr>
   {% endif %}
-  {% if object.developerment_notes is not None %}
+  {% if object.development_notes %}
   <tr>
     <td>Development notes</td>
     <td>{{ object.development_notes|linebreaks }}</td>
@@ -140,6 +157,12 @@
     <td><a href="{% url 'person-detail' object.processed_by.id_owner %}">{{ object.processed_by }}</a></td>
   </tr>
   {% endif %}
+
+  
+  <tr>
+    <th colspan="2" id="archive"><img src="{% static "svg/archive.svg" %}" width="30" height="30" alt="Archive"> <a
+        href="#archive">Archive</a></th>
+  </tr>
   {% if object.archive is not None %}
   <tr>
     <td>Archive</td>
