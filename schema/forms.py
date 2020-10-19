@@ -5,6 +5,7 @@ from django_currentuser.middleware import get_current_user
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, Div, Hidden, Field, HTML
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
+from dal import autocomplete
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
@@ -128,10 +129,13 @@ class CameraForm(ModelForm):
             )
         )
 
-class CameraModelForm(ModelForm):
+class CameraModelForm(autocomplete.FutureModelForm):
     class Meta:
         model = CameraModel
         fields = '__all__'
+        widgets = {
+            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
