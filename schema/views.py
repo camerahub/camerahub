@@ -13,7 +13,7 @@ from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from watson.views import SearchMixin
-
+from dal import autocomplete
 from taggit.models import Tag
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -1310,3 +1310,17 @@ class TagDetail(generic.DetailView):
 
         context['taggeditems'] = items
         return context
+
+
+class TagAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        if not self.request.is_authenticated():
+            return Tag.objects.none()
+
+        qs = Tag.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        return self.q
