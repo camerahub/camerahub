@@ -906,7 +906,8 @@ class FilmAddForm(ModelForm):
 class FilmLoadForm(ModelForm):
     class Meta:
         model = Film
-        fields = ['camera', 'title', 'exposed_at', 'date_loaded', 'frames', 'status']
+        fields = ['camera', 'title', 'exposed_at',
+                  'date_loaded', 'frames', 'status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -932,7 +933,8 @@ class FilmLoadForm(ModelForm):
 class FilmDevelopForm(ModelForm):
     class Meta:
         model = Film
-        fields = ['date_processed', 'developer', 'directory', 'dev_uses', 'dev_time', 'dev_temp', 'dev_n', 'development_notes', 'processed_by', 'status']
+        fields = ['date_processed', 'developer', 'directory', 'dev_uses', 'dev_time',
+                  'dev_temp', 'dev_n', 'development_notes', 'processed_by', 'status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
