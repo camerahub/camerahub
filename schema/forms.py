@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from django.db.models import Q
 from django_currentuser.middleware import get_current_user
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Submit, Div, Hidden, Field, HTML
+from crispy_forms.layout import Layout, Fieldset, Submit, Div, Hidden, HTML
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -884,7 +884,7 @@ class FilmAddForm(ModelForm):
 class FilmLoadForm(ModelForm):
     class Meta:
         model = Film
-        fields = '__all__'
+        fields = ['camera', 'title', 'exposed_at', 'date_loaded', 'frames', 'status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -900,8 +900,6 @@ class FilmLoadForm(ModelForm):
                 'date_loaded',
                 'frames',
             ),
-            Field('filmstock', type="hidden"),
-            Field('format', type="hidden"),
             Hidden('status', 'Loaded'),
             FormActions(
                 Submit('save', 'Save'),
@@ -912,7 +910,7 @@ class FilmLoadForm(ModelForm):
 class FilmDevelopForm(ModelForm):
     class Meta:
         model = Film
-        fields = '__all__'
+        fields = ['date_processed', 'developer', 'directory', 'dev_uses', 'dev_time', 'dev_temp', 'dev_n', 'development_notes', 'processed_by', 'status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -933,8 +931,6 @@ class FilmDevelopForm(ModelForm):
                 'processed_by',
             ),
             Hidden('status', 'Developed'),
-            Field('filmstock', type="hidden"),
-            Field('format', type="hidden"),
             FormActions(
                 Submit('save', 'Save'),
             ),
@@ -944,7 +940,7 @@ class FilmDevelopForm(ModelForm):
 class FilmArchiveForm(ModelForm):
     class Meta:
         model = Film
-        fields = '__all__'
+        fields = ['archive', 'status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -959,8 +955,6 @@ class FilmArchiveForm(ModelForm):
                 'archive',
             ),
             Hidden('status', 'Archived'),
-            Field('filmstock', type="hidden"),
-            Field('format', type="hidden"),
             FormActions(
                 Submit('save', 'Save'),
             ),
