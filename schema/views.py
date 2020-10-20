@@ -29,7 +29,7 @@ from schema.tables import ProcessTable, RepairTable, ScanTable, NegativeTable, F
 from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
 from schema.forms import FlashForm, FlashProtocolForm, FormatForm, LensForm, LensModelForm, ManufacturerForm
 from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
-from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TonerForm
+from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, FilmAddForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TonerForm
 
 from schema.filters import AccessoryFilter, BatteryFilter, BulkFilmFilter, CameraFilter, CameraModelFilter, DeveloperFilter
 from schema.filters import EnlargerFilter, FilmFilter, FilmStockFilter, FlashFilter, LensFilter, LensModelFilter
@@ -1000,7 +1000,7 @@ class FilmDetail(LoginRequiredMixin, generic.DetailView):
 
 class FilmCreate(LoginRequiredMixin, CreateView):
     model = Film
-    form_class = FilmForm
+    form_class = FilmAddForm
     template_name = 'create.html'
 
 
