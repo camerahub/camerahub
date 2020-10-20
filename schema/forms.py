@@ -280,6 +280,9 @@ class DeveloperForm(ModelForm):
             'chemistry',
             'tags',
         ]
+        widgets = {
+            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
 
@@ -327,6 +330,9 @@ class FilmStockForm(ModelForm):
             'process',
             'tags',
         ]
+        widgets = {
+            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
             fields.remove('process')
@@ -451,6 +457,9 @@ class LensModelForm(ModelForm):
     class Meta:
         model = LensModel
         fields = '__all__'
+        widgets = {
+            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -525,6 +534,9 @@ class ManufacturerForm(ModelForm):
             'dissolved',
             'tags',
         ]
+        widgets = {
+            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -544,6 +556,9 @@ class MountForm(ModelForm):
             'manufacturer',
             'tags',
         ]
+        widgets = {
+            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
 
@@ -625,6 +640,9 @@ class PaperStockForm(ModelForm):
             'finish',
             'tags',
         ]
+        widgets = {
+            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
 
@@ -950,6 +968,9 @@ class TonerForm(ModelForm):
             'stock_dilution',
             'tags',
         ]
+        widgets = {
+            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
 
