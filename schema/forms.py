@@ -128,6 +128,7 @@ class CameraForm(ModelForm):
             )
         )
 
+
 class CameraModelForm(ModelForm):
     class Meta:
         model = CameraModel
@@ -650,7 +651,8 @@ class PrintForm(ModelForm):
             owner=get_current_user())
         self.fields['lens'].queryset = Lens.objects.filter(
             owner=get_current_user())
-        self.fields['archive'].queryset = Archive.objects.filter(owner=get_current_user(), type='Print', sealed=False)
+        self.fields['archive'].queryset = Archive.objects.filter(
+            owner=get_current_user(), type='Print', sealed=False)
         self.fields['printer'].queryset = Person.objects.filter(
             owner=get_current_user())
         self.helper = FormHelper(self)
@@ -787,10 +789,12 @@ class NegativeForm(ModelForm):
             'copy_of',
         ]
 
+
 class FilmForm(ModelForm):
     class Meta:
         model = Film
         fields = '__all__'
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['camera'].queryset = Camera.objects.filter(
@@ -836,7 +840,8 @@ class FilmForm(ModelForm):
 class FilmAddForm(ModelForm):
     class Meta:
         model = Film
-        fields = ['filmstock', 'format', 'frames', 'film_batch', 'expiry_date', 'purchase_date', 'price', 'bulk_film', 'bulk_film_loaded', 'status']
+        fields = ['filmstock', 'format', 'frames', 'film_batch', 'expiry_date',
+                  'purchase_date', 'price', 'bulk_film', 'bulk_film_loaded', 'status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -852,19 +857,21 @@ class FilmAddForm(ModelForm):
                 Div(
                     TabHolder(
                         Tab('Single film',
-                            HTML("<p>Choose Single Film for regular roll or sheet films</p>"),
+                            HTML(
+                                "<p>Choose Single Film for regular roll or sheet films</p>"),
                             'film_batch',
                             'expiry_date',
                             'purchase_date',
                             'price',
-                        ),
+                            ),
                         Tab('Bulk film',
-                            HTML("<p>Choose Bulk Film for film that has been cut from a bulk roll</p>"),
+                            HTML(
+                                "<p>Choose Bulk Film for film that has been cut from a bulk roll</p>"),
                             'bulk_film',
                             'bulk_film_loaded',
-                        ),
+                            ),
                     ),
-                css_class="border",
+                    css_class="border",
                 ),
             ),
             Hidden('status', 'Available'),
@@ -881,7 +888,8 @@ class FilmLoadForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['camera'].queryset = Camera.objects.filter(owner=get_current_user())
+        self.fields['camera'].queryset = Camera.objects.filter(
+            owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
@@ -908,7 +916,8 @@ class FilmDevelopForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['processed_by'].queryset = Person.objects.filter(owner=get_current_user())
+        self.fields['processed_by'].queryset = Person.objects.filter(
+            owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
@@ -939,8 +948,10 @@ class FilmArchiveForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['processed_by'].queryset = Person.objects.filter(owner=get_current_user())
-        self.fields['archive'].queryset = Archive.objects.filter(Q(type='Negative') | Q(type='Slide'), owner=get_current_user(), sealed=False)
+        self.fields['processed_by'].queryset = Person.objects.filter(
+            owner=get_current_user())
+        self.fields['archive'].queryset = Archive.objects.filter(
+            Q(type='Negative') | Q(type='Slide'), owner=get_current_user(), sealed=False)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
