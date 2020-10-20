@@ -14,7 +14,7 @@ spec:
         app: camerahub-container
     spec:
       containers:
-        - image: djjudas21/camerahub:0.20.0
+        - image: djjudas21/camerahub:0.20.1
           name: camerahub
           env:
             # Secrets first
