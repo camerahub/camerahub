@@ -561,15 +561,11 @@ class FilmTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Film
-        fields = ('id_owner', 'title', 'filmstock', 'format', 'status', 'date_processed', 'camera')
+        fields = ('id_owner', 'filmstock', 'format', 'status', 'date_processed', 'camera')
 
     @classmethod
-    def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('film-detail', args=[value]), value)
-
-    @classmethod
-    def render_title(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('film-detail', args=[record.id_owner]), value)
+    def render_id_owner(cls, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('film-detail', args=[value]), record)
 
     @classmethod
     def render_filmstock(cls, value):
