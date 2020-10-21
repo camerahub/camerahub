@@ -1782,7 +1782,11 @@ class Film(models.Model):
         unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "#%s %s" % (self.id_owner, self.title)
+        if self.title is not None:
+            mystr = "#%s %s" % (self.id_owner, self.title)
+        else:
+            mystr = "#%s" % (self.id_owner)
+        return mystr
 
     class Meta:
         verbose_name_plural = "films"
@@ -1864,7 +1868,11 @@ class Negative(models.Model):
         unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "%s/%s %s" % (self.film.id_owner, self.frame, self.caption)
+        if self.caption is not None:
+            mystr = "%s/%s %s" % (self.film.id_owner, self.frame, self.caption)
+        else:
+            mystr = "%s/%s" % (self.film.id_owner, self.frame)
+        return mystr
 
     class Meta:
         ordering = ['film', 'frame']
