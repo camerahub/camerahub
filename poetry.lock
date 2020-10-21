@@ -215,6 +215,14 @@ Django = ">=1.8"
 
 [[package]]
 category = "main"
+description = "Django model field that can hold a geoposition, and corresponding admin widget."
+name = "django-geoposition-2"
+optional = false
+python-versions = "*"
+version = "0.3.11"
+
+[[package]]
+category = "main"
 description = "Adds support for using money and currency fields in django models and forms. Uses py-moneyed as the money implementation."
 name = "django-money"
 optional = false
@@ -734,7 +742,7 @@ testing = ["pytest (>=3.5,<3.7.3 || >3.7.3)", "pytest-checkdocs (>=1.2.3)", "pyt
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "bda6a31c3838bacd2f98bc9871a5f6a4dbe5d680cb54982e41137b35e23a0084"
+content-hash = "76b753e643c2086052863461ec125356442832c85479abc718edbf8d8dffc540"
 lock-version = "1.0"
 python-versions = "^3.6"
 
@@ -806,6 +814,9 @@ django-filter = [
 ]
 django-fullurl = [
     {file = "django_fullurl-1.1-py2.py3-none-any.whl", hash = "sha256:eb05be83671f29544f1ca000b96320b4d17033339b2bec509d88d4e8b285c2ee"},
+]
+django-geoposition-2 = [
+    {file = "django-geoposition-2-0.3.11.tar.gz", hash = "sha256:e902c0db92d7f244a7178937912fd0d3ddc4aecc6a924993a53b990feb810529"},
 ]
 django-money = [
     {file = "django-money-0.15.1.tar.gz", hash = "sha256:88b5a0ee36565a87c39581efedbe4834b6f3f4a9a348887678ed2f45f4f8a192"},
