@@ -18,7 +18,7 @@ class AccessoryForm(ModelForm):
     class Meta:
         model = Accessory
         fields = ['manufacturer', 'model', 'type', 'acquired', 'cost', 'lost',
-                  'lost_price', 'camera_model_compatibility', 'lens_model_compatibility', ]
+                  'lost_price', 'camera_model_compatibility', 'lens_model_compatibility']
         widgets = {
             'acquired': DatePickerInput(format='%Y-%m-%d'),
             'lost': DatePickerInput(format='%Y-%m-%d'),
@@ -51,7 +51,7 @@ class ArchiveForm(ModelForm):
     class Meta:
         model = Archive
         fields = ['name', 'type', 'max_width',
-                  'max_height', 'location', 'storage', 'sealed', ]
+                  'max_height', 'location', 'storage', 'sealed']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -75,7 +75,7 @@ class ArchiveForm(ModelForm):
 class BatteryForm(ModelForm):
     class Meta:
         model = Battery
-        fields = ['name', 'voltage', 'chemistry', 'compatible_with', ]
+        fields = ['name', 'voltage', 'chemistry', 'compatible_with']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -95,7 +95,7 @@ class BulkFilmForm(ModelForm):
     class Meta:
         model = BulkFilm
         fields = ['format', 'filmstock', 'purchase_date',
-                  'cost', 'source', 'batch', 'expiry', ]
+                  'cost', 'source', 'batch', 'expiry']
         widgets = {
             'purchase_date': DatePickerInput(format='%Y-%m-%d'),
             'expiry': MonthPickerInput(format='%Y-%m-01'),
@@ -125,7 +125,7 @@ class CameraForm(ModelForm):
     class Meta:
         model = Camera
         fields = ['cameramodel', 'acquired', 'cost', 'source', 'serial', 'datecode',
-                  'manufactured', 'own', 'notes', 'lost', 'lost_price', 'condition', 'condition_notes', ]
+                  'manufactured', 'own', 'notes', 'lost', 'lost_price', 'condition', 'condition_notes']
         widgets = {
             'acquired': DatePickerInput(format='%Y-%m-%d'),
             'lost': DatePickerInput(format='%Y-%m-%d'),
@@ -160,7 +160,7 @@ class CameraModelForm(autocomplete.FutureModelForm):
     class Meta:
         model = CameraModel
         fields = ['manufacturer', 'model', 'other_names', 'disambiguation',
-                  'introduced', 'discontinued', 'format', 'negative_size', ]
+                  'introduced', 'discontinued', 'format', 'negative_size']
         widgets = {
             'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
             'introduced': YearPickerInput(format='%Y'),
@@ -303,7 +303,7 @@ class DeveloperForm(ModelForm):
     class Meta:
         model = Developer
         fields = ['manufacturer', 'name', 'for_paper',
-                  'for_film', 'chemistry', 'tags', ]
+                  'for_film', 'chemistry', 'tags']
         widgets = {
             'tags': autocomplete.TaggitSelect2('tag-autocomplete')
         }
@@ -330,7 +330,7 @@ class EnlargerForm(ModelForm):
     class Meta:
         model = Enlarger
         fields = ['manufacturer', 'model', 'negative_size', 'type', 'light_source',
-                  'acquired', 'lost', 'introduced', 'discontinued', 'cost', 'lost_price', ]
+                  'acquired', 'lost', 'introduced', 'discontinued', 'cost', 'lost_price']
         widgets = {
             'acquired': DatePickerInput(format='%Y-%m-%d'),
             'lost': DatePickerInput(format='%Y-%m-%d'),
@@ -366,7 +366,7 @@ class FilmStockForm(ModelForm):
     class Meta:
         model = FilmStock
         fields = ['name', 'manufacturer', 'iso',
-                  'colour', 'panchromatic', 'process', 'tags', ]
+                  'colour', 'panchromatic', 'process', 'tags']
         widgets = {
             'tags': autocomplete.TaggitSelect2('tag-autocomplete')
         }
@@ -394,7 +394,7 @@ class FilmStockForm(ModelForm):
 class FilterForm(ModelForm):
     class Meta:
         model = Filter
-        fields = ['type', 'shortname', 'attenuation', ]
+        fields = ['type', 'shortname', 'attenuation']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -413,7 +413,7 @@ class FlashForm(ModelForm):
     class Meta:
         model = Flash
         fields = ['manufacturer', 'model', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
-                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'flash_protocol', 'trigger_voltage', 'own', 'acquired', 'cost', ]
+                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'flash_protocol', 'trigger_voltage', 'own', 'acquired', 'cost']
         widgets = {
             'acquired': DatePickerInput(format='%Y-%m-%d'),
         }
@@ -455,7 +455,7 @@ class FlashForm(ModelForm):
 class FlashProtocolForm(ModelForm):
     class Meta:
         model = FlashProtocol
-        fields = ['name', 'manufacturer', ]
+        fields = ['name', 'manufacturer']
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
 
@@ -474,7 +474,7 @@ class FlashProtocolForm(ModelForm):
 class FormatForm(ModelForm):
     class Meta:
         model = Format
-        fields = ['format', 'negative_size', ]
+        fields = ['format', 'negative_size']
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('negative_size')
 
@@ -494,7 +494,7 @@ class LensForm(ModelForm):
     class Meta:
         model = Lens
         fields = ['lensmodel', 'serial', 'date_code', 'manufactured', 'acquired', 'cost',
-                  'notes', 'own', 'lost', 'lost_price', 'source', 'condition', 'condition_notes', ]
+                  'notes', 'own', 'lost', 'lost_price', 'source', 'condition', 'condition_notes']
         widgets = {
             'acquired': DatePickerInput(format='%Y-%m-%d'),
             'lost': DatePickerInput(format='%Y-%m-%d'),
@@ -529,7 +529,7 @@ class LensModelForm(ModelForm):
     class Meta:
         model = LensModel
         fields = ['manufacturer', 'model', 'disambiguation', 'mount', 'introduced', 'discontinued', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'lens_type', 'image_circle', 'aperture_blades',
-                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'Misc', 'notes', 'tags', 'url', 'image', 'image_attribution', 'image_attribution_url', 'diagram', 'diagram_attribution', 'diagram_attribution_url', ]
+                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'Misc', 'notes', 'tags', 'url', 'image', 'image_attribution', 'image_attribution_url', 'diagram', 'diagram_attribution', 'diagram_attribution_url']
         widgets = {
             'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
             'introduced': YearPickerInput(format='%Y'),
@@ -601,7 +601,7 @@ class ManufacturerForm(ModelForm):
     class Meta:
         model = Manufacturer
         fields = ['name', 'city', 'country', 'url',
-                  'founded', 'dissolved', 'tags', ]
+                  'founded', 'dissolved', 'tags']
         widgets = {
             'tags': autocomplete.TaggitSelect2('tag-autocomplete')
         }
@@ -627,7 +627,7 @@ class MountForm(ModelForm):
     class Meta:
         model = Mount
         fields = ['mount', 'shutter_in_lens', 'type',
-                  'purpose', 'notes', 'manufacturer', 'tags', ]
+                  'purpose', 'notes', 'manufacturer', 'tags']
         widgets = {
             'tags': autocomplete.TaggitSelect2('tag-autocomplete')
         }
@@ -655,7 +655,7 @@ class MountAdapterForm(ModelForm):
     class Meta:
         model = MountAdapter
         fields = ['camera_mount', 'lens_mount',
-                  'has_optics', 'infinity_focus', 'notes', ]
+                  'has_optics', 'infinity_focus', 'notes']
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('camera_mount')
             fields.remove('lens_mount')
@@ -701,7 +701,7 @@ class OrderForm(ModelForm):
     class Meta:
         model = Order
         fields = ['negative', 'width', 'height',
-                  'added', 'printed', 'print', 'recipient', ]
+                  'added', 'printed', 'print', 'recipient']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -724,14 +724,14 @@ class OrderForm(ModelForm):
             FormActions(
                 Submit('save', 'Save')
             )
-        )    
+        )
 
 
 class PaperStockForm(ModelForm):
     class Meta:
         model = PaperStock
         fields = ['name', 'manufacturer',
-                  'resin_coated', 'colour', 'finish', 'tags', ]
+                  'resin_coated', 'colour', 'finish', 'tags']
         widgets = {
             'tags': autocomplete.TaggitSelect2('tag-autocomplete')
         }
@@ -774,7 +774,7 @@ class PrintForm(ModelForm):
     class Meta:
         model = Print
         fields = ['negative', 'date', 'paper_stock', 'height', 'width', 'aperture', 'exposure_time', 'filtration_grade', 'development_time',
-                  'toner', 'own', 'location', 'sold_price', 'enlarger', 'lens', 'developer', 'fine', 'notes', 'archive', 'printer', ]
+                  'toner', 'own', 'location', 'sold_price', 'enlarger', 'lens', 'developer', 'fine', 'notes', 'archive', 'printer']
         widgets = {
             'date': DatePickerInput(format='%Y-%m-%d'),
         }
@@ -823,11 +823,10 @@ class PrintForm(ModelForm):
         )
 
 
-
 class ProcessForm(ModelForm):
     class Meta:
         model = Process
-        fields = ['name', 'colour', 'positive', ]
+        fields = ['name', 'colour', 'positive']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -845,7 +844,7 @@ class ProcessForm(ModelForm):
 class RepairForm(ModelForm):
     class Meta:
         model = Repair
-        fields = ['camera', 'lens', 'date', 'summary', 'detail', ]
+        fields = ['camera', 'lens', 'date', 'summary', 'detail']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -866,12 +865,11 @@ class RepairForm(ModelForm):
         )
 
 
-
 class ScanForm(ModelForm):
     class Meta:
         model = Scan
         fields = ['negative', 'print', 'filename',
-                  'date', 'colour', 'width', 'height', ]
+                  'date', 'colour', 'width', 'height']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -898,7 +896,7 @@ class NegativeForm(ModelForm):
     class Meta:
         model = Negative
         fields = ['film', 'frame', 'caption', 'date', 'lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'notes',
-                  'mount_adapter', 'focal_length', 'latitude', 'longitude', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of', ]
+                  'mount_adapter', 'focal_length', 'latitude', 'longitude', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of']
         widgets = {
             'date': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
         }
@@ -948,7 +946,7 @@ class FilmForm(ModelForm):
     class Meta:
         model = Film
         fields = ['filmstock', 'exposed_at', 'format', 'status', 'date_loaded', 'date_processed', 'camera', 'title', 'frames', 'developer', 'directory', 'dev_uses', 'dev_time',
-                  'dev_temp', 'dev_n', 'development_notes', 'bulk_film', 'bulk_film_loaded', 'film_batch', 'expiry_date', 'purchase_date', 'price', 'processed_by', 'archive', ]
+                  'dev_temp', 'dev_n', 'development_notes', 'bulk_film', 'bulk_film_loaded', 'film_batch', 'expiry_date', 'purchase_date', 'price', 'processed_by', 'archive']
         widgets = {
             'date_loaded': DatePickerInput(format='%Y-%m-%d'),
             'date_processed': DatePickerInput(format='%Y-%m-%d'),
@@ -1136,7 +1134,7 @@ class TeleconverterForm(ModelForm):
     class Meta:
         model = Teleconverter
         fields = ['model', 'manufacturer', 'mount',
-                  'factor', 'elements', 'groups', 'multicoated', ]
+                  'factor', 'elements', 'groups', 'multicoated']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
