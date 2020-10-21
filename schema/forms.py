@@ -698,6 +698,11 @@ class NegativeSizeForm(ModelForm):
 
 
 class OrderForm(ModelForm):
+    class Meta:
+        model = Order
+        fields = ['negative', 'width', 'height',
+                  'added', 'printed', 'print', 'recipient', ]
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['negative'].queryset = Negative.objects.filter(
@@ -719,12 +724,7 @@ class OrderForm(ModelForm):
             FormActions(
                 Submit('save', 'Save')
             )
-        )
-
-    class Meta:
-        model = Order
-        fields = ['negative', 'width', 'height',
-                  'added', 'printed', 'print', 'recipient', ]
+        )    
 
 
 class PaperStockForm(ModelForm):
@@ -771,6 +771,18 @@ class PersonForm(ModelForm):
 
 
 class PrintForm(ModelForm):
+    class Meta:
+        model = Print
+        fields = ['negative', 'date', 'paper_stock', 'height', 'width', 'aperture', 'exposure_time', 'filtration_grade', 'development_time',
+                  'toner', 'own', 'location', 'sold_price', 'enlarger', 'lens', 'developer', 'fine', 'notes', 'archive', 'printer', ]
+        widgets = {
+            'date': DatePickerInput(format='%Y-%m-%d'),
+        }
+        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
+            fields.remove('paper_stock')
+            fields.remove('developer')
+            fields.remove('toner')
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['negative'].queryset = Negative.objects.filter(
@@ -810,17 +822,6 @@ class PrintForm(ModelForm):
             )
         )
 
-    class Meta:
-        model = Print
-        fields = ['negative', 'date', 'paper_stock', 'height', 'width', 'aperture', 'exposure_time', 'filtration_grade', 'development_time',
-                  'toner', 'own', 'location', 'sold_price', 'enlarger', 'lens', 'developer', 'fine', 'notes', 'archive', 'printer', ]
-        widgets = {
-            'date': DatePickerInput(format='%Y-%m-%d'),
-        }
-        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
-            fields.remove('paper_stock')
-            fields.remove('developer')
-            fields.remove('toner')
 
 
 class ProcessForm(ModelForm):
@@ -842,6 +843,10 @@ class ProcessForm(ModelForm):
 
 
 class RepairForm(ModelForm):
+    class Meta:
+        model = Repair
+        fields = ['camera', 'lens', 'date', 'summary', 'detail', ]
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['camera'].queryset = Camera.objects.filter(
@@ -860,12 +865,14 @@ class RepairForm(ModelForm):
             )
         )
 
-    class Meta:
-        model = Repair
-        fields = ['camera', 'lens', 'date', 'summary', 'detail', ]
 
 
 class ScanForm(ModelForm):
+    class Meta:
+        model = Scan
+        fields = ['negative', 'print', 'filename',
+                  'date', 'colour', 'width', 'height', ]
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['negative'].queryset = Negative.objects.filter(
@@ -886,13 +893,16 @@ class ScanForm(ModelForm):
             )
         )
 
-    class Meta:
-        model = Scan
-        fields = ['negative', 'print', 'filename',
-                  'date', 'colour', 'width', 'height', ]
-
 
 class NegativeForm(ModelForm):
+    class Meta:
+        model = Negative
+        fields = ['film', 'frame', 'caption', 'date', 'lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'notes',
+                  'mount_adapter', 'focal_length', 'latitude', 'longitude', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of', ]
+        widgets = {
+            'date': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+        }
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['film'].queryset = Film.objects.filter(
@@ -932,14 +942,6 @@ class NegativeForm(ModelForm):
                 Submit('save', 'Save')
             )
         )
-
-    class Meta:
-        model = Negative
-        fields = ['film', 'frame', 'caption', 'date', 'lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'notes',
-                  'mount_adapter', 'focal_length', 'latitude', 'longitude', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of', ]
-        widgets = {
-            'date': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
-        }
 
 
 class FilmForm(ModelForm):
