@@ -549,27 +549,22 @@ class NegativeTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Negative
-        fields = ('id_owner', 'film', 'frame', 'caption',
-                  'date', 'lens', 'shutter_speed', 'aperture')
+        fields = ('id_owner', 'date', 'lens', 'shutter_speed', 'aperture')
 
     @classmethod
-    def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('negative-detail', args=[value]), value)
+    def render_id_owner(cls, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('negative-detail', args=[value]), record)
 
 
 class FilmTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Film
-        fields = ('id_owner', 'title', 'filmstock', 'format', 'status', 'date_processed', 'camera')
+        fields = ('id_owner', 'filmstock', 'format', 'status', 'date_processed', 'camera')
 
     @classmethod
-    def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('film-detail', args=[value]), value)
-
-    @classmethod
-    def render_title(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('film-detail', args=[record.id_owner]), value)
+    def render_id_owner(cls, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('film-detail', args=[value]), record)
 
     @classmethod
     def render_filmstock(cls, value):
