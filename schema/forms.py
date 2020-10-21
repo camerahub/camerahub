@@ -835,8 +835,6 @@ class NegativeForm(ModelForm):
             'notes',
             'mount_adapter',
             'focal_length',
-            'latitude',
-            'longitude',
             'location',
             'flash',
             'metering_mode',
