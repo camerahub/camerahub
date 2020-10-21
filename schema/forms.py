@@ -837,6 +837,7 @@ class NegativeForm(ModelForm):
             'focal_length',
             'latitude',
             'longitude',
+            'location',
             'flash',
             'metering_mode',
             'exposure_program',
