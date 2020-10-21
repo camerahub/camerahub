@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load leaflet_tags %}
 
 {% block content %}
 <table class="table table-hover">
@@ -76,6 +77,27 @@
   <tr>
     <td>Location</td>
     <td>{{ object.latitude }}°, {{ object.longitude }}°</td>
+  </tr>
+  {% endif %}
+  {% if object.location is not None %}
+  <tr>
+    <td>Location</td>
+    <td>
+      {% leaflet_js %}
+      {% leaflet_css %}
+      <script>
+        function map_init_basic (map, options) {
+            var coords = [{{ object.location.latitude|safe }},{{ object.location.longitude|safe }}];
+            L.marker(coords).addTo(map);
+            map.setView(coords, 16);
+        }
+      </script>
+
+      <figure class="figure">
+        {% leaflet_map "yourmap" callback="window.map_init_basic" %}
+        <figcaption class="figure-caption">{{ object.location.latitude}}&deg;, {{ object.location.longitude}}&deg;</figcaption>
+      </figure>
+    </td>
   </tr>
   {% endif %}
   {% if object.flash is not None %}
