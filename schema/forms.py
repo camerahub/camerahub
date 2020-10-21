@@ -1020,8 +1020,6 @@ class FilmArchiveForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['processed_by'].queryset = Person.objects.filter(
-            owner=get_current_user())
         self.fields['archive'].queryset = Archive.objects.filter(
             Q(type='Negative') | Q(type='Slide'), owner=get_current_user(), sealed=False)
         self.helper = FormHelper(self)
