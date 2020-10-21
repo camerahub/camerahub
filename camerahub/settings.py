@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django_countries',
     'dal',
     'dal_select2',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [

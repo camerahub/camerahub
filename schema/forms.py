@@ -6,6 +6,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, Div, Hidden, HTML
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
 from dal import autocomplete
+from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput, YearPickerInput, MonthPickerInput
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
@@ -27,6 +28,10 @@ class AccessoryForm(ModelForm):
             'camera_model_compatibility',
             'lens_model_compatibility',
         ]
+        widgets = {
+            'acquired': DatePickerInput(format='%Y-%m-%d'),
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
             fields.remove('camera_model_compatibility')
@@ -90,6 +95,10 @@ class BulkFilmForm(ModelForm):
             'batch',
             'expiry',
         ]
+        widgets = {
+            'purchase_date': DatePickerInput(format='%Y-%m-%d'),
+            'expiry': MonthPickerInput(format='%Y-%m-01'),
+        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('filmstock')
             fields.remove('format')
@@ -104,6 +113,10 @@ class CameraForm(ModelForm):
     class Meta:
         model = Camera
         fields = '__all__'
+        widgets = {
+            'acquired': DatePickerInput(format='%Y-%m-%d'),
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -135,7 +148,9 @@ class CameraModelForm(autocomplete.FutureModelForm):
         model = CameraModel
         fields = '__all__'
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+            'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
+            'introduced': YearPickerInput(format='%Y'),
+            'discontinued': YearPickerInput(format='%Y'),
         }
 
     def __init__(self, *args, **kwargs):
@@ -309,6 +324,12 @@ class EnlargerForm(ModelForm):
             'cost',
             'lost_price',
         ]
+        widgets = {
+            'acquired': DatePickerInput(format='%Y-%m-%d'),
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+            'introduced': YearPickerInput(format='%Y'),
+            'discontinued': YearPickerInput(format='%Y'),
+        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
             fields.remove('negative_size')
@@ -384,6 +405,9 @@ class FlashForm(ModelForm):
             'acquired',
             'cost',
         ]
+        widgets = {
+            'acquired': DatePickerInput(format='%Y-%m-%d'),
+        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
             fields.remove('flash_protocol')
@@ -445,6 +469,10 @@ class LensForm(ModelForm):
             'condition',
             'condition_notes',
         ]
+        widgets = {
+            'acquired': DatePickerInput(format='%Y-%m-%d'),
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('lensmodel')
 
@@ -459,7 +487,9 @@ class LensModelForm(ModelForm):
         model = LensModel
         fields = '__all__'
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+            'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
+            'introduced': YearPickerInput(format='%Y'),
+            'discontinued': YearPickerInput(format='%Y'),
         }
 
     def __init__(self, *args, **kwargs):
@@ -704,6 +734,9 @@ class PrintForm(ModelForm):
             'archive',
             'printer',
         ]
+        widgets = {
+            'date': DatePickerInput(format='%Y-%m-%d'),
+        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('paper_stock')
             fields.remove('developer')
@@ -810,12 +843,21 @@ class NegativeForm(ModelForm):
             'photographer',
             'copy_of',
         ]
+        widgets = {
+            'date': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+        }
 
 
 class FilmForm(ModelForm):
     class Meta:
         model = Film
         fields = '__all__'
+        widgets = {
+            'date_loaded': DatePickerInput(format='%Y-%m-%d'),
+            'date_processed': DatePickerInput(format='%Y-%m-%d'),
+            'purchase_date': DatePickerInput(format='%Y-%m-%d'),
+            'expiry_date': MonthPickerInput(format='%Y-%m-01'),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -864,6 +906,10 @@ class FilmAddForm(ModelForm):
         model = Film
         fields = ['filmstock', 'format', 'frames', 'film_batch', 'expiry_date',
                   'purchase_date', 'price', 'bulk_film', 'bulk_film_loaded', 'status']
+        widgets = {
+            'purchase_date': DatePickerInput(format='%Y-%m-%d'),
+            'expiry_date': MonthPickerInput(format='%Y-%m-01'),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -908,6 +954,9 @@ class FilmLoadForm(ModelForm):
         model = Film
         fields = ['camera', 'title', 'exposed_at',
                   'date_loaded', 'frames', 'status']
+        widgets = {
+            'date_loaded': DatePickerInput(format='%Y-%m-%d'),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -935,6 +984,9 @@ class FilmDevelopForm(ModelForm):
         model = Film
         fields = ['date_processed', 'developer', 'directory', 'dev_uses', 'dev_time',
                   'dev_temp', 'dev_n', 'development_notes', 'processed_by', 'status']
+        widgets = {
+            'date_processed': DatePickerInput(format='%Y-%m-%d'),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
