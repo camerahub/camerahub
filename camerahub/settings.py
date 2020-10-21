@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'dal_select2',
     'bootstrap_datepicker_plus',
     'geoposition',
+    'leaflet',
 ]
 
 MIDDLEWARE = [

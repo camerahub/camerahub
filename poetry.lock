@@ -223,6 +223,20 @@ version = "0.3.11"
 
 [[package]]
 category = "main"
+description = "Use Leaflet in your django projects"
+name = "django-leaflet"
+optional = false
+python-versions = "*"
+version = "0.27.1"
+
+[package.dependencies]
+Django = "*"
+
+[package.extras]
+docs = ["sphinx", "sphinx-autobuild"]
+
+[[package]]
+category = "main"
 description = "Adds support for using money and currency fields in django models and forms. Uses py-moneyed as the money implementation."
 name = "django-money"
 optional = false
@@ -742,7 +756,7 @@ testing = ["pytest (>=3.5,<3.7.3 || >3.7.3)", "pytest-checkdocs (>=1.2.3)", "pyt
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "76b753e643c2086052863461ec125356442832c85479abc718edbf8d8dffc540"
+content-hash = "d674cb421c30215c2b24519eb345688a6cdd0d444029ab4079bebabd1c4c3ba6"
 lock-version = "1.0"
 python-versions = "^3.6"
 
@@ -817,6 +831,10 @@ django-fullurl = [
 ]
 django-geoposition-2 = [
     {file = "django-geoposition-2-0.3.11.tar.gz", hash = "sha256:e902c0db92d7f244a7178937912fd0d3ddc4aecc6a924993a53b990feb810529"},
+]
+django-leaflet = [
+    {file = "django-leaflet-0.27.1.tar.gz", hash = "sha256:b530960242fe7718572b23976dd6037823dd478335c22c4434931335acf88bdd"},
+    {file = "django_leaflet-0.27.1-py3-none-any.whl", hash = "sha256:3cf1bc8a0e41d22651541ad5b5e2a8f2c6a13a603728883cd332daf785b37250"},
 ]
 django-money = [
     {file = "django-money-0.15.1.tar.gz", hash = "sha256:88b5a0ee36565a87c39581efedbe4834b6f3f4a9a348887678ed2f45f4f8a192"},
