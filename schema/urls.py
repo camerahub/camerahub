@@ -15,6 +15,7 @@ urlpatterns = [
 
     path('tag/', views.TagList.as_view(), name='tag-list'),
     path('tag/<slug:slug>', views.TagDetail.as_view(), name='tag-detail'),
+    path('tag-autocomplete/', views.TagAutocomplete.as_view(), name='tag-autocomplete'),
 
     path('accessory/', views.AccessoryList.as_view(), name='accessory-list'),
     path('accessory/<int:id_owner>', views.AccessoryDetail.as_view(),
