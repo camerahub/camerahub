@@ -82,7 +82,7 @@ class BatteryForm(ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             'name',
-            'voltage',
+            AppendedText('voltage', 'V'),
             'chemistry',
             'compatible_with',
             FormActions(
@@ -442,7 +442,7 @@ class FlashForm(ModelForm):
             'zoom',
             'ttl',
             'flash_protocol',
-            'trigger_voltage',
+            AppendedText('trigger_voltage', 'V'),
             'own',
             'acquired',
             'cost',
@@ -603,7 +603,9 @@ class ManufacturerForm(ModelForm):
         fields = ['name', 'city', 'country', 'url',
                   'founded', 'dissolved', 'tags']
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+            'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
+            'founded': YearPickerInput(format='%Y'),
+            'dissolved': YearPickerInput(format='%Y'),
         }
 
     def __init__(self, *args, **kwargs):
@@ -689,8 +691,8 @@ class NegativeSizeForm(ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             'name',
-            'width',
-            'height',
+            AppendedText('width', 'mm'),
+            AppendedText('height', 'mm'),
             FormActions(
                 Submit('save', 'Save')
             )
@@ -715,8 +717,8 @@ class OrderForm(ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             'negative',
-            'width',
-            'height',
+            AppendedText('width', '"'),
+            AppendedText('height', '"'),
             'added',
             'printed',
             'print',
@@ -800,9 +802,9 @@ class PrintForm(ModelForm):
             'negative',
             'date',
             'paper_stock',
-            'height',
-            'width',
-            'aperture',
+            AppendedText('height', '"'),
+            AppendedText('width', '"'),
+            PrependedText('aperture', 'f/'),
             'exposure_time',
             'filtration_grade',
             'development_time',
@@ -845,6 +847,9 @@ class RepairForm(ModelForm):
     class Meta:
         model = Repair
         fields = ['camera', 'lens', 'date', 'summary', 'detail']
+        widgets = {
+            'date': DatePickerInput(format='%Y-%m-%d'),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -870,6 +875,9 @@ class ScanForm(ModelForm):
         model = Scan
         fields = ['negative', 'print', 'filename',
                   'date', 'colour', 'width', 'height']
+        widgets = {
+            'date': DatePickerInput(format='%Y-%m-%d'),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -884,8 +892,8 @@ class ScanForm(ModelForm):
             'filename',
             'date',
             'colour',
-            'width',
-            'height',
+            AppendedText('width', 'px'),
+            AppendedText('height', 'px'),
             FormActions(
                 Submit('save', 'Save')
             )
@@ -923,12 +931,12 @@ class NegativeForm(ModelForm):
             'date',
             'lens',
             'shutter_speed',
-            'aperture',
+            PrependedText('aperture', 'f/'),
             'filter',
             'teleconverter',
             'notes',
             'mount_adapter',
-            'focal_length',
+            AppendedText('focal_length', 'mm'),
             'latitude',
             'longitude',
             'flash',
@@ -979,7 +987,7 @@ class FilmForm(ModelForm):
             'directory',
             'dev_uses',
             'dev_time',
-            'dev_temp',
+            AppendedText('dev_temp', '&deg;C'),
             'dev_n',
             'development_notes',
             'bulk_film',
