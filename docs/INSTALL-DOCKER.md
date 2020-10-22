@@ -15,7 +15,7 @@ Additionally, there is a `testing` tag which contains the code at [master](https
 which should form the next tagged release.
 
 ```sh
-docker create --name camerahub --mount source=camerahub-sqlite,target=/var/www/camerahub/db -p 8000:8000 djjudas21/camerahub
+docker create --name camerahub --mount source=camerahub-sqlite,target=/camerahub/db -p 8000:8000 djjudas21/camerahub
 ```
 
 Start CameraHub by running:

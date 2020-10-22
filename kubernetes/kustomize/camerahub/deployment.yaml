@@ -104,7 +104,7 @@ spec:
                   optional: true
           volumeMounts:
             - name: media
-              mountPath: /var/www/camerahub/media
+              mountPath: /camerahub/media
               readOnly: false
       dnsPolicy: ClusterFirst
       volumes:

@@ -3,7 +3,7 @@ FROM python:3.8-slim
 LABEL maintainer "Jonathan Gazeley"
 
 # Project Files and Settings
-ARG PROJECT_DIR=/var/www/camerahub
+ARG PROJECT_DIR=/camerahub
 RUN mkdir -p $PROJECT_DIR/static $PROJECT_DIR/media
 ADD . $PROJECT_DIR
 WORKDIR $PROJECT_DIR
