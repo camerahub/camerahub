@@ -17,6 +17,7 @@ from simple_history.models import HistoricalRecords
 from versatileimagefield.fields import VersatileImageField
 from collectionfield.models import CollectionField
 from django_countries.fields import CountryField
+from geoposition.fields import GeopositionField
 from .funcs import angle_of_view
 
 
@@ -1849,10 +1850,7 @@ class Negative(models.Model):
                                       blank=True, null=True, help_text='Mount adapter used to mount lens')
     focal_length = models.PositiveIntegerField(
         help_text='If a zoom lens was used, specify the focal length of the lens', blank=True, null=True)
-    latitude = models.DecimalField(help_text='Latitude of the location where the picture was taken', max_digits=9,
-                                   decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-90), MaxValueValidator(90)])
-    longitude = models.DecimalField(help_text='Longitude of the location where the picture was taken', max_digits=9,
-                                    decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-180), MaxValueValidator(180)])
+    location = GeopositionField(help_text='Location where the picture was taken', blank=True, null=True)
     flash = models.BooleanField(
         help_text='Whether flash was used', blank=True, null=True)
     metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE,

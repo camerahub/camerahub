@@ -275,7 +275,7 @@ class NegativeAdmin(admin.ModelAdmin):
             'fields': ('lens', 'mount_adapter', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'focal_length', 'flash', 'metering_mode', 'exposure_program', 'copy_of'),
         }),
         ('Location', {
-            'fields': (('latitude', 'longitude'),),
+            'fields': ('location',),
         }),
     )
     search_fields = ['caption', 'notes']
