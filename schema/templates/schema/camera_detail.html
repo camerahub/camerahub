@@ -90,4 +90,6 @@
 </table>
 {% endblock %}
 
-{% block moreactions %}{%endblock%}
+{% block moreactions %}
+{% if object.own is not False %}<li><a class="btn btn-primary" href="{% url 'camera-sell' object.id_owner %}" role="button">Sell this camera</a></li>{% endif %}
+{%endblock%}

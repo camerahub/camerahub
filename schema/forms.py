@@ -142,6 +142,28 @@ class CameraForm(ModelForm):
             )
         )
 
+class CameraSellForm(ModelForm):
+    class Meta:
+        model = Camera
+        fields = ['lost', 'lost_price', 'own']
+        widgets = {
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Div(
+                Hidden('own', False),
+                'lost',
+                'lost_price',
+            ),
+            FormActions(
+                Submit('save', 'Save')
+            )
+        )
+
 
 class CameraModelForm(autocomplete.FutureModelForm):
     class Meta:
@@ -480,6 +502,29 @@ class LensForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout.append(Submit('Save', 'Save'))
+
+
+class LensSellForm(ModelForm):
+    class Meta:
+        model = Lens
+        fields = ['own', 'lost', 'lost_price']
+        widgets = {
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Div(
+                Hidden('own', False),
+                'lost',
+                'lost_price',
+            ),
+            FormActions(
+                Submit('save', 'Save')
+            )
+        )
 
 
 class LensModelForm(ModelForm):

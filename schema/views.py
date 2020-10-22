@@ -26,8 +26,8 @@ from schema.tables import FlashTable, FlashProtocolTable, FormatTable, LensTable
 from schema.tables import MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable
 from schema.tables import ProcessTable, RepairTable, ScanTable, NegativeTable, FilmTable, TeleconverterTable, TonerTable
 
-from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
-from schema.forms import FlashForm, FlashProtocolForm, FormatForm, LensForm, LensModelForm, ManufacturerForm
+from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraSellForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
+from schema.forms import FlashForm, FlashProtocolForm, FormatForm, LensForm, LensSellForm, LensModelForm, ManufacturerForm
 from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
 from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, FilmAddForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TonerForm
 
@@ -231,6 +231,16 @@ class CameraCreate(LoginRequiredMixin, CreateView):
 class CameraUpdate(LoginRequiredMixin, UpdateView):
     model = Camera
     form_class = CameraForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Camera, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+class CameraSell(LoginRequiredMixin, UpdateView):
+    model = Camera
+    form_class = CameraSellForm
     template_name = 'update.html'
 
     # Restrict to objects we own
@@ -548,6 +558,16 @@ class LensCreate(LoginRequiredMixin, CreateView):
 class LensUpdate(LoginRequiredMixin, UpdateView):
     model = Lens
     form_class = LensForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Lens, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+class LensSell(LoginRequiredMixin, UpdateView):
+    model = Lens
+    form_class = LensSellForm
     template_name = 'update.html'
 
     # Restrict to objects we own
