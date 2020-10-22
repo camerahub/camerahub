@@ -42,7 +42,7 @@
     </td>
   </tr>
   {% endif %}
-  {% if object.disambiguation is not None %}
+  {% if object.disambiguation %}
   <tr>
     <td>Disambiguation</td>
     <td>{{ object.disambiguation }}</td>
@@ -555,5 +555,9 @@
 <li><form action="{% url 'camera-create' %}">
   <input type="hidden" name="cameramodel" value="{{ object.id }}">
   <button class="btn btn-primary" type="submit">Add to collection</button>
+</form></li>
+<li><form action="{% url 'cameramodel-create' %}">
+  <input type="hidden" name="clone" value="{{ object.slug }}">
+  <button class="btn btn-primary" type="submit">Clone this camera model</button>
 </form></li>
 {% endblock %}

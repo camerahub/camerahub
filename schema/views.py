@@ -41,6 +41,8 @@ from schema.formhelpers import DeveloperFormHelper, EnlargerFormHelper, FilmForm
 from schema.formhelpers import LensFormHelper, LensModelFormHelper, MountAdapterFormHelper, MountFormHelper, NegativeFormHelper
 from schema.formhelpers import OrderFormHelper, PaperStockFormHelper, PrintFormHelper, RepairFormHelper, TeleconverterFormHelper, TonerFormHelper
 
+from .funcs import to_dict
+
 # Custom class for filtered list views in table format
 
 
@@ -279,6 +281,20 @@ class CameraModelCreate(LoginRequiredMixin, CreateView):
     model = CameraModel
     form_class = CameraModelForm
     template_name = 'create.html'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'clone' in self.request.GET:
+            # Retrieve original object
+            original = CameraModel.objects.get(slug=self.request.GET['clone'])
+
+            # Copy the original object to the initial state of the new one
+            initial = to_dict(original)
+
+            # Set disambiguation
+            initial['disambiguation'] = 'Clone of ' + str(original)
+
+        return initial
 
 
 class CameraModelUpdate(LoginRequiredMixin, UpdateView):
@@ -582,6 +598,20 @@ class LensModelCreate(LoginRequiredMixin, CreateView):
     model = LensModel
     form_class = LensModelForm
     template_name = 'create.html'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'clone' in self.request.GET:
+            # Retrieve original object
+            original = LensModel.objects.get(slug=self.request.GET['clone'])
+
+            # Copy the original object to the initial state of the new one
+            initial = to_dict(original)
+
+            # Set disambiguation
+            initial['disambiguation'] = 'Clone of ' + str(original)
+
+        return initial
 
 
 class LensModelUpdate(LoginRequiredMixin, UpdateView):
