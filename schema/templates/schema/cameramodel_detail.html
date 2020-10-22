@@ -556,4 +556,8 @@
   <input type="hidden" name="cameramodel" value="{{ object.id }}">
   <button class="btn btn-primary" type="submit">Add to collection</button>
 </form></li>
+<li><form action="{% url 'cameramodel-create' %}">
+  <input type="hidden" name="clone" value="{{ object.slug }}">
+  <button class="btn btn-primary" type="submit">Clone this camera model</button>
+</form></li>
 {% endblock %}
