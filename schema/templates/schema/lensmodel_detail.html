@@ -321,4 +321,9 @@
   <input type="hidden" name="lensmodel" value="{{ object.id }}">
   <button class="btn btn-primary" type="submit">Add to collection</button>
 </form></li>
+
+<li><form action="{% url 'lensmodel-create' %}">
+  <input type="hidden" name="clone" value="{{ object.slug }}">
+  <button class="btn btn-primary" type="submit">Clone this lens model</button>
+</form></li>
 {% endblock %}
