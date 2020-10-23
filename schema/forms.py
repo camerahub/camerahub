@@ -928,7 +928,7 @@ class FilmForm(ModelForm):
             'directory',
             'developer_previous_uses',
             'development_time',
-            'development_temperature',
+            AppendedText('development_temperature', '&deg;C'),
             PrependedText('development_compensation', 'N'),
             'development_notes',
             'bulk_film',
