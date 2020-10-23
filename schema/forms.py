@@ -142,6 +142,7 @@ class CameraForm(ModelForm):
             )
         )
 
+
 class CameraSellForm(ModelForm):
     class Meta:
         model = Camera
@@ -888,7 +889,10 @@ class NegativeForm(ModelForm):
             'copy_of',
         ]
         widgets = {
-            'date': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+            'date': DateTimePickerInput(format='%Y-%m-%d %H:%M',
+                                        options={
+                                            "sideBySide": True,
+                                        }),
         }
 
 
