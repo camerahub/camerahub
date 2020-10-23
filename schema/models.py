@@ -1753,13 +1753,13 @@ class Film(models.Model):
                                   help_text='Developer used to develop this film', limit_choices_to={'for_film': True})
     directory = models.CharField(
         help_text='Name of the directory that contains the scanned images from this film', max_length=100, blank=True, null=True)
-    dev_uses = models.PositiveIntegerField(
+    developer_previous_uses = models.PositiveIntegerField(
         help_text='Number of previous uses of the developer', blank=True, null=True)
-    dev_time = models.DurationField(
+    development_time = models.DurationField(
         help_text='Duration of development', blank=True, null=True)
-    dev_temp = models.DecimalField(
+    development_temperature = models.DecimalField(
         help_text='Temperature of development', max_digits=3, decimal_places=1, blank=True, null=True)
-    dev_n = models.IntegerField(
+    development_compensation = models.IntegerField(
         help_text='Number of the Push/Pull rating of the film, e.g. N+1, N-2', blank=True, null=True)
     development_notes = models.TextField(help_text='Extra freeform notes about the development process', blank=True, null=True)
     bulk_film = models.ForeignKey(BulkFilm, on_delete=models.CASCADE,

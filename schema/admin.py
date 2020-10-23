@@ -303,7 +303,7 @@ class FilmAdmin(admin.ModelAdmin):
             'fields': ('exposed_at', 'camera', 'date_loaded'),
         }),
         ('Development', {
-            'fields': ('developer', 'dev_uses', 'dev_time', 'dev_temp', 'dev_n', 'development_notes', 'processed_by', 'date_processed'),
+            'fields': ('developer', 'developer_previous_uses', 'development_time', 'development_temperature', 'development_compensation', 'development_notes', 'processed_by', 'date_processed'),
         }),
         ('Archive', {
             'fields': ('directory', 'archive'),

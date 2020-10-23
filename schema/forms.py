@@ -930,10 +930,10 @@ class FilmForm(ModelForm):
             'frames',
             'developer',
             'directory',
-            'dev_uses',
-            'dev_time',
-            'dev_temp',
-            'dev_n',
+            'developer_previous_uses',
+            'development_time',
+            AppendedText('development_temperature', '&deg;C'),
+            PrependedText('development_compensation', 'N'),
             'development_notes',
             'bulk_film',
             'bulk_film_loaded',
@@ -1030,8 +1030,8 @@ class FilmLoadForm(ModelForm):
 class FilmDevelopForm(ModelForm):
     class Meta:
         model = Film
-        fields = ['date_processed', 'developer', 'directory', 'dev_uses', 'dev_time',
-                  'dev_temp', 'dev_n', 'development_notes', 'processed_by', 'status']
+        fields = ['date_processed', 'developer', 'directory', 'developer_previous_uses', 'development_time',
+                  'development_temperature', 'development_compensation', 'development_notes', 'processed_by', 'status']
         widgets = {
             'date_processed': DatePickerInput(format='%Y-%m-%d'),
         }
@@ -1047,10 +1047,10 @@ class FilmDevelopForm(ModelForm):
                 'date_processed',
                 'developer',
                 'directory',
-                'dev_uses',
-                'dev_time',
-                AppendedText('dev_temp', '&deg;C'),
-                'dev_n',
+                'developer_previous_uses',
+                'development_time',
+                AppendedText('development_temperature', '&deg;C'),
+                PrependedText('development_compensation', 'N'),
                 'development_notes',
                 'processed_by',
             ),
