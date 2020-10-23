@@ -142,6 +142,7 @@ class CameraForm(ModelForm):
             )
         )
 
+
 class CameraSellForm(ModelForm):
     class Meta:
         model = Camera
@@ -901,7 +902,11 @@ class FilmForm(ModelForm):
             'date_processed': DatePickerInput(format='%Y-%m-%d'),
             'purchase_date': DatePickerInput(format='%Y-%m-%d'),
             'expiry_date': MonthPickerInput(format='%Y-%m-01'),
-            'dev_time': DateTimePickerInput(format='%H:%M:%S'),
+            'dev_time': TimePickerInput(format='%H:%M:%S',
+                                        options={
+                                            "useCurrent": False,
+                                            "showTodayButton": False,
+                                        }),
         }
 
     def __init__(self, *args, **kwargs):
@@ -1031,7 +1036,11 @@ class FilmDevelopForm(ModelForm):
                   'dev_temp', 'dev_n', 'development_notes', 'processed_by', 'status']
         widgets = {
             'date_processed': DatePickerInput(format='%Y-%m-%d'),
-            'dev_time': TimePickerInput(format='%H:%M:%S', ),
+            'dev_time': TimePickerInput(format='%H:%M:%S',
+                                        options={
+                                            "useCurrent": False,
+                                            "showTodayButton": False,
+                                        }),
         }
 
     def __init__(self, *args, **kwargs):
