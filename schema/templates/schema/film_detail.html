@@ -1,5 +1,6 @@
 {% extends "detail.html" %}
 {% load static %}
+{% load formatting %}
 
 {% block content %}
 <table class="table table-hover">
@@ -106,7 +107,7 @@
   {% if object.dev_n is not None %}
   <tr>
     <td>Development compensation</td>
-    <td>{{ object.dev_n }}</td>
+    <td>N{{ object.dev_n|sign }}</td>
   </tr>
   {% endif %}
   {% if object.development_notes %}
