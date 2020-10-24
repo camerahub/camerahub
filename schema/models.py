@@ -399,7 +399,7 @@ class Flash(models.Model):
     trigger_voltage = models.DecimalField(
         help_text='Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1, blank=True, null=True)
     own = models.BooleanField(
-        help_text='Whether we currently own this flash', blank=True, null=True)
+        help_text='Whether the flash is currently in your collection', default=True)
     acquired = models.DateField(
         help_text='Date this flash was acquired', blank=True, null=True)
     cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
@@ -1581,7 +1581,7 @@ class Lens(models.Model):
                       decimal_places=2, blank=True, null=True, default_currency='GBP')
     notes = models.TextField(help_text='Freeform notes field', blank=True, null=True)
     own = models.BooleanField(
-        help_text='Whether we currently own this lens', blank=True, null=True)
+        help_text='Whether the lens is currently in your collection', default=True)
     lost = models.DateField(
         help_text='Date on which lens was lost/sold/disposed', blank=True, null=True)
     lost_price = MoneyField(help_text='Sale price of the lens', max_digits=12,
@@ -1658,7 +1658,7 @@ class Camera(models.Model):
     manufactured = models.PositiveIntegerField(
         help_text='Year of manufacture of the camera', blank=True, null=True)
     own = models.BooleanField(
-        help_text='Whether the camera is currently owned', blank=True, null=True)
+        help_text='Whether the camera is currently in your collection', default=True)
     notes = models.TextField(help_text='Freeform text field for extra notes', blank=True, null=True)
     lost = models.DateField(
         help_text='Date on which the camera was lost/sold/etc', blank=True, null=True)
@@ -1939,7 +1939,7 @@ class Print(models.Model):
     toner = models.ManyToManyField(
         'Toner', through='Toning', help_text='Toners and bleaches used to treat this print', blank=True)
     own = models.BooleanField(
-        help_text='Whether we currently own this print', blank=True, null=True)
+        help_text='Whether the print is currently in your collection', default=True)
     location = models.CharField(
         help_text='The place where this print is currently', max_length=100, blank=True, null=True)
     sold_price = MoneyField(help_text='Sale price of the print', max_digits=12,
