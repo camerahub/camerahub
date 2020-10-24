@@ -1605,7 +1605,8 @@ class Lens(models.Model):
         return mystr
 
     class Meta:
-        ordering = ['lensmodel__manufacturer', 'lensmodel__model', 'serial']
+        ordering = ['-own', 'lensmodel__manufacturer',
+                    'lensmodel__model', 'serial']
         verbose_name_plural = "lenses"
         unique_together = ['lensmodel', 'serial']
 
@@ -1683,7 +1684,7 @@ class Camera(models.Model):
         return mystr
 
     class Meta:
-        ordering = ['cameramodel__manufacturer',
+        ordering = ['-own', 'cameramodel__manufacturer',
                     'cameramodel__model', 'serial']
         verbose_name_plural = "cameras"
         unique_together = ['cameramodel', 'serial']
