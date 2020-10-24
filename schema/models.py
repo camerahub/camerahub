@@ -1602,7 +1602,8 @@ class Lens(models.Model):
         else:
             mystr = "%s %s" % (
                 self.lensmodel.manufacturer.name, self.lensmodel.model)
-        return mystr
+        ownchar = '[SOLD] ' if self.own is False else ''
+        return ownchar + mystr
 
     class Meta:
         ordering = ['-own', 'lensmodel__manufacturer',
@@ -1681,7 +1682,8 @@ class Camera(models.Model):
         else:
             mystr = "%s %s" % (
                 self.cameramodel.manufacturer.name, self.cameramodel.model)
-        return mystr
+        ownchar = '[SOLD] ' if self.own is False else ''
+        return ownchar + mystr
 
     class Meta:
         ordering = ['-own', 'cameramodel__manufacturer',
