@@ -399,7 +399,7 @@ class Flash(models.Model):
     trigger_voltage = models.DecimalField(
         help_text='Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1, blank=True, null=True)
     own = models.BooleanField(
-        help_text='Whether we currently own this flash', blank=True, null=True)
+        help_text='Whether the flash is currently in your collection', default=True)
     acquired = models.DateField(
         help_text='Date this flash was acquired', blank=True, null=True)
     cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
@@ -563,7 +563,8 @@ class Mount(models.Model):
                             choices=MountType.choices, max_length=15, blank=True, null=True)
     purpose = models.CharField(help_text='The intended purpose of this lens mount',
                                choices=Purpose.choices, max_length=15, blank=True, null=True)
-    notes = models.TextField(help_text='Freeform notes field', blank=True, null=True)
+    notes = models.TextField(
+        help_text='Freeform notes field', blank=True, null=True)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                      blank=True, null=True, help_text='Manufacturer who owns this lens mount')
     slug = models.SlugField(editable=False, null=True, unique=True)
@@ -1042,7 +1043,8 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         help_text='Year in which this lens model was discontinued', blank=True, null=True)
     negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True,
                                       null=True, help_text='Largest negative size that this lens is designed for')
-    notes = models.TextField(help_text='Freeform notes field', blank=True, null=True)
+    notes = models.TextField(
+        help_text='Freeform notes field', blank=True, null=True)
     coating = models.CharField(choices=CoatingType.choices,
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
@@ -1060,12 +1062,16 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
     history = HistoricalRecords()
     image = VersatileImageField(
         help_text='Image of the lens model', blank=True, null=True)
-    image_attribution = models.CharField(help_text='Author of this image', max_length=50, blank=True, null=True)
-    image_attribution_url = models.URLField(help_text='Attribution URL for this image', blank=True, null=True)
+    image_attribution = models.CharField(
+        help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_url = models.URLField(
+        help_text='Attribution URL for this image', blank=True, null=True)
     diagram = VersatileImageField(
         help_text='Block diagram of the optics', blank=True, null=True)
-    diagram_attribution = models.CharField(help_text='Author of this diagram', max_length=50, blank=True, null=True)
-    diagram_attribution_url = models.URLField(help_text='Attribution URL for this diagram', blank=True, null=True)
+    diagram_attribution = models.CharField(
+        help_text='Author of this diagram', max_length=50, blank=True, null=True)
+    diagram_attribution_url = models.URLField(
+        help_text='Attribution URL for this diagram', blank=True, null=True)
 
     def __str__(self):
         mystr = self.model
@@ -1237,7 +1243,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model')
     model = models.CharField(
         help_text='The model name of the camera', max_length=45)
-    other_names = CollectionField(help_text='Other model names that this camera may be known by, e.g. in other parts of the world. Separate with commas.', blank=True, null=True)
+    other_names = CollectionField(
+        help_text='Other model names that this camera may be known by, e.g. in other parts of the world. Separate with commas.', blank=True, null=True)
     disambiguation = models.CharField(
         help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, default='')
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True,
@@ -1276,7 +1283,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         help_text='Quantity of batteries needed', blank=True, null=True)
     battery_type = models.ForeignKey(Battery, on_delete=models.CASCADE, blank=True,
                                      null=True, help_text='Battery type that this camera model needs')
-    notes = models.TextField(help_text='Freeform text field for extra notes', blank=True, null=True)
+    notes = models.TextField(
+        help_text='Freeform text field for extra notes', blank=True, null=True)
     bulb = models.BooleanField(
         help_text='Whether the camera supports bulb (B) exposure', blank=True, null=True)
     time = models.BooleanField(
@@ -1338,8 +1346,10 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         verbose_name='URL', help_text='URL to more information about this camera model', blank=True, null=True)
     image = VersatileImageField(
         help_text='Image of the camera model', blank=True, null=True)
-    image_attribution = models.CharField(help_text='Author of this image', max_length=50, blank=True, null=True)
-    image_attribution_url = models.URLField(help_text='Attribution URL for this image', blank=True, null=True)
+    image_attribution = models.CharField(
+        help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_url = models.URLField(
+        help_text='Attribution URL for this image', blank=True, null=True)
 
     # Fixed lens fields
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
@@ -1579,9 +1589,10 @@ class Lens(models.Model):
         help_text='Date on which this lens was acquired', blank=True, null=True)
     cost = MoneyField(help_text='Price paid for this lens', max_digits=12,
                       decimal_places=2, blank=True, null=True, default_currency='GBP')
-    notes = models.TextField(help_text='Freeform notes field', blank=True, null=True)
+    notes = models.TextField(
+        help_text='Freeform notes field', blank=True, null=True)
     own = models.BooleanField(
-        help_text='Whether we currently own this lens', blank=True, null=True)
+        help_text='Whether the lens is currently in your collection', default=True)
     lost = models.DateField(
         help_text='Date on which lens was lost/sold/disposed', blank=True, null=True)
     lost_price = MoneyField(help_text='Sale price of the lens', max_digits=12,
@@ -1590,7 +1601,8 @@ class Lens(models.Model):
         help_text='Place where the lens was acquired from', max_length=150, blank=True, null=True)
     condition = models.ForeignKey(Condition, on_delete=models.CASCADE,
                                   blank=True, null=True, help_text=mark_safe('Condition of this lens. Refer to <a href="/help/condition">condition grading</a>'))
-    condition_notes = models.TextField(help_text='Description of condition', blank=True, null=True)
+    condition_notes = models.TextField(
+        help_text='Description of condition', blank=True, null=True)
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
@@ -1602,10 +1614,12 @@ class Lens(models.Model):
         else:
             mystr = "%s %s" % (
                 self.lensmodel.manufacturer.name, self.lensmodel.model)
-        return mystr
+        ownchar = '[SOLD] ' if self.own is False else ''
+        return ownchar + mystr
 
     class Meta:
-        ordering = ['lensmodel__manufacturer', 'lensmodel__model', 'serial']
+        ordering = ['-own', 'lensmodel__manufacturer',
+                    'lensmodel__model', 'serial']
         verbose_name_plural = "lenses"
         unique_together = ['lensmodel', 'serial']
 
@@ -1658,8 +1672,9 @@ class Camera(models.Model):
     manufactured = models.PositiveIntegerField(
         help_text='Year of manufacture of the camera', blank=True, null=True)
     own = models.BooleanField(
-        help_text='Whether the camera is currently owned', blank=True, null=True)
-    notes = models.TextField(help_text='Freeform text field for extra notes', blank=True, null=True)
+        help_text='Whether the camera is currently in your collection', default=True)
+    notes = models.TextField(
+        help_text='Freeform text field for extra notes', blank=True, null=True)
     lost = models.DateField(
         help_text='Date on which the camera was lost/sold/etc', blank=True, null=True)
     lost_price = MoneyField(help_text='Sale price of the camera', max_digits=12,
@@ -1668,7 +1683,8 @@ class Camera(models.Model):
         help_text='Where the camera was acquired from', max_length=150, blank=True, null=True)
     condition = models.ForeignKey(Condition, on_delete=models.CASCADE,
                                   blank=True, null=True, help_text=mark_safe('Condition of this camera. Refer to <a href="/help/condition">condition grading</a>'))
-    condition_notes = models.TextField(help_text='Description of condition', blank=True, null=True)
+    condition_notes = models.TextField(
+        help_text='Description of condition', blank=True, null=True)
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
@@ -1680,10 +1696,11 @@ class Camera(models.Model):
         else:
             mystr = "%s %s" % (
                 self.cameramodel.manufacturer.name, self.cameramodel.model)
-        return mystr
+        ownchar = '[SOLD] ' if self.own is False else ''
+        return ownchar + mystr
 
     class Meta:
-        ordering = ['cameramodel__manufacturer',
+        ordering = ['-own', 'cameramodel__manufacturer',
                     'cameramodel__model', 'serial']
         verbose_name_plural = "cameras"
         unique_together = ['cameramodel', 'serial']
@@ -1738,7 +1755,8 @@ class Film(models.Model):
         help_text='ISO at which the film was exposed', blank=True, null=True)
     format = models.ForeignKey(
         Format, on_delete=models.CASCADE, help_text='Film format of this film')
-    status = models.CharField(max_length=9, choices=Status.choices, help_text='Status of this film', default='Available')
+    status = models.CharField(max_length=9, choices=Status.choices,
+                              help_text='Status of this film', default='Available')
     date_loaded = models.DateField(
         help_text='Date when the film was loaded into a camera', blank=True, null=True)
     date_processed = models.DateField(
@@ -1761,7 +1779,8 @@ class Film(models.Model):
         help_text='Temperature of development', max_digits=3, decimal_places=1, blank=True, null=True)
     development_compensation = models.IntegerField(
         help_text='Number of the Push/Pull rating of the film, e.g. N+1, N-2', blank=True, null=True)
-    development_notes = models.TextField(help_text='Extra freeform notes about the development process', blank=True, null=True)
+    development_notes = models.TextField(
+        help_text='Extra freeform notes about the development process', blank=True, null=True)
     bulk_film = models.ForeignKey(BulkFilm, on_delete=models.CASCADE,
                                   blank=True, null=True, help_text='Bulk film this film was cut from')
     bulk_film_loaded = models.DateField(
@@ -1845,12 +1864,14 @@ class Negative(models.Model):
                                null=True, help_text='Filter used when taking this negative')
     teleconverter = models.ForeignKey(Teleconverter, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Teleconverter used when taking this negative')
-    notes = models.TextField(help_text='Extra freeform notes about this exposure', blank=True, null=True)
+    notes = models.TextField(
+        help_text='Extra freeform notes about this exposure', blank=True, null=True)
     mount_adapter = models.ForeignKey(MountAdapter, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Mount adapter used to mount lens')
     focal_length = models.PositiveIntegerField(
         help_text='If a zoom lens was used, specify the focal length of the lens', blank=True, null=True)
-    location = GeopositionField(help_text='Location where the picture was taken', blank=True, null=True)
+    location = GeopositionField(
+        help_text='Location where the picture was taken', blank=True, null=True)
     flash = models.BooleanField(
         help_text='Whether flash was used', blank=True, null=True)
     metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE,
@@ -1939,7 +1960,7 @@ class Print(models.Model):
     toner = models.ManyToManyField(
         'Toner', through='Toning', help_text='Toners and bleaches used to treat this print', blank=True)
     own = models.BooleanField(
-        help_text='Whether we currently own this print', blank=True, null=True)
+        help_text='Whether the print is currently in your collection', default=True)
     location = models.CharField(
         help_text='The place where this print is currently', max_length=100, blank=True, null=True)
     sold_price = MoneyField(help_text='Sale price of the print', max_digits=12,
@@ -1952,7 +1973,8 @@ class Print(models.Model):
                                   help_text='Developer used to develop this print', limit_choices_to={'for_paper': True})
     fine = models.BooleanField(
         help_text='Whether this is a fine print', blank=True, null=True)
-    notes = models.TextField(help_text='Freeform notes about this print, e.g. dodging, burning & complex toning', blank=True, null=True)
+    notes = models.TextField(
+        help_text='Freeform notes about this print, e.g. dodging, burning & complex toning', blank=True, null=True)
     archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True,
                                 null=True, help_text='Archive that this print is stored in')
     printer = models.ForeignKey(Person, on_delete=models.CASCADE,
