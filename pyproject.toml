@@ -59,6 +59,7 @@ django-autocomplete-light = "^3.8.1"
 django-bootstrap-datepicker-plus = "^3.0.5"
 django-geoposition-2 = "^0.3.11"
 django-leaflet = "^0.27.1"
+djangorestframework = "^3.12.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
