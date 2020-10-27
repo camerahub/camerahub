@@ -15,24 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework import routers
-from api import views
-
-# API endpoints
-router = routers.DefaultRouter()
-router.register(r'film', views.FilmViewSet)
-router.register(r'negative', views.NegativeViewSet)
 
 urlpatterns = [
     path('', include('schema.urls')),
     path('help/', include('help.urls')),
+    path('api/', include('api.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('django_prometheus.urls')),
-
-    # Wire up our API using automatic URL routing.
-    # Additionally, we include login URLs for the browsable API.
-    path('api/', include(router.urls)),
-    path('api/api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
