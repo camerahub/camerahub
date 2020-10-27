@@ -1,9 +1,7 @@
-from schema.models import Film
-from rest_framework.fields import CurrentUserDefault
 from rest_framework import viewsets
 from rest_framework import permissions
 from api.serializers import FilmSerializer
-
+from schema.models import Film
 
 class FilmViewSet(viewsets.ModelViewSet):
     """

@@ -1,6 +1,5 @@
-from schema.models import Film
 from rest_framework import serializers
-
+from schema.models import Film
 
 class FilmSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
