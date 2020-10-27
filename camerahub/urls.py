@@ -21,6 +21,7 @@ from api import views
 # API endpoints
 router = routers.DefaultRouter()
 router.register(r'film', views.FilmViewSet)
+router.register(r'negative', views.NegativeViewSet)
 
 urlpatterns = [
     path('', include('schema.urls')),
