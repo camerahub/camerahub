@@ -197,9 +197,9 @@ urlpatterns = [
          views.RepairUpdate.as_view(), name='repair-update'),
 
     path('scan/', views.ScanList.as_view(), name='scan-list'),
-    path('scan/<int:id_owner>', views.ScanDetail.as_view(), name='scan-detail'),
+    path('scan/<uuid:uuid>', views.ScanDetail.as_view(), name='scan-detail'),
     path('scan/create/', views.ScanCreate.as_view(), name='scan-create'),
-    path('scan/<int:id_owner>/update',
+    path('scan/<uuid:uuid>/update',
          views.ScanUpdate.as_view(), name='scan-update'),
 
     path('negative/', views.NegativeList.as_view(), name='negative-list'),

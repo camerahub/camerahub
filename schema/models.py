@@ -1,6 +1,7 @@
 from datetime import datetime
 from math import sqrt
 import re
+from uuid import uuid4
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.core.exceptions import ValidationError
@@ -2063,6 +2064,7 @@ class Repair(models.Model):
 
 
 class Scan(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     negative = models.ForeignKey(Negative, on_delete=models.CASCADE, blank=True,
                                  null=True, help_text='Negative that this scan was made from')
     print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True,
@@ -2071,18 +2073,10 @@ class Scan(models.Model):
         help_text='Filename of the scan', max_length=128)
     date = models.DateField(
         help_text='Date that this scan was made', blank=True, null=True)
-    colour = models.BooleanField(
-        help_text='Whether this is a colour image', blank=True, null=True)
-    width = models.PositiveIntegerField(
-        help_text='Width of the scanned image in pixels', blank=True, null=True)
-    height = models.PositiveIntegerField(
-        help_text='Height of the scanned image in pixels', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(
-        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return self.filename
+        return str(self.uuid)
 
     def clean(self):
         # Check print source
@@ -2096,7 +2090,7 @@ class Scan(models.Model):
         verbose_name_plural = "scans"
 
     def get_absolute_url(self):
-        return reverse('scan-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('scan-detail', kwargs={'uuid': self.uuid})
 
     @classmethod
     def description(cls):

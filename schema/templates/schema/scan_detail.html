@@ -12,7 +12,7 @@
   {% if object.print is not None %}
   <tr>
     <td>Print</td>
-    <td>{{ object.print }}</td>
+    <td><a href="{% url 'print-detail' object.print.id_owner %}">{{ object.print }}</a></td>
   </tr>
   {% endif %}
   {% if object.filename is not None %}
@@ -25,18 +25,6 @@
   <tr>
     <td>Date</td>
     <td>{{ object.date }}</td>
-  </tr>
-  {% endif %}
-  {% if object.colour is not None %}
-  <tr>
-    <td>Colour</td>
-    <td>{{ object.colour|boolicontag }}</td>
-  </tr>
-  {% endif %}
-  {% if object.width is not None and object.height is not None %}
-  <tr>
-    <td>Size</td>
-    <td>{{ object.width }} &times; {{ object.height }}</td>
   </tr>
   {% endif %}
 </table>
