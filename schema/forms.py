@@ -842,9 +842,6 @@ class ScanForm(ModelForm):
             'print',
             'filename',
             'date',
-            'colour',
-            'width',
-            'height',
         ]
 
 

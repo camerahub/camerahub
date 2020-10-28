@@ -983,7 +983,7 @@ class ScanDetail(LoginRequiredMixin, generic.DetailView):
 
     # Restrict to objects we own
     def get_object(self):
-        return get_object_or_404(Scan, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+        return get_object_or_404(Scan, owner=self.request.user, uuid=self.kwargs['uuid'])
 
 
 class ScanCreate(LoginRequiredMixin, CreateView):
