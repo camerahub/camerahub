@@ -6,6 +6,7 @@ from api import views
 router = routers.DefaultRouter()
 router.register(r'film', views.FilmViewSet)
 router.register(r'negative', views.NegativeViewSet)
+router.register(r'scan', views.ScanViewSet)
 
 urlpatterns = [
     # Wire up our API using automatic URL routing.
