@@ -919,8 +919,7 @@ class RepairForm(ModelForm):
 class ScanForm(ModelForm):
     class Meta:
         model = Scan
-        fields = ['negative', 'print', 'filename',
-                  'date', 'colour', 'width', 'height']
+        fields = ['negative', 'print', 'filename', 'date']
         widgets = {
             'date': DatePickerInput(format='%Y-%m-%d'),
         }
