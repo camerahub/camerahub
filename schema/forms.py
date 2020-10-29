@@ -949,7 +949,7 @@ class NegativeForm(ModelForm):
         fields = ['film', 'frame', 'caption', 'date', 'lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'notes',
                   'mount_adapter', 'focal_length', 'latitude', 'longitude', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of']
         widgets = {
-            'date': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+            'date': DateTimePickerInput(format='%Y-%m-%d %H:%M', options={"sideBySide": True}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -990,12 +990,6 @@ class NegativeForm(ModelForm):
                 Submit('save', 'Save')
             )
         )
-        widgets = {
-            'date': DateTimePickerInput(format='%Y-%m-%d %H:%M',
-                                        options={
-                                            "sideBySide": True,
-                                        }),
-        }
 
 
 class FilmForm(ModelForm):
