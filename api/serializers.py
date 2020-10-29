@@ -14,6 +14,8 @@ class NegativeSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ScanSerializer(serializers.HyperlinkedModelSerializer):
+    negative = NegativeSerializer(many=False, read_only=True)
+
     class Meta:
         model = Scan
-        fields = ['uuid', 'url', 'filename']
+        fields = ['uuid', 'url', 'negative', 'filename']
