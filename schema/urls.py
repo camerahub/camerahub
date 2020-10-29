@@ -50,6 +50,7 @@ urlpatterns = [
     path('camera/create/', views.CameraCreate.as_view(), name='camera-create'),
     path('camera/<int:id_owner>/update',
          views.CameraUpdate.as_view(), name='camera-update'),
+    path('camera/<int:id_owner>/sell', views.CameraSell.as_view(), name='camera-sell'),
 
     path('cameramodel/', views.CameraModelList.as_view(), name='cameramodel-list'),
     path('cameramodel/<slug:slug>', views.CameraModelDetail.as_view(),
@@ -114,6 +115,7 @@ urlpatterns = [
     path('lens/create/', views.LensCreate.as_view(), name='lens-create'),
     path('lens/<int:id_owner>/update',
          views.LensUpdate.as_view(), name='lens-update'),
+    path('lens/<int:id_owner>/sell', views.LensSell.as_view(), name='lens-sell'),
 
     path('lensmodel/', views.LensModelList.as_view(), name='lensmodel-list'),
     path('lensmodel/<slug:slug>', views.LensModelDetail.as_view(),
@@ -195,9 +197,9 @@ urlpatterns = [
          views.RepairUpdate.as_view(), name='repair-update'),
 
     path('scan/', views.ScanList.as_view(), name='scan-list'),
-    path('scan/<int:id_owner>', views.ScanDetail.as_view(), name='scan-detail'),
+    path('scan/<uuid:uuid>', views.ScanDetail.as_view(), name='scan-detail'),
     path('scan/create/', views.ScanCreate.as_view(), name='scan-create'),
-    path('scan/<int:id_owner>/update',
+    path('scan/<uuid:uuid>/update',
          views.ScanUpdate.as_view(), name='scan-update'),
 
     path('negative/', views.NegativeList.as_view(), name='negative-list'),

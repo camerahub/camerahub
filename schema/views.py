@@ -26,8 +26,8 @@ from schema.tables import FlashTable, FlashProtocolTable, FormatTable, LensTable
 from schema.tables import MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable
 from schema.tables import ProcessTable, RepairTable, ScanTable, NegativeTable, FilmTable, TeleconverterTable, TonerTable
 
-from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
-from schema.forms import FlashForm, FlashProtocolForm, FormatForm, LensForm, LensModelForm, ManufacturerForm
+from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraSellForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
+from schema.forms import FlashForm, FlashProtocolForm, FormatForm, LensForm, LensSellForm, LensModelForm, ManufacturerForm
 from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
 from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, FilmAddForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TonerForm
 
@@ -40,6 +40,8 @@ from schema.formhelpers import AccessoryFormHelper, BatteryFormHelper, BulkFilmF
 from schema.formhelpers import DeveloperFormHelper, EnlargerFormHelper, FilmFormHelper, FilmStockFormHelper, FlashFormHelper
 from schema.formhelpers import LensFormHelper, LensModelFormHelper, MountAdapterFormHelper, MountFormHelper, NegativeFormHelper
 from schema.formhelpers import OrderFormHelper, PaperStockFormHelper, PrintFormHelper, RepairFormHelper, TeleconverterFormHelper, TonerFormHelper
+
+from .funcs import to_dict
 
 # Custom class for filtered list views in table format
 
@@ -236,6 +238,16 @@ class CameraUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Camera, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+class CameraSell(LoginRequiredMixin, UpdateView):
+    model = Camera
+    form_class = CameraSellForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Camera, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
 class CameraModelList(PagedFilteredTableView):
     model = CameraModel
     table_class = CameraModelTable
@@ -279,6 +291,20 @@ class CameraModelCreate(LoginRequiredMixin, CreateView):
     model = CameraModel
     form_class = CameraModelForm
     template_name = 'create.html'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'clone' in self.request.GET:
+            # Retrieve original object
+            original = CameraModel.objects.get(slug=self.request.GET['clone'])
+
+            # Copy the original object to the initial state of the new one
+            initial = to_dict(original)
+
+            # Set disambiguation
+            initial['disambiguation'] = 'Clone of ' + str(original)
+
+        return initial
 
 
 class CameraModelUpdate(LoginRequiredMixin, UpdateView):
@@ -539,6 +565,16 @@ class LensUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Lens, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+class LensSell(LoginRequiredMixin, UpdateView):
+    model = Lens
+    form_class = LensSellForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Lens, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
 class LensModelList(PagedFilteredTableView):
     model = LensModel
     table_class = LensModelTable
@@ -582,6 +618,20 @@ class LensModelCreate(LoginRequiredMixin, CreateView):
     model = LensModel
     form_class = LensModelForm
     template_name = 'create.html'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'clone' in self.request.GET:
+            # Retrieve original object
+            original = LensModel.objects.get(slug=self.request.GET['clone'])
+
+            # Copy the original object to the initial state of the new one
+            initial = to_dict(original)
+
+            # Set disambiguation
+            initial['disambiguation'] = 'Clone of ' + str(original)
+
+        return initial
 
 
 class LensModelUpdate(LoginRequiredMixin, UpdateView):
@@ -933,7 +983,7 @@ class ScanDetail(LoginRequiredMixin, generic.DetailView):
 
     # Restrict to objects we own
     def get_object(self):
-        return get_object_or_404(Scan, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+        return get_object_or_404(Scan, owner=self.request.user, uuid=self.kwargs['uuid'])
 
 
 class ScanCreate(LoginRequiredMixin, CreateView):

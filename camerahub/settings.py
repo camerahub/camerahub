@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'dal',
     'dal_select2',
     'bootstrap_datepicker_plus',
+    'geoposition',
+    'leaflet',
 ]
 
 MIDDLEWARE = [
@@ -238,3 +240,6 @@ else:
     }
 
 TAGGIT_CASE_INSENSITIVE = True
+
+# Use OpenStreetMap instead of Google for form widget
+GEOPOSITION_BACKEND = 'leaflet'

@@ -156,6 +156,29 @@ class CameraForm(ModelForm):
         )
 
 
+class CameraSellForm(ModelForm):
+    class Meta:
+        model = Camera
+        fields = ['lost', 'lost_price', 'own']
+        widgets = {
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Div(
+                Hidden('own', False),
+                'lost',
+                'lost_price',
+            ),
+            FormActions(
+                Submit('save', 'Save')
+            )
+        )
+
+
 class CameraModelForm(autocomplete.FutureModelForm):
     class Meta:
         model = CameraModel
@@ -519,6 +542,29 @@ class LensForm(ModelForm):
             'source',
             'condition',
             'condition_notes',
+            FormActions(
+                Submit('save', 'Save')
+            )
+        )
+
+
+class LensSellForm(ModelForm):
+    class Meta:
+        model = Lens
+        fields = ['own', 'lost', 'lost_price']
+        widgets = {
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Div(
+                Hidden('own', False),
+                'lost',
+                'lost_price',
+            ),
             FormActions(
                 Submit('save', 'Save')
             )
@@ -891,9 +937,6 @@ class ScanForm(ModelForm):
             'print',
             'filename',
             'date',
-            'colour',
-            AppendedText('width', 'px'),
-            AppendedText('height', 'px'),
             FormActions(
                 Submit('save', 'Save')
             )
@@ -937,8 +980,7 @@ class NegativeForm(ModelForm):
             'notes',
             'mount_adapter',
             AppendedText('focal_length', 'mm'),
-            'latitude',
-            'longitude',
+            'location',
             'flash',
             'metering_mode',
             'exposure_program',
@@ -948,6 +990,12 @@ class NegativeForm(ModelForm):
                 Submit('save', 'Save')
             )
         )
+        widgets = {
+            'date': DateTimePickerInput(format='%Y-%m-%d %H:%M',
+                                        options={
+                                            "sideBySide": True,
+                                        }),
+        }
 
 
 class FilmForm(ModelForm):
@@ -985,10 +1033,10 @@ class FilmForm(ModelForm):
             'frames',
             'developer',
             'directory',
-            'dev_uses',
-            'dev_time',
-            AppendedText('dev_temp', '&deg;C'),
-            'dev_n',
+            'developer_previous_uses',
+            'development_time',
+            AppendedText('development_temperature', '&deg;C'),
+            PrependedText('development_compensation', 'N'),
             'development_notes',
             'bulk_film',
             'bulk_film_loaded',
@@ -1085,8 +1133,8 @@ class FilmLoadForm(ModelForm):
 class FilmDevelopForm(ModelForm):
     class Meta:
         model = Film
-        fields = ['date_processed', 'developer', 'directory', 'dev_uses', 'dev_time',
-                  'dev_temp', 'dev_n', 'development_notes', 'processed_by', 'status']
+        fields = ['date_processed', 'developer', 'directory', 'developer_previous_uses', 'development_time',
+                  'development_temperature', 'development_compensation', 'development_notes', 'processed_by', 'status']
         widgets = {
             'date_processed': DatePickerInput(format='%Y-%m-%d'),
         }
@@ -1102,10 +1150,10 @@ class FilmDevelopForm(ModelForm):
                 'date_processed',
                 'developer',
                 'directory',
-                'dev_uses',
-                'dev_time',
-                AppendedText('dev_temp', '&deg;C'),
-                'dev_n',
+                'developer_previous_uses',
+                'development_time',
+                AppendedText('development_temperature', '&deg;C'),
+                PrependedText('development_compensation', 'N'),
                 'development_notes',
                 'processed_by',
             ),

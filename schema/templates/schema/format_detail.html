@@ -25,3 +25,7 @@
   {% endif %}
 </table>
 {% endblock %}
+
+{% block moreactions %}
+<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?format={{ object.id }}" role="button">View camera models with this format</a></li>
+{% endblock %}

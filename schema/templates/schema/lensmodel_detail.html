@@ -31,7 +31,7 @@
     <td>Model</td>
     <td>{{ object.model|aperture }}</td>
   </tr>
-  {% if object.disambiguation is not None %}
+  {% if object.disambiguation %}
   <tr>
     <td>Disambiguation</td>
     <td>{{ object.disambiguation }}</td>
@@ -320,5 +320,10 @@
 <li><form action="{% url 'lens-create' %}">
   <input type="hidden" name="lensmodel" value="{{ object.id }}">
   <button class="btn btn-primary" type="submit">Add to collection</button>
+</form></li>
+
+<li><form action="{% url 'lensmodel-create' %}">
+  <input type="hidden" name="clone" value="{{ object.slug }}">
+  <button class="btn btn-primary" type="submit">Clone this lens model</button>
 </form></li>
 {% endblock %}

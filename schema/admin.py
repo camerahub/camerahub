@@ -275,7 +275,7 @@ class NegativeAdmin(admin.ModelAdmin):
             'fields': ('lens', 'mount_adapter', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'focal_length', 'flash', 'metering_mode', 'exposure_program', 'copy_of'),
         }),
         ('Location', {
-            'fields': (('latitude', 'longitude'),),
+            'fields': ('location',),
         }),
     )
     search_fields = ['caption', 'notes']
@@ -303,7 +303,7 @@ class FilmAdmin(admin.ModelAdmin):
             'fields': ('exposed_at', 'camera', 'date_loaded'),
         }),
         ('Development', {
-            'fields': ('developer', 'dev_uses', 'dev_time', 'dev_temp', 'dev_n', 'development_notes', 'processed_by', 'date_processed'),
+            'fields': ('developer', 'developer_previous_uses', 'development_time', 'development_temperature', 'development_compensation', 'development_notes', 'processed_by', 'date_processed'),
         }),
         ('Archive', {
             'fields': ('directory', 'archive'),

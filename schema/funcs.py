@@ -1,4 +1,5 @@
 from math import degrees
+from itertools import chain
 from django.utils.safestring import mark_safe
 from numpy import arctan
 
@@ -36,3 +37,13 @@ def angle_of_view(diag, focal):
     else:
         angle = None
     return angle
+
+
+def to_dict(instance):
+    opts = instance._meta
+    data = {}
+    for field in chain(opts.concrete_fields, opts.private_fields):
+        data[field.name] = field.value_from_object(instance)
+    for field in opts.many_to_many:
+        data[field.name] = [i.id for i in field.value_from_object(instance)]
+    return data
