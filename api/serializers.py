@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from schema.models import Film, Negative, Scan, Print
+from schema.models import Film, Negative, Scan
 
 class FilmSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
