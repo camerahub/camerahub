@@ -537,12 +537,23 @@ class ScanTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Scan
-        fields = ('id_owner', 'negative', 'print', 'filename',
-                  'date', 'colour', 'width', 'height')
+        fields = ('uuid', 'negative', 'print', 'filename', 'date')
 
     @classmethod
-    def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('scan-detail', args=[value]), value)
+    def render_uuid(cls, value):
+        return format_html("<code><a href=\"{}\">{}</a></code>", reverse('scan-detail', args=[value]), value)
+
+    @classmethod
+    def render_negative(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('negative-detail', args=[value.id_owner]), value)
+
+    @classmethod
+    def render_print(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('print-detail', args=[value.id_owner]), value)
+
+    @classmethod
+    def render_filename(cls, value):
+        return format_html("<code>{}</code>", value)
 
 
 class NegativeTable(tables.Table):
