@@ -31,8 +31,7 @@ class ArchiveTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Archive
-        fields = ('id_owner', 'name', 'type',
-                  'max_width', 'max_height', 'sealed')
+        fields = ('name', 'type', 'max_width', 'max_height', 'sealed')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -135,7 +134,8 @@ class CameraModelTable(tables.Table):
     @classmethod
     def render_image(cls, value):
         if value:
-            icon = format_html('<img src="/static/svg/camera.svg" width="20" height="20" alt="This camera model has a photo" title="This camera model has a photo">')
+            icon = format_html(
+                '<img src="/static/svg/camera.svg" width="20" height="20" alt="This camera model has a photo" title="This camera model has a photo">')
         return icon
 
     @classmethod
@@ -320,7 +320,8 @@ class LensModelTable(tables.Table):
     @classmethod
     def render_image(cls, value):
         if value:
-            icon = format_html('<img src="/static/svg/camera.svg" width="20" height="20" alt="This lens model has a photo" title="This lens model has a photo">')
+            icon = format_html(
+                '<img src="/static/svg/camera.svg" width="20" height="20" alt="This lens model has a photo" title="This lens model has a photo">')
         return icon
 
     @classmethod
@@ -571,7 +572,8 @@ class FilmTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Film
-        fields = ('id_owner', 'filmstock', 'format', 'status', 'date_processed', 'camera')
+        fields = ('id_owner', 'filmstock', 'format',
+                  'status', 'date_processed', 'camera')
 
     @classmethod
     def render_id_owner(cls, value, record):
