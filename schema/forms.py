@@ -946,7 +946,7 @@ class NegativeForm(ModelForm):
     class Meta:
         model = Negative
         fields = ['film', 'frame', 'caption', 'date', 'lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'notes',
-                  'mount_adapter', 'focal_length', 'latitude', 'longitude', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of']
+                  'mount_adapter', 'focal_length', 'location', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of']
         widgets = {
             'date': DateTimePickerInput(format='%Y-%m-%d %H:%M', options={"sideBySide": True}),
         }
@@ -994,8 +994,8 @@ class NegativeForm(ModelForm):
 class FilmForm(ModelForm):
     class Meta:
         model = Film
-        fields = ['filmstock', 'exposed_at', 'format', 'status', 'date_loaded', 'date_processed', 'camera', 'title', 'frames', 'developer', 'directory', 'dev_uses', 'dev_time',
-                  'dev_temp', 'dev_n', 'development_notes', 'bulk_film', 'bulk_film_loaded', 'film_batch', 'expiry_date', 'purchase_date', 'price', 'processed_by', 'archive']
+        fields = ['filmstock', 'exposed_at', 'format', 'status', 'date_loaded', 'date_processed', 'camera', 'title', 'frames', 'developer', 'directory', 'developer_previous_uses', 'development_time',
+                  'development_temperature', 'development_compensation', 'development_notes', 'bulk_film', 'bulk_film_loaded', 'film_batch', 'expiry_date', 'purchase_date', 'price', 'processed_by', 'archive']
         widgets = {
             'date_loaded': DatePickerInput(format='%Y-%m-%d'),
             'date_processed': DatePickerInput(format='%Y-%m-%d'),
