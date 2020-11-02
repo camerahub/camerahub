@@ -106,8 +106,10 @@
   </tr>
   {% endif %}
 
-  <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30" alt="Ownership"> <a
-      href="#">Ownership</a></th>
+  <tr>
+    <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30" alt="Ownership">
+      <a href="#">Ownership</a></th>
+  </tr>
   {% if object.own is not None %}
   <tr>
     <td>Own</td>
