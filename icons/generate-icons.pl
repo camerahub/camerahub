@@ -75,6 +75,7 @@ my %newnames = (
 	'icons8-slr-camera'				=> ['bigcamera'],
 	'icons8-ruler'					=> ['ruler'],
 	'icons8-receive-cash'			=> ['ownership'],
+	'icons8-overview'				=> ['summary'],
 #unknown
 #logout
 );
