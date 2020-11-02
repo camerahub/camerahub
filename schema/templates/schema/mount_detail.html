@@ -1,8 +1,13 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary"><a
+        href="#">Summary</a></th>
+  </tr>
   <tr>
     <td>Mount</td>
     <td>{{ object.mount }}</td>
@@ -74,6 +79,8 @@
 {% endblock %}
 
 {% block moreactions %}
-<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?mount={{ mount.id }}" role="button">View camera models with this mount</a></li>
-<li><a class="btn btn-primary" href="{% url 'lensmodel-list' %}?mount={{ mount.id }}" role="button">View lens models with this mount</a></li>
+<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?mount={{ mount.id }}" role="button">View camera models
+    with this mount</a></li>
+<li><a class="btn btn-primary" href="{% url 'lensmodel-list' %}?mount={{ mount.id }}" role="button">View lens models
+    with this mount</a></li>
 {% endblock %}

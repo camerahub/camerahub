@@ -18,8 +18,8 @@
 
 <table class="table table-hover">
   <tr>
-    <th colspan="2" id="physical"><img src="{% static "svg/weight.svg" %}" width="30" height="30" alt="Physical"> <a
-        href="#physical">Physical</a></th>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary"><a
+        href="#">Summary</a></th>
   </tr>
   {% if object.manufacturer is not None %}
   <tr>
@@ -49,6 +49,10 @@
     <td>{{ object.introduced }}{% if object.discontinued is not None %}-{{ object.discontinued }}{% endif %}</td>
   </tr>
   {% endif %}
+  <tr>
+    <th colspan="2" id="physical"><img src="{% static "svg/weight.svg" %}" width="30" height="30" alt="Physical"> <a
+        href="#physical">Physical</a></th>
+  </tr>
   {% if object.weight is not None %}
   <tr>
     <td>Weight</td>
@@ -317,13 +321,17 @@
 {% endblock %}
 
 {% block moreactions %}
-<li><form action="{% url 'lens-create' %}">
-  <input type="hidden" name="lensmodel" value="{{ object.id }}">
-  <button class="btn btn-primary" type="submit">Add to collection</button>
-</form></li>
+<li>
+  <form action="{% url 'lens-create' %}">
+    <input type="hidden" name="lensmodel" value="{{ object.id }}">
+    <button class="btn btn-primary" type="submit">Add to collection</button>
+  </form>
+</li>
 
-<li><form action="{% url 'lensmodel-create' %}">
-  <input type="hidden" name="clone" value="{{ object.slug }}">
-  <button class="btn btn-primary" type="submit">Clone this lens model</button>
-</form></li>
+<li>
+  <form action="{% url 'lensmodel-create' %}">
+    <input type="hidden" name="clone" value="{{ object.slug }}">
+    <button class="btn btn-primary" type="submit">Clone this lens model</button>
+  </form>
+</li>
 {% endblock %}

@@ -1,7 +1,12 @@
 {% extends "detail.html" %}
+{% load static %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary"><a
+        href="#">Summary</a></th>
+  </tr>
   <tr>
     <td>Film format</td>
     <td>{{ object.format }}</td>
@@ -27,5 +32,6 @@
 {% endblock %}
 
 {% block moreactions %}
-<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?format={{ object.id }}" role="button">View camera models with this format</a></li>
+<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?format={{ object.id }}" role="button">View camera
+    models with this format</a></li>
 {% endblock %}

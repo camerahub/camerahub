@@ -1,8 +1,13 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load leaflet_tags %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary"><a
+        href="#">Summary</a></th>
+  </tr>
   {% if object.film is not None %}
   <tr>
     <td>Film</td>
@@ -80,8 +85,8 @@
       {% leaflet_js %}
       {% leaflet_css %}
       <script>
-        function map_init_basic (map, options) {
-            var coords = [{{ object.location.latitude|safe }},{{ object.location.longitude|safe }}];
+        function map_init_basic(map, options) {
+            var coords = [{{ object.location.latitude|safe }}, {{ object.location.longitude|safe }}];
             L.marker(coords).addTo(map);
             map.setView(coords, 16);
         }
@@ -89,7 +94,8 @@
 
       <figure class="figure">
         {% leaflet_map "yourmap" callback="window.map_init_basic" %}
-        <figcaption class="figure-caption">{{ object.location.latitude}}&deg;, {{ object.location.longitude}}&deg;</figcaption>
+        <figcaption class="figure-caption">{{ object.location.latitude}}&deg;, {{ object.location.longitude}}&deg;
+        </figcaption>
       </figure>
     </td>
   </tr>
