@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 
 {% block content %}
@@ -62,24 +63,6 @@
     </td>
   </tr>
   {% endif %}
-  {% if object.own is not None %}
-  <tr>
-    <td>Own</td>
-    <td>{{ object.own|boolicontag }}</td>
-  </tr>
-  {% endif %}
-  {% if object.location is not None %}
-  <tr>
-    <td>Location</td>
-    <td>{{ object.location }}</td>
-  </tr>
-  {% endif %}
-  {% if object.sold_price is not None %}
-  <tr>
-    <td>Sold price</td>
-    <td>{{ object.sold_price }}</td>
-  </tr>
-  {% endif %}
   {% if object.enlarger is not None %}
   <tr>
     <td>Enlarger</td>
@@ -120,6 +103,27 @@
   <tr>
     <td>Printer</td>
     <td>{{ object.printer }}</td>
+  </tr>
+  {% endif %}
+
+  <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30" alt="Ownership"> <a
+      href="#">Ownership</a></th>
+  {% if object.own is not None %}
+  <tr>
+    <td>Own</td>
+    <td>{{ object.own|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.location is not None %}
+  <tr>
+    <td>Location</td>
+    <td>{{ object.location }}</td>
+  </tr>
+  {% endif %}
+  {% if object.sold_price is not None %}
+  <tr>
+    <td>Sold price</td>
+    <td>{{ object.sold_price }}</td>
   </tr>
   {% endif %}
 </table>

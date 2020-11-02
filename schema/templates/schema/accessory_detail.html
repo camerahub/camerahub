@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load static %}
 
 {% block content %}
 <table class="table table-hover">
@@ -16,6 +17,8 @@
     <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
+  <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30" alt="Ownership"> <a
+      href="#">Ownership</a></th>
   {% if object.acquired is not None %}
   <tr>
     <td>Acquired</td>

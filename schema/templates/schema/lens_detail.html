@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 
 {% block content %}
@@ -27,6 +28,33 @@
     <td>{{ object.manufactured }}</td>
   </tr>
   {% endif %}
+  {% if object.notes is not None %}
+  <tr>
+    <td>Notes</td>
+    <td>{{ object.notes|linebreaks }}</td>
+  </tr>
+  {% endif %}
+  {% if object.condition is not None %}
+  <tr>
+    <td>Condition</td>
+    <td>{{ object.condition }}</td>
+  </tr>
+  {% endif %}
+  {% if object.condition_notes is not None %}
+  <tr>
+    <td>Condition notes</td>
+    <td>{{ object.condition_notes|linebreaks }}</td>
+  </tr>
+  {% endif %}
+
+  <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30" alt="Ownership"> <a
+      href="#">Ownership</a></th>
+  {% if object.own is not None %}
+  <tr>
+    <td>Own</td>
+    <td>{{ object.own|boolicontag }}</td>
+  </tr>
+  {% endif %}
   {% if object.acquired is not None %}
   <tr>
     <td>Acquired</td>
@@ -37,18 +65,6 @@
   <tr>
     <td>Cost</td>
     <td>{{ object.cost }}</td>
-  </tr>
-  {% endif %}
-  {% if object.notes is not None %}
-  <tr>
-    <td>Notes</td>
-    <td>{{ object.notes|linebreaks }}</td>
-  </tr>
-  {% endif %}
-  {% if object.own is not None %}
-  <tr>
-    <td>Own</td>
-    <td>{{ object.own|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.lost is not None %}
@@ -69,21 +85,10 @@
     <td>{{ object.source }}</td>
   </tr>
   {% endif %}
-  {% if object.condition is not None %}
-  <tr>
-    <td>Condition</td>
-    <td>{{ object.condition }}</td>
-  </tr>
-  {% endif %}
-  {% if object.condition_notes is not None %}
-  <tr>
-    <td>Condition notes</td>
-    <td>{{ object.condition_notes|linebreaks }}</td>
-  </tr>
-  {% endif %}
 </table>
 {% endblock %}
 
 {% block moreactions %}
-{% if object.own is not False %}<li><a class="btn btn-primary" href="{% url 'lens-sell' object.id_owner %}" role="button">Sell this lens</a></li>{% endif %}
+{% if object.own is not False %}<li><a class="btn btn-primary" href="{% url 'lens-sell' object.id_owner %}"
+    role="button">Sell this lens</a></li>{% endif %}
 {%endblock%}

@@ -1,4 +1,5 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 
 {% block content %}
@@ -103,6 +104,15 @@
     <td>{{ object.trigger_voltage }}</td>
   </tr>
   {% endif %}
+  {% if history %}
+  <tr>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
+  </tr>
+  {% endif %}
+
+  <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30" alt="Ownership"> <a
+      href="#">Ownership</a></th>
   {% if object.own is not None %}
   <tr>
     <td>Owned</td>
@@ -119,12 +129,6 @@
   <tr>
     <td>Cost</td>
     <td>{{ object.cost }}</td>
-  </tr>
-  {% endif %}
-  {% if history %}
-  <tr>
-    <td>Edit history</td>
-    <td>{% include "history.html" %}</td>
   </tr>
   {% endif %}
 </table>
