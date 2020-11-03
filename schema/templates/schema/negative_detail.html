@@ -30,10 +30,21 @@
     <td>{{ object.date }}</td>
   </tr>
   {% endif %}
+
+  <tr>
+    <th colspan="2" id="exposure"><img src="{% static "svg/camera.svg" %}" width="30" height="30" alt="Exposure"> <a
+        href="#exposure">Exposure</a></th>
+  </tr>
   {% if object.lens is not None %}
   <tr>
     <td>Lens</td>
-    <td>{{ object.lens }}</td>
+    <td><a href="{% url 'lens-detail' object.lens.id %}">{{ object.lens }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.focal_length is not None %}
+  <tr>
+    <td>Focal length</td>
+    <td>{{ object.focal_length }}mm</td>
   </tr>
   {% endif %}
   {% if object.shutter_speed is not None %}
@@ -57,13 +68,7 @@
   {% if object.teleconverter is not None %}
   <tr>
     <td>Teleconverter</td>
-    <td>{{ object.teleconverter }}</td>
-  </tr>
-  {% endif %}
-  {% if object.notes is not None %}
-  <tr>
-    <td>Notes</td>
-    <td>{{ object.notes|linebreaks }}</td>
+    <td><a href="{% url 'teleconverter-detail' object.teleconverter.id %}">{{ object.teleconverter }}</a></td>
   </tr>
   {% endif %}
   {% if object.mount_adapter is not None %}
@@ -72,10 +77,45 @@
     <td>{{ object.mount_adapter }}</td>
   </tr>
   {% endif %}
-  {% if object.focal_length is not None %}
+  {% if object.flash is not None %}
   <tr>
-    <td>Focal length</td>
-    <td>{{ object.focal_length }}mm</td>
+    <td>Flash</td>
+    <td>{{ object.flash }}</td>
+  </tr>
+  {% endif %}
+  {% if object.metering_mode is not None %}
+  <tr>
+    <td>Metering mode</td>
+    <td>{{ object.metering_mode }}</td>
+  </tr>
+  {% endif %}
+  {% if object.exposure_program is not None %}
+  <tr>
+    <td>Exposure program</td>
+    <td>{{ object.exposure_program }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="misc"><img src="{% static "svg/misc.svg" %}" width="30" height="30" alt="Misc"> <a
+        href="#misc">Misc</a></th>
+  </tr>
+  {% if object.photographer is not None %}
+  <tr>
+    <td>Photographer</td>
+    <td>{{ object.photographer }}</td>
+  </tr>
+  {% endif %}
+  {% if object.copy_of is not None %}
+  <tr>
+    <td>Copy of</td>
+    <td>{{ object.copy_of }}</td>
+  </tr>
+  {% endif %}
+  {% if object.notes is not None %}
+  <tr>
+    <td>Notes</td>
+    <td>{{ object.notes|linebreaks }}</td>
   </tr>
   {% endif %}
   {% if object.location is not None %}
@@ -98,36 +138,6 @@
         </figcaption>
       </figure>
     </td>
-  </tr>
-  {% endif %}
-  {% if object.flash is not None %}
-  <tr>
-    <td>Flash</td>
-    <td>{{ object.flash }}</td>
-  </tr>
-  {% endif %}
-  {% if object.metering_mode is not None %}
-  <tr>
-    <td>Metering mode</td>
-    <td>{{ object.metering_mode }}</td>
-  </tr>
-  {% endif %}
-  {% if object.exposure_program is not None %}
-  <tr>
-    <td>Exposure program</td>
-    <td>{{ object.exposure_program }}</td>
-  </tr>
-  {% endif %}
-  {% if object.photographer is not None %}
-  <tr>
-    <td>Photographer</td>
-    <td>{{ object.photographer }}</td>
-  </tr>
-  {% endif %}
-  {% if object.copy_of is not None %}
-  <tr>
-    <td>Copy of</td>
-    <td>{{ object.copy_of }}</td>
   </tr>
   {% endif %}
 </table>

@@ -76,6 +76,7 @@ my %newnames = (
 	'icons8-ruler'					=> ['ruler'],
 	'icons8-receive-cash'			=> ['ownership'],
 	'icons8-overview'				=> ['summary'],
+	'icons8-diversity'				=> ['compatibility'],
 #unknown
 #logout
 );

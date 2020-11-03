@@ -177,13 +177,11 @@
 <table class="table table-hover">
   <tr>
     <th>Frame</th>
-    <th>Caption</th>
     <th>Date</th>
   </tr>
   {% for negative in film.negative_set.all %}
   <tr>
-    <td>{{ negative.frame }}</td>
-    <td>{{ negative.caption }}</td>
+    <td><a href="{% url 'negative-detail' negative.id %}">{{ negative }}</a></td>
     <td>{{ negative.date }}</td>
   </tr>
   {% endfor %}

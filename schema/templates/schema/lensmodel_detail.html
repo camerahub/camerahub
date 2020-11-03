@@ -49,6 +49,7 @@
     <td>{{ object.introduced }}{% if object.discontinued is not None %}-{{ object.discontinued }}{% endif %}</td>
   </tr>
   {% endif %}
+  
   <tr>
     <th colspan="2" id="physical"><img src="{% static "svg/weight.svg" %}" width="30" height="30" alt="Physical"> <a
         href="#physical">Physical</a></th>
@@ -69,6 +70,12 @@
   <tr>
     <td>Diameter</td>
     <td>{{ object.diameter }}mm</td>
+  </tr>
+  {% endif %}
+  {% if object.filter_thread is not None %}
+  <tr>
+    <td>Filter thread</td>
+    <td>{{ object.filter_thread }}mm</td>
   </tr>
   {% endif %}
 
@@ -168,6 +175,12 @@
     <td>{{ object.image_circle }}mm</td>
   </tr>
   {% endif %}
+  {% if object.coating is not None %}
+  <tr>
+    <td>Coating</td>
+    <td>{{ object.coating }}</td>
+  </tr>
+  {% endif %}
   {% if object.diagram %}
   <tr>
     <td>Optical diagram</td>
@@ -222,18 +235,6 @@
     <td>{{ object.perspective_control|boolicontag }}</td>
   </tr>
   {% endif %}
-  {% if object.filter_thread is not None %}
-  <tr>
-    <td>Filter thread</td>
-    <td>{{ object.filter_thread }}mm</td>
-  </tr>
-  {% endif %}
-  {% if object.coating is not None %}
-  <tr>
-    <td>Coating</td>
-    <td>{{ object.coating }}</td>
-  </tr>
-  {% endif %}
   {% if object.hood is not None %}
   <tr>
     <td>Hood</td>
@@ -247,12 +248,11 @@
   </tr>
   {% endif %}
 
-
   <tr>
     <th colspan="2" id="misc"><img src="{% static "svg/misc.svg" %}" width="30" height="30" alt="Misc"> <a
         href="#misc">Misc</a></th>
   </tr>
-  {% if object.notes is not None %}
+  {% if object.notes %}
   <tr>
     <td>Notes</td>
     <td>{{ object.notes|linebreaks }}</td>

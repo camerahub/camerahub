@@ -19,6 +19,23 @@
     <td><a href="{% url 'filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a></td>
   </tr>
   {% endif %}
+  {% if object.batch is not None %}
+  <tr>
+    <td>Batch code</td>
+    <td><code>{{ object.batch }}</code></td>
+  </tr>
+  {% endif %}
+  {% if object.expiry is not None %}
+  <tr>
+    <td>Expiry date</td>
+    <td>{{ object.expiry }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30"
+        alt="Ownership">&nbsp;<a href="#ownership">Ownership</a></th>
+  </tr>
   {% if object.purchase_date is not None %}
   <tr>
     <td>Purchase date</td>
@@ -37,35 +54,21 @@
     <td>{{ object.source }}</td>
   </tr>
   {% endif %}
-  {% if object.batch is not None %}
-  <tr>
-    <td>Batch code</td>
-    <td>{{ object.batch }}</td>
-  </tr>
-  {% endif %}
-  {% if object.expiry is not None %}
-  <tr>
-    <td>Expiry date</td>
-    <td>{{ object.expiry }}</td>
-  </tr>
-  {% endif %}
 </table>
 
-<a data-toggle="collapse" href="#collapseFilms" role="button" aria-expanded="false" aria-controls="collapseFilms">
-  Films cut from this bulk film
-</a>
-<div class="collapse" id="collapseFilms">
-  <table class="table table-hover">
-    <tr>
-      <th>Film ID</th>
-      <th>Title</th>
-    </tr>
-    {% for film in bulkfilm.film_set.all %}
-    <tr>
-      <td><a href="{% url 'film-detail' film.id_owner %}">{{ film.id_owner }}</a></td>
-      <td>{{ film.title }}</td>
-    </tr>
-    {% endfor %}
-  </table>
-</div>
+{% if user.is_authenticated %}
+<h4>Films cut from this bulk film</h4>
+<table class="table table-hover">
+  <tr>
+    <th>Film ID</th>
+    <th>Title</th>
+  </tr>
+  {% for film in bulkfilm.film_set.all %}
+  <tr>
+    <td><a href="{% url 'film-detail' film.id_owner %}">{{ film.id_owner }}</a></td>
+    <td>{{ film.title }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
 {% endblock %}

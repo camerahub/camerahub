@@ -262,7 +262,7 @@
     <td>{{ object.meter_min_ev }}-{{ object.meter_max_ev }}</td>
   </tr>
   {% endif %}
-  {% if object.metering_modes is not None %}
+  {% if object.metering_modes.all %}
   <tr>
     <td>Metering modes</td>
     <td>
@@ -280,7 +280,7 @@
     <td>{{ object.min_iso }}-{{ object.max_iso }}</td>
   </tr>
   {% endif %}
-  {% if object.exposure_programs is not None %}
+  {% if object.exposure_programs.all %}
   <tr>
     <td>Exposure programs</td>
     <td>
@@ -488,7 +488,7 @@
     <th colspan="2" id="misc"><img src="{% static "svg/misc.svg" %}" width="30" height="30" alt="Misc"> <a
         href="#misc">Misc</a></th>
   </tr>
-  {% if object.notes is not None %}
+  {% if object.notes %}
   <tr>
     <td>Notes</td>
     <td>{{ object.notes|linebreaks }}</td>

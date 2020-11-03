@@ -22,6 +22,31 @@
     <td>{{ object.model }}</td>
   </tr>
   <tr>
+    <th colspan="2" id="compatibility"><img src="{% static "svg/compatibility.svg" %}" width="30" height="30"
+        alt="Ownership">&nbsp;<a href="#compatibility">Compatibility</a></th>
+  </tr>
+  {% if object.camera_model_compatibility.all %}
+  <tr>
+    <td>Camera model compatibility</td>
+    <td>
+      <ul class="list-inline">{% for camera in object.camera_model_compatibility.all %}
+        <li class="list-inline-item"><a href="{% url 'cameramodel-detail' camera.slug %}">{{ camera }}</a></li>
+        {% endfor %}</ul>
+    </td>
+  </tr>
+  {% endif %}
+  {% if object.lens_model_compatibility.all %}
+  <tr>
+    <td>Lens model compatibility</td>
+    <td>
+      <ul class="list-inline">
+        {% for lens in object.lens_model_compatibility.all %}
+        <li class="list-inline-item"><a href="{% url 'lensmodel-detail' lens.slug %}">{{ lens }}</a></li>
+        {% endfor %}</ul>
+    </td>
+  </tr>
+  {% endif %}
+  <tr>
     <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30"
         alt="Ownership">&nbsp;<a href="#ownership">Ownership</a></th>
   </tr>
@@ -47,27 +72,6 @@
   <tr>
     <td>Lost price</td>
     <td>{{ object.lost_price }}</td>
-  </tr>
-  {% endif %}
-  {% if object.camera_model_compatibility is not None %}
-  <tr>
-    <td>Camera model compatibility</td>
-    <td>
-      <ul class="list-inline">{% for camera in object.camera_model_compatibility.all %}
-        <li class="list-inline-item"><a href="{% url 'cameramodel-detail' camera.slug %}">{{ camera }}</a></li>
-        {% endfor %}</ul>
-    </td>
-  </tr>
-  {% endif %}
-  {% if object.lens_model_compatibility is not None %}
-  <tr>
-    <td>Lens model compatibility</td>
-    <td>
-      <ul class="list-inline">
-        {% for lens in object.lens_model_compatibility.all %}
-        <li class="list-inline-item"><a href="{% url 'lensmodel-detail' lens.slug %}">{{ lens }}</a></li>
-        {% endfor %}</ul>
-    </td>
   </tr>
   {% endif %}
 </table>
