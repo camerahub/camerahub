@@ -182,8 +182,7 @@ class CameraSellForm(ModelForm):
 class CameraModelForm(autocomplete.FutureModelForm):
     class Meta:
         model = CameraModel
-        fields = ['manufacturer', 'model', 'other_names', 'disambiguation',
-                  'introduced', 'discontinued', 'format', 'negative_size']
+        fields = '__all__'
         widgets = {
             'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
             'introduced': YearPickerInput(format='%Y'),
