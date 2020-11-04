@@ -13,6 +13,11 @@ from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufac
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
 
+FormActionButtons = Layout(
+    FormActions(
+        Submit('save', 'Save')
+    )
+)
 
 class AccessoryForm(ModelForm):
     class Meta:
@@ -41,9 +46,7 @@ class AccessoryForm(ModelForm):
             'lost_price',
             'camera_model_compatibility',
             'lens_model_compatibility',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -85,9 +88,7 @@ class BatteryForm(ModelForm):
             AppendedText('voltage', 'V'),
             'chemistry',
             'compatible_with',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -115,9 +116,7 @@ class BulkFilmForm(ModelForm):
             'source',
             'batch',
             'expiry',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -150,9 +149,7 @@ class CameraForm(ModelForm):
                 'condition',
                 'condition_notes',
             ),
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -173,9 +170,7 @@ class CameraSellForm(ModelForm):
                 'lost',
                 'lost_price',
             ),
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -315,9 +310,7 @@ class CameraModelForm(autocomplete.FutureModelForm):
                 'image_attribution',
                 'image_attribution_url',
             ),
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -342,9 +335,7 @@ class DeveloperForm(ModelForm):
             'for_film',
             'chemistry',
             'tags',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -378,9 +369,7 @@ class EnlargerForm(ModelForm):
             'discontinued',
             'cost',
             'lost_price',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -407,9 +396,7 @@ class FilmStockForm(ModelForm):
             'panchromatic',
             'process',
             'tags',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -425,9 +412,7 @@ class FilterForm(ModelForm):
             'type',
             'shortname',
             'attenuation',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -468,9 +453,7 @@ class FlashForm(ModelForm):
             'own',
             'acquired',
             'cost',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -487,9 +470,7 @@ class FlashProtocolForm(ModelForm):
         self.helper.layout = Layout(
             'name',
             'manufacturer',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -506,9 +487,7 @@ class FormatForm(ModelForm):
         self.helper.layout = Layout(
             'format',
             'negative_size',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -541,9 +520,7 @@ class LensForm(ModelForm):
             'source',
             'condition',
             'condition_notes',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -564,9 +541,7 @@ class LensSellForm(ModelForm):
                 'lost',
                 'lost_price',
             ),
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -636,9 +611,7 @@ class LensModelForm(ModelForm):
                 'diagram_attribution',
                 'diagram_attribution_url',
             ),
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -664,9 +637,7 @@ class ManufacturerForm(ModelForm):
             'founded',
             'dissolved',
             'tags',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -692,9 +663,7 @@ class MountForm(ModelForm):
             'notes',
             'manufacturer',
             'tags',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -716,9 +685,7 @@ class MountAdapterForm(ModelForm):
             'has_optics',
             'infinity_focus',
             'notes',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -738,9 +705,7 @@ class NegativeSizeForm(ModelForm):
             'name',
             AppendedText('width', 'mm'),
             AppendedText('height', 'mm'),
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -768,9 +733,7 @@ class OrderForm(ModelForm):
             'printed',
             'print',
             'recipient',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -795,9 +758,7 @@ class PaperStockForm(ModelForm):
             'colour',
             'finish',
             'tags',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -811,9 +772,7 @@ class PersonForm(ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             'name',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -864,9 +823,7 @@ class PrintForm(ModelForm):
             'notes',
             'archive',
             'printer',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -882,9 +839,7 @@ class ProcessForm(ModelForm):
             'name',
             'colour',
             'positive',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -909,9 +864,7 @@ class RepairForm(ModelForm):
             'date',
             'summary',
             'detail',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -935,9 +888,7 @@ class ScanForm(ModelForm):
             'print',
             'filename',
             'date',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -984,9 +935,7 @@ class NegativeForm(ModelForm):
             'exposure_program',
             'photographer',
             'copy_of',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -1198,9 +1147,7 @@ class TeleconverterForm(ModelForm):
                 'groups',
                 'multicoated',
             ),
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
 
 
@@ -1229,7 +1176,5 @@ class TonerForm(ModelForm):
             'formulation',
             'stock_dilution',
             'tags',
-            FormActions(
-                Submit('save', 'Save')
-            )
+            FormActionButtons
         )
