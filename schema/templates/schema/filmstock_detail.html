@@ -1,11 +1,12 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
   <tr>
-    <td>Name</td>
-    <td>{{ object.name }}</td>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
   </tr>
   {% if object.manufacturer is not None %}
   <tr>
@@ -13,12 +14,27 @@
     <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
   </tr>
   {% endif %}
+  <tr>
+    <td>Name</td>
+    <td>{{ object.name }}</td>
+  </tr>
   {% if object.iso is not None %}
   <tr>
     <td>ISO</td>
     <td>{{ object.iso }}</td>
   </tr>
   {% endif %}
+  {% if object.process is not None %}
+  <tr>
+    <td>Process</td>
+    <td>{{ object.process }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="features"><img src="{% static "svg/features.svg" %}" width="30" height="30" alt="Features"> <a
+        href="#features">Features</a></th>
+  </tr>
   {% if object.colour is not None %}
   <tr>
     <td>Colour</td>
@@ -31,14 +47,10 @@
     <td>{{ object.panchromatic|boolicontag}}</td>
   </tr>
   {% endif %}
-  {% if object.process is not None %}
+
   <tr>
-    <td>Process</td>
-    <td>{{ object.process }}</td>
-  </tr>
-  {% endif %}
-  <tr>
-    <th colspan="2" id="misc"><a href="#misc">Misc</a></th>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
   </tr>
   {% if object.tags.all %}
   <tr>

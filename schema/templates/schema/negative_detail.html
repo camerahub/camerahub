@@ -1,8 +1,13 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load leaflet_tags %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
   {% if object.film is not None %}
   <tr>
     <td>Film</td>
@@ -25,10 +30,21 @@
     <td>{{ object.date }}</td>
   </tr>
   {% endif %}
+
+  <tr>
+    <th colspan="2" id="exposure"><img src="{% static "svg/camera.svg" %}" width="30" height="30" alt="Exposure"> <a
+        href="#exposure">Exposure</a></th>
+  </tr>
   {% if object.lens is not None %}
   <tr>
     <td>Lens</td>
-    <td>{{ object.lens }}</td>
+    <td><a href="{% url 'lens-detail' object.lens.id %}">{{ object.lens }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.focal_length is not None %}
+  <tr>
+    <td>Focal length</td>
+    <td>{{ object.focal_length }}mm</td>
   </tr>
   {% endif %}
   {% if object.shutter_speed is not None %}
@@ -52,46 +68,13 @@
   {% if object.teleconverter is not None %}
   <tr>
     <td>Teleconverter</td>
-    <td>{{ object.teleconverter }}</td>
-  </tr>
-  {% endif %}
-  {% if object.notes is not None %}
-  <tr>
-    <td>Notes</td>
-    <td>{{ object.notes|linebreaks }}</td>
+    <td><a href="{% url 'teleconverter-detail' object.teleconverter.id %}">{{ object.teleconverter }}</a></td>
   </tr>
   {% endif %}
   {% if object.mount_adapter is not None %}
   <tr>
     <td>Adapter</td>
     <td>{{ object.mount_adapter }}</td>
-  </tr>
-  {% endif %}
-  {% if object.focal_length is not None %}
-  <tr>
-    <td>Focal length</td>
-    <td>{{ object.focal_length }}mm</td>
-  </tr>
-  {% endif %}
-  {% if object.location is not None %}
-  <tr>
-    <td>Location</td>
-    <td>
-      {% leaflet_js %}
-      {% leaflet_css %}
-      <script>
-        function map_init_basic (map, options) {
-            var coords = [{{ object.location.latitude|safe }},{{ object.location.longitude|safe }}];
-            L.marker(coords).addTo(map);
-            map.setView(coords, 16);
-        }
-      </script>
-
-      <figure class="figure">
-        {% leaflet_map "yourmap" callback="window.map_init_basic" %}
-        <figcaption class="figure-caption">{{ object.location.latitude}}&deg;, {{ object.location.longitude}}&deg;</figcaption>
-      </figure>
-    </td>
   </tr>
   {% endif %}
   {% if object.flash is not None %}
@@ -112,6 +95,11 @@
     <td>{{ object.exposure_program }}</td>
   </tr>
   {% endif %}
+
+  <tr>
+    <th colspan="2" id="misc"><img src="{% static "svg/misc.svg" %}" width="30" height="30" alt="Misc"> <a
+        href="#misc">Misc</a></th>
+  </tr>
   {% if object.photographer is not None %}
   <tr>
     <td>Photographer</td>
@@ -122,6 +110,34 @@
   <tr>
     <td>Copy of</td>
     <td>{{ object.copy_of }}</td>
+  </tr>
+  {% endif %}
+  {% if object.notes is not None %}
+  <tr>
+    <td>Notes</td>
+    <td>{{ object.notes|linebreaks }}</td>
+  </tr>
+  {% endif %}
+  {% if object.location is not None %}
+  <tr>
+    <td>Location</td>
+    <td>
+      {% leaflet_js %}
+      {% leaflet_css %}
+      <script>
+        function map_init_basic(map, options) {
+            var coords = [{{ object.location.latitude|safe }}, {{ object.location.longitude|safe }}];
+            L.marker(coords).addTo(map);
+            map.setView(coords, 16);
+        }
+      </script>
+
+      <figure class="figure">
+        {% leaflet_map "yourmap" callback="window.map_init_basic" %}
+        <figcaption class="figure-caption">{{ object.location.latitude}}&deg;, {{ object.location.longitude}}&deg;
+        </figcaption>
+      </figure>
+    </td>
   </tr>
   {% endif %}
 </table>

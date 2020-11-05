@@ -1,7 +1,12 @@
 {% extends "detail.html" %}
+{% load static %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
   <tr>
     <td>Film format</td>
     <td>{{ object.format }}</td>
@@ -17,6 +22,10 @@
     </td>
   </tr>
   {% endif %}
+  <tr>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
+  </tr>
   {% if history %}
   <tr>
     <td>Edit history</td>
@@ -27,5 +36,6 @@
 {% endblock %}
 
 {% block moreactions %}
-<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?format={{ object.id }}" role="button">View camera models with this format</a></li>
+<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?format={{ object.id }}" role="button">View camera
+    models with this format</a></li>
 {% endblock %}

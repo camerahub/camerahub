@@ -1,8 +1,13 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
   <tr>
     <td>Model</td>
     <td>{{ object.model }}</td>
@@ -25,12 +30,23 @@
     <td>{{ object.gn_info }}</td>
   </tr>
   {% endif %}
-  {% if object.battery_powered is not None %}
+  {% if object.flash_protocol is not None %}
   <tr>
-    <td>Battery powered</td>
-    <td>{{ object.battery_powered|boolicontag }}</td>
+    <td>Flash protocol</td>
+    <td>{{ object.flash_protocol }}</td>
   </tr>
   {% endif %}
+  {% if object.trigger_voltage is not None %}
+  <tr>
+    <td>Trigger voltage</td>
+    <td>{{ object.trigger_voltage }}V</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="features"><img src="{% static "svg/features.svg" %}" width="30" height="30" alt="Features"> <a
+        href="#features">Features</a></th>
+  </tr>
   {% if object.pc_sync is not None %}
   <tr>
     <td>PC sync</td>
@@ -40,25 +56,13 @@
   {% if object.hot_shoe is not None %}
   <tr>
     <td>Hot shoe</td>
-    <td>{{ object.hot_shoe }}</td>
+    <td>{{ object.hot_shoe|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.light_stand is not None %}
   <tr>
     <td>Light stand</td>
     <td>{{ object.light_stand|boolicontag }}</td>
-  </tr>
-  {% endif %}
-  {% if object.battery_type is not None %}
-  <tr>
-    <td>Battery type</td>
-    <td>{{ object.battery_type }}</td>
-  </tr>
-  {% endif %}
-  {% if object.battery_qty is not None %}
-  <tr>
-    <td>Battery quantity</td>
-    <td>{{ object.battery_qty }}</td>
   </tr>
   {% endif %}
   {% if object.manual_control is not None %}
@@ -91,18 +95,34 @@
     <td>{{ object.ttl|boolicontag }}</td>
   </tr>
   {% endif %}
-  {% if object.flash_protocol is not None %}
+
   <tr>
-    <td>Flash protocol</td>
-    <td>{{ object.flash_protocol }}</td>
+    <th colspan="2" id="power"><img src="{% static "svg/battery.svg" %}" width="30" height="30" alt="Power"> <a
+        href="#power">Power</a></th>
+  </tr>
+  {% if object.battery_powered is not None %}
+  <tr>
+    <td>Battery powered</td>
+    <td>{{ object.battery_powered|boolicontag }}</td>
   </tr>
   {% endif %}
-  {% if object.trigger_voltage is not None %}
+  {% if object.battery_type is not None %}
   <tr>
-    <td>Trigger voltage</td>
-    <td>{{ object.trigger_voltage }}</td>
+    <td>Battery type</td>
+    <td>{{ object.battery_type }}</td>
   </tr>
   {% endif %}
+  {% if object.battery_qty is not None %}
+  <tr>
+    <td>Battery quantity</td>
+    <td>{{ object.battery_qty }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30"
+        alt="Ownership">&nbsp;<a href="#ownership">Ownership</a></th>
+  </tr>
   {% if object.own is not None %}
   <tr>
     <td>Owned</td>
@@ -121,6 +141,11 @@
     <td>{{ object.cost }}</td>
   </tr>
   {% endif %}
+
+  <tr>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
+  </tr>
   {% if history %}
   <tr>
     <td>Edit history</td>
