@@ -9,7 +9,7 @@ from dal import autocomplete
 from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput, YearPickerInput, MonthPickerInput, TimePickerInput
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
+from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
 
@@ -267,7 +267,6 @@ class CameraModelForm(autocomplete.FutureModelForm):
                 'int_flash',
                 'int_flash_gn',
                 'ext_flash',
-                'flash_metering',
                 'pc_sync',
                 'shoe',
                 'x_sync',
@@ -422,7 +421,6 @@ class FlashForm(ModelForm):
             'tilt_head',
             'zoom',
             'ttl',
-            'flash_protocol',
             'trigger_voltage',
             'own',
             'acquired',
@@ -433,24 +431,7 @@ class FlashForm(ModelForm):
         }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
-            fields.remove('flash_protocol')
             fields.remove('battery_type')
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.layout.append(Submit('Save', 'Save'))
-
-
-class FlashProtocolForm(ModelForm):
-    class Meta:
-        model = FlashProtocol
-        fields = [
-            'name',
-            'manufacturer',
-        ]
-        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
-            fields.remove('manufacturer')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

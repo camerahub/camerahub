@@ -2,7 +2,7 @@ from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
 from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
-from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
+from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 
 # The text to put at the top of each admin page, as an <h1> (a string). By default, this is “Django administration”.
@@ -103,7 +103,7 @@ class CameraModelAdmin(SimpleHistoryAdmin):
             'fields': ('metering', 'metering_type', ('min_iso', 'max_iso'), ('meter_min_ev', 'meter_max_ev'), 'metering_modes', 'exposure_programs')
         }),
         ('Flash', {
-            'fields': ('int_flash', 'int_flash_gn', 'ext_flash', 'flash_metering', 'pc_sync', 'shoe')
+            'fields': ('int_flash', 'int_flash_gn', 'ext_flash', 'pc_sync', 'shoe')
         }),
         ('Focus', {
             'fields': ('focus_type', 'af_points', 'dof_preview')
@@ -147,8 +147,6 @@ class FlashAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Flash, FlashAdmin)
-
-admin.site.register(FlashProtocol, SimpleHistoryAdmin)
 
 admin.site.register(Format, SimpleHistoryAdmin)
 

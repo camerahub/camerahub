@@ -7,7 +7,7 @@ from schema.funcs import boolicon, colouricon
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
+from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
 
@@ -219,7 +219,7 @@ class FlashTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Flash
-        fields = ('id_owner', 'model', 'guide_number', 'ttl', 'flash_protocol')
+        fields = ('id_owner', 'model', 'guide_number', 'ttl')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -232,23 +232,6 @@ class FlashTable(tables.Table):
     @classmethod
     def render_ttl(cls, value):
         return format_html(boolicon(value))
-
-
-class FlashProtocolTable(tables.Table):
-    class Meta:
-        attrs = {"class": "table table-hover"}
-        model = FlashProtocol
-        fields = ('name',)
-
-    @classmethod
-    def render_name(cls, value, record):
-        if record.manufacturer is not None:
-            mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
-                'flashprotocol-detail', args=[record.id]), record.manufacturer, value)
-        else:
-            mystr = format_html(
-                "<a href=\"{}\">{}</a>", reverse('flashprotocol-detail', args=[record.id]), value)
-        return mystr
 
 
 class FormatTable(tables.Table):

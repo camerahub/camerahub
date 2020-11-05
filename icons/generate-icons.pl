@@ -23,7 +23,6 @@ my %newnames = (
 	'icons8-film-roll'				=> ['film', 'filmstock'],
 	'icons8-360-degrees'			=> ['filter'],
 	'icons8-camera-flash'			=> ['flash'],
-	'icons8-connected-no-data'		=> ['flashprotocol'],
 	'icons8-resolution'				=> ['format'],
 	'icons8-lens'					=> ['lens', 'lensmodel'],
 	'icons8-factory'				=> ['manufacturer'],
