@@ -73,6 +73,12 @@
     <td>{{ object.cost }}</td>
   </tr>
   {% endif %}
+  {% if object.source is not None %}
+  <tr>
+    <td>Source</td>
+    <td>{{ object.source }}</td>
+  </tr>
+  {% endif %}
   {% if object.lost is not None %}
   <tr>
     <td>Lost</td>
@@ -83,12 +89,6 @@
   <tr>
     <td>Lost price</td>
     <td>{{ object.lost_price }}</td>
-  </tr>
-  {% endif %}
-  {% if object.source is not None %}
-  <tr>
-    <td>Source</td>
-    <td>{{ object.source }}</td>
   </tr>
   {% endif %}
 </table>

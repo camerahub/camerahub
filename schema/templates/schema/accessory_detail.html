@@ -7,10 +7,6 @@
     <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
         href="#">Summary</a></th>
   </tr>
-  <tr>
-    <td>Accessory type</td>
-    <td>{{ object.type }}</td>
-  </tr>
   {% if object.manufacturer is not None %}
   <tr>
     <td>Manufacturer</td>
@@ -20,6 +16,10 @@
   <tr>
     <td>Model</td>
     <td>{{ object.model }}</td>
+  </tr>
+  <tr>
+    <td>Accessory type</td>
+    <td>{{ object.type }}</td>
   </tr>
   <tr>
     <th colspan="2" id="compatibility"><img src="{% static "svg/compatibility.svg" %}" width="30" height="30"

@@ -49,35 +49,8 @@
     <td>{{ object.introduced }}{% if object.discontinued is not None %}-{{ object.discontinued }}{% endif %}</td>
   </tr>
   {% endif %}
-  
-  <tr>
-    <th colspan="2" id="physical"><img src="{% static "svg/weight.svg" %}" width="30" height="30" alt="Physical"> <a
-        href="#physical">Physical</a></th>
-  </tr>
-  {% if object.weight is not None %}
-  <tr>
-    <td>Weight</td>
-    <td>{{ object.weight }}g</td>
-  </tr>
-  {% endif %}
-  {% if object.length is not None %}
-  <tr>
-    <td>Length</td>
-    <td>{{ object.length }}mm</td>
-  </tr>
-  {% endif %}
-  {% if object.diameter is not None %}
-  <tr>
-    <td>Diameter</td>
-    <td>{{ object.diameter }}mm</td>
-  </tr>
-  {% endif %}
-  {% if object.filter_thread is not None %}
-  <tr>
-    <td>Filter thread</td>
-    <td>{{ object.filter_thread }}mm</td>
-  </tr>
-  {% endif %}
+
+
 
 
   <tr>
@@ -245,6 +218,35 @@
   <tr>
     <td>Shutter model</td>
     <td>{{ object.shutter_model }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="physical"><img src="{% static "svg/weight.svg" %}" width="30" height="30" alt="Physical"> <a
+        href="#physical">Physical</a></th>
+  </tr>
+  {% if object.weight is not None %}
+  <tr>
+    <td>Weight</td>
+    <td>{{ object.weight }}g</td>
+  </tr>
+  {% endif %}
+  {% if object.length is not None %}
+  <tr>
+    <td>Length</td>
+    <td>{{ object.length }}mm</td>
+  </tr>
+  {% endif %}
+  {% if object.diameter is not None %}
+  <tr>
+    <td>Diameter</td>
+    <td>{{ object.diameter }}mm</td>
+  </tr>
+  {% endif %}
+  {% if object.filter_thread is not None %}
+  <tr>
+    <td>Filter thread</td>
+    <td>{{ object.filter_thread }}mm</td>
   </tr>
   {% endif %}
 

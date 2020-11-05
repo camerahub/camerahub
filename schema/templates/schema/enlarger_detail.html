@@ -1,6 +1,5 @@
 {% extends "detail.html" %}
 {% load static %}
-{% load static %}
 
 {% block content %}
 <table class="table table-hover">
@@ -59,16 +58,16 @@
     <td>{{ object.acquired }}</td>
   </tr>
   {% endif %}
-  {% if object.lost is not None %}
-  <tr>
-    <td>Lost</td>
-    <td>{{ object.lost }}</td>
-  </tr>
-  {% endif %}
   {% if object.cost is not None %}
   <tr>
     <td>Cost</td>
     <td>{{ object.cost }}</td>
+  </tr>
+  {% endif %}
+  {% if object.lost is not None %}
+  <tr>
+    <td>Lost</td>
+    <td>{{ object.lost }}</td>
   </tr>
   {% endif %}
   {% if object.lost_price is not None %}

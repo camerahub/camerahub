@@ -19,6 +19,7 @@ FormActionButtons = Layout(
     )
 )
 
+
 class AccessoryForm(ModelForm):
     class Meta:
         model = Accessory
@@ -37,15 +38,21 @@ class AccessoryForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'manufacturer',
-            'model',
-            'type',
-            'acquired',
-            'cost',
-            'lost',
-            'lost_price',
-            'camera_model_compatibility',
-            'lens_model_compatibility',
+            Fieldset('Summary',
+                     'manufacturer',
+                     'model',
+                     'type',
+                     ),
+            Fieldset('Compatibility',
+                     'camera_model_compatibility',
+                     'lens_model_compatibility',
+                     ),
+            Fieldset('Ownership',
+                     'acquired',
+                     'cost',
+                     'lost',
+                     'lost_price',
+                     ),
             FormActionButtons
         )
 
@@ -69,9 +76,7 @@ class ArchiveForm(ModelForm):
                 'storage',
                 'sealed',
             ),
-            FormActions(
-                Submit('save', 'Save'),
-            )
+            FormActionButtons
         )
 
 
@@ -84,10 +89,14 @@ class BatteryForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'name',
-            AppendedText('voltage', 'V'),
-            'chemistry',
-            'compatible_with',
+            Fieldset('Summary',
+                     'name',
+                     AppendedText('voltage', 'V'),
+                     'chemistry',
+                     ),
+            Fieldset('Compatibility',
+                     'compatible_with',
+                     ),
             FormActionButtons
         )
 
@@ -109,13 +118,17 @@ class BulkFilmForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'format',
-            'filmstock',
-            'purchase_date',
-            'cost',
-            'source',
-            'batch',
-            'expiry',
+            Fieldset('Summary',
+                     'format',
+                     'filmstock',
+                     'batch',
+                     'expiry',
+                     ),
+            Fieldset('Ownership',
+                     'purchase_date',
+                     'cost',
+                     'source',
+                     ),
             FormActionButtons
         )
 
@@ -134,21 +147,23 @@ class CameraForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Div(
-                'cameramodel',
-                'acquired',
-                'cost',
-                'source',
-                'serial',
-                'datecode',
-                'manufactured',
-                'own',
-                'notes',
-                'lost',
-                'lost_price',
-                'condition',
-                'condition_notes',
-            ),
+            Fieldset('Summary',
+                     'cameramodel',
+                     'serial',
+                     'datecode',
+                     'manufactured',
+                     'notes',
+                     'condition',
+                     'condition_notes',
+                     ),
+            Fieldset('Ownership',
+                     'own',
+                     'acquired',
+                     'cost',
+                     'source',
+                     'lost',
+                     'lost_price',
+                     ),
             FormActionButtons
         )
 
@@ -189,127 +204,119 @@ class CameraModelForm(autocomplete.FutureModelForm):
         self.helper = FormHelper(self)
 
         self.helper.layout = Layout(
-            Fieldset(
-                'Basics',
-                'manufacturer',
-                'model',
-                'other_names',
-                'disambiguation',
-                'introduced',
-                'discontinued',
-                'format',
-                'negative_size',
-            ),
+            Fieldset('Summary',
+                     'manufacturer',
+                     'model',
+                     'other_names',
+                     'disambiguation',
+                     'introduced',
+                     'discontinued',
+                     'format',
+                     'negative_size',
+                     ),
             Div(
                 TabHolder(
                     Tab('Interchangeable lens',
-                        Fieldset(
-                            'Lens mount',
-                            'mount',
-                        ),
+                        Fieldset('Lens mount',
+                                 'mount',
+                                 ),
                         ),
                     Tab('Fixed lens',
-                        Fieldset(
-                            'Lens',
-                            'lens_manufacturer',
-                            'lens_model_name',
-                        ),
-                        Fieldset(
-                            'Optics',
-                            'zoom',
-                            AppendedText('min_focal_length', 'mm'),
-                            AppendedText('max_focal_length', 'mm'),
-                            PrependedText('max_aperture', 'f/'),
-                            PrependedText('min_aperture', 'f/'),
-                            AppendedText('closest_focus', 'm'),
-                            'elements',
-                            'groups',
-                            AppendedText('nominal_min_angle_diag', '&deg;'),
-                            AppendedText('nominal_max_angle_diag', '&deg;'),
-                            'aperture_blades',
-                            'coating',
-                            AppendedText('magnification', '&times;'),
-                        ),
-                        Fieldset(
-                            'Physical',
-                            AppendedText('filter_thread', 'mm'),
-                            'hood',
-                        ),
+                        Fieldset('Lens',
+                                 'lens_manufacturer',
+                                 'lens_model_name',
+                                 ),
+                        Fieldset('Optics',
+                                 'zoom',
+                                 AppendedText(
+                                     'min_focal_length', 'mm'),
+                                 AppendedText('max_focal_length', 'mm'),
+                                 PrependedText('max_aperture', 'f/'),
+                                 PrependedText('min_aperture', 'f/'),
+                                 AppendedText('closest_focus', 'm'),
+                                 'elements',
+                                 'groups',
+                                 AppendedText(
+                                     'nominal_min_angle_diag', '&deg;'),
+                                 AppendedText(
+                                     'nominal_max_angle_diag', '&deg;'),
+                                 'aperture_blades',
+                                 'coating',
+                                 AppendedText('magnification', '&times;'),
+                                 ),
+                        Fieldset('Physical',
+                                 AppendedText('filter_thread', 'mm'),
+                                 'hood',
+                                 ),
                         ),
                 ),
                 css_class="border",
             ),
-            Fieldset(
-                'Physical',
-                'body_type',
-                AppendedText('weight', 'g'),
-            ),
-            Fieldset(
-                'Focus',
-                'focus_type',
-                AppendedText('viewfinder_coverage', '%'),
-                'af_points',
-            ),
-            Fieldset(
-                'Metering',
-                'metering',
-                'metering_type',
-                InlineCheckboxes('metering_modes'),
-                InlineCheckboxes('exposure_programs'),
-                'min_iso',
-                'max_iso',
-                'meter_min_ev',
-                'meter_max_ev',
-            ),
-            Fieldset(
-                'Shutter',
-                'shutter_type',
-                'shutter_model',
-                'fastest_shutter_speed',
-                'slowest_shutter_speed',
-                'bulb',
-                'time',
-            ),
-            Fieldset(
-                'Flash',
-                'int_flash',
-                'int_flash_gn',
-                'ext_flash',
-                'flash_metering',
-                'pc_sync',
-                'shoe',
-                'x_sync',
-            ),
-            Fieldset(
-                'Battery',
-                'battery_qty',
-                'battery_type',
-            ),
-            Fieldset(
-                'Features',
-                'cable_release',
-                'dof_preview',
-                'mirror_lockup',
-                'tripod',
-                'self_timer',
-                'date_imprint',
-                'interchangeable_backs',
-                'interchangeable_finders',
-                'strap_lugs',
-                'multiple_exposures',
-                'internal_power_drive',
-                AppendedText('continuous_fps', 'fps'),
-                'external_power_drive',
-            ),
-            Fieldset(
-                'Misc',
-                'notes',
-                'tags',
-                'url',
-                'image',
-                'image_attribution',
-                'image_attribution_url',
-            ),
+            Fieldset('Physical',
+                     'body_type',
+                     AppendedText('weight', 'g'),
+                     ),
+            Fieldset('Focus',
+                     'focus_type',
+                     'af_points',
+                     AppendedText('viewfinder_coverage', '%'),
+                     ),
+            Fieldset('Metering',
+                     'metering',
+                     'metering_type',
+                     'min_iso',
+                     'max_iso',
+                     'meter_min_ev',
+                     'meter_max_ev',
+                     InlineCheckboxes('metering_modes'),
+                     InlineCheckboxes('exposure_programs'),
+                     ),
+            Fieldset('Shutter',
+                     'shutter_type',
+                     'shutter_model',
+                     'fastest_shutter_speed',
+                     'slowest_shutter_speed',
+                     'bulb',
+                     'time',
+                     ),
+            Fieldset('Film transport',
+                     'internal_power_drive',
+                     AppendedText('continuous_fps', 'fps'),
+                     'external_power_drive',
+                     ),
+            Fieldset('Power',
+                     'battery_qty',
+                     'battery_type',
+                     ),
+            Fieldset('Flash',
+                     'int_flash',
+                     'int_flash_gn',
+                     'ext_flash',
+                     'pc_sync',
+                     'shoe',
+                     'x_sync',
+                     'flash_metering',
+                     ),
+            Fieldset('Features',
+                     'dof_preview',
+                     'mirror_lockup',
+                     'tripod',
+                     'self_timer',
+                     'date_imprint',
+                     'cable_release',
+                     'interchangeable_backs',
+                     'interchangeable_finders',
+                     'strap_lugs',
+                     'multiple_exposures',
+                     ),
+            Fieldset('Misc',
+                     'notes',
+                     'tags',
+                     'url',
+                     'image',
+                     'image_attribution',
+                     'image_attribution_url',
+                     ),
             FormActionButtons
         )
 
@@ -329,12 +336,16 @@ class DeveloperForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'manufacturer',
-            'name',
-            'for_paper',
-            'for_film',
-            'chemistry',
-            'tags',
+            Fieldset('Summary',
+                     'manufacturer',
+                     'name',
+                     'for_paper',
+                     'for_film',
+                     'chemistry',
+                     ),
+            Fieldset('Meta',
+                     'tags',
+                     ),
             FormActionButtons
         )
 
@@ -358,17 +369,21 @@ class EnlargerForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'manufacturer',
-            'model',
-            'negative_size',
-            'type',
-            'light_source',
-            'acquired',
-            'lost',
-            'introduced',
-            'discontinued',
-            'cost',
-            'lost_price',
+            Fieldset('Summary',
+                     'manufacturer',
+                     'model',
+                     'negative_size',
+                     'type',
+                     'light_source',
+                     'introduced',
+                     'discontinued',
+                     ),
+            Fieldset('Ownership'
+                     'acquired',
+                     'cost',
+                     'lost',
+                     'lost_price',
+                     ),
             FormActionButtons
         )
 
@@ -389,13 +404,19 @@ class FilmStockForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'name',
-            'manufacturer',
-            'iso',
-            'colour',
-            'panchromatic',
-            'process',
-            'tags',
+            Fieldset('Summary',
+                     'name',
+                     'manufacturer',
+                     'iso',
+                     ),
+            Fieldset('Features',
+                     'colour',
+                     'panchromatic',
+                     'process',
+                     ),
+            Fieldset('Meta',
+                     'tags',
+                     ),
             FormActionButtons
         )
 
@@ -433,26 +454,34 @@ class FlashForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'manufacturer',
-            'model',
-            'guide_number',
-            'gn_info',
-            'battery_powered',
-            'pc_sync',
-            'hot_shoe',
-            'light_stand',
-            'battery_type',
-            'battery_qty',
-            'manual_control',
-            'swivel_head',
-            'tilt_head',
-            'zoom',
-            'ttl',
-            'flash_protocol',
-            AppendedText('trigger_voltage', 'V'),
-            'own',
-            'acquired',
-            'cost',
+            Fieldset('Summary',
+                     'manufacturer',
+                     'model',
+                     'guide_number',
+                     'gn_info',
+                     'flash_protocol',
+                     AppendedText('trigger_voltage', 'V'),
+                     ),
+            Fieldset('Features',
+                     'pc_sync',
+                     'hot_shoe',
+                     'light_stand',
+                     'manual_control',
+                     'swivel_head',
+                     'tilt_head',
+                     'zoom',
+                     'ttl',
+                     ),
+            Fieldset('Power',
+                     'battery_powered',
+                     'battery_type',
+                     'battery_qty',
+                     ),
+            Fieldset('Ownership',
+                     'own',
+                     'acquired',
+                     'cost',
+                     ),
             FormActionButtons
         )
 
@@ -507,19 +536,23 @@ class LensForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'lensmodel',
-            'serial',
-            'date_code',
-            'manufactured',
-            'acquired',
-            'cost',
-            'notes',
-            'own',
-            'lost',
-            'lost_price',
-            'source',
-            'condition',
-            'condition_notes',
+            Fieldset('Summary',
+                     'lensmodel',
+                     'serial',
+                     'date_code',
+                     'manufactured',
+                     'notes',
+                     'condition',
+                     'condition_notes',
+                     ),
+            Fieldset('Ownership',
+                     'own',
+                     'acquired',
+                     'cost',
+                     'source',
+                     'lost',
+                     'lost_price',
+                     ),
             FormActionButtons
         )
 
@@ -560,57 +593,57 @@ class LensModelForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Fieldset(
-                'Basics',
-                'manufacturer',
-                'model',
-                'disambiguation',
-                'mount',
-                'introduced',
-                'discontinued',
-            ),
-            Fieldset(
-                'Optics',
-                'zoom',
-                AppendedText('min_focal_length', 'mm'),
-                AppendedText('max_focal_length', 'mm'),
-                PrependedText('max_aperture', 'f/'),
-                PrependedText('min_aperture', 'f/'),
-                AppendedText('closest_focus', 'm'),
-                'elements',
-                'groups',
-                AppendedText('nominal_min_angle_diag', '&deg;'),
-                AppendedText('nominal_max_angle_diag', '&deg;'),
-                'lens_type',
-                AppendedText('image_circle', 'mm'),
-                'aperture_blades',
-                'coating',
-                'autofocus',
-                'perspective_control',
-                AppendedText('magnification', '&times;'),
-                'negative_size',
-            ),
-            Fieldset(
-                'Physical',
-                AppendedText('weight', 'g'),
-                AppendedText('length', 'mm'),
-                AppendedText('diameter', 'mm'),
-                AppendedText('filter_thread', 'mm'),
-                'hood',
-                'shutter_model',
-            ),
-            Fieldset(
-                'Misc',
-                'notes',
-                'tags',
-                'url',
-                'image',
-                'image_attribution',
-                'image_attribution_url',
-                'diagram',
-                'diagram_attribution',
-                'diagram_attribution_url',
-            ),
+            Fieldset('Summary',
+                     'manufacturer',
+                     'model',
+                     'disambiguation',
+                     'mount',
+                     'introduced',
+                     'discontinued',
+                     ),
+            Fieldset('Optics',
+                     'zoom',
+                     AppendedText('min_focal_length', 'mm'),
+                     AppendedText('max_focal_length', 'mm'),
+                     PrependedText('max_aperture', 'f/'),
+                     PrependedText('min_aperture', 'f/'),
+                     AppendedText('closest_focus', 'm'),
+                     'elements',
+                     'groups',
+                     AppendedText('nominal_min_angle_diag', '&deg;'),
+                     AppendedText('nominal_max_angle_diag', '&deg;'),
+                     'lens_type',
+                     AppendedText('magnification', '&times;'),
+                     'negative_size',
+                     'aperture_blades',
+                     AppendedText('image_circle', 'mm'),
+                     'coating',
+                     'diagram',
+                     'diagram_attribution',
+                     'diagram_attribution_url',
+                     ),
+            Fieldset('Features',
+                     'autofocus',
+                     'perspective_control',
+                     'hood',
+                     'shutter_model',
+                     ),
+            Fieldset('Physical',
+                     AppendedText('weight', 'g'),
+                     AppendedText('length', 'mm'),
+                     AppendedText('diameter', 'mm'),
+                     AppendedText('filter_thread', 'mm'),
+                     ),
+            Fieldset('Misc',
+                     'notes',
+                     'url',
+                     'image',
+                     'image_attribution',
+                     'image_attribution_url',
+                     ),
+            Fieldset('Meta',
+                     'tags',
+                     ),
             FormActionButtons
         )
 
@@ -630,13 +663,17 @@ class ManufacturerForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'name',
-            'city',
-            'country',
-            'url',
-            'founded',
-            'dissolved',
-            'tags',
+            Fieldset('Summary',
+                     'name',
+                     'city',
+                     'country',
+                     'url',
+                     'founded',
+                     'dissolved',
+                     ),
+            Fieldset('Meta',
+                     'tags',
+                     ),
             FormActionButtons
         )
 
@@ -656,13 +693,17 @@ class MountForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'mount',
-            'shutter_in_lens',
-            'type',
-            'purpose',
-            'notes',
-            'manufacturer',
-            'tags',
+            Fieldset('Summary',
+                     'mount',
+                     'shutter_in_lens',
+                     'type',
+                     'purpose',
+                     'notes',
+                     'manufacturer',
+                     ),
+            Fieldset('Meta',
+                     'tags',
+                     ),
             FormActionButtons
         )
 
@@ -752,12 +793,16 @@ class PaperStockForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'name',
-            'manufacturer',
-            'resin_coated',
-            'colour',
-            'finish',
-            'tags',
+            Fieldset('Summary',
+                     'name',
+                     'manufacturer',
+                     'resin_coated',
+                     'colour',
+                     'finish',
+                     ),
+            Fieldset('Meta',
+                     'tags',
+                     ),
             FormActionButtons
         )
 
@@ -803,26 +848,34 @@ class PrintForm(ModelForm):
             owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'negative',
-            'date',
-            'paper_stock',
-            AppendedText('height', '"'),
-            AppendedText('width', '"'),
-            PrependedText('aperture', 'f/'),
-            'exposure_time',
-            'filtration_grade',
-            'development_time',
-            'toner',
-            'own',
-            'location',
-            'sold_price',
-            'enlarger',
-            'lens',
-            'developer',
-            'fine',
-            'notes',
-            'archive',
-            'printer',
+            Fieldset('Summary',
+                     'negative',
+                     'date',
+                     'paper_stock',
+                     AppendedText('width', '"'),
+                     AppendedText('height', '"'),
+                     'fine',
+                     ),
+            Fieldset('Exposure',
+                     'enlarger',
+                     'lens',
+                     PrependedText('aperture', 'f/'),
+                     'exposure_time',
+                     'filtration_grade',
+                     ),
+            Fieldset('Development',
+                     'developer',
+                     'development_time',
+                     'toner',
+                     'notes',
+                     'printer',
+                     ),
+            Fieldset('Ownership',
+                     'own',
+                     'location',
+                     'sold_price',
+                     'archive',
+                     ),
             FormActionButtons
         )
 
@@ -917,24 +970,30 @@ class NegativeForm(ModelForm):
             owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'film',
-            'frame',
-            'caption',
-            'date',
-            'lens',
-            'shutter_speed',
-            PrependedText('aperture', 'f/'),
-            'filter',
-            'teleconverter',
-            'notes',
-            'mount_adapter',
-            AppendedText('focal_length', 'mm'),
-            'location',
-            'flash',
-            'metering_mode',
-            'exposure_program',
-            'photographer',
-            'copy_of',
+            Fieldset('Summary',
+                     'film',
+                     'frame',
+                     'caption',
+                     'date',
+                     ),
+            Fieldset('Exposure',
+                     'lens',
+                     AppendedText('focal_length', 'mm'),
+                     'shutter_speed',
+                     PrependedText('aperture', 'f/'),
+                     'filter',
+                     'teleconverter',
+                     'mount_adapter',
+                     'flash',
+                     'metering_mode',
+                     'exposure_program',
+                     ),
+            Fieldset('Misc',
+                     'photographer',
+                     'copy_of',
+                     'notes',
+                     'location',
+                     ),
             FormActionButtons
         )
 
@@ -963,33 +1022,43 @@ class FilmForm(ModelForm):
             owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'filmstock',
-            'exposed_at',
-            'format',
-            'status',
-            'date_loaded',
-            'date_processed',
-            'camera',
-            'title',
-            'frames',
-            'developer',
-            'directory',
-            'developer_previous_uses',
-            'development_time',
-            AppendedText('development_temperature', '&deg;C'),
-            PrependedText('development_compensation', 'N'),
-            'development_notes',
-            'bulk_film',
-            'bulk_film_loaded',
-            'film_batch',
-            'expiry_date',
-            'purchase_date',
-            'price',
-            'processed_by',
-            'archive',
-            FormActions(
-                Submit('save', 'Save'),
-            ),
+            Fieldset('Summary',
+                     'title',
+                     'status',
+                     ),
+            Fieldset('Filmstock',
+                     'filmstock',
+                     'format',
+                     'bulk_film',
+                     'bulk_film_loaded',
+                     'film_batch',
+                     'expiry_date'
+                     ),
+            Fieldset('Exposure',
+                     'camera',
+                     'date_loaded',
+                     'frames',
+                     'exposed_at',
+                     ),
+            Fieldset('Development',
+                     'developer',
+                     'date_processed',
+                     'directory',
+                     'developer_previous_uses',
+                     'development_time',
+                     AppendedText('development_temperature', '&deg;C'),
+                     PrependedText('development_compensation', 'N'),
+                     'development_notes',
+                     'processed_by',
+                     ),
+            Fieldset('Archive',
+                     'archive',
+                     ),
+            Fieldset('Ownership',
+                     'purchase_date',
+                     'price',
+                     ),
+            FormActionButtons
         )
 
 
@@ -1009,35 +1078,32 @@ class FilmAddForm(ModelForm):
             owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Fieldset(
-                'Add a new film to your collection',
-                'filmstock',
-                'format',
-                'frames',
-                Div(
-                    TabHolder(
-                        Tab('Single film',
-                            HTML(
-                                "<p>Choose Single Film for regular roll or sheet films</p>"),
-                            'film_batch',
-                            'expiry_date',
-                            'purchase_date',
-                            'price',
-                            ),
-                        Tab('Bulk film',
-                            HTML(
-                                "<p>Choose Bulk Film for film that has been cut from a bulk roll</p>"),
-                            'bulk_film',
-                            'bulk_film_loaded',
-                            ),
-                    ),
-                    css_class="border",
-                ),
-            ),
+            Fieldset('Add a new film to your collection',
+                     'filmstock',
+                     'format',
+                     'frames',
+                     Div(
+                         TabHolder(
+                             Tab('Single film',
+                                 HTML(
+                                     "<p>Choose Single Film for regular roll or sheet films</p>"),
+                                 'film_batch',
+                                 'expiry_date',
+                                 'purchase_date',
+                                 'price',
+                                 ),
+                             Tab('Bulk film',
+                                 HTML(
+                                     "<p>Choose Bulk Film for film that has been cut from a bulk roll</p>"),
+                                 'bulk_film',
+                                 'bulk_film_loaded',
+                                 ),
+                         ),
+                         css_class="border",
+                     ),
+                     ),
             Hidden('status', 'Available'),
-            FormActions(
-                Submit('save', 'Save'),
-            ),
+            FormActionButtons
         )
 
 
@@ -1056,18 +1122,15 @@ class FilmLoadForm(ModelForm):
             owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Fieldset(
-                'Load this film into a camera',
-                'camera',
-                'title',
-                'exposed_at',
-                'date_loaded',
-                'frames',
-            ),
+            Fieldset('Load this film into a camera',
+                     'camera',
+                     'title',
+                     'exposed_at',
+                     'date_loaded',
+                     'frames',
+                     ),
             Hidden('status', 'Loaded'),
-            FormActions(
-                Submit('save', 'Save'),
-            ),
+            FormActionButtons
         )
 
 
@@ -1086,22 +1149,19 @@ class FilmDevelopForm(ModelForm):
             owner=get_current_user())
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Fieldset(
-                'Develop this film',
-                'date_processed',
-                'developer',
-                'directory',
-                'developer_previous_uses',
-                'development_time',
-                AppendedText('development_temperature', '&deg;C'),
-                PrependedText('development_compensation', 'N'),
-                'development_notes',
-                'processed_by',
-            ),
+            Fieldset('Develop this film',
+                     'date_processed',
+                     'developer',
+                     'directory',
+                     'developer_previous_uses',
+                     'development_time',
+                     AppendedText('development_temperature', '&deg;C'),
+                     PrependedText('development_compensation', 'N'),
+                     'development_notes',
+                     'processed_by',
+                     ),
             Hidden('status', 'Developed'),
-            FormActions(
-                Submit('save', 'Save'),
-            ),
+            FormActionButtons
         )
 
 
@@ -1116,14 +1176,11 @@ class FilmArchiveForm(ModelForm):
             Q(type='Negative') | Q(type='Slide'), owner=get_current_user(), sealed=False)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Fieldset(
-                'Archive this film',
-                'archive',
-            ),
+            Fieldset('Archive this film',
+                     'archive',
+                     ),
             Hidden('status', 'Archived'),
-            FormActions(
-                Submit('save', 'Save'),
-            ),
+            FormActionButtons
         )
 
 
@@ -1137,16 +1194,17 @@ class TeleconverterForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Fieldset(
-                'Basics',
-                'model',
-                'manufacturer',
-                'mount',
-                AppendedText('factor', '&times;'),
-                'elements',
-                'groups',
-                'multicoated',
-            ),
+            Fieldset('Summary',
+                     'model',
+                     'manufacturer',
+                     'mount',
+                     ),
+            Fieldset('Optics',
+                     AppendedText('factor', '&times;'),
+                     'elements',
+                     'groups',
+                     'multicoated',
+                     ),
             FormActionButtons
         )
 
@@ -1171,10 +1229,14 @@ class TonerForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'name',
-            'manufacturer',
-            'formulation',
-            'stock_dilution',
-            'tags',
+            Fieldset('Summary',
+                     'name',
+                     'manufacturer',
+                     'formulation',
+                     'stock_dilution',
+                     ),
+            Fieldset('Meta',
+                     'tags',
+                     ),
             FormActionButtons
         )
