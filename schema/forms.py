@@ -6,7 +6,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, Div, Hidden, HTML
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
 from dal import autocomplete
-from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput, YearPickerInput, MonthPickerInput
+from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput, YearPickerInput, MonthPickerInput, TimePickerInput
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
@@ -902,6 +902,11 @@ class FilmForm(ModelForm):
             'date_processed': DatePickerInput(format='%Y-%m-%d'),
             'purchase_date': DatePickerInput(format='%Y-%m-%d'),
             'expiry_date': MonthPickerInput(format='%Y-%m-01'),
+            'dev_time': TimePickerInput(format='%H:%M:%S',
+                                        options={
+                                            "useCurrent": False,
+                                            "showTodayButton": False,
+                                        }),
         }
 
     def __init__(self, *args, **kwargs):
@@ -1031,6 +1036,11 @@ class FilmDevelopForm(ModelForm):
                   'development_temperature', 'development_compensation', 'development_notes', 'processed_by', 'status']
         widgets = {
             'date_processed': DatePickerInput(format='%Y-%m-%d'),
+            'dev_time': TimePickerInput(format='%H:%M:%S',
+                                        options={
+                                            "useCurrent": False,
+                                            "showTodayButton": False,
+                                        }),
         }
 
     def __init__(self, *args, **kwargs):
