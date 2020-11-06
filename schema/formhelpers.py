@@ -135,7 +135,6 @@ class FlashFormHelper(FormHelper):
             Field('tilt_head', css_class="form-control-sm"),
             Field('zoom', css_class="form-control-sm"),
             Field('ttl', css_class="form-control-sm"),
-            Field('flash_protocol', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
