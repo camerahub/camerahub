@@ -95,15 +95,6 @@ urlpatterns = [
     path('flash/<int:id_owner>/update',
          views.FlashUpdate.as_view(), name='flash-update'),
 
-    path('flashprotocol/', views.FlashProtocolList.as_view(),
-         name='flashprotocol-list'),
-    path('flashprotocol/<int:pk>', views.FlashProtocolDetail.as_view(),
-         name='flashprotocol-detail'),
-    path('flashprotocol/create/', views.FlashProtocolCreate.as_view(),
-         name='flashprotocol-create'),
-    path('flashprotocol/<int:pk>/update',
-         views.FlashProtocolUpdate.as_view(), name='flashprotocol-update'),
-
     path('format/', views.FormatList.as_view(), name='format-list'),
     path('format/<int:pk>', views.FormatDetail.as_view(), name='format-detail'),
     path('format/create/', views.FormatCreate.as_view(), name='format-create'),

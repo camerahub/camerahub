@@ -17,17 +17,17 @@ from taggit.models import Tag
 from dal import autocomplete
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
+from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
 
 from schema.tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, FilmStockTable, FilterTable
-from schema.tables import FlashTable, FlashProtocolTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
+from schema.tables import FlashTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
 from schema.tables import MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable
 from schema.tables import ProcessTable, RepairTable, ScanTable, NegativeTable, FilmTable, TeleconverterTable, TonerTable
 
 from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraSellForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
-from schema.forms import FlashForm, FlashProtocolForm, FormatForm, LensForm, LensSellForm, LensModelForm, ManufacturerForm
+from schema.forms import FlashForm, FormatForm, LensForm, LensSellForm, LensModelForm, ManufacturerForm
 from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
 from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, FilmAddForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TonerForm
 
@@ -472,33 +472,6 @@ class FlashUpdate(LoginRequiredMixin, UpdateView):
     # Restrict to objects we own
     def get_object(self):
         return get_object_or_404(Flash, owner=self.request.user, id_owner=self.kwargs['id_owner'])
-
-
-class FlashProtocolList(SingleTableListView):
-    model = FlashProtocol
-    table_class = FlashProtocolTable
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-        return context
-
-
-class FlashProtocolDetail(generic.DetailView):
-    model = FlashProtocol
-
-
-class FlashProtocolCreate(LoginRequiredMixin, CreateView):
-    model = FlashProtocol
-    form_class = FlashProtocolForm
-    template_name = 'create.html'
-
-
-class FlashProtocolUpdate(LoginRequiredMixin, UpdateView):
-    model = FlashProtocol
-    form_class = FlashProtocolForm
-    template_name = 'update.html'
 
 
 class FormatList(SingleTableListView):

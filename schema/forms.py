@@ -9,7 +9,7 @@ from dal import autocomplete
 from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput, YearPickerInput, MonthPickerInput, TimePickerInput
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
+from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
 
@@ -295,7 +295,6 @@ class CameraModelForm(autocomplete.FutureModelForm):
                      'pc_sync',
                      'shoe',
                      'x_sync',
-                     'flash_metering',
                      ),
             Fieldset('Features',
                      'dof_preview',
@@ -441,13 +440,12 @@ class FlashForm(ModelForm):
     class Meta:
         model = Flash
         fields = ['manufacturer', 'model', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
-                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'flash_protocol', 'trigger_voltage', 'own', 'acquired', 'cost']
+                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'own', 'acquired', 'cost']
         widgets = {
             'acquired': DatePickerInput(format='%Y-%m-%d'),
         }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
-            fields.remove('flash_protocol')
             fields.remove('battery_type')
 
     def __init__(self, *args, **kwargs):
@@ -459,7 +457,6 @@ class FlashForm(ModelForm):
                      'model',
                      'guide_number',
                      'gn_info',
-                     'flash_protocol',
                      AppendedText('trigger_voltage', 'V'),
                      ),
             Fieldset('Features',
@@ -482,23 +479,6 @@ class FlashForm(ModelForm):
                      'acquired',
                      'cost',
                      ),
-            FormActionButtons
-        )
-
-
-class FlashProtocolForm(ModelForm):
-    class Meta:
-        model = FlashProtocol
-        fields = ['name', 'manufacturer']
-        if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
-            fields.remove('manufacturer')
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.layout = Layout(
-            'name',
-            'manufacturer',
             FormActionButtons
         )
 
