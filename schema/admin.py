@@ -304,7 +304,7 @@ class FilmAdmin(admin.ModelAdmin):
             'fields': ('developer', 'developer_previous_uses', 'development_time', 'development_temperature', 'development_compensation', 'development_notes', 'processed_by', 'date_processed'),
         }),
         ('Archive', {
-            'fields': ('directory', 'archive'),
+            'fields': ('archive', ),
         })
     )
     inlines = [

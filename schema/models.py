@@ -1738,8 +1738,6 @@ class Film(models.Model):
         help_text='Expected (not actual) number of frames from the film', blank=True, null=True)
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True,
                                   help_text='Developer used to develop this film', limit_choices_to={'for_film': True})
-    directory = models.CharField(
-        help_text='Name of the directory that contains the scanned images from this film', max_length=100, blank=True, null=True)
     developer_previous_uses = models.PositiveIntegerField(
         help_text='Number of previous uses of the developer', blank=True, null=True)
     development_time = models.DurationField(

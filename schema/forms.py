@@ -981,7 +981,7 @@ class NegativeForm(ModelForm):
 class FilmForm(ModelForm):
     class Meta:
         model = Film
-        fields = ['filmstock', 'exposed_at', 'format', 'status', 'date_loaded', 'date_processed', 'camera', 'title', 'frames', 'developer', 'directory', 'developer_previous_uses', 'development_time',
+        fields = ['filmstock', 'exposed_at', 'format', 'status', 'date_loaded', 'date_processed', 'camera', 'title', 'frames', 'developer', 'developer_previous_uses', 'development_time',
                   'development_temperature', 'development_compensation', 'development_notes', 'bulk_film', 'bulk_film_loaded', 'film_batch', 'expiry_date', 'purchase_date', 'price', 'processed_by', 'archive']
         widgets = {
             'date_loaded': DatePickerInput(format='%Y-%m-%d'),
@@ -1028,7 +1028,6 @@ class FilmForm(ModelForm):
             Fieldset('Development',
                      'developer',
                      'date_processed',
-                     'directory',
                      'developer_previous_uses',
                      'development_time',
                      AppendedText('development_temperature', '&deg;C'),
@@ -1122,7 +1121,7 @@ class FilmLoadForm(ModelForm):
 class FilmDevelopForm(ModelForm):
     class Meta:
         model = Film
-        fields = ['date_processed', 'developer', 'directory', 'developer_previous_uses', 'development_time',
+        fields = ['date_processed', 'developer', 'developer_previous_uses', 'development_time',
                   'development_temperature', 'development_compensation', 'development_notes', 'processed_by', 'status']
         widgets = {
             'date_processed': DatePickerInput(format='%Y-%m-%d'),
@@ -1142,7 +1141,6 @@ class FilmDevelopForm(ModelForm):
             Fieldset('Develop this film',
                      'date_processed',
                      'developer',
-                     'directory',
                      'developer_previous_uses',
                      'development_time',
                      AppendedText('development_temperature', '&deg;C'),
