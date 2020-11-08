@@ -6,6 +6,7 @@ from schema.models import Film, Negative, Scan
 class FilmViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows films to be viewed or edited.
+    Actions provided by the ModelViewSet class: .list(), .retrieve(), .create(), .update(), .partial_update(), .destroy()
     """
     queryset = Film.objects.none()
     serializer_class = FilmSerializer
@@ -13,29 +14,34 @@ class FilmViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            mystr = Film.objects.filter(owner=self.request.user)
+            qs = Film.objects.filter(owner=self.request.user)
         else:
-            mystr = Film.objects.none()
-        return mystr
+            qs = Film.objects.none()
+        return qs
 
 class NegativeViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows negatives to be viewed or edited.
+    Actions provided by the ModelViewSet class: .list(), .retrieve(), .create(), .update(), .partial_update(), .destroy()
     """
     queryset = Negative.objects.none()
     serializer_class = NegativeSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated and self.request.query_params['film']:
-            mystr = Negative.objects.filter(owner=self.request.user, id_owner=self.request.query_params['film'])
+        if self.request.user.is_authenticated:
+            if self .request.data and self.request.data['film']:
+                qs = Negative.objects.filter(owner=self.request.user, id_owner=self.request.data['film'])
+            else:
+                qs = Negative.objects.filter(owner=self.request.user)
         else:
-            mystr = Negative.objects.none()
-        return mystr
+            qs = Negative.objects.none()
+        return qs
 
 class ScanViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows scans to be viewed or edited.
+    Actions provided by the ModelViewSet class: .list(), .retrieve(), .create(), .update(), .partial_update(), .destroy()
     """
     queryset = Scan.objects.none()
     serializer_class = ScanSerializer
@@ -43,7 +49,7 @@ class ScanViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            mystr = Scan.objects.filter(owner=self.request.user)
+            qs = Scan.objects.filter(owner=self.request.user)
         else:
-            mystr = Scan.objects.none()
-        return mystr
+            qs = Scan.objects.none()
+        return qs
