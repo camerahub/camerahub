@@ -12,7 +12,7 @@ my %newnames = (
 	'icons8-camera-addon'			=> ['accessory'],
 	'icons8-collectibles'			=> ['archive'],
 	'icons8-battery'				=> ['battery'],
-	'icons8-film-reel'				=> ['bulkfilm'],
+	'icons8-video-trimming'			=> ['bulkfilm'],
 	'icons8-cameras'				=> ['cameramodel'],
 	'icons8-camera'					=> ['camera'],
 	'icons8-camera-identification'	=> ['condition'],
@@ -23,7 +23,6 @@ my %newnames = (
 	'icons8-film-roll'				=> ['film', 'filmstock'],
 	'icons8-360-degrees'			=> ['filter'],
 	'icons8-camera-flash'			=> ['flash'],
-	'icons8-connected-no-data'		=> ['flashprotocol'],
 	'icons8-resolution'				=> ['format'],
 	'icons8-lens'					=> ['lens', 'lensmodel'],
 	'icons8-factory'				=> ['manufacturer'],
@@ -74,6 +73,9 @@ my %newnames = (
 	'icons8-vintage-camera'			=> ['vintagecamera'],
 	'icons8-slr-camera'				=> ['bigcamera'],
 	'icons8-ruler'					=> ['ruler'],
+	'icons8-receive-cash'			=> ['ownership'],
+	'icons8-overview'				=> ['summary'],
+	'icons8-diversity'				=> ['compatibility'],
 #unknown
 #logout
 );

@@ -1,26 +1,19 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
+    <tr>
+        <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30"
+                alt="Summary">&nbsp;<a href="#">Summary</a></th>
+    </tr>
     <tr>
         <th>Camera model</th>
         <td>{% if object.cameramodel is not None %}<a
                 href="{% url 'cameramodel-detail' object.cameramodel.slug %}">{{ object.cameramodel }}</a>{% endif %}
         </td>
     </tr>
-    {% if object.acquired is not None %}
-    <tr>
-        <td>Acquired</td>
-        <td>{{ object.acquired }}</td>
-    </tr>
-    {% endif %}
-    {% if object.cost is not None %}
-    <tr>
-        <td>Cost</td>
-        <td>{{ object.cost }}</td>
-    </tr>
-    {% endif %}
     {% if object.serial is not None %}
     <tr>
         <td>Serial</td>
@@ -39,22 +32,51 @@
         <td>{{ object.manufactured }}</td>
     </tr>
     {% endif %}
+    {% if object.notes %}
+    <tr>
+        <td>Notes</td>
+        <td>{{ object.notes|linebreaks }}</td>
+    </tr>
+    {% endif %}
+    {% if object.condition is not None %}
+    <tr>
+        <td>Condition</td>
+        <td>{{ object.condition }}</td>
+    </tr>
+    {% endif %}
+    {% if object.condition_notes %}
+    <tr>
+        <td>Condition notes</td>
+        <td>{{ object.condition_notes|linebreaks }}</td>
+    </tr>
+    {% endif %}
+
+    <tr>
+        <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30"
+                alt="Ownership">&nbsp;<a href="#ownership">Ownership</a></th>
+    </tr>
     {% if object.own is not None %}
     <tr>
         <td>Own</td>
         <td>{{ object.own|boolicontag }}</td>
     </tr>
     {% endif %}
-    {% if object.lens is not None %}
+    {% if object.acquired is not None %}
     <tr>
-        <td>Lens</td>
-        <td>{{ object.lens }}</td>
+        <td>Acquired</td>
+        <td>{{ object.acquired }}</td>
     </tr>
     {% endif %}
-    {% if object.notes is not None %}
+    {% if object.cost is not None %}
     <tr>
-        <td>Notes</td>
-        <td>{{ object.notes|linebreaks }}</td>
+        <td>Cost</td>
+        <td>{{ object.cost }}</td>
+    </tr>
+    {% endif %}
+    {% if object.source is not None %}
+    <tr>
+        <td>Source</td>
+        <td>{{ object.source }}</td>
     </tr>
     {% endif %}
     {% if object.lost is not None %}
@@ -69,27 +91,10 @@
         <td>{{ object.lost_price }}</td>
     </tr>
     {% endif %}
-    {% if object.source is not None %}
-    <tr>
-        <td>Source</td>
-        <td>{{ object.source }}</td>
-    </tr>
-    {% endif %}
-    {% if object.condition is not None %}
-    <tr>
-        <td>Condition</td>
-        <td>{{ object.condition }}</td>
-    </tr>
-    {% endif %}
-    {% if object.condition_notes is not None %}
-    <tr>
-        <td>Condition notes</td>
-        <td>{{ object.condition_notes|linebreaks }}</td>
-    </tr>
-    {% endif %}
 </table>
 {% endblock %}
 
 {% block moreactions %}
-{% if object.own is not False %}<li><a class="btn btn-primary" href="{% url 'camera-sell' object.id_owner %}" role="button">Sell this camera</a></li>{% endif %}
+{% if object.own is not False %}<li><a class="btn btn-primary" href="{% url 'camera-sell' object.id_owner %}"
+        role="button">Sell this camera</a></li>{% endif %}
 {%endblock%}

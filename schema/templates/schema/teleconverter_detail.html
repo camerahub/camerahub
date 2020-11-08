@@ -1,17 +1,21 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
+  <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+      href="#">Summary</a></th>
+  </tr>
+  <tr>
+    <td>Manufacturer</td>
+    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
+  </tr>
   <tr>
     <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
   {% if object.manufacturer is not None %}
-  <tr>
-    <td>Manufacturer</td>
-    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
-  </tr>
   {% endif %}
   {% if object.mount is not None %}
   <tr>
@@ -19,6 +23,10 @@
     <td><a href="{% url 'mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
   </tr>
   {% endif %}
+  <tr>
+    <th colspan="2" id="optics"><img src="{% static "svg/optics.svg" %}" width="30" height="30" alt="Optics"> <a
+        href="#optics">Optics</a></th>
+  </tr>
   {% if object.factor is not None %}
   <tr>
     <td>Factor</td>

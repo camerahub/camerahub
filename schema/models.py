@@ -241,34 +241,6 @@ class ExposureProgram(models.Model):
     class Meta:
         verbose_name_plural = "exposure programs"
 
-# Table to catalog different protocols used to communicate with flashes
-
-
-class FlashProtocol(models.Model):
-    name = models.CharField(
-        help_text='Name of the flash protocol', max_length=45)
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
-                                     blank=True, null=True, help_text='Manufacturer who owns this flash protocol')
-    history = HistoricalRecords()
-
-    def __str__(self):
-        if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.name)
-        else:
-            mystr = self.name
-        return mystr
-
-    class Meta:
-        ordering = ['name']
-        verbose_name_plural = "flash protocols"
-
-    def get_absolute_url(self):
-        return reverse('flashprotocol-detail', kwargs={'pk': self.pk})
-
-    @classmethod
-    def description(cls):
-        return 'Flash protocols are systems that cameras use to communicate with flash systems'
-
 # Table to catalog filters
 
 
@@ -395,8 +367,6 @@ class Flash(models.Model):
         help_text='Whether this flash can zoom', blank=True, null=True)
     ttl = models.BooleanField(
         verbose_name='TTL', help_text='Whether this flash supports TTL metering', blank=True, null=True)
-    flash_protocol = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE,
-                                       blank=True, null=True, help_text='Flash protocol used by this flash')
     trigger_voltage = models.DecimalField(
         help_text='Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1, blank=True, null=True)
     own = models.BooleanField(
@@ -1302,8 +1272,6 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         verbose_name='Internal flash guide number', help_text='Guide number of internal flash', blank=True, null=True)
     ext_flash = models.BooleanField(
         verbose_name='External flash', help_text='Whether the camera supports an external flash', blank=True, null=True)
-    flash_metering = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True,
-                                       null=True, help_text='Whether this camera model supports flash metering')
     pc_sync = models.BooleanField(
         verbose_name='PC sync', help_text='Whether the camera has a PC sync socket for flash (sometimes known as a German socket)', blank=True, null=True)
     shoe = models.CharField(choices=ShoeType.choices, max_length=9, blank=True,
@@ -1770,8 +1738,6 @@ class Film(models.Model):
         help_text='Expected (not actual) number of frames from the film', blank=True, null=True)
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True,
                                   help_text='Developer used to develop this film', limit_choices_to={'for_film': True})
-    directory = models.CharField(
-        help_text='Name of the directory that contains the scanned images from this film', max_length=100, blank=True, null=True)
     developer_previous_uses = models.PositiveIntegerField(
         help_text='Number of previous uses of the developer', blank=True, null=True)
     development_time = models.DurationField(

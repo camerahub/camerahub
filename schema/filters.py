@@ -129,7 +129,7 @@ class FlashFilter(FilterSet):
                   'tilt_head',
                   'zoom',
                   'ttl',
-                  'flash_protocol',)
+                  )
 
     @property
     def qs(self):

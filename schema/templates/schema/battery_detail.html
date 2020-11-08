@@ -1,7 +1,12 @@
 {% extends "detail.html" %}
+{% load static %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
   <tr>
     <td>Battery name</td>
     <td>{{ object.name }}</td>
@@ -18,7 +23,11 @@
     <td>{{ object.chemistry }}</td>
   </tr>
   {% endif %}
-  {% if object.compatible_with is not None %}
+  <tr>
+    <th colspan="2" id="compatibility"><img src="{% static "svg/compatibility.svg" %}" width="30" height="30"
+        alt="Ownership">&nbsp;<a href="#compatibility">Compatibility</a></th>
+  </tr>
+  {% if object.compatible_with.all %}
   <tr>
     <td>Compatible with</td>
     <td>
@@ -29,6 +38,10 @@
     </td>
   </tr>
   {% endif %}
+  <tr>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
+  </tr>
   {% if history %}
   <tr>
     <td>Edit history</td>
@@ -36,6 +49,4 @@
   </tr>
   {% endif %}
 </table>
-
-
 {% endblock %}

@@ -18,8 +18,8 @@
 
 <table class="table table-hover">
   <tr>
-    <th colspan="2" id="physical"><img src="{% static "svg/weight.svg" %}" width="30" height="30" alt="Physical"> <a
-        href="#physical">Physical</a></th>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
   </tr>
   {% if object.manufacturer is not None %}
   <tr>
@@ -49,24 +49,8 @@
     <td>{{ object.introduced }}{% if object.discontinued is not None %}-{{ object.discontinued }}{% endif %}</td>
   </tr>
   {% endif %}
-  {% if object.weight is not None %}
-  <tr>
-    <td>Weight</td>
-    <td>{{ object.weight }}g</td>
-  </tr>
-  {% endif %}
-  {% if object.length is not None %}
-  <tr>
-    <td>Length</td>
-    <td>{{ object.length }}mm</td>
-  </tr>
-  {% endif %}
-  {% if object.diameter is not None %}
-  <tr>
-    <td>Diameter</td>
-    <td>{{ object.diameter }}mm</td>
-  </tr>
-  {% endif %}
+
+
 
 
   <tr>
@@ -164,6 +148,12 @@
     <td>{{ object.image_circle }}mm</td>
   </tr>
   {% endif %}
+  {% if object.coating is not None %}
+  <tr>
+    <td>Coating</td>
+    <td>{{ object.coating }}</td>
+  </tr>
+  {% endif %}
   {% if object.diagram %}
   <tr>
     <td>Optical diagram</td>
@@ -218,18 +208,6 @@
     <td>{{ object.perspective_control|boolicontag }}</td>
   </tr>
   {% endif %}
-  {% if object.filter_thread is not None %}
-  <tr>
-    <td>Filter thread</td>
-    <td>{{ object.filter_thread }}mm</td>
-  </tr>
-  {% endif %}
-  {% if object.coating is not None %}
-  <tr>
-    <td>Coating</td>
-    <td>{{ object.coating }}</td>
-  </tr>
-  {% endif %}
   {% if object.hood is not None %}
   <tr>
     <td>Hood</td>
@@ -243,17 +221,55 @@
   </tr>
   {% endif %}
 
+  <tr>
+    <th colspan="2" id="physical"><img src="{% static "svg/weight.svg" %}" width="30" height="30" alt="Physical"> <a
+        href="#physical">Physical</a></th>
+  </tr>
+  {% if object.weight is not None %}
+  <tr>
+    <td>Weight</td>
+    <td>{{ object.weight }}g</td>
+  </tr>
+  {% endif %}
+  {% if object.length is not None %}
+  <tr>
+    <td>Length</td>
+    <td>{{ object.length }}mm</td>
+  </tr>
+  {% endif %}
+  {% if object.diameter is not None %}
+  <tr>
+    <td>Diameter</td>
+    <td>{{ object.diameter }}mm</td>
+  </tr>
+  {% endif %}
+  {% if object.filter_thread is not None %}
+  <tr>
+    <td>Filter thread</td>
+    <td>{{ object.filter_thread }}mm</td>
+  </tr>
+  {% endif %}
 
   <tr>
     <th colspan="2" id="misc"><img src="{% static "svg/misc.svg" %}" width="30" height="30" alt="Misc"> <a
         href="#misc">Misc</a></th>
   </tr>
-  {% if object.notes is not None %}
+  {% if object.notes %}
   <tr>
     <td>Notes</td>
     <td>{{ object.notes|linebreaks }}</td>
   </tr>
   {% endif %}
+  {% if object.url is not None %}
+  <tr>
+    <td>URL</td>
+    <td><a href="{{ object.url }}">{{ object.url }}</a></td>
+  </tr>
+  {% endif %}
+  <tr>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
+  </tr>
   {% if object.tags.all %}
   <tr>
     <td>Tags</td>
@@ -272,12 +288,6 @@
         {% endfor %}
       </ul>
     </td>
-  </tr>
-  {% endif %}
-  {% if object.url is not None %}
-  <tr>
-    <td>URL</td>
-    <td><a href="{{ object.url }}">{{ object.url }}</a></td>
   </tr>
   {% endif %}
   {% if history %}
@@ -317,13 +327,17 @@
 {% endblock %}
 
 {% block moreactions %}
-<li><form action="{% url 'lens-create' %}">
-  <input type="hidden" name="lensmodel" value="{{ object.id }}">
-  <button class="btn btn-primary" type="submit">Add to collection</button>
-</form></li>
+<li>
+  <form action="{% url 'lens-create' %}">
+    <input type="hidden" name="lensmodel" value="{{ object.id }}">
+    <button class="btn btn-primary" type="submit">Add to collection</button>
+  </form>
+</li>
 
-<li><form action="{% url 'lensmodel-create' %}">
-  <input type="hidden" name="clone" value="{{ object.slug }}">
-  <button class="btn btn-primary" type="submit">Clone this lens model</button>
-</form></li>
+<li>
+  <form action="{% url 'lensmodel-create' %}">
+    <input type="hidden" name="clone" value="{{ object.slug }}">
+    <button class="btn btn-primary" type="submit">Clone this lens model</button>
+  </form>
+</li>
 {% endblock %}

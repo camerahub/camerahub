@@ -1,7 +1,12 @@
 {% extends "detail.html" %}
+{% load static %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
   <tr>
     <td>Name</td>
     <td>{{ object.name }}</td>
@@ -15,8 +20,7 @@
   {% if object.country is not None %}
   <tr>
     <td>Country</td>
-    <td>{{ object.country.name }} <img src="{{ object.country.flag }}"
-        alt="{{ object.country.code }}"></td>
+    <td>{{ object.country.name }} <img src="{{ object.country.flag }}" alt="{{ object.country.code }}"></td>
   </tr>
   {% endif %}
   {% if object.url is not None %}
@@ -38,7 +42,8 @@
   </tr>
   {% endif %}
   <tr>
-    <th colspan="2" id="misc"><a href="#misc">Misc</a></th>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
   </tr>
   {% if object.tags.all %}
   <tr>
