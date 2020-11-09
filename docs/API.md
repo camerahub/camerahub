@@ -1,6 +1,6 @@
 # API
 
-CameraHub has a simple RESTful API to allow integrations with other apps. It is implemented with [Django REST framework](https://www.django-rest-framework.org/). At the moment it is not comprehensive and endpoints are added as required.
+CameraHub has a simple RESTful API to allow integrations with other apps. It is implemented with [Django REST framework](https://www.django-rest-framework.org/). At the moment it is not comprehensive and endpoints are added as required. Example queries here are executed with [httpie](https://httpie.io/).
 
 ## Endpoints
 
@@ -9,7 +9,18 @@ CameraHub has a simple RESTful API to allow integrations with other apps. It is 
 Returns a list of the current user's films
 
 ```sh
-curl -H 'Accept: application/json; indent=4' -u admin:admin  http://127.0.0.1:8000/api/film/
+http -a admin:admin http://127.0.0.1:8000/api/film/
+HTTP/1.1 200 OK
+Allow: GET, POST, HEAD, OPTIONS
+Cache-Control: max-age=600
+Content-Length: 135
+Content-Type: application/json
+Date: Mon, 09 Nov 2020 20:36:28 GMT
+Expires: Mon, 09 Nov 2020 20:46:28 GMT
+Server: WSGIServer/0.2 CPython/3.8.5
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
 {
     "count": 3,
     "next": null,
@@ -31,8 +42,21 @@ curl -H 'Accept: application/json; indent=4' -u admin:admin  http://127.0.0.1:80
 }
 ```
 
+Return a specific film
+
 ```sh
-curl -H 'Accept: application/json; indent=4' -u admin:admin  http://127.0.0.1:8000/api/film/2/
+http -a admin:admin http://127.0.0.1:8000/api/film/2/
+HTTP/1.1 200 OK
+Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+Cache-Control: max-age=600
+Content-Length: 27
+Content-Type: application/json
+Date: Mon, 09 Nov 2020 20:38:34 GMT
+Expires: Mon, 09 Nov 2020 20:48:34 GMT
+Server: WSGIServer/0.2 CPython/3.8.5
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
 {
     "id_owner": 2,
     "title": null
@@ -41,10 +65,98 @@ curl -H 'Accept: application/json; indent=4' -u admin:admin  http://127.0.0.1:80
 
 ### `/api/negative/`
 
+Returns a list of the current user's negatives
+
+```sh
+http -a admin:admin http://127.0.0.1:8000/api/negative/
+HTTP/1.1 200 OK
+Allow: GET, POST, HEAD, OPTIONS
+Cache-Control: max-age=600
+Content-Length: 262
+Content-Type: application/json
+Date: Mon, 09 Nov 2020 21:25:49 GMT
+Expires: Mon, 09 Nov 2020 21:35:49 GMT
+Server: WSGIServer/0.2 CPython/3.8.5
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
+{
+    "count": 2,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "caption": "Hello",
+            "film": "http://127.0.0.1:8000/api/film/1/",
+            "film_id": "1",
+            "frame": "2",
+            "id_owner": 1
+        },
+        {
+            "caption": "Another test",
+            "film": "http://127.0.0.1:8000/api/film/2/",
+            "film_id": "2",
+            "frame": "1",
+            "id_owner": 2
+        }
+    ]
+}
+```
+
 Returns a list of the current user's negatives, filtered by film
 
 ```sh
-curl -H 'Accept: application/json; indent=4' -u admin:admin  http://127.0.0.1:8000/api/negative/?film=1
+http -a admin:admin http://127.0.0.1:8000/api/negative/?film_id=2
+HTTP/1.1 200 OK
+Allow: GET, POST, HEAD, OPTIONS
+Cache-Control: max-age=600
+Content-Length: 160
+Content-Type: application/json
+Date: Mon, 09 Nov 2020 21:25:56 GMT
+Expires: Mon, 09 Nov 2020 21:35:56 GMT
+Server: WSGIServer/0.2 CPython/3.8.5
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "caption": "Another test",
+            "film": "http://127.0.0.1:8000/api/film/2/",
+            "film_id": "2",
+            "frame": "1",
+            "id_owner": 2
+        }
+    ]
+}
+```
+
+Return a specific negative
+
+```sh
+[jonathan@latitude camerahub]$ http -a admin:admin http://127.0.0.1:8000/api/negative/2/
+HTTP/1.1 200 OK
+Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+Cache-Control: max-age=600
+Content-Length: 154
+Content-Type: application/json
+Date: Mon, 09 Nov 2020 22:20:46 GMT
+Expires: Mon, 09 Nov 2020 22:30:46 GMT
+Server: WSGIServer/0.2 CPython/3.8.5
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
+{
+    "caption": "Another test",
+    "film": "http://127.0.0.1:8000/api/film/2/",
+    "film_id": "2",
+    "frame": "1",
+    "id_owner": 2,
+    "url": "http://127.0.0.1:8000/api/negative/2/"
+}
 ```
 
 ### `/api/scan/`
@@ -52,5 +164,85 @@ curl -H 'Accept: application/json; indent=4' -u admin:admin  http://127.0.0.1:80
 Returns a list of the current user's scans
 
 ```sh
-curl -H 'Accept: application/json; indent=4' -u admin:admin  http://127.0.0.1:8000/api/scan/
+http -a admin:admin http://127.0.0.1:8000/api/scan/
+HTTP/1.1 200 OK
+Allow: GET, POST, HEAD, OPTIONS
+Cache-Control: max-age=600
+Content-Length: 827
+Content-Type: application/json
+Date: Mon, 09 Nov 2020 22:02:31 GMT
+Expires: Mon, 09 Nov 2020 22:12:31 GMT
+Server: WSGIServer/0.2 CPython/3.8.5
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
+{
+    "count": 3,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "filename": "test.jpg",
+            "negative": {
+                "caption": "Hello",
+                "film": "http://127.0.0.1:8000/api/film/1/",
+                "film_id": "1",
+                "frame": "2",
+                "id_owner": 1,
+                "url": "http://127.0.0.1:8000/api/negative/1/"
+            },
+            "url": "http://127.0.0.1:8000/api/scan/33dfafdf-95ca-4781-9bef-a422491f2754/",
+            "uuid": "33dfafdf-95ca-4781-9bef-a422491f2754"
+        },
+        {
+            "filename": "test.jpg",
+            "negative": {
+                "caption": "Hello",
+                "film": "http://127.0.0.1:8000/api/film/1/",
+                "film_id": "1",
+                "frame": "2",
+                "id_owner": 1,
+                "url": "http://127.0.0.1:8000/api/negative/1/"
+            },
+            "url": "http://127.0.0.1:8000/api/scan/18e6bb82-1aca-4de1-961b-e8d588982ff2/",
+            "uuid": "18e6bb82-1aca-4de1-961b-e8d588982ff2"
+        },
+        {
+            "filename": "tes2t.jpg",
+            "negative": null,
+            "url": "http://127.0.0.1:8000/api/scan/3152c143-9a3b-4ff1-a9e0-d48ed2fc0d9e/",
+            "uuid": "3152c143-9a3b-4ff1-a9e0-d48ed2fc0d9e"
+        }
+    ]
+}
+```
+
+Return a specific scan
+
+```sh
+http -a admin:admin http://127.0.0.1:8000/api/scan/33dfafdf-95ca-4781-9bef-a422491f2754/
+HTTP/1.1 200 OK
+Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+Cache-Control: max-age=600
+Content-Length: 305
+Content-Type: application/json
+Date: Mon, 09 Nov 2020 22:23:35 GMT
+Expires: Mon, 09 Nov 2020 22:33:35 GMT
+Server: WSGIServer/0.2 CPython/3.8.5
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
+{
+    "filename": "test.jpg",
+    "negative": {
+        "caption": "Hello",
+        "film": "http://127.0.0.1:8000/api/film/1/",
+        "film_id": "1",
+        "frame": "2",
+        "id_owner": 1,
+        "url": "http://127.0.0.1:8000/api/negative/1/"
+    },
+    "url": "http://127.0.0.1:8000/api/scan/33dfafdf-95ca-4781-9bef-a422491f2754/",
+    "uuid": "33dfafdf-95ca-4781-9bef-a422491f2754"
+}
 ```

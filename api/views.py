@@ -30,8 +30,8 @@ class NegativeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self .request.data and self.request.data['film']:
-                qs = Negative.objects.filter(owner=self.request.user, id_owner=self.request.data['film'])
+            if self .request.query_params and self.request.query_params['film_id']:
+                qs = Negative.objects.filter(owner=self.request.user, film__pk=self.request.query_params['film_id'])
             else:
                 qs = Negative.objects.filter(owner=self.request.user)
         else:
@@ -49,7 +49,10 @@ class ScanViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            qs = Scan.objects.filter(owner=self.request.user)
+            if self .request.query_params and self.request.query_params['film_id']:
+                qs = Scan.objects.filter(owner=self.request.user, id_owner=self.request.query_params['film_id'])
+            else:
+                qs = Scan.objects.filter(owner=self.request.user)
         else:
             qs = Scan.objects.none()
         return qs

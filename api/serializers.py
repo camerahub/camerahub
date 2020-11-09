@@ -4,13 +4,14 @@ from schema.models import Film, Negative, Scan
 class FilmSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Film
-        fields = ['id_owner', 'title']
+        fields = ['url', 'id_owner', 'title']
 
 
 class NegativeSerializer(serializers.HyperlinkedModelSerializer):
+    film_id = serializers.StringRelatedField(many=False)
     class Meta:
         model = Negative
-        fields = ['id_owner', 'frame', 'caption']
+        fields = ['url', 'film', 'film_id', 'id_owner', 'frame', 'caption']
 
 
 class ScanSerializer(serializers.HyperlinkedModelSerializer):
