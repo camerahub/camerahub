@@ -233,9 +233,6 @@ class NegativeFilter(FilterSet):
         fields = [
             'film',
             'lens',
-            'filter',
-            'metering_mode',
-            'exposure_program',
         ]
 
     @property

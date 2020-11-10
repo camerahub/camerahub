@@ -249,9 +249,6 @@ class NegativeFormHelper(FormHelper):
         Row(
             Field('film', css_class="form-control-sm"),
             Field('lens', css_class="form-control-sm"),
-            Field('filter', css_class="form-control-sm"),
-            Field('metering_mode', css_class="form-control-sm"),
-            Field('exposure_program', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
