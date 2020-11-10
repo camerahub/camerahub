@@ -246,3 +246,11 @@ X-Frame-Options: SAMEORIGIN
     "uuid": "33dfafdf-95ca-4781-9bef-a422491f2754"
 }
 ```
+
+### `/api/print/`
+
+Return a list of the current user's scans
+
+```sh
+http -a admin:admin http://127.0.0.1:8000/api/print/
+```

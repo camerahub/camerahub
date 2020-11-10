@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework import permissions
-from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer
-from schema.models import Film, Negative, Scan
+from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer, PrintSerializer
+from schema.models import Film, Negative, Scan, Print
 
 class FilmViewSet(viewsets.ModelViewSet):
     """
@@ -55,4 +55,24 @@ class ScanViewSet(viewsets.ModelViewSet):
                 qs = Scan.objects.filter(owner=self.request.user)
         else:
             qs = Scan.objects.none()
+        return qs
+
+
+class PrintViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows prints to be viewed or edited.
+    Actions provided by the ModelViewSet class: .list(), .retrieve(), .create(), .update(), .partial_update(), .destroy()
+    """
+    queryset = Print.objects.none()
+    serializer_class = PrintSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            if self .request.query_params and self.request.query_params['film_id']:
+                qs = Print.objects.filter(owner=self.request.user, id_owner=self.request.query_params['film_id'])
+            else:
+                qs = Print.objects.filter(owner=self.request.user)
+        else:
+            qs = Print.objects.none()
         return qs
