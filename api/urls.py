@@ -8,6 +8,8 @@ router.register(r'film', views.FilmViewSet)
 router.register(r'negative', views.NegativeViewSet)
 router.register(r'scan', views.ScanViewSet)
 router.register(r'print', views.PrintViewSet)
+router.register(r'camera', views.CameraViewSet)
+router.register(r'lens', views.LensViewSet)
 
 urlpatterns = [
     # Wire up our API using automatic URL routing.

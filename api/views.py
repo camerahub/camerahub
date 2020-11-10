@@ -1,7 +1,8 @@
 from rest_framework import viewsets
 from rest_framework import permissions
-from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer, PrintSerializer
-from schema.models import Film, Negative, Scan, Print
+from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer, PrintSerializer, LensSerializer, CameraSerializer
+from schema.models import Film, Negative, Scan, Print, Lens, Camera
+
 
 class FilmViewSet(viewsets.ModelViewSet):
     """
@@ -19,6 +20,7 @@ class FilmViewSet(viewsets.ModelViewSet):
             qs = Film.objects.none()
         return qs
 
+
 class NegativeViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows negatives to be viewed or edited.
@@ -30,13 +32,15 @@ class NegativeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self .request.query_params and self.request.query_params['film_id']:
-                qs = Negative.objects.filter(owner=self.request.user, film__pk=self.request.query_params['film_id'])
+            if self.request.query_params and self.request.query_params['film_id']:
+                qs = Negative.objects.filter(
+                    owner=self.request.user, film__pk=self.request.query_params['film_id'])
             else:
                 qs = Negative.objects.filter(owner=self.request.user)
         else:
             qs = Negative.objects.none()
         return qs
+
 
 class ScanViewSet(viewsets.ModelViewSet):
     """
@@ -49,8 +53,9 @@ class ScanViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self .request.query_params and self.request.query_params['film_id']:
-                qs = Scan.objects.filter(owner=self.request.user, id_owner=self.request.query_params['film_id'])
+            if self.request.query_params and self.request.query_params['film_id']:
+                qs = Scan.objects.filter(
+                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
             else:
                 qs = Scan.objects.filter(owner=self.request.user)
         else:
@@ -69,11 +74,45 @@ class PrintViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self .request.query_params and self.request.query_params['film_id']:
-                qs = Print.objects.filter(owner=self.request.user, id_owner=self.request.query_params['film_id'])
+            if self.request.query_params and self.request.query_params['film_id']:
+                qs = Print.objects.filter(
+                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
             else:
                 qs = Print.objects.filter(owner=self.request.user)
         else:
             qs = Print.objects.none()
         return qs
-        
+
+
+class CameraViewSet(viewsets.ModelViewSet):
+    queryset = Camera.objects.none()
+    serializer_class = CameraSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            if self.request.query_params and self.request.query_params['film_id']:
+                qs = Camera.objects.filter(
+                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
+            else:
+                qs = Camera.objects.filter(owner=self.request.user)
+        else:
+            qs = Camera.objects.none()
+        return qs
+
+
+class LensViewSet(viewsets.ModelViewSet):
+    queryset = Lens.objects.none()
+    serializer_class = LensSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            if self.request.query_params and self.request.query_params['film_id']:
+                qs = Lens.objects.filter(
+                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
+            else:
+                qs = Lens.objects.filter(owner=self.request.user)
+        else:
+            qs = Lens.objects.none()
+        return qs
