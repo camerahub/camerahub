@@ -11,13 +11,13 @@
   {% if object.camera_mount is not None %}
   <tr>
     <td>Camera mount</td>
-    <td><a href="{% url 'mount-detail' object.camera_mount.slug %}">{{ object.camera_mount }}</a></td>
+    <td><a href="{% url 'schema:mount-detail' object.camera_mount.slug %}">{{ object.camera_mount }}</a></td>
   </tr>
   {% endif %}
   {% if object.lens_mount is not None %}
   <tr>
     <td>Lens mount</td>
-    <td><a href="{% url 'mount-detail' object.lens_mount.slug %}">{{ object.lens_mount }}</a></td>
+    <td><a href="{% url 'schema:mount-detail' object.lens_mount.slug %}">{{ object.lens_mount }}</a></td>
   </tr>
   {% endif %}
   {% if object.has_optics is not None %}

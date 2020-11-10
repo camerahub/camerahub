@@ -40,7 +40,7 @@
   {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
-    <td><a href="{% url 'mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
+    <td><a href="{% url 'schema:mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
   </tr>
   {% endif %}
   {% if object.introduced is not None %}
@@ -133,7 +133,7 @@
   {% if object.negative_size is not None %}
   <tr>
     <td>Negative size</td>
-    <td><a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
+    <td><a href="{% url 'schema:negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
   </tr>
   {% endif %}
   {% if object.aperture_blades is not None %}
@@ -274,7 +274,7 @@
   <tr>
     <td>Tags</td>
     <td>{% for tag in object.tags.all %}
-      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag|lower %}" role="button">{{ tag }}</a>
+      <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' tag|lower %}" role="button">{{ tag }}</a>
       {% endfor %}</td>
   </tr>
   {% endif %}
@@ -284,7 +284,7 @@
     <td>
       <ul class="list-inline">
         {% for relateditem in related %}
-        <li class="list-inline-item"><a href="{% url 'lensmodel-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        <li class="list-inline-item"><a href="{% url 'schema:lensmodel-detail' relateditem.slug %}">{{ relateditem }}</a></li>
         {% endfor %}
       </ul>
     </td>
@@ -315,7 +315,7 @@
   </tr>
   {% for lens in mine %}
   <tr>
-    <td><a href="{% url 'lens-detail' lens.id_owner %}">#{{ lens.id_owner }}</a></td>
+    <td><a href="{% url 'schema:lens-detail' lens.id_owner %}">#{{ lens.id_owner }}</a></td>
     <td>{% if lens.serial is not None %}<code>{{ lens.serial }}</code>{% endif %}</td>
     <td>{% if lens.manufactured is not None %}{{ lens.manufactured }}{% endif %}</td>
     <td>{% if lens.own is not None %}{{ lens.own|boolicontag }}{% endif %}</td>
@@ -328,14 +328,14 @@
 
 {% block moreactions %}
 <li>
-  <form action="{% url 'lens-create' %}">
+  <form action="{% url 'schema:lens-create' %}">
     <input type="hidden" name="lensmodel" value="{{ object.id }}">
     <button class="btn btn-primary" type="submit">Add to collection</button>
   </form>
 </li>
 
 <li>
-  <form action="{% url 'lensmodel-create' %}">
+  <form action="{% url 'schema:lensmodel-create' %}">
     <input type="hidden" name="clone" value="{{ object.slug }}">
     <button class="btn btn-primary" type="submit">Clone this lens model</button>
   </form>

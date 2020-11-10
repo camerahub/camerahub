@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 from schema import views
 
+app_name = 'schema'
 urlpatterns = [
 
     # Static pages

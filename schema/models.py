@@ -105,7 +105,7 @@ class Manufacturer(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('manufacturer-detail', kwargs={'slug': self.slug})
+        return reverse('schema:manufacturer-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
@@ -155,7 +155,7 @@ class Archive(models.Model):
         verbose_name_plural = "archives"
 
     def get_absolute_url(self):
-        return reverse('archive-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:archive-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -201,7 +201,7 @@ class Battery(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('battery-detail', kwargs={'slug': self.slug})
+        return reverse('schema:battery-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
@@ -260,7 +260,7 @@ class Filter(models.Model):
         verbose_name_plural = "filters"
 
     def get_absolute_url(self):
-        return reverse('filter-detail', kwargs={'pk': self.pk})
+        return reverse('schema:filter-detail', kwargs={'pk': self.pk})
 
     @classmethod
     def description(cls):
@@ -304,7 +304,7 @@ class NegativeSize(models.Model):
         verbose_name_plural = "negative sizes"
 
     def get_absolute_url(self):
-        return reverse('negativesize-detail', kwargs={'pk': self.pk})
+        return reverse('schema:negativesize-detail', kwargs={'pk': self.pk})
 
     @classmethod
     def description(cls):
@@ -327,7 +327,7 @@ class Format(models.Model):
         verbose_name_plural = "formats"
 
     def get_absolute_url(self):
-        return reverse('format-detail', kwargs={'pk': self.pk})
+        return reverse('schema:format-detail', kwargs={'pk': self.pk})
 
     @classmethod
     def description(cls):
@@ -398,7 +398,7 @@ class Flash(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('flash-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:flash-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -486,7 +486,7 @@ class Enlarger(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('enlarger-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:enlarger-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -555,7 +555,7 @@ class Mount(models.Model):
         verbose_name_plural = "mounts"
 
     def get_absolute_url(self):
-        return reverse('mount-detail', kwargs={'slug': self.slug})
+        return reverse('schema:mount-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
@@ -600,7 +600,7 @@ class PaperStock(models.Model):
         verbose_name_plural = "paper stocks"
 
     def get_absolute_url(self):
-        return reverse('paperstock-detail', kwargs={'pk': self.pk})
+        return reverse('schema:paperstock-detail', kwargs={'pk': self.pk})
 
     @classmethod
     def description(cls):
@@ -624,7 +624,7 @@ class Person(models.Model):
         verbose_name_plural = "people"
 
     def get_absolute_url(self):
-        return reverse('person-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:person-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -650,7 +650,7 @@ class Process(models.Model):
         verbose_name_plural = "processes"
 
     def get_absolute_url(self):
-        return reverse('process-detail', kwargs={'pk': self.pk})
+        return reverse('schema:process-detail', kwargs={'pk': self.pk})
 
     @classmethod
     def description(cls):
@@ -698,7 +698,7 @@ class Teleconverter(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('teleconverter-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:teleconverter-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -743,7 +743,7 @@ class Toner(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('toner-detail', kwargs={'slug': self.slug})
+        return reverse('schema:toner-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
@@ -792,7 +792,7 @@ class FilmStock(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('filmstock-detail', kwargs={'slug': self.slug})
+        return reverse('schema:filmstock-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
@@ -827,7 +827,7 @@ class BulkFilm(models.Model):
         verbose_name_plural = "bulk films"
 
     def get_absolute_url(self):
-        return reverse('bulkfilm-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:bulkfilm-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -858,7 +858,7 @@ class MountAdapter(models.Model):
         verbose_name_plural = "mount adapters"
 
     def get_absolute_url(self):
-        return reverse('mountadapter-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:mountadapter-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -936,7 +936,7 @@ class Developer(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('developer-detail', kwargs={'slug': self.slug})
+        return reverse('schema:developer-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
@@ -1061,7 +1061,7 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         ]
 
     def get_absolute_url(self):
-        return reverse('lensmodel-detail', kwargs={'slug': self.slug})
+        return reverse('schema:lensmodel-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
@@ -1464,7 +1464,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('cameramodel-detail', kwargs={'slug': self.slug})
+        return reverse('schema:cameramodel-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
@@ -1536,7 +1536,7 @@ class Accessory(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('accessory-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:accessory-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1618,7 +1618,7 @@ class Lens(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('lens-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:lens-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1700,7 +1700,7 @@ class Camera(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('camera-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:camera-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1803,7 +1803,7 @@ class Film(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('film-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:film-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1896,7 +1896,7 @@ class Negative(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('negative-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:negative-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -1969,7 +1969,7 @@ class Print(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('print-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:print-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -2020,7 +2020,7 @@ class Repair(models.Model):
         verbose_name_plural = "repairs"
 
     def get_absolute_url(self):
-        return reverse('repair-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:repair-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
@@ -2056,7 +2056,7 @@ class Scan(models.Model):
         verbose_name_plural = "scans"
 
     def get_absolute_url(self):
-        return reverse('scan-detail', kwargs={'uuid': self.uuid})
+        return reverse('schema:scan-detail', kwargs={'uuid': self.uuid})
 
     @classmethod
     def description(cls):
@@ -2092,7 +2092,7 @@ class Order(models.Model):
         verbose_name_plural = "orders"
 
     def get_absolute_url(self):
-        return reverse('order-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:order-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):

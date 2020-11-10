@@ -20,11 +20,11 @@ class AccessoryTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('accessory-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:accessory-detail', args=[value]), value)
 
     @classmethod
     def render_model(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('accessory-detail', args=[record.id_owner]), record.manufacturer, value)
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:accessory-detail', args=[record.id_owner]), record.manufacturer, value)
 
 
 class ArchiveTable(tables.Table):
@@ -35,11 +35,11 @@ class ArchiveTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('archive-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:archive-detail', args=[value]), value)
 
     @classmethod
     def render_name(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('archive-detail', args=[record.id_owner]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:archive-detail', args=[record.id_owner]), value)
 
     @classmethod
     def render_sealed(cls, value):
@@ -62,7 +62,7 @@ class BatteryTable(tables.Table):
 
     @classmethod
     def render_name(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('battery-detail', args=[record.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:battery-detail', args=[record.slug]), value)
 
     @classmethod
     def render_voltage(cls, value):
@@ -77,7 +77,7 @@ class BulkFilmTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('bulkfilm-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:bulkfilm-detail', args=[value]), value)
 
 
 class CameraTable(tables.Table):
@@ -89,11 +89,11 @@ class CameraTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('camera-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:camera-detail', args=[value]), value)
 
     @classmethod
     def render_cameramodel(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('cameramodel-detail', args=[record.cameramodel.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:cameramodel-detail', args=[record.cameramodel.slug]), value)
 
     @classmethod
     def render_serial(cls, value):
@@ -114,11 +114,11 @@ class CameraModelTable(tables.Table):
     @classmethod
     def render_model(cls, value, record):
         if record.disambiguation:
-            mystr = format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('cameramodel-detail', args=[
+            mystr = format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('schema:cameramodel-detail', args=[
                 record.slug]), record.manufacturer, value, record.disambiguation)
         else:
             mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
-                'cameramodel-detail', args=[record.slug]), record.manufacturer, value)
+                'schema:cameramodel-detail', args=[record.slug]), record.manufacturer, value)
         if cls.request.user.is_authenticated:
             qty = Camera.objects.filter(
                 owner=cls.request.user, cameramodel=record).count()
@@ -140,15 +140,15 @@ class CameraModelTable(tables.Table):
 
     @classmethod
     def render_mount(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
     @classmethod
     def render_format(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('format-detail', args=[value.id]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:format-detail', args=[value.id]), value)
 
     @classmethod
     def render_negative_size(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('negativesize-detail', args=[value.id]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:negativesize-detail', args=[value.id]), value)
 
 
 class DeveloperTable(tables.Table):
@@ -159,7 +159,7 @@ class DeveloperTable(tables.Table):
 
     @classmethod
     def render_name(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('developer-detail', args=[record.slug]), record.manufacturer, value)
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:developer-detail', args=[record.slug]), record.manufacturer, value)
 
     @classmethod
     def render_for_paper(cls, value):
@@ -178,11 +178,11 @@ class EnlargerTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('enlarger-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:enlarger-detail', args=[value]), value)
 
     @classmethod
     def render_model(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('enlarger-detail', args=[record.id_owner]), record.manufacturer, value)
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:enlarger-detail', args=[record.id_owner]), record.manufacturer, value)
 
 
 class FilmStockTable(tables.Table):
@@ -193,7 +193,7 @@ class FilmStockTable(tables.Table):
 
     @classmethod
     def render_name(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('filmstock-detail', args=[record.slug]), record.manufacturer, value)
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:filmstock-detail', args=[record.slug]), record.manufacturer, value)
 
     @classmethod
     def render_colour(cls, value):
@@ -212,7 +212,7 @@ class FilterTable(tables.Table):
 
     @classmethod
     def render_type(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('filter-detail', args=[record.id]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:filter-detail', args=[record.id]), value)
 
 
 class FlashTable(tables.Table):
@@ -223,11 +223,11 @@ class FlashTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('flash-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:flash-detail', args=[value]), value)
 
     @classmethod
     def render_model(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('flash-detail', args=[record.id_owner]), record.manufacturer, value)
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:flash-detail', args=[record.id_owner]), record.manufacturer, value)
 
     @classmethod
     def render_ttl(cls, value):
@@ -242,7 +242,7 @@ class FormatTable(tables.Table):
 
     @classmethod
     def render_format(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('format-detail', args=[record.id]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:format-detail', args=[record.id]), value)
 
 
 class LensTable(tables.Table):
@@ -254,15 +254,15 @@ class LensTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('lens-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:lens-detail', args=[value]), value)
 
     @classmethod
     def render_lensmodel(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('lensmodel-detail', args=[value.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:lensmodel-detail', args=[value.slug]), value)
 
     @classmethod
     def render_lensmodel__mount(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
     @classmethod
     def render_serial(cls, value):
@@ -283,7 +283,7 @@ class LensModelTable(tables.Table):
     @classmethod
     def render_model(cls, value, record):
         if record.disambiguation:
-            mystr = format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('lensmodel-detail', args=[
+            mystr = format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('schema:lensmodel-detail', args=[
                 record.slug]), record.manufacturer, value, record.disambiguation)
         else:
             mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
@@ -309,7 +309,7 @@ class LensModelTable(tables.Table):
 
     @classmethod
     def render_mount(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
     @classmethod
     def render_max_aperture(cls, value):
@@ -343,7 +343,7 @@ class ManufacturerTable(tables.Table):
 
     @classmethod
     def render_name(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('manufacturer-detail', args=[record.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:manufacturer-detail', args=[record.slug]), value)
 
     @classmethod
     def render_country(cls, record):
@@ -358,7 +358,7 @@ class MountTable(tables.Table):
 
     @classmethod
     def render_mount(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[record.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[record.slug]), value)
 
     @classmethod
     def render_shutter_in_lens(cls, value):
@@ -374,15 +374,15 @@ class MountAdapterTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('mountadapter-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:mountadapter-detail', args=[value]), value)
 
     @classmethod
     def render_camera_mount(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
     @classmethod
     def render_lens_mount(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
 
 class NegativeSizeTable(tables.Table):
@@ -394,7 +394,7 @@ class NegativeSizeTable(tables.Table):
 
     @classmethod
     def render_name(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('negativesize-detail', args=[record.id]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:negativesize-detail', args=[record.id]), value)
 
     @classmethod
     def render_width(cls, value):
@@ -426,7 +426,7 @@ class OrderTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('order-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:order-detail', args=[value]), value)
 
 
 class PaperStockTable(tables.Table):
@@ -437,7 +437,7 @@ class PaperStockTable(tables.Table):
 
     @classmethod
     def render_name(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('paperstock-detail', args=[record.id]), record.manufacturer, value)
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:paperstock-detail', args=[record.id]), record.manufacturer, value)
 
     @classmethod
     def render_resin_coated(cls, value):
@@ -456,11 +456,11 @@ class PersonTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('person-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:person-detail', args=[value]), value)
 
     @classmethod
     def render_name(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('person-detail', args=[record.id_owner]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:person-detail', args=[record.id_owner]), value)
 
 
 class PrintTable(tables.Table):
@@ -472,11 +472,11 @@ class PrintTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('print-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:print-detail', args=[value]), value)
 
     @classmethod
     def render_negative(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('negative-detail', args=[value.id_owner]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.id_owner]), value)
 
 
 class ProcessTable(tables.Table):
@@ -487,7 +487,7 @@ class ProcessTable(tables.Table):
 
     @classmethod
     def render_name(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('process-detail', args=[record.id]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:process-detail', args=[record.id]), value)
 
     @classmethod
     def render_colour(cls, value):
@@ -506,15 +506,15 @@ class RepairTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('repair-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:repair-detail', args=[value]), value)
 
     @classmethod
     def render_camera(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('camera-detail', args=[value.id_owner]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:camera-detail', args=[value.id_owner]), value)
 
     @classmethod
     def render_lens(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('lens-detail', args=[value.id_owner]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:lens-detail', args=[value.id_owner]), value)
 
 
 class ScanTable(tables.Table):
@@ -525,15 +525,15 @@ class ScanTable(tables.Table):
 
     @classmethod
     def render_uuid(cls, value):
-        return format_html("<code><a href=\"{}\">{}</a></code>", reverse('scan-detail', args=[value]), value)
+        return format_html("<code><a href=\"{}\">{}</a></code>", reverse('schema:scan-detail', args=[value]), value)
 
     @classmethod
     def render_negative(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('negative-detail', args=[value.id_owner]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.id_owner]), value)
 
     @classmethod
     def render_print(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('print-detail', args=[value.id_owner]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:print-detail', args=[value.id_owner]), value)
 
     @classmethod
     def render_filename(cls, value):
@@ -548,7 +548,7 @@ class NegativeTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('negative-detail', args=[value]), record)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value]), record)
 
 
 class FilmTable(tables.Table):
@@ -560,19 +560,19 @@ class FilmTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value, record):
-        return format_html("<a href=\"{}\">{}</a>", reverse('film-detail', args=[value]), record)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:film-detail', args=[value]), record)
 
     @classmethod
     def render_filmstock(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('filmstock-detail', args=[value.slug]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:filmstock-detail', args=[value.slug]), value)
 
     @classmethod
     def render_format(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('format-detail', args=[value.id]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:format-detail', args=[value.id]), value)
 
     @classmethod
     def render_camera(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('camera-detail', args=[value.id_owner]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:camera-detail', args=[value.id_owner]), value)
 
 
 class TeleconverterTable(tables.Table):
@@ -583,7 +583,7 @@ class TeleconverterTable(tables.Table):
 
     @classmethod
     def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('teleconverter-detail', args=[value]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:teleconverter-detail', args=[value]), value)
 
     @classmethod
     def render_model(cls, value, record):
@@ -592,7 +592,7 @@ class TeleconverterTable(tables.Table):
                 'teleconverter-detail', args=[record.id_owner]), record.manufacturer, value)
         else:
             mystr = format_html(
-                "<a href=\"{}\">{}</a>", reverse('teleconverter-detail', args=[record.id]), value)
+                "<a href=\"{}\">{}</a>", reverse('schema:teleconverter-detail', args=[record.id]), value)
         return mystr
 
     @classmethod
@@ -608,4 +608,4 @@ class TonerTable(tables.Table):
 
     @classmethod
     def render_name(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('toner-detail', args=[record.slug]), record.manufacturer, value)
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:toner-detail', args=[record.slug]), record.manufacturer, value)

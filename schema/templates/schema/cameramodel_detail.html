@@ -57,14 +57,14 @@
   {% if object.format is not None %}
   <tr>
     <td>Format</td>
-    <td><a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>
+    <td><a href="{% url 'schema:format-detail' object.format.id %}">{{ object.format }}</a>
     </td>
   </tr>
   {% endif %}
   {% if object.negative_size is not None %}
   <tr>
     <td>Negative size</td>
-    <td><a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
+    <td><a href="{% url 'schema:negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
   </tr>
   {% endif %}
 
@@ -72,7 +72,7 @@
   {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
-    <td><a href="{% url 'mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
+    <td><a href="{% url 'schema:mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
   </tr>
   {% else %}
   <tr>
@@ -361,7 +361,7 @@
     <td>Batteries</td>
     <td>{{ object.battery_qty }}
       {% if object.battery_type is not None %} &times; <a
-        href="{% url 'battery-detail' object.battery_type.slug %}">{{ object.battery_type }}</a>{% endif %}
+        href="{% url 'schema:battery-detail' object.battery_type.slug %}">{{ object.battery_type }}</a>{% endif %}
     </td>
   </tr>
   {% endif %}
@@ -500,7 +500,7 @@
   <tr>
     <td>Tags</td>
     <td>{% for tag in object.tags.all %}
-      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag|lower %}" role="button">{{ tag }}</a>
+      <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' tag|lower %}" role="button">{{ tag }}</a>
       {% endfor %}</td>
   </tr>
   {% endif %}
@@ -510,7 +510,7 @@
     <td>
       <ul class="list-inline">
         {% for relateditem in related %}
-        <li class="list-inline-item"><a href="{% url 'cameramodel-detail' relateditem.slug %}">{{ relateditem }}</a>
+        <li class="list-inline-item"><a href="{% url 'schema:cameramodel-detail' relateditem.slug %}">{{ relateditem }}</a>
         </li>
         {% endfor %}
       </ul>
@@ -541,7 +541,7 @@
   </tr>
   {% for camera in mine %}
   <tr>
-    <td><a href="{% url 'camera-detail' camera.id_owner %}">#{{ camera.id_owner }}</a></td>
+    <td><a href="{% url 'schema:camera-detail' camera.id_owner %}">#{{ camera.id_owner }}</a></td>
     <td>{% if camera.serial is not None %}<code>{{ camera.serial }}</code>{% endif %}</td>
     <td>{% if camera.manufactured is not None %}{{ camera.manufactured }}{% endif %}</td>
     <td>{% if camera.own is not None %}{{ camera.own|boolicontag }}{% endif %}</td>
@@ -554,13 +554,13 @@
 
 {% block moreactions %}
 <li>
-  <form action="{% url 'camera-create' %}">
+  <form action="{% url 'schema:camera-create' %}">
     <input type="hidden" name="cameramodel" value="{{ object.id }}">
     <button class="btn btn-primary" type="submit">Add to collection</button>
   </form>
 </li>
 <li>
-  <form action="{% url 'cameramodel-create' %}">
+  <form action="{% url 'schema:cameramodel-create' %}">
     <input type="hidden" name="clone" value="{{ object.slug }}">
     <button class="btn btn-primary" type="submit">Clone this camera model</button>
   </form>

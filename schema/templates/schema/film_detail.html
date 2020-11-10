@@ -23,7 +23,7 @@
   {% if object.filmstock is not None %}
   <tr>
     <td>Filmstock</td>
-    <td><a href="{% url 'filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a></td>
+    <td><a href="{% url 'schema:filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a></td>
   </tr>
   {% if object.filmstock.iso %}
   <tr>
@@ -35,7 +35,7 @@
   {% if object.format is not None %}
   <tr>
     <td>Film format</td>
-    <td><a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a></td>
+    <td><a href="{% url 'schema:format-detail' object.format.id %}">{{ object.format }}</a></td>
   </tr>
   {% endif %}
   {% if object.bulk_film is not None %}
@@ -71,7 +71,7 @@
   {% if object.camera is not None %}
   <tr>
     <td>Camera</td>
-    <td><a href="{% url 'camera-detail' object.camera.id_owner %}">{{ object.camera }}</a></td>
+    <td><a href="{% url 'schema:camera-detail' object.camera.id_owner %}">{{ object.camera }}</a></td>
   </tr>
   {% endif %}
   {% if object.date_loaded is not None %}
@@ -101,7 +101,7 @@
   {% if object.developer is not None %}
   <tr>
     <td>Developer</td>
-    <td><a href="{% url 'developer-detail' object.developer.slug %}">{{ object.developer }}</a></td>
+    <td><a href="{% url 'schema:developer-detail' object.developer.slug %}">{{ object.developer }}</a></td>
   </tr>
   {% endif %}
   {% if object.date_processed is not None %}
@@ -143,7 +143,7 @@
   {% if object.processed_by is not None %}
   <tr>
     <td>Processed by</td>
-    <td><a href="{% url 'person-detail' object.processed_by.id_owner %}">{{ object.processed_by }}</a></td>
+    <td><a href="{% url 'schema:person-detail' object.processed_by.id_owner %}">{{ object.processed_by }}</a></td>
   </tr>
   {% endif %}
 
@@ -155,7 +155,7 @@
   {% if object.archive is not None %}
   <tr>
     <td>Archive</td>
-    <td><a href="{% url 'archive-detail' object.archive.id_owner %}">{{ object.archive }}</a></td>
+    <td><a href="{% url 'schema:archive-detail' object.archive.id_owner %}">{{ object.archive }}</a></td>
   </tr>
   {% endif %}
 
@@ -187,7 +187,7 @@
   </tr>
   {% for negative in film.negative_set.all %}
   <tr>
-    <td><a href="{% url 'negative-detail' negative.id %}">{{ negative }}</a></td>
+    <td><a href="{% url 'schema:negative-detail' negative.id %}">{{ negative }}</a></td>
     <td>{{ negative.date }}</td>
   </tr>
   {% endfor %}
@@ -196,10 +196,10 @@
 {% endblock %}
 
 {% block moreactions %}
-{% if object.status == "Available" %}<li><a class="btn btn-primary" href="{% url 'film-load' object.id_owner %}"
+{% if object.status == "Available" %}<li><a class="btn btn-primary" href="{% url 'schema:film-load' object.id_owner %}"
     role="button">Load this film into a camera</a></li>{% endif %}
-{% if object.status == "Loaded" %}<li><a class="btn btn-primary" href="{% url 'film-develop' object.id_owner %}"
+{% if object.status == "Loaded" %}<li><a class="btn btn-primary" href="{% url 'schema:film-develop' object.id_owner %}"
     role="button">Develop this film</a></li>{% endif %}
-{% if object.status == "Developed" %}<li><a class="btn btn-primary" href="{% url 'film-archive' object.id_owner %}"
+{% if object.status == "Developed" %}<li><a class="btn btn-primary" href="{% url 'schema:film-archive' object.id_owner %}"
     role="button">Archive this film</a></li>{% endif %}
 {%endblock%}

@@ -1146,25 +1146,25 @@ class StatsView(TemplateView):
         stats = [
             {
                 'image': "svg/cameramodel.svg",
-                'url': reverse('cameramodel-list'),
+                'url': reverse('schema:cameramodel-list'),
                 'item': "camera models in CameraHub",
                 'value': CameraModel.objects.count,
             },
             {
                 'image': "svg/lensmodel.svg",
-                'url': reverse('lensmodel-list'),
+                'url': reverse('schema:lensmodel-list'),
                 'item': "lens models in CameraHub",
                 'value': LensModel.objects.count,
             },
             {
                 'image': "svg/filmstock.svg",
-                'url': reverse('filmstock-list'),
+                'url': reverse('schema:filmstock-list'),
                 'item': "film stocks in CameraHub",
                 'value': FilmStock.objects.count
             },
             {
                 'image': "svg/manufacturer.svg",
-                'url': reverse('manufacturer-list'),
+                'url': reverse('schema:manufacturer-list'),
                 'item': "manufacturers in CameraHub",
                 'value': Manufacturer.objects.count
             },
@@ -1230,7 +1230,7 @@ class StatsView(TemplateView):
         stats.append(
             {
                 'image': "svg/weight.svg",
-                'url': reverse('cameramodel-list'),
+                'url': reverse('schema:cameramodel-list'),
                 'item': "total weight of all cameras in CameraHub",
                 'value': str(round((CameraModel.objects.all().aggregate(totalweight=Sum('weight'))['totalweight'] or 0.00)/1000)) + 'kg',
             }
@@ -1239,7 +1239,7 @@ class StatsView(TemplateView):
         stats.append(
             {
                 'image': "svg/ruler.svg",
-                'url': reverse('lensmodel-list'),
+                'url': reverse('schema:lensmodel-list'),
                 'item': "total length of all lenses in CameraHub, laid end to end",
                 'value': str(round((LensModel.objects.all().aggregate(totallength=Sum('length'))['totallength'] or 0.00)/1000)) + 'm',
             }
@@ -1258,43 +1258,43 @@ class MyStatsView(LoginRequiredMixin, TemplateView):
         stats = [
             {
                 'image': "svg/camera.svg",
-                'url': reverse('camera-list'),
+                'url': reverse('schema:camera-list'),
                 'item': "cameras in your collection right now",
                 'value': Camera.objects.filter(owner=self.request.user, own=True).count,
             },
             {
                 'image': "svg/camera.svg",
-                'url': reverse('camera-list'),
+                'url': reverse('schema:camera-list'),
                 'item': "cameras ever in your collection",
                 'value': Camera.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/lens.svg",
-                'url': reverse('lens-list'),
+                'url': reverse('schema:lens-list'),
                 'item': "lenses in your collection right now",
                 'value': Lens.objects.filter(owner=self.request.user, own=True).count,
             },
             {
                 'image': "svg/lens.svg",
-                'url': reverse('lens-list'),
+                'url': reverse('schema:lens-list'),
                 'item': "lenses ever in your collection",
                 'value': Lens.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/film.svg",
-                'url': reverse('film-list'),
+                'url': reverse('schema:film-list'),
                 'item': "films in your collection",
                 'value': Film.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/negative.svg",
-                'url': reverse('negative-list'),
+                'url': reverse('schema:negative-list'),
                 'item': "negatives in your collection",
                 'value': Negative.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/print.svg",
-                'url': reverse('print-list'),
+                'url': reverse('schema:print-list'),
                 'item': "prints in your collection",
                 'value': Print.objects.filter(owner=self.request.user).count,
             },

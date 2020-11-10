@@ -11,7 +11,7 @@
   {% if object.lensmodel is not None %}
   <tr>
     <td>Lens model</td>
-    <td><a href="{% url 'lensmodel-detail' object.lensmodel.slug %}">{{ object.lensmodel }}</a></td>
+    <td><a href="{% url 'schema:lensmodel-detail' object.lensmodel.slug %}">{{ object.lensmodel }}</a></td>
   </tr>
   {% endif %}
   {% if object.serial is not None %}
@@ -95,6 +95,6 @@
 {% endblock %}
 
 {% block moreactions %}
-{% if object.own is not False %}<li><a class="btn btn-primary" href="{% url 'lens-sell' object.id_owner %}"
+{% if object.own is not False %}<li><a class="btn btn-primary" href="{% url 'schema:lens-sell' object.id_owner %}"
     role="button">Sell this lens</a></li>{% endif %}
 {%endblock%}

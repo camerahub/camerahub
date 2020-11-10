@@ -50,7 +50,7 @@
   <tr>
     <td>Tags</td>
     <td>{% for tag in object.tags.all %}
-      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag|lower %}" role="button">{{ tag }}</a>
+      <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' tag|lower %}" role="button">{{ tag }}</a>
       {% endfor %}</td>
   </tr>
   {% endif %}
@@ -60,7 +60,7 @@
     <td>
       <ul class="list-inline">
         {% for relateditem in related %}
-        <li class="list-inline-item"><a href="{% url 'mount-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        <li class="list-inline-item"><a href="{% url 'schema:mount-detail' relateditem.slug %}">{{ relateditem }}</a></li>
         {% endfor %}
       </ul>
     </td>
@@ -80,8 +80,8 @@
 {% endblock %}
 
 {% block moreactions %}
-<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?mount={{ mount.id }}" role="button">View camera models
+<li><a class="btn btn-primary" href="{% url 'schema:cameramodel-list' %}?mount={{ mount.id }}" role="button">View camera models
     with this mount</a></li>
-<li><a class="btn btn-primary" href="{% url 'lensmodel-list' %}?mount={{ mount.id }}" role="button">View lens models
+<li><a class="btn btn-primary" href="{% url 'schema:lensmodel-list' %}?mount={{ mount.id }}" role="button">View lens models
     with this mount</a></li>
 {% endblock %}

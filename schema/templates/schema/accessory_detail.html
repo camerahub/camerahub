@@ -30,7 +30,7 @@
     <td>Camera model compatibility</td>
     <td>
       <ul class="list-inline">{% for camera in object.camera_model_compatibility.all %}
-        <li class="list-inline-item"><a href="{% url 'cameramodel-detail' camera.slug %}">{{ camera }}</a></li>
+        <li class="list-inline-item"><a href="{% url 'schema:cameramodel-detail' camera.slug %}">{{ camera }}</a></li>
         {% endfor %}</ul>
     </td>
   </tr>
@@ -41,7 +41,7 @@
     <td>
       <ul class="list-inline">
         {% for lens in object.lens_model_compatibility.all %}
-        <li class="list-inline-item"><a href="{% url 'lensmodel-detail' lens.slug %}">{{ lens }}</a></li>
+        <li class="list-inline-item"><a href="{% url 'schema:lensmodel-detail' lens.slug %}">{{ lens }}</a></li>
         {% endfor %}</ul>
     </td>
   </tr>

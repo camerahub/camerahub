@@ -2,6 +2,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 from help.views import ConditionListView
 
+app_name = 'help'
 urlpatterns = [
 
     # Static pages

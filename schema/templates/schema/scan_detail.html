@@ -6,13 +6,13 @@
   {% if object.negative is not None %}
   <tr>
     <td>Negative</td>
-    <td><a href="{% url 'negative-detail' object.negative.id_owner %}">{{ object.negative }}</a></td>
+    <td><a href="{% url 'schema:negative-detail' object.negative.id_owner %}">{{ object.negative }}</a></td>
   </tr>
   {% endif %}
   {% if object.print is not None %}
   <tr>
     <td>Print</td>
-    <td><a href="{% url 'print-detail' object.print.id_owner %}">{{ object.print }}</a></td>
+    <td><a href="{% url 'schema:print-detail' object.print.id_owner %}">{{ object.print }}</a></td>
   </tr>
   {% endif %}
   {% if object.filename is not None %}

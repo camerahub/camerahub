@@ -10,13 +10,13 @@
   {% if object.format is not None %}
   <tr>
     <td>Film format</td>
-    <td><a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a></td>
+    <td><a href="{% url 'schema:format-detail' object.format.id %}">{{ object.format }}</a></td>
   </tr>
   {% endif %}
   {% if object.filmstock is not None %}
   <tr>
     <td>Filmstock</td>
-    <td><a href="{% url 'filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a></td>
+    <td><a href="{% url 'schema:filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a></td>
   </tr>
   {% endif %}
   {% if object.batch is not None %}
@@ -65,7 +65,7 @@
   </tr>
   {% for film in bulkfilm.film_set.all %}
   <tr>
-    <td><a href="{% url 'film-detail' film.id_owner %}">{{ film.id_owner }}</a></td>
+    <td><a href="{% url 'schema:film-detail' film.id_owner %}">{{ film.id_owner }}</a></td>
     <td>{{ film.title }}</td>
   </tr>
   {% endfor %}
