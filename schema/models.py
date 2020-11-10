@@ -61,7 +61,7 @@ class Manufacturer(models.Model):
         help_text='City in which the manufacturer is based', max_length=45, blank=True, null=True)
     country = CountryField(
         help_text='Country in which the manufacturer is based', blank=True, null=True)
-    url = models.URLField(
+    linkurl = models.URLField(
         verbose_name='URL', help_text='URL to the manufacturers main website', max_length=45, blank=True, null=True)
     founded = models.PositiveIntegerField(
         help_text='Year in which the manufacturer was founded', blank=True, null=True)
@@ -1006,7 +1006,7 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
     magnification = models.DecimalField(
         help_text='Maximum magnification ratio of the lens, expressed like 0.765', max_digits=5, decimal_places=3, blank=True, null=True)
-    url = models.URLField(
+    linkurl = models.URLField(
         verbose_name='URL', help_text='URL to more information about this lens', blank=True, null=True)
     introduced = models.PositiveIntegerField(
         help_text='Year in which this lens model was introduced', blank=True, null=True)
@@ -1311,7 +1311,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     slug = models.SlugField(editable=False, null=True, unique=True)
     history = HistoricalRecords()
     tags = TaggableManager(blank=True)
-    url = models.URLField(
+    linkurl = models.URLField(
         verbose_name='URL', help_text='URL to more information about this camera model', blank=True, null=True)
     image = VersatileImageField(
         help_text='Image of the camera model', blank=True, null=True)

@@ -485,10 +485,10 @@
     <td>{{ object.notes|linebreaks }}</td>
   </tr>
   {% endif %}
-  {% if object.url is not None %}
+  {% if object.linkurl is not None %}
   <tr>
     <td>URL</td>
-    <td><a href="{{ object.url }}">{{ object.url }}</a></td>
+    <td><a href="{{ object.linkurl }}">{{ object.linkurl }}</a></td>
   </tr>
   {% endif %}
 

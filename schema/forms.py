@@ -311,7 +311,7 @@ class CameraModelForm(autocomplete.FutureModelForm):
             Fieldset('Misc',
                      'notes',
                      'tags',
-                     'url',
+                     'linkurl',
                      'image',
                      'image_attribution',
                      'image_attribution_url',
@@ -562,7 +562,7 @@ class LensModelForm(ModelForm):
     class Meta:
         model = LensModel
         fields = ['manufacturer', 'model', 'disambiguation', 'mount', 'introduced', 'discontinued', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'lens_type', 'image_circle', 'aperture_blades',
-                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'tags', 'url', 'image', 'image_attribution', 'image_attribution_url', 'diagram', 'diagram_attribution', 'diagram_attribution_url']
+                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'tags', 'linkurl', 'image', 'image_attribution', 'image_attribution_url', 'diagram', 'diagram_attribution', 'diagram_attribution_url']
         widgets = {
             'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
             'introduced': YearPickerInput(format='%Y'),
@@ -616,7 +616,7 @@ class LensModelForm(ModelForm):
                      ),
             Fieldset('Misc',
                      'notes',
-                     'url',
+                     'linkurl',
                      'image',
                      'image_attribution',
                      'image_attribution_url',
@@ -631,7 +631,7 @@ class LensModelForm(ModelForm):
 class ManufacturerForm(ModelForm):
     class Meta:
         model = Manufacturer
-        fields = ['name', 'city', 'country', 'url',
+        fields = ['name', 'city', 'country', 'linkurl',
                   'founded', 'dissolved', 'tags']
         widgets = {
             'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
@@ -647,7 +647,7 @@ class ManufacturerForm(ModelForm):
                      'name',
                      'city',
                      'country',
-                     'url',
+                     'linkurl',
                      'founded',
                      'dissolved',
                      ),
