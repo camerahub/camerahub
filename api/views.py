@@ -76,3 +76,4 @@ class PrintViewSet(viewsets.ModelViewSet):
         else:
             qs = Print.objects.none()
         return qs
+        
