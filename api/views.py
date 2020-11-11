@@ -4,10 +4,10 @@ from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer, 
 from schema.models import Film, Negative, Scan, Print, Lens, Camera
 
 
-class FilmViewSet(viewsets.ModelViewSet):
+class FilmViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows films to be viewed or edited.
-    Actions provided by the ModelViewSet class: .list(), .retrieve(), .create(), .update(), .partial_update(), .destroy()
+    API endpoint that allows films to be viewed.
+    Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Film.objects.none()
     serializer_class = FilmSerializer
@@ -21,10 +21,10 @@ class FilmViewSet(viewsets.ModelViewSet):
         return qs
 
 
-class NegativeViewSet(viewsets.ModelViewSet):
+class NegativeViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows negatives to be viewed or edited.
-    Actions provided by the ModelViewSet class: .list(), .retrieve(), .create(), .update(), .partial_update(), .destroy()
+    API endpoint that allows negatives to be viewed.
+    Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Negative.objects.none()
     serializer_class = NegativeSerializer
@@ -63,10 +63,10 @@ class ScanViewSet(viewsets.ModelViewSet):
         return qs
 
 
-class PrintViewSet(viewsets.ModelViewSet):
+class PrintViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows prints to be viewed or edited.
-    Actions provided by the ModelViewSet class: .list(), .retrieve(), .create(), .update(), .partial_update(), .destroy()
+    API endpoint that allows prints to be viewed.
+    Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Print.objects.none()
     serializer_class = PrintSerializer
@@ -84,7 +84,11 @@ class PrintViewSet(viewsets.ModelViewSet):
         return qs
 
 
-class CameraViewSet(viewsets.ModelViewSet):
+class CameraViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows cameras to be viewed.
+    Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
+    """
     queryset = Camera.objects.none()
     serializer_class = CameraSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -101,7 +105,11 @@ class CameraViewSet(viewsets.ModelViewSet):
         return qs
 
 
-class LensViewSet(viewsets.ModelViewSet):
+class LensViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows lens to be viewed.
+    Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
+    """
     queryset = Lens.objects.none()
     serializer_class = LensSerializer
     permission_classes = [permissions.IsAuthenticated]
