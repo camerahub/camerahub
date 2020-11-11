@@ -2,7 +2,48 @@
 
 CameraHub has a simple RESTful API to allow integrations with other apps. It is implemented with [Django REST framework](https://www.django-rest-framework.org/). At the moment it is not comprehensive and endpoints are added as required. Example queries here are executed with [httpie](https://httpie.io/).
 
+## Authentication
+
+All endpoints require authentication, which is done using the username and password of the user. There is currently no support for tokens or keys.
+
+The examples on this page are made with a local development version of CameraHub on `http://127.0.0.1:8000` instead of `https://camerahub.info`, with a default credential set of `admin:admin`.
+
+If you are using `curl` or `http`, you must pass credentials on the command line.
+
+```sh
+coreapi credentials add 127.0.0.1 admin:admin --auth basic
+Added credentials
+127.0.0.1 "Basic YWRtaW46YWRtaW4="
+```
+
 ## Endpoints
+
+### `/api/`
+
+List all endpoints. This is the only endpoint that does not require authentication.
+
+```sh
+http http://127.0.0.1:8000/api/
+HTTP/1.1 200 OK
+Allow: GET, HEAD, OPTIONS
+Cache-Control: max-age=600
+Content-Length: 261
+Content-Type: application/json
+Date: Wed, 11 Nov 2020 21:42:41 GMT
+Expires: Wed, 11 Nov 2020 21:52:41 GMT
+Server: WSGIServer/0.2 CPython/3.8.5
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
+{
+    "camera": "http://127.0.0.1:8000/api/camera/",
+    "film": "http://127.0.0.1:8000/api/film/",
+    "lens": "http://127.0.0.1:8000/api/lens/",
+    "negative": "http://127.0.0.1:8000/api/negative/",
+    "print": "http://127.0.0.1:8000/api/print/",
+    "scan": "http://127.0.0.1:8000/api/scan/"
+}
+```
 
 ### `/api/films/`
 
@@ -247,10 +288,90 @@ X-Frame-Options: SAMEORIGIN
 }
 ```
 
+Creates a new scan
+
+```sh
+http -a admin:admin POST http://127.0.0.1:8000/api/scan/ filename=api.jpg
+HTTP/1.1 201 Created
+Allow: GET, POST, HEAD, OPTIONS
+Content-Length: 174
+Content-Type: application/json
+Date: Wed, 11 Nov 2020 21:47:37 GMT
+Location: http://127.0.0.1:8000/api/scan/3179ceb2-7008-4a0c-8bef-d83ccb63a69e/
+Server: WSGIServer/0.2 CPython/3.8.5
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
+{
+    "filename": "api.jpg",
+    "negative": null,
+    "print": null,
+    "url": "http://127.0.0.1:8000/api/scan/3179ceb2-7008-4a0c-8bef-d83ccb63a69e/",
+    "uuid": "3179ceb2-7008-4a0c-8bef-d83ccb63a69e"
+}
+```
+
 ### `/api/print/`
 
-Return a list of the current user's scans
+Return a list of the current user's prints
 
 ```sh
 http -a admin:admin http://127.0.0.1:8000/api/print/
+HTTP/1.1 200 OK
+Allow: GET, HEAD, OPTIONS
+Cache-Control: max-age=600
+Content-Length: 792
+Content-Type: application/json
+Date: Wed, 11 Nov 2020 21:49:35 GMT
+Expires: Wed, 11 Nov 2020 21:59:35 GMT
+Server: WSGIServer/0.2 CPython/3.8.5
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "negative": {
+                "aperture": "4.0",
+                "caption": "Hello",
+                "copy_of": null,
+                "date": "2020-11-03T20:41:00Z",
+                "exposure_program": "Landscape",
+                "film": {
+                    "camera": "http://127.0.0.1:8000/api/camera/1/",
+                    "id_owner": 1,
+                    "title": null,
+                    "url": "http://127.0.0.1:8000/api/film/1/"
+                },
+                "film_id": "1",
+                "filter": "Variable ND",
+                "flash": false,
+                "focal_length": 50,
+                "frame": "2",
+                "id_owner": 1,
+                "lens": {
+                    "lensmodel": {
+                        "manufacturer": "Canon",
+                        "model": "FD 50mm f/1.8"
+                    },
+                    "serial": "22222",
+                    "url": "http://127.0.0.1:8000/api/lens/2/"
+                },
+                "location": "51.4538022,-2.5972985",
+                "metering_mode": "None",
+                "mount_adapter": null,
+                "notes": "",
+                "photographer": null,
+                "shutter_speed": "&sup1;/3000",
+                "teleconverter": "Tamron Tamron",
+                "url": "http://127.0.0.1:8000/api/negative/1/"
+            },
+            "pk": 1,
+            "url": "http://127.0.0.1:8000/api/print/1/"
+        }
+    ]
+}
 ```
