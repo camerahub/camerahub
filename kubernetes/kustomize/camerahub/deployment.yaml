@@ -16,6 +16,9 @@ spec:
       containers:
         - image: djjudas21/camerahub:0.24.0
           name: camerahub
+          ports:
+          - name: app-port
+            containerPort: 8000
           env:
             # Secrets first
             - name: CAMERAHUB_DB_PASS
