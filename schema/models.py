@@ -1817,6 +1817,7 @@ class Negative(models.Model):
         Film, on_delete=models.CASCADE, help_text='Film that this negative belongs to')
     frame = models.CharField(
         help_text='Frame number or code of this negative', max_length=8)
+    slug = models.SlugField(editable=False, null=True)
     caption = models.CharField(
         help_text='Caption of this picture', max_length=150, blank=True, null=True)
     date = models.DateTimeField(
@@ -1855,9 +1856,9 @@ class Negative(models.Model):
 
     def __str__(self):
         if self.caption is not None:
-            mystr = "%s/%s %s" % (self.film.id_owner, self.frame, self.caption)
+            mystr = "%s %s" % (self.slug, self.caption)
         else:
-            mystr = "%s/%s" % (self.film.id_owner, self.frame)
+            mystr = self.slug
         return mystr
 
     class Meta:
@@ -1893,6 +1894,9 @@ class Negative(models.Model):
             if self.lens.lensmodel.zoom is False:
                 if self.teleconverter is None:
                     self.focal_length = self.lens.lensmodel.min_focal_length
+
+        # Populate slug
+        self.slug = str(self.film.id_owner) + ':' + str(self.frame)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
