@@ -2046,7 +2046,7 @@ class Scan(models.Model):
 
     def clean(self):
         # Check print source
-        if self.negative is not None and self.print is not None:
+        if (self.negative is not None and self.print is not None) or (self.negative is None and self.print is None):
             raise ValidationError({
                 'negative': ValidationError(('Choose either negative or print')),
                 'print': ValidationError(('Choose either negative or print')),
