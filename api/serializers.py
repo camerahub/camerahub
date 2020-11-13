@@ -55,7 +55,7 @@ class NegativeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Negative
-        fields = ['url', 'film', 'film_id', 'id_owner', 'frame', 'caption', 'date', 'lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter',
+        fields = ['url', 'slug', 'film', 'film_id', 'id_owner', 'frame', 'caption', 'date', 'lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter',
                   'notes', 'mount_adapter', 'focal_length', 'location', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of']
 
 
