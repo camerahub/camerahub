@@ -6,10 +6,15 @@ from schema.models import Flash, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
 from schema.models import Repair, Negative, Film, Teleconverter, Toner
 
+# Disable CSRF token for cleaner filter URLs
+class CustomFormHelper(FormHelper):
+    disable_csrf = True
+
+
 # These helpers are just for the filter forms
 
 
-class AccessoryFormHelper(FormHelper):
+class AccessoryFormHelper(CustomFormHelper):
     model = Accessory
     layout = Layout(
         Row(
@@ -19,7 +24,7 @@ class AccessoryFormHelper(FormHelper):
     )
 
 
-class ArchiveFormHelper(FormHelper):
+class ArchiveFormHelper(CustomFormHelper):
     model = Archive
     layout = Layout(
         Row(
@@ -32,7 +37,7 @@ class ArchiveFormHelper(FormHelper):
     )
 
 
-class BatteryFormHelper(FormHelper):
+class BatteryFormHelper(CustomFormHelper):
     model = Battery
     layout = Layout(
         Row(
@@ -42,7 +47,7 @@ class BatteryFormHelper(FormHelper):
     )
 
 
-class BulkFilmFormHelper(FormHelper):
+class BulkFilmFormHelper(CustomFormHelper):
     model = BulkFilm
     layout = Layout(
         Row(
@@ -52,7 +57,7 @@ class BulkFilmFormHelper(FormHelper):
         )
     )
 
-class CameraFormHelper(FormHelper):
+class CameraFormHelper(CustomFormHelper):
     model = Camera
     layout = Layout(
         Row(
@@ -67,7 +72,7 @@ class CameraFormHelper(FormHelper):
     )
 
 
-class CameraModelFormHelper(FormHelper):
+class CameraModelFormHelper(CustomFormHelper):
     model = CameraModel
     layout = Layout(
         Row(
@@ -82,7 +87,7 @@ class CameraModelFormHelper(FormHelper):
     )
 
 
-class DeveloperFormHelper(FormHelper):
+class DeveloperFormHelper(CustomFormHelper):
     model = Developer
     layout = Layout(
         Row(
@@ -95,7 +100,7 @@ class DeveloperFormHelper(FormHelper):
     )
 
 
-class EnlargerFormHelper(FormHelper):
+class EnlargerFormHelper(CustomFormHelper):
     model = Enlarger
     layout = Layout(
         Row(
@@ -108,7 +113,7 @@ class EnlargerFormHelper(FormHelper):
     )
 
 
-class FilmStockFormHelper(FormHelper):
+class FilmStockFormHelper(CustomFormHelper):
     model = FilmStock
     layout = Layout(
         Row(
@@ -122,7 +127,7 @@ class FilmStockFormHelper(FormHelper):
     )
 
 
-class FlashFormHelper(FormHelper):
+class FlashFormHelper(CustomFormHelper):
     model = Flash
     layout = Layout(
         Row(
@@ -140,7 +145,7 @@ class FlashFormHelper(FormHelper):
     )
 
 
-class LensFormHelper(FormHelper):
+class LensFormHelper(CustomFormHelper):
     model = Lens
     layout = Layout(
         Row(
@@ -154,7 +159,7 @@ class LensFormHelper(FormHelper):
     )
 
 
-class LensModelFormHelper(FormHelper):
+class LensModelFormHelper(CustomFormHelper):
     model = LensModel
     layout = Layout(
         Row(
@@ -169,7 +174,7 @@ class LensModelFormHelper(FormHelper):
     )
 
 
-class MountFormHelper(FormHelper):
+class MountFormHelper(CustomFormHelper):
     model = Mount
     layout = Layout(
         Row(
@@ -182,7 +187,7 @@ class MountFormHelper(FormHelper):
     )
 
 
-class MountAdapterFormHelper(FormHelper):
+class MountAdapterFormHelper(CustomFormHelper):
     model = MountAdapter
     layout = Layout(
         Row(
@@ -195,7 +200,7 @@ class MountAdapterFormHelper(FormHelper):
     )
 
 
-class OrderFormHelper(FormHelper):
+class OrderFormHelper(CustomFormHelper):
     model = Order
     layout = Layout(
         Row(
@@ -205,7 +210,7 @@ class OrderFormHelper(FormHelper):
     )
 
 
-class PaperStockFormHelper(FormHelper):
+class PaperStockFormHelper(CustomFormHelper):
     model = PaperStock
     layout = Layout(
         Row(
@@ -219,7 +224,7 @@ class PaperStockFormHelper(FormHelper):
     )
 
 
-class PrintFormHelper(FormHelper):
+class PrintFormHelper(CustomFormHelper):
     model = Print
     layout = Layout(
         Row(
@@ -232,7 +237,7 @@ class PrintFormHelper(FormHelper):
     )
 
 
-class RepairFormHelper(FormHelper):
+class RepairFormHelper(CustomFormHelper):
     model = Repair
     layout = Layout(
         Row(
@@ -243,21 +248,19 @@ class RepairFormHelper(FormHelper):
     )
 
 
-class NegativeFormHelper(FormHelper):
+class NegativeFormHelper(CustomFormHelper):
     model = Negative
+    #disable_csrf = True
     layout = Layout(
         Row(
             Field('film', css_class="form-control-sm"),
             Field('lens', css_class="form-control-sm"),
-            Field('filter', css_class="form-control-sm"),
-            Field('metering_mode', css_class="form-control-sm"),
-            Field('exposure_program', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class FilmFormHelper(FormHelper):
+class FilmFormHelper(CustomFormHelper):
     model = Film
     layout = Layout(
         Row(
@@ -272,7 +275,7 @@ class FilmFormHelper(FormHelper):
     )
 
 
-class TeleconverterFormHelper(FormHelper):
+class TeleconverterFormHelper(CustomFormHelper):
     model = Teleconverter
     layout = Layout(
         Row(
@@ -283,7 +286,7 @@ class TeleconverterFormHelper(FormHelper):
     )
 
 
-class TonerFormHelper(FormHelper):
+class TonerFormHelper(CustomFormHelper):
     model = Toner
     layout = Layout(
         Row(
