@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schema', '0100_remove_film_directory'),
+        ('schema', '0102_slugs'),
     ]
 
     operations = [
