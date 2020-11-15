@@ -32,9 +32,9 @@ class NegativeViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.query_params and self.request.query_params['film_id']:
+            if self.request.query_params and self.request.query_params['slug']:
                 qs = Negative.objects.filter(
-                    owner=self.request.user, film__pk=self.request.query_params['film_id'])
+                    owner=self.request.user, film__pk=self.request.query_params['slug'])
             else:
                 qs = Negative.objects.filter(owner=self.request.user)
         else:
