@@ -296,8 +296,8 @@ HTTP/1.1 201 Created
 Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 174
 Content-Type: application/json
-Date: Wed, 11 Nov 2020 21:47:37 GMT
-Location: http://127.0.0.1:8000/api/scan/3179ceb2-7008-4a0c-8bef-d83ccb63a69e/
+Date: Mon, 16 Nov 2020 20:12:47 GMT
+Location: http://127.0.0.1:8000/api/scan/079585ed-6093-4177-be1c-66abb45fe9c4/
 Server: WSGIServer/0.2 CPython/3.8.5
 Vary: Accept, Cookie
 X-Frame-Options: SAMEORIGIN
@@ -306,8 +306,30 @@ X-Frame-Options: SAMEORIGIN
     "filename": "api.jpg",
     "negative": null,
     "print": null,
-    "url": "http://127.0.0.1:8000/api/scan/3179ceb2-7008-4a0c-8bef-d83ccb63a69e/",
-    "uuid": "3179ceb2-7008-4a0c-8bef-d83ccb63a69e"
+    "url": "http://127.0.0.1:8000/api/scan/079585ed-6093-4177-be1c-66abb45fe9c4/",
+    "uuid": "079585ed-6093-4177-be1c-66abb45fe9c4"
+}
+```
+
+Updates an existing scan
+
+```sh
+http -a admin:admin PUT http://127.0.0.1:8000/api/scan/079585ed-6093-4177-be1c-66abb45fe9c4/ filename=api2.jpg
+HTTP/1.1 200 OK
+Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+Content-Length: 175
+Content-Type: application/json
+Date: Mon, 16 Nov 2020 20:17:01 GMT
+Server: WSGIServer/0.2 CPython/3.8.5
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
+{
+    "filename": "api2.jpg",
+    "negative": null,
+    "print": null,
+    "url": "http://127.0.0.1:8000/api/scan/079585ed-6093-4177-be1c-66abb45fe9c4/",
+    "uuid": "079585ed-6093-4177-be1c-66abb45fe9c4"
 }
 ```
 
