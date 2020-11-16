@@ -19,27 +19,27 @@ from dal import autocomplete
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
-from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
+from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
 
 from schema.tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, FilmStockTable, FilterTable
 from schema.tables import FlashTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
 from schema.tables import MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable
-from schema.tables import ProcessTable, RepairTable, ScanTable, NegativeTable, FilmTable, TeleconverterTable, TonerTable
+from schema.tables import ProcessTable, ScanTable, NegativeTable, FilmTable, TeleconverterTable, TonerTable
 
 from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraSellForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
 from schema.forms import FlashForm, FormatForm, LensForm, LensSellForm, LensModelForm, ManufacturerForm
 from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
-from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, FilmAddForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TonerForm
+from schema.forms import ProcessForm, ScanForm, NegativeForm, FilmForm, FilmAddForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TonerForm
 
 from schema.filters import AccessoryFilter, BatteryFilter, BulkFilmFilter, CameraFilter, CameraModelFilter, DeveloperFilter
 from schema.filters import EnlargerFilter, FilmFilter, FilmStockFilter, FlashFilter, LensFilter, LensModelFilter
 from schema.filters import MountAdapterFilter, MountFilter, NegativeFilter, OrderFilter, PaperStockFilter, PrintFilter
-from schema.filters import RepairFilter, TeleconverterFilter, TonerFilter
+from schema.filters import TeleconverterFilter, TonerFilter
 
 from schema.formhelpers import AccessoryFormHelper, BatteryFormHelper, BulkFilmFormHelper, CameraFormHelper, CameraModelFormHelper
 from schema.formhelpers import DeveloperFormHelper, EnlargerFormHelper, FilmFormHelper, FilmStockFormHelper, FlashFormHelper
 from schema.formhelpers import LensFormHelper, LensModelFormHelper, MountAdapterFormHelper, MountFormHelper, NegativeFormHelper
-from schema.formhelpers import OrderFormHelper, PaperStockFormHelper, PrintFormHelper, RepairFormHelper, TeleconverterFormHelper, TonerFormHelper
+from schema.formhelpers import OrderFormHelper, PaperStockFormHelper, PrintFormHelper, TeleconverterFormHelper, TonerFormHelper
 
 from .funcs import to_dict
 
@@ -906,37 +906,6 @@ class ProcessUpdate(LoginRequiredMixin, UpdateView):
     model = Process
     form_class = ProcessForm
     template_name = 'update.html'
-
-
-class RepairList(LoginRequiredMixin, PagedFilteredTableView):
-    model = Repair
-    table_class = RepairTable
-    filterset_class = RepairFilter
-    formhelper_class = RepairFormHelper
-
-
-class RepairDetail(LoginRequiredMixin, generic.DetailView):
-    model = Repair
-
-    # Restrict to objects we own
-    def get_object(self):
-        return get_object_or_404(Repair, owner=self.request.user, id_owner=self.kwargs['id_owner'])
-
-
-class RepairCreate(LoginRequiredMixin, CreateView):
-    model = Repair
-    form_class = RepairForm
-    template_name = 'create.html'
-
-
-class RepairUpdate(LoginRequiredMixin, UpdateView):
-    model = Repair
-    form_class = RepairForm
-    template_name = 'update.html'
-
-    # Restrict to objects we own
-    def get_object(self):
-        return get_object_or_404(Repair, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
 class ScanList(LoginRequiredMixin, SingleTableListView):

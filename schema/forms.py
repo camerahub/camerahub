@@ -11,7 +11,7 @@ from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput, Year
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
-from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
+from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
 
 FormActionButtons = Layout(
     FormActions(
@@ -872,31 +872,6 @@ class ProcessForm(ModelForm):
             'name',
             'colour',
             'positive',
-            FormActionButtons
-        )
-
-
-class RepairForm(ModelForm):
-    class Meta:
-        model = Repair
-        fields = ['camera', 'lens', 'date', 'summary', 'detail']
-        widgets = {
-            'date': DatePickerInput(format='%Y-%m-%d'),
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['camera'].queryset = Camera.objects.filter(
-            owner=get_current_user())
-        self.fields['lens'].queryset = Lens.objects.filter(
-            owner=get_current_user())
-        self.helper = FormHelper(self)
-        self.helper.layout = Layout(
-            'camera',
-            'lens',
-            'date',
-            'summary',
-            'detail',
             FormActionButtons
         )
 

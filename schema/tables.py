@@ -9,7 +9,7 @@ from schema.funcs import boolicon, colouricon
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
 from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
-from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
+from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
 
 
 class AccessoryTable(tables.Table):
@@ -496,25 +496,6 @@ class ProcessTable(tables.Table):
     @classmethod
     def render_positive(cls, value):
         return format_html(boolicon(value))
-
-
-class RepairTable(tables.Table):
-    class Meta:
-        attrs = {"class": "table table-hover"}
-        model = Repair
-        fields = ('id_owner', 'camera', 'lens', 'date', 'summary')
-
-    @classmethod
-    def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:repair-detail', args=[value]), value)
-
-    @classmethod
-    def render_camera(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('schema:camera-detail', args=[value.id_owner]), value)
-
-    @classmethod
-    def render_lens(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('schema:lens-detail', args=[value.id_owner]), value)
 
 
 class ScanTable(tables.Table):
