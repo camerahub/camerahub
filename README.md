@@ -131,3 +131,4 @@ Default: `6379`
 * [Contributing](docs/CONTRIBUTING.md)
 * [Changelog](https://github.com/djjudas21/camerahub/releases)
 * [Icons](docs/ICONS.md)
+* [API](docs/API.py)
