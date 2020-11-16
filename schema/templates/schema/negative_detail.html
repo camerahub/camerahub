@@ -11,7 +11,7 @@
   {% if object.film is not None %}
   <tr>
     <td>Film</td>
-    <td><a href="{% url 'film-detail' object.film.id_owner %}">{{ object.film }}</a></td>
+    <td><a href="{% url 'schema:film-detail' object.film.id_owner %}">{{ object.film }}</a></td>
   </tr>
   {% endif %}
   <tr>
@@ -38,7 +38,7 @@
   {% if object.lens is not None %}
   <tr>
     <td>Lens</td>
-    <td><a href="{% url 'lens-detail' object.lens.id %}">{{ object.lens }}</a></td>
+    <td><a href="{% url 'schema:lens-detail' object.lens.id %}">{{ object.lens }}</a></td>
   </tr>
   {% endif %}
   {% if object.focal_length is not None %}
@@ -68,7 +68,7 @@
   {% if object.teleconverter is not None %}
   <tr>
     <td>Teleconverter</td>
-    <td><a href="{% url 'teleconverter-detail' object.teleconverter.id %}">{{ object.teleconverter }}</a></td>
+    <td><a href="{% url 'schema:teleconverter-detail' object.teleconverter.id %}">{{ object.teleconverter }}</a></td>
   </tr>
   {% endif %}
   {% if object.mount_adapter is not None %}

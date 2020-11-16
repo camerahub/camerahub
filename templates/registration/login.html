@@ -14,6 +14,6 @@
   {{ form|crispy }}
   <button type="submit">Login</button>
 </form>
-<p>No account? <a href="{% url 'django_registration_register' %}">Register</a> now</p>
+<p>No account? <a href="{% url 'schema:django_registration_register' %}">Register</a> now</p>
 <p>Forgot your password? <a href="{% url 'password_reset' %}">Reset it</a></p>
 {% endblock %}

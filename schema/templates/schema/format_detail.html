@@ -16,7 +16,7 @@
     <td>Negative size</td>
     <td>
       <ul class="list-inline">{% for negative_size in object.negative_size.all %}
-        <li class="list-inline-item"><a href="{% url 'negativesize-detail' negative_size.id %}">{{ negative_size }}</a>
+        <li class="list-inline-item"><a href="{% url 'schema:negativesize-detail' negative_size.id %}">{{ negative_size }}</a>
         </li>
         {% endfor %}</ul>
     </td>
@@ -36,6 +36,6 @@
 {% endblock %}
 
 {% block moreactions %}
-<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?format={{ object.id }}" role="button">View camera
+<li><a class="btn btn-primary" href="{% url 'schema:cameramodel-list' %}?format={{ object.id }}" role="button">View camera
     models with this format</a></li>
 {% endblock %}

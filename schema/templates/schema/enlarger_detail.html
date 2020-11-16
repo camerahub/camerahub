@@ -20,7 +20,7 @@
   {% if object.negative_size is not None %}
   <tr>
     <td>Negative size</td>
-    <td><a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
+    <td><a href="{% url 'schema:negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
   </tr>
   {% endif %}
   {% if object.type is not None %}

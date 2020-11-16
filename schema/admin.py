@@ -171,7 +171,7 @@ class LensModelAdmin(SimpleHistoryAdmin):
             'fields': ('length', 'diameter', 'weight'),
         }),
         ('Other', {
-            'fields': ('aperture_blades', 'autofocus', 'filter_thread', 'url', 'introduced', 'discontinued', 'negative_size', 'notes', 'coating', 'hood', 'image_circle', 'shutter_model'),
+            'fields': ('aperture_blades', 'autofocus', 'filter_thread', 'linkurl', 'introduced', 'discontinued', 'negative_size', 'notes', 'coating', 'hood', 'image_circle', 'shutter_model'),
         })
     )
     inlines = [

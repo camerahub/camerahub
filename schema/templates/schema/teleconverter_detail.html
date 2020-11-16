@@ -20,7 +20,7 @@
   {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
-    <td><a href="{% url 'mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
+    <td><a href="{% url 'schema:mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
   </tr>
   {% endif %}
   <tr>

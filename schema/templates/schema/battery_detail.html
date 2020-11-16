@@ -33,7 +33,7 @@
     <td>
       <ul class="list-inline">
         {% for compat in object.compatible_with.all %}
-        <li class="list-inline-item"><a href="{% url 'battery-detail' compat.slug %}">{{ compat }}</a></li>
+        <li class="list-inline-item"><a href="{% url 'schema:battery-detail' compat.slug %}">{{ compat }}</a></li>
         {% endfor %}</ul>
     </td>
   </tr>

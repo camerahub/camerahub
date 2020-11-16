@@ -11,7 +11,7 @@
     <tr>
         <th>Camera model</th>
         <td>{% if object.cameramodel is not None %}<a
-                href="{% url 'cameramodel-detail' object.cameramodel.slug %}">{{ object.cameramodel }}</a>{% endif %}
+                href="{% url 'schema:cameramodel-detail' object.cameramodel.slug %}">{{ object.cameramodel }}</a>{% endif %}
         </td>
     </tr>
     {% if object.serial is not None %}
@@ -95,6 +95,6 @@
 {% endblock %}
 
 {% block moreactions %}
-{% if object.own is not False %}<li><a class="btn btn-primary" href="{% url 'camera-sell' object.id_owner %}"
+{% if object.own is not False %}<li><a class="btn btn-primary" href="{% url 'schema:camera-sell' object.id_owner %}"
         role="button">Sell this camera</a></li>{% endif %}
 {%endblock%}

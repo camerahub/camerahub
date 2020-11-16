@@ -44,7 +44,7 @@
   <tr>
     <td>Tags</td>
     <td>{% for tag in object.tags.all %}
-      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag|lower %}" role="button">{{ tag }}</a>
+      <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' tag|lower %}" role="button">{{ tag }}</a>
       {% endfor %}</td>
   </tr>
   {% endif %}
@@ -54,7 +54,7 @@
     <td>
       <ul class="list-inline">
         {% for relateditem in related %}
-        <li class="list-inline-item"><a href="{% url 'paperstock-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        <li class="list-inline-item"><a href="{% url 'schema:paperstock-detail' relateditem.slug %}">{{ relateditem }}</a></li>
         {% endfor %}
       </ul>
     </td>

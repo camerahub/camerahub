@@ -27,36 +27,36 @@
         {% else %}
     <p>CameraHub is a public database of cameras, lenses and accessories, available to everyone. Registered users can
         add or edit data. They can also keep a private collection of their cameras and lenses. Check out the <a
-            href="{% url 'concepts' %}">Concepts</a> page for more info.</p>
-    <p><a class="btn btn-primary btn-sm" href="{% url 'login' %}" role="button">Login</a> or <a
-            class="btn btn-primary btn-sm" href="{% url 'django_registration_register' %}" role="button">Register</a> to
+            href="{% url 'help:concepts' %}">Concepts</a> page for more info.</p>
+    <p><a class="btn btn-primary btn-sm" href="{% url 'schema:login' %}" role="button">Login</a> or <a
+            class="btn btn-primary btn-sm" href="{% url 'schema:django_registration_register' %}" role="button">Register</a> to
         start tracking private data about your own collection.
         {% endif %}
         Get started using the icons below, or use the menus above.</p>
     <div class="card-deck">
         <div class="card">
-            <a href="{% url 'cameramodel-list' %}"><img class="card-img-top p-5" src="{% static "svg/camera.svg" %}"
+            <a href="{% url 'schema:cameramodel-list' %}"><img class="card-img-top p-5" src="{% static "svg/camera.svg" %}"
                     alt="Camera models"></a>
             <div class="card-body">
-                <a href="{% url 'cameramodel-list' %}">
+                <a href="{% url 'schema:cameramodel-list' %}">
                     <h5 class="card-title">Camera models</h5>
                 </a>
             </div>
         </div>
         <div class="card">
-            <a href="{% url 'lensmodel-list' %}"><img class="card-img-top p-5"
+            <a href="{% url 'schema:lensmodel-list' %}"><img class="card-img-top p-5"
                     src="{% static "svg/teleconverter.svg" %}" alt="Lens models"></a>
             <div class="card-body">
-                <a href="{% url 'lensmodel-list' %}">
+                <a href="{% url 'schema:lensmodel-list' %}">
                     <h5 class="card-title">Lens models</h5>
                 </a>
             </div>
         </div>
         <div class="card">
-            <a href="{% url 'filmstock-list' %}"><img class="card-img-top p-5" src="{% static "svg/film.svg" %}"
+            <a href="{% url 'schema:filmstock-list' %}"><img class="card-img-top p-5" src="{% static "svg/film.svg" %}"
                     alt="Film stocks"></a>
             <div class="card-body">
-                <a href="{% url 'filmstock-list' %}">
+                <a href="{% url 'schema:filmstock-list' %}">
                     <h5 class="card-title">Film stocks</h5>
                 </a>
             </div>
