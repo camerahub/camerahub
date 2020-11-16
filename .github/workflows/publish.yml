@@ -12,11 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: 3.8
       - name: Install Poetry
-        uses: dschep/install-poetry-action@v1.2
+        uses: dschep/install-poetry-action@v1.3
       - name: Parse the git tag
         id: get_tag
         run: echo ::set-output name=TAG::$(echo $GITHUB_REF | cut -d / -f 3)

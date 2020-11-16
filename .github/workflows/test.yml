@@ -10,9 +10,9 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: yaml-lint
-        uses: ibiqlik/action-yamllint@v1
+        uses: ibiqlik/action-yamllint@v3
         with:
           config_file: .yamllint.yml
 
@@ -25,15 +25,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install GDAL for Leaflet
         run: sudo apt install libgdal-dev
       - name: Install Poetry
-        uses: dschep/install-poetry-action@v1.2
+        uses: dschep/install-poetry-action@v1.3
       - name: Cache Poetry virtualenv
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         id: cache
         with:
           path: ~/.virtualenvs
@@ -56,13 +56,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: 3.8
       - name: Install Poetry
-        uses: dschep/install-poetry-action@v1.2
+        uses: dschep/install-poetry-action@v1.3
       - name: Cache Poetry virtualenv
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         id: cache
         with:
           path: ~/.virtualenvs
