@@ -6,7 +6,7 @@ from taggit.forms import TagField
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock
 from schema.models import Flash, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
-from schema.models import Repair, Negative, Film, Teleconverter, Toner
+from schema.models import Negative, Film, Teleconverter, Toner
 
 # Define a custom tag filter
 
@@ -209,17 +209,6 @@ class PrintFilter(FilterSet):
             'fine',
             'archive',
         ]
-
-    @property
-    def qs(self):
-        parent = super().qs
-        return parent.filter(owner=get_current_user())
-
-
-class RepairFilter(FilterSet):
-    class Meta:
-        model = Repair
-        fields = ('camera', 'lens',)
 
     @property
     def qs(self):

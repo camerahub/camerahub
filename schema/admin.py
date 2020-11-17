@@ -1,6 +1,6 @@
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
-from schema.models import Process, Repair, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
+from schema.models import Process, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
@@ -247,14 +247,6 @@ class PrintAdmin(admin.ModelAdmin):
 admin.site.register(Print, PrintAdmin)
 
 admin.site.register(Process)
-
-
-class RepairAdmin(admin.ModelAdmin):
-    exclude = ('owner',)
-
-
-admin.site.register(Repair, RepairAdmin)
-
 
 class ScanAdmin(admin.ModelAdmin):
     exclude = ('owner',)

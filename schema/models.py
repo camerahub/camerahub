@@ -1998,37 +1998,6 @@ class Toning(models.Model):
         ordering = ['order']
         unique_together = ['print', 'order']
 
-# Table to catalog all repairs and servicing undertaken on cameras and lenses in the collection
-
-
-class Repair(models.Model):
-    camera = models.ForeignKey(Camera, on_delete=models.CASCADE,
-                               blank=True, null=True, help_text='Camera that was repaired')
-    lens = models.ForeignKey(Lens, on_delete=models.CASCADE,
-                             blank=True, null=True, help_text='Lens that was repaired')
-    date = models.DateField(
-        help_text='The date of the repair', blank=True, null=True)
-    summary = models.CharField(
-        help_text='Brief summary of the repair', max_length=100)
-    detail = models.CharField(
-        help_text='Longer description of the repair', max_length=500, blank=True, null=True)
-    owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(
-        unique_with='owner', editable=False, verbose_name='ID')
-
-    def __str__(self):
-        return "#%i" % (self.id_owner)
-
-    class Meta:
-        ordering = ['date']
-        verbose_name_plural = "repairs"
-
-    def get_absolute_url(self):
-        return reverse('schema:repair-detail', kwargs={'id_owner': self.id_owner})
-
-    @classmethod
-    def description(cls):
-        return 'Repairs are any maintenance work performed on cameras or lenses'
 
 # Table to record all the images that have been scanned digitally
 

@@ -182,12 +182,6 @@ urlpatterns = [
     path('process/<int:pk>/update',
          views.ProcessUpdate.as_view(), name='process-update'),
 
-    path('repair/', views.RepairList.as_view(), name='repair-list'),
-    path('repair/<int:id_owner>', views.RepairDetail.as_view(), name='repair-detail'),
-    path('repair/create/', views.RepairCreate.as_view(), name='repair-create'),
-    path('repair/<int:id_owner>/update',
-         views.RepairUpdate.as_view(), name='repair-update'),
-
     path('scan/', views.ScanList.as_view(), name='scan-list'),
     path('scan/<uuid:uuid>', views.ScanDetail.as_view(), name='scan-detail'),
     path('scan/create/', views.ScanCreate.as_view(), name='scan-create'),
