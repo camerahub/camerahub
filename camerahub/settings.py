@@ -172,8 +172,8 @@ STATICFILES_DIRS = [
 
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 
-LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'schema:index'
+LOGOUT_REDIRECT_URL = 'schema:index'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
