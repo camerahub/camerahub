@@ -51,7 +51,7 @@ jobs:
       # install dependencies if cache does not exist 
       #----------------------------------------------
       - name: Install dependencies
-        run: poetry install --dev
+        run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - name: Run pylint
         run: "poetry run pylint --rcfile=.pylintrc **/*.py"
