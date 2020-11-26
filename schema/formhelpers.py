@@ -1,7 +1,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Field
 
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock
 from schema.models import Flash, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
 from schema.models import Negative, Film, Teleconverter, Toner
@@ -100,14 +100,24 @@ class DeveloperFormHelper(CustomFormHelper):
     )
 
 
-class EnlargerFormHelper(CustomFormHelper):
-    model = Enlarger
+class EnlargerModelFormHelper(CustomFormHelper):
+    model = EnlargerModel
     layout = Layout(
         Row(
             Field('manufacturer', css_class="form-control-sm"),
             Field('negative_size', css_class="form-control-sm"),
             Field('type', css_class="form-control-sm"),
             Field('light_source', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
+        )
+    )
+
+
+class EnlargerFormHelper(CustomFormHelper):
+    model = Enlarger
+    layout = Layout(
+        Row(
+            Field('enlargermodel', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )

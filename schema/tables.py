@@ -6,7 +6,7 @@ from django.urls import reverse
 from schema.funcs import boolicon, colouricon
 
 # Import all models that need admin pages
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
 from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
@@ -170,19 +170,29 @@ class DeveloperTable(tables.Table):
         return format_html(boolicon(value))
 
 
+class EnlargerModelTable(tables.Table):
+    class Meta:
+        attrs = {"class": "table table-hover"}
+        model = EnlargerModel
+        fields = ('model', 'negative_size', 'type')
+
+    @classmethod
+    def render_model(cls, value, record):
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:enlargermodel-detail', args=[record.slug]), record.manufacturer, value)
+
 class EnlargerTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Enlarger
-        fields = ('id_owner', 'model', 'negative_size', 'type')
+        fields = ('id_owner', 'enlargermodel')
 
     @classmethod
     def render_id_owner(cls, value):
         return format_html("<a href=\"{}\">#{}</a>", reverse('schema:enlarger-detail', args=[value]), value)
 
     @classmethod
-    def render_model(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:enlarger-detail', args=[record.id_owner]), record.manufacturer, value)
+    def render_enlargermodel(cls, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:enlargermodel-detail', args=[record.enlargermodel.slug]), value)
 
 
 class FilmStockTable(tables.Table):

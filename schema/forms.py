@@ -8,7 +8,7 @@ from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, 
 from dal import autocomplete
 from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput, YearPickerInput, MonthPickerInput, TimePickerInput
 
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
 from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
@@ -194,7 +194,7 @@ class CameraModelForm(autocomplete.FutureModelForm):
         model = CameraModel
         fields = '__all__'
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
         }
@@ -349,14 +349,11 @@ class DeveloperForm(ModelForm):
         )
 
 
-class EnlargerForm(ModelForm):
+class EnlargerModelForm(ModelForm):
     class Meta:
-        model = Enlarger
-        fields = ['manufacturer', 'model', 'negative_size', 'type', 'light_source',
-                  'acquired', 'lost', 'introduced', 'discontinued', 'cost', 'lost_price']
+        model = EnlargerModel
+        fields = ['manufacturer', 'model', 'negative_size', 'type', 'light_source', 'introduced', 'discontinued']
         widgets = {
-            'acquired': DatePickerInput(format='%Y-%m-%d'),
-            'lost': DatePickerInput(format='%Y-%m-%d'),
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
         }
@@ -371,13 +368,33 @@ class EnlargerForm(ModelForm):
             Fieldset('Summary',
                      'manufacturer',
                      'model',
+                     'disambiguation',
                      'negative_size',
                      'type',
                      'light_source',
                      'introduced',
                      'discontinued',
                      ),
-            Fieldset('Ownership'
+            FormActionButtons
+        )
+
+class EnlargerForm(ModelForm):
+    class Meta:
+        model = Enlarger
+        fields = ['enlargermodel', 'acquired', 'lost', 'cost', 'lost_price']
+        widgets = {
+            'acquired': DatePickerInput(format='%Y-%m-%d'),
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset('Summary',
+                     'enlargermodel',
+            ),
+            Fieldset('Ownership',
                      'acquired',
                      'cost',
                      'lost',
@@ -564,7 +581,7 @@ class LensModelForm(ModelForm):
         fields = ['manufacturer', 'model', 'disambiguation', 'mount', 'introduced', 'discontinued', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'lens_type', 'image_circle', 'aperture_blades',
                   'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'tags', 'linkurl', 'image', 'image_attribution', 'image_attribution_url', 'diagram', 'diagram_attribution', 'diagram_attribution_url']
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
         }
@@ -634,7 +651,7 @@ class ManufacturerForm(ModelForm):
         fields = ['name', 'city', 'country', 'linkurl',
                   'founded', 'dissolved', 'tags']
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
             'founded': YearPickerInput(format='%Y'),
             'dissolved': YearPickerInput(format='%Y'),
         }

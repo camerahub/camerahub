@@ -16,7 +16,8 @@ urlpatterns = [
 
     path('tag/', views.TagList.as_view(), name='tag-list'),
     path('tag/<slug:slug>', views.TagDetail.as_view(), name='tag-detail'),
-    path('tag-autocomplete/', views.TagAutocomplete.as_view(), name='tag-autocomplete'),
+    path('tag-autocomplete/', views.TagAutocomplete.as_view(),
+         name='tag-autocomplete'),
 
     path('accessory/', views.AccessoryList.as_view(), name='accessory-list'),
     path('accessory/<int:id_owner>', views.AccessoryDetail.as_view(),
@@ -51,7 +52,8 @@ urlpatterns = [
     path('camera/create/', views.CameraCreate.as_view(), name='camera-create'),
     path('camera/<int:id_owner>/update',
          views.CameraUpdate.as_view(), name='camera-update'),
-    path('camera/<int:id_owner>/sell', views.CameraSell.as_view(), name='camera-sell'),
+    path('camera/<int:id_owner>/sell',
+         views.CameraSell.as_view(), name='camera-sell'),
 
     path('cameramodel/', views.CameraModelList.as_view(), name='cameramodel-list'),
     path('cameramodel/<slug:slug>', views.CameraModelDetail.as_view(),
@@ -68,6 +70,15 @@ urlpatterns = [
          name='developer-create'),
     path('developer/<slug:slug>/update',
          views.DeveloperUpdate.as_view(), name='developer-update'),
+
+    path('enlargermodel/', views.EnlargerModelList.as_view(),
+         name='enlargermodel-list'),
+    path('enlargermodel/<slug:slug>', views.EnlargerModelDetail.as_view(),
+         name='enlargermodel-detail'),
+    path('enlargermodel/create/', views.EnlargerModelCreate.as_view(),
+         name='enlargermodel-create'),
+    path('enlargermodel/<slug:slug>/update',
+         views.EnlargerModelUpdate.as_view(), name='enlargermodel-update'),
 
     path('enlarger/', views.EnlargerList.as_view(), name='enlarger-list'),
     path('enlarger/<int:id_owner>',
@@ -201,8 +212,10 @@ urlpatterns = [
     path('film/<int:id_owner>/update',
          views.FilmUpdate.as_view(), name='film-update'),
     path('film/<int:id_owner>/load', views.FilmLoad.as_view(), name='film-load'),
-    path('film/<int:id_owner>/develop', views.FilmDevelop.as_view(), name='film-develop'),
-    path('film/<int:id_owner>/archive', views.FilmArchive.as_view(), name='film-archive'),
+    path('film/<int:id_owner>/develop',
+         views.FilmDevelop.as_view(), name='film-develop'),
+    path('film/<int:id_owner>/archive',
+         views.FilmArchive.as_view(), name='film-archive'),
 
     path('teleconverter/', views.TeleconverterList.as_view(),
          name='teleconverter-list'),

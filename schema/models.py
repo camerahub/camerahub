@@ -28,6 +28,12 @@ def cameramodel_check(text, uids):
     return not CameraModel.objects.filter(slug=text).exists()
 
 
+def enlargermodel_check(text, uids):
+    if text in uids:
+        return False
+    return not EnlargerModel.objects.filter(slug=text).exists()
+
+
 def lensmodel_check(text, uids):
     if text in uids:
         return False
@@ -407,7 +413,7 @@ class Flash(models.Model):
 # Table to list enlargers
 
 
-class Enlarger(models.Model):
+class EnlargerModel(models.Model):
 
     class EnlargerType(DjangoChoices):
         Diffusion = ChoiceItem()
@@ -422,27 +428,21 @@ class Enlarger(models.Model):
                                      blank=True, null=True, help_text='Manufacturer of this enlarger')
     model = models.CharField(
         help_text='Name/model of the enlarger', max_length=45)
+    disambiguation = models.CharField(
+        help_text='Distinguishing notes for enlarger models with the same name', max_length=45, blank=True, default='')
     negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True,
                                       null=True, help_text='Largest negative size that this enlarger can accept')
     type = models.CharField(choices=EnlargerType.choices,
                             help_text='The type of optical system in the enlarger', max_length=15, blank=True, null=True)
     light_source = models.CharField(
         choices=LightSource.choices, help_text='The type of light source used in the enlarger', max_length=15, blank=True, null=True)
-    acquired = models.DateField(
-        help_text='Date on which the enlarger was acquired', blank=True, null=True)
-    lost = models.DateField(
-        help_text='Date on which the enlarger was lost/sold', blank=True, null=True)
     introduced = models.PositiveIntegerField(
         help_text='Year in which the enlarger was introduced', blank=True, null=True)
     discontinued = models.PositiveIntegerField(
         help_text='Year in which the enlarger was discontinued', blank=True, null=True)
-    cost = MoneyField(help_text='Purchase cost of this enlarger', max_digits=12,
-                      decimal_places=2, blank=True, null=True, default_currency='GBP')
-    lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12,
-                            decimal_places=2, blank=True, null=True, default_currency='GBP')
-    owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(
-        unique_with='owner', editable=False, verbose_name='ID')
+    slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager(blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -453,23 +453,21 @@ class Enlarger(models.Model):
 
     class Meta:
         ordering = ['manufacturer', 'model']
-        verbose_name_plural = "enlargers"
+        verbose_name_plural = "enlarger models"
+        constraints = [
+            models.UniqueConstraint(
+                fields=['manufacturer', 'model', 'disambiguation'], name='enlargermodel_unique_name')
+        ]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            custom_slugify_unique = UniqueSlugify(
+                unique_check=enlargermodel_check, to_lower=True)
+            self.slug = custom_slugify_unique(
+                "{} {}".format(self.manufacturer.name, self.model))
+        return super().save(*args, **kwargs)
 
     def clean(self):
-        # Acquired/lost
-        if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
-            raise ValidationError({
-                'acquired': ValidationError(('Acquired date must be earlier than lost date')),
-                'lost': ValidationError(('Lost date must be later than acquired date')),
-            })
-        if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
-            raise ValidationError({
-                'acquired': ValidationError(('Acquired date must be in the past')),
-            })
-        if self.lost is not None and self.lost > datetime.date(datetime.now()):
-            raise ValidationError({
-                'lost': ValidationError(('Lost date must be in the past')),
-            })
         # Introduced/discontinued
         if self.introduced is not None and self.discontinued is not None and self.introduced > self.discontinued:
             raise ValidationError({
@@ -486,11 +484,54 @@ class Enlarger(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('schema:enlarger-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:enlargermodel-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Enlargers are devices used to create prints from negatives.'
+
+
+class Enlarger(models.Model):
+    enlargermodel = models.ForeignKey(
+        EnlargerModel, on_delete=models.CASCADE, help_text='Model of this enlarger')
+    acquired = models.DateField(
+        help_text='Date on which the enlarger was acquired', blank=True, null=True)
+    lost = models.DateField(
+        help_text='Date on which the enlarger was lost/sold', blank=True, null=True)
+    cost = MoneyField(help_text='Purchase cost of this enlarger', max_digits=12,
+                      decimal_places=2, blank=True, null=True, default_currency='GBP')
+    lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12,
+                            decimal_places=2, blank=True, null=True, default_currency='GBP')
+    own = models.BooleanField(
+        help_text='Whether the enlarger is currently in your collection', default=True)
+    owner = CurrentUserField(editable=False)
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
+
+    def clean(self):
+        # Acquired/lost
+        if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
+            raise ValidationError({
+                'acquired': ValidationError(('Acquired date must be earlier than lost date')),
+                'lost': ValidationError(('Lost date must be later than acquired date')),
+            })
+        if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
+            raise ValidationError({
+                'acquired': ValidationError(('Acquired date must be in the past')),
+            })
+        if self.lost is not None and self.lost > datetime.date(datetime.now()):
+            raise ValidationError({
+                'lost': ValidationError(('Lost date must be in the past')),
+            })
+
+    def __str__(self):
+        mystr = "%s %s" % (
+            self.enlargermodel.manufacturer.name, self.enlargermodel.model)
+        ownchar = '[SOLD] ' if self.own is False else ''
+        return ownchar + mystr
+
+    def get_absolute_url(self):
+        return reverse('schema:enlarger-detail', kwargs={'id_owner': self.id_owner})
 
 # Metering modes as defined by EXIF tag MeteringMode
 

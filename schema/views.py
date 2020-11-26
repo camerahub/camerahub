@@ -16,28 +16,28 @@ from watson.views import SearchMixin
 from taggit.models import Tag
 from dal import autocomplete
 
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
 from schema.models import Flash, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
 
-from schema.tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, FilmStockTable, FilterTable
+from schema.tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, EnlargerModelTable, FilmStockTable, FilterTable
 from schema.tables import FlashTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
 from schema.tables import MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable
 from schema.tables import ProcessTable, ScanTable, NegativeTable, FilmTable, TeleconverterTable, TonerTable
 
-from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraSellForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
+from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraSellForm, CameraModelForm, DeveloperForm, EnlargerForm, EnlargerModelForm, FilmStockForm, FilterForm
 from schema.forms import FlashForm, FormatForm, LensForm, LensSellForm, LensModelForm, ManufacturerForm
 from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
 from schema.forms import ProcessForm, ScanForm, NegativeForm, FilmForm, FilmAddForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TonerForm
 
 from schema.filters import AccessoryFilter, BatteryFilter, BulkFilmFilter, CameraFilter, CameraModelFilter, DeveloperFilter
-from schema.filters import EnlargerFilter, FilmFilter, FilmStockFilter, FlashFilter, LensFilter, LensModelFilter
+from schema.filters import EnlargerFilter, EnlargerModelFilter, FilmFilter, FilmStockFilter, FlashFilter, LensFilter, LensModelFilter
 from schema.filters import MountAdapterFilter, MountFilter, NegativeFilter, OrderFilter, PaperStockFilter, PrintFilter
 from schema.filters import TeleconverterFilter, TonerFilter
 
 from schema.formhelpers import AccessoryFormHelper, BatteryFormHelper, BulkFilmFormHelper, CameraFormHelper, CameraModelFormHelper
-from schema.formhelpers import DeveloperFormHelper, EnlargerFormHelper, FilmFormHelper, FilmStockFormHelper, FlashFormHelper
+from schema.formhelpers import DeveloperFormHelper, EnlargerFormHelper, EnlargerModelFormHelper, FilmFormHelper, FilmStockFormHelper, FlashFormHelper
 from schema.formhelpers import LensFormHelper, LensModelFormHelper, MountAdapterFormHelper, MountFormHelper, NegativeFormHelper
 from schema.formhelpers import OrderFormHelper, PaperStockFormHelper, PrintFormHelper, TeleconverterFormHelper, TonerFormHelper
 
@@ -351,6 +351,27 @@ class DeveloperUpdate(LoginRequiredMixin, UpdateView):
     form_class = DeveloperForm
     template_name = 'update.html'
 
+
+class EnlargerModelList(LoginRequiredMixin, PagedFilteredTableView):
+    model = EnlargerModel
+    table_class = EnlargerModelTable
+    filterset_class = EnlargerModelFilter
+    formhelper_class = EnlargerModelFormHelper
+
+
+class EnlargerModelDetail(LoginRequiredMixin, generic.DetailView):
+    model = EnlargerModel
+
+class EnlargerModelCreate(LoginRequiredMixin, CreateView):
+    model = EnlargerModel
+    form_class = EnlargerModelForm
+    template_name = 'create.html'
+
+
+class EnlargerModelUpdate(LoginRequiredMixin, UpdateView):
+    model = EnlargerModel
+    form_class = EnlargerModelForm
+    template_name = 'update.html'
 
 class EnlargerList(LoginRequiredMixin, PagedFilteredTableView):
     model = Enlarger

@@ -3,7 +3,7 @@ from django_currentuser.middleware import get_current_user
 from taggit.forms import TagField
 
 # Import all models that need admin pages
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock
 from schema.models import Flash, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
 from schema.models import Negative, Film, Teleconverter, Toner
@@ -98,10 +98,15 @@ class DeveloperFilter(FilterSet):
         fields = ('manufacturer', 'for_paper', 'for_film')
 
 
+class EnlargerModelFilter(FilterSet):
+    class Meta:
+        model = EnlargerModel
+        fields = ('manufacturer', 'negative_size', 'type', 'light_source')
+
 class EnlargerFilter(FilterSet):
     class Meta:
         model = Enlarger
-        fields = ('manufacturer', 'negative_size', 'type', 'light_source')
+        fields = ('enlargermodel', )
 
     @property
     def qs(self):
