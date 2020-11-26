@@ -9,7 +9,7 @@ from dal import autocomplete
 from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput, YearPickerInput, MonthPickerInput, TimePickerInput
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
-from schema.models import Flash, Format, Lens, LensModel, Manufacturer
+from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
 
@@ -453,14 +453,11 @@ class FilterForm(ModelForm):
         )
 
 
-class FlashForm(ModelForm):
+class FlashModelForm(ModelForm):
     class Meta:
-        model = Flash
+        model = FlashModel
         fields = ['manufacturer', 'model', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
-                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'own', 'acquired', 'cost']
-        widgets = {
-            'acquired': DatePickerInput(format='%Y-%m-%d'),
-        }
+                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage']
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
             fields.remove('battery_type')
@@ -491,6 +488,24 @@ class FlashForm(ModelForm):
                      'battery_type',
                      'battery_qty',
                      ),
+            FormActionButtons
+        )
+
+class FlashForm(ModelForm):
+    class Meta:
+        model = Flash
+        fields = ['flashmodel', 'own', 'acquired', 'cost']
+        widgets = {
+            'acquired': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset('Summary',
+                     'flashmodel',
+                     ),
             Fieldset('Ownership',
                      'own',
                      'acquired',
@@ -498,7 +513,6 @@ class FlashForm(ModelForm):
                      ),
             FormActionButtons
         )
-
 
 class FormatForm(ModelForm):
     class Meta:

@@ -7,7 +7,7 @@ from schema.funcs import boolicon, colouricon
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
-from schema.models import Flash, Format, Lens, LensModel, Manufacturer
+from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
 
@@ -225,23 +225,34 @@ class FilterTable(tables.Table):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:filter-detail', args=[record.id]), value)
 
 
+class FlashModelTable(tables.Table):
+    class Meta:
+        attrs = {"class": "table table-hover"}
+        model = FlashModel
+        fields = ('model', 'guide_number', 'ttl')
+
+    @classmethod
+    def render_model(cls, value, record):
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:flashmodel-detail', args=[record.slug]), record.manufacturer, value)
+
+    @classmethod
+    def render_ttl(cls, value):
+        return format_html(boolicon(value))
+
+
 class FlashTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Flash
-        fields = ('id_owner', 'model', 'guide_number', 'ttl')
+        fields = ('id_owner', 'flashmodel')
 
     @classmethod
     def render_id_owner(cls, value):
         return format_html("<a href=\"{}\">#{}</a>", reverse('schema:flash-detail', args=[value]), value)
 
     @classmethod
-    def render_model(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:flash-detail', args=[record.id_owner]), record.manufacturer, value)
-
-    @classmethod
-    def render_ttl(cls, value):
-        return format_html(boolicon(value))
+    def render_flashmodel(cls, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:flashmodel-detail', args=[record.flashmodel.slug]), value)
 
 
 class FormatTable(tables.Table):

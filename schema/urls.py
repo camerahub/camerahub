@@ -107,6 +107,14 @@ urlpatterns = [
     path('flash/<int:id_owner>/update',
          views.FlashUpdate.as_view(), name='flash-update'),
 
+    path('flashmodel/', views.FlashModelList.as_view(), name='flashmodel-list'),
+    path('flashmodel/<slug:slug>', views.FlashModelDetail.as_view(),
+         name='flashmodel-detail'),
+    path('flashmodel/create/', views.FlashModelCreate.as_view(),
+         name='flashmodel-create'),
+    path('flashmodel/<slug:slug>/update',
+         views.FlashModelUpdate.as_view(), name='flashmodel-update'),
+
     path('format/', views.FormatList.as_view(), name='format-list'),
     path('format/<int:pk>', views.FormatDetail.as_view(), name='format-detail'),
     path('format/create/', views.FormatCreate.as_view(), name='format-create'),

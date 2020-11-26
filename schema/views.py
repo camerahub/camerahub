@@ -17,27 +17,27 @@ from taggit.models import Tag
 from dal import autocomplete
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
-from schema.models import Flash, Format, Lens, LensModel, Manufacturer
+from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
 
 from schema.tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, EnlargerModelTable, FilmStockTable, FilterTable
-from schema.tables import FlashTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
+from schema.tables import FlashTable, FlashModelTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
 from schema.tables import MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable
 from schema.tables import ProcessTable, ScanTable, NegativeTable, FilmTable, TeleconverterTable, TonerTable
 
 from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraSellForm, CameraModelForm, DeveloperForm, EnlargerForm, EnlargerModelForm, FilmStockForm, FilterForm
-from schema.forms import FlashForm, FormatForm, LensForm, LensSellForm, LensModelForm, ManufacturerForm
+from schema.forms import FlashForm, FlashModelForm, FormatForm, LensForm, LensSellForm, LensModelForm, ManufacturerForm
 from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
 from schema.forms import ProcessForm, ScanForm, NegativeForm, FilmForm, FilmAddForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TonerForm
 
 from schema.filters import AccessoryFilter, BatteryFilter, BulkFilmFilter, CameraFilter, CameraModelFilter, DeveloperFilter
-from schema.filters import EnlargerFilter, EnlargerModelFilter, FilmFilter, FilmStockFilter, FlashFilter, LensFilter, LensModelFilter
+from schema.filters import EnlargerFilter, EnlargerModelFilter, FilmFilter, FilmStockFilter, FlashFilter, FlashModelFilter, LensFilter, LensModelFilter
 from schema.filters import MountAdapterFilter, MountFilter, NegativeFilter, OrderFilter, PaperStockFilter, PrintFilter
 from schema.filters import TeleconverterFilter, TonerFilter
 
 from schema.formhelpers import AccessoryFormHelper, BatteryFormHelper, BulkFilmFormHelper, CameraFormHelper, CameraModelFormHelper
-from schema.formhelpers import DeveloperFormHelper, EnlargerFormHelper, EnlargerModelFormHelper, FilmFormHelper, FilmStockFormHelper, FlashFormHelper
+from schema.formhelpers import DeveloperFormHelper, EnlargerFormHelper, EnlargerModelFormHelper, FilmFormHelper, FilmStockFormHelper, FlashFormHelper, FlashModelFormHelper
 from schema.formhelpers import LensFormHelper, LensModelFormHelper, MountAdapterFormHelper, MountFormHelper, NegativeFormHelper
 from schema.formhelpers import OrderFormHelper, PaperStockFormHelper, PrintFormHelper, TeleconverterFormHelper, TonerFormHelper
 
@@ -461,6 +461,29 @@ class FilterCreate(LoginRequiredMixin, CreateView):
 class FilterUpdate(LoginRequiredMixin, UpdateView):
     model = Filter
     form_class = FilterForm
+    template_name = 'update.html'
+
+
+class FlashModelList(LoginRequiredMixin, PagedFilteredTableView):
+    model = FlashModel
+    table_class = FlashModelTable
+    filterset_class = FlashModelFilter
+    formhelper_class = FlashModelFormHelper
+
+
+class FlashModelDetail(LoginRequiredMixin, generic.DetailView):
+    model = FlashModel
+
+
+class FlashModelCreate(LoginRequiredMixin, CreateView):
+    model = FlashModel
+    form_class = FlashModelForm
+    template_name = 'create.html'
+
+
+class FlashModelUpdate(LoginRequiredMixin, UpdateView):
+    model = FlashModel
+    form_class = FlashModelForm
     template_name = 'update.html'
 
 

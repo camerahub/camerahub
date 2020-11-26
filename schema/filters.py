@@ -4,7 +4,7 @@ from taggit.forms import TagField
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock
-from schema.models import Flash, Lens, LensModel
+from schema.models import Flash, FlashModel, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
 from schema.models import Negative, Film, Teleconverter, Toner
 
@@ -122,9 +122,9 @@ class FilmStockFilter(FilterSet):
         fields = ('manufacturer', 'colour', 'panchromatic', 'process')
 
 
-class FlashFilter(FilterSet):
+class FlashModelFilter(FilterSet):
     class Meta:
-        model = Flash
+        model = FlashModel
         fields = ('manufacturer',
                   'pc_sync',
                   'hot_shoe',
@@ -135,6 +135,11 @@ class FlashFilter(FilterSet):
                   'zoom',
                   'ttl',
                   )
+
+class FlashFilter(FilterSet):
+    class Meta:
+        model = Flash
+        fields = ('flashmodel',)
 
     @property
     def qs(self):

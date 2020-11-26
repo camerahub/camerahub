@@ -2,7 +2,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Field
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock
-from schema.models import Flash, Lens, LensModel
+from schema.models import Flash, FlashModel, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
 from schema.models import Negative, Film, Teleconverter, Toner
 
@@ -137,8 +137,8 @@ class FilmStockFormHelper(CustomFormHelper):
     )
 
 
-class FlashFormHelper(CustomFormHelper):
-    model = Flash
+class FlashModelFormHelper(CustomFormHelper):
+    model = FlashModel
     layout = Layout(
         Row(
             Field('manufacturer', css_class="form-control-sm"),
@@ -150,6 +150,15 @@ class FlashFormHelper(CustomFormHelper):
             Field('tilt_head', css_class="form-control-sm"),
             Field('zoom', css_class="form-control-sm"),
             Field('ttl', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
+        )
+    )
+
+class FlashFormHelper(CustomFormHelper):
+    model = Flash
+    layout = Layout(
+        Row(
+            Field('flashmodel', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )

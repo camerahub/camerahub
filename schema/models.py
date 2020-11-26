@@ -33,6 +33,10 @@ def enlargermodel_check(text, uids):
         return False
     return not EnlargerModel.objects.filter(slug=text).exists()
 
+def flashmodel_check(text, uids):
+    if text in uids:
+        return False
+    return not FlashModel.objects.filter(slug=text).exists()
 
 def lensmodel_check(text, uids):
     if text in uids:
@@ -342,7 +346,7 @@ class Format(models.Model):
 # Table to catalog flashes, flashguns and speedlights
 
 
-class Flash(models.Model):
+class FlashModel(models.Model):
     model = models.CharField(
         help_text='Model name/number of the flash', max_length=45)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
@@ -375,15 +379,9 @@ class Flash(models.Model):
         verbose_name='TTL', help_text='Whether this flash supports TTL metering', blank=True, null=True)
     trigger_voltage = models.DecimalField(
         help_text='Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1, blank=True, null=True)
-    own = models.BooleanField(
-        help_text='Whether the flash is currently in your collection', default=True)
-    acquired = models.DateField(
-        help_text='Date this flash was acquired', blank=True, null=True)
-    cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
-                      decimal_places=2, blank=True, null=True, default_currency='GBP')
-    owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(
-        unique_with='owner', editable=False, verbose_name='ID')
+    slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager(blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -394,7 +392,15 @@ class Flash(models.Model):
 
     class Meta:
         ordering = ['manufacturer', 'model']
-        verbose_name_plural = "flashes"
+        verbose_name_plural = "flash models"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            custom_slugify_unique = UniqueSlugify(
+                unique_check=flashmodel_check, to_lower=True)
+            self.slug = custom_slugify_unique(
+                "{} {}".format(self.manufacturer.name, self.model))
+        return super().save(*args, **kwargs)
 
     def clean(self):
         # if battery_type is set, need to supply battery_qty
@@ -402,6 +408,28 @@ class Flash(models.Model):
             raise ValidationError({
                 'battery_qty': ValidationError(('Must specify number of batteries')),
             })
+
+    def get_absolute_url(self):
+        return reverse('schema:flashmodel-detail', kwargs={'slug': self.slug})
+
+    @classmethod
+    def description(cls):
+        return 'Flashes are any kind of external device to provide light. This includes battery-powered and mains-powered flashes.'
+
+
+class Flash(models.Model):
+    flashmodel = models.ForeignKey(FlashModel, on_delete=models.CASCADE, help_text='Model of this flash')
+    own = models.BooleanField(help_text='Whether the flash is currently in your collection', default=True)
+    acquired = models.DateField(help_text='Date this flash was acquired', blank=True, null=True)
+    cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
+    owner = CurrentUserField(editable=False)
+    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+
+    def __str__(self):
+        return str(self.flashmodel)
+
+    class Meta:
+        verbose_name_plural = "flashes"
 
     def get_absolute_url(self):
         return reverse('schema:flash-detail', kwargs={'id_owner': self.id_owner})
