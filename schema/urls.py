@@ -227,12 +227,21 @@ urlpatterns = [
 
     path('teleconverter/', views.TeleconverterList.as_view(),
          name='teleconverter-list'),
-    path('teleconverter/<int:id_owner>', views.TeleconverterDetail.as_view(),
-         name='teleconverter-detail'),
+    path('teleconverter/<int:id_owner>',
+         views.TeleconverterDetail.as_view(), name='teleconverter-detail'),
     path('teleconverter/create/', views.TeleconverterCreate.as_view(),
          name='teleconverter-create'),
     path('teleconverter/<int:id_owner>/update',
          views.TeleconverterUpdate.as_view(), name='teleconverter-update'),
+
+    path('teleconvertermodel/', views.TeleconverterModelList.as_view(),
+         name='teleconvertermodel-list'),
+    path('teleconvertermodel/<slug:slug>',
+         views.TeleconverterModelDetail.as_view(), name='teleconvertermodel-detail'),
+    path('teleconvertermodel/create/', views.TeleconverterModelCreate.as_view(),
+         name='teleconvertermodel-create'),
+    path('teleconvertermodel/<slug:slug>/update',
+         views.TeleconverterModelUpdate.as_view(), name='teleconvertermodel-update'),
 
     path('toner/', views.TonerList.as_view(), name='toner-list'),
     path('toner/<slug:slug>', views.TonerDetail.as_view(), name='toner-detail'),

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
-from schema.models import Process, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
+from schema.models import Process, Scan, Negative, Film, ShutterSpeed, Teleconverter, TeleconverterModel, Toner
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
 from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
@@ -323,5 +323,7 @@ class TeleconverterAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Teleconverter, TeleconverterAdmin)
+
+admin.site.register(TeleconverterModel, SimpleHistoryAdmin)
 
 admin.site.register(Toner, SimpleHistoryAdmin)

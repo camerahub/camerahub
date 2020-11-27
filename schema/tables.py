@@ -9,7 +9,7 @@ from schema.funcs import boolicon, colouricon
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
 from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
-from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
+from schema.models import Process, Scan, Negative, Film, Teleconverter, TeleconverterModel, Toner
 
 
 class AccessoryTable(tables.Table):
@@ -179,6 +179,7 @@ class EnlargerModelTable(tables.Table):
     @classmethod
     def render_model(cls, value, record):
         return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:enlargermodel-detail', args=[record.slug]), record.manufacturer, value)
+
 
 class EnlargerTable(tables.Table):
     class Meta:
@@ -581,7 +582,7 @@ class TeleconverterTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Teleconverter
-        fields = ('id_owner', 'model', 'mount', 'factor')
+        fields = ('id_owner', 'teleconvertermodel',)
 
     @classmethod
     def render_id_owner(cls, value):
@@ -589,12 +590,23 @@ class TeleconverterTable(tables.Table):
 
     @classmethod
     def render_model(cls, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:teleconvertermodel-detail', args=[record.teleconvertermodel.slug]), value)
+
+
+class TeleconverterModelTable(tables.Table):
+    class Meta:
+        attrs = {"class": "table table-hover"}
+        model = TeleconverterModel
+        fields = ('model', 'mount', 'factor')
+
+    @classmethod
+    def render_model(cls, value, record):
         if record.manufacturer is not None:
             mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
-                'teleconverter-detail', args=[record.id_owner]), record.manufacturer, value)
+                'schema:teleconvertermodel-detail', args=[record.slug]), record.manufacturer, value)
         else:
             mystr = format_html(
-                "<a href=\"{}\">{}</a>", reverse('schema:teleconverter-detail', args=[record.id]), value)
+                "<a href=\"{}\">{}</a>", reverse('schema:teleconvertermodel-detail', args=[record.slug]), value)
         return mystr
 
     @classmethod

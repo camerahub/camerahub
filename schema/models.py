@@ -33,10 +33,18 @@ def enlargermodel_check(text, uids):
         return False
     return not EnlargerModel.objects.filter(slug=text).exists()
 
+
 def flashmodel_check(text, uids):
     if text in uids:
         return False
     return not FlashModel.objects.filter(slug=text).exists()
+
+
+def teleconvertermodel_check(text, uids):
+    if text in uids:
+        return False
+    return not TeleconverterModel.objects.filter(slug=text).exists()
+
 
 def lensmodel_check(text, uids):
     if text in uids:
@@ -418,12 +426,17 @@ class FlashModel(models.Model):
 
 
 class Flash(models.Model):
-    flashmodel = models.ForeignKey(FlashModel, on_delete=models.CASCADE, help_text='Model of this flash')
-    own = models.BooleanField(help_text='Whether the flash is currently in your collection', default=True)
-    acquired = models.DateField(help_text='Date this flash was acquired', blank=True, null=True)
-    cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12, decimal_places=2, blank=True, null=True, default_currency='GBP')
+    flashmodel = models.ForeignKey(
+        FlashModel, on_delete=models.CASCADE, help_text='Model of this flash')
+    own = models.BooleanField(
+        help_text='Whether the flash is currently in your collection', default=True)
+    acquired = models.DateField(
+        help_text='Date this flash was acquired', blank=True, null=True)
+    cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
+                      decimal_places=2, blank=True, null=True, default_currency='GBP')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return str(self.flashmodel)
@@ -728,7 +741,7 @@ class Process(models.Model):
 # Table to catalog teleconverters (multipliers)
 
 
-class Teleconverter(models.Model):
+class TeleconverterModel(models.Model):
     model = models.CharField(
         help_text='Model name of this teleconverter', max_length=45)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
@@ -743,9 +756,9 @@ class Teleconverter(models.Model):
         help_text='Number of optical groups used in this teleconverter', blank=True, null=True)
     multicoated = models.BooleanField(
         help_text='Whether this teleconverter is multi-coated', blank=True, null=True)
-    owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(
-        unique_with='owner', editable=False, verbose_name='ID')
+    slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager(blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -756,7 +769,7 @@ class Teleconverter(models.Model):
 
     class Meta:
         ordering = ['manufacturer', 'model']
-        verbose_name_plural = "teleconverters"
+        verbose_name_plural = "teleconverter models"
 
     def clean(self):
         # Groups/elements
@@ -765,6 +778,35 @@ class Teleconverter(models.Model):
                 'groups': ValidationError(('Cannot have more groups than elements')),
                 'elements': ValidationError(('Cannot have fewer elements than groups')),
             })
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            custom_slugify_unique = UniqueSlugify(
+                unique_check=teleconvertermodel_check, to_lower=True)
+            self.slug = custom_slugify_unique(
+                "{} {}".format(self.manufacturer.name, self.model))
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('schema:teleconvertermodel-detail', kwargs={'slug': self.slug})
+
+    @classmethod
+    def description(cls):
+        return 'Teleconverters are extra lenses that can be used to increase the focal length of a lens. They are sometimes known as doublers.'
+
+
+class Teleconverter(models.Model):
+    teleconvertermodel = models.ForeignKey(
+        TeleconverterModel, on_delete=models.CASCADE, help_text='Model of this teleconverter')
+    owner = CurrentUserField(editable=False)
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
+
+    def __str__(self):
+        return str(self.teleconvertermodel)
+
+    class Meta:
+        verbose_name_plural = "teleconverters"
 
     def get_absolute_url(self):
         return reverse('schema:teleconverter-detail', kwargs={'id_owner': self.id_owner})
@@ -1899,7 +1941,7 @@ class Negative(models.Model):
                                    max_digits=4, decimal_places=1, blank=True, null=True)
     filter = models.ForeignKey(Filter, on_delete=models.CASCADE, blank=True,
                                null=True, help_text='Filter used when taking this negative')
-    teleconverter = models.ForeignKey(Teleconverter, on_delete=models.CASCADE,
+    teleconverter = models.ForeignKey(TeleconverterModel, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Teleconverter used when taking this negative')
     notes = models.TextField(
         help_text='Extra freeform notes about this exposure', blank=True, null=True)

@@ -11,7 +11,7 @@ from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput, Year
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
 from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
-from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
+from schema.models import Process, Scan, Negative, Film, Teleconverter, TeleconverterModel, Toner
 
 FormActionButtons = Layout(
     FormActions(
@@ -1181,6 +1181,22 @@ class FilmArchiveForm(ModelForm):
 class TeleconverterForm(ModelForm):
     class Meta:
         model = Teleconverter
+        fields = ['teleconvertermodel',]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset('Summary',
+                     'teleconvertermodel',
+                     ),
+            FormActionButtons
+        )
+
+
+class TeleconverterModelForm(ModelForm):
+    class Meta:
+        model = TeleconverterModel
         fields = ['model', 'manufacturer', 'mount',
                   'factor', 'elements', 'groups', 'multicoated']
 
