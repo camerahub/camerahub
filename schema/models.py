@@ -428,12 +428,18 @@ class FlashModel(models.Model):
 class Flash(models.Model):
     flashmodel = models.ForeignKey(
         FlashModel, on_delete=models.CASCADE, help_text='Model of this flash')
+    serial = models.CharField(
+        help_text='Serial number of the flash', max_length=45, blank=True, null=True)
     own = models.BooleanField(
         help_text='Whether the flash is currently in your collection', default=True)
     acquired = models.DateField(
         help_text='Date this flash was acquired', blank=True, null=True)
     cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
                       decimal_places=2, blank=True, null=True, default_currency='GBP')
+    lost = models.DateField(
+        help_text='Date on which the flash was lost/sold/etc', blank=True, null=True)
+    lost_price = MoneyField(help_text='Sale price of the flash', max_digits=12,
+                            decimal_places=2, blank=True, null=True, default_currency='GBP')
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
@@ -535,12 +541,16 @@ class EnlargerModel(models.Model):
 class Enlarger(models.Model):
     enlargermodel = models.ForeignKey(
         EnlargerModel, on_delete=models.CASCADE, help_text='Model of this enlarger')
+    serial = models.CharField(
+        help_text='Serial number of the enlarger', max_length=45, blank=True, null=True)
+    own = models.BooleanField(
+        help_text='Whether the enlarger is currently in your collection', default=True)
     acquired = models.DateField(
         help_text='Date on which the enlarger was acquired', blank=True, null=True)
-    lost = models.DateField(
-        help_text='Date on which the enlarger was lost/sold', blank=True, null=True)
     cost = MoneyField(help_text='Purchase cost of this enlarger', max_digits=12,
                       decimal_places=2, blank=True, null=True, default_currency='GBP')
+    lost = models.DateField(
+        help_text='Date on which the enlarger was lost/sold', blank=True, null=True)
     lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12,
                             decimal_places=2, blank=True, null=True, default_currency='GBP')
     own = models.BooleanField(
@@ -798,6 +808,18 @@ class TeleconverterModel(models.Model):
 class Teleconverter(models.Model):
     teleconvertermodel = models.ForeignKey(
         TeleconverterModel, on_delete=models.CASCADE, help_text='Model of this teleconverter')
+    serial = models.CharField(
+        help_text='Serial number of the teleconverter', max_length=45, blank=True, null=True)
+    own = models.BooleanField(
+        help_text='Whether the teleconverter is currently in your collection', default=True)
+    acquired = models.DateField(
+        help_text='Date on which the teleconverter was acquired', blank=True, null=True)
+    cost = MoneyField(help_text='Price paid for this teleconverter', max_digits=12,
+                      decimal_places=2, blank=True, null=True, default_currency='GBP')
+    lost = models.DateField(
+        help_text='Date on which the teleconverter was lost/sold/etc', blank=True, null=True)
+    lost_price = MoneyField(help_text='Sale price of the teleconverter', max_digits=12,
+                            decimal_places=2, blank=True, null=True, default_currency='GBP')
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')

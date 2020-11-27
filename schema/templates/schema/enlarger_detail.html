@@ -1,5 +1,6 @@
 {% extends "detail.html" %}
 {% load static %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -17,11 +18,23 @@
     <td><a href="{% url 'schema:enlargermodel-detail' object.enlargermodel.slug %}">{{ object.enlargermodel }}</a></td>
   </tr>
   {% endif %}
+  {% if object.serial is not None %}
+  <tr>
+    <td>Serial</td>
+    <td><code>{{ object.serial }}</code></td>
+  </tr>
+  {% endif %}
 
   <tr>
     <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30"
         alt="Ownership">&nbsp;<a href="#ownership">Ownership</a></th>
   </tr>
+  {% if object.own is not None %}
+  <tr>
+    <td>Own</td>
+    <td>{{ object.own|boolicontag }}</td>
+  </tr>
+  {% endif %}
   {% if object.acquired is not None %}
   <tr>
     <td>Acquired</td>

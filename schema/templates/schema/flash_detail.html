@@ -12,12 +12,12 @@
     <td>Flash model</td>
     <td><a href="{% url 'schema:flashmodel-detail' object.flashmodel.slug %}">{{ object.flashmodel }}</a></td>
   </tr>
-  {% if object.manufacturer is not None %}
+  {% if object.serial is not None %}
   <tr>
-    <td>Manufacturer</td>
-    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
+    <td>Serial</td>
+    <td><code>{{ object.serial }}</code></td>
   </tr>
-  {% endif %}  
+  {% endif %}
 
   <tr>
     <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30"
@@ -25,7 +25,7 @@
   </tr>
   {% if object.own is not None %}
   <tr>
-    <td>Owned</td>
+    <td>Own</td>
     <td>{{ object.own|boolicontag }}</td>
   </tr>
   {% endif %}
@@ -41,5 +41,17 @@
     <td>{{ object.cost }}</td>
   </tr>
   {% endif %}
-  </table>
+  {% if object.lost is not None %}
+  <tr>
+    <td>Lost</td>
+    <td>{{ object.lost }}</td>
+  </tr>
+  {% endif %}
+  {% if object.lost_price is not None %}
+  <tr>
+    <td>Lost price</td>
+    <td>{{ object.lost_price }}</td>
+  </tr>
+  {% endif %}
+</table>
 {% endblock %}
