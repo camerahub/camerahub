@@ -62,6 +62,7 @@ jobs:
           poetry run python manage.py migrate
 
   build:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
