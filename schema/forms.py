@@ -962,6 +962,7 @@ class FilmForm(ModelForm):
             'date_loaded': DatePickerInput(format='%Y-%m-%d'),
             'date_processed': DatePickerInput(format='%Y-%m-%d'),
             'purchase_date': DatePickerInput(format='%Y-%m-%d'),
+            'bulk_film_loaded': DatePickerInput(format='%Y-%m-%d'),
             'expiry_date': MonthPickerInput(format='%Y-%m-01'),
             'dev_time': TimePickerInput(format='%H:%M:%S',
                                         options={
@@ -1029,6 +1030,7 @@ class FilmAddForm(ModelForm):
         widgets = {
             'purchase_date': DatePickerInput(format='%Y-%m-%d'),
             'expiry_date': MonthPickerInput(format='%Y-%m-01'),
+            'bulk_film_loaded': DatePickerInput(format='%Y-%m-%d'),
         }
 
     def __init__(self, *args, **kwargs):
