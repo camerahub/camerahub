@@ -148,7 +148,7 @@ admin.site.register(FlashModel, SimpleHistoryAdmin)
 
 class FlashAdmin(admin.ModelAdmin):
     exclude = ('owner',)
-    
+
 admin.site.register(Flash, FlashAdmin)
 
 admin.site.register(Format, SimpleHistoryAdmin)
