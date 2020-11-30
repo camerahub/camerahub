@@ -29,7 +29,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install GDAL for Leaflet
-        run: sudo apt install libgdal-dev
+        run: sudo apt update && sudo apt install libgdal-dev
       #----------------------------------------------
       #  -----  install & configure poetry  -----      
       #----------------------------------------------
