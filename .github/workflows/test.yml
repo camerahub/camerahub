@@ -29,7 +29,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install GDAL for Leaflet
-        run: sudo apt install libgdal-dev
+        run: sudo apt update && sudo apt install libgdal-dev
       #----------------------------------------------
       #  -----  install & configure poetry  -----      
       #----------------------------------------------
@@ -51,7 +51,7 @@ jobs:
       # install dependencies if cache does not exist 
       #----------------------------------------------
       - name: Install dependencies
-        run: poetry install --dev
+        run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - name: Run pylint
         run: "poetry run pylint --rcfile=.pylintrc **/*.py"
@@ -62,6 +62,7 @@ jobs:
           poetry run python manage.py migrate
 
   build:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

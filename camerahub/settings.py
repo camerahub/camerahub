@@ -25,10 +25,10 @@ SECRET_KEY = os.getenv('CAMERAHUB_SECRET_KEY', 'OverrideMe!')
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.getenv('CAMERAHUB_PROD') == 'true':
     DEBUG = False
-    ALLOWED_HOSTS = [os.getenv('CAMERAHUB_DOMAIN', 'camerahub.info')]
 else:
     DEBUG = True
-    ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
