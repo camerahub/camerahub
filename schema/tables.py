@@ -6,10 +6,10 @@ from django.urls import reverse
 from schema.funcs import boolicon, colouricon
 
 # Import all models that need admin pages
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from schema.models import Flash, Format, Lens, LensModel, Manufacturer
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
+from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
-from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
+from schema.models import Process, Scan, Negative, Film, Teleconverter, TeleconverterModel, Toner
 
 
 class AccessoryTable(tables.Table):
@@ -170,19 +170,30 @@ class DeveloperTable(tables.Table):
         return format_html(boolicon(value))
 
 
+class EnlargerModelTable(tables.Table):
+    class Meta:
+        attrs = {"class": "table table-hover"}
+        model = EnlargerModel
+        fields = ('model', 'negative_size', 'type')
+
+    @classmethod
+    def render_model(cls, value, record):
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:enlargermodel-detail', args=[record.slug]), record.manufacturer, value)
+
+
 class EnlargerTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Enlarger
-        fields = ('id_owner', 'model', 'negative_size', 'type')
+        fields = ('id_owner', 'enlargermodel')
 
     @classmethod
     def render_id_owner(cls, value):
         return format_html("<a href=\"{}\">#{}</a>", reverse('schema:enlarger-detail', args=[value]), value)
 
     @classmethod
-    def render_model(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:enlarger-detail', args=[record.id_owner]), record.manufacturer, value)
+    def render_enlargermodel(cls, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:enlargermodel-detail', args=[record.enlargermodel.slug]), value)
 
 
 class FilmStockTable(tables.Table):
@@ -215,23 +226,34 @@ class FilterTable(tables.Table):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:filter-detail', args=[record.id]), value)
 
 
+class FlashModelTable(tables.Table):
+    class Meta:
+        attrs = {"class": "table table-hover"}
+        model = FlashModel
+        fields = ('model', 'guide_number', 'ttl')
+
+    @classmethod
+    def render_model(cls, value, record):
+        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:flashmodel-detail', args=[record.slug]), record.manufacturer, value)
+
+    @classmethod
+    def render_ttl(cls, value):
+        return format_html(boolicon(value))
+
+
 class FlashTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Flash
-        fields = ('id_owner', 'model', 'guide_number', 'ttl')
+        fields = ('id_owner', 'flashmodel')
 
     @classmethod
     def render_id_owner(cls, value):
         return format_html("<a href=\"{}\">#{}</a>", reverse('schema:flash-detail', args=[value]), value)
 
     @classmethod
-    def render_model(cls, value, record):
-        return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:flash-detail', args=[record.id_owner]), record.manufacturer, value)
-
-    @classmethod
-    def render_ttl(cls, value):
-        return format_html(boolicon(value))
+    def render_flashmodel(cls, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:flashmodel-detail', args=[record.flashmodel.slug]), value)
 
 
 class FormatTable(tables.Table):
@@ -560,7 +582,7 @@ class TeleconverterTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Teleconverter
-        fields = ('id_owner', 'model', 'mount', 'factor')
+        fields = ('id_owner', 'teleconvertermodel',)
 
     @classmethod
     def render_id_owner(cls, value):
@@ -568,12 +590,23 @@ class TeleconverterTable(tables.Table):
 
     @classmethod
     def render_model(cls, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:teleconvertermodel-detail', args=[record.teleconvertermodel.slug]), value)
+
+
+class TeleconverterModelTable(tables.Table):
+    class Meta:
+        attrs = {"class": "table table-hover"}
+        model = TeleconverterModel
+        fields = ('model', 'mount', 'factor')
+
+    @classmethod
+    def render_model(cls, value, record):
         if record.manufacturer is not None:
             mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
-                'teleconverter-detail', args=[record.id_owner]), record.manufacturer, value)
+                'schema:teleconvertermodel-detail', args=[record.slug]), record.manufacturer, value)
         else:
             mystr = format_html(
-                "<a href=\"{}\">{}</a>", reverse('schema:teleconverter-detail', args=[record.id]), value)
+                "<a href=\"{}\">{}</a>", reverse('schema:teleconvertermodel-detail', args=[record.slug]), value)
         return mystr
 
     @classmethod

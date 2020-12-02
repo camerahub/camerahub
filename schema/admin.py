@@ -1,9 +1,9 @@
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
-from schema.models import Process, Scan, Negative, Film, ShutterSpeed, Teleconverter, Toner
+from schema.models import Process, Scan, Negative, Film, ShutterSpeed, Teleconverter, TeleconverterModel, Toner
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
-from schema.models import Flash, Format, Lens, LensModel, Manufacturer
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
+from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
 
 # The text to put at the top of each admin page, as an <h1> (a string). By default, this is “Django administration”.
 admin.site.site_header = 'CameraHub'
@@ -126,6 +126,8 @@ admin.site.register(CameraModel, CameraModelAdmin)
 admin.site.register(Developer, SimpleHistoryAdmin)
 
 
+admin.site.register(EnlargerModel, SimpleHistoryAdmin)
+
 class EnlargerAdmin(admin.ModelAdmin):
     exclude = ('owner',)
 
@@ -142,9 +144,10 @@ class FilterAdmin(admin.ModelAdmin):
 admin.site.register(Filter, FilterAdmin)
 
 
+admin.site.register(FlashModel, SimpleHistoryAdmin)
+
 class FlashAdmin(admin.ModelAdmin):
     exclude = ('owner',)
-
 
 admin.site.register(Flash, FlashAdmin)
 
@@ -320,5 +323,7 @@ class TeleconverterAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Teleconverter, TeleconverterAdmin)
+
+admin.site.register(TeleconverterModel, SimpleHistoryAdmin)
 
 admin.site.register(Toner, SimpleHistoryAdmin)

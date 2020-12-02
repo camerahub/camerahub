@@ -3,10 +3,10 @@ from django_currentuser.middleware import get_current_user
 from taggit.forms import TagField
 
 # Import all models that need admin pages
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock
-from schema.models import Flash, Lens, LensModel
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock
+from schema.models import Flash, FlashModel, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
-from schema.models import Negative, Film, Teleconverter, Toner
+from schema.models import Negative, Film, Teleconverter, TeleconverterModel, Toner
 
 # Define a custom tag filter
 
@@ -98,10 +98,15 @@ class DeveloperFilter(FilterSet):
         fields = ('manufacturer', 'for_paper', 'for_film')
 
 
+class EnlargerModelFilter(FilterSet):
+    class Meta:
+        model = EnlargerModel
+        fields = ('manufacturer', 'negative_size', 'type', 'light_source')
+
 class EnlargerFilter(FilterSet):
     class Meta:
         model = Enlarger
-        fields = ('manufacturer', 'negative_size', 'type', 'light_source')
+        fields = ('enlargermodel', )
 
     @property
     def qs(self):
@@ -117,9 +122,9 @@ class FilmStockFilter(FilterSet):
         fields = ('manufacturer', 'colour', 'panchromatic', 'process')
 
 
-class FlashFilter(FilterSet):
+class FlashModelFilter(FilterSet):
     class Meta:
-        model = Flash
+        model = FlashModel
         fields = ('manufacturer',
                   'pc_sync',
                   'hot_shoe',
@@ -130,6 +135,11 @@ class FlashFilter(FilterSet):
                   'zoom',
                   'ttl',
                   )
+
+class FlashFilter(FilterSet):
+    class Meta:
+        model = Flash
+        fields = ('flashmodel',)
 
     @property
     def qs(self):
@@ -251,12 +261,17 @@ class FilmFilter(FilterSet):
 class TeleconverterFilter(FilterSet):
     class Meta:
         model = Teleconverter
-        fields = ('manufacturer', 'mount',)
+        fields = ('teleconvertermodel',)
 
     @property
     def qs(self):
         parent = super().qs
         return parent.filter(owner=get_current_user())
+
+class TeleconverterModelFilter(FilterSet):
+    class Meta:
+        model = TeleconverterModel
+        fields = ('manufacturer', 'mount',)
 
 
 class TonerFilter(FilterSet):

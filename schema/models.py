@@ -28,6 +28,24 @@ def cameramodel_check(text, uids):
     return not CameraModel.objects.filter(slug=text).exists()
 
 
+def enlargermodel_check(text, uids):
+    if text in uids:
+        return False
+    return not EnlargerModel.objects.filter(slug=text).exists()
+
+
+def flashmodel_check(text, uids):
+    if text in uids:
+        return False
+    return not FlashModel.objects.filter(slug=text).exists()
+
+
+def teleconvertermodel_check(text, uids):
+    if text in uids:
+        return False
+    return not TeleconverterModel.objects.filter(slug=text).exists()
+
+
 def lensmodel_check(text, uids):
     if text in uids:
         return False
@@ -336,7 +354,7 @@ class Format(models.Model):
 # Table to catalog flashes, flashguns and speedlights
 
 
-class Flash(models.Model):
+class FlashModel(models.Model):
     model = models.CharField(
         help_text='Model name/number of the flash', max_length=45)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
@@ -369,15 +387,9 @@ class Flash(models.Model):
         verbose_name='TTL', help_text='Whether this flash supports TTL metering', blank=True, null=True)
     trigger_voltage = models.DecimalField(
         help_text='Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1, blank=True, null=True)
-    own = models.BooleanField(
-        help_text='Whether the flash is currently in your collection', default=True)
-    acquired = models.DateField(
-        help_text='Date this flash was acquired', blank=True, null=True)
-    cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
-                      decimal_places=2, blank=True, null=True, default_currency='GBP')
-    owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(
-        unique_with='owner', editable=False, verbose_name='ID')
+    slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager(blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -388,7 +400,15 @@ class Flash(models.Model):
 
     class Meta:
         ordering = ['manufacturer', 'model']
-        verbose_name_plural = "flashes"
+        verbose_name_plural = "flash models"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            custom_slugify_unique = UniqueSlugify(
+                unique_check=flashmodel_check, to_lower=True)
+            self.slug = custom_slugify_unique(
+                "{} {}".format(self.manufacturer.name, self.model))
+        return super().save(*args, **kwargs)
 
     def clean(self):
         # if battery_type is set, need to supply battery_qty
@@ -396,6 +416,39 @@ class Flash(models.Model):
             raise ValidationError({
                 'battery_qty': ValidationError(('Must specify number of batteries')),
             })
+
+    def get_absolute_url(self):
+        return reverse('schema:flashmodel-detail', kwargs={'slug': self.slug})
+
+    @classmethod
+    def description(cls):
+        return 'Flashes are any kind of external device to provide light. This includes battery-powered and mains-powered flashes.'
+
+
+class Flash(models.Model):
+    flashmodel = models.ForeignKey(
+        FlashModel, on_delete=models.CASCADE, help_text='Model of this flash')
+    serial = models.CharField(
+        help_text='Serial number of the flash', max_length=45, blank=True, null=True)
+    own = models.BooleanField(
+        help_text='Whether the flash is currently in your collection', default=True)
+    acquired = models.DateField(
+        help_text='Date this flash was acquired', blank=True, null=True)
+    cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
+                      decimal_places=2, blank=True, null=True, default_currency='GBP')
+    lost = models.DateField(
+        help_text='Date on which the flash was lost/sold/etc', blank=True, null=True)
+    lost_price = MoneyField(help_text='Sale price of the flash', max_digits=12,
+                            decimal_places=2, blank=True, null=True, default_currency='GBP')
+    owner = CurrentUserField(editable=False)
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
+
+    def __str__(self):
+        return str(self.flashmodel)
+
+    class Meta:
+        verbose_name_plural = "flashes"
 
     def get_absolute_url(self):
         return reverse('schema:flash-detail', kwargs={'id_owner': self.id_owner})
@@ -407,7 +460,7 @@ class Flash(models.Model):
 # Table to list enlargers
 
 
-class Enlarger(models.Model):
+class EnlargerModel(models.Model):
 
     class EnlargerType(DjangoChoices):
         Diffusion = ChoiceItem()
@@ -422,27 +475,21 @@ class Enlarger(models.Model):
                                      blank=True, null=True, help_text='Manufacturer of this enlarger')
     model = models.CharField(
         help_text='Name/model of the enlarger', max_length=45)
+    disambiguation = models.CharField(
+        help_text='Distinguishing notes for enlarger models with the same name', max_length=45, blank=True, default='')
     negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True,
                                       null=True, help_text='Largest negative size that this enlarger can accept')
     type = models.CharField(choices=EnlargerType.choices,
                             help_text='The type of optical system in the enlarger', max_length=15, blank=True, null=True)
     light_source = models.CharField(
         choices=LightSource.choices, help_text='The type of light source used in the enlarger', max_length=15, blank=True, null=True)
-    acquired = models.DateField(
-        help_text='Date on which the enlarger was acquired', blank=True, null=True)
-    lost = models.DateField(
-        help_text='Date on which the enlarger was lost/sold', blank=True, null=True)
     introduced = models.PositiveIntegerField(
         help_text='Year in which the enlarger was introduced', blank=True, null=True)
     discontinued = models.PositiveIntegerField(
         help_text='Year in which the enlarger was discontinued', blank=True, null=True)
-    cost = MoneyField(help_text='Purchase cost of this enlarger', max_digits=12,
-                      decimal_places=2, blank=True, null=True, default_currency='GBP')
-    lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12,
-                            decimal_places=2, blank=True, null=True, default_currency='GBP')
-    owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(
-        unique_with='owner', editable=False, verbose_name='ID')
+    slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager(blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -453,23 +500,21 @@ class Enlarger(models.Model):
 
     class Meta:
         ordering = ['manufacturer', 'model']
-        verbose_name_plural = "enlargers"
+        verbose_name_plural = "enlarger models"
+        constraints = [
+            models.UniqueConstraint(
+                fields=['manufacturer', 'model', 'disambiguation'], name='enlargermodel_unique_name')
+        ]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            custom_slugify_unique = UniqueSlugify(
+                unique_check=enlargermodel_check, to_lower=True)
+            self.slug = custom_slugify_unique(
+                "{} {}".format(self.manufacturer.name, self.model))
+        return super().save(*args, **kwargs)
 
     def clean(self):
-        # Acquired/lost
-        if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
-            raise ValidationError({
-                'acquired': ValidationError(('Acquired date must be earlier than lost date')),
-                'lost': ValidationError(('Lost date must be later than acquired date')),
-            })
-        if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
-            raise ValidationError({
-                'acquired': ValidationError(('Acquired date must be in the past')),
-            })
-        if self.lost is not None and self.lost > datetime.date(datetime.now()):
-            raise ValidationError({
-                'lost': ValidationError(('Lost date must be in the past')),
-            })
         # Introduced/discontinued
         if self.introduced is not None and self.discontinued is not None and self.introduced > self.discontinued:
             raise ValidationError({
@@ -486,11 +531,58 @@ class Enlarger(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('schema:enlarger-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:enlargermodel-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Enlargers are devices used to create prints from negatives.'
+
+
+class Enlarger(models.Model):
+    enlargermodel = models.ForeignKey(
+        EnlargerModel, on_delete=models.CASCADE, help_text='Model of this enlarger')
+    serial = models.CharField(
+        help_text='Serial number of the enlarger', max_length=45, blank=True, null=True)
+    own = models.BooleanField(
+        help_text='Whether the enlarger is currently in your collection', default=True)
+    acquired = models.DateField(
+        help_text='Date on which the enlarger was acquired', blank=True, null=True)
+    cost = MoneyField(help_text='Purchase cost of this enlarger', max_digits=12,
+                      decimal_places=2, blank=True, null=True, default_currency='GBP')
+    lost = models.DateField(
+        help_text='Date on which the enlarger was lost/sold', blank=True, null=True)
+    lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12,
+                            decimal_places=2, blank=True, null=True, default_currency='GBP')
+    own = models.BooleanField(
+        help_text='Whether the enlarger is currently in your collection', default=True)
+    owner = CurrentUserField(editable=False)
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
+
+    def clean(self):
+        # Acquired/lost
+        if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
+            raise ValidationError({
+                'acquired': ValidationError(('Acquired date must be earlier than lost date')),
+                'lost': ValidationError(('Lost date must be later than acquired date')),
+            })
+        if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
+            raise ValidationError({
+                'acquired': ValidationError(('Acquired date must be in the past')),
+            })
+        if self.lost is not None and self.lost > datetime.date(datetime.now()):
+            raise ValidationError({
+                'lost': ValidationError(('Lost date must be in the past')),
+            })
+
+    def __str__(self):
+        mystr = "%s %s" % (
+            self.enlargermodel.manufacturer.name, self.enlargermodel.model)
+        ownchar = '[SOLD] ' if self.own is False else ''
+        return ownchar + mystr
+
+    def get_absolute_url(self):
+        return reverse('schema:enlarger-detail', kwargs={'id_owner': self.id_owner})
 
 # Metering modes as defined by EXIF tag MeteringMode
 
@@ -659,7 +751,7 @@ class Process(models.Model):
 # Table to catalog teleconverters (multipliers)
 
 
-class Teleconverter(models.Model):
+class TeleconverterModel(models.Model):
     model = models.CharField(
         help_text='Model name of this teleconverter', max_length=45)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
@@ -674,9 +766,9 @@ class Teleconverter(models.Model):
         help_text='Number of optical groups used in this teleconverter', blank=True, null=True)
     multicoated = models.BooleanField(
         help_text='Whether this teleconverter is multi-coated', blank=True, null=True)
-    owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(
-        unique_with='owner', editable=False, verbose_name='ID')
+    slug = models.SlugField(editable=False, null=True, unique=True)
+    tags = TaggableManager(blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -687,7 +779,7 @@ class Teleconverter(models.Model):
 
     class Meta:
         ordering = ['manufacturer', 'model']
-        verbose_name_plural = "teleconverters"
+        verbose_name_plural = "teleconverter models"
 
     def clean(self):
         # Groups/elements
@@ -696,6 +788,47 @@ class Teleconverter(models.Model):
                 'groups': ValidationError(('Cannot have more groups than elements')),
                 'elements': ValidationError(('Cannot have fewer elements than groups')),
             })
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            custom_slugify_unique = UniqueSlugify(
+                unique_check=teleconvertermodel_check, to_lower=True)
+            self.slug = custom_slugify_unique(
+                "{} {}".format(self.manufacturer.name, self.model))
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('schema:teleconvertermodel-detail', kwargs={'slug': self.slug})
+
+    @classmethod
+    def description(cls):
+        return 'Teleconverters are extra lenses that can be used to increase the focal length of a lens. They are sometimes known as doublers.'
+
+
+class Teleconverter(models.Model):
+    teleconvertermodel = models.ForeignKey(
+        TeleconverterModel, on_delete=models.CASCADE, help_text='Model of this teleconverter')
+    serial = models.CharField(
+        help_text='Serial number of the teleconverter', max_length=45, blank=True, null=True)
+    own = models.BooleanField(
+        help_text='Whether the teleconverter is currently in your collection', default=True)
+    acquired = models.DateField(
+        help_text='Date on which the teleconverter was acquired', blank=True, null=True)
+    cost = MoneyField(help_text='Price paid for this teleconverter', max_digits=12,
+                      decimal_places=2, blank=True, null=True, default_currency='GBP')
+    lost = models.DateField(
+        help_text='Date on which the teleconverter was lost/sold/etc', blank=True, null=True)
+    lost_price = MoneyField(help_text='Sale price of the teleconverter', max_digits=12,
+                            decimal_places=2, blank=True, null=True, default_currency='GBP')
+    owner = CurrentUserField(editable=False)
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
+
+    def __str__(self):
+        return str(self.teleconvertermodel)
+
+    class Meta:
+        verbose_name_plural = "teleconverters"
 
     def get_absolute_url(self):
         return reverse('schema:teleconverter-detail', kwargs={'id_owner': self.id_owner})
@@ -1830,7 +1963,7 @@ class Negative(models.Model):
                                    max_digits=4, decimal_places=1, blank=True, null=True)
     filter = models.ForeignKey(Filter, on_delete=models.CASCADE, blank=True,
                                null=True, help_text='Filter used when taking this negative')
-    teleconverter = models.ForeignKey(Teleconverter, on_delete=models.CASCADE,
+    teleconverter = models.ForeignKey(TeleconverterModel, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Teleconverter used when taking this negative')
     notes = models.TextField(
         help_text='Extra freeform notes about this exposure', blank=True, null=True)

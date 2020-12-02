@@ -8,10 +8,10 @@ from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, 
 from dal import autocomplete
 from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput, YearPickerInput, MonthPickerInput, TimePickerInput
 
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from schema.models import Flash, Format, Lens, LensModel, Manufacturer
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
+from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
-from schema.models import Process, Scan, Negative, Film, Teleconverter, Toner
+from schema.models import Process, Scan, Negative, Film, Teleconverter, TeleconverterModel, Toner
 
 FormActionButtons = Layout(
     FormActions(
@@ -194,7 +194,7 @@ class CameraModelForm(autocomplete.FutureModelForm):
         model = CameraModel
         fields = '__all__'
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
         }
@@ -326,7 +326,7 @@ class DeveloperForm(ModelForm):
         fields = ['manufacturer', 'name', 'for_paper',
                   'for_film', 'chemistry', 'tags']
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
@@ -349,16 +349,15 @@ class DeveloperForm(ModelForm):
         )
 
 
-class EnlargerForm(ModelForm):
+class EnlargerModelForm(ModelForm):
     class Meta:
-        model = Enlarger
-        fields = ['manufacturer', 'model', 'negative_size', 'type', 'light_source',
-                  'acquired', 'lost', 'introduced', 'discontinued', 'cost', 'lost_price']
+        model = EnlargerModel
+        fields = ['manufacturer', 'model', 'negative_size',
+                  'type', 'light_source', 'introduced', 'discontinued', 'tags']
         widgets = {
-            'acquired': DatePickerInput(format='%Y-%m-%d'),
-            'lost': DatePickerInput(format='%Y-%m-%d'),
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
@@ -371,13 +370,40 @@ class EnlargerForm(ModelForm):
             Fieldset('Summary',
                      'manufacturer',
                      'model',
+                     'disambiguation',
                      'negative_size',
                      'type',
                      'light_source',
                      'introduced',
                      'discontinued',
                      ),
-            Fieldset('Ownership'
+            Fieldset('Meta',
+                     'tags',
+                     ),
+            FormActionButtons
+        )
+
+
+class EnlargerForm(ModelForm):
+    class Meta:
+        model = Enlarger
+        fields = ['enlargermodel', 'serial', 'own',
+                  'acquired', 'cost', 'lost', 'lost_price']
+        widgets = {
+            'acquired': DatePickerInput(format='%Y-%m-%d'),
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset('Summary',
+                     'enlargermodel',
+                     'serial',
+                     ),
+            Fieldset('Ownership',
+                     'own',
                      'acquired',
                      'cost',
                      'lost',
@@ -393,7 +419,7 @@ class FilmStockForm(ModelForm):
         fields = ['name', 'manufacturer', 'iso',
                   'colour', 'panchromatic', 'process', 'tags']
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
@@ -436,13 +462,13 @@ class FilterForm(ModelForm):
         )
 
 
-class FlashForm(ModelForm):
+class FlashModelForm(ModelForm):
     class Meta:
-        model = Flash
+        model = FlashModel
         fields = ['manufacturer', 'model', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
-                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'own', 'acquired', 'cost']
+                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'tags']
         widgets = {
-            'acquired': DatePickerInput(format='%Y-%m-%d'),
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
@@ -474,10 +500,37 @@ class FlashForm(ModelForm):
                      'battery_type',
                      'battery_qty',
                      ),
+            Fieldset('Meta',
+                     'tags',
+                     ),
+            FormActionButtons
+        )
+
+
+class FlashForm(ModelForm):
+    class Meta:
+        model = Flash
+        fields = ['flashmodel', 'serial', 'own',
+                  'acquired', 'cost', 'lost', 'lost_price']
+        widgets = {
+            'acquired': DatePickerInput(format='%Y-%m-%d'),
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset('Summary',
+                     'flashmodel',
+                     'serial',
+                     ),
             Fieldset('Ownership',
                      'own',
                      'acquired',
                      'cost',
+                     'lost',
+                     'lost_price',
                      ),
             FormActionButtons
         )
@@ -564,7 +617,7 @@ class LensModelForm(ModelForm):
         fields = ['manufacturer', 'model', 'disambiguation', 'mount', 'introduced', 'discontinued', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'lens_type', 'image_circle', 'aperture_blades',
                   'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'tags', 'linkurl', 'image', 'image_attribution', 'image_attribution_url', 'diagram', 'diagram_attribution', 'diagram_attribution_url']
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
         }
@@ -634,7 +687,7 @@ class ManufacturerForm(ModelForm):
         fields = ['name', 'city', 'country', 'linkurl',
                   'founded', 'dissolved', 'tags']
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete'),
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
             'founded': YearPickerInput(format='%Y'),
             'dissolved': YearPickerInput(format='%Y'),
         }
@@ -664,7 +717,7 @@ class MountForm(ModelForm):
         fields = ['mount', 'shutter_in_lens', 'type',
                   'purpose', 'notes', 'manufacturer', 'tags']
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
@@ -764,7 +817,7 @@ class PaperStockForm(ModelForm):
         fields = ['name', 'manufacturer',
                   'resin_coated', 'colour', 'finish', 'tags']
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
@@ -1150,8 +1203,40 @@ class FilmArchiveForm(ModelForm):
 class TeleconverterForm(ModelForm):
     class Meta:
         model = Teleconverter
+        fields = ['teleconvertermodel', 'serial', 'own',
+                  'acquired', 'cost', 'lost', 'lost_price', ]
+        widgets = {
+            'acquired': DatePickerInput(format='%Y-%m-%d'),
+            'lost': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset('Summary',
+                     'teleconvertermodel',
+                     'serial',
+                     ),
+            Fieldset('Ownership',
+                     'own',
+                     'acquired',
+                     'cost',
+                     'lost',
+                     'lost_price',
+                     ),
+            FormActionButtons
+        )
+
+
+class TeleconverterModelForm(ModelForm):
+    class Meta:
+        model = TeleconverterModel
         fields = ['model', 'manufacturer', 'mount',
-                  'factor', 'elements', 'groups', 'multicoated']
+                  'factor', 'elements', 'groups', 'multicoated', 'tags']
+        widgets = {
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1168,6 +1253,9 @@ class TeleconverterForm(ModelForm):
                      'groups',
                      'multicoated',
                      ),
+            Fieldset('Meta',
+                     'tags',
+                     ),
             FormActionButtons
         )
 
@@ -1183,7 +1271,7 @@ class TonerForm(ModelForm):
             'tags',
         ]
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tag-autocomplete')
+            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
