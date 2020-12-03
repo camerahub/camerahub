@@ -129,6 +129,10 @@ class Manufacturer(models.Model):
     def description(cls):
         return 'Manufacturers are any maker or brand of camera, lenses or other photographic accessories or consumables'
 
+    @classmethod
+    def icon(cls):
+        return 'manufacturer.svg'
+
 # Table to list all archives that exist for storing physical media
 
 
@@ -179,6 +183,10 @@ class Archive(models.Model):
     def description(cls):
         return 'Archives are places where prints, negatives, or slides are stored'
 
+    @classmethod
+    def icon(cls):
+        return 'archive.svg'
+
 # Table to catalog of types of battery
 
 
@@ -225,6 +233,10 @@ class Battery(models.Model):
     def description(cls):
         return 'Batteries are used to power cameras, flashes and other accessories'
 
+    @classmethod
+    def icon(cls):
+        return 'battery.svg'
+
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 
 
@@ -246,6 +258,10 @@ class Condition(models.Model):
     class Meta:
         verbose_name_plural = "conditions"
 
+    @classmethod
+    def icon(cls):
+        return 'condition.svg'
+
 # Exposure programs as defined by EXIF tag ExposureProgram
 
 
@@ -258,6 +274,10 @@ class ExposureProgram(models.Model):
 
     class Meta:
         verbose_name_plural = "exposure programs"
+
+    @classmethod
+    def icon(cls):
+        return 'exposureprogram.svg'
 
 # Table to catalog filters
 
@@ -283,6 +303,10 @@ class Filter(models.Model):
     @classmethod
     def description(cls):
         return 'Filters are glass or gelatin attachments for lenses which affect the image in some way'
+
+    @classmethod
+    def icon(cls):
+        return 'filter.svg'
 
 # Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
 
@@ -328,6 +352,10 @@ class NegativeSize(models.Model):
     def description(cls):
         return 'Negative size is the dimensions of an image taken by a camera. It is different from film format as one film format can be used for various different negative sizes.'
 
+    @classmethod
+    def icon(cls):
+        return 'negativesize.svg'
+
 # Table to catalogue different film formats. These are distinct from negative sizes.
 
 
@@ -350,6 +378,10 @@ class Format(models.Model):
     @classmethod
     def description(cls):
         return 'Format is the type of film a camera uses. It is a bit different from negative size as one film format can be used for various different negative sizes.'
+
+    @classmethod
+    def icon(cls):
+        return 'format.svg'
 
 # Table to catalog flashes, flashguns and speedlights
 
@@ -424,6 +456,10 @@ class FlashModel(models.Model):
     def description(cls):
         return 'Flashes are any kind of external device to provide light. This includes battery-powered and mains-powered flashes.'
 
+    @classmethod
+    def icon(cls):
+        return 'flash.svg'
+
 
 class Flash(models.Model):
     flashmodel = models.ForeignKey(
@@ -456,6 +492,10 @@ class Flash(models.Model):
     @classmethod
     def description(cls):
         return 'Flashes are any kind of external device to provide light. This includes battery-powered and mains-powered flashes.'
+
+    @classmethod
+    def icon(cls):
+        return 'flash.svg'
 
 # Table to list enlargers
 
@@ -537,6 +577,10 @@ class EnlargerModel(models.Model):
     def description(cls):
         return 'Enlargers are devices used to create prints from negatives.'
 
+    @classmethod
+    def icon(cls):
+        return 'enlarger.svg'
+
 
 class Enlarger(models.Model):
     enlargermodel = models.ForeignKey(
@@ -583,6 +627,10 @@ class Enlarger(models.Model):
 
     def get_absolute_url(self):
         return reverse('schema:enlarger-detail', kwargs={'id_owner': self.id_owner})
+
+    @classmethod
+    def icon(cls):
+        return 'enlarger.svg'
 
 # Metering modes as defined by EXIF tag MeteringMode
 
@@ -653,6 +701,10 @@ class Mount(models.Model):
     def description(cls):
         return 'Mounts are physical systems used to attach lenses to cameras (or enlargers, or projectors).'
 
+    @classmethod
+    def icon(cls):
+        return 'mount.svg'
+
 # Table to catalog different paper stocks available
 
 
@@ -698,6 +750,10 @@ class PaperStock(models.Model):
     def description(cls):
         return 'Paper stocks are types of paper available for printing with'
 
+    @classmethod
+    def icon(cls):
+        return 'paperstock.svg'
+
 # Table to catalog photographers
 
 
@@ -721,6 +777,10 @@ class Person(models.Model):
     @classmethod
     def description(cls):
         return 'People listed here can be selected as photographers, developers or printers.'
+
+    @classmethod
+    def icon(cls):
+        return 'person.svg'
 
 # Table to catalog chemical processes that can be used to develop film and paper
 
@@ -747,6 +807,10 @@ class Process(models.Model):
     @classmethod
     def description(cls):
         return 'Processes are methods of developing film or prints'
+
+    @classmethod
+    def icon(cls):
+        return 'process.svg'
 
 # Table to catalog teleconverters (multipliers)
 
@@ -804,6 +868,10 @@ class TeleconverterModel(models.Model):
     def description(cls):
         return 'Teleconverters are extra lenses that can be used to increase the focal length of a lens. They are sometimes known as doublers.'
 
+    @classmethod
+    def icon(cls):
+        return 'teleconverter.svg'
+
 
 class Teleconverter(models.Model):
     teleconvertermodel = models.ForeignKey(
@@ -836,6 +904,10 @@ class Teleconverter(models.Model):
     @classmethod
     def description(cls):
         return 'Teleconverters are extra lenses that can be used to increase the focal length of a lens. They are sometimes known as doublers.'
+
+    @classmethod
+    def icon(cls):
+        return 'teleconverter.svg'
 
 # Table to catalog paper toners that can be used during the printing process
 
@@ -881,6 +953,10 @@ class Toner(models.Model):
     @classmethod
     def description(cls):
         return 'Toners are chemicals used to change the colour or appearance of a print.'
+
+    @classmethod
+    def icon(cls):
+        return 'toner.svg'
 
 # Table to list different brands of film stock
 
@@ -931,6 +1007,10 @@ class FilmStock(models.Model):
     def description(cls):
         return 'Film stocks are types of film that can be exposed in a camera. They may also be known as emulsions.'
 
+    @classmethod
+    def icon(cls):
+        return 'film.svg'
+
 # Table to record bulk film stock, from which individual films can be cut
 
 
@@ -966,6 +1046,10 @@ class BulkFilm(models.Model):
     def description(cls):
         return 'Bulk films are large reels of film stock that can be cut up to make individual films.'
 
+    @classmethod
+    def icon(cls):
+        return 'bulkfilm.svg'
+
 # Table to catalog adapters to mount lenses on other cameras
 
 
@@ -996,6 +1080,10 @@ class MountAdapter(models.Model):
     @classmethod
     def description(cls):
         return 'Mount adapters can be used to convert the mount used on a camera or lens.'
+
+    @classmethod
+    def icon(cls):
+        return 'mountadapter.svg'
 
 # Table to list all possible shutter speeds
 
@@ -1074,6 +1162,10 @@ class Developer(models.Model):
     @classmethod
     def description(cls):
         return 'Developers are chemicals that are used to process films or prints.'
+
+    @classmethod
+    def icon(cls):
+        return 'developer.svg'
 
 # Table to catalog lens models
 
@@ -1199,6 +1291,10 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
     @classmethod
     def description(cls):
         return 'Lens models are any interchangeable lens that has been marketed'
+
+    @classmethod
+    def icon(cls):
+        return 'lens.svg'
 
     def clean(self):
         # Check focal length
@@ -1603,6 +1699,10 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     def description(cls):
         return 'Camera models are any camera that has been marketed'
 
+    @classmethod
+    def icon(cls):
+        return 'camera.svg'
+
 # Table to catalog accessories that are not tracked in more specific tables
 
 
@@ -1674,6 +1774,10 @@ class Accessory(models.Model):
     @classmethod
     def description(cls):
         return 'Accessories include most photographic items which may be used with cameras or lenses. Exceptions are filters, flashes and teleconverters, which are tracked separately.'
+
+    @classmethod
+    def icon(cls):
+        return 'accessory.svg'
 
 # Table to catalog lenses
 
@@ -1757,6 +1861,10 @@ class Lens(models.Model):
     def description(cls):
         return 'Lenses are specific examples of lens models that exist in your collection'
 
+    @classmethod
+    def icon(cls):
+        return 'lens.svg'
+
 # Table to catalog cameras - both cameras with fixed lenses and cameras with interchangeable lenses
 
 
@@ -1838,6 +1946,10 @@ class Camera(models.Model):
     @classmethod
     def description(cls):
         return 'Cameras are specific examples of camera models that exist in your collection'
+
+    @classmethod
+    def icon(cls):
+        return 'camera.svg'
 
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
 
@@ -1942,6 +2054,10 @@ class Film(models.Model):
     def description(cls):
         return 'A film is a specific example of a film stock which exists in your collection, and contains one or more negatives. A film is generally one roll film or one sheet of sheet film.'
 
+    @classmethod
+    def icon(cls):
+        return 'film.svg'
+
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 
 
@@ -2039,6 +2155,10 @@ class Negative(models.Model):
     def description(cls):
         return 'Negatives are exposures made on film. Exposures made on positive (slide) film are also known as negatives.'
 
+    @classmethod
+    def icon(cls):
+        return 'negative.svg'
+
 # Table to catalog prints made from negatives
 
 
@@ -2112,6 +2232,10 @@ class Print(models.Model):
     def description(cls):
         return 'Prints are images made on paper stock from negatives on film'
 
+    @classmethod
+    def icon(cls):
+        return 'print.svg'
+
 # Table to track which toners were used on which print
 
 
@@ -2168,6 +2292,10 @@ class Scan(models.Model):
     def description(cls):
         return 'Scans are digital recreations of negatives or prints'
 
+    @classmethod
+    def icon(cls):
+        return 'scan.svg'
+
 # Table to record orders for prints
 
 
@@ -2203,3 +2331,7 @@ class Order(models.Model):
     @classmethod
     def description(cls):
         return 'Orders are a to-do list of images to print'
+
+    @classmethod
+    def icon(cls):
+        return 'order.svg'

@@ -1180,13 +1180,13 @@ class StatsView(TemplateView):
         context = super().get_context_data(**kwargs)
         stats = [
             {
-                'image': "svg/cameramodel.svg",
+                'image': "svg/camera.svg",
                 'url': reverse('schema:cameramodel-list'),
                 'item': "camera models in CameraHub",
                 'value': CameraModel.objects.count,
             },
             {
-                'image': "svg/lensmodel.svg",
+                'image': "svg/lens.svg",
                 'url': reverse('schema:lensmodel-list'),
                 'item': "lens models in CameraHub",
                 'value': LensModel.objects.count,
