@@ -309,7 +309,7 @@ class LensModelTable(tables.Table):
                 record.slug]), record.manufacturer, value, record.disambiguation)
         else:
             mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
-                'lensmodel-detail', args=[record.slug]), record.manufacturer, value)
+                'schema:lensmodel-detail', args=[record.slug]), record.manufacturer, value)
         if cls.request.user.is_authenticated:
             qty = Lens.objects.filter(
                 owner=cls.request.user, lensmodel=record).count()
