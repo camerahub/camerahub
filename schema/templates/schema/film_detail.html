@@ -77,7 +77,8 @@
   {% if object.date_loaded is not None %}
   <tr>
     <td>Date loaded</td>
-    <td>{{ object.date_loaded }}</td>
+    <td>{{ object.date_loaded }}{% if object.expired_when_loaded %} <img src="{% static "svg/expired.svg" %}" width="20"
+        height="20" alt="Expired when loaded" title="Film was expired when loaded">{% endif %}</td>
   </tr>
   {% endif %}
   {% if object.frames is not None %}
@@ -109,7 +110,8 @@
   {% if object.date_processed is not None %}
   <tr>
     <td>Date processed</td>
-    <td>{{ object.date_processed }}</td>
+    <td>{{ object.date_processed }}{% if object.expired_when_loaded %} <img src="{% static "svg/expired.svg" %}"
+        width="20" height="20" alt="Expired when processed" title="Film was expired when processed">{% endif %}</td>
   </tr>
   {% endif %}
   {% if object.developer_previous_uses is not None %}

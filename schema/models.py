@@ -2013,6 +2013,14 @@ class Film(models.Model):
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
 
+    @property
+    def expired_when_loaded(self):
+        return self.expiry_date < self.date_loaded
+
+    @property
+    def expired_when_processed(self):
+        return self.expiry_date < self.date_processed
+
     def __str__(self):
         if self.title is not None:
             mystr = "#%s %s" % (self.id_owner, self.title)
