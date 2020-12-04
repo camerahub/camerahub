@@ -1,5 +1,6 @@
 from django import template
 from django.utils.safestring import mark_safe
+from datetime import date
 
 register = template.Library()
 
@@ -27,3 +28,9 @@ def sign(obj):
     else:
         mystr = str(obj)
     return mark_safe(mystr)
+
+@register.filter(is_safe=True)
+def yearssince(obj):
+    currentyear = '{:04d}'.format(date.today().year)
+    diff = int(currentyear) - int(obj)
+    return "{} years ago".format(diff)

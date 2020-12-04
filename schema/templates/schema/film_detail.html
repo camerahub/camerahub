@@ -110,8 +110,9 @@
   {% if object.date_processed is not None %}
   <tr>
     <td>Date processed</td>
-    <td>{{ object.date_processed }}{% if object.expired_when_loaded %} <img src="{% static "svg/expired.svg" %}"
-        width="20" height="20" alt="Expired when processed" title="Film was expired when processed">{% endif %}</td>
+    <td>{{ object.date_processed }} <small class="text-muted">{{ object.date_processed|timesince }}
+        ago</small>{% if object.expired_when_loaded %} <img src="{% static "svg/expired.svg" %}" width="20" height="20"
+        alt="Expired when processed" title="Film was expired when processed">{% endif %}</td>
   </tr>
   {% endif %}
   {% if object.developer_previous_uses is not None %}
@@ -171,7 +172,7 @@
   {% if object.purchase_date is not None %}
   <tr>
     <td>Purchase date</td>
-    <td>{{ object.purchase_date }}</td>
+    <td>{{ object.purchase_date }} <small class="text-muted">{{ object.purchase_date|timesince }} ago</small></td>
   </tr>
   {% endif %}
   {% if object.price is not None %}

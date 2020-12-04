@@ -1,6 +1,7 @@
 {% extends "detail.html" %}
 {% load static %}
 {% load boolicontag %}
+{% load formatting %}
 
 {% block content %}
 <table class="table table-hover">
@@ -29,7 +30,7 @@
     {% if object.manufactured is not None %}
     <tr>
         <td>Manufactured</td>
-        <td>{{ object.manufactured }}</td>
+        <td>{{ object.manufactured }} <small class="text-muted">{{ object.introduced|yearssince }}</small></td>
     </tr>
     {% endif %}
     {% if object.notes %}
@@ -64,7 +65,7 @@
     {% if object.acquired is not None %}
     <tr>
         <td>Acquired</td>
-        <td>{{ object.acquired }}</td>
+        <td>{{ object.acquired }} <small class="text-muted">{{ object.acquired|timesince }} ago</small></td>
     </tr>
     {% endif %}
     {% if object.cost is not None %}
@@ -82,7 +83,7 @@
     {% if object.lost is not None %}
     <tr>
         <td>Lost</td>
-        <td>{{ object.lost }}</td>
+        <td>{{ object.lost }} <small class="text-muted">{{ object.lost|timesince }} ago</small></td>
     </tr>
     {% endif %}
     {% if object.lost_price is not None %}
