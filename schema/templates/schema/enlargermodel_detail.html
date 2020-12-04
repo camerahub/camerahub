@@ -1,5 +1,6 @@
 {% extends "detail.html" %}
 {% load static %}
+{% load formatting %}
 
 {% block content %}
 <table class="table table-hover">
@@ -44,7 +45,7 @@
   {% if object.introduced is not None %}
   <tr>
     <td>Introduced</td>
-    <td>{{ object.introduced }}</td>
+    <td>{{ object.introduced }} <small class="text-muted">{{ object.introduced|yearssince }}</small></td>
   </tr>
   {% endif %}
   {% if object.discontinued is not None %}
