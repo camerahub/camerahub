@@ -51,7 +51,8 @@
   {% if object.introduced is not None %}
   <tr>
     <td>Marketed</td>
-    <td>{{ object.introduced }}{% if object.discontinued is not None %}-{{ object.discontinued }}{% endif %}</td>
+    <td>{{ object.introduced }}{% if object.discontinued is not None %}-{{ object.discontinued }}{% endif %} <small
+        class="text-muted">{{ object.introduced|yearssince }}</small></td>
   </tr>
   {% endif %}
   {% if object.format is not None %}
@@ -510,7 +511,8 @@
     <td>
       <ul class="list-inline">
         {% for relateditem in related %}
-        <li class="list-inline-item"><a href="{% url 'schema:cameramodel-detail' relateditem.slug %}">{{ relateditem }}</a>
+        <li class="list-inline-item"><a
+            href="{% url 'schema:cameramodel-detail' relateditem.slug %}">{{ relateditem }}</a>
         </li>
         {% endfor %}
       </ul>

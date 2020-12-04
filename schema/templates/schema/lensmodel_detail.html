@@ -46,7 +46,8 @@
   {% if object.introduced is not None %}
   <tr>
     <td>Marketed</td>
-    <td>{{ object.introduced }}{% if object.discontinued is not None %}-{{ object.discontinued }}{% endif %}</td>
+    <td>{{ object.introduced }}{% if object.discontinued is not None %}-{{ object.discontinued }}{% endif %} <small
+        class="text-muted">{{ object.introduced|yearssince }}</small></td>
   </tr>
   {% endif %}
 
@@ -284,7 +285,8 @@
     <td>
       <ul class="list-inline">
         {% for relateditem in related %}
-        <li class="list-inline-item"><a href="{% url 'schema:lensmodel-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        <li class="list-inline-item"><a
+            href="{% url 'schema:lensmodel-detail' relateditem.slug %}">{{ relateditem }}</a></li>
         {% endfor %}
       </ul>
     </td>
