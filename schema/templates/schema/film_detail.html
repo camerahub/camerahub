@@ -91,8 +91,8 @@
   <tr>
     <td>Exposed at</td>
     <td>ISO {{ object.exposed_at }}{% if object.pushed %}<img src="{% static "svg/up.svg" %}" width="20" height="20"
-        alt="Push">{% elif object.pulled %}<img src="{% static "svg/down.svg" %}" width="20" height="20"
-        alt="Pull">{% endif %}</td>
+        alt="Push" title="Film was pushed">{% elif object.pulled %}<img src="{% static "svg/down.svg" %}" width="20"
+        height="20" alt="Pull" title="Film was pulled">{% endif %}</td>
   </tr>
   {% endif %}
 
