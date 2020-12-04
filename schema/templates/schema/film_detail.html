@@ -90,9 +90,9 @@
   {% if object.exposed_at is not None %}
   <tr>
     <td>Exposed at</td>
-    <td>ISO {{ object.exposed_at }}{% if object.exposed_at > object.filmstock.iso %}<img src="{% static "svg/up.svg" %}"
-        width="20" height="20" alt="Push">{% elif object.exposed_at < object.filmstock.iso %}<img
-        src="{% static "svg/down.svg" %}" width="20" height="20" alt="Pull">{% endif %}</td>
+    <td>ISO {{ object.exposed_at }}{% if object.pushed %}<img src="{% static "svg/up.svg" %}" width="20" height="20"
+        alt="Push">{% elif object.pulled %}<img src="{% static "svg/down.svg" %}" width="20" height="20"
+        alt="Pull">{% endif %}</td>
   </tr>
   {% endif %}
 

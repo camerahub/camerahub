@@ -2021,6 +2021,14 @@ class Film(models.Model):
     def expired_when_processed(self):
         return self.expiry_date < self.date_processed
 
+    @property
+    def pushed(self):
+        return self.exposed_at > self.filmstock.iso
+
+    @property
+    def pulled(self):
+        return self.exposed_at < self.filmstock.iso
+
     def __str__(self):
         if self.title is not None:
             mystr = "#%s %s" % (self.id_owner, self.title)
