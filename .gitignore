@@ -113,3 +113,6 @@ sent_emails/
 media/
 .gitsecret/keys/random_seed
 !*.secret
+
+# Helm
+helm/camerahub/charts/
