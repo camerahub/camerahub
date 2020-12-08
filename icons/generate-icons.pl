@@ -76,6 +76,7 @@ my %newnames = (
 	'icons8-diversity'				=> ['compatibility'],
 	'icons8-up'						=> ['up'],
 	'icons8-down'					=> ['down'],
+	'icons8-expired'				=> ['expired'],
 #unknown
 #logout
 );

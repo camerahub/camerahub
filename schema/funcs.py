@@ -5,12 +5,12 @@ from numpy import arctan
 
 
 def boolicon(obj):
-    img = '<img src="/static/svg/{}.svg" width="30" height="30" alt="{}">'
+    img = '<img src="/static/svg/{}.svg" width="30" height="30" alt="{}" title="{}">'
     if obj is not None:
         if bool(obj):
-            return_value = mark_safe(img.format('yes', 'Yes'))
+            return_value = mark_safe(img.format('yes', 'Yes', 'Yes'))
         else:
-            return_value = mark_safe(img.format('no', 'No'))
+            return_value = mark_safe(img.format('no', 'No', 'No'))
     else:
         return_value = None
 
@@ -18,12 +18,12 @@ def boolicon(obj):
 
 
 def colouricon(obj):
-    img = '<img src="/static/svg/{}.svg" width="30" height="30" alt="{}">'
+    img = '<img src="/static/svg/{}.svg" width="30" height="30" alt="{}" title="{}">'
     if obj is not None:
         if bool(obj):
-            return_value = mark_safe(img.format('colour', 'Colour'))
+            return_value = mark_safe(img.format('colour', 'Colour', 'Colour'))
         else:
-            return_value = mark_safe(img.format('bw', 'Black & White'))
+            return_value = mark_safe(img.format('bw', 'Black & White', 'Black & White'))
     else:
         return_value = None
 
