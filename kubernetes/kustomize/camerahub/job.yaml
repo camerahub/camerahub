@@ -62,3 +62,67 @@ spec:
             - name: backup
               persistentVolumeClaim:
                 claimName: backup
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: media-backup
+spec:
+  schedule: "0 3 * * *"
+  suspend: true
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 86400
+      template:
+        spec:
+          containers:
+          - image: djjudas21/camerahub:0.25.2
+            name: camerahub
+            command: ["python", "manage.py", "mediabackup"]
+            env:
+              # Secrets first
+              - name: CAMERAHUB_DB_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: camerahub-secret
+                    key: CAMERAHUB_DB_PASS
+              - name: CAMERAHUB_SECRET_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: camerahub-secret
+                    key: CAMERAHUB_SECRET_KEY
+              # then config
+              - name: CAMERAHUB_DB_USER
+                valueFrom:
+                  configMapKeyRef:
+                    name: camerahub-config
+                    key: CAMERAHUB_DB_USER
+              - name: CAMERAHUB_DB_HOST
+                value: postgres
+              - name: CAMERAHUB_DB_NAME
+                value: camerahub
+              - name: CAMERAHUB_DB_PORT
+                value: "5432"
+              - name: CAMERAHUB_DB_ENGINE
+                value: django.db.backends.postgresql
+              - name: CAMERAHUB_PROD
+                valueFrom:
+                  configMapKeyRef:
+                    name: camerahub-config
+                    key: CAMERAHUB_PROD
+                    optional: true
+            volumeMounts:
+              - name: media
+                mountPath: /camerahub/media
+                readOnly: false
+              - name: backup
+                mountPath: /camerahub/backup
+                readOnly: false
+          restartPolicy: OnFailure
+          volumes:
+            - name: media
+              persistentVolumeClaim:
+                claimName: media
+            - name: backup
+              persistentVolumeClaim:
+                claimName: backup
