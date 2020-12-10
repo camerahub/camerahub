@@ -98,7 +98,7 @@ spec:
             - name: CAMERAHUB_DB_PORT
               value: "5432"
             - name: CAMERAHUB_DB_ENGINE
-              value: django_prometheus.db.backends.postgresql
+              value: django.db.backends.postgresql
             - name: CAMERAHUB_PROD
               valueFrom:
                 configMapKeyRef:
