@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'geoposition',
     'leaflet',
     'rest_framework',
+    'dbbackup',
 ]
 
 MIDDLEWARE = [
@@ -108,7 +109,7 @@ WSGI_APPLICATION = 'camerahub.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('CAMERAHUB_DB_ENGINE', 'django_prometheus.db.backends.sqlite3'),
+        'ENGINE': os.getenv('CAMERAHUB_DB_ENGINE', 'django.db.backends.sqlite3'),
         'NAME': os.getenv('CAMERAHUB_DB_NAME', os.path.join(BASE_DIR, 'db', 'db.sqlite3')),
         'USER': os.getenv('CAMERAHUB_DB_USER'),
         'PASSWORD': os.getenv('CAMERAHUB_DB_PASS'),
@@ -249,3 +250,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, "backup")}
