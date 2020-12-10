@@ -14,7 +14,7 @@ spec:
           containers:
           - image: djjudas21/camerahub:0.25.0
             name: camerahub
-            command: ["db-backup"]
+            command: ["python", "manage.py", "dbbackup"]
             env:
               # Secrets first
               - name: CAMERAHUB_DB_PASS
