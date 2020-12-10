@@ -110,7 +110,7 @@ spec:
               mountPath: /camerahub/media
               readOnly: false
             - name: backup
-              mountPath: /backup
+              mountPath: /camerahub/backup
               readOnly: false
 #          livenessProbe:
 #            tcpSocket:

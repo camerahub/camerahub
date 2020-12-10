@@ -111,5 +111,6 @@ venv.bak/
 # CameraHub components
 sent_emails/
 media/
+backup/
 .gitsecret/keys/random_seed
 !*.secret
