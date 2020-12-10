@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'geoposition',
     'leaflet',
     'rest_framework',
+    'dbbackup',
 ]
 
 MIDDLEWARE = [
@@ -249,3 +250,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': '/backup'}

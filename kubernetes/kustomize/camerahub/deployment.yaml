@@ -109,6 +109,9 @@ spec:
             - name: media
               mountPath: /camerahub/media
               readOnly: false
+            - name: backup
+              mountPath: /backup
+              readOnly: false
 #          livenessProbe:
 #            tcpSocket:
 #              port: app-port
@@ -131,3 +134,6 @@ spec:
       - name: media
         persistentVolumeClaim:
           claimName: media
+      - name: backup
+        persistentVolumeClaim:
+          claimName: backup
