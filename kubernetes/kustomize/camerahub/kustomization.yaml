@@ -4,6 +4,7 @@ resources:
   - deployment.yaml
   - ingress.yaml
   - service.yaml
+  - job.yaml
 
 secretGenerator:
   - name: camerahub-secret
