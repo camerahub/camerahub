@@ -12,7 +12,7 @@ spec:
       template:
         spec:
           containers:
-          - image: djjudas21/camerahub:0.25.1
+          - image: djjudas21/camerahub:0.25.2
             name: camerahub
             command: ["python", "manage.py", "dbbackup"]
             env:
