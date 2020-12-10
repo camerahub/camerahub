@@ -20,4 +20,3 @@ resources:
   - statefulset-master.yaml
   - service.yaml
   - statefulset-replica.yaml
-  - backup.yaml
