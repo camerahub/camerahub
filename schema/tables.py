@@ -73,11 +73,15 @@ class BulkFilmTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = BulkFilm
-        fields = ('id_owner', 'format', 'filmstock')
+        fields = ('id_owner', 'format', 'filmstock', 'length', 'finished')
 
     @classmethod
     def render_id_owner(cls, value):
         return format_html("<a href=\"{}\">#{}</a>", reverse('schema:bulkfilm-detail', args=[value]), value)
+
+    @classmethod
+    def render_finished(cls, value):
+        return format_html(boolicon(value))
 
 
 class CameraTable(tables.Table):

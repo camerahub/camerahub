@@ -1019,6 +1019,8 @@ class BulkFilm(models.Model):
         Format, on_delete=models.CASCADE, help_text='Film format of this bulk film')
     filmstock = models.ForeignKey(
         FilmStock, on_delete=models.CASCADE, help_text='Filmstock of this bulk film')
+    length = models.PositiveIntegerField(help_text='Length of bulk film roll', blank=True, null=True)
+    finished = models.BooleanField(help_text='Whether this bulk film has been used up', default=False)
     purchase_date = models.DateField(
         help_text='Purchase date of this bulk roll', blank=True, null=True)
     cost = MoneyField(help_text='Purchase cost of this bulk roll', max_digits=12,

@@ -104,7 +104,7 @@ class BatteryForm(ModelForm):
 class BulkFilmForm(ModelForm):
     class Meta:
         model = BulkFilm
-        fields = ['format', 'filmstock', 'purchase_date',
+        fields = ['format', 'filmstock', 'length', 'finished', 'purchase_date',
                   'cost', 'source', 'batch', 'expiry']
         widgets = {
             'purchase_date': DatePickerInput(format='%Y-%m-%d'),
@@ -121,6 +121,8 @@ class BulkFilmForm(ModelForm):
             Fieldset('Summary',
                      'format',
                      'filmstock',
+                     AppendedText('length', 'm'),
+                     'finished',
                      'batch',
                      'expiry',
                      ),
