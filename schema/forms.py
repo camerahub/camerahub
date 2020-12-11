@@ -104,7 +104,7 @@ class BatteryForm(ModelForm):
 class BulkFilmForm(ModelForm):
     class Meta:
         model = BulkFilm
-        fields = ['format', 'filmstock', 'purchase_date',
+        fields = ['format', 'filmstock', 'length', 'finished', 'purchase_date',
                   'cost', 'source', 'batch', 'expiry']
         widgets = {
             'purchase_date': DatePickerInput(format='%Y-%m-%d'),
@@ -121,6 +121,8 @@ class BulkFilmForm(ModelForm):
             Fieldset('Summary',
                      'format',
                      'filmstock',
+                     AppendedText('length', 'm'),
+                     'finished',
                      'batch',
                      'expiry',
                      ),
@@ -1034,6 +1036,8 @@ class FilmForm(ModelForm):
             owner=get_current_user())
         self.fields['archive'].queryset = Archive.objects.filter(
             owner=get_current_user())
+        self.fields['bulk_film'].queryset = BulkFilm.objects.filter(
+            owner=get_current_user(), finished=False)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset('Summary',
@@ -1089,7 +1093,7 @@ class FilmAddForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['bulk_film'].queryset = BulkFilm.objects.filter(
-            owner=get_current_user())
+            owner=get_current_user(), finished=False)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset('Add a new film to your collection',
