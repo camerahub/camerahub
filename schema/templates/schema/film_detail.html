@@ -41,7 +41,7 @@
   {% if object.bulk_film is not None %}
   <tr>
     <td>Bulk film</td>
-    <td>{{ object.bulk_film }}</td>
+    <td><a href="{% url 'schema:bulkfilm-detail' object.bulk_film.id_owner %}">{{ object.bulk_film }}</a></td>
   </tr>
   {% endif %}
   {% if object.bulk_film_loaded is not None %}
