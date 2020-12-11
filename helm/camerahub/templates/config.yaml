@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+data:
+  CAMERAHUB_DB_USER: postgres
+  CAMERAHUB_PROD: true
