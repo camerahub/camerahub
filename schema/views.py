@@ -1192,7 +1192,7 @@ class StatsView(TemplateView):
                 'value': LensModel.objects.count,
             },
             {
-                'image': "svg/filmstock.svg",
+                'image': "svg/film.svg",
                 'url': reverse('schema:filmstock-list'),
                 'item': "film stocks in CameraHub",
                 'value': FilmStock.objects.count
