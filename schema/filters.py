@@ -50,7 +50,7 @@ class BatteryFilter(FilterSet):
 class BulkFilmFilter(FilterSet):
     class Meta:
         model = BulkFilm
-        fields = ('format', 'filmstock',)
+        fields = ('format', 'filmstock', 'finished')
 
     @property
     def qs(self):

@@ -83,6 +83,17 @@ class BulkFilmTable(tables.Table):
     def render_finished(cls, value):
         return format_html(boolicon(value))
 
+    @classmethod
+    def render_format(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:format-detail', args=[value.id]), value)
+
+    @classmethod
+    def render_filmstock(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:filmstock-detail', args=[value.slug]), value)
+
+    @classmethod
+    def render_length(cls, value):
+        return format_html("{}m", value)
 
 class CameraTable(tables.Table):
     class Meta:
@@ -593,7 +604,7 @@ class TeleconverterTable(tables.Table):
         return format_html("<a href=\"{}\">#{}</a>", reverse('schema:teleconverter-detail', args=[value]), value)
 
     @classmethod
-    def render_model(cls, value, record):
+    def render_teleconvertermodel(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:teleconvertermodel-detail', args=[record.teleconvertermodel.slug]), value)
 
 
@@ -617,6 +628,9 @@ class TeleconverterModelTable(tables.Table):
     def render_factor(cls, value):
         return format_html("{}&times;", value)
 
+    @classmethod
+    def render_mount(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
 class TonerTable(tables.Table):
     class Meta:
