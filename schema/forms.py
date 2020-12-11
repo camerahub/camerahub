@@ -1036,6 +1036,8 @@ class FilmForm(ModelForm):
             owner=get_current_user())
         self.fields['archive'].queryset = Archive.objects.filter(
             owner=get_current_user())
+        self.fields['bulk_film'].queryset = BulkFilm.objects.filter(
+            owner=get_current_user(), finished=False)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset('Summary',
@@ -1091,7 +1093,7 @@ class FilmAddForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['bulk_film'].queryset = BulkFilm.objects.filter(
-            owner=get_current_user())
+            owner=get_current_user(), finished=False)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset('Add a new film to your collection',
