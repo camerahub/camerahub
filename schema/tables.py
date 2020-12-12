@@ -568,6 +568,13 @@ class NegativeTable(tables.Table):
     def render_id_owner(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value]), record)
 
+    @classmethod
+    def render_aperture(cls, value):
+        return format_html("<em>f</em>/{}", value)
+
+    @classmethod
+    def render_lens(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:lens-detail', args=[value.id_owner]), value)
 
 class FilmTable(tables.Table):
     class Meta:
