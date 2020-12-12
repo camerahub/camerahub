@@ -3,6 +3,18 @@
 {% load boolicontag %}
 
 {% block content %}
+{% if object.image %}
+<div class="text-center">
+  <figure class="figure img-thumbnail">
+    <img src="{{ object.image.url }}" class="figure-img img-fluid rounded" alt="{{ object }}" title="{{ object }}">
+    <figcaption class="figure-caption text-center">{{ object }}{% if object.image_attribution %} by
+      {% if object.image_attribution_url %}<a
+        href="{{ object.image_attribution_url}}">{{ object.image_attribution }}</a>{% else %}{{ object.image_attribution }}{% endif %}{% endif %}
+    </figcaption>
+  </figure>
+</div>
+{% endif %}
+
 <table class="table table-hover">
   <tr>
     <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
@@ -12,10 +24,14 @@
     <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
-  {% if object.manufacturer is not None %}
   <tr>
     <td>Manufacturer</td>
     <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
+  </tr>
+  {% if object.disambiguation %}
+  <tr>
+    <td>Disambiguation</td>
+    <td>{{ object.disambiguation }}</td>
   </tr>
   {% endif %}
   {% if object.guide_number is not None %}
