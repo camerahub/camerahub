@@ -354,8 +354,8 @@ class DeveloperForm(ModelForm):
 class EnlargerModelForm(ModelForm):
     class Meta:
         model = EnlargerModel
-        fields = ['manufacturer', 'model', 'negative_size',
-                  'type', 'light_source', 'introduced', 'discontinued', 'tags']
+        fields = ['manufacturer', 'model', 'disambiguation', 'negative_size',
+                  'type', 'light_source', 'introduced', 'discontinued', 'tags', 'image', 'image_attribution', 'image_attribution_url']
         widgets = {
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
@@ -381,6 +381,9 @@ class EnlargerModelForm(ModelForm):
                      ),
             Fieldset('Meta',
                      'tags',
+                     'image',
+                     'image_attribution',
+                     'image_attribution_url',
                      ),
             FormActionButtons
         )
@@ -467,8 +470,8 @@ class FilterForm(ModelForm):
 class FlashModelForm(ModelForm):
     class Meta:
         model = FlashModel
-        fields = ['manufacturer', 'model', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
-                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'tags']
+        fields = ['manufacturer', 'model', 'disambiguation', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
+                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'tags', 'image', 'image_attribution', 'image_attribution_url']
         widgets = {
             'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
@@ -483,6 +486,7 @@ class FlashModelForm(ModelForm):
             Fieldset('Summary',
                      'manufacturer',
                      'model',
+                     'disambiguation',
                      'guide_number',
                      'gn_info',
                      AppendedText('trigger_voltage', 'V'),
@@ -504,6 +508,9 @@ class FlashModelForm(ModelForm):
                      ),
             Fieldset('Meta',
                      'tags',
+                     'image',
+                     'image_attribution',
+                     'image_attribution_url',
                      ),
             FormActionButtons
         )
@@ -1238,8 +1245,8 @@ class TeleconverterForm(ModelForm):
 class TeleconverterModelForm(ModelForm):
     class Meta:
         model = TeleconverterModel
-        fields = ['model', 'manufacturer', 'mount',
-                  'factor', 'elements', 'groups', 'multicoated', 'tags']
+        fields = ['model', 'manufacturer', 'disambiguation', 'mount',
+                  'factor', 'elements', 'groups', 'multicoated', 'tags', 'image', 'image_attribution', 'image_attribution_url']
         widgets = {
             'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
@@ -1249,8 +1256,9 @@ class TeleconverterModelForm(ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset('Summary',
-                     'model',
                      'manufacturer',
+                     'model',
+                     'disambiguation'
                      'mount',
                      ),
             Fieldset('Optics',
@@ -1261,6 +1269,9 @@ class TeleconverterModelForm(ModelForm):
                      ),
             Fieldset('Meta',
                      'tags',
+                     'image',
+                     'image_attribution',
+                     'image_attribution_url',
                      ),
             FormActionButtons
         )
