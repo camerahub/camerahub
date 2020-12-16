@@ -562,7 +562,7 @@ class NegativeTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Negative
-        fields = ('id_owner', 'date', 'lens', 'shutter_speed', 'aperture')
+        fields = ('id_owner', 'film', 'date', 'lens', 'shutter_speed', 'aperture')
 
     @classmethod
     def render_id_owner(cls, value, record):
@@ -571,6 +571,10 @@ class NegativeTable(tables.Table):
     @classmethod
     def render_aperture(cls, value):
         return format_html("<em>f</em>/{}", value)
+
+    @classmethod
+    def render_film(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:film-detail', args=[value.id_owner]), value)
 
     @classmethod
     def render_lens(cls, value):
