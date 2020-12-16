@@ -513,7 +513,7 @@ class PrintTable(tables.Table):
 
     @classmethod
     def render_negative(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.id_owner]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.slug]), value)
 
 
 class ProcessTable(tables.Table):
@@ -547,7 +547,7 @@ class ScanTable(tables.Table):
 
     @classmethod
     def render_negative(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.id_owner]), value)
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.slug]), value)
 
     @classmethod
     def render_print(cls, value):
@@ -562,10 +562,10 @@ class NegativeTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Negative
-        fields = ('id_owner', 'film', 'date', 'lens', 'shutter_speed', 'aperture')
+        fields = ('slug', 'film', 'date', 'lens', 'shutter_speed', 'aperture')
 
     @classmethod
-    def render_id_owner(cls, value, record):
+    def render_slug(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value]), record)
 
     @classmethod

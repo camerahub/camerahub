@@ -1000,7 +1000,7 @@ class NegativeDetail(LoginRequiredMixin, generic.DetailView):
 
     # Restrict to objects we own
     def get_object(self):
-        return get_object_or_404(Negative, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+        return get_object_or_404(Negative, owner=self.request.user, slug=self.kwargs['slug'])
 
 
 class NegativeCreate(LoginRequiredMixin, CreateView):
@@ -1016,7 +1016,7 @@ class NegativeUpdate(LoginRequiredMixin, UpdateView):
 
     # Restrict to objects we own
     def get_object(self):
-        return get_object_or_404(Negative, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+        return get_object_or_404(Negative, owner=self.request.user, slug=self.kwargs['slug'])
 
 
 class FilmList(LoginRequiredMixin, PagedFilteredTableView):

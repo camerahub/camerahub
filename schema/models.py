@@ -11,7 +11,7 @@ from djmoney.models.fields import MoneyField
 from djchoices import DjangoChoices, ChoiceItem
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
-from slugify import Slugify, UniqueSlugify
+from slugify import slugify, Slugify, UniqueSlugify
 from taggit.managers import TaggableManager
 from django_prometheus.models import ExportModelOperationsMixin
 from simple_history.models import HistoricalRecords
@@ -2198,11 +2198,11 @@ class Negative(models.Model):
                     self.focal_length = self.lens.lensmodel.min_focal_length
 
         # Populate slug
-        self.slug = str(self.film.id_owner) + ':' + str(self.frame)
+        self.slug = slugify(str(self.film.id_owner) + '.' + str(self.frame), separator='.')
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('schema:negative-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:negative-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):

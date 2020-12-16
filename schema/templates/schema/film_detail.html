@@ -192,7 +192,7 @@
   </tr>
   {% for negative in film.negative_set.all %}
   <tr>
-    <td><a href="{% url 'schema:negative-detail' negative.id %}">{{ negative }}</a></td>
+    <td><a href="{% url 'schema:negative-detail' negative.slug %}">{{ negative }}</a></td>
     <td>{{ negative.date }}</td>
   </tr>
   {% endfor %}
