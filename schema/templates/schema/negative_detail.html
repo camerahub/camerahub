@@ -1,6 +1,7 @@
 {% extends "detail.html" %}
 {% load static %}
 {% load leaflet_tags %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -80,7 +81,7 @@
   {% if object.flash is not None %}
   <tr>
     <td>Flash</td>
-    <td>{{ object.flash }}</td>
+    <td>{{ object.flash|boolicontag }}</td>
   </tr>
   {% endif %}
   {% if object.metering_mode is not None %}
