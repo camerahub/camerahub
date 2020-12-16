@@ -115,4 +115,4 @@ media/
 !*.secret
 
 # Helm
-helm/camerahub/charts/
+helm/camerahub/charts/*.tgz
