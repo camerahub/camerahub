@@ -2143,7 +2143,7 @@ class Negative(models.Model):
     location = GeopositionField(
         help_text='Location where the picture was taken', blank=True, null=True)
     flash = models.BooleanField(
-        help_text='Whether flash was used', blank=True, null=True)
+        help_text='Whether flash was used', default=False)
     metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Metering mode used when taking the image')
     exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE,
