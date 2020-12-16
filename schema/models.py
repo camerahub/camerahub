@@ -2158,9 +2158,9 @@ class Negative(models.Model):
 
     def __str__(self):
         if self.caption is not None:
-            mystr = "%s %s" % (self.slug, self.caption)
+            mystr = "#%s %s" % (self.slug, self.caption)
         else:
-            mystr = self.slug
+            mystr = "#%s" % self.slug
         return mystr
 
     class Meta:
