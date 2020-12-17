@@ -158,3 +158,13 @@
   </table>
 </div>
 {% endblock %}
+
+{% block moreactions %}
+<li>
+  <form action="{% url 'schema:print-create' %}">
+    <input type="hidden" name="negative" value="{{ object.id }}">
+    <button class="btn btn-primary" type="submit">Print this negative</button>
+  </form>
+</li>
+<li>
+{% endblock %}

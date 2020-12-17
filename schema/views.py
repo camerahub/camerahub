@@ -920,6 +920,12 @@ class PrintCreate(LoginRequiredMixin, CreateView):
     form_class = PrintForm
     template_name = 'create.html'
 
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'negative' in self.request.GET:
+            initial.update({'negative': self.request.GET['negative']})
+        return initial
+
 
 class PrintUpdate(LoginRequiredMixin, UpdateView):
     model = Print
