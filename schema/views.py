@@ -920,6 +920,12 @@ class PrintCreate(LoginRequiredMixin, CreateView):
     form_class = PrintForm
     template_name = 'create.html'
 
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'negative' in self.request.GET:
+            initial.update({'negative': self.request.GET['negative']})
+        return initial
+
 
 class PrintUpdate(LoginRequiredMixin, UpdateView):
     model = Print
@@ -1000,13 +1006,19 @@ class NegativeDetail(LoginRequiredMixin, generic.DetailView):
 
     # Restrict to objects we own
     def get_object(self):
-        return get_object_or_404(Negative, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+        return get_object_or_404(Negative, owner=self.request.user, slug=self.kwargs['slug'])
 
 
 class NegativeCreate(LoginRequiredMixin, CreateView):
     model = Negative
     form_class = NegativeForm
     template_name = 'create.html'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'film' in self.request.GET:
+            initial.update({'film': self.request.GET['film']})
+        return initial
 
 
 class NegativeUpdate(LoginRequiredMixin, UpdateView):
@@ -1016,7 +1028,7 @@ class NegativeUpdate(LoginRequiredMixin, UpdateView):
 
     # Restrict to objects we own
     def get_object(self):
-        return get_object_or_404(Negative, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+        return get_object_or_404(Negative, owner=self.request.user, slug=self.kwargs['slug'])
 
 
 class FilmList(LoginRequiredMixin, PagedFilteredTableView):

@@ -974,12 +974,10 @@ class NegativeForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['film'].queryset = Film.objects.filter(
-            owner=get_current_user())
+            owner=get_current_user()).exclude(status='Available')
         self.fields['lens'].queryset = Lens.objects.filter(
             owner=get_current_user())
         self.fields['mount_adapter'].queryset = MountAdapter.objects.filter(
-            owner=get_current_user())
-        self.fields['film'].queryset = Film.objects.filter(
             owner=get_current_user())
         self.fields['photographer'].queryset = Person.objects.filter(
             owner=get_current_user())
