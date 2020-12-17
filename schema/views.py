@@ -1008,6 +1008,12 @@ class NegativeCreate(LoginRequiredMixin, CreateView):
     form_class = NegativeForm
     template_name = 'create.html'
 
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'film' in self.request.GET:
+            initial.update({'film': self.request.GET['film']})
+        return initial
+
 
 class NegativeUpdate(LoginRequiredMixin, UpdateView):
     model = Negative

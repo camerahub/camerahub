@@ -207,4 +207,10 @@
     role="button">Develop this film</a></li>{% endif %}
 {% if object.status == "Developed" %}<li><a class="btn btn-primary"
     href="{% url 'schema:film-archive' object.id_owner %}" role="button">Archive this film</a></li>{% endif %}
+{% if object.status != "Available" %}<li>
+  <form action="{% url 'schema:negative-create' %}">
+    <input type="hidden" name="film" value="{{ object.id }}">
+    <button class="btn btn-primary" type="submit">Add a negative to this film</button>
+  </form>
+</li>{% endif %}
 {%endblock%}
