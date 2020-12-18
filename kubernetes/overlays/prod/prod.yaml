@@ -83,7 +83,7 @@ spec:
     - metadata:
         name: data
       spec:
-        storageClassName: freenas-nfs-csi
+        storageClassName: freenas-iscsi-csi
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
