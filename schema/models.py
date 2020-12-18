@@ -11,7 +11,7 @@ from djmoney.models.fields import MoneyField
 from djchoices import DjangoChoices, ChoiceItem
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
-from slugify import Slugify, UniqueSlugify
+from slugify import slugify, Slugify, UniqueSlugify
 from taggit.managers import TaggableManager
 from django_prometheus.models import ExportModelOperationsMixin
 from simple_history.models import HistoricalRecords
@@ -389,8 +389,10 @@ class Format(models.Model):
 class FlashModel(models.Model):
     model = models.CharField(
         help_text='Model name/number of the flash', max_length=45)
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
-                                     blank=True, null=True, help_text='Manufacturer of this flash')
+    manufacturer = models.ForeignKey(
+        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this flash')
+    disambiguation = models.CharField(
+        help_text='Distinguishing notes for flash models with the same name', max_length=45, blank=True, default='')
     guide_number = models.PositiveIntegerField(
         help_text='Guide number of the flash', blank=True, null=True)
     gn_info = models.CharField(verbose_name='Guide number info',
@@ -419,20 +421,31 @@ class FlashModel(models.Model):
         verbose_name='TTL', help_text='Whether this flash supports TTL metering', blank=True, null=True)
     trigger_voltage = models.DecimalField(
         help_text='Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1, blank=True, null=True)
+    image = VersatileImageField(
+        help_text='Image of the flash model', blank=True, null=True)
+    image_attribution = models.CharField(
+        help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_url = models.URLField(
+        help_text='Attribution URL for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
 
     def __str__(self):
+        mystr = self.model
         if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.model)
-        else:
-            mystr = self.model
+            mystr = str(self.manufacturer) + ' ' + mystr
+        if self.disambiguation:
+            mystr = mystr + ' [' + self.disambiguation + ']'
         return mystr
 
     class Meta:
         ordering = ['manufacturer', 'model']
         verbose_name_plural = "flash models"
+        constraints = [
+            models.UniqueConstraint(
+                fields=['manufacturer', 'model', 'disambiguation'], name='flashmodel_unique_name')
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -511,8 +524,8 @@ class EnlargerModel(models.Model):
         Cold_cathode = ChoiceItem()
         LED = ChoiceItem()
 
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
-                                     blank=True, null=True, help_text='Manufacturer of this enlarger')
+    manufacturer = models.ForeignKey(
+        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this enlarger')
     model = models.CharField(
         help_text='Name/model of the enlarger', max_length=45)
     disambiguation = models.CharField(
@@ -527,15 +540,22 @@ class EnlargerModel(models.Model):
         help_text='Year in which the enlarger was introduced', blank=True, null=True)
     discontinued = models.PositiveIntegerField(
         help_text='Year in which the enlarger was discontinued', blank=True, null=True)
+    image = VersatileImageField(
+        help_text='Image of the enlarger model', blank=True, null=True)
+    image_attribution = models.CharField(
+        help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_url = models.URLField(
+        help_text='Attribution URL for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
 
     def __str__(self):
+        mystr = self.model
         if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.model)
-        else:
-            mystr = self.model
+            mystr = str(self.manufacturer) + ' ' + mystr
+        if self.disambiguation:
+            mystr = mystr + ' [' + self.disambiguation + ']'
         return mystr
 
     class Meta:
@@ -818,8 +838,10 @@ class Process(models.Model):
 class TeleconverterModel(models.Model):
     model = models.CharField(
         help_text='Model name of this teleconverter', max_length=45)
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
-                                     blank=True, null=True, help_text='Manufacturer of this teleconverter')
+    manufacturer = models.ForeignKey(
+        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this teleconverter')
+    disambiguation = models.CharField(
+        help_text='Distinguishing notes for teleconverter models with the same name', max_length=45, blank=True, default='')
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True,
                               help_text='Lens mount used by this teleconverter', limit_choices_to={'purpose': 'Camera'})
     factor = models.DecimalField(help_text='Magnification factor of this teleconverter (numerical part only, e.g. 1.4)',
@@ -830,20 +852,31 @@ class TeleconverterModel(models.Model):
         help_text='Number of optical groups used in this teleconverter', blank=True, null=True)
     multicoated = models.BooleanField(
         help_text='Whether this teleconverter is multi-coated', blank=True, null=True)
+    image = VersatileImageField(
+        help_text='Image of the teleconverter model', blank=True, null=True)
+    image_attribution = models.CharField(
+        help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_url = models.URLField(
+        help_text='Attribution URL for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
 
     def __str__(self):
+        mystr = self.model
         if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.model)
-        else:
-            mystr = self.model
+            mystr = str(self.manufacturer) + ' ' + mystr
+        if self.disambiguation:
+            mystr = mystr + ' [' + self.disambiguation + ']'
         return mystr
 
     class Meta:
         ordering = ['manufacturer', 'model']
         verbose_name_plural = "teleconverter models"
+        constraints = [
+            models.UniqueConstraint(
+                fields=['manufacturer', 'model', 'disambiguation'], name='teleconvertermodel_unique_name')
+        ]
 
     def clean(self):
         # Groups/elements
@@ -1019,6 +1052,10 @@ class BulkFilm(models.Model):
         Format, on_delete=models.CASCADE, help_text='Film format of this bulk film')
     filmstock = models.ForeignKey(
         FilmStock, on_delete=models.CASCADE, help_text='Filmstock of this bulk film')
+    length = models.PositiveIntegerField(
+        help_text='Length of bulk film roll', blank=True, null=True)
+    finished = models.BooleanField(
+        help_text='Whether this bulk film has been used up', default=False)
     purchase_date = models.DateField(
         help_text='Purchase date of this bulk roll', blank=True, null=True)
     cost = MoneyField(help_text='Purchase cost of this bulk roll', max_digits=12,
@@ -2106,7 +2143,7 @@ class Negative(models.Model):
     location = GeopositionField(
         help_text='Location where the picture was taken', blank=True, null=True)
     flash = models.BooleanField(
-        help_text='Whether flash was used', blank=True, null=True)
+        help_text='Whether flash was used', default=False)
     metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Metering mode used when taking the image')
     exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE,
@@ -2121,9 +2158,9 @@ class Negative(models.Model):
 
     def __str__(self):
         if self.caption is not None:
-            mystr = "%s %s" % (self.slug, self.caption)
+            mystr = "#%s %s" % (self.slug, self.caption)
         else:
-            mystr = self.slug
+            mystr = "#%s" % self.slug
         return mystr
 
     class Meta:
@@ -2161,11 +2198,11 @@ class Negative(models.Model):
                     self.focal_length = self.lens.lensmodel.min_focal_length
 
         # Populate slug
-        self.slug = str(self.film.id_owner) + ':' + str(self.frame)
+        self.slug = slugify(str(self.film.id_owner) + '.' + str(self.frame), separator='.')
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('schema:negative-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:negative-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):

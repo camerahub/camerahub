@@ -104,7 +104,7 @@ class BatteryForm(ModelForm):
 class BulkFilmForm(ModelForm):
     class Meta:
         model = BulkFilm
-        fields = ['format', 'filmstock', 'purchase_date',
+        fields = ['format', 'filmstock', 'length', 'finished', 'purchase_date',
                   'cost', 'source', 'batch', 'expiry']
         widgets = {
             'purchase_date': DatePickerInput(format='%Y-%m-%d'),
@@ -121,6 +121,8 @@ class BulkFilmForm(ModelForm):
             Fieldset('Summary',
                      'format',
                      'filmstock',
+                     AppendedText('length', 'm'),
+                     'finished',
                      'batch',
                      'expiry',
                      ),
@@ -352,8 +354,8 @@ class DeveloperForm(ModelForm):
 class EnlargerModelForm(ModelForm):
     class Meta:
         model = EnlargerModel
-        fields = ['manufacturer', 'model', 'negative_size',
-                  'type', 'light_source', 'introduced', 'discontinued', 'tags']
+        fields = ['manufacturer', 'model', 'disambiguation', 'negative_size',
+                  'type', 'light_source', 'introduced', 'discontinued', 'tags', 'image', 'image_attribution', 'image_attribution_url']
         widgets = {
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
@@ -379,6 +381,9 @@ class EnlargerModelForm(ModelForm):
                      ),
             Fieldset('Meta',
                      'tags',
+                     'image',
+                     'image_attribution',
+                     'image_attribution_url',
                      ),
             FormActionButtons
         )
@@ -465,8 +470,8 @@ class FilterForm(ModelForm):
 class FlashModelForm(ModelForm):
     class Meta:
         model = FlashModel
-        fields = ['manufacturer', 'model', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
-                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'tags']
+        fields = ['manufacturer', 'model', 'disambiguation', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
+                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'tags', 'image', 'image_attribution', 'image_attribution_url']
         widgets = {
             'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
@@ -481,6 +486,7 @@ class FlashModelForm(ModelForm):
             Fieldset('Summary',
                      'manufacturer',
                      'model',
+                     'disambiguation',
                      'guide_number',
                      'gn_info',
                      AppendedText('trigger_voltage', 'V'),
@@ -502,6 +508,9 @@ class FlashModelForm(ModelForm):
                      ),
             Fieldset('Meta',
                      'tags',
+                     'image',
+                     'image_attribution',
+                     'image_attribution_url',
                      ),
             FormActionButtons
         )
@@ -965,12 +974,10 @@ class NegativeForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['film'].queryset = Film.objects.filter(
-            owner=get_current_user())
+            owner=get_current_user()).exclude(status='Available')
         self.fields['lens'].queryset = Lens.objects.filter(
             owner=get_current_user())
         self.fields['mount_adapter'].queryset = MountAdapter.objects.filter(
-            owner=get_current_user())
-        self.fields['film'].queryset = Film.objects.filter(
             owner=get_current_user())
         self.fields['photographer'].queryset = Person.objects.filter(
             owner=get_current_user())
@@ -1034,6 +1041,8 @@ class FilmForm(ModelForm):
             owner=get_current_user())
         self.fields['archive'].queryset = Archive.objects.filter(
             owner=get_current_user())
+        self.fields['bulk_film'].queryset = BulkFilm.objects.filter(
+            owner=get_current_user(), finished=False)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset('Summary',
@@ -1089,7 +1098,7 @@ class FilmAddForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['bulk_film'].queryset = BulkFilm.objects.filter(
-            owner=get_current_user())
+            owner=get_current_user(), finished=False)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset('Add a new film to your collection',
@@ -1234,8 +1243,8 @@ class TeleconverterForm(ModelForm):
 class TeleconverterModelForm(ModelForm):
     class Meta:
         model = TeleconverterModel
-        fields = ['model', 'manufacturer', 'mount',
-                  'factor', 'elements', 'groups', 'multicoated', 'tags']
+        fields = ['model', 'manufacturer', 'disambiguation', 'mount',
+                  'factor', 'elements', 'groups', 'multicoated', 'tags', 'image', 'image_attribution', 'image_attribution_url']
         widgets = {
             'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
@@ -1245,8 +1254,9 @@ class TeleconverterModelForm(ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset('Summary',
-                     'model',
                      'manufacturer',
+                     'model',
+                     'disambiguation'
                      'mount',
                      ),
             Fieldset('Optics',
@@ -1257,6 +1267,9 @@ class TeleconverterModelForm(ModelForm):
                      ),
             Fieldset('Meta',
                      'tags',
+                     'image',
+                     'image_attribution',
+                     'image_attribution_url',
                      ),
             FormActionButtons
         )

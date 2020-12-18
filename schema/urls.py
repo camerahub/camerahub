@@ -208,10 +208,10 @@ urlpatterns = [
          views.ScanUpdate.as_view(), name='scan-update'),
 
     path('negative/', views.NegativeList.as_view(), name='negative-list'),
-    path('negative/<int:id_owner>',
+    path('negative/<str:slug>',
          views.NegativeDetail.as_view(), name='negative-detail'),
     path('negative/create/', views.NegativeCreate.as_view(), name='negative-create'),
-    path('negative/<int:id_owner>/update',
+    path('negative/<str:slug>/update',
          views.NegativeUpdate.as_view(), name='negative-update'),
 
     path('film/', views.FilmList.as_view(), name='film-list'),

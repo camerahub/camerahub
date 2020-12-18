@@ -11,7 +11,7 @@
   {% if object.negative is not None %}
   <tr>
     <td>Negative</td>
-    <td><a href="{% url 'schema:negative-detail' object.negative.id_owner %}">{{ object.negative }}</a></td>
+    <td><a href="{% url 'schema:negative-detail' object.negative.slug %}">{{ object.negative }}</a></td>
   </tr>
   {% endif %}
   {% if object.date is not None %}

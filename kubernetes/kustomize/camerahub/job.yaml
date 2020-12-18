@@ -22,71 +22,12 @@ spec:
                   secretKeyRef:
                     name: camerahub-secret
                     key: CAMERAHUB_DB_PASS
-              - name: CAMERAHUB_SECRET_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: camerahub-secret
-                    key: CAMERAHUB_SECRET_KEY
-              - name: CAMERAHUB_SENDGRID_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: camerahub-secret
-                    key: CAMERAHUB_SENDGRID_KEY
-                    optional: true
-              - name: CAMERAHUB_EMAIL_BACKEND
-                valueFrom:
-                  secretKeyRef:
-                    name: camerahub-secret
-                    key: CAMERAHUB_EMAIL_BACKEND
-                    optional: true
-              - name: CAMERAHUB_EMAIL_HOST_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: camerahub-secret
-                    key: CAMERAHUB_EMAIL_HOST_PASSWORD
-                    optional: true
               # then config
               - name: CAMERAHUB_DB_USER
                 valueFrom:
                   configMapKeyRef:
                     name: camerahub-config
-                    key: CAMERAHUB_DB_USER            
-              - name: CAMERAHUB_DOMAIN
-                valueFrom:
-                  configMapKeyRef:
-                    name: camerahub-config
-                    key: CAMERAHUB_DOMAIN
-                    optional: true
-              - name: CAMERAHUB_EMAIL_USE_TLS
-                valueFrom:
-                  configMapKeyRef:
-                    name: camerahub-config
-                    key: CAMERAHUB_EMAIL_USE_TLS
-                    optional: true
-              - name: CAMERAHUB_EMAIL_USE_SSL
-                valueFrom:
-                  configMapKeyRef:
-                    name: camerahub-config
-                    key: CAMERAHUB_EMAIL_USE_SSL
-                    optional: true
-              - name: CAMERAHUB_EMAIL_HOST
-                valueFrom:
-                  configMapKeyRef:
-                    name: camerahub-config
-                    key: CAMERAHUB_EMAIL_HOST
-                    optional: true
-              - name: CAMERAHUB_EMAIL_HOST_USER
-                valueFrom:
-                  configMapKeyRef:
-                    name: camerahub-config
-                    key: CAMERAHUB_EMAIL_HOST_USER
-                    optional: true
-              - name: CAMERAHUB_EMAIL_PORT
-                valueFrom:
-                  configMapKeyRef:
-                    name: camerahub-config
-                    key: CAMERAHUB_EMAIL_HOST_PORT
-                    optional: true
+                    key: CAMERAHUB_DB_USER
               - name: CAMERAHUB_DB_HOST
                 value: postgres
               - name: CAMERAHUB_DB_NAME
@@ -95,6 +36,133 @@ spec:
                 value: "5432"
               - name: CAMERAHUB_DB_ENGINE
                 value: django.db.backends.postgresql
+              - name: CAMERAHUB_PROD
+                valueFrom:
+                  configMapKeyRef:
+                    name: camerahub-config
+                    key: CAMERAHUB_PROD
+                    optional: true
+            volumeMounts:
+              - name: backup
+                mountPath: /camerahub/backup
+                readOnly: false
+          restartPolicy: OnFailure
+          volumes:
+            - name: backup
+              persistentVolumeClaim:
+                claimName: backup
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: media-backup
+spec:
+  schedule: "0 3 * * *"
+  suspend: true
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 86400
+      template:
+        spec:
+          containers:
+          - image: djjudas21/camerahub:0.25.3
+            name: camerahub
+            command: ["python", "manage.py", "mediabackup"]
+            env:
+              # then config
+              - name: CAMERAHUB_PROD
+                valueFrom:
+                  configMapKeyRef:
+                    name: camerahub-config
+                    key: CAMERAHUB_PROD
+                    optional: true
+            volumeMounts:
+              - name: media
+                mountPath: /camerahub/media
+                readOnly: false
+              - name: backup
+                mountPath: /camerahub/backup
+                readOnly: false
+          restartPolicy: OnFailure
+          volumes:
+            - name: media
+              persistentVolumeClaim:
+                claimName: media
+            - name: backup
+              persistentVolumeClaim:
+                claimName: backup
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: postgres-restore
+spec:
+  schedule: "0 3 * * *"
+  suspend: true
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 86400
+      template:
+        spec:
+          containers:
+          - image: djjudas21/camerahub:0.25.3
+            name: camerahub
+            command: ["python", "manage.py", "dbrestore", "--noinput"]
+            env:
+              # Secrets first
+              - name: CAMERAHUB_DB_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: camerahub-secret
+                    key: CAMERAHUB_DB_PASS
+              # then config
+              - name: CAMERAHUB_DB_USER
+                valueFrom:
+                  configMapKeyRef:
+                    name: camerahub-config
+                    key: CAMERAHUB_DB_USER
+              - name: CAMERAHUB_DB_HOST
+                value: postgres
+              - name: CAMERAHUB_DB_NAME
+                value: camerahub
+              - name: CAMERAHUB_DB_PORT
+                value: "5432"
+              - name: CAMERAHUB_DB_ENGINE
+                value: django.db.backends.postgresql
+              - name: CAMERAHUB_PROD
+                valueFrom:
+                  configMapKeyRef:
+                    name: camerahub-config
+                    key: CAMERAHUB_PROD
+                    optional: true
+            volumeMounts:
+              - name: backup
+                mountPath: /camerahub/backup
+                readOnly: false
+          restartPolicy: OnFailure
+          volumes:
+            - name: backup
+              persistentVolumeClaim:
+                claimName: backup
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: media-restore
+spec:
+  schedule: "0 3 * * *"
+  suspend: true
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 86400
+      template:
+        spec:
+          containers:
+          - image: djjudas21/camerahub:0.25.3
+            name: camerahub
+            command: ["python", "manage.py", "mediarestore", "--noinput"]
+            env:
+              # then config
               - name: CAMERAHUB_PROD
                 valueFrom:
                   configMapKeyRef:
