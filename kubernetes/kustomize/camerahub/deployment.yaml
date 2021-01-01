@@ -14,7 +14,7 @@ spec:
         app: camerahub-container
     spec:
       containers:
-        - image: djjudas21/camerahub:0.26.0
+        - image: djjudas21/camerahub:0.26.2
           name: camerahub
           ports:
           - name: app-port
