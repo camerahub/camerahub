@@ -123,6 +123,14 @@ spec:
 #              port: app-port
 #            periodSeconds: 5
 #            timeoutSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+                - "curl"
+                - "--fail"
+                - "http://localhost:8000/"
+            periodSeconds: 5
+            timeoutSeconds: 1
 #          startupProbe:
 #            httpGet:
 #              path: /
