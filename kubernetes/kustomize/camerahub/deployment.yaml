@@ -14,7 +14,7 @@ spec:
         app: camerahub-container
     spec:
       containers:
-        - image: djjudas21/camerahub:0.26.0
+        - image: djjudas21/camerahub:0.26.2
           name: camerahub
           ports:
           - name: app-port
@@ -112,23 +112,14 @@ spec:
             - name: backup
               mountPath: /camerahub/backup
               readOnly: false
-#          livenessProbe:
-#            tcpSocket:
-#              port: app-port
-#            periodSeconds: 10
-#            timeoutSeconds: 3
-#          readinessProbe:
-#            httpGet:
-#              path: /
-#              port: app-port
-#            periodSeconds: 5
-#            timeoutSeconds: 1
-#          startupProbe:
-#            httpGet:
-#              path: /
-#              port: app-port
-#            failureThreshold: 36
-#            periodSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - "curl"
+                - "--fail"
+                - "http://localhost:8000/"
+            periodSeconds: 5
+            timeoutSeconds: 1
       dnsPolicy: ClusterFirst
       volumes:
       - name: media
