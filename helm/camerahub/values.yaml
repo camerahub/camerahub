@@ -2,6 +2,13 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Settings for Redis subchart
+redis:
+  usePassword: false
+  cluster:
+    enabled: true
+    slaveCount: 2
+
 settings:
   CAMERAHUB_SECRET_KEY: OverrideMe!
   CAMERAHUB_DB_USER: postgres
