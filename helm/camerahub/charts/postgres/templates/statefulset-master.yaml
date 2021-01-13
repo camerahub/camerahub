@@ -28,7 +28,7 @@ spec:
 
       containers:
         - name: postgres
-          image: postgres:10.5
+          image: postgres:{{ .Chart.AppVersion }}
           args:
             [
               "-c",

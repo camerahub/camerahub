@@ -28,7 +28,7 @@ spec:
 
       initContainers:
         - name: setup-replica-data-directory
-          image: postgres:10.5
+          image: postgres:{{ .Chart.AppVersion }}
 
           env:
             - name: PGPASSWORD
@@ -56,7 +56,7 @@ spec:
 
       containers:
         - name: postgres-replica
-          image: postgres:10.5
+          image: postgres:{{ .Chart.AppVersion }}
           args: ["-c", "config_file=/etc/postgres.conf"]
 
           imagePullPolicy: IfNotPresent
