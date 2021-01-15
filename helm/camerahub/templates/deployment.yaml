@@ -118,7 +118,7 @@ spec:
                   key: CAMERAHUB_EMAIL_HOST_PORT
                   optional: true
             - name: CAMERAHUB_DB_HOST
-              value: postgres
+              value: camerahub-postgresql-ha-postgresql
             - name: CAMERAHUB_DB_NAME
               value: camerahub
             - name: CAMERAHUB_DB_PORT

@@ -2,6 +2,12 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Global settings
+global:
+  postgresql:
+    username: postgres
+    password: postgres
+
 # Settings for Redis subchart
 redis:
   usePassword: false
@@ -14,11 +20,8 @@ postgresql-ha: {}
 
 settings:
   CAMERAHUB_SECRET_KEY: OverrideMe!
-  CAMERAHUB_DB_USER: postgres
-  CAMERAHUB_DB_PASS: postgres
   CAMERAHUB_ADMIN_EMAIL: admin@example.com
   CAMERAHUB_ADMIN_PASSWORD: admin
-  CAMERAHUB_DB_USER: postgres
   CAMERAHUB_PROD: true
 
 replicaCount: 1

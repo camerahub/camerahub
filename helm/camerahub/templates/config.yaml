@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-config
 data:
-  CAMERAHUB_DB_USER: postgres
-  CAMERAHUB_PROD: true
+  CAMERAHUB_DB_USER: {{ .Values.global.postgresql.username }}
+  CAMERAHUB_PROD: "true"
