@@ -9,6 +9,9 @@ redis:
     enabled: true
     slaveCount: 2
 
+# Settings for Postgresql-ha subchart
+postgresql-ha: {}
+
 settings:
   CAMERAHUB_SECRET_KEY: OverrideMe!
   CAMERAHUB_DB_USER: postgres
