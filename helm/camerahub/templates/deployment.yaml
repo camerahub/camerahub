@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "camerahub.fullname" . }}
+  name: {{ include "camerahub.fullname" . }}-app
   labels:
     {{- include "camerahub.labels" . | nindent 4 }}
 spec:
@@ -38,11 +38,11 @@ spec:
           #livenessProbe:
           #  httpGet:
           #    path: /
-          #    port: http
+          #    port: app-port
           #readinessProbe:
           #  httpGet:
           #    path: /
-          #    port: http
+          #    port: app-port
           env:
             # Secrets first
             - name: CAMERAHUB_DB_PASS
@@ -116,9 +116,9 @@ spec:
                   key: CAMERAHUB_EMAIL_HOST_PORT
                   optional: true
             - name: CAMERAHUB_DB_HOST
-              value: camerahub-postgresql-ha-postgresql
+              value: {{ .Release.Name }}-postgresql-ha-pgpool
             - name: CAMERAHUB_DB_NAME
-              value: camerahub
+              value: {{ .Values.global.postgresql.database }}
             - name: CAMERAHUB_DB_PORT
               value: "5432"
             - name: CAMERAHUB_DB_ENGINE

@@ -4,4 +4,5 @@ metadata:
   name: {{ .Release.Name }}-config
 data:
   CAMERAHUB_DB_USER: {{ .Values.global.postgresql.username }}
-  CAMERAHUB_PROD: "true"
+  CAMERAHUB_DB_NAME: {{ .Values.global.postgresql.database }}
+  CAMERAHUB_PROD: "{{ .Values.camerahub.production }}"

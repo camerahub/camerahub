@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "camerahub.fullname" . }}
+  name: {{ include "camerahub.fullname" . }}-app
   labels:
     {{- include "camerahub.labels" . | nindent 4 }}
 spec:

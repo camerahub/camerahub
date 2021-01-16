@@ -7,24 +7,41 @@ global:
   postgresql:
     username: postgres
     password: postgres
+    database: camerahub
 
 # Settings for Redis subchart
 redis:
   usePassword: false
   cluster:
     enabled: true
-    slaveCount: 2
+    slaveCount: 1
+  master:
+    persistence:
+      storageClass: ""
+      accessModes: [ ReadWriteOnce ]
+      size: 1Gi
+  slave:
+    persistence:
+      storageClass: ""
+      accessModes: [ ReadWriteOnce ]
+      size: 1Gi
 
 # Settings for Postgresql-ha subchart
-postgresql-ha: {}
+postgresql-ha:
+  postgresql:
+    replicaCount: 2
+  persistence:
+    storageClass: ""
+    accessMode:	ReadWriteOnce
+    size: 8Gi
 
-settings:
-  CAMERAHUB_SECRET_KEY: OverrideMe!
-  CAMERAHUB_ADMIN_EMAIL: admin@example.com
-  CAMERAHUB_ADMIN_PASSWORD: admin
-  CAMERAHUB_PROD: true
+camerahub:
+  secretKey: OverrideMe!
+  adminEmail: admin@example.com
+  adminPassword: admin
+  production: true
 
-replicaCount: 1
+replicaCount: 2
 
 image:
   repository: djjudas21/camerahub
@@ -76,9 +93,9 @@ ingress:
   #      - chart-example.local
 
 storage:
-  storageClassName:
-    files: ""
-    database: ""
+  storageClass: ""
+  size: 8Gi
+  accessModes: [ ReadWriteMany ]
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

@@ -4,21 +4,29 @@ kind: PersistentVolumeClaim
 metadata:
   name: media
 spec:
-  storageClassName: {{ .Values.storage.storageClassName.files }}
+  {{- if .Values.storage.storageClass }}
+  storageClassName: {{ .Values.storage.storageClass }}
+  {{- end }}
   accessModes:
-    - ReadWriteMany
+  {{- range .Values.storage.accessModes }}
+    - {{ . | quote }}
+  {{- end }}
   resources:
     requests:
-      storage: 8Gi
+      storage: {{ .Values.storage.size }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: backup
 spec:
-  storageClassName: {{ .Values.storage.storageClassName.files }}
+  {{- if .Values.storage.storageClass }}
+  storageClassName: {{ .Values.storage.storageClass }}
+  {{- end }}
   accessModes:
-    - ReadWriteMany
+  {{- range .Values.storage.accessModes }}
+    - {{ . | quote }}
+  {{- end }}
   resources:
     requests:
-      storage: 8Gi
+      storage: {{ .Values.storage.size }}
