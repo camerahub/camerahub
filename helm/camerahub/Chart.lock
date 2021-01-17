@@ -1,12 +1,9 @@
 dependencies:
-- name: cert-manager
-  repository: https://charts.jetstack.io
-  version: v1.1.0
 - name: redis
   repository: https://charts.bitnami.com/bitnami
   version: 12.4.0
 - name: postgresql-ha
   repository: https://charts.bitnami.com/bitnami
   version: 6.3.6
-digest: sha256:3e5c20bde43c7d6725171da141dc05ae9602499eb8fe1fc2790f7a3ac038e05a
-generated: "2021-01-15T20:19:03.351041809Z"
+digest: sha256:ce43c6811389b7deb0e5b5b4af835a6346768ae97b4c772684c9554361bbe92b
+generated: "2021-01-16T23:30:29.905016853Z"
