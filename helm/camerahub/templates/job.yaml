@@ -12,7 +12,7 @@ spec:
       template:
         spec:
           containers:
-          - image: djjudas21/camerahub:0.26.2
+          - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
             name: camerahub
             command: ["python", "manage.py", "dbbackup"]
             env:
@@ -65,7 +65,7 @@ spec:
       template:
         spec:
           containers:
-          - image: djjudas21/camerahub:0.26.2
+          - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
             name: camerahub
             command: ["python", "manage.py", "mediabackup"]
             env:
@@ -105,7 +105,7 @@ spec:
       template:
         spec:
           containers:
-          - image: djjudas21/camerahub:0.26.2
+          - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
             name: camerahub
             command: ["python", "manage.py", "dbrestore", "--noinput"]
             env:
@@ -158,7 +158,7 @@ spec:
       template:
         spec:
           containers:
-          - image: djjudas21/camerahub:0.26.2
+          - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
             name: camerahub
             command: ["python", "manage.py", "mediarestore", "--noinput"]
             env:
