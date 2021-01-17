@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'geoposition',
     'leaflet',
     'rest_framework',
+    'dbbackup',
 ]
 
 MIDDLEWARE = [
@@ -108,7 +109,7 @@ WSGI_APPLICATION = 'camerahub.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('CAMERAHUB_DB_ENGINE', 'django_prometheus.db.backends.sqlite3'),
+        'ENGINE': os.getenv('CAMERAHUB_DB_ENGINE', 'django.db.backends.sqlite3'),
         'NAME': os.getenv('CAMERAHUB_DB_NAME', os.path.join(BASE_DIR, 'db', 'db.sqlite3')),
         'USER': os.getenv('CAMERAHUB_DB_USER'),
         'PASSWORD': os.getenv('CAMERAHUB_DB_PASS'),
@@ -139,16 +140,20 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
+LANGUAGE_CODE = 'en-gb'
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
-USE_L10N = True
-
+USE_L10N = False
 USE_TZ = True
 
+DATE_INPUT_FORMATS = ['%Y-%m-%d', ]
+DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S', '%Y-%m-%d %H:%M']
+TIME_INPUT_FORMATS = ['%H:%M:%S', '%H:%M', ]
+
+DATE_FORMAT = 'Y-m-d'
+TIME_FORMAT = 'Y-m-d H:i'
+SHORT_DATE_FORMAT = 'Y-m-d'
+SHORT_DATETIME_FORMAT = 'Y-m-d H:i'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
@@ -249,3 +254,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, "backup")}

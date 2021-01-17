@@ -1,5 +1,6 @@
 {% extends "detail.html" %}
 {% load static %}
+{% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
@@ -17,6 +18,18 @@
   <tr>
     <td>Filmstock</td>
     <td><a href="{% url 'schema:filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.length is not None %}
+  <tr>
+    <td>Length</td>
+    <td>{{ object.length }}m</td>
+  </tr>
+  {% endif %}
+  {% if object.finished is not None %}
+  <tr>
+    <td>Finished</td>
+    <td><code>{{ object.finished|boolicontag }}</code></td>
   </tr>
   {% endif %}
   {% if object.batch is not None %}

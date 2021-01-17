@@ -53,6 +53,7 @@ class BulkFilmFormHelper(CustomFormHelper):
         Row(
             Field('format', css_class="form-control-sm"),
             Field('filmstock', css_class="form-control-sm"),
+            Field('finished', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
