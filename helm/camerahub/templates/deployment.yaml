@@ -35,14 +35,18 @@ spec:
             - name: app-port
               containerPort: 8000
               protocol: TCP
-          #livenessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: app-port
-          #readinessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: app-port
+          readinessProbe:
+            httpGet:
+              path: /
+              port: app-port
+            failureThreshold: 1
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /
+              port: app-port
+            failureThreshold: 40
+            periodSeconds: 10
           #readinessProbe:
           #  exec:
           #    command:
