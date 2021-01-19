@@ -31,13 +31,12 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ . }}
+          - path: {{ .paths.path }}
+            pathType: {{ .paths.pathType }}
             backend:
               service:
-                name: {{ $fullName }}
+                name: {{ $fullName }}-app
                 port:
                   number: {{ $svcPort }}
-          {{- end }}
     {{- end }}
   {{- end }}
