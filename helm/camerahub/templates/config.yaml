@@ -5,4 +5,25 @@ metadata:
 data:
   CAMERAHUB_DB_USER: {{ .Values.global.postgresql.username }}
   CAMERAHUB_DB_NAME: {{ .Values.global.postgresql.database }}
-  CAMERAHUB_PROD: "{{ .Values.camerahub.production }}"
+  CAMERAHUB_PROD: {{ .Values.camerahub.production | quote }}
+  CAMERAHUB_REDIS: {{ .Values.camerahub.redis | quote }}
+  CAMERAHUB_ADMIN_EMAIL: {{ .Values.camerahub.adminEmail }}
+  CAMERAHUB_EMAIL_BACKEND: {{ .Values.camerahub.email.backend }}
+  {{- if .Values.camerahub.domain }}
+  CAMERAHUB_DOMAIN: {{ .Values.camerahub.domain }}
+  {{- end }}
+  {{- if .Values.camerahub.email.useTLS }}
+  CAMERAHUB_EMAIL_USE_TLS: {{ .Values.camerahub.email.useTLS }}
+  {{- end }}
+  {{- if .Values.camerahub.email.useSSL }}
+  CAMERAHUB_EMAIL_USE_SSL: {{ .Values.camerahub.email.useSSL }}
+  {{- end }}
+  {{- if .Values.camerahub.email.host }}
+  CAMERAHUB_EMAIL_HOST: {{ .Values.camerahub.email.host }}
+  {{- end }}
+  {{- if .Values.camerahub.email.user }}
+  CAMERAHUB_EMAIL_HOST_USER: {{ .Values.camerahub.email.user }}
+  {{- end }}
+  {{- if .Values.camerahub.email.port }}
+  CAMERAHUB_EMAIL_PORT: {{ .Values.camerahub.email.port }}
+  {{- end }}

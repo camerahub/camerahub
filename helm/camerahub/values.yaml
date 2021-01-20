@@ -42,6 +42,18 @@ camerahub:
   adminEmail: admin@example.com
   adminPassword: admin
   production: true
+  redis: false
+  domain:
+  email:
+    backend: "django.core.mail.backends.filebased.EmailBackend"
+    sendgridKey: ""
+
+    host: ""
+    user: ""
+    password: ""    
+    useTLS: ""
+    UseSSL: ""
+    port: ""
 
 # Replicas of CameraHub app server
 replicaCount: 2
@@ -86,18 +98,9 @@ ingress:
   enabled: false
   annotations:
     kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
     cert-manager.io/issuer: ""
     cert-manager.io/cluster-issuer: ""
-  hosts:
-    - host: chart-example.local
-      paths:
-        path: /
-        pathType: Prefix
-  tls:
-  - secretName: ingress-tls
-    hosts:
-    - chart-example.local
+  tls: false
 
 # Storage for CameraHub media and backups
 storage:
