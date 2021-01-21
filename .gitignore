@@ -116,4 +116,4 @@ backup/
 !*.secret
 
 # Helm
-helm/camerahub/charts/*.tgz
+charts/camerahub/charts/*.tgz
