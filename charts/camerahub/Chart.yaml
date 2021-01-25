@@ -35,6 +35,5 @@ keywords:
 sources:
   - https://github.com/camerahub/camerahub
 maintainers:
-  - name: Jonathan Gazeley
-    url: https://jonathangazeley.com/
+  - name: djjudas21
 icon: https://github.com/camerahub/camerahub/blob/master/schema/static/svg/camera.svg
