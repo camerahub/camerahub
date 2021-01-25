@@ -106,7 +106,7 @@ ingress:
 storage:
   storageClass: ""
   size: 8Gi
-  accessModes: [ ReadWriteMany ]
+  accessModes: [ReadWriteMany]
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
