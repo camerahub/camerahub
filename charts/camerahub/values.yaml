@@ -19,12 +19,12 @@ redis:
   master:
     persistence:
       storageClass: ""
-      accessModes: [ ReadWriteOnce ]
+      accessModes: [ReadWriteOnce]
       size: 1Gi
   slave:
     persistence:
       storageClass: ""
-      accessModes: [ ReadWriteOnce ]
+      accessModes: [ReadWriteOnce]
       size: 1Gi
 
 # Settings for Postgresql-ha subchart
@@ -34,7 +34,7 @@ postgresql-ha:
     replicaCount: 2
   persistence:
     storageClass: ""
-    accessMode:	ReadWriteOnce
+    accessMode: ReadWriteOnce
     size: 8Gi
 
 camerahub:
@@ -50,7 +50,7 @@ camerahub:
 
     host: ""
     user: ""
-    password: ""    
+    password: ""
     useTLS: ""
     UseSSL: ""
     port: ""
