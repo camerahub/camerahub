@@ -32,6 +32,6 @@ jobs:
         with:
           username: djjudas21
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: djjudas21/camerahub
+          repository: camerahub/camerahub
           tag_with_ref: true
           tags: latest

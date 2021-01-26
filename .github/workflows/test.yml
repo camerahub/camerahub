@@ -21,7 +21,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.8, 3.9]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -30,26 +30,20 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install GDAL for Leaflet
         run: sudo apt update && sudo apt install libgdal-dev
-      #----------------------------------------------
-      #  -----  install & configure poetry  -----      
-      #----------------------------------------------
+      # install & configure poetry
       - name: Install Poetry
         uses: snok/install-poetry@v1.1.1
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
-      #----------------------------------------------
-      #       load cached venv if cache exists      
-      #----------------------------------------------
+      # load cached venv if cache exists
       - name: Load cached venv
         id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-      #----------------------------------------------
-      # install dependencies if cache does not exist 
-      #----------------------------------------------
+      # install dependencies if cache does not exist
       - name: Install dependencies
         run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
@@ -76,14 +70,14 @@ jobs:
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
-      # load cached venv if cache exists      
+      # load cached venv if cache exists
       - name: Load cached venv
         id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-      # install dependencies if cache does not exist 
+      # install dependencies if cache does not exist
       - name: Install dependencies
         run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
@@ -92,6 +86,6 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v1
         with:
-          repository: djjudas21/camerahub
+          repository: camerahub/camerahub
           tags: testing
           push: false
