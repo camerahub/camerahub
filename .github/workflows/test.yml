@@ -86,6 +86,6 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v1
         with:
-          repository: djjudas21/camerahub
+          repository: camerahub/camerahub
           tags: testing
           push: false

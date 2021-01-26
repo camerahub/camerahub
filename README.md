@@ -129,7 +129,7 @@ Default: `6379`
 
 * [Screenshots](docs/SCREENSHOTS.md)
 * [Contributing](docs/CONTRIBUTING.md)
-* [Changelog](https://github.com/djjudas21/camerahub/releases)
+* [Changelog](https://github.com/camerahub/camerahub/releases)
 * [Icons](docs/ICONS.md)
 * [API](docs/API.md)
 * [Operations](docs/OPS.md)
