@@ -2052,31 +2052,27 @@ class Film(models.Model):
 
     @property
     def expired_when_loaded(self):
-        try:
+        if self.expiry_date is not None and self.date_loaded is not None:
             return self.expiry_date < self.date_loaded
-        except:
-            return False
+        return False
 
     @property
     def expired_when_processed(self):
-        try:
+        if self.expiry_date is not None and self.date_processed is not None:
             return self.expiry_date < self.date_processed
-        except:
-            return False
+        return False
 
     @property
     def pushed(self):
-        try:
+        if self.exposed_at is not None and self.filmstock.iso is not None:
             return self.exposed_at > self.filmstock.iso
-        except:
-            return False
+        return False
 
     @property
     def pulled(self):
-        try:
+        if self.exposed_at is not None and self.filmstock.iso is not None:
             return self.exposed_at < self.filmstock.iso
-        except:
-            return False
+        return False
 
     def __str__(self):
         if self.title is not None:
