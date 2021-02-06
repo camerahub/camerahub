@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'leaflet',
     'rest_framework',
     'dbbackup',
+    'star_ratings',
 ]
 
 MIDDLEWARE = [
@@ -265,3 +266,6 @@ DBBACKUP_CONNECTORS = {
         'CONNECTOR': 'dbbackup.db.postgresql.PgDumpBinaryConnector',
     }
 }
+
+# django-star-ratings
+STAR_RATINGS_ANONYMOUS = False

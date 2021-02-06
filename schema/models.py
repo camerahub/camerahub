@@ -5,6 +5,7 @@ from uuid import uuid4
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.core.exceptions import ValidationError
+from django.contrib.contenttypes.fields import GenericRelation
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from djmoney.models.fields import MoneyField
@@ -19,6 +20,7 @@ from versatileimagefield.fields import VersatileImageField
 from collectionfield.models import CollectionField
 from django_countries.fields import CountryField
 from geoposition.fields import GeopositionField
+from star_ratings.models import Rating
 from .funcs import angle_of_view
 
 
@@ -428,6 +430,7 @@ class FlashModel(models.Model):
     image_attribution_url = models.URLField(
         help_text='Attribution URL for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='FlashModels')
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
 
@@ -547,6 +550,7 @@ class EnlargerModel(models.Model):
     image_attribution_url = models.URLField(
         help_text='Attribution URL for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='EnlargerModels')
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
 
@@ -699,6 +703,7 @@ class Mount(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                      blank=True, null=True, help_text='Manufacturer who owns this lens mount')
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='Mounts')
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
 
@@ -748,6 +753,7 @@ class PaperStock(models.Model):
         help_text='Whether this is a colour paper', blank=True, null=True)
     finish = models.CharField(help_text='The finish of the paper surface',
                               choices=Finish.choices, max_length=25, blank=True, null=True)
+    ratings = GenericRelation(Rating, related_query_name='PaperStocks')
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
 
@@ -859,6 +865,7 @@ class TeleconverterModel(models.Model):
     image_attribution_url = models.URLField(
         help_text='Attribution URL for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='TeleconverterModels')
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
 
@@ -954,6 +961,7 @@ class Toner(models.Model):
     stock_dilution = models.CharField(
         help_text='Stock dilution of the toner', max_length=10, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='Toners')
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
 
@@ -1007,6 +1015,7 @@ class FilmStock(models.Model):
     process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True,
                                 null=True, help_text='Development process required by this film')
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='FilmStocks')
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
 
@@ -1167,6 +1176,7 @@ class Developer(models.Model):
     chemistry = models.CharField(
         help_text='The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='Developers')
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
 
@@ -1291,6 +1301,7 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
     shutter_model = models.CharField(
         help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='LensModels')
     tags = TaggableManager(blank=True)
     history = HistoricalRecords()
     image = VersatileImageField(
@@ -1576,6 +1587,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     history = HistoricalRecords()
+    ratings = GenericRelation(Rating, related_query_name='CameraModels')
     tags = TaggableManager(blank=True)
     linkurl = models.URLField(
         verbose_name='URL', help_text='URL to more information about this camera model', blank=True, null=True)
