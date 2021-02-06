@@ -154,6 +154,18 @@ django = ">=1.8"
 
 [[package]]
 category = "main"
+description = "Reusable, generic mixins for Django"
+name = "django-braces"
+optional = false
+python-versions = "*"
+version = "1.14.0"
+
+[package.dependencies]
+Django = ">=1.11.0"
+six = "*"
+
+[[package]]
+category = "main"
 description = "Sanity for the django choices functionality."
 name = "django-choices"
 optional = false
@@ -257,6 +269,17 @@ docs = ["sphinx", "sphinx-autobuild"]
 
 [[package]]
 category = "main"
+description = "Django model mixins and utilities"
+name = "django-model-utils"
+optional = false
+python-versions = "*"
+version = "4.1.1"
+
+[package.dependencies]
+Django = ">=2.0.1"
+
+[[package]]
+category = "main"
 description = "Adds support for using money and currency fields in django models and forms. Uses py-moneyed as the money implementation."
 name = "django-money"
 optional = false
@@ -339,6 +362,20 @@ name = "django-social-share"
 optional = false
 python-versions = "*"
 version = "2.2.1"
+
+[[package]]
+category = "main"
+description = "A Django app to add star ratings to models."
+name = "django-star-ratings"
+optional = false
+python-versions = "*"
+version = "0.9.1"
+
+[package.dependencies]
+django = "*"
+django-braces = "*"
+django-model-utils = "*"
+swapper = "*"
 
 [[package]]
 category = "main"
@@ -691,6 +728,14 @@ python-versions = "*"
 version = "1.1.0"
 
 [[package]]
+category = "main"
+description = "The unofficial Django swappable models API."
+name = "swapper"
+optional = false
+python-versions = "*"
+version = "1.1.2.post1"
+
+[[package]]
 category = "dev"
 description = "Python Library for Tom's Obvious, Minimal Language"
 name = "toml"
@@ -742,7 +787,7 @@ version = "1.12.1"
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "49b3191cb8b2a49f49b20a13b74af91dca4ac99f3c68fa9124f0295260399784"
+content-hash = "ec1d88ad325699f6a5b9ede328009321585e4b48bcbdbe7443405096643103d2"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -797,6 +842,10 @@ django-bootstrap-datepicker-plus = [
     {file = "django-bootstrap-datepicker-plus-3.0.5.tar.gz", hash = "sha256:490058eba99d47f48a7d24fa78581c0e36375bdc7aa9605783eeb170d51fd0df"},
     {file = "django_bootstrap_datepicker_plus-3.0.5-py3-none-any.whl", hash = "sha256:a8bc19cc6846f97ff1e6c447f4e0387881d16e8afa1e8bd7a652c19e545c566b"},
 ]
+django-braces = [
+    {file = "django-braces-1.14.0.tar.gz", hash = "sha256:83705b78948de00804bfacf40c315d001bb39630f35bbdd8588211c2d5b4d43f"},
+    {file = "django_braces-1.14.0-py2.py3-none-any.whl", hash = "sha256:a6d9b34cf3e4949635e54884097c30410d7964fc7bec7231445ea7079b8c5722"},
+]
 django-choices = [
     {file = "django-choices-1.7.1.tar.gz", hash = "sha256:5fa69f54c57ea4b99c55f261e0862a7c59d2950363cf1f80a7b2c7393fd5c6e3"},
     {file = "django_choices-1.7.1-py2.py3-none-any.whl", hash = "sha256:010b773c2ffc58e616701ba417bafdbf5ae23b5bcd18d6101d2c9755e0c2b4de"},
@@ -830,6 +879,10 @@ django-leaflet = [
     {file = "django-leaflet-0.27.1.tar.gz", hash = "sha256:b530960242fe7718572b23976dd6037823dd478335c22c4434931335acf88bdd"},
     {file = "django_leaflet-0.27.1-py3-none-any.whl", hash = "sha256:3cf1bc8a0e41d22651541ad5b5e2a8f2c6a13a603728883cd332daf785b37250"},
 ]
+django-model-utils = [
+    {file = "django-model-utils-4.1.1.tar.gz", hash = "sha256:eb5dd05ef7d7ce6bc79cae54ea7c4a221f6f81e2aad7722933aee66489e7264b"},
+    {file = "django_model_utils-4.1.1-py3-none-any.whl", hash = "sha256:ef7c440024e797796a3811432abdd2be8b5225ae64ef346f8bfc6de7d8e5d73c"},
+]
 django-money = [
     {file = "django-money-0.15.1.tar.gz", hash = "sha256:88b5a0ee36565a87c39581efedbe4834b6f3f4a9a348887678ed2f45f4f8a192"},
     {file = "django_money-0.15.1-py2.py3-none-any.whl", hash = "sha256:61b06e495f5c08795504bd0f8708295e3db3649aae7db8297f1a55a9755b5611"},
@@ -857,6 +910,9 @@ django-simple-history = [
 django-social-share = [
     {file = "django-social-share-2.2.1.tar.gz", hash = "sha256:4062c31ddad15eb9f7796cdfaae5a813018a3fd8da2b77f3e063e3a31252f84a"},
     {file = "django_social_share-2.2.1-py2.py3-none-any.whl", hash = "sha256:6de83acdd2a566c70af29b229a6430ccf8031d3d0ae1612419f633cbd9f649f5"},
+]
+django-star-ratings = [
+    {file = "django-star-ratings-0.9.1.tar.gz", hash = "sha256:ec6dca90cc2f195353ba073c0daa84207640155bbc9ee46155c95efc6d37a787"},
 ]
 django-tables2 = [
     {file = "django-tables2-2.3.4.tar.gz", hash = "sha256:50ccadbd13740a996d8a4d4f144ef80134745cd0b5ec278061537e341f5ef7a2"},
@@ -1128,6 +1184,10 @@ sqlparse = [
 ]
 starkbank-ecdsa = [
     {file = "starkbank-ecdsa-1.1.0.tar.gz", hash = "sha256:423f81bb55c896a3c85ee98ac7da98826721eaee918f5c0c1dfff99e1972da0c"},
+]
+swapper = [
+    {file = "swapper-1.1.2.post1-py3-none-any.whl", hash = "sha256:f3bc7b77b76daf46fcbd41fda9b2f599974ac8c564e129f2a9bae73871c4116e"},
+    {file = "swapper-1.1.2.post1.tar.gz", hash = "sha256:51651018fb027354dd27ff38d5eb47a225d3e642c99b04cff878ae65b1872f64"},
 ]
 toml = [
     {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},
