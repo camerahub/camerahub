@@ -398,6 +398,17 @@ django = ">=2.2"
 
 [[package]]
 category = "main"
+description = "Generate DRF Serializers, Views, and urls for your API application."
+name = "drf-generators"
+optional = false
+python-versions = "*"
+version = "0.5.0"
+
+[package.dependencies]
+Django = ">=1.11"
+
+[[package]]
+category = "main"
 description = "Clean single-source support for Python 3 and 2"
 name = "future"
 optional = false
@@ -742,7 +753,7 @@ version = "1.12.1"
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "49b3191cb8b2a49f49b20a13b74af91dca4ac99f3c68fa9124f0295260399784"
+content-hash = "804ae1b4c8f69531b2cdd63a70d8117e5f91072fc52f5999d52b30079f0df663"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -874,6 +885,9 @@ django-watson = [
 ]
 djangorestframework = [
     {file = "djangorestframework-3.12.2-py3-none-any.whl", hash = "sha256:0209bafcb7b5010fdfec784034f059d512256424de2a0f084cb82b096d6dd6a7"},
+]
+drf-generators = [
+    {file = "drf-generators-0.5.0.tar.gz", hash = "sha256:b457c871b5758650552aac1a31655bb8631fcc959a1b578019ce576c39df05e9"},
 ]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},

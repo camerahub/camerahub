@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'geoposition',
     'leaflet',
     'rest_framework',
+    'drf_generators',
     'dbbackup',
 ]
 
@@ -264,4 +265,13 @@ DBBACKUP_CONNECTORS = {
         'HOST': os.getenv('CAMERAHUB_DB_HOST'),
         'CONNECTOR': 'dbbackup.db.postgresql.PgDumpBinaryConnector',
     }
+}
+
+# django-star-ratings
+STAR_RATINGS_ANONYMOUS = False
+
+# drf-generators
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 25
 }
