@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'schema',
     'help',
+    'api',
     'djmoney',
     'django_tables2',
     'crispy_forms',
