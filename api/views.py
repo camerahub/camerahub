@@ -2,8 +2,10 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework import permissions
 from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer, PrintSerializer, LensSerializer, CameraSerializer
 from api.serializers import ManufacturerSerializer, ArchiveSerializer, BatterySerializer, ConditionSerializer, ExposureProgramSerializer, FilterSerializer, NegativeSizeSerializer, FormatSerializer, FlashModelSerializer, FlashSerializer, EnlargerModelSerializer, EnlargerSerializer, MeteringModeSerializer, MountSerializer, PaperStockSerializer, PersonSerializer, ProcessSerializer, TeleconverterModelSerializer, TeleconverterSerializer, TonerSerializer, FilmStockSerializer, BulkFilmSerializer, MountAdapterSerializer, ShutterSpeedSerializer, DeveloperSerializer, LensModelSerializer, CameraModelSerializer, AccessorySerializer, LensSerializer, CameraSerializer, FilmSerializer, NegativeSerializer, PrintSerializer, ToningSerializer, ScanSerializer, OrderSerializer
-from schema.models import Film, Negative, Scan, Print, Lens, Camera
-from schema.models import Manufacturer, Archive, Battery, Condition, ExposureProgram, Filter, NegativeSize, Format, FlashModel, Flash, EnlargerModel, Enlarger, MeteringMode, Mount, PaperStock, Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, ShutterSpeed, Developer, LensModel, CameraModel, Accessory, Lens, Camera, Film, Negative, Print, Toning, Scan, Order
+from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Condition, ExposureProgram, Filter, NegativeSize, Film, Format
+from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, MeteringMode, Mount, Negative, PaperStock
+from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, ShutterSpeed, Developer
+from schema.models import Lens, Print, Toning, Scan, Order
 
 
 class FilmViewSet(ReadOnlyModelViewSet):
@@ -34,11 +36,7 @@ class NegativeViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.query_params and self.request.query_params['slug']:
-                qs = Negative.objects.filter(
-                    owner=self.request.user, film__pk=self.request.query_params['slug'])
-            else:
-                qs = Negative.objects.filter(owner=self.request.user)
+            qs = Negative.objects.filter(owner=self.request.user)
         else:
             qs = Negative.objects.none()
         return qs
@@ -55,11 +53,7 @@ class ScanViewSet(ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.query_params and self.request.query_params['film_id']:
-                qs = Scan.objects.filter(
-                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
-            else:
-                qs = Scan.objects.filter(owner=self.request.user)
+            qs = Scan.objects.filter(owner=self.request.user)
         else:
             qs = Scan.objects.none()
         return qs
@@ -76,11 +70,7 @@ class PrintViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.query_params and self.request.query_params['film_id']:
-                qs = Print.objects.filter(
-                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
-            else:
-                qs = Print.objects.filter(owner=self.request.user)
+            qs = Print.objects.filter(owner=self.request.user)
         else:
             qs = Print.objects.none()
         return qs
@@ -97,11 +87,7 @@ class CameraViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.query_params and self.request.query_params['film_id']:
-                qs = Camera.objects.filter(
-                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
-            else:
-                qs = Camera.objects.filter(owner=self.request.user)
+            qs = Camera.objects.filter(owner=self.request.user)
         else:
             qs = Camera.objects.none()
         return qs
@@ -118,11 +104,7 @@ class LensViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.query_params and self.request.query_params['film_id']:
-                qs = Lens.objects.filter(
-                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
-            else:
-                qs = Lens.objects.filter(owner=self.request.user)
+            qs = Lens.objects.filter(owner=self.request.user)
         else:
             qs = Lens.objects.none()
         return qs
@@ -138,18 +120,6 @@ class ArchiveViewSet(ModelViewSet):
             qs = Archive.objects.filter(owner=self.request.user)
         else:
             qs = Archive.objects.none()
-        return qs
-
-class FilterViewSet(ModelViewSet):
-    queryset = Filter.objects.none()
-    serializer_class = FilterSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Filter.objects.filter(owner=self.request.user)
-        else:
-            qs = Filter.objects.none()
         return qs
 
 class FlashViewSet(ModelViewSet):
@@ -183,9 +153,9 @@ class PersonViewSet(ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            qs = Film.objects.filter(owner=self.request.user)
+            qs = Person.objects.filter(owner=self.request.user)
         else:
-            qs = Film.objects.none()
+            qs = Person.objects.none()
         return qs
 
 class TeleconverterViewSet(ModelViewSet):
@@ -311,7 +281,7 @@ class ProcessViewSet(ReadOnlyModelViewSet):
     serializer_class = ProcessSerializer
 
 class TeleconverterModelViewSet(ReadOnlyModelViewSet):
-    queryset = Teleconverter.objects.all()
+    queryset = TeleconverterModel.objects.all()
     serializer_class = TeleconverterModelSerializer
 
 class TonerViewSet(ReadOnlyModelViewSet):
@@ -337,3 +307,7 @@ class LensModelViewSet(ReadOnlyModelViewSet):
 class CameraModelViewSet(ReadOnlyModelViewSet):
     queryset = CameraModel.objects.all()
     serializer_class = CameraModelSerializer
+
+class FilterViewSet(ModelViewSet):
+    queryset = Filter.objects.all()
+    serializer_class = FilterSerializer
