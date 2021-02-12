@@ -1,11 +1,11 @@
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework import permissions
 from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer, PrintSerializer, LensSerializer, CameraSerializer
-from api.serializers import ManufacturerSerializer, ArchiveSerializer, BatterySerializer, ConditionSerializer, ExposureProgramSerializer, FilterSerializer, NegativeSizeSerializer, FormatSerializer, FlashModelSerializer, FlashSerializer, EnlargerModelSerializer, EnlargerSerializer, MeteringModeSerializer, MountSerializer, PaperStockSerializer, PersonSerializer, ProcessSerializer, TeleconverterModelSerializer, TeleconverterSerializer, TonerSerializer, FilmStockSerializer, BulkFilmSerializer, MountAdapterSerializer, ShutterSpeedSerializer, DeveloperSerializer, LensModelSerializer, CameraModelSerializer, AccessorySerializer, LensSerializer, CameraSerializer, FilmSerializer, NegativeSerializer, PrintSerializer, ToningSerializer, ScanSerializer, OrderSerializer
-from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Condition, ExposureProgram, Filter, NegativeSize, Film, Format
-from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, MeteringMode, Mount, Negative, PaperStock
-from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, ShutterSpeed, Developer
-from schema.models import Lens, Print, Toning, Scan, Order
+from api.serializers import ManufacturerSerializer, ArchiveSerializer, BatterySerializer, FilterSerializer, NegativeSizeSerializer, FormatSerializer, FlashModelSerializer, FlashSerializer, EnlargerModelSerializer, EnlargerSerializer, MountSerializer, PaperStockSerializer, PersonSerializer, ProcessSerializer, TeleconverterModelSerializer, TeleconverterSerializer, TonerSerializer, FilmStockSerializer, BulkFilmSerializer, MountAdapterSerializer, DeveloperSerializer, LensModelSerializer, CameraModelSerializer, AccessorySerializer, LensSerializer, CameraSerializer, FilmSerializer, NegativeSerializer, PrintSerializer, ScanSerializer, OrderSerializer
+from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
+from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
+from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
+from schema.models import Lens, Print, Scan, Order
 
 
 class FilmViewSet(ReadOnlyModelViewSet):
@@ -218,18 +218,6 @@ class OrderViewSet(ModelViewSet):
             qs = Order.objects.none()
         return qs
 
-class ToningViewSet(ModelViewSet):
-    queryset = Toner.objects.none()
-    serializer_class = ToningSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Toning.objects.filter(owner=self.request.user)
-        else:
-            qs = Toning.objects.none()
-        return qs
-
 
 # Public objects: read-only and world-readable
 class ManufacturerViewSet(ReadOnlyModelViewSet):
@@ -239,14 +227,6 @@ class ManufacturerViewSet(ReadOnlyModelViewSet):
 class BatteryViewSet(ReadOnlyModelViewSet):
     queryset = Battery.objects.all()
     serializer_class = BatterySerializer
-
-class ConditionViewSet(ReadOnlyModelViewSet):
-    queryset = Condition.objects.all()
-    serializer_class = ConditionSerializer
-
-class ExposureProgramViewSet(ReadOnlyModelViewSet):
-    queryset = ExposureProgram.objects.all()
-    serializer_class = ExposureProgramSerializer
 
 class NegativeSizeViewSet(ReadOnlyModelViewSet):
     queryset = NegativeSize.objects.all()
@@ -263,10 +243,6 @@ class FlashModelViewSet(ReadOnlyModelViewSet):
 class EnlargerModelViewSet(ReadOnlyModelViewSet):
     queryset = EnlargerModel.objects.all()
     serializer_class = EnlargerModelSerializer
-
-class MeteringModeViewSet(ReadOnlyModelViewSet):
-    queryset = MeteringMode.objects.all()
-    serializer_class = MeteringModeSerializer
 
 class MountViewSet(ReadOnlyModelViewSet):
     queryset = Mount.objects.all()
@@ -291,10 +267,6 @@ class TonerViewSet(ReadOnlyModelViewSet):
 class FilmStockViewSet(ReadOnlyModelViewSet):
     queryset = FilmStock.objects.all()
     serializer_class = FilmStockSerializer
-
-class ShutterSpeedViewSet(ReadOnlyModelViewSet):
-    queryset = ShutterSpeed.objects.all()
-    serializer_class = ShutterSpeedSerializer
 
 class DeveloperViewSet(ReadOnlyModelViewSet):
     queryset = Developer.objects.all()
