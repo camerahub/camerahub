@@ -1,77 +1,107 @@
-from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer, StringRelatedField
-from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Condition, ExposureProgram, Filter, NegativeSize, Film, Format
-from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, MeteringMode, Mount, Negative, PaperStock
-from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, ShutterSpeed, Developer
-from schema.models import LensModel, CameraModel, Lens, Film, Negative, Print, Toning, Scan, Order
+from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer, StringRelatedField, HyperlinkedIdentityField
+from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
+from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
+from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
+from schema.models import Lens, Print, Scan, Order
 
-class LensModelSerializer(HyperlinkedModelSerializer):
-    manufacturer = StringRelatedField(many=False)
+class ManufacturerSerializer(ModelSerializer):
+    country = StringRelatedField(many=False)
+
+    class Meta:
+        model = Manufacturer
+        fields = ['name', 'city', 'country', 'linkurl',
+                  'founded', 'dissolved' ]
+
+class MountSerializer(ModelSerializer):
+
+    class Meta:
+        model = Mount
+        fields = ['mount', 'shutter_in_lens', 'type',
+                  'purpose', 'notes', 'manufacturer' ]
+
+class NegativeSizeSerializer(ModelSerializer):
+
+    class Meta:
+        model = NegativeSize
+        fields = [ 'name', 'width', 'height', ]
+
+
+class LensModelSerializer(ModelSerializer):
+    #manufacturer = StringRelatedField(many=False)
+    manufacturer = ManufacturerSerializer(many=False)
+    negative_size = NegativeSizeSerializer()
+    mount = MountSerializer()
 
     class Meta:
         model = LensModel
-        fields = ['manufacturer', 'model', ]
+        fields = ['manufacturer', 'model', 'disambiguation', 'mount', 'introduced', 'discontinued', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'lens_type', 'image_circle', 'aperture_blades',
+                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'linkurl', 'image', 'image_attribution', 'image_attribution_url', 'diagram', 'diagram_attribution', 'diagram_attribution_url']
 
 
-class LensSerializer(HyperlinkedModelSerializer):
+class LensSerializer(ModelSerializer):
     lensmodel = LensModelSerializer(many=False, read_only=True)
 
     class Meta:
         model = Lens
-        fields = ['url', 'serial', 'lensmodel']
+        fields = ['lensmodel', 'serial', 'date_code', 'manufactured', 'acquired', 'cost',
+                  'notes', 'own', 'lost', 'lost_price', 'source', 'condition', 'condition_notes']
 
 
-class CameraModelSerializer(HyperlinkedModelSerializer):
-    manufacturer = StringRelatedField(many=False)
+class CameraModelSerializer(ModelSerializer):
+    #manufacturer = StringRelatedField(many=False)
 
     class Meta:
         model = CameraModel
-        fields = ['manufacturer', 'model', ]
+        fields = '__all__'
 
 
-class CameraSerializer(HyperlinkedModelSerializer):
-    cameramodel = CameraModelSerializer(many=False, read_only=True)
+class CameraSerializer(ModelSerializer):
+    cameramodel = CameraModelSerializer(read_only=True)
 
     class Meta:
         model = Camera
-        fields = ['url', 'serial', 'lensmodel']
+        fields = ['cameramodel', 'acquired', 'cost', 'source', 'serial', 'datecode',
+                  'manufactured', 'own', 'notes', 'lost', 'lost_price', 'condition', 'condition_notes']
 
 
-class FilmSerializer(HyperlinkedModelSerializer):
-    camera = CameraSerializer
+class FilmSerializer(ModelSerializer):
+    #camera = CameraSerializer
 
     class Meta:
         model = Film
-        fields = ['url', 'id_owner', 'title', 'camera']
+        fields = ['filmstock', 'exposed_at', 'format', 'status', 'date_loaded', 'date_processed', 'camera', 'title', 'frames', 'developer', 'developer_previous_uses', 'development_time',
+                  'development_temperature', 'development_compensation', 'development_notes', 'bulk_film', 'bulk_film_loaded', 'film_batch', 'expiry_date', 'purchase_date', 'price', 'processed_by', 'archive']
 
 
-class NegativeSerializer(HyperlinkedModelSerializer):
-    film_id = StringRelatedField(many=False)
-    filter = StringRelatedField(many=False)
-    teleconverter = StringRelatedField(many=False)
-    exposure_program = StringRelatedField(many=False)
-    metering_mode = StringRelatedField(many=False)
+class NegativeSerializer(ModelSerializer):
+ #   film_id = StringRelatedField(many=False)
+ #   filter = StringRelatedField(many=False)
+ #   teleconverter = StringRelatedField(many=False)
+ #   exposure_program = StringRelatedField(many=False)
+ #   metering_mode = StringRelatedField(many=False)
 
-    lens = LensSerializer(many=False, read_only=True)
-    film = FilmSerializer(many=False, read_only=True)
-    shutter_speed = StringRelatedField(many=False)
+  #  lens = LensSerializer(many=False, read_only=True)
+  #  film = FilmSerializer(many=False, read_only=True)
+  #  shutter_speed = StringRelatedField(many=False)
 
     class Meta:
         model = Negative
-        fields = ['url', 'slug', 'film', 'film_id', 'id_owner', 'frame', 'caption', 'date', 'lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter',
-                  'notes', 'mount_adapter', 'focal_length', 'location', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of']
+        fields = ['film', 'frame', 'caption', 'date', 'lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'notes',
+                  'mount_adapter', 'focal_length', 'location', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of']
 
 
-class PrintSerializer(HyperlinkedModelSerializer):
-    negative = NegativeSerializer(many=False, read_only=True)
+class PrintSerializer(ModelSerializer):
+  #  negative = NegativeSerializer(many=False, read_only=True)
 
     class Meta:
         model = Print
-        fields = ['pk', 'url', 'negative']
+        fields = ['negative', 'date', 'paper_stock', 'height', 'width', 'aperture', 'exposure_time', 'filtration_grade', 'development_time',
+                  'toner', 'own', 'location', 'sold_price', 'enlarger', 'lens', 'developer', 'fine', 'notes', 'archive', 'printer']
 
 
-class ScanSerializer(HyperlinkedModelSerializer):
-    negative = NegativeSerializer(many=False, read_only=True)
-    print = PrintSerializer(many=False, read_only=True)
+class ScanSerializer(ModelSerializer):
+   # negative = NegativeSerializer(many=False, read_only=True)
+   # print = PrintSerializer(many=False, read_only=True)
 
     class Meta:
         model = Scan
@@ -82,7 +112,8 @@ class ArchiveSerializer(ModelSerializer):
 
     class Meta:
         model = Archive
-        fields = '__all__'
+        fields = ['name', 'type', 'max_width',
+                  'max_height', 'location', 'storage', 'sealed']
 
 
 class BatterySerializer(ModelSerializer):
@@ -103,28 +134,31 @@ class FormatSerializer(ModelSerializer):
 
     class Meta:
         model = Format
-        fields = '__all__'
+        fields = ['format', 'negative_size']
 
 
 class FlashModelSerializer(ModelSerializer):
 
     class Meta:
         model = FlashModel
-        fields = '__all__'
+        fields = ['manufacturer', 'model', 'disambiguation', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
+                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'image', 'image_attribution', 'image_attribution_url']
 
 
 class FlashSerializer(ModelSerializer):
 
     class Meta:
         model = Flash
-        fields = '__all__'
+        fields = ['flashmodel', 'serial', 'own',
+                  'acquired', 'cost', 'lost', 'lost_price']
 
 
 class EnlargerModelSerializer(ModelSerializer):
 
     class Meta:
         model = EnlargerModel
-        fields = '__all__'
+        fields = ['manufacturer', 'model', 'disambiguation', 'negative_size',
+                  'type', 'light_source', 'introduced', 'discontinued', 'image', 'image_attribution', 'image_attribution_url']
 
 
 class EnlargerSerializer(ModelSerializer):
@@ -139,56 +173,61 @@ class PaperStockSerializer(ModelSerializer):
 
     class Meta:
         model = PaperStock
-        fields = '__all__'
+        fields = ['name', 'manufacturer',
+                  'resin_coated', 'colour', 'finish' ]
 
 
 class PersonSerializer(ModelSerializer):
 
     class Meta:
         model = Person
-        fields = '__all__'
+        fields = ['name']
 
 
 class ProcessSerializer(ModelSerializer):
 
     class Meta:
         model = Process
-        fields = '__all__'
+        fields = ['name', 'colour', 'positive']
 
 
 class TeleconverterModelSerializer(ModelSerializer):
 
     class Meta:
         model = TeleconverterModel
-        fields = '__all__'
+        fields = ['model', 'manufacturer', 'disambiguation', 'mount',
+                  'factor', 'elements', 'groups', 'multicoated', 'image', 'image_attribution', 'image_attribution_url']
 
 
 class TeleconverterSerializer(ModelSerializer):
 
     class Meta:
         model = Teleconverter
-        fields = '__all__'
+        fields = ['teleconvertermodel', 'serial', 'own',
+                  'acquired', 'cost', 'lost', 'lost_price', ]
 
 
 class TonerSerializer(ModelSerializer):
 
     class Meta:
         model = Toner
-        fields = '__all__'
+        fields = [ 'name', 'manufacturer', 'formulation', 'stock_dilution', 'tags', ]
 
 
 class FilmStockSerializer(ModelSerializer):
 
     class Meta:
         model = FilmStock
-        fields = '__all__'
+        fields = ['name', 'manufacturer', 'iso',
+                  'colour', 'panchromatic', 'process', ]
 
 
 class BulkFilmSerializer(ModelSerializer):
 
     class Meta:
         model = BulkFilm
-        fields = '__all__'
+        fields = ['format', 'filmstock', 'length', 'finished', 'purchase_date',
+                  'cost', 'source', 'batch', 'expiry']
 
 
 class MountAdapterSerializer(ModelSerializer):
@@ -196,14 +235,15 @@ class MountAdapterSerializer(ModelSerializer):
     class Meta:
         model = MountAdapter
         fields = ['mount', 'shutter_in_lens', 'type',
-                  'purpose', 'notes', 'manufacturer', 'tags']
+                  'purpose', 'notes', 'manufacturer' ]
 
 
 class DeveloperSerializer(ModelSerializer):
 
     class Meta:
         model = Developer
-        fields = '__all__'
+        fields = ['manufacturer', 'name', 'for_paper',
+                  'for_film', 'chemistry' ]
 
 
 class AccessorySerializer(ModelSerializer):
@@ -218,4 +258,5 @@ class OrderSerializer(ModelSerializer):
 
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = ['negative', 'width', 'height',
+                  'added', 'printed', 'print', 'recipient']
