@@ -12,7 +12,7 @@ from schema.models import Person, Process, TeleconverterModel, Teleconverter, To
 from schema.models import Lens, Print, Scan, Order
 
 
-class FilmViewSet(ReadOnlyModelViewSet):
+class FilmViewSet(ModelViewSet):
     """
     API endpoint that allows films to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
@@ -29,7 +29,7 @@ class FilmViewSet(ReadOnlyModelViewSet):
         return qs
 
 
-class NegativeViewSet(ReadOnlyModelViewSet):
+class NegativeViewSet(ModelViewSet):
     """
     API endpoint that allows negatives to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
@@ -63,7 +63,7 @@ class ScanViewSet(ModelViewSet):
         return qs
 
 
-class PrintViewSet(ReadOnlyModelViewSet):
+class PrintViewSet(ModelViewSet):
     """
     API endpoint that allows prints to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
@@ -80,7 +80,7 @@ class PrintViewSet(ReadOnlyModelViewSet):
         return qs
 
 
-class CameraViewSet(ReadOnlyModelViewSet):
+class CameraViewSet(ModelViewSet):
     """
     API endpoint that allows cameras to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
@@ -97,7 +97,7 @@ class CameraViewSet(ReadOnlyModelViewSet):
         return qs
 
 
-class LensViewSet(ReadOnlyModelViewSet):
+class LensViewSet(ModelViewSet):
     """
     API endpoint that allows lens to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
@@ -284,6 +284,6 @@ class CameraModelViewSet(ReadOnlyModelViewSet):
     queryset = CameraModel.objects.all()
     serializer_class = CameraModelSerializer
 
-class FilterViewSet(ModelViewSet):
+class FilterViewSet(ReadOnlyModelViewSet):
     queryset = Filter.objects.all()
     serializer_class = FilterSerializer
