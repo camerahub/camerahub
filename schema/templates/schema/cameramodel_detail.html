@@ -10,8 +10,8 @@
   <figure class="figure img-thumbnail">
     <img src="{{ object.image.url }}" class="figure-img img-fluid rounded" alt="{{ object }}" title="{{ object }}">
     <figcaption class="figure-caption text-center">{{ object }}{% if object.image_attribution %} by
-      {% if object.image_attribution_url %}<a
-        href="{{ object.image_attribution_url}}">{{ object.image_attribution }}</a>{% else %}{{ object.image_attribution }}{% endif %}{% endif %}
+      {% if object.image_attribution_link %}<a
+        href="{{ object.image_attribution_link }}">{{ object.image_attribution }}</a>{% else %}{{ object.image_attribution }}{% endif %}{% endif %}
     </figcaption>
   </figure>
 </div>
@@ -487,10 +487,10 @@
     <td>{{ object.notes|linebreaks }}</td>
   </tr>
   {% endif %}
-  {% if object.linkurl is not None %}
+  {% if object.link is not None %}
   <tr>
-    <td>URL</td>
-    <td><a href="{{ object.linkurl }}">{{ object.linkurl }}</a></td>
+    <td>Link</td>
+    <td><a href="{{ object.link }}">{{ object.link }}</a></td>
   </tr>
   {% endif %}
 
