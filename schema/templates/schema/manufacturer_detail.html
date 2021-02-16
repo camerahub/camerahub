@@ -24,10 +24,10 @@
     <td>{{ object.country.name }} <img src="{{ object.country.flag }}" alt="{{ object.country.code }}" title="{{ object.country.code }}"></td>
   </tr>
   {% endif %}
-  {% if object.linkurl is not None %}
+  {% if object.link is not None %}
   <tr>
-    <td>URL</td>
-    <td><a href="{{ object.linkurl }}">{{ object.linkurl }}</a></td>
+    <td>Link</td>
+    <td><a href="{{ object.link }}">{{ object.link }}</a></td>
   </tr>
   {% endif %}
   {% if object.founded is not None %}
