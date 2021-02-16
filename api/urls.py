@@ -1,5 +1,6 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+from rest_framework.schemas import get_schema_view
 from api import views
 
 router = DefaultRouter()
@@ -40,5 +41,10 @@ urlpatterns = [
     # Wire up our API using automatic URL routing.
     # Additionally, we include login URLs for the browsable API.
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('openapi', get_schema_view(
+        title="CameraHub",
+        description="REST API for CameraHub",
+        version="1.0.0"
+    ), name='openapi-schema'),
 ]
