@@ -81,8 +81,8 @@ class Manufacturer(models.Model):
         help_text='City in which the manufacturer is based', max_length=45, blank=True, null=True)
     country = CountryField(
         help_text='Country in which the manufacturer is based', blank=True, null=True)
-    linkurl = models.URLField(
-        verbose_name='URL', help_text='URL to the manufacturers main website', max_length=45, blank=True, null=True)
+    link = models.URLField(
+        help_text='Link to the manufacturers main website', max_length=45, blank=True, null=True)
     founded = models.PositiveIntegerField(
         help_text='Year in which the manufacturer was founded', blank=True, null=True)
     dissolved = models.PositiveIntegerField(
@@ -427,8 +427,8 @@ class FlashModel(models.Model):
         help_text='Image of the flash model', blank=True, null=True)
     image_attribution = models.CharField(
         help_text='Author of this image', max_length=50, blank=True, null=True)
-    image_attribution_url = models.URLField(
-        help_text='Attribution URL for this image', blank=True, null=True)
+    image_attribution_link = models.URLField(
+        help_text='Attribution link for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     ratings = GenericRelation(Rating, related_query_name='FlashModels')
     tags = TaggableManager(blank=True)
@@ -547,8 +547,8 @@ class EnlargerModel(models.Model):
         help_text='Image of the enlarger model', blank=True, null=True)
     image_attribution = models.CharField(
         help_text='Author of this image', max_length=50, blank=True, null=True)
-    image_attribution_url = models.URLField(
-        help_text='Attribution URL for this image', blank=True, null=True)
+    image_attribution_link = models.URLField(
+        help_text='Attribution link for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     ratings = GenericRelation(Rating, related_query_name='EnlargerModels')
     tags = TaggableManager(blank=True)
@@ -862,8 +862,8 @@ class TeleconverterModel(models.Model):
         help_text='Image of the teleconverter model', blank=True, null=True)
     image_attribution = models.CharField(
         help_text='Author of this image', max_length=50, blank=True, null=True)
-    image_attribution_url = models.URLField(
-        help_text='Attribution URL for this image', blank=True, null=True)
+    image_attribution_link = models.URLField(
+        help_text='Attribution link for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     ratings = GenericRelation(Rating, related_query_name='TeleconverterModels')
     tags = TaggableManager(blank=True)
@@ -1278,8 +1278,8 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
     magnification = models.DecimalField(
         help_text='Maximum magnification ratio of the lens, expressed like 0.765', max_digits=5, decimal_places=3, blank=True, null=True)
-    linkurl = models.URLField(
-        verbose_name='URL', help_text='URL to more information about this lens', blank=True, null=True)
+    link = models.URLField(
+        help_text='Link to more information about this lens', blank=True, null=True)
     introduced = models.PositiveIntegerField(
         help_text='Year in which this lens model was introduced', blank=True, null=True)
     discontinued = models.PositiveIntegerField(
@@ -1308,14 +1308,14 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         help_text='Image of the lens model', blank=True, null=True)
     image_attribution = models.CharField(
         help_text='Author of this image', max_length=50, blank=True, null=True)
-    image_attribution_url = models.URLField(
-        help_text='Attribution URL for this image', blank=True, null=True)
+    image_attribution_link = models.URLField(
+        help_text='Attribution link for this image', blank=True, null=True)
     diagram = VersatileImageField(
         help_text='Block diagram of the optics', blank=True, null=True)
     diagram_attribution = models.CharField(
         help_text='Author of this diagram', max_length=50, blank=True, null=True)
-    diagram_attribution_url = models.URLField(
-        help_text='Attribution URL for this diagram', blank=True, null=True)
+    diagram_attribution_link = models.URLField(
+        help_text='Attribution link for this diagram', blank=True, null=True)
 
     def __str__(self):
         mystr = self.model
@@ -1589,14 +1589,14 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     history = HistoricalRecords()
     ratings = GenericRelation(Rating, related_query_name='CameraModels')
     tags = TaggableManager(blank=True)
-    linkurl = models.URLField(
-        verbose_name='URL', help_text='URL to more information about this camera model', blank=True, null=True)
+    link = models.URLField(
+        help_text='Link to more information about this camera model', blank=True, null=True)
     image = VersatileImageField(
         help_text='Image of the camera model', blank=True, null=True)
     image_attribution = models.CharField(
         help_text='Author of this image', max_length=50, blank=True, null=True)
-    image_attribution_url = models.URLField(
-        help_text='Attribution URL for this image', blank=True, null=True)
+    image_attribution_link = models.URLField(
+        help_text='Attribution link for this image', blank=True, null=True)
 
     # Fixed lens fields
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,

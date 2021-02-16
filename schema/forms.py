@@ -313,10 +313,10 @@ class CameraModelForm(autocomplete.FutureModelForm):
             Fieldset('Misc',
                      'notes',
                      'tags',
-                     'linkurl',
+                     'link',
                      'image',
                      'image_attribution',
-                     'image_attribution_url',
+                     'image_attribution_link',
                      ),
             FormActionButtons
         )
@@ -355,7 +355,7 @@ class EnlargerModelForm(ModelForm):
     class Meta:
         model = EnlargerModel
         fields = ['manufacturer', 'model', 'disambiguation', 'negative_size',
-                  'type', 'light_source', 'introduced', 'discontinued', 'tags', 'image', 'image_attribution', 'image_attribution_url']
+                  'type', 'light_source', 'introduced', 'discontinued', 'tags', 'image', 'image_attribution', 'image_attribution_link']
         widgets = {
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
@@ -383,7 +383,7 @@ class EnlargerModelForm(ModelForm):
                      'tags',
                      'image',
                      'image_attribution',
-                     'image_attribution_url',
+                     'image_attribution_link',
                      ),
             FormActionButtons
         )
@@ -471,7 +471,7 @@ class FlashModelForm(ModelForm):
     class Meta:
         model = FlashModel
         fields = ['manufacturer', 'model', 'disambiguation', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
-                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'tags', 'image', 'image_attribution', 'image_attribution_url']
+                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'tags', 'image', 'image_attribution', 'image_attribution_link']
         widgets = {
             'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
@@ -510,7 +510,7 @@ class FlashModelForm(ModelForm):
                      'tags',
                      'image',
                      'image_attribution',
-                     'image_attribution_url',
+                     'image_attribution_link',
                      ),
             FormActionButtons
         )
@@ -624,7 +624,7 @@ class LensModelForm(ModelForm):
     class Meta:
         model = LensModel
         fields = ['manufacturer', 'model', 'disambiguation', 'mount', 'introduced', 'discontinued', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'lens_type', 'image_circle', 'aperture_blades',
-                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'tags', 'linkurl', 'image', 'image_attribution', 'image_attribution_url', 'diagram', 'diagram_attribution', 'diagram_attribution_url']
+                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'tags', 'link', 'image', 'image_attribution', 'image_attribution_link', 'diagram', 'diagram_attribution', 'diagram_attribution_link']
         widgets = {
             'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
             'introduced': YearPickerInput(format='%Y'),
@@ -662,7 +662,7 @@ class LensModelForm(ModelForm):
                      'coating',
                      'diagram',
                      'diagram_attribution',
-                     'diagram_attribution_url',
+                     'diagram_attribution_link',
                      ),
             Fieldset('Features',
                      'autofocus',
@@ -678,10 +678,10 @@ class LensModelForm(ModelForm):
                      ),
             Fieldset('Misc',
                      'notes',
-                     'linkurl',
+                     'link',
                      'image',
                      'image_attribution',
-                     'image_attribution_url',
+                     'image_attribution_link',
                      ),
             Fieldset('Meta',
                      'tags',
@@ -693,7 +693,7 @@ class LensModelForm(ModelForm):
 class ManufacturerForm(ModelForm):
     class Meta:
         model = Manufacturer
-        fields = ['name', 'city', 'country', 'linkurl',
+        fields = ['name', 'city', 'country', 'link',
                   'founded', 'dissolved', 'tags']
         widgets = {
             'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
@@ -709,7 +709,7 @@ class ManufacturerForm(ModelForm):
                      'name',
                      'city',
                      'country',
-                     'linkurl',
+                     'link',
                      'founded',
                      'dissolved',
                      ),
@@ -1244,7 +1244,7 @@ class TeleconverterModelForm(ModelForm):
     class Meta:
         model = TeleconverterModel
         fields = ['model', 'manufacturer', 'disambiguation', 'mount',
-                  'factor', 'elements', 'groups', 'multicoated', 'tags', 'image', 'image_attribution', 'image_attribution_url']
+                  'factor', 'elements', 'groups', 'multicoated', 'tags', 'image', 'image_attribution', 'image_attribution_link']
         widgets = {
             'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
@@ -1269,7 +1269,7 @@ class TeleconverterModelForm(ModelForm):
                      'tags',
                      'image',
                      'image_attribution',
-                     'image_attribution_url',
+                     'image_attribution_link',
                      ),
             FormActionButtons
         )
