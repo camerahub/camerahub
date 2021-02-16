@@ -35,18 +35,9 @@ jobs:
         uses: snok/install-poetry@v1.1.1
         with:
           virtualenvs-create: true
-          virtualenvs-in-project: true
-      # load cached venv if cache exists
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v2
-        with:
-          path: .poetryvenv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-      # install dependencies if cache does not exist
+      # install dependencies
       - name: Install dependencies
         run: poetry install
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - name: Run pylint
         run: "poetry run pylint --rcfile=.pylintrc **/*.py"
       - name: Run Tests
@@ -69,18 +60,9 @@ jobs:
         uses: snok/install-poetry@v1.1.1
         with:
           virtualenvs-create: true
-          virtualenvs-in-project: true
-      # load cached venv if cache exists
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v2
-        with:
-          path: .poetryvenv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-      # install dependencies if cache does not exist
+      # install dependencies
       - name: Install dependencies
         run: poetry install
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - name: Build Python package
         run: poetry build
       - name: Build Docker image

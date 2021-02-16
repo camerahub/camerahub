@@ -30,7 +30,7 @@
   {% if object.manufactured is not None %}
   <tr>
     <td>Date manufactured</td>
-    <td>{{ object.manufactured }} <small class="text-muted">{{ object.introduced|yearssince }}</small></td>
+    <td>{{ object.manufactured }} <small class="text-muted">{{ object.manufactured|yearssince }}</small></td>
   </tr>
   {% endif %}
   {% if object.notes is not None %}

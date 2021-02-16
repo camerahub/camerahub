@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_generators',
     'dbbackup',
+    'star_ratings',
 ]
 
 MIDDLEWARE = [
