@@ -9,7 +9,7 @@ class ManufacturerSerializer(ModelSerializer):
 
     class Meta:
         model = Manufacturer
-        fields = ['name', 'city', 'country', 'linkurl',
+        fields = ['name', 'city', 'country', 'link',
                   'founded', 'dissolved' ]
 
 class MountSerializer(ModelSerializer):
@@ -88,7 +88,7 @@ class FlashModelSerializer(ModelSerializer):
     class Meta:
         model = FlashModel
         fields = ['manufacturer', 'model', 'disambiguation', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
-                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'image', 'image_attribution', 'image_attribution_url']
+                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'image', 'image_attribution', 'image_attribution_link']
 
 
 class FlashSerializer(ModelSerializer):
@@ -107,7 +107,7 @@ class EnlargerModelSerializer(ModelSerializer):
     class Meta:
         model = EnlargerModel
         fields = ['manufacturer', 'model', 'disambiguation', 'negative_size',
-                  'type', 'light_source', 'introduced', 'discontinued', 'image', 'image_attribution', 'image_attribution_url']
+                  'type', 'light_source', 'introduced', 'discontinued', 'image', 'image_attribution', 'image_attribution_link']
 
 
 class EnlargerSerializer(ModelSerializer):
@@ -135,7 +135,7 @@ class TeleconverterModelSerializer(ModelSerializer):
     class Meta:
         model = TeleconverterModel
         fields = ['model', 'manufacturer', 'disambiguation', 'mount',
-                  'factor', 'elements', 'groups', 'multicoated', 'image', 'image_attribution', 'image_attribution_url']
+                  'factor', 'elements', 'groups', 'multicoated', 'image', 'image_attribution', 'image_attribution_link']
 
 
 class TeleconverterSerializer(ModelSerializer):
@@ -202,7 +202,7 @@ class LensModelSerializer(ModelSerializer):
     class Meta:
         model = LensModel
         fields = ['manufacturer', 'model', 'disambiguation', 'mount', 'introduced', 'discontinued', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'lens_type', 'image_circle', 'aperture_blades',
-                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'linkurl', 'image', 'image_attribution', 'image_attribution_url', 'diagram', 'diagram_attribution', 'diagram_attribution_url']
+                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'link', 'image', 'image_attribution', 'image_attribution_link', 'diagram', 'diagram_attribution', 'diagram_attribution_link']
 
 
 class LensSerializer(ModelSerializer):
@@ -236,7 +236,7 @@ class CameraModelSerializer(ModelSerializer):
                 'bulb', 'time', 'internal_power_drive', 'continuous_fps', 'external_power_drive', 'battery_qty', 'battery_type',
                 'int_flash', 'int_flash_gn', 'ext_flash', 'pc_sync', 'shoe', 'x_sync', 'dof_preview', 'mirror_lockup', 'tripod',
                 'self_timer', 'date_imprint', 'cable_release', 'interchangeable_backs', 'interchangeable_finders', 'strap_lugs',
-                'multiple_exposures', 'notes', 'linkurl', 'image', 'image_attribution', 'image_attribution_url' ]
+                'multiple_exposures', 'notes', 'link', 'image', 'image_attribution', 'image_attribution_link' ]
 
 
 class CameraSerializer(ModelSerializer):
