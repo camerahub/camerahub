@@ -77,6 +77,7 @@ MIDDLEWARE = [
     'django.middleware.cache.FetchFromCacheMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
+    'camerahub.middleware.DynamicSiteDomainMiddleware',
 ]
 
 ROOT_URLCONF = 'camerahub.urls'
@@ -204,6 +205,7 @@ ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window
 REGISTRATION_OPEN = True  # allow sign-ups
 
 # Required for django.contrib.sites
+DEFAULT_SITE_ID = 1
 SITE_ID = 1
 
 #AUTH_USER_MODEL = 'schema.User'
