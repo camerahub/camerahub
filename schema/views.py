@@ -1292,6 +1292,24 @@ class StatsView(TemplateView):
             }
         )
 
+        stats.append(
+            {
+                'image': "svg/camera.svg",
+                'url': reverse('schema:camera-list'),
+                'item': "cameras in user collections on CameraHub",
+                'value': Camera.objects.count,
+            }
+        )
+
+        stats.append(
+            {
+                'image': "svg/film.svg",
+                'url': reverse('schema:camera-list'),
+                'item': "total length of exposed film in CameraHub",
+                'value': str(round((Negative.objects.all().aggregate(totallength=Sum('film__camera__cameramodel__negative_size__width'))['totallength'] or 0.00)/1000 )) + 'm',
+            }
+        )
+
         context['stats'] = stats
         context['title'] = "Public stats"
         return context
@@ -1344,6 +1362,12 @@ class MyStatsView(LoginRequiredMixin, TemplateView):
                 'url': reverse('schema:print-list'),
                 'item': "prints in your collection",
                 'value': Print.objects.filter(owner=self.request.user).count,
+            },
+            {
+                'image': "svg/film.svg",
+                'url': reverse('schema:camera-list'),
+                'item': "total length of exposed film in your collection",
+                'value': str(round((Negative.objects.filter(owner=self.request.user).aggregate(totallength=Sum('film__camera__cameramodel__negative_size__width'))['totallength'] or 0.00)/1000 )) + 'm',
             },
         ]
 
