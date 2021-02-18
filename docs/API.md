@@ -1,12 +1,23 @@
 # API
 
-CameraHub has a simple RESTful API to allow integrations with other apps. It is implemented with [Django REST framework](https://www.django-rest-framework.org/). At the moment it is not comprehensive and endpoints are added as required. Example queries here are executed with [httpie](https://httpie.io/).
+CameraHub has a simple RESTful API to allow integrations with other apps. It is implemented with [Django REST framework](https://www.django-rest-framework.org/).
+At the moment it is not comprehensive and endpoints are added as required. Example queries here are executed with [httpie](https://httpie.io/).
+
+## Domains
+
+The examples on this page are made with a local development version of CameraHub on `http://127.0.0.1:8000`. It is also possible to use the following
+public deployments, provided they are at v0.27.0 or higher.
+
+* https://camerahub.info
+* https://dev.camerahub.info
+* https://test.camerahub.info
 
 ## Authentication
 
-All endpoints require authentication, which is done using the username and password of the user. There is currently no support for tokens or keys.
+Public endpoints (e.g. camera models, manufacturers) do not require authentication for read-only access. All private endpoints (e.g. cameras, negatives)
+require authentication, which is done using the username and password of the user. There is currently no support for tokens or keys.
 
-The examples on this page are made with a local development version of CameraHub on `http://127.0.0.1:8000` instead of `https://camerahub.info`, with a default credential set of `admin:admin`.
+`http://localhost:8000` runs with with a default credential set of `admin:admin`.
 
 If you are using `curl` or `http`, you must pass credentials on the command line.
 
@@ -18,32 +29,181 @@ Added credentials
 
 ## Endpoints
 
+The CameraHub API is designed to be easily browsable in a browser as well as on the command line.
+
 ### `/api/`
 
-List all endpoints. This is the only endpoint that does not require authentication.
+List all endpoints.
 
 ```sh
 http http://127.0.0.1:8000/api/
 HTTP/1.1 200 OK
 Allow: GET, HEAD, OPTIONS
 Cache-Control: max-age=600
-Content-Length: 261
+Content-Length: 1530
 Content-Type: application/json
-Date: Wed, 11 Nov 2020 21:42:41 GMT
-Expires: Wed, 11 Nov 2020 21:52:41 GMT
-Server: WSGIServer/0.2 CPython/3.8.5
+Date: Tue, 16 Feb 2021 22:24:43 GMT
+Expires: Tue, 16 Feb 2021 22:34:43 GMT
+Server: WSGIServer/0.2 CPython/3.9.1
 Vary: Accept, Cookie
 X-Frame-Options: SAMEORIGIN
 
 {
+    "accessory": "http://127.0.0.1:8000/api/accessory/",
+    "archive": "http://127.0.0.1:8000/api/archive/",
+    "battery": "http://127.0.0.1:8000/api/battery/",
+    "bulkfilm": "http://127.0.0.1:8000/api/bulkfilm/",
     "camera": "http://127.0.0.1:8000/api/camera/",
+    "cameramodel": "http://127.0.0.1:8000/api/cameramodel/",
+    "developer": "http://127.0.0.1:8000/api/developer/",
+    "enlarger": "http://127.0.0.1:8000/api/enlarger/",
+    "enlargermodel": "http://127.0.0.1:8000/api/enlargermodel/",
     "film": "http://127.0.0.1:8000/api/film/",
+    "filmstock": "http://127.0.0.1:8000/api/filmstock/",
+    "filter": "http://127.0.0.1:8000/api/filter/",
+    "flash": "http://127.0.0.1:8000/api/flash/",
+    "flashmodel": "http://127.0.0.1:8000/api/flashmodel/",
+    "format": "http://127.0.0.1:8000/api/format/",
     "lens": "http://127.0.0.1:8000/api/lens/",
+    "lensmodel": "http://127.0.0.1:8000/api/lensmodel/",
+    "manufacturer": "http://127.0.0.1:8000/api/manufacturer/",
+    "mount": "http://127.0.0.1:8000/api/mount/",
+    "mountadapter": "http://127.0.0.1:8000/api/mountadapter/",
     "negative": "http://127.0.0.1:8000/api/negative/",
+    "negativesize": "http://127.0.0.1:8000/api/negativesize/",
+    "order": "http://127.0.0.1:8000/api/order/",
+    "paperstock": "http://127.0.0.1:8000/api/paperstock/",
+    "person": "http://127.0.0.1:8000/api/person/",
     "print": "http://127.0.0.1:8000/api/print/",
-    "scan": "http://127.0.0.1:8000/api/scan/"
+    "process": "http://127.0.0.1:8000/api/process/",
+    "scan": "http://127.0.0.1:8000/api/scan/",
+    "teleconverter": "http://127.0.0.1:8000/api/teleconverter/",
+    "teleconvertermodel": "http://127.0.0.1:8000/api/teleconvertermodel/",
+    "toner": "http://127.0.0.1:8000/api/toner/"
 }
 ```
+
+### `/api/openapi`
+
+Return an OpenAPI schema describing all other endpoints. The output of the command is too long to list here.
+
+## Examples
+
+### List all camera models
+
+```sh
+http -a admin:admin http://127.0.0.1:8000/api/cameramodel/
+HTTP/1.1 200 OK
+Allow: GET, HEAD, OPTIONS
+Cache-Control: max-age=600
+Content-Length: 13014
+Content-Type: application/json
+Date: Tue, 16 Feb 2021 22:30:54 GMT
+Expires: Tue, 16 Feb 2021 22:40:54 GMT
+Server: WSGIServer/0.2 CPython/3.9.1
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
+{
+    "count": 8,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "af_points": null,
+            "aperture_blades": null,
+            "battery_qty": null,
+            "battery_type": null,
+            "body_type": null,
+            "bulb": null,
+            "cable_release": null,
+            "closest_focus": null,
+            "coating": null,
+            "continuous_fps": null,
+            "date_imprint": null,
+            "disambiguation": "",
+            "discontinued": null,
+            "dof_preview": null,
+            "elements": null,
+            "exposure_programs": [],
+            "ext_flash": null,
+            "external_power_drive": null,
+            "fastest_shutter_speed": null,
+            "filter_thread": null,
+            "focus_type": null,
+            "format": null,
+            "groups": null,
+            "hood": null,
+            "image": "http://127.0.0.1:8000/media/clickii.jpg",
+            "image_attribution": null,
+            "image_attribution_link": null,
+            "int_flash": false,
+            "int_flash_gn": null,
+            "interchangeable_backs": null,
+            "interchangeable_finders": null,
+            "internal_power_drive": null,
+            "introduced": null,
+            "lens_manufacturer": {
+                "city": "Tokyo",
+                "country": "JP",
+                "dissolved": null,
+                "founded": 1956,
+                "link": null,
+                "name": "Bronica"
+            },
+            "lens_model_name": "jjjj",
+            "link": "http://google.com",
+            "magnification": null,
+            "manufacturer": {
+                "city": null,
+                "country": "US",
+                "dissolved": null,
+                "founded": null,
+                "link": null,
+                "name": "Bell & Howell"
+            },
+            "max_aperture": null,
+            "max_focal_length": null,
+            "max_iso": null,
+            "meter_max_ev": null,
+            "meter_min_ev": null,
+            "metering": null,
+            "metering_modes": [],
+            "metering_type": null,
+            "min_aperture": null,
+            "min_focal_length": null,
+            "min_iso": null,
+            "mirror_lockup": null,
+            "model": "66 mk18",
+            "mount": null,
+            "multiple_exposures": null,
+            "negative_size": null,
+            "nominal_max_angle_diag": null,
+            "nominal_min_angle_diag": null,
+            "notes": "",
+            "other_names": "||",
+            "pc_sync": null,
+            "self_timer": null,
+            "shoe": null,
+            "shutter_model": null,
+            "shutter_type": null,
+            "slowest_shutter_speed": null,
+            "strap_lugs": null,
+            "time": null,
+            "tripod": null,
+            "viewfinder_coverage": null,
+            "weight": null,
+            "x_sync": null,
+            "zoom": null
+        },
+        ...
+    ]
+}
+```
+
+## Old examples
+
+These examples are for an earlier version of the API which used hyperlinking and a restricted list of fields.
 
 ### `/api/films/`
 

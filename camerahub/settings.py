@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'schema',
     'help',
+    'api',
     'djmoney',
     'django_tables2',
     'crispy_forms',
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
     'geoposition',
     'leaflet',
     'rest_framework',
+    'drf_generators',
     'dbbackup',
     'star_ratings',
 ]
@@ -269,3 +271,9 @@ DBBACKUP_CONNECTORS = {
 
 # django-star-ratings
 STAR_RATINGS_ANONYMOUS = False
+
+# drf-generators
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 25
+}

@@ -1,10 +1,18 @@
-from rest_framework import viewsets
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework import permissions
 from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer, PrintSerializer, LensSerializer, CameraSerializer
-from schema.models import Film, Negative, Scan, Print, Lens, Camera
+from api.serializers import ManufacturerSerializer, ArchiveSerializer, BatterySerializer, FilterSerializer, NegativeSizeSerializer
+from api.serializers import FormatSerializer, FlashModelSerializer, FlashSerializer, EnlargerModelSerializer, EnlargerSerializer, MountSerializer
+from api.serializers import PaperStockSerializer, PersonSerializer, ProcessSerializer, TeleconverterModelSerializer, TeleconverterSerializer
+from api.serializers import TonerSerializer, FilmStockSerializer, BulkFilmSerializer, MountAdapterSerializer, DeveloperSerializer
+from api.serializers import LensModelSerializer, CameraModelSerializer, AccessorySerializer, OrderSerializer
+from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
+from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
+from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
+from schema.models import Lens, Print, Scan, Order
 
 
-class FilmViewSet(viewsets.ReadOnlyModelViewSet):
+class FilmViewSet(ModelViewSet):
     """
     API endpoint that allows films to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
@@ -21,7 +29,7 @@ class FilmViewSet(viewsets.ReadOnlyModelViewSet):
         return qs
 
 
-class NegativeViewSet(viewsets.ReadOnlyModelViewSet):
+class NegativeViewSet(ModelViewSet):
     """
     API endpoint that allows negatives to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
@@ -32,17 +40,13 @@ class NegativeViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.query_params and self.request.query_params['slug']:
-                qs = Negative.objects.filter(
-                    owner=self.request.user, film__pk=self.request.query_params['slug'])
-            else:
-                qs = Negative.objects.filter(owner=self.request.user)
+            qs = Negative.objects.filter(owner=self.request.user)
         else:
             qs = Negative.objects.none()
         return qs
 
 
-class ScanViewSet(viewsets.ModelViewSet):
+class ScanViewSet(ModelViewSet):
     """
     API endpoint that allows scans to be viewed or edited.
     Actions provided by the ModelViewSet class: .list(), .retrieve(), .create(), .update(), .partial_update(), .destroy()
@@ -53,17 +57,13 @@ class ScanViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.query_params and self.request.query_params['film_id']:
-                qs = Scan.objects.filter(
-                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
-            else:
-                qs = Scan.objects.filter(owner=self.request.user)
+            qs = Scan.objects.filter(owner=self.request.user)
         else:
             qs = Scan.objects.none()
         return qs
 
 
-class PrintViewSet(viewsets.ReadOnlyModelViewSet):
+class PrintViewSet(ModelViewSet):
     """
     API endpoint that allows prints to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
@@ -74,17 +74,13 @@ class PrintViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.query_params and self.request.query_params['film_id']:
-                qs = Print.objects.filter(
-                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
-            else:
-                qs = Print.objects.filter(owner=self.request.user)
+            qs = Print.objects.filter(owner=self.request.user)
         else:
             qs = Print.objects.none()
         return qs
 
 
-class CameraViewSet(viewsets.ReadOnlyModelViewSet):
+class CameraViewSet(ModelViewSet):
     """
     API endpoint that allows cameras to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
@@ -95,17 +91,13 @@ class CameraViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.query_params and self.request.query_params['film_id']:
-                qs = Camera.objects.filter(
-                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
-            else:
-                qs = Camera.objects.filter(owner=self.request.user)
+            qs = Camera.objects.filter(owner=self.request.user)
         else:
             qs = Camera.objects.none()
         return qs
 
 
-class LensViewSet(viewsets.ReadOnlyModelViewSet):
+class LensViewSet(ModelViewSet):
     """
     API endpoint that allows lens to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
@@ -116,11 +108,182 @@ class LensViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.query_params and self.request.query_params['film_id']:
-                qs = Lens.objects.filter(
-                    owner=self.request.user, id_owner=self.request.query_params['film_id'])
-            else:
-                qs = Lens.objects.filter(owner=self.request.user)
+            qs = Lens.objects.filter(owner=self.request.user)
         else:
             qs = Lens.objects.none()
         return qs
+
+
+class ArchiveViewSet(ModelViewSet):
+    queryset = Archive.objects.none()
+    serializer_class = ArchiveSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            qs = Archive.objects.filter(owner=self.request.user)
+        else:
+            qs = Archive.objects.none()
+        return qs
+
+class FlashViewSet(ModelViewSet):
+    queryset = Flash.objects.none()
+    serializer_class = FlashSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            qs = Flash.objects.filter(owner=self.request.user)
+        else:
+            qs = Flash.objects.none()
+        return qs
+
+class EnlargerViewSet(ModelViewSet):
+    queryset = Enlarger.objects.none()
+    serializer_class = EnlargerSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            qs = Enlarger.objects.filter(owner=self.request.user)
+        else:
+            qs = Enlarger.objects.none()
+        return qs
+
+class PersonViewSet(ModelViewSet):
+    queryset = Person.objects.none()
+    serializer_class = PersonSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            qs = Person.objects.filter(owner=self.request.user)
+        else:
+            qs = Person.objects.none()
+        return qs
+
+class TeleconverterViewSet(ModelViewSet):
+    queryset = Teleconverter.objects.none()
+    serializer_class = TeleconverterSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            qs = Teleconverter.objects.filter(owner=self.request.user)
+        else:
+            qs = Teleconverter.objects.none()
+        return qs
+
+class BulkFilmViewSet(ModelViewSet):
+    queryset = BulkFilm.objects.none()
+    serializer_class = BulkFilmSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            qs = BulkFilm.objects.filter(owner=self.request.user)
+        else:
+            qs = BulkFilm.objects.none()
+        return qs
+
+class MountAdapterViewSet(ModelViewSet):
+    queryset = MountAdapter.objects.none()
+    serializer_class = MountAdapterSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            qs = MountAdapter.objects.filter(owner=self.request.user)
+        else:
+            qs = MountAdapter.objects.none()
+        return qs
+
+class AccessoryViewSet(ModelViewSet):
+    queryset = Accessory.objects.none()
+    serializer_class = AccessorySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            qs = Accessory.objects.filter(owner=self.request.user)
+        else:
+            qs = Accessory.objects.none()
+        return qs
+
+class OrderViewSet(ModelViewSet):
+    queryset = Order.objects.none()
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            qs = Order.objects.filter(owner=self.request.user)
+        else:
+            qs = Order.objects.none()
+        return qs
+
+
+# Public objects: read-only and world-readable
+class ManufacturerViewSet(ReadOnlyModelViewSet):
+    queryset = Manufacturer.objects.all()
+    serializer_class = ManufacturerSerializer
+
+class BatteryViewSet(ReadOnlyModelViewSet):
+    queryset = Battery.objects.all()
+    serializer_class = BatterySerializer
+
+class NegativeSizeViewSet(ReadOnlyModelViewSet):
+    queryset = NegativeSize.objects.all()
+    serializer_class = NegativeSizeSerializer
+
+class FormatViewSet(ReadOnlyModelViewSet):
+    queryset = Format.objects.all()
+    serializer_class = FormatSerializer
+
+class FlashModelViewSet(ReadOnlyModelViewSet):
+    queryset = FlashModel.objects.all()
+    serializer_class = FlashModelSerializer
+
+class EnlargerModelViewSet(ReadOnlyModelViewSet):
+    queryset = EnlargerModel.objects.all()
+    serializer_class = EnlargerModelSerializer
+
+class MountViewSet(ReadOnlyModelViewSet):
+    queryset = Mount.objects.all()
+    serializer_class = MountSerializer
+
+class PaperStockViewSet(ReadOnlyModelViewSet):
+    queryset = PaperStock.objects.all()
+    serializer_class = PaperStockSerializer
+
+class ProcessViewSet(ReadOnlyModelViewSet):
+    queryset = Process.objects.all()
+    serializer_class = ProcessSerializer
+
+class TeleconverterModelViewSet(ReadOnlyModelViewSet):
+    queryset = TeleconverterModel.objects.all()
+    serializer_class = TeleconverterModelSerializer
+
+class TonerViewSet(ReadOnlyModelViewSet):
+    queryset = Toner.objects.all()
+    serializer_class = TonerSerializer
+
+class FilmStockViewSet(ReadOnlyModelViewSet):
+    queryset = FilmStock.objects.all()
+    serializer_class = FilmStockSerializer
+
+class DeveloperViewSet(ReadOnlyModelViewSet):
+    queryset = Developer.objects.all()
+    serializer_class = DeveloperSerializer
+
+class LensModelViewSet(ReadOnlyModelViewSet):
+    queryset = LensModel.objects.all()
+    serializer_class = LensModelSerializer
+
+class CameraModelViewSet(ReadOnlyModelViewSet):
+    queryset = CameraModel.objects.all()
+    serializer_class = CameraModelSerializer
+
+class FilterViewSet(ReadOnlyModelViewSet):
+    queryset = Filter.objects.all()
+    serializer_class = FilterSerializer
