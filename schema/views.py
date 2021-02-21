@@ -271,7 +271,7 @@ class CameraModelDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for index, item in zip(range(10), similarobjects):
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
             if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
@@ -328,7 +328,7 @@ class DeveloperDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for index, item in zip(range(10), similarobjects):
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
             if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
@@ -419,7 +419,7 @@ class FilmStockDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for index, item in zip(range(10), similarobjects):
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
             if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
@@ -615,7 +615,7 @@ class LensModelDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for index, item in zip(range(10), similarobjects):
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
             if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
@@ -671,7 +671,7 @@ class ManufacturerDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for index, item in zip(range(10), similarobjects):
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
             if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
@@ -711,7 +711,7 @@ class MountDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for index, item in zip(range(10), similarobjects):
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
             if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
@@ -840,7 +840,7 @@ class PaperStockDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for index, item in zip(range(10), similarobjects):
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
             if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
@@ -1161,7 +1161,7 @@ class TonerDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for index, item in zip(range(10), similarobjects):
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
             if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
