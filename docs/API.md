@@ -83,7 +83,7 @@ X-Frame-Options: SAMEORIGIN
 }
 ```
 
-### `/api/openapi`
+### `/api/schema`
 
 Return an OpenAPI schema describing all other endpoints. The output of the command is too long to list here.
 

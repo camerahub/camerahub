@@ -42,7 +42,7 @@ urlpatterns = [
     # Additionally, we include login URLs for the browsable API.
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('openapi', get_schema_view(
+    path('schema', get_schema_view(
         title="CameraHub",
         description="REST API for CameraHub",
         version="1.0.0"
