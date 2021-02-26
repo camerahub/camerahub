@@ -9,35 +9,36 @@ class ManufacturerSerializer(ModelSerializer):
 
     class Meta:
         model = Manufacturer
-        fields = ['name', 'city', 'country', 'link',
-                  'founded', 'dissolved' ]
+        fields = '__all__'
+
 
 class MountSerializer(ModelSerializer):
     manufacturer = ManufacturerSerializer(many=False)
 
     class Meta:
         model = Mount
-        fields = ['mount', 'shutter_in_lens', 'type',
-                  'purpose', 'notes', 'manufacturer' ]
+        fields = '__all__'
+
 
 class NegativeSizeSerializer(ModelSerializer):
 
     class Meta:
         model = NegativeSize
-        fields = [ 'name', 'width', 'height', ]
+        fields = '__all__'
+
 
 class PersonSerializer(ModelSerializer):
 
     class Meta:
         model = Person
-        fields = ['name']
+        fields = '__all__'
 
 
 class ProcessSerializer(ModelSerializer):
 
     class Meta:
         model = Process
-        fields = ['name', 'colour', 'positive']
+        fields = '__all__'
 
 
 class FormatSerializer(ModelSerializer):
@@ -45,14 +46,14 @@ class FormatSerializer(ModelSerializer):
 
     class Meta:
         model = Format
-        fields = ['format', 'negative_size']
+        fields = '__all__'
 
 
 class BatterySerializer(ModelSerializer):
 
     class Meta:
         model = Battery
-        fields = ['name', 'voltage', 'chemistry', 'compatible_with']
+        fields = '__all__'
 
 
 class FilmStockSerializer(ModelSerializer):
@@ -61,24 +62,21 @@ class FilmStockSerializer(ModelSerializer):
 
     class Meta:
         model = FilmStock
-        fields = ['name', 'manufacturer', 'iso',
-                  'colour', 'panchromatic', 'process', ]
+        fields = '__all__'
 
 
 class ArchiveSerializer(ModelSerializer):
 
     class Meta:
         model = Archive
-        fields = ['name', 'type', 'max_width',
-                  'max_height', 'location', 'storage', 'sealed']
-
+        fields = '__all__'
 
 
 class FilterSerializer(ModelSerializer):
 
     class Meta:
         model = Filter
-        fields = ['type', 'shortname', 'attenuation']
+        fields = '__all__'
 
 
 class FlashModelSerializer(ModelSerializer):
@@ -87,8 +85,7 @@ class FlashModelSerializer(ModelSerializer):
 
     class Meta:
         model = FlashModel
-        fields = ['manufacturer', 'model', 'disambiguation', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
-                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'image', 'image_attribution', 'image_attribution_link']
+        fields = '__all__'
 
 
 class FlashSerializer(ModelSerializer):
@@ -96,8 +93,7 @@ class FlashSerializer(ModelSerializer):
 
     class Meta:
         model = Flash
-        fields = ['flashmodel', 'serial', 'own',
-                  'acquired', 'cost', 'lost', 'lost_price']
+        fields = '__all__'
 
 
 class EnlargerModelSerializer(ModelSerializer):
@@ -106,8 +102,7 @@ class EnlargerModelSerializer(ModelSerializer):
 
     class Meta:
         model = EnlargerModel
-        fields = ['manufacturer', 'model', 'disambiguation', 'negative_size',
-                  'type', 'light_source', 'introduced', 'discontinued', 'image', 'image_attribution', 'image_attribution_link']
+        fields = '__all__'
 
 
 class EnlargerSerializer(ModelSerializer):
@@ -115,8 +110,7 @@ class EnlargerSerializer(ModelSerializer):
 
     class Meta:
         model = Enlarger
-        fields = ['enlargermodel', 'serial', 'own',
-                  'acquired', 'cost', 'lost', 'lost_price']
+        fields = '__all__'
 
 
 class PaperStockSerializer(ModelSerializer):
@@ -124,8 +118,7 @@ class PaperStockSerializer(ModelSerializer):
 
     class Meta:
         model = PaperStock
-        fields = ['name', 'manufacturer',
-                  'resin_coated', 'colour', 'finish' ]
+        fields = '__all__'
 
 
 class TeleconverterModelSerializer(ModelSerializer):
@@ -134,8 +127,7 @@ class TeleconverterModelSerializer(ModelSerializer):
 
     class Meta:
         model = TeleconverterModel
-        fields = ['model', 'manufacturer', 'disambiguation', 'mount',
-                  'factor', 'elements', 'groups', 'multicoated', 'image', 'image_attribution', 'image_attribution_link']
+        fields = '__all__'
 
 
 class TeleconverterSerializer(ModelSerializer):
@@ -143,8 +135,7 @@ class TeleconverterSerializer(ModelSerializer):
 
     class Meta:
         model = Teleconverter
-        fields = ['teleconvertermodel', 'serial', 'own',
-                  'acquired', 'cost', 'lost', 'lost_price', ]
+        fields = '__all__'
 
 
 class TonerSerializer(ModelSerializer):
@@ -152,7 +143,7 @@ class TonerSerializer(ModelSerializer):
 
     class Meta:
         model = Toner
-        fields = [ 'name', 'manufacturer', 'formulation', 'stock_dilution', ]
+        fields = '__all__'
 
 
 class BulkFilmSerializer(ModelSerializer):
@@ -161,8 +152,7 @@ class BulkFilmSerializer(ModelSerializer):
 
     class Meta:
         model = BulkFilm
-        fields = ['format', 'filmstock', 'length', 'finished', 'purchase_date',
-                  'cost', 'source', 'batch', 'expiry']
+        fields = '__all__'
 
 
 class MountAdapterSerializer(ModelSerializer):
@@ -171,7 +161,7 @@ class MountAdapterSerializer(ModelSerializer):
 
     class Meta:
         model = MountAdapter
-        fields = [ 'camera_mount', 'lens_mount', 'has_optics', 'infinity_focus', 'notes' ]
+        fields = '__all__'
 
 
 class DeveloperSerializer(ModelSerializer):
@@ -179,8 +169,7 @@ class DeveloperSerializer(ModelSerializer):
 
     class Meta:
         model = Developer
-        fields = ['manufacturer', 'name', 'for_paper',
-                  'for_film', 'chemistry' ]
+        fields = '__all__'
 
 
 class AccessorySerializer(ModelSerializer):
@@ -190,8 +179,7 @@ class AccessorySerializer(ModelSerializer):
 
     class Meta:
         model = Accessory
-        fields = ['manufacturer', 'model', 'type', 'acquired', 'cost', 'lost',
-                  'lost_price', 'camera_model_compatibility', 'lens_model_compatibility']
+        fields = '__all__'
 
 
 class LensModelSerializer(ModelSerializer):
@@ -201,8 +189,7 @@ class LensModelSerializer(ModelSerializer):
 
     class Meta:
         model = LensModel
-        fields = ['manufacturer', 'model', 'disambiguation', 'mount', 'introduced', 'discontinued', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'lens_type', 'image_circle', 'aperture_blades',
-                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'link', 'image', 'image_attribution', 'image_attribution_link', 'diagram', 'diagram_attribution', 'diagram_attribution_link']
+        fields = '__all__'
 
 
 class LensSerializer(ModelSerializer):
@@ -210,8 +197,7 @@ class LensSerializer(ModelSerializer):
 
     class Meta:
         model = Lens
-        fields = ['lensmodel', 'serial', 'date_code', 'manufactured', 'acquired', 'cost',
-                  'notes', 'own', 'lost', 'lost_price', 'source', 'condition', 'condition_notes']
+        fields = '__all__'
 
 
 class CameraModelSerializer(ModelSerializer):
@@ -226,17 +212,7 @@ class CameraModelSerializer(ModelSerializer):
 
     class Meta:
         model = CameraModel
-        fields = [ 'manufacturer', 'model', 'other_names', 'disambiguation', 'introduced', 'discontinued', 'format',
-                'negative_size', 'mount', 'lens_manufacturer', 'lens_model_name', 'zoom', 'min_focal_length',
-                'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups',
-                'nominal_min_angle_diag', 'nominal_max_angle_diag', 'aperture_blades', 'coating', 'magnification',
-                'filter_thread', 'hood', 'body_type', 'weight', 'focus_type', 'af_points', 'viewfinder_coverage',
-                'metering', 'metering_type', 'min_iso', 'max_iso', 'meter_min_ev', 'meter_max_ev', 'metering_modes',
-                'exposure_programs', 'shutter_type', 'shutter_model', 'fastest_shutter_speed', 'slowest_shutter_speed',
-                'bulb', 'time', 'internal_power_drive', 'continuous_fps', 'external_power_drive', 'battery_qty', 'battery_type',
-                'int_flash', 'int_flash_gn', 'ext_flash', 'pc_sync', 'shoe', 'x_sync', 'dof_preview', 'mirror_lockup', 'tripod',
-                'self_timer', 'date_imprint', 'cable_release', 'interchangeable_backs', 'interchangeable_finders', 'strap_lugs',
-                'multiple_exposures', 'notes', 'link', 'image', 'image_attribution', 'image_attribution_link' ]
+        fields = '__all__'
 
 
 class CameraSerializer(ModelSerializer):
@@ -244,8 +220,7 @@ class CameraSerializer(ModelSerializer):
 
     class Meta:
         model = Camera
-        fields = ['cameramodel', 'acquired', 'cost', 'source', 'serial', 'datecode',
-                  'manufactured', 'own', 'notes', 'lost', 'lost_price', 'condition', 'condition_notes']
+        fields = '__all__'
 
 
 class FilmSerializer(ModelSerializer):
@@ -258,8 +233,7 @@ class FilmSerializer(ModelSerializer):
 
     class Meta:
         model = Film
-        fields = ['filmstock', 'exposed_at', 'format', 'status', 'date_loaded', 'date_processed', 'camera', 'title', 'frames', 'developer', 'developer_previous_uses', 'development_time',
-                  'development_temperature', 'development_compensation', 'development_notes', 'bulk_film', 'bulk_film_loaded', 'film_batch', 'expiry_date', 'purchase_date', 'price', 'processed_by', 'archive']
+        fields = '__all__'
 
 
 class NegativeSerializer(ModelSerializer):
@@ -274,8 +248,7 @@ class NegativeSerializer(ModelSerializer):
 
     class Meta:
         model = Negative
-        fields = ['film', 'frame', 'caption', 'date', 'lens', 'shutter_speed', 'aperture', 'filter', 'teleconverter', 'notes',
-                  'mount_adapter', 'focal_length', 'location', 'flash', 'metering_mode', 'exposure_program', 'photographer', 'copy_of']
+        fields = '__all__'
 
 
 class PrintSerializer(ModelSerializer):
@@ -288,8 +261,7 @@ class PrintSerializer(ModelSerializer):
 
     class Meta:
         model = Print
-        fields = ['negative', 'date', 'paper_stock', 'height', 'width', 'aperture', 'exposure_time', 'filtration_grade', 'development_time',
-                  'toner', 'own', 'location', 'sold_price', 'enlarger', 'lens', 'developer', 'fine', 'notes', 'archive', 'printer']
+        fields = '__all__'
 
 
 class ScanSerializer(ModelSerializer):
@@ -298,7 +270,7 @@ class ScanSerializer(ModelSerializer):
 
     class Meta:
         model = Scan
-        fields = ['uuid', 'negative', 'print', 'filename']
+        fields = '__all__'
 
 
 class OrderSerializer(ModelSerializer):
@@ -307,5 +279,4 @@ class OrderSerializer(ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['negative', 'width', 'height',
-                  'added', 'printed', 'print', 'recipient']
+        fields = '__all__'
