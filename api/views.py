@@ -1,5 +1,6 @@
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework import permissions
+from drf_multiple_serializer import ReadWriteSerializerMixin
 from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer, PrintSerializer, LensSerializer, CameraSerializer
 from api.serializers import ManufacturerSerializer, ArchiveSerializer, BatterySerializer, FilterSerializer, NegativeSizeSerializer
 from api.serializers import FormatSerializer, FlashModelSerializer, FlashSerializer, EnlargerModelSerializer, EnlargerSerializer, MountSerializer
@@ -12,13 +13,16 @@ from schema.models import Person, Process, TeleconverterModel, Teleconverter, To
 from schema.models import Lens, Print, Scan, Order
 
 
-class FilmViewSet(ModelViewSet):
+class FilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
     """
     API endpoint that allows films to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Film.objects.none()
-    serializer_class = FilmSerializer
+    serializer_classes = {
+        'read': FilmSerializer,
+        'write': FilmSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -29,13 +33,16 @@ class FilmViewSet(ModelViewSet):
         return qs
 
 
-class NegativeViewSet(ModelViewSet):
+class NegativeViewSet(ReadWriteSerializerMixin, ModelViewSet):
     """
     API endpoint that allows negatives to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Negative.objects.none()
-    serializer_class = NegativeSerializer
+    serializer_classes = {
+        'read': NegativeSerializer,
+        'write': NegativeSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -46,13 +53,16 @@ class NegativeViewSet(ModelViewSet):
         return qs
 
 
-class ScanViewSet(ModelViewSet):
+class ScanViewSet(ReadWriteSerializerMixin, ModelViewSet):
     """
     API endpoint that allows scans to be viewed or edited.
     Actions provided by the ModelViewSet class: .list(), .retrieve(), .create(), .update(), .partial_update(), .destroy()
     """
     queryset = Scan.objects.none()
-    serializer_class = ScanSerializer
+    serializer_classes = {
+        'read': ScanSerializer,
+        'write': ScanSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -63,13 +73,16 @@ class ScanViewSet(ModelViewSet):
         return qs
 
 
-class PrintViewSet(ModelViewSet):
+class PrintViewSet(ReadWriteSerializerMixin, ModelViewSet):
     """
     API endpoint that allows prints to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Print.objects.none()
-    serializer_class = PrintSerializer
+    serializer_classes = {
+        'read': PrintSerializer,
+        'write': PrintSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -80,13 +93,16 @@ class PrintViewSet(ModelViewSet):
         return qs
 
 
-class CameraViewSet(ModelViewSet):
+class CameraViewSet(ReadWriteSerializerMixin, ModelViewSet):
     """
     API endpoint that allows cameras to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Camera.objects.none()
-    serializer_class = CameraSerializer
+    serializer_classes = {
+        'read': CameraSerializer,
+        'write': CameraSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -97,13 +113,16 @@ class CameraViewSet(ModelViewSet):
         return qs
 
 
-class LensViewSet(ModelViewSet):
+class LensViewSet(ReadWriteSerializerMixin, ModelViewSet):
     """
     API endpoint that allows lens to be viewed.
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Lens.objects.none()
-    serializer_class = LensSerializer
+    serializer_classes = {
+        'read': LensSerializer,
+        'write': LensSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -114,9 +133,12 @@ class LensViewSet(ModelViewSet):
         return qs
 
 
-class ArchiveViewSet(ModelViewSet):
+class ArchiveViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Archive.objects.none()
-    serializer_class = ArchiveSerializer
+    serializer_classes = {
+        'read': ArchiveSerializer,
+        'write': ArchiveSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -126,9 +148,12 @@ class ArchiveViewSet(ModelViewSet):
             qs = Archive.objects.none()
         return qs
 
-class FlashViewSet(ModelViewSet):
+class FlashViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Flash.objects.none()
-    serializer_class = FlashSerializer
+    serializer_classes = {
+        'read': FlashSerializer,
+        'write': FlashSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -138,9 +163,12 @@ class FlashViewSet(ModelViewSet):
             qs = Flash.objects.none()
         return qs
 
-class EnlargerViewSet(ModelViewSet):
+class EnlargerViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Enlarger.objects.none()
-    serializer_class = EnlargerSerializer
+    serializer_classes = {
+        'read': EnlargerSerializer,
+        'write': EnlargerSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -150,9 +178,12 @@ class EnlargerViewSet(ModelViewSet):
             qs = Enlarger.objects.none()
         return qs
 
-class PersonViewSet(ModelViewSet):
+class PersonViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Person.objects.none()
-    serializer_class = PersonSerializer
+    serializer_classes = {
+        'read': PersonSerializer,
+        'write': PersonSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -162,9 +193,12 @@ class PersonViewSet(ModelViewSet):
             qs = Person.objects.none()
         return qs
 
-class TeleconverterViewSet(ModelViewSet):
+class TeleconverterViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Teleconverter.objects.none()
-    serializer_class = TeleconverterSerializer
+    serializer_classes = {
+        'read': TeleconverterSerializer,
+        'write': TeleconverterSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -174,9 +208,12 @@ class TeleconverterViewSet(ModelViewSet):
             qs = Teleconverter.objects.none()
         return qs
 
-class BulkFilmViewSet(ModelViewSet):
+class BulkFilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = BulkFilm.objects.none()
-    serializer_class = BulkFilmSerializer
+    serializer_classes = {
+        'read': BulkFilmSerializer,
+        'write': BulkFilmSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -186,9 +223,12 @@ class BulkFilmViewSet(ModelViewSet):
             qs = BulkFilm.objects.none()
         return qs
 
-class MountAdapterViewSet(ModelViewSet):
+class MountAdapterViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = MountAdapter.objects.none()
-    serializer_class = MountAdapterSerializer
+    serializer_classes = {
+        'read': MountAdapterSerializer,
+        'write': MountAdapterSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -198,9 +238,12 @@ class MountAdapterViewSet(ModelViewSet):
             qs = MountAdapter.objects.none()
         return qs
 
-class AccessoryViewSet(ModelViewSet):
+class AccessoryViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Accessory.objects.none()
-    serializer_class = AccessorySerializer
+    serializer_classes = {
+        'read': AccessorySerializer,
+        'write': AccessorySerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -210,9 +253,12 @@ class AccessoryViewSet(ModelViewSet):
             qs = Accessory.objects.none()
         return qs
 
-class OrderViewSet(ModelViewSet):
+class OrderViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Order.objects.none()
-    serializer_class = OrderSerializer
+    serializer_classes = {
+        'read': OrderSerializer,
+        'write': OrderSerializer,
+    }
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
