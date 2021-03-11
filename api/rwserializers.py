@@ -1,7 +1,7 @@
-from rest_framework.serializers import ModelSerializer, StringRelatedField
-from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
-from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
-from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
+from rest_framework.serializers import ModelSerializer
+from schema.models import Accessory, Archive,  Camera, Film
+from schema.models import Flash, Enlarger, Negative
+from schema.models import Person, Teleconverter, BulkFilm, MountAdapter
 from schema.models import Lens, Print, Scan, Order
 
 
