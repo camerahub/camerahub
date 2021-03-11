@@ -2152,7 +2152,7 @@ class Negative(models.Model):
                                    max_digits=4, decimal_places=1, blank=True, null=True)
     filter = models.ForeignKey(Filter, on_delete=models.CASCADE, blank=True,
                                null=True, help_text='Filter used when taking this negative')
-    teleconverter = models.ForeignKey(TeleconverterModel, on_delete=models.CASCADE,
+    teleconverter = models.ForeignKey(Teleconverter, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Teleconverter used when taking this negative')
     notes = models.TextField(
         help_text='Extra freeform notes about this exposure', blank=True, null=True)
