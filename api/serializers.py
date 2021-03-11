@@ -240,11 +240,11 @@ class NegativeSerializer(ModelSerializer):
     film = FilmSerializer(many=False)
     lens = LensSerializer(many=False)
     filter = FilterSerializer(many=False)
- #   teleconverter = TeleconverterSerializer(many=False)
+    teleconverter = TeleconverterSerializer(many=False)
     mount_adapter = MountAdapterSerializer(many=False)
- #   exposure_program = StringRelatedField(many=False)
- #   metering_mode = StringRelatedField(many=False)
-  #  shutter_speed = StringRelatedField(many=False)
+    exposure_program = StringRelatedField(many=False)
+    metering_mode = StringRelatedField(many=False)
+    shutter_speed = StringRelatedField(many=False)
 
     class Meta:
         model = Negative

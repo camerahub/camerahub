@@ -1,12 +1,21 @@
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework import permissions
 from drf_multiple_serializer import ReadWriteSerializerMixin
+
 from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer, PrintSerializer, LensSerializer, CameraSerializer
 from api.serializers import ManufacturerSerializer, ArchiveSerializer, BatterySerializer, FilterSerializer, NegativeSizeSerializer
 from api.serializers import FormatSerializer, FlashModelSerializer, FlashSerializer, EnlargerModelSerializer, EnlargerSerializer, MountSerializer
 from api.serializers import PaperStockSerializer, PersonSerializer, ProcessSerializer, TeleconverterModelSerializer, TeleconverterSerializer
 from api.serializers import TonerSerializer, FilmStockSerializer, BulkFilmSerializer, MountAdapterSerializer, DeveloperSerializer
 from api.serializers import LensModelSerializer, CameraModelSerializer, AccessorySerializer, OrderSerializer
+
+from api.rwserializers import FilmRWSerializer, NegativeRWSerializer, ScanRWSerializer, PrintRWSerializer, LensRWSerializer, CameraRWSerializer
+from api.rwserializers import ArchiveRWSerializer
+from api.rwserializers import FlashRWSerializer, EnlargerRWSerializer
+from api.rwserializers import PersonRWSerializer, TeleconverterRWSerializer
+from api.rwserializers import BulkFilmRWSerializer
+from api.rwserializers import AccessoryRWSerializer, OrderRWSerializer
+
 from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
@@ -21,7 +30,7 @@ class FilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Film.objects.none()
     serializer_classes = {
         'read': FilmSerializer,
-        'write': FilmSerializer,
+        'write': FilmRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -41,7 +50,7 @@ class NegativeViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Negative.objects.none()
     serializer_classes = {
         'read': NegativeSerializer,
-        'write': NegativeSerializer,
+        'write': NegativeRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -61,7 +70,7 @@ class ScanViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Scan.objects.none()
     serializer_classes = {
         'read': ScanSerializer,
-        'write': ScanSerializer,
+        'write': ScanRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -81,7 +90,7 @@ class PrintViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Print.objects.none()
     serializer_classes = {
         'read': PrintSerializer,
-        'write': PrintSerializer,
+        'write': PrintRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -101,7 +110,7 @@ class CameraViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Camera.objects.none()
     serializer_classes = {
         'read': CameraSerializer,
-        'write': CameraSerializer,
+        'write': CameraRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -121,7 +130,7 @@ class LensViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Lens.objects.none()
     serializer_classes = {
         'read': LensSerializer,
-        'write': LensSerializer,
+        'write': LensRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -137,7 +146,7 @@ class ArchiveViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Archive.objects.none()
     serializer_classes = {
         'read': ArchiveSerializer,
-        'write': ArchiveSerializer,
+        'write': ArchiveRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -148,11 +157,12 @@ class ArchiveViewSet(ReadWriteSerializerMixin, ModelViewSet):
             qs = Archive.objects.none()
         return qs
 
+
 class FlashViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Flash.objects.none()
     serializer_classes = {
         'read': FlashSerializer,
-        'write': FlashSerializer,
+        'write': FlashRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -163,11 +173,12 @@ class FlashViewSet(ReadWriteSerializerMixin, ModelViewSet):
             qs = Flash.objects.none()
         return qs
 
+
 class EnlargerViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Enlarger.objects.none()
     serializer_classes = {
         'read': EnlargerSerializer,
-        'write': EnlargerSerializer,
+        'write': EnlargerRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -178,11 +189,12 @@ class EnlargerViewSet(ReadWriteSerializerMixin, ModelViewSet):
             qs = Enlarger.objects.none()
         return qs
 
+
 class PersonViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Person.objects.none()
     serializer_classes = {
         'read': PersonSerializer,
-        'write': PersonSerializer,
+        'write': PersonRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -193,11 +205,12 @@ class PersonViewSet(ReadWriteSerializerMixin, ModelViewSet):
             qs = Person.objects.none()
         return qs
 
+
 class TeleconverterViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Teleconverter.objects.none()
     serializer_classes = {
         'read': TeleconverterSerializer,
-        'write': TeleconverterSerializer,
+        'write': TeleconverterRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -208,11 +221,12 @@ class TeleconverterViewSet(ReadWriteSerializerMixin, ModelViewSet):
             qs = Teleconverter.objects.none()
         return qs
 
+
 class BulkFilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = BulkFilm.objects.none()
     serializer_classes = {
         'read': BulkFilmSerializer,
-        'write': BulkFilmSerializer,
+        'write': BulkFilmRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -222,6 +236,7 @@ class BulkFilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
         else:
             qs = BulkFilm.objects.none()
         return qs
+
 
 class MountAdapterViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = MountAdapter.objects.none()
@@ -238,11 +253,12 @@ class MountAdapterViewSet(ReadWriteSerializerMixin, ModelViewSet):
             qs = MountAdapter.objects.none()
         return qs
 
+
 class AccessoryViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Accessory.objects.none()
     serializer_classes = {
         'read': AccessorySerializer,
-        'write': AccessorySerializer,
+        'write': AccessoryRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -253,11 +269,12 @@ class AccessoryViewSet(ReadWriteSerializerMixin, ModelViewSet):
             qs = Accessory.objects.none()
         return qs
 
+
 class OrderViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Order.objects.none()
     serializer_classes = {
         'read': OrderSerializer,
-        'write': OrderSerializer,
+        'write': OrderRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
 
@@ -274,61 +291,76 @@ class ManufacturerViewSet(ReadOnlyModelViewSet):
     queryset = Manufacturer.objects.all()
     serializer_class = ManufacturerSerializer
 
+
 class BatteryViewSet(ReadOnlyModelViewSet):
     queryset = Battery.objects.all()
     serializer_class = BatterySerializer
+
 
 class NegativeSizeViewSet(ReadOnlyModelViewSet):
     queryset = NegativeSize.objects.all()
     serializer_class = NegativeSizeSerializer
 
+
 class FormatViewSet(ReadOnlyModelViewSet):
     queryset = Format.objects.all()
     serializer_class = FormatSerializer
+
 
 class FlashModelViewSet(ReadOnlyModelViewSet):
     queryset = FlashModel.objects.all()
     serializer_class = FlashModelSerializer
 
+
 class EnlargerModelViewSet(ReadOnlyModelViewSet):
     queryset = EnlargerModel.objects.all()
     serializer_class = EnlargerModelSerializer
+
 
 class MountViewSet(ReadOnlyModelViewSet):
     queryset = Mount.objects.all()
     serializer_class = MountSerializer
 
+
 class PaperStockViewSet(ReadOnlyModelViewSet):
     queryset = PaperStock.objects.all()
     serializer_class = PaperStockSerializer
+
 
 class ProcessViewSet(ReadOnlyModelViewSet):
     queryset = Process.objects.all()
     serializer_class = ProcessSerializer
 
+
 class TeleconverterModelViewSet(ReadOnlyModelViewSet):
     queryset = TeleconverterModel.objects.all()
     serializer_class = TeleconverterModelSerializer
+
 
 class TonerViewSet(ReadOnlyModelViewSet):
     queryset = Toner.objects.all()
     serializer_class = TonerSerializer
 
+
 class FilmStockViewSet(ReadOnlyModelViewSet):
     queryset = FilmStock.objects.all()
     serializer_class = FilmStockSerializer
+
 
 class DeveloperViewSet(ReadOnlyModelViewSet):
     queryset = Developer.objects.all()
     serializer_class = DeveloperSerializer
 
+
 class LensModelViewSet(ReadOnlyModelViewSet):
     queryset = LensModel.objects.all()
     serializer_class = LensModelSerializer
 
+
 class CameraModelViewSet(ReadOnlyModelViewSet):
     queryset = CameraModel.objects.all()
     serializer_class = CameraModelSerializer
+
 
 class FilterViewSet(ReadOnlyModelViewSet):
     queryset = Filter.objects.all()
