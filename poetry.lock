@@ -446,6 +446,18 @@ Django = ">=1.11"
 
 [[package]]
 category = "main"
+description = "Django REST framework serializer utility"
+name = "drf-multiple-serializer"
+optional = false
+python-versions = ">=3"
+version = "0.2.3"
+
+[package.dependencies]
+Django = ">=1.11"
+djangorestframework = ">=3.8"
+
+[[package]]
+category = "main"
 description = "Clean single-source support for Python 3 and 2"
 name = "future"
 optional = false
@@ -814,7 +826,7 @@ version = "1.12.1"
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "b4c1c47c5812c9fd633532f81c99ff59863963ec4c138eb4c29154b32db74095"
+content-hash = "b2f493243075b6df8cefebdb23e50cc3774dbb896b0b13dce3f9d0d7d5ca58c3"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -961,6 +973,9 @@ djangorestframework = [
 ]
 drf-generators = [
     {file = "drf-generators-0.5.0.tar.gz", hash = "sha256:b457c871b5758650552aac1a31655bb8631fcc959a1b578019ce576c39df05e9"},
+]
+drf-multiple-serializer = [
+    {file = "drf-multiple-serializer-0.2.3.tar.gz", hash = "sha256:1919c7c3d55959971cdd53f68b9fc695c4d58733bf5a0f935a4b565ce88b54d8"},
 ]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
