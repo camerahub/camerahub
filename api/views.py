@@ -28,6 +28,7 @@ class FilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Film.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': FilmSerializer,
         'write': FilmRWSerializer,
@@ -48,6 +49,8 @@ class NegativeViewSet(ReadWriteSerializerMixin, ModelViewSet):
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Negative.objects.none()
+    lookup_field = 'slug'
+    lookup_value_regex = '[0-9a-f.]+'
     serializer_classes = {
         'read': NegativeSerializer,
         'write': NegativeRWSerializer,
@@ -68,6 +71,8 @@ class ScanViewSet(ReadWriteSerializerMixin, ModelViewSet):
     Actions provided by the ModelViewSet class: .list(), .retrieve(), .create(), .update(), .partial_update(), .destroy()
     """
     queryset = Scan.objects.none()
+    lookup_field = 'uuid'
+    lookup_value_regex = '[0-9a-f]{32}'
     serializer_classes = {
         'read': ScanSerializer,
         'write': ScanRWSerializer,
@@ -88,6 +93,7 @@ class PrintViewSet(ReadWriteSerializerMixin, ModelViewSet):
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Print.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': PrintSerializer,
         'write': PrintRWSerializer,
@@ -108,6 +114,7 @@ class CameraViewSet(ReadWriteSerializerMixin, ModelViewSet):
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Camera.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': CameraSerializer,
         'write': CameraRWSerializer,
@@ -128,6 +135,7 @@ class LensViewSet(ReadWriteSerializerMixin, ModelViewSet):
     Actions provided by the ReadOnlyModelViewSet class: .list(), .retrieve()
     """
     queryset = Lens.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': LensSerializer,
         'write': LensRWSerializer,
@@ -144,6 +152,7 @@ class LensViewSet(ReadWriteSerializerMixin, ModelViewSet):
 
 class ArchiveViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Archive.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': ArchiveSerializer,
         'write': ArchiveRWSerializer,
@@ -160,6 +169,7 @@ class ArchiveViewSet(ReadWriteSerializerMixin, ModelViewSet):
 
 class FlashViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Flash.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': FlashSerializer,
         'write': FlashRWSerializer,
@@ -176,6 +186,7 @@ class FlashViewSet(ReadWriteSerializerMixin, ModelViewSet):
 
 class EnlargerViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Enlarger.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': EnlargerSerializer,
         'write': EnlargerRWSerializer,
@@ -192,6 +203,7 @@ class EnlargerViewSet(ReadWriteSerializerMixin, ModelViewSet):
 
 class PersonViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Person.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': PersonSerializer,
         'write': PersonRWSerializer,
@@ -208,6 +220,7 @@ class PersonViewSet(ReadWriteSerializerMixin, ModelViewSet):
 
 class TeleconverterViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Teleconverter.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': TeleconverterSerializer,
         'write': TeleconverterRWSerializer,
@@ -224,6 +237,7 @@ class TeleconverterViewSet(ReadWriteSerializerMixin, ModelViewSet):
 
 class BulkFilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = BulkFilm.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': BulkFilmSerializer,
         'write': BulkFilmRWSerializer,
@@ -240,6 +254,7 @@ class BulkFilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
 
 class MountAdapterViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = MountAdapter.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': MountAdapterSerializer,
         'write': MountAdapterSerializer,
@@ -256,6 +271,7 @@ class MountAdapterViewSet(ReadWriteSerializerMixin, ModelViewSet):
 
 class AccessoryViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Accessory.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': AccessorySerializer,
         'write': AccessoryRWSerializer,
@@ -272,6 +288,7 @@ class AccessoryViewSet(ReadWriteSerializerMixin, ModelViewSet):
 
 class OrderViewSet(ReadWriteSerializerMixin, ModelViewSet):
     queryset = Order.objects.none()
+    lookup_field = 'id_owner'
     serializer_classes = {
         'read': OrderSerializer,
         'write': OrderRWSerializer,
