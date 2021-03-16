@@ -36,11 +36,7 @@ class FilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Film.objects.filter(owner=self.request.user)
-        else:
-            qs = Film.objects.none()
-        return qs
+        return Film.objects.filter(owner=self.request.user)
 
 
 class NegativeViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -58,11 +54,7 @@ class NegativeViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Negative.objects.filter(owner=self.request.user)
-        else:
-            qs = Negative.objects.none()
-        return qs
+        return Negative.objects.filter(owner=self.request.user)
 
 
 class ScanViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -80,11 +72,7 @@ class ScanViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Scan.objects.filter(owner=self.request.user)
-        else:
-            qs = Scan.objects.none()
-        return qs
+        return Scan.objects.filter(owner=self.request.user)
 
 
 class PrintViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -101,11 +89,7 @@ class PrintViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Print.objects.filter(owner=self.request.user)
-        else:
-            qs = Print.objects.none()
-        return qs
+        return Print.objects.filter(owner=self.request.user)
 
 
 class CameraViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -122,11 +106,7 @@ class CameraViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Camera.objects.filter(owner=self.request.user)
-        else:
-            qs = Camera.objects.none()
-        return qs
+        return Camera.objects.filter(owner=self.request.user)
 
 
 class LensViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -143,11 +123,7 @@ class LensViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Lens.objects.filter(owner=self.request.user)
-        else:
-            qs = Lens.objects.none()
-        return qs
+        return Lens.objects.filter(owner=self.request.user)
 
 
 class ArchiveViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -160,11 +136,7 @@ class ArchiveViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Archive.objects.filter(owner=self.request.user)
-        else:
-            qs = Archive.objects.none()
-        return qs
+        return Archive.objects.filter(owner=self.request.user)
 
 
 class FlashViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -177,11 +149,7 @@ class FlashViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Flash.objects.filter(owner=self.request.user)
-        else:
-            qs = Flash.objects.none()
-        return qs
+        return Flash.objects.filter(owner=self.request.user)
 
 
 class EnlargerViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -194,11 +162,7 @@ class EnlargerViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Enlarger.objects.filter(owner=self.request.user)
-        else:
-            qs = Enlarger.objects.none()
-        return qs
+        return Enlarger.objects.filter(owner=self.request.user)
 
 
 class PersonViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -211,11 +175,7 @@ class PersonViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Person.objects.filter(owner=self.request.user)
-        else:
-            qs = Person.objects.none()
-        return qs
+        return Person.objects.filter(owner=self.request.user)
 
 
 class TeleconverterViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -228,11 +188,7 @@ class TeleconverterViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Teleconverter.objects.filter(owner=self.request.user)
-        else:
-            qs = Teleconverter.objects.none()
-        return qs
+        return Teleconverter.objects.filter(owner=self.request.user)
 
 
 class BulkFilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -245,11 +201,7 @@ class BulkFilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = BulkFilm.objects.filter(owner=self.request.user)
-        else:
-            qs = BulkFilm.objects.none()
-        return qs
+        return BulkFilm.objects.filter(owner=self.request.user)
 
 
 class MountAdapterViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -262,11 +214,7 @@ class MountAdapterViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = MountAdapter.objects.filter(owner=self.request.user)
-        else:
-            qs = MountAdapter.objects.none()
-        return qs
+        return MountAdapter.objects.filter(owner=self.request.user)
 
 
 class AccessoryViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -279,11 +227,7 @@ class AccessoryViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Accessory.objects.filter(owner=self.request.user)
-        else:
-            qs = Accessory.objects.none()
-        return qs
+        return Accessory.objects.filter(owner=self.request.user)
 
 
 class OrderViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -296,11 +240,7 @@ class OrderViewSet(ReadWriteSerializerMixin, ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            qs = Order.objects.filter(owner=self.request.user)
-        else:
-            qs = Order.objects.none()
-        return qs
+        return Order.objects.filter(owner=self.request.user)
 
 
 # Public objects: read-only and world-readable
