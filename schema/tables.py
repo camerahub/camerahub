@@ -3,7 +3,7 @@
 import django_tables2 as tables
 from django.utils.html import format_html
 from django.urls import reverse
-from schema.funcs import boolicon, colouricon
+from schema.funcs import boolicon, colouricon, locationicon
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
@@ -562,7 +562,7 @@ class NegativeTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Negative
-        fields = ('slug', 'film', 'date', 'lens', 'shutter_speed', 'aperture')
+        fields = ('slug', 'film', 'date', 'location', 'film__camera', 'lens', 'shutter_speed', 'aperture')
 
     @classmethod
     def render_slug(cls, value, record):
@@ -575,6 +575,14 @@ class NegativeTable(tables.Table):
     @classmethod
     def render_film(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:film-detail', args=[value.id_owner]), value)
+
+    @classmethod
+    def render_location(cls, value):
+        return format_html(locationicon(value))
+
+    @classmethod
+    def render_film__camera(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:camera-detail', args=[value.id_owner]), value)
 
     @classmethod
     def render_lens(cls, value):

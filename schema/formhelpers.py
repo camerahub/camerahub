@@ -263,6 +263,7 @@ class NegativeFormHelper(CustomFormHelper):
     layout = Layout(
         Row(
             Field('film', css_class="form-control-sm"),
+            Field('film__camera', css_class="form-control-sm"),
             Field('lens', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )

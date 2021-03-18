@@ -231,6 +231,7 @@ class NegativeFilter(FilterSet):
         model = Negative
         fields = [
             'film',
+            'film__camera',
             'lens',
         ]
 
