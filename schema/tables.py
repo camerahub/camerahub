@@ -504,7 +504,7 @@ class PrintTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Print
-        fields = ('id_owner', 'negative', 'date', 'paper_stock',
+        fields = ('id_owner', 'negative', 'date',
                   'width', 'height', 'own', 'archive')
 
     @classmethod
