@@ -504,8 +504,8 @@ class PrintTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Print
-        fields = ('id_owner', 'negative', 'date', 'paper_stock',
-                  'width', 'height', 'location', 'archive')
+        fields = ('id_owner', 'negative', 'date',
+                  'width', 'height', 'own', 'archive')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -514,6 +514,22 @@ class PrintTable(tables.Table):
     @classmethod
     def render_negative(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.slug]), value)
+
+    @classmethod
+    def render_width(cls, value):
+        return format_html("{}\"", value)
+
+    @classmethod
+    def render_height(cls, value):
+        return format_html("{}\"", value)
+
+    @classmethod
+    def render_own(cls, value):
+        return format_html(boolicon(value))
+
+    @classmethod
+    def render_archive(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:archive-detail', args=[value.id_owner]), value)
 
 
 class ProcessTable(tables.Table):
