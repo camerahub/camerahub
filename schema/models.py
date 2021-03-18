@@ -1144,7 +1144,7 @@ class ShutterSpeed(models.Model):
         # Test if format is 1/125
         fractional = re.match(r'^(\d)/(\d+(\.\d+)?)$', self.shutter_speed)
         if fractional:
-            mystring = mark_safe(self.shutter_speed.replace('1/', '&sup1;/'))
+            mystring = mark_safe(self.shutter_speed.replace('1/', '<sup>1</sup>/'))
         else:
             mystring = self.shutter_speed + '"'
         return mystring
