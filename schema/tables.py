@@ -519,6 +519,10 @@ class PrintTable(tables.Table):
     def render_own(cls, value):
         return format_html(boolicon(value))
 
+    @classmethod
+    def render_archive(cls, value):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:archive-detail', args=[value.id_owner]), value)
+
 
 class ProcessTable(tables.Table):
     class Meta:
