@@ -8,6 +8,7 @@ from api.serializers import FormatSerializer, FlashModelSerializer, FlashSeriali
 from api.serializers import PaperStockSerializer, PersonSerializer, ProcessSerializer, TeleconverterModelSerializer, TeleconverterSerializer
 from api.serializers import TonerSerializer, FilmStockSerializer, BulkFilmSerializer, MountAdapterSerializer, DeveloperSerializer
 from api.serializers import LensModelSerializer, CameraModelSerializer, AccessorySerializer, OrderSerializer
+from api.serializers import ExposureProgramSerializer, MeteringModeSerializer, ShutterSpeedSerializer
 
 from api.rwserializers import FilmRWSerializer, NegativeRWSerializer, ScanRWSerializer, PrintRWSerializer, LensRWSerializer, CameraRWSerializer
 from api.rwserializers import ArchiveRWSerializer
@@ -16,10 +17,10 @@ from api.rwserializers import PersonRWSerializer, TeleconverterRWSerializer
 from api.rwserializers import BulkFilmRWSerializer
 from api.rwserializers import AccessoryRWSerializer, OrderRWSerializer
 
-from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
-from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
+from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format, ExposureProgram
+from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, MeteringMode, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
-from schema.models import Lens, Print, Scan, Order
+from schema.models import Lens, Print, Scan, Order, ShutterSpeed
 
 
 class FilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -322,3 +323,15 @@ class CameraModelViewSet(ReadOnlyModelViewSet):
 class FilterViewSet(ReadOnlyModelViewSet):
     queryset = Filter.objects.all()
     serializer_class = FilterSerializer
+
+class MeteringModeViewSet(ReadOnlyModelViewSet):
+    queryset = MeteringMode.objects.all()
+    serializer_class = MeteringModeSerializer
+
+class ExposureProgramViewSet(ReadOnlyModelViewSet):
+    queryset = ExposureProgram.objects.all()
+    serializer_class = ExposureProgramSerializer
+
+class ShutterSpeedViewSet(ReadOnlyModelViewSet):
+    queryset = ShutterSpeed.objects.all()
+    serializer_class = ShutterSpeedSerializer
