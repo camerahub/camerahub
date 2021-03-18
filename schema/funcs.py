@@ -30,6 +30,19 @@ def colouricon(obj):
     return return_value
 
 
+def locationicon(obj):
+    img = '<img src="/static/svg/{}.svg" width="30" height="30" alt="{}" title="{}">'
+    if obj is not None:
+        if bool(obj):
+            return_value = mark_safe(img.format('location', 'Location', 'Location'))
+        else:
+            return_value = 'None'
+    else:
+        return_value = None
+
+    return return_value
+
+
 def angle_of_view(diag, focal):
     # fov = 2 arctan (d / 2f)
     if diag is not None and focal is not None:
