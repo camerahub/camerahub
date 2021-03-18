@@ -516,6 +516,14 @@ class PrintTable(tables.Table):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.slug]), value)
 
     @classmethod
+    def render_width(cls, value):
+        return format_html("{}\"", value)
+
+    @classmethod
+    def render_height(cls, value):
+        return format_html("{}\"", value)
+
+    @classmethod
     def render_own(cls, value):
         return format_html(boolicon(value))
 
