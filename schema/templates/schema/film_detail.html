@@ -5,8 +5,8 @@
 {% block content %}
 <table class="table table-hover">
   <tr>
-    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
-        href="#">Summary</a></th>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30"
+        alt="Summary">&nbsp;<a href="#">Summary</a></th>
   </tr>
   {% if object.status is not None %}
   <tr>
@@ -77,8 +77,8 @@
   {% if object.date_loaded is not None %}
   <tr>
     <td>Date loaded</td>
-    <td>{{ object.date_loaded }}{% if object.expired_when_loaded %} <img src="{% static "svg/expired.svg" %}" width="20"
-        height="20" alt="Expired when loaded" title="Film was expired when loaded">{% endif %}</td>
+    <td>{{ object.date_loaded }}{% if object.expired_when_loaded %} <img src="{% static "svg/expired.svg" %}"
+        width="20" height="20" alt="Expired when loaded" title="Film was expired when loaded">{% endif %}</td>
   </tr>
   {% endif %}
   {% if object.frames is not None %}
@@ -183,24 +183,12 @@
   {% endif %}
 </table>
 
-{% if film.negative_set.all %}
-<h4>Negatives</h4>
-<table class="table table-hover">
-  <tr>
-    <th>Frame</th>
-    <th>Date</th>
-  </tr>
-  {% for negative in film.negative_set.all %}
-  <tr>
-    <td><a href="{% url 'schema:negative-detail' negative.slug %}">{{ negative }}</a></td>
-    <td>{{ negative.date }}</td>
-  </tr>
-  {% endfor %}
-</table>
-{% endif %}
 {% endblock %}
 
 {% block moreactions %}
+{% if film.negative_set.count > 0 %}<li><a class="btn btn-primary"
+    href="{% url 'schema:negative-list' %}?film={{ object.id }}" role="button">View {{ film.negative_set.count }}
+    negatives on this film</a></li>{% endif %}
 {% if object.status == "Available" %}<li><a class="btn btn-primary" href="{% url 'schema:film-load' object.id_owner %}"
     role="button">Load this film into a camera</a></li>{% endif %}
 {% if object.status == "Loaded" %}<li><a class="btn btn-primary" href="{% url 'schema:film-develop' object.id_owner %}"
