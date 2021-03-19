@@ -46,13 +46,13 @@
   {% if object.enlarger is not None %}
   <tr>
     <td>Enlarger</td>
-    <td>{{ object.enlarger }}</td>
+    <td><a href="{% url 'schema:enlarger-detail' object.enlarger.id %}">{{ object.enlarger }}</a></td>
   </tr>
   {% endif %}
   {% if object.lens is not None %}
   <tr>
     <td>Enlarger lens</td>
-    <td>{{ object.lens }}</td>
+    <td><a href="{% url 'schema:lens-detail' object.lens.id %}">{{ object.lens }}</a></td>
   </tr>
   {% endif %}
   {% if object.aperture is not None %}
