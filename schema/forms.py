@@ -922,6 +922,23 @@ class PrintForm(ModelForm):
         )
 
 
+class PrintArchiveForm(ModelForm):
+    class Meta:
+        model = Print
+        fields = ['archive']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['archive'].queryset = Archive.objects.filter(type='Print', owner=get_current_user(), sealed=False)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset('Archive this print',
+                     'archive',
+                     ),
+            Hidden('status', 'Archived'),
+            FormActionButtons
+        )
+
 class ProcessForm(ModelForm):
     class Meta:
         model = Process
