@@ -96,11 +96,13 @@ class BulkFilmTable(tables.Table):
         return format_html("{}m", value)
 
 class CameraTable(tables.Table):
+    cameramodel = tables.Column(verbose_name= 'Camera model')
+    cameramodel__lens_model_name = tables.Column(verbose_name= 'Lens model')
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Camera
-        fields = ('id_owner', 'cameramodel', 'serial',
-                  'manufactured', 'cameramodel__lens_model_name', 'own')
+        fields = ('id_owner', 'cameramodel', 'serial', 'manufactured',
+                 'cameramodel__mount', 'cameramodel__lens_model_name', 'own')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -197,6 +199,7 @@ class EnlargerModelTable(tables.Table):
 
 
 class EnlargerTable(tables.Table):
+    enlargermodel = tables.Column(verbose_name= 'Enlarger model')
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Enlarger
@@ -257,6 +260,7 @@ class FlashModelTable(tables.Table):
 
 
 class FlashTable(tables.Table):
+    flashmodel = tables.Column(verbose_name= 'Flash model')
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Flash
@@ -283,6 +287,7 @@ class FormatTable(tables.Table):
 
 
 class LensTable(tables.Table):
+    lensmodel = tables.Column(verbose_name= 'Lens model')
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Lens
@@ -552,6 +557,7 @@ class ProcessTable(tables.Table):
 
 
 class ScanTable(tables.Table):
+    uuid = tables.Column(verbose_name= 'UUID')
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Scan
@@ -605,11 +611,12 @@ class NegativeTable(tables.Table):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:lens-detail', args=[value.id_owner]), value)
 
 class FilmTable(tables.Table):
+    negative_set__count = tables.Column(verbose_name= 'Frames')
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Film
         fields = ('id_owner', 'filmstock', 'format',
-                  'status', 'date_processed', 'camera')
+                  'status', 'negative_set__count', 'date_processed', 'camera')
 
     @classmethod
     def render_id_owner(cls, value, record):
@@ -629,6 +636,7 @@ class FilmTable(tables.Table):
 
 
 class TeleconverterTable(tables.Table):
+    teleconvertermodel = tables.Column(verbose_name= 'Teleconverter model')
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Teleconverter
