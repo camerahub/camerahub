@@ -605,11 +605,12 @@ class NegativeTable(tables.Table):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:lens-detail', args=[value.id_owner]), value)
 
 class FilmTable(tables.Table):
+    negative_set__count = tables.Column(verbose_name= 'Frames')
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Film
         fields = ('id_owner', 'filmstock', 'format',
-                  'status', 'date_processed', 'camera')
+                  'status', 'negative_set__count', 'date_processed', 'camera')
 
     @classmethod
     def render_id_owner(cls, value, record):
