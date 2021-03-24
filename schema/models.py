@@ -646,8 +646,8 @@ class Enlarger(models.Model):
     def __str__(self):
         mystr = "%s %s" % (
             self.enlargermodel.manufacturer.name, self.enlargermodel.model)
-        ownchar = '[SOLD] ' if self.own is False else ''
-        return ownchar + mystr
+        ownchar = '✓' if self.own is True else '✗'
+        return "%s %s" % (ownchar, mystr)
 
     def get_absolute_url(self):
         return reverse('schema:enlarger-detail', kwargs={'id_owner': self.id_owner})
@@ -1869,8 +1869,8 @@ class Lens(models.Model):
         else:
             mystr = "%s %s" % (
                 self.lensmodel.manufacturer.name, self.lensmodel.model)
-        ownchar = '[SOLD] ' if self.own is False else ''
-        return ownchar + mystr
+        ownchar = '✓' if self.own is True else '✗'
+        return "%s %s" % (ownchar, mystr)
 
     class Meta:
         ordering = ['-own', 'lensmodel__manufacturer',
@@ -1955,8 +1955,8 @@ class Camera(models.Model):
         else:
             mystr = "%s %s" % (
                 self.cameramodel.manufacturer.name, self.cameramodel.model)
-        ownchar = '[SOLD] ' if self.own is False else ''
-        return ownchar + mystr
+        ownchar = '✓' if self.own is True else '✗'
+        return "%s %s" % (ownchar, mystr)
 
     class Meta:
         ordering = ['-own', 'cameramodel__manufacturer',
