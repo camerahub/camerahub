@@ -3,6 +3,7 @@
 {% load boolicontag %}
 {% load formatting %}
 {% load ratings %}
+{% load td %}
 
 {% block content %}
 {% if object.image %}
@@ -24,7 +25,7 @@
   </tr>
   {% if object.manufacturer is not None %}
   <tr>
-    <td>Manufacturer</td>
+    <td>{% td object.manufacturer %}</td>
     <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
   </tr>
   {% endif %}
