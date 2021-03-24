@@ -194,6 +194,8 @@ urlpatterns = [
     path('print/create/', views.PrintCreate.as_view(), name='print-create'),
     path('print/<int:id_owner>/update',
          views.PrintUpdate.as_view(), name='print-update'),
+    path('print/<int:id_owner>/archive',
+         views.PrintArchive.as_view(), name='print-archive'),
 
     path('process/', views.ProcessList.as_view(), name='process-list'),
     path('process/<int:pk>', views.ProcessDetail.as_view(), name='process-detail'),
