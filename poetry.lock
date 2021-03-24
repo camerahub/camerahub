@@ -225,6 +225,14 @@ six = "*"
 
 [[package]]
 category = "main"
+description = "Tiny stuff for Django that won't fit into separate apps."
+name = "django-etc"
+optional = false
+python-versions = "*"
+version = "1.3.0"
+
+[[package]]
+category = "main"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
 name = "django-filter"
 optional = false
@@ -826,7 +834,7 @@ version = "1.12.1"
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "b2f493243075b6df8cefebdb23e50cc3774dbb896b0b13dce3f9d0d7d5ca58c3"
+content-hash = "6ca4e33bafff288fcc60ac1d653a8b827f3779c180e29d941f9c7bcf6425f4ea"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -903,6 +911,10 @@ django-currentuser = [
 ]
 django-dbbackup = [
     {file = "django-dbbackup-3.3.0.tar.gz", hash = "sha256:bb109735cae98b64ad084e5b461b7aca2d7b39992f10c9ed9435e3ebb6fb76c8"},
+]
+django-etc = [
+    {file = "django-etc-1.3.0.tar.gz", hash = "sha256:355e3d47ac14fa1ad3a9081d3c631c8b9d1dc1b57b76c6091a45fda536b4058c"},
+    {file = "django_etc-1.3.0-py2.py3-none-any.whl", hash = "sha256:be4423e24662ee682b19d782a3ed2a431ba41a13c91ffd0b709fe3ecd51f4e2f"},
 ]
 django-filter = [
     {file = "django-filter-2.4.0.tar.gz", hash = "sha256:84e9d5bb93f237e451db814ed422a3a625751cbc9968b484ecc74964a8696b06"},
