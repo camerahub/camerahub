@@ -78,6 +78,7 @@ my %newnames = (
 	'icons8-down'					=> ['down'],
 	'icons8-expired'				=> ['expired'],
 	'icons8-place-marker'			=> ['location'],
+	'icons8-rest-api'				=> ['api'],
 #unknown
 #logout
 );
