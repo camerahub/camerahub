@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block heading %}<h4>
+    <img src="{% static "svg/camera.svg" %}" width="30" height="30" alt="Camera">
+    Workflow for collecting cameras</h4>{%endblock%}
+
+{% block content %}
+This guide explains a suggested workflow for collecting cameras. It also applies to lenses and other objects.
+
+<h4>Search for camera models</h4>
+
+CameraHub distinguishes between Camera Models which exist for everyone, and Cameras which exist in your private collection.
+When you add a new Camera to your collection, first check to see if a Camera Model exists. You can check this by browsing the <a href="{% url 'schema:cameramodel-list' %}">Camera Model List</a>, or by searching.
+
+<h4>Add a new camera model</h4>
+
+If no Camera Model exists, you'll need to <a href="{% url 'schema:cameramodel-create' %}">add one</a>.
+
+<h4>Add a camera to your collection</h4>
+
+If there is a Camera Model, 
+
+{% endblock %}
