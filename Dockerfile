@@ -26,9 +26,6 @@ RUN buildDeps='build-essential  libpq-dev git libffi-dev zlib1g-dev libjpeg-dev 
     && apt-get purge -y --auto-remove $buildDeps \
     && rm -rf /var/lib/apt/lists/*
 
-# Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
-RUN python manage.py collectstatic --noinput
-
 # Run migrations
 ENV DJANGO_MANAGEPY_MIGRATE=on
 
