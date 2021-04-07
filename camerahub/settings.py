@@ -78,8 +78,8 @@ MIDDLEWARE = [
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
-    'django_prometheus.middleware.PrometheusAfterMiddleware',
     'camerahub.middleware.DynamicSiteDomainMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'camerahub.urls'
