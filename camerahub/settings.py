@@ -63,6 +63,11 @@ INSTALLED_APPS = [
     'drf_generators',
     'dbbackup',
     'star_ratings',
+    'health_check',
+    'health_check.db',
+    'health_check.storage',
+    #'health_check.cache',
+    #'health_check.contrib.redis',
 ]
 
 MIDDLEWARE = [
