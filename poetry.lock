@@ -255,6 +255,17 @@ version = "0.3.11"
 
 [[package]]
 category = "main"
+description = "Run checks on services like databases, queue servers, celery processes, etc."
+name = "django-health-check"
+optional = false
+python-versions = "*"
+version = "3.16.3"
+
+[package.dependencies]
+django = ">=1.11"
+
+[[package]]
+category = "main"
 description = "Use Leaflet in your django projects"
 name = "django-leaflet"
 optional = false
@@ -826,7 +837,7 @@ version = "1.12.1"
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "b2f493243075b6df8cefebdb23e50cc3774dbb896b0b13dce3f9d0d7d5ca58c3"
+content-hash = "1f4d6c023bd538e47d2b4fbd18bfe2d9963f6f050e7bbc8c58bc4f0cd5385af5"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -913,6 +924,10 @@ django-fullurl = [
 ]
 django-geoposition-2 = [
     {file = "django-geoposition-2-0.3.11.tar.gz", hash = "sha256:e902c0db92d7f244a7178937912fd0d3ddc4aecc6a924993a53b990feb810529"},
+]
+django-health-check = [
+    {file = "django-health-check-3.16.3.tar.gz", hash = "sha256:a6aa6ea423eae4fd0665f6372b826af1ed20dfc3e88cf52789d0b49cfb64969c"},
+    {file = "django_health_check-3.16.3-py2.py3-none-any.whl", hash = "sha256:d0628ffc11aee7e62e73b58ff39179ea2a9ca5abfbc92cb345ceca268593dd71"},
 ]
 django-leaflet = [
     {file = "django-leaflet-0.27.1.tar.gz", hash = "sha256:b530960242fe7718572b23976dd6037823dd478335c22c4434931335acf88bdd"},

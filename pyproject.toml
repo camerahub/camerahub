@@ -66,6 +66,7 @@ drf-generators = "^0.5.0"
 pyyaml = "^5.4.1"
 uritemplate = "^3.0.1"
 drf-multiple-serializer = "^0.2.3"
+django-health-check = "^3.16.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
