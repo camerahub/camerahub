@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'health_check',
     'health_check.db',
     'health_check.storage',
-    #'health_check.cache',
+    'health_check.cache',
     #'health_check.contrib.redis',
 ]
 
@@ -251,7 +251,7 @@ if os.getenv('CAMERAHUB_REDIS') == 'true':
 else:
     CACHES = {
         'default': {
-            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         }
     }
 
