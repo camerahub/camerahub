@@ -69,6 +69,8 @@ INSTALLED_APPS = [
     'health_check.cache',
     #'health_check.contrib.redis',
     'clear_cache',
+    'speedinfo',
+    'speedinfo.storage.database',
 ]
 
 MIDDLEWARE = [
@@ -84,6 +86,7 @@ MIDDLEWARE = [
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
     'camerahub.middleware.DynamicSiteDomainMiddleware',
+    'speedinfo.middleware.ProfilerMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
@@ -239,7 +242,8 @@ LOGGING = {
 if os.getenv('CAMERAHUB_REDIS') == 'true':
     CACHES = {
         'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
+            'BACKEND': 'speedinfo.backends.proxy_cache',
+            'CACHE_BACKEND': 'django_redis.cache.RedisCache',
             'LOCATION': "redis://{}:{}/1".format(
                 os.getenv('CAMERAHUB_REDIS_HOST', '127.0.0.1'),
                 os.getenv('CAMERAHUB_REDIS_PORT', '6379'),
@@ -252,7 +256,8 @@ if os.getenv('CAMERAHUB_REDIS') == 'true':
 else:
     CACHES = {
         'default': {
-            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'BACKEND': 'speedinfo.backends.proxy_cache',
+            'CACHE_BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         }
     }
 
@@ -285,3 +290,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 25
 }
+
+# speedinfo
+SPEEDINFO_STORAGE = 'speedinfo.storage.database.storage.DatabaseStorage'
