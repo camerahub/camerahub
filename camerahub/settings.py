@@ -81,9 +81,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
     'camerahub.middleware.DynamicSiteDomainMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
