@@ -352,14 +352,14 @@ class DeveloperUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-class EnlargerModelList(LoginRequiredMixin, PagedFilteredTableView):
+class EnlargerModelList(PagedFilteredTableView):
     model = EnlargerModel
     table_class = EnlargerModelTable
     filterset_class = EnlargerModelFilter
     formhelper_class = EnlargerModelFormHelper
 
 
-class EnlargerModelDetail(LoginRequiredMixin, generic.DetailView):
+class EnlargerModelDetail(generic.DetailView):
     model = EnlargerModel
 
 class EnlargerModelCreate(LoginRequiredMixin, CreateView):
@@ -464,14 +464,14 @@ class FilterUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-class FlashModelList(LoginRequiredMixin, PagedFilteredTableView):
+class FlashModelList(PagedFilteredTableView):
     model = FlashModel
     table_class = FlashModelTable
     filterset_class = FlashModelFilter
     formhelper_class = FlashModelFormHelper
 
 
-class FlashModelDetail(LoginRequiredMixin, generic.DetailView):
+class FlashModelDetail(generic.DetailView):
     model = FlashModel
 
 
@@ -1132,14 +1132,14 @@ class TeleconverterUpdate(LoginRequiredMixin, UpdateView):
     def get_object(self):
         return get_object_or_404(Teleconverter, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
-class TeleconverterModelList(LoginRequiredMixin, PagedFilteredTableView):
+class TeleconverterModelList(PagedFilteredTableView):
     model = TeleconverterModel
     table_class = TeleconverterModelTable
     filterset_class = TeleconverterModelFilter
     formhelper_class = TeleconverterModelFormHelper
 
 
-class TeleconverterModelDetail(LoginRequiredMixin, generic.DetailView):
+class TeleconverterModelDetail(generic.DetailView):
     model = TeleconverterModel
 
 
