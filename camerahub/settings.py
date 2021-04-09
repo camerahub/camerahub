@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'health_check.storage',
     'health_check.cache',
     #'health_check.contrib.redis',
+    'clear_cache',
 ]
 
 MIDDLEWARE = [
