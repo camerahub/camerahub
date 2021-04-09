@@ -1,6 +1,8 @@
 {% load static %}
 {% load version %}
+{% load cache %}
 
+{% cache 600 footer %}
 <p align="center">
         <a href="https://www.facebook.com/camerahubapp" target="_blank"><img src="{% static "svg/facebook.svg" %}"
                         width="30" height="30" alt="Facebook" title="Facebook"></a>
@@ -14,3 +16,4 @@
         <small>CameraHub <a href="https://github.com/camerahub/camerahub/releases/tag/{% camerahub_version %}" target="_blank"
                         title="Release notes">v{% camerahub_version %}</a></small>
 </p>
+{% endcache %}
