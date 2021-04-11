@@ -36,6 +36,12 @@
     <th colspan="2" id="exposure"><img src="{% static "svg/camera.svg" %}" width="30" height="30" alt="Exposure"> <a
         href="#exposure">Exposure</a></th>
   </tr>
+  {% if object.film.camera is not None %}
+  <tr>
+    <td>Camera</td>
+    <td><a href="{% url 'schema:camera-detail' object.film.camera.id_owner %}">{{ object.film.camera }}</a></td>
+  </tr>
+  {% endif %}
   {% if object.lens is not None %}
   <tr>
     <td>Lens</td>
