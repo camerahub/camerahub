@@ -259,6 +259,7 @@ class Condition(ExportModelOperationsMixin('condition'), models.Model):
 
     class Meta:
         verbose_name_plural = "conditions"
+        ordering = ['min_rating']
 
     @classmethod
     def icon(cls):
@@ -501,6 +502,7 @@ class Flash(ExportModelOperationsMixin('flash'), models.Model):
 
     class Meta:
         verbose_name_plural = "flashes"
+        ordering = ['id_owner']
 
     def get_absolute_url(self):
         return reverse('schema:flash-detail', kwargs={'id_owner': self.id_owner})
@@ -937,6 +939,7 @@ class Teleconverter(ExportModelOperationsMixin('teleconverter'), models.Model):
 
     class Meta:
         verbose_name_plural = "teleconverters"
+        ordering = ['id_owner']
 
     def get_absolute_url(self):
         return reverse('schema:teleconverter-detail', kwargs={'id_owner': self.id_owner})
@@ -1084,6 +1087,7 @@ class BulkFilm(ExportModelOperationsMixin('bulkfilm'), models.Model):
 
     class Meta:
         verbose_name_plural = "bulk films"
+        ordering = ['id_owner']
 
     def get_absolute_url(self):
         return reverse('schema:bulkfilm-detail', kwargs={'id_owner': self.id_owner})
@@ -2295,6 +2299,7 @@ class Print(ExportModelOperationsMixin('print'), models.Model):
 
     class Meta:
         verbose_name_plural = "prints"
+        ordering = ['id_owner']
 
     def clean(self):
         # Aperture must be in range of lens model aperture
@@ -2367,6 +2372,7 @@ class Scan(ExportModelOperationsMixin('scan'), models.Model):
 
     class Meta:
         verbose_name_plural = "scans"
+        ordering = ['uuid']
 
     def get_absolute_url(self):
         return reverse('schema:scan-detail', kwargs={'uuid': self.uuid})
