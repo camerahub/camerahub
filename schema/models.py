@@ -2217,6 +2217,16 @@ class Negative(ExportModelOperationsMixin('negative'), models.Model):
                 if self.teleconverter is None:
                     self.focal_length = self.lens.lensmodel.min_focal_length
 
+        # Auto-populate metering mode for cameras that only support one
+        if self.metering_mode is None:
+            if self.film.camera.cameramodel.metering_modes.count() == 1:
+                self.metering_mode = self.film.camera.cameramodel.metering_modes.first()
+
+        # Auto-populate exposure program for cameras that only support one
+        if self.exposure_program is None:
+            if self.film.camera.cameramodel.exposure_programs.count() == 1:
+                self.exposure_program = self.film.camera.cameramodel.exposure_programs.first()
+
         # Populate slug
         self.slug = slugify(str(self.film.id_owner) + '.' + str(self.frame), separator='.')
         super().save(*args, **kwargs)
