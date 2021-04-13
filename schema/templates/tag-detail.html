@@ -7,8 +7,8 @@
     <p>Public objects can be tagged</p>{%endblock%}
 
 {% block content %}
-<h5>Objects tagged <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' object|lower %}"
-        role="button">{{ object }}</a></h5>
+<h5>Objects tagged <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' object.slug %}"
+        role="button">{{ object.slug }}</a></h5>
 
 
 <ul>
