@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block heading %}<h4>
+    <img src="{% static "svg/about.svg" %}" width="30" height="30" alt="Home">
+    FAQs</h4>{%endblock%}
+
+{% block content %}
+<p>This page has answers to frequently asked questions about CameraHub.</p>
+
+<ul class="list-group list-group-flush">
+    <li class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">What kind of cameras can I catalogue with CameraHub?</h5>
+        </div>
+        <p class="mb-1">Any kind of still image film camera can be catalogued. CameraHub is not suitable for digital
+            cameras or motion picture (movie) cameras.</p>
+    </li>
+
+    <li class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Can I catalogue digital-era lenses?</h5>
+        </div>
+        <p class="mb-1">You can add a lens to CameraHub if it works with film cameras, even if it was intended for
+            digital cameras. For example, recent Canon EF lenses which were sold with full-frame digital SLRs in mind,
+            but which still work with 35mm SLRs.</p>
+    </li>
+
+    <li class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">How can I help CameraHub?</h5>
+        </div>
+        <p class="mb-1">The best way to help CameraHub is to sign up and start contributing data and photos about
+            cameras, lenses and other accessories.</p>
+        <p class="mb-1">If you have an idea or suggestion for CameraHub, or you find a bug, <a
+                href="https://github.com/camerahub/camerahub/issues">add an issue on Github</a> or contact us via our <a
+                href="https://www.facebook.com/camerahubapp">Facebook page</a></p>
+        <p class="mb-1">Last but not least, if you have any experience with Python, Django, CSS or Javascript then you
+            could help contribute code. Have a look at our <a href="https://github.com/camerahub/camerahub/issues">issue
+                tracker</a> to see what's in the pipeline at the moment.</p>
+    </li>
+
+    <li class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Who pays for CameraHub?</h5>
+        </div>
+        <p class="mb-1">CameraHub is 100% funded and maintained by Jonathan Gazeley as a hobby. There is no external
+            funding and no revenue from advertising. However the cost of hosting is partially offset by using
+            electricity from solar panels.</p>
+    </li>
+
+    <li class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">What about language support?</h5>
+        </div>
+        <p class="mb-1">CameraHub is in UK English. It is not currently on the roadmap to translate the site into other
+            languages.</p>
+        <p class="mb-1">Regarding the data inside CameraHub, it is always preferred to use Latin characters. For example
+            we prefer <em>Zorki</em> instead of <em>Зоркий</em>.</p>
+        <p>If a camera has different names in different regions, The UK or European name is preferred. For example, the
+            <em>Canon EOS 500</em> was marketed as the <em>Canon EOS 500</em> in Europe, Asia and Oceania, as the
+            <em>Canon EOS Kiss</em> in Japan and the <em>Canon EOS Rebel XS</em> in America. There is a feature on the
+            roadmap to support multiple names for cameras.</p>
+    </li>
+
+    <li class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Is there an app?</h5>
+        </div>
+        <p class="mb-1">No, there is no app and no plans for one. However we aim to make CameraHub work nicely on all
+            mobiles and it is possible to <a
+                href="https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/">add
+                a website to your home screen</a>.</p>
+        <p class="mb-1">There are plans for some kind of desktop app which can tag your photos scanned from film with
+            metadata from CameraHub. This is a little way off and we're not yet sure what this might look like. There
+            was a previous attempt at a tagger app as part of the now-defunct <a
+                href="https://github.com/djjudas21/photodb-perl">PhotoDB project</a> but it was command-line only and
+            not very user-friendly.</p>
+    </li>
+</ul>
+{% endblock %}

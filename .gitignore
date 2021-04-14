@@ -107,4 +107,13 @@ venv.bak/
 
 # vscode
 .vscode/
-sent_emails
+
+# CameraHub components
+sent_emails/
+media/
+backup/
+.gitsecret/keys/random_seed
+!*.secret
+static/
+
+# Helm

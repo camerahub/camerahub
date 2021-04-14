@@ -1,12 +1,18 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
+{% load ratings %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
   {% if object.manufacturer is not None %}
   <tr>
     <td>Manufacturer</td>
-    <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a></td>
+    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
   </tr>
   {% endif %}
   <tr>
@@ -32,36 +38,42 @@
   </tr>
   {% endif %}
   <tr>
-    <th colspan="2">Misc</th>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
   </tr>
-  {% if object.tags is not None %}
+  <tr>
+    <td>Rating</td>
+    <td>{% ratings object %}</td>
+  </tr>
+  {% if object.tags.all %}
   <tr>
     <td>Tags</td>
     <td>{% for tag in object.tags.all %}
-      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag|lower %}" role="button">{{ tag }}</a>
+      <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' tag.slug %}" role="button">{{ tag.slug }}</a>
       {% endfor %}</td>
   </tr>
   {% endif %}
-  {% if object.created_at is not None %}
+  {% if related %}
   <tr>
-    <td>Created</td>
-    <td>{{ object.created_at }}{% if object.created_by is not None %} by {{ object.created_by }}{% endif %}</td>
+    <td>Similar developers</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'schema:developer-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        {% endfor %}
+      </ul>
+    </td>
   </tr>
   {% endif %}
-  {% if object.updated_at is not None %}
+  {% if history %}
   <tr>
-    <td>Last updated</td>
-    <td>{{ object.updated_at }}{% if object.updated_by is not None %} by {{ object.updated_by }}{% endif %}</td>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
   </tr>
   {% endif %}
+  <tr>
+    <td>Sharing</td>
+    <td>{% include "sharing.html" %}</td>
+  </tr>
 </table>
-
-{% if related %}
-<h4>Similar developers</h4>
-<ul>
-  {% for relateditem in related %}
-  <li><a href="{% url 'developer-detail' relateditem.slug %}">{{ relateditem }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
 {% endblock %}

@@ -10,9 +10,9 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: yaml-lint
-        uses: ibiqlik/action-yamllint@v1
+        uses: ibiqlik/action-yamllint@v3
         with:
           config_file: .yamllint.yml
 
@@ -21,26 +21,23 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.8, 3.9]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install GDAL for Leaflet
+        run: sudo apt update && sudo apt install libgdal-dev
+      # install & configure poetry
       - name: Install Poetry
-        uses: dschep/install-poetry-action@v1.2
-      - name: Cache Poetry virtualenv
-        uses: actions/cache@v1
-        id: cache
+        uses: snok/install-poetry@v1.1.1
         with:
-          path: ~/.virtualenvs
-          key: poetry-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            poetry-${{ hashFiles('**/poetry.lock') }}
-      - name: Install Dependencies
+          virtualenvs-create: true
+      # install dependencies
+      - name: Install dependencies
         run: poetry install
-        if: steps.cache.outputs.cache-hit != 'true'
       - name: Run pylint
         run: "poetry run pylint --rcfile=.pylintrc **/*.py"
       - name: Run Tests
@@ -50,30 +47,27 @@ jobs:
           poetry run python manage.py migrate
 
   build:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: 3.8
+      # install & configure poetry
       - name: Install Poetry
-        uses: dschep/install-poetry-action@v1.2
-      - name: Cache Poetry virtualenv
-        uses: actions/cache@v1
-        id: cache
+        uses: snok/install-poetry@v1.1.1
         with:
-          path: ~/.virtualenvs
-          key: poetry-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            poetry-${{ hashFiles('**/poetry.lock') }}
+          virtualenvs-create: true
+      # install dependencies
+      - name: Install dependencies
+        run: poetry install
       - name: Build Python package
-        run: |
-          poetry install
-          poetry build
+        run: poetry build
       - name: Build Docker image
         uses: docker/build-push-action@v1
         with:
-          repository: djjudas21/camerahub
+          repository: camerahub/camerahub
           tags: testing
           push: false

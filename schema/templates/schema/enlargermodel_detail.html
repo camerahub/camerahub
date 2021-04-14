@@ -1,0 +1,109 @@
+{% extends "detail.html" %}
+{% load static %}
+{% load formatting %}
+{% load ratings %}
+
+{% block content %}
+{% if object.image %}
+<div class="text-center">
+  <figure class="figure img-thumbnail">
+    <img src="{{ object.image.url }}" class="figure-img img-fluid rounded" alt="{{ object }}" title="{{ object }}">
+    <figcaption class="figure-caption text-center">{{ object }}{% if object.image_attribution %} by
+      {% if object.image_attribution_link %}<a
+        href="{{ object.image_attribution_link }}">{{ object.image_attribution }}</a>{% else %}{{ object.image_attribution }}{% endif %}{% endif %}
+    </figcaption>
+  </figure>
+</div>
+{% endif %}
+
+<table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
+  <tr>
+    <td>Manufacturer</td>
+    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
+  </tr>
+  <tr>
+    <td>Model</td>
+    <td>{{ object.model }}</td>
+  </tr>
+  {% if object.disambiguation %}
+  <tr>
+    <td>Disambiguation</td>
+    <td>{{ object.disambiguation }}</td>
+  </tr>
+  {% endif %}
+  {% if object.negative_size is not None %}
+  <tr>
+    <td>Negative size</td>
+    <td><a href="{% url 'schema:negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.type is not None %}
+  <tr>
+    <td>Type</td>
+    <td>{{ object.type }}</td>
+  </tr>
+  {% endif %}
+  {% if object.light_source is not None %}
+  <tr>
+    <td>Light source</td>
+    <td>{{ object.light_source }}</td>
+  </tr>
+  {% endif %}
+  {% if object.introduced is not None %}
+  <tr>
+    <td>Introduced</td>
+    <td>{{ object.introduced }} <small class="text-muted">{{ object.introduced|yearssince }}</small></td>
+  </tr>
+  {% endif %}
+  {% if object.discontinued is not None %}
+  <tr>
+    <td>Discontinued</td>
+    <td>{{ object.discontinued }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
+  </tr>
+  <tr>
+    <td>Rating</td>
+    <td>{% ratings object %}</td>
+  </tr>
+  {% if object.tags.all %}
+  <tr>
+    <td>Tags</td>
+    <td>{% for tag in object.tags.all %}
+      <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' tag.slug %}" role="button">{{ tag.slug }}</a>
+      {% endfor %}</td>
+  </tr>
+  {% endif %}
+  {% if related %}
+  <tr>
+    <td>Similar enlarger models</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'schema:enlargermodel-detail' relateditem.slug %}">{{ relateditem }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+  {% if history %}
+  <tr>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td>Sharing</td>
+    <td>{% include "sharing.html" %}</td>
+  </tr>
+</table>
+{% endblock %}

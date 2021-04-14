@@ -3,12 +3,13 @@
 
 {% block heading %}{% include "heading.html" %}{%endblock%}
 
-{% block subheading %}<h4>{{ object }}<a href="{{ object.get_absolute_url }}/update"><img
-      src="{% static "svg/edit.svg" %}" width="20" height="20" alt="Edit"></a></h4>{%endblock%}
+{% block subheading %}<h4><a href="{{ object.get_absolute_url }}">{{ object }}</a><a
+            href="{{ object.get_absolute_url }}/update"><img src="{% static "svg/edit.svg" %}" width="20" height="20"
+                  alt="Edit" title="Edit"></a></h4>{%endblock%}
 
 {% block content %}{%endblock%}
 
 {% block actions %}
 <h4>Actions</h4>
-{% block moreactions %}{%endblock%}
+<ul class="list-unstyled">{% block moreactions %}{%endblock%}</ul>
 {%endblock%}

@@ -3,7 +3,7 @@
 This method of installation is required if you want to work on the source code. CameraHub requires [Poetry](https://python-poetry.org/) to manage its build environment, so install this first with your usual package manager. Clone CameraHub, then do the following to set up your development environment:
 
 ```sh
-git clone https://github.com/djjudas21/camerahub.git
+git clone https://github.com/camerahub/camerahub.git
 cd camerahub
 poetry install --no-root
 poetry run python manage.py migrate

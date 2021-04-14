@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-from getenv import env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,15 +20,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('CAMERAHUB_SECRET_KEY', 'OverrideMe!')
+SECRET_KEY = os.getenv('CAMERAHUB_SECRET_KEY', 'OverrideMe!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.getenv('CAMERAHUB_PROD') == 'true':
     DEBUG = False
-    ALLOWED_HOSTS = [env('CAMERAHUB_DOMAIN', 'camerahub.info')]
 else:
     DEBUG = True
-    ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -43,8 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'schema',
     'help',
+    'api',
     'djmoney',
-    'favicon',
     'django_tables2',
     'crispy_forms',
     'fullurl',
@@ -52,6 +51,26 @@ INSTALLED_APPS = [
     'watson',
     'taggit',
     'django_prometheus',
+    'simple_history',
+    'django_social_share',
+    'django_countries',
+    'dal',
+    'dal_select2',
+    'bootstrap_datepicker_plus',
+    'geoposition',
+    'leaflet',
+    'rest_framework',
+    'drf_generators',
+    'dbbackup',
+    'star_ratings',
+    'health_check',
+    'health_check.db',
+    'health_check.storage',
+    'health_check.cache',
+    #'health_check.contrib.redis',
+    'clear_cache',
+    'speedinfo',
+    'speedinfo.storage.database',
 ]
 
 MIDDLEWARE = [
@@ -65,6 +84,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
+    'camerahub.middleware.DynamicSiteDomainMiddleware',
+    'speedinfo.middleware.ProfilerMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
@@ -79,6 +101,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -99,12 +122,12 @@ WSGI_APPLICATION = 'camerahub.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env('CAMERAHUB_DB_ENGINE', 'django_prometheus.db.backends.sqlite3'),
-        'NAME': env('CAMERAHUB_DB_NAME', os.path.join(BASE_DIR, 'db', 'db.sqlite3')),
-        'USER': env('CAMERAHUB_DB_USER'),
-        'PASSWORD': env('CAMERAHUB_DB_PASS'),
-        'HOST': env('CAMERAHUB_DB_HOST'),
-        'PORT': env('CAMERAHUB_DB_PORT'),
+        'ENGINE': os.getenv('CAMERAHUB_DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.getenv('CAMERAHUB_DB_NAME', os.path.join(BASE_DIR, 'db', 'db.sqlite3')),
+        'USER': os.getenv('CAMERAHUB_DB_USER'),
+        'PASSWORD': os.getenv('CAMERAHUB_DB_PASS'),
+        'HOST': os.getenv('CAMERAHUB_DB_HOST'),
+        'PORT': os.getenv('CAMERAHUB_DB_PORT'),
     }
 }
 
@@ -130,47 +153,70 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
+LANGUAGE_CODE = 'en-gb'
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
-USE_L10N = True
-
+USE_L10N = False
 USE_TZ = True
 
+DATE_INPUT_FORMATS = ['%Y-%m-%d', ]
+DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S', '%Y-%m-%d %H:%M']
+TIME_INPUT_FORMATS = ['%H:%M:%S', '%H:%M', ]
+
+DATE_FORMAT = 'Y-m-d'
+TIME_FORMAT = 'Y-m-d H:i'
+SHORT_DATE_FORMAT = 'Y-m-d'
+SHORT_DATETIME_FORMAT = 'Y-m-d H:i'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+# Where to put static files when they are collected
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# Where to serve static files from
 STATIC_URL = '/static/'
 
-FAVICON_PATH = STATIC_URL + 'favicon.ico'
+# Where to store uploaded assets
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Where to serve uploaded assets from
+MEDIA_URL = '/media/'
+
+# Add media to the list of static dirs
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'media/'),
+]
 
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 
-LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'schema:index'
+LOGOUT_REDIRECT_URL = 'schema:index'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# Email support with Sendgrid
-DEFAULT_FROM_EMAIL = env('CAMERAHUB_FROM_EMAIL', "noreply@camerahub.info")
+# Email support
+DEFAULT_FROM_EMAIL = os.getenv('CAMERAHUB_FROM_EMAIL', "noreply@camerahub.info")
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
+EMAIL_BACKEND = os.getenv('CAMERAHUB_EMAIL_BACKEND', 'django.core.mail.backends.filebased.EmailBackend')
 
-if env('CAMERAHUB_SENDGRID_KEY'):
-    EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-    SENDGRID_API_KEY = env('CAMERAHUB_SENDGRID_KEY')
-else:
-    EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+if EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend':
+    EMAIL_USE_TLS = os.getenv('CAMERAHUB_EMAIL_USE_TLS')
+    EMAIL_USE_SSL = os.getenv('CAMERAHUB_EMAIL_USE_SSL')
+    EMAIL_HOST = os.getenv('CAMERAHUB_EMAIL_HOST')
+    EMAIL_HOST_USER = os.getenv('CAMERAHUB_EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.getenv('CAMERAHUB_EMAIL_HOST_PASSWORD')
+    EMAIL_PORT = os.getenv('CAMERAHUB_EMAIL_PORT')
+elif EMAIL_BACKEND == 'sendgrid_backend.SendgridBackend':
+    SENDGRID_API_KEY = os.getenv('CAMERAHUB_SENDGRID_KEY')
+elif EMAIL_BACKEND == 'django.core.mail.backends.filebased.EmailBackend':
     EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
 ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window
 REGISTRATION_OPEN = True  # allow sign-ups
 
 # Required for django.contrib.sites
+DEFAULT_SITE_ID = 1
 SITE_ID = 1
 
 #AUTH_USER_MODEL = 'schema.User'
@@ -196,10 +242,11 @@ LOGGING = {
 if os.getenv('CAMERAHUB_REDIS') == 'true':
     CACHES = {
         'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
+            'BACKEND': 'speedinfo.backends.proxy_cache',
+            'CACHE_BACKEND': 'django_redis.cache.RedisCache',
             'LOCATION': "redis://{}:{}/1".format(
-                env('CAMERAHUB_REDIS_HOST', '127.0.0.1'),
-                env('CAMERAHUB_REDIS_PORT', '6379'),
+                os.getenv('CAMERAHUB_REDIS_HOST', '127.0.0.1'),
+                os.getenv('CAMERAHUB_REDIS_PORT', '6379'),
             ),
             'OPTIONS': {
                 'CLIENT_CLASS': 'django_redis.client.DefaultClient',
@@ -209,8 +256,40 @@ if os.getenv('CAMERAHUB_REDIS') == 'true':
 else:
     CACHES = {
         'default': {
-            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+            'BACKEND': 'speedinfo.backends.proxy_cache',
+            'CACHE_BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         }
     }
 
 TAGGIT_CASE_INSENSITIVE = True
+
+# Use OpenStreetMap instead of Google for form widget
+GEOPOSITION_BACKEND = 'leaflet'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, "backup")}
+DBBACKUP_CONNECTORS = {
+    'default': {
+        'USER': os.getenv('CAMERAHUB_DB_USER'),
+        'PASSWORD': os.getenv('CAMERAHUB_DB_PASS'),
+        'HOST': os.getenv('CAMERAHUB_DB_HOST'),
+        'CONNECTOR': 'dbbackup.db.postgresql.PgDumpBinaryConnector',
+    }
+}
+
+# django-star-ratings
+STAR_RATINGS_ANONYMOUS = False
+
+# drf-generators
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 25
+}
+
+# speedinfo
+SPEEDINFO_STORAGE = 'speedinfo.storage.database.storage.DatabaseStorage'

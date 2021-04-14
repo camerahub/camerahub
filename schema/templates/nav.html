@@ -1,6 +1,9 @@
+{% load cache %}
 {% load static %}
+
+{% cache 600 navpublic %}
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #3498db;">
-    <a class="navbar-brand" href="{% url 'index' %}">
+    <a class="navbar-brand" href="{% url 'schema:index' %}">
         <h4>CameraHub</h4>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -11,82 +14,87 @@
         <ul class="navbar-nav mr-auto">
 
             <li class="nav-item active dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="#" id="publicnavbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     Public data
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'cameramodel-list' %}">Camera models</a>
-                    <a class="dropdown-item" href="{% url 'lensmodel-list' %}">Lens models</a>
+                <div class="dropdown-menu" aria-labelledby="publicnavbarDropdown">
+                    <a class="dropdown-item" href="{% url 'schema:cameramodel-list' %}">Camera models</a>
+                    <a class="dropdown-item" href="{% url 'schema:lensmodel-list' %}">Lens models</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'battery-list' %}">Batteries</a>
-                    <a class="dropdown-item" href="{% url 'developer-list' %}">Developers</a>
-                    <a class="dropdown-item" href="{% url 'filmstock-list' %}">Film stocks</a>
-                    <a class="dropdown-item" href="{% url 'filter-list' %}">Filters</a>
-                    <a class="dropdown-item" href="{% url 'flashprotocol-list' %}">Flash protocols</a>
-                    <a class="dropdown-item" href="{% url 'format-list' %}">Formats</a>
-                    <a class="dropdown-item" href="{% url 'manufacturer-list' %}">Manufacturers</a>
-                    <a class="dropdown-item" href="{% url 'mount-list' %}">Mounts</a>
-                    <a class="dropdown-item" href="{% url 'negativesize-list' %}">Negative sizes</a>
-                    <a class="dropdown-item" href="{% url 'paperstock-list' %}">Paper stocks</a>
-                    <a class="dropdown-item" href="{% url 'process-list' %}">Processes</a>
-                    <a class="dropdown-item" href="{% url 'tag-list' %}">Tags</a>
-                    <a class="dropdown-item" href="{% url 'toner-list' %}">Toners</a>
+                    <a class="dropdown-item" href="{% url 'schema:battery-list' %}">Batteries</a>
+                    <a class="dropdown-item" href="{% url 'schema:developer-list' %}">Developers</a>
+                    <a class="dropdown-item" href="{% url 'schema:enlargermodel-list' %}">Enlarger models</a>
+                    <a class="dropdown-item" href="{% url 'schema:filmstock-list' %}">Film stocks</a>
+                    <a class="dropdown-item" href="{% url 'schema:filter-list' %}">Filters</a>
+                    <a class="dropdown-item" href="{% url 'schema:flashmodel-list' %}">Flash models</a>
+                    <a class="dropdown-item" href="{% url 'schema:format-list' %}">Formats</a>
+                    <a class="dropdown-item" href="{% url 'schema:manufacturer-list' %}">Manufacturers</a>
+                    <a class="dropdown-item" href="{% url 'schema:mount-list' %}">Mounts</a>
+                    <a class="dropdown-item" href="{% url 'schema:negativesize-list' %}">Negative sizes</a>
+                    <a class="dropdown-item" href="{% url 'schema:paperstock-list' %}">Paper stocks</a>
+                    <a class="dropdown-item" href="{% url 'schema:process-list' %}">Processes</a>
+                    <a class="dropdown-item" href="{% url 'schema:tag-list' %}">Tags</a>
+                    <a class="dropdown-item" href="{% url 'schema:teleconvertermodel-list' %}">Teleconverter models</a>
+                    <a class="dropdown-item" href="{% url 'schema:toner-list' %}">Toners</a>
                 </div>
             </li>
+{% endcache %}
 
             {% if user.is_authenticated %}
             <li class="nav-item active dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="#" id="privatenavbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     Private data
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'camera-list' %}">Cameras</a>
-                    <a class="dropdown-item" href="{% url 'lens-list' %}">Lenses</a>
+                <div class="dropdown-menu" aria-labelledby="privatenavbarDropdown">
+                    <a class="dropdown-item" href="{% url 'schema:camera-list' %}">Cameras</a>
+                    <a class="dropdown-item" href="{% url 'schema:lens-list' %}">Lenses</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'accessory-list' %}">Accessories</a>
-                    <a class="dropdown-item" href="{% url 'archive-list' %}">Archives</a>
-                    <a class="dropdown-item" href="{% url 'bulkfilm-list' %}">Bulk films</a>
-                    <a class="dropdown-item" href="{% url 'enlarger-list' %}">Enlargers</a>
-                    <a class="dropdown-item" href="{% url 'film-list' %}">Films</a>
-                    <a class="dropdown-item" href="{% url 'flash-list' %}">Flashes</a>
-                    <a class="dropdown-item" href="{% url 'mountadapter-list' %}">Mount adapters</a>
-                    <a class="dropdown-item" href="{% url 'negative-list' %}">Negatives</a>
-                    <a class="dropdown-item" href="{% url 'order-list' %}">Orders</a>
-                    <a class="dropdown-item" href="{% url 'person-list' %}">People</a>
-                    <a class="dropdown-item" href="{% url 'print-list' %}">Prints</a>
-                    <a class="dropdown-item" href="{% url 'repair-list' %}">Repairs</a>
-                    <a class="dropdown-item" href="{% url 'scan-list' %}">Scans</a>
-                    <a class="dropdown-item" href="{% url 'teleconverter-list' %}">Teleconverters</a>
+                    <a class="dropdown-item" href="{% url 'schema:accessory-list' %}">Accessories</a>
+                    <a class="dropdown-item" href="{% url 'schema:archive-list' %}">Archives</a>
+                    <a class="dropdown-item" href="{% url 'schema:bulkfilm-list' %}">Bulk films</a>
+                    <a class="dropdown-item" href="{% url 'schema:enlarger-list' %}">Enlargers</a>
+                    <a class="dropdown-item" href="{% url 'schema:film-list' %}">Films</a>
+                    <a class="dropdown-item" href="{% url 'schema:flash-list' %}">Flashes</a>
+                    <a class="dropdown-item" href="{% url 'schema:mountadapter-list' %}">Mount adapters</a>
+                    <a class="dropdown-item" href="{% url 'schema:negative-list' %}">Negatives</a>
+                    <a class="dropdown-item" href="{% url 'schema:order-list' %}">Orders</a>
+                    <a class="dropdown-item" href="{% url 'schema:person-list' %}">People</a>
+                    <a class="dropdown-item" href="{% url 'schema:print-list' %}">Prints</a>
+                    <a class="dropdown-item" href="{% url 'schema:scan-list' %}">Scans</a>
+                    <a class="dropdown-item" href="{% url 'schema:teleconverter-list' %}">Teleconverters</a>
                 </div>
             </li>
             {% endif %}
 
+{% cache 600 navhelp %}
             <li class="nav-item active dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="#" id="helpnavbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     Help
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu" aria-labelledby="helpnavbarDropdown">
 
-                    <a class="dropdown-item" href="{% url 'about' %}">About</a>
-                    <a class="dropdown-item" href="{% url 'concepts' %}">Concepts</a>
-                    <a class="dropdown-item" href="{% url 'condition-list' %}">Condition grading</a>
-                    <a class="dropdown-item" href="{% url 'stats' %}">Public stats</a>
+                    <a class="dropdown-item" href="{% url 'help:about' %}">About</a>
+                    <a class="dropdown-item" href="{% url 'help:concepts' %}">Concepts</a>
+                    <a class="dropdown-item" href="{% url 'help:faq' %}">FAQs</a>
+                    <a class="dropdown-item" href="{% url 'help:condition-list' %}">Condition grading</a>
+                    <a class="dropdown-item" href="{% url 'schema:stats' %}">Public stats</a>
                 </div>
             </li>
+{% endcache %}
 
             {% if user.is_authenticated %}
             <li class="nav-item active dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="#" id="usernavbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     {{ user.username }}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu" aria-labelledby="usernavbarDropdown">
                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
-                    <a class="dropdown-item" href="{% url 'mystats' %}">My stats</a>
+                    <a class="dropdown-item" href="{% url 'schema:mystats' %}">My stats</a>
                 </div>
             </li>
             {% else %}
@@ -95,7 +103,7 @@
             </li>
             {% endif %}
         </ul>
-        <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}">
+        <form class="form-inline my-2 my-lg-0" action="{% url 'schema:search' %}">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{request.GET.q}}">
             <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button>
         </form>

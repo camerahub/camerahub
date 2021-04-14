@@ -1,8 +1,13 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
   <tr>
     <td>Mount</td>
     <td>{{ object.mount }}</td>
@@ -28,67 +33,55 @@
   {% if object.notes is not None %}
   <tr>
     <td>Notes</td>
-    <td>{{ object.notes }}</td>
+    <td>{{ object.notes|linebreaks }}</td>
   </tr>
   {% endif %}
   {% if object.manufacturer is not None %}
   <tr>
     <td>Manufacturer</td>
-    <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a></td>
+    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
   </tr>
   {% endif %}
   <tr>
-    <th colspan="2">Misc</th>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
   </tr>
-  {% if object.tags is not None %}
+  {% if object.tags.all %}
   <tr>
     <td>Tags</td>
     <td>{% for tag in object.tags.all %}
-      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag|lower %}" role="button">{{ tag }}</a>
+      <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' tag.slug %}" role="button">{{ tag.slug }}</a>
       {% endfor %}</td>
   </tr>
   {% endif %}
-  {% if object.created_at is not None %}
+  {% if related %}
   <tr>
-    <td>Created</td>
-    <td>{{ object.created_at }}{% if object.created_by is not None %} by {{ object.created_by }}{% endif %}</td>
+    <td>Similar mounts</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'schema:mount-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        {% endfor %}
+      </ul>
+    </td>
   </tr>
   {% endif %}
-  {% if object.updated_at is not None %}
+  {% if history %}
   <tr>
-    <td>Last updated</td>
-    <td>{{ object.updated_at }}{% if object.updated_by is not None %} by {{ object.updated_by }}{% endif %}</td>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
   </tr>
   {% endif %}
+  <tr>
+    <td>Sharing</td>
+    <td>{% include "sharing.html" %}</td>
+  </tr>
 </table>
+{% endblock %}
 
-{% if related %}
-<h4>Similar mounts</h4>
-<ul>
-  {% for relateditem in related %}
-  <li><a href="{% url 'mount-detail' relateditem.slug %}">{{ relateditem }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
-
-<h5><a data-toggle="collapse" href="#collapseCameras" role="button" aria-expanded="false"
-    aria-controls="collapseCameras">
-    Camera models</a></h5>
-<div class="collapse" id="collapseCameras">
-  <ul>
-    {% for cameramodel in mount.cameramodel_set.all %}
-    <li><a href="{% url 'cameramodel-detail' cameramodel.slug %}">{{ cameramodel }}</a></li>
-    {% endfor %}
-  </ul>
-</div>
-
-<h5><a data-toggle="collapse" href="#collapseLenses" role="button" aria-expanded="false" aria-controls="collapseLenses">
-    Lens models</a></h5>
-<div class="collapse" id="collapseLenses">
-  <ul>
-    {% for lensmodel in mount.lensmodel_set.all %}
-    <li><a href="{% url 'lensmodel-detail' lensmodel.slug %}">{{ lensmodel }}</a></li>
-    {% endfor %}
-  </ul>
-</div>
+{% block moreactions %}
+<li><a class="btn btn-primary" href="{% url 'schema:cameramodel-list' %}?mount={{ mount.id }}" role="button">View camera models
+    with this mount</a></li>
+<li><a class="btn btn-primary" href="{% url 'schema:lensmodel-list' %}?mount={{ mount.id }}" role="button">View lens models
+    with this mount</a></li>
 {% endblock %}

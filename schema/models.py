@@ -1,24 +1,51 @@
 from datetime import datetime
 from math import sqrt
 import re
+from uuid import uuid4
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.core.exceptions import ValidationError
+from django.contrib.contenttypes.fields import GenericRelation
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from djmoney.models.fields import MoneyField
 from djchoices import DjangoChoices, ChoiceItem
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
-from slugify import Slugify, UniqueSlugify
+from slugify import slugify, Slugify, UniqueSlugify
 from taggit.managers import TaggableManager
 from django_prometheus.models import ExportModelOperationsMixin
+from simple_history.models import HistoricalRecords
+from versatileimagefield.fields import VersatileImageField
+from collectionfield.models import CollectionField
+from django_countries.fields import CountryField
+from geoposition.fields import GeopositionField
+from star_ratings.models import Rating
+from .funcs import angle_of_view
 
 
 def cameramodel_check(text, uids):
     if text in uids:
         return False
     return not CameraModel.objects.filter(slug=text).exists()
+
+
+def enlargermodel_check(text, uids):
+    if text in uids:
+        return False
+    return not EnlargerModel.objects.filter(slug=text).exists()
+
+
+def flashmodel_check(text, uids):
+    if text in uids:
+        return False
+    return not FlashModel.objects.filter(slug=text).exists()
+
+
+def teleconvertermodel_check(text, uids):
+    if text in uids:
+        return False
+    return not TeleconverterModel.objects.filter(slug=text).exists()
 
 
 def lensmodel_check(text, uids):
@@ -47,28 +74,22 @@ def developer_check(text, uids):
 # Create your models here.
 
 
-class Manufacturer(models.Model):
+class Manufacturer(ExportModelOperationsMixin('manufacturer'), models.Model):
     name = models.CharField(
         help_text='Name of the manufacturer', max_length=45, blank=True, unique=True)
     city = models.CharField(
         help_text='City in which the manufacturer is based', max_length=45, blank=True, null=True)
-    country = models.CharField(
-        help_text='Country in which the manufacturer is based', max_length=45, blank=True, null=True)
-    url = models.URLField(
-        verbose_name='URL', help_text='URL to the manufacturers main website', max_length=45, blank=True, null=True)
+    country = CountryField(
+        help_text='Country in which the manufacturer is based', blank=True, null=True)
+    link = models.URLField(
+        help_text='Link to the manufacturers main website', max_length=45, blank=True, null=True)
     founded = models.PositiveIntegerField(
         help_text='Year in which the manufacturer was founded', blank=True, null=True)
     dissolved = models.PositiveIntegerField(
         help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='manufacturer_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='manufacturer_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -104,20 +125,20 @@ class Manufacturer(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('manufacturer-detail', kwargs={'slug': self.slug})
+        return reverse('schema:manufacturer-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Manufacturers are any maker or brand of camera, lenses or other photographic accessories or consumables'
 
-    class Moderator:
-        visible_until_rejected = True
-        keep_history = True
+    @classmethod
+    def icon(cls):
+        return 'manufacturer.svg'
 
 # Table to list all archives that exist for storing physical media
 
 
-class Archive(models.Model):
+class Archive(ExportModelOperationsMixin('archive'), models.Model):
     # Choices for archive types
     class ArchiveType(DjangoChoices):
         Negative = ChoiceItem()
@@ -147,7 +168,8 @@ class Archive(models.Model):
     sealed = models.BooleanField(
         help_text='Whether or not this archive is sealed (closed to new additions)', default=0)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return self.name
@@ -157,16 +179,20 @@ class Archive(models.Model):
         verbose_name_plural = "archives"
 
     def get_absolute_url(self):
-        return reverse('archive-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:archive-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
         return 'Archives are places where prints, negatives, or slides are stored'
 
+    @classmethod
+    def icon(cls):
+        return 'archive.svg'
+
 # Table to catalog of types of battery
 
 
-class Battery(models.Model):
+class Battery(ExportModelOperationsMixin('battery'), models.Model):
     class Chemistry(DjangoChoices):
         Alkaline = ChoiceItem()
         Nickel_cadmium = ChoiceItem()
@@ -188,13 +214,7 @@ class Battery(models.Model):
     compatible_with = models.ManyToManyField(
         'Battery', blank=True, help_text='Batteries that are compatible with this one')
     slug = models.SlugField(editable=False, null=True, unique=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='battery_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='battery_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -209,20 +229,20 @@ class Battery(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('battery-detail', kwargs={'slug': self.slug})
+        return reverse('schema:battery-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Batteries are used to power cameras, flashes and other accessories'
 
-    class Moderator:
-        visible_until_rejected = True
-        keep_history = True
+    @classmethod
+    def icon(cls):
+        return 'battery.svg'
 
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 
 
-class Condition(models.Model):
+class Condition(ExportModelOperationsMixin('condition'), models.Model):
     code = models.CharField(
         help_text='Condition shortcode (e.g. EXC)', max_length=6)
     name = models.CharField(
@@ -239,11 +259,16 @@ class Condition(models.Model):
 
     class Meta:
         verbose_name_plural = "conditions"
+        ordering = ['min_rating']
+
+    @classmethod
+    def icon(cls):
+        return 'condition.svg'
 
 # Exposure programs as defined by EXIF tag ExposureProgram
 
 
-class ExposureProgram(models.Model):
+class ExposureProgram(ExportModelOperationsMixin('exposureprogram'), models.Model):
     name = models.CharField(
         help_text='Name of exposure program as defined by EXIF tag ExposureProgram', max_length=45)
 
@@ -253,44 +278,14 @@ class ExposureProgram(models.Model):
     class Meta:
         verbose_name_plural = "exposure programs"
 
-# Table to catalog different protocols used to communicate with flashes
-
-
-class FlashProtocol(models.Model):
-    name = models.CharField(
-        help_text='Name of the flash protocol', max_length=45)
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
-                                     blank=True, null=True, help_text='Manufacturer who owns this flash protocol')
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='flashprotocol_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='flashprotocol_updated_by')
-
-    def __str__(self):
-        if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.name)
-        else:
-            mystr = self.name
-        return mystr
-
-    class Meta:
-        ordering = ['name']
-        verbose_name_plural = "flash protocols"
-
-    def get_absolute_url(self):
-        return reverse('flashprotocol-detail', kwargs={'pk': self.pk})
-
     @classmethod
-    def description(cls):
-        return 'Flash protocols are systems that cameras use to communicate with flash systems'
+    def icon(cls):
+        return 'exposureprogram.svg'
 
 # Table to catalog filters
 
 
-class Filter(models.Model):
+class Filter(ExportModelOperationsMixin('filter'), models.Model):
     type = models.CharField(
         help_text='Filter type (e.g. Red, Circular polariser, Ultraviolet)', max_length=45)
     shortname = models.CharField(
@@ -306,35 +301,35 @@ class Filter(models.Model):
         verbose_name_plural = "filters"
 
     def get_absolute_url(self):
-        return reverse('filter-detail', kwargs={'pk': self.pk})
+        return reverse('schema:filter-detail', kwargs={'pk': self.pk})
 
     @classmethod
     def description(cls):
         return 'Filters are glass or gelatin attachments for lenses which affect the image in some way'
 
+    @classmethod
+    def icon(cls):
+        return 'filter.svg'
+
 # Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
 
 
-class NegativeSize(models.Model):
+class NegativeSize(ExportModelOperationsMixin('negativesize'), models.Model):
     name = models.CharField(
         help_text='Common name of the negative size (e.g. 35mm, 6x7, etc)', max_length=45, unique=True)
     width = models.DecimalField(help_text='Width of the negative size in mm',
                                 max_digits=4, decimal_places=1, blank=True, null=True)
     height = models.DecimalField(help_text='Height of the negative size in mm',
                                  max_digits=4, decimal_places=1, blank=True, null=True)
+    diagonal = models.DecimalField(help_text='Diagonal of the negative size in mm',
+                                   max_digits=5, decimal_places=1, blank=True, null=True, editable=False)
     crop_factor = models.DecimalField(help_text='Crop factor of this negative size',
                                       max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
     area = models.PositiveIntegerField(
         help_text='Area of this negative size in sq. mm', blank=True, null=True, editable=False)
     aspect_ratio = models.DecimalField(help_text='Aspect ratio of this negative size, expressed as a single decimal (e.g. 3:2 is expressed as 1.5)',
                                        max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='negativesize_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='negativesize_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -344,36 +339,34 @@ class NegativeSize(models.Model):
         if self.width is not None and self.height is not None:
             self.aspect_ratio = self.width/self.height
             self.area = self.width*self.height
-            diag = sqrt(self.width**2 + self.height**2)
+            self.diagonal = sqrt(self.width**2 + self.height**2)
             diag35mm = 43.2666
-            self.crop_factor = diag35mm/diag
+            self.crop_factor = diag35mm/self.diagonal
         super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ['area']
+        ordering = ['name']
         verbose_name_plural = "negative sizes"
 
     def get_absolute_url(self):
-        return reverse('negativesize-detail', kwargs={'pk': self.pk})
+        return reverse('schema:negativesize-detail', kwargs={'pk': self.pk})
 
     @classmethod
     def description(cls):
         return 'Negative size is the dimensions of an image taken by a camera. It is different from film format as one film format can be used for various different negative sizes.'
 
+    @classmethod
+    def icon(cls):
+        return 'negativesize.svg'
+
 # Table to catalogue different film formats. These are distinct from negative sizes.
 
 
-class Format(models.Model):
+class Format(ExportModelOperationsMixin('format'), models.Model):
     format = models.CharField(
         help_text='The name of this film/sensor format', max_length=45, unique=True)
     negative_size = models.ManyToManyField(NegativeSize, blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='format_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='format_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.format
@@ -383,20 +376,26 @@ class Format(models.Model):
         verbose_name_plural = "formats"
 
     def get_absolute_url(self):
-        return reverse('format-detail', kwargs={'pk': self.pk})
+        return reverse('schema:format-detail', kwargs={'pk': self.pk})
 
     @classmethod
     def description(cls):
         return 'Format is the type of film a camera uses. It is a bit different from negative size as one film format can be used for various different negative sizes.'
 
+    @classmethod
+    def icon(cls):
+        return 'format.svg'
+
 # Table to catalog flashes, flashguns and speedlights
 
 
-class Flash(models.Model):
+class FlashModel(ExportModelOperationsMixin('flashmodel'), models.Model):
     model = models.CharField(
         help_text='Model name/number of the flash', max_length=45)
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
-                                     blank=True, null=True, help_text='Manufacturer of this flash')
+    manufacturer = models.ForeignKey(
+        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this flash')
+    disambiguation = models.CharField(
+        help_text='Distinguishing notes for flash models with the same name', max_length=45, blank=True, default='')
     guide_number = models.PositiveIntegerField(
         help_text='Guide number of the flash', blank=True, null=True)
     gn_info = models.CharField(verbose_name='Guide number info',
@@ -423,29 +422,42 @@ class Flash(models.Model):
         help_text='Whether this flash can zoom', blank=True, null=True)
     ttl = models.BooleanField(
         verbose_name='TTL', help_text='Whether this flash supports TTL metering', blank=True, null=True)
-    flash_protocol = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE,
-                                       blank=True, null=True, help_text='Flash protocol used by this flash')
     trigger_voltage = models.DecimalField(
         help_text='Trigger voltage of the flash, in Volts', max_digits=5, decimal_places=1, blank=True, null=True)
-    own = models.BooleanField(
-        help_text='Whether we currently own this flash', blank=True, null=True)
-    acquired = models.DateField(
-        help_text='Date this flash was acquired', blank=True, null=True)
-    cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
-                      decimal_places=2, blank=True, null=True, default_currency='GBP')
-    owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    image = VersatileImageField(
+        help_text='Image of the flash model', blank=True, null=True)
+    image_attribution = models.CharField(
+        help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_link = models.URLField(
+        help_text='Attribution link for this image', blank=True, null=True)
+    slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='FlashModels')
+    tags = TaggableManager(blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
+        mystr = self.model
         if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.model)
-        else:
-            mystr = self.model
+            mystr = str(self.manufacturer) + ' ' + mystr
+        if self.disambiguation:
+            mystr = mystr + ' [' + self.disambiguation + ']'
         return mystr
 
     class Meta:
         ordering = ['manufacturer', 'model']
-        verbose_name_plural = "flashes"
+        verbose_name_plural = "flash models"
+        constraints = [
+            models.UniqueConstraint(
+                fields=['manufacturer', 'model', 'disambiguation'], name='flashmodel_unique_name')
+        ]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            custom_slugify_unique = UniqueSlugify(
+                unique_check=flashmodel_check, to_lower=True)
+            self.slug = custom_slugify_unique(
+                "{} {}".format(self.manufacturer.name, self.model))
+        return super().save(*args, **kwargs)
 
     def clean(self):
         # if battery_type is set, need to supply battery_qty
@@ -455,16 +467,58 @@ class Flash(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('flash-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:flashmodel-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Flashes are any kind of external device to provide light. This includes battery-powered and mains-powered flashes.'
 
+    @classmethod
+    def icon(cls):
+        return 'flash.svg'
+
+
+class Flash(ExportModelOperationsMixin('flash'), models.Model):
+    flashmodel = models.ForeignKey(
+        FlashModel, on_delete=models.CASCADE, help_text='Model of this flash')
+    serial = models.CharField(
+        help_text='Serial number of the flash', max_length=45, blank=True, null=True)
+    own = models.BooleanField(
+        help_text='Whether the flash is currently in your collection', default=True)
+    acquired = models.DateField(
+        help_text='Date this flash was acquired', blank=True, null=True)
+    cost = MoneyField(help_text='Purchase cost of this flash', max_digits=12,
+                      decimal_places=2, blank=True, null=True, default_currency='GBP')
+    lost = models.DateField(
+        help_text='Date on which the flash was lost/sold/etc', blank=True, null=True)
+    lost_price = MoneyField(help_text='Sale price of the flash', max_digits=12,
+                            decimal_places=2, blank=True, null=True, default_currency='GBP')
+    owner = CurrentUserField(editable=False)
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
+
+    def __str__(self):
+        return str(self.flashmodel)
+
+    class Meta:
+        verbose_name_plural = "flashes"
+        ordering = ['id_owner']
+
+    def get_absolute_url(self):
+        return reverse('schema:flash-detail', kwargs={'id_owner': self.id_owner})
+
+    @classmethod
+    def description(cls):
+        return 'Flashes are any kind of external device to provide light. This includes battery-powered and mains-powered flashes.'
+
+    @classmethod
+    def icon(cls):
+        return 'flash.svg'
+
 # Table to list enlargers
 
 
-class Enlarger(models.Model):
+class EnlargerModel(ExportModelOperationsMixin('enlargermodel'), models.Model):
 
     class EnlargerType(DjangoChoices):
         Diffusion = ChoiceItem()
@@ -475,57 +529,58 @@ class Enlarger(models.Model):
         Cold_cathode = ChoiceItem()
         LED = ChoiceItem()
 
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
-                                     blank=True, null=True, help_text='Manufacturer of this enlarger')
+    manufacturer = models.ForeignKey(
+        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this enlarger')
     model = models.CharField(
         help_text='Name/model of the enlarger', max_length=45)
+    disambiguation = models.CharField(
+        help_text='Distinguishing notes for enlarger models with the same name', max_length=45, blank=True, default='')
     negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True,
                                       null=True, help_text='Largest negative size that this enlarger can accept')
     type = models.CharField(choices=EnlargerType.choices,
                             help_text='The type of optical system in the enlarger', max_length=15, blank=True, null=True)
     light_source = models.CharField(
         choices=LightSource.choices, help_text='The type of light source used in the enlarger', max_length=15, blank=True, null=True)
-    acquired = models.DateField(
-        help_text='Date on which the enlarger was acquired', blank=True, null=True)
-    lost = models.DateField(
-        help_text='Date on which the enlarger was lost/sold', blank=True, null=True)
     introduced = models.PositiveIntegerField(
         help_text='Year in which the enlarger was introduced', blank=True, null=True)
     discontinued = models.PositiveIntegerField(
         help_text='Year in which the enlarger was discontinued', blank=True, null=True)
-    cost = MoneyField(help_text='Purchase cost of this enlarger', max_digits=12,
-                      decimal_places=2, blank=True, null=True, default_currency='GBP')
-    lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12,
-                            decimal_places=2, blank=True, null=True, default_currency='GBP')
-    owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    image = VersatileImageField(
+        help_text='Image of the enlarger model', blank=True, null=True)
+    image_attribution = models.CharField(
+        help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_link = models.URLField(
+        help_text='Attribution link for this image', blank=True, null=True)
+    slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='EnlargerModels')
+    tags = TaggableManager(blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
+        mystr = self.model
         if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.model)
-        else:
-            mystr = self.model
+            mystr = str(self.manufacturer) + ' ' + mystr
+        if self.disambiguation:
+            mystr = mystr + ' [' + self.disambiguation + ']'
         return mystr
 
     class Meta:
         ordering = ['manufacturer', 'model']
-        verbose_name_plural = "enlargers"
+        verbose_name_plural = "enlarger models"
+        constraints = [
+            models.UniqueConstraint(
+                fields=['manufacturer', 'model', 'disambiguation'], name='enlargermodel_unique_name')
+        ]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            custom_slugify_unique = UniqueSlugify(
+                unique_check=enlargermodel_check, to_lower=True)
+            self.slug = custom_slugify_unique(
+                "{} {}".format(self.manufacturer.name, self.model))
+        return super().save(*args, **kwargs)
 
     def clean(self):
-        # Acquired/lost
-        if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
-            raise ValidationError({
-                'acquired': ValidationError(('Acquired date must be earlier than lost date')),
-                'lost': ValidationError(('Lost date must be later than acquired date')),
-            })
-        if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
-            raise ValidationError({
-                'acquired': ValidationError(('Acquired date must be in the past')),
-            })
-        if self.lost is not None and self.lost > datetime.date(datetime.now()):
-            raise ValidationError({
-                'lost': ValidationError(('Lost date must be in the past')),
-            })
         # Introduced/discontinued
         if self.introduced is not None and self.discontinued is not None and self.introduced > self.discontinued:
             raise ValidationError({
@@ -542,16 +597,71 @@ class Enlarger(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('enlarger-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:enlargermodel-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Enlargers are devices used to create prints from negatives.'
 
+    @classmethod
+    def icon(cls):
+        return 'enlarger.svg'
+
+
+class Enlarger(ExportModelOperationsMixin('enlarger'), models.Model):
+    enlargermodel = models.ForeignKey(
+        EnlargerModel, on_delete=models.CASCADE, help_text='Model of this enlarger')
+    serial = models.CharField(
+        help_text='Serial number of the enlarger', max_length=45, blank=True, null=True)
+    own = models.BooleanField(
+        help_text='Whether the enlarger is currently in your collection', default=True)
+    acquired = models.DateField(
+        help_text='Date on which the enlarger was acquired', blank=True, null=True)
+    cost = MoneyField(help_text='Purchase cost of this enlarger', max_digits=12,
+                      decimal_places=2, blank=True, null=True, default_currency='GBP')
+    lost = models.DateField(
+        help_text='Date on which the enlarger was lost/sold', blank=True, null=True)
+    lost_price = MoneyField(help_text='Sale price of the enlarger', max_digits=12,
+                            decimal_places=2, blank=True, null=True, default_currency='GBP')
+    own = models.BooleanField(
+        help_text='Whether the enlarger is currently in your collection', default=True)
+    owner = CurrentUserField(editable=False)
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
+
+    def clean(self):
+        # Acquired/lost
+        if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
+            raise ValidationError({
+                'acquired': ValidationError(('Acquired date must be earlier than lost date')),
+                'lost': ValidationError(('Lost date must be later than acquired date')),
+            })
+        if self.acquired is not None and self.acquired > datetime.date(datetime.now()):
+            raise ValidationError({
+                'acquired': ValidationError(('Acquired date must be in the past')),
+            })
+        if self.lost is not None and self.lost > datetime.date(datetime.now()):
+            raise ValidationError({
+                'lost': ValidationError(('Lost date must be in the past')),
+            })
+
+    def __str__(self):
+        mystr = "%s %s" % (
+            self.enlargermodel.manufacturer.name, self.enlargermodel.model)
+        ownchar = '✓' if self.own is True else '✗'
+        return "%s %s" % (ownchar, mystr)
+
+    def get_absolute_url(self):
+        return reverse('schema:enlarger-detail', kwargs={'id_owner': self.id_owner})
+
+    @classmethod
+    def icon(cls):
+        return 'enlarger.svg'
+
 # Metering modes as defined by EXIF tag MeteringMode
 
 
-class MeteringMode(models.Model):
+class MeteringMode(ExportModelOperationsMixin('meteringmode'), models.Model):
     name = models.CharField(
         help_text='Name of metering mode as defined by EXIF tag MeteringMode', max_length=45)
 
@@ -564,7 +674,7 @@ class MeteringMode(models.Model):
 # Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.
 
 
-class Mount(models.Model):
+class Mount(ExportModelOperationsMixin('mount'), models.Model):
 
     # Choices for mount types
     class MountType(DjangoChoices):
@@ -590,19 +700,14 @@ class Mount(models.Model):
                             choices=MountType.choices, max_length=15, blank=True, null=True)
     purpose = models.CharField(help_text='The intended purpose of this lens mount',
                                choices=Purpose.choices, max_length=15, blank=True, null=True)
-    notes = models.CharField(
-        help_text='Freeform notes field', max_length=100, blank=True, null=True)
+    notes = models.TextField(
+        help_text='Freeform notes field', blank=True, null=True)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                      blank=True, null=True, help_text='Manufacturer who owns this lens mount')
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='Mounts')
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='mount_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='mount_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.mount
@@ -617,16 +722,20 @@ class Mount(models.Model):
         verbose_name_plural = "mounts"
 
     def get_absolute_url(self):
-        return reverse('mount-detail', kwargs={'slug': self.slug})
+        return reverse('schema:mount-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Mounts are physical systems used to attach lenses to cameras (or enlargers, or projectors).'
 
+    @classmethod
+    def icon(cls):
+        return 'mount.svg'
+
 # Table to catalog different paper stocks available
 
 
-class PaperStock(models.Model):
+class PaperStock(ExportModelOperationsMixin('paperstock'), models.Model):
     # Choices for mount purposes
     class Finish(DjangoChoices):
         Matt = ChoiceItem()
@@ -646,14 +755,9 @@ class PaperStock(models.Model):
         help_text='Whether this is a colour paper', blank=True, null=True)
     finish = models.CharField(help_text='The finish of the paper surface',
                               choices=Finish.choices, max_length=25, blank=True, null=True)
+    ratings = GenericRelation(Rating, related_query_name='PaperStocks')
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='paperstock_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='paperstock_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         mystr = self.name
@@ -668,20 +772,25 @@ class PaperStock(models.Model):
         verbose_name_plural = "paper stocks"
 
     def get_absolute_url(self):
-        return reverse('paperstock-detail', kwargs={'pk': self.pk})
+        return reverse('schema:paperstock-detail', kwargs={'pk': self.pk})
 
     @classmethod
     def description(cls):
         return 'Paper stocks are types of paper available for printing with'
 
+    @classmethod
+    def icon(cls):
+        return 'paperstock.svg'
+
 # Table to catalog photographers
 
 
-class Person(models.Model):
+class Person(ExportModelOperationsMixin('person'), models.Model):
     name = models.CharField(
         help_text='Name of the photographer', max_length=45, unique=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return self.name
@@ -691,22 +800,27 @@ class Person(models.Model):
         verbose_name_plural = "people"
 
     def get_absolute_url(self):
-        return reverse('person-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:person-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
         return 'People listed here can be selected as photographers, developers or printers.'
 
+    @classmethod
+    def icon(cls):
+        return 'person.svg'
+
 # Table to catalog chemical processes that can be used to develop film and paper
 
 
-class Process(models.Model):
+class Process(ExportModelOperationsMixin('process'), models.Model):
     name = models.CharField(
         help_text='Name of this developmenmt process (e.g. C-41, E-6)', max_length=25, unique=True)
     colour = models.BooleanField(
         help_text='Whether this is a colour process', blank=True, null=True)
     positive = models.BooleanField(
         help_text='Whether this is a positive/reversal process', blank=True, null=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -716,20 +830,26 @@ class Process(models.Model):
         verbose_name_plural = "processes"
 
     def get_absolute_url(self):
-        return reverse('process-detail', kwargs={'pk': self.pk})
+        return reverse('schema:process-detail', kwargs={'pk': self.pk})
 
     @classmethod
     def description(cls):
         return 'Processes are methods of developing film or prints'
 
+    @classmethod
+    def icon(cls):
+        return 'process.svg'
+
 # Table to catalog teleconverters (multipliers)
 
 
-class Teleconverter(models.Model):
+class TeleconverterModel(ExportModelOperationsMixin('teleconvertermodel'), models.Model):
     model = models.CharField(
         help_text='Model name of this teleconverter', max_length=45)
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
-                                     blank=True, null=True, help_text='Manufacturer of this teleconverter')
+    manufacturer = models.ForeignKey(
+        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this teleconverter')
+    disambiguation = models.CharField(
+        help_text='Distinguishing notes for teleconverter models with the same name', max_length=45, blank=True, default='')
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True,
                               help_text='Lens mount used by this teleconverter', limit_choices_to={'purpose': 'Camera'})
     factor = models.DecimalField(help_text='Magnification factor of this teleconverter (numerical part only, e.g. 1.4)',
@@ -740,19 +860,32 @@ class Teleconverter(models.Model):
         help_text='Number of optical groups used in this teleconverter', blank=True, null=True)
     multicoated = models.BooleanField(
         help_text='Whether this teleconverter is multi-coated', blank=True, null=True)
-    owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    image = VersatileImageField(
+        help_text='Image of the teleconverter model', blank=True, null=True)
+    image_attribution = models.CharField(
+        help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_link = models.URLField(
+        help_text='Attribution link for this image', blank=True, null=True)
+    slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='TeleconverterModels')
+    tags = TaggableManager(blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
+        mystr = self.model
         if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.model)
-        else:
-            mystr = self.model
+            mystr = str(self.manufacturer) + ' ' + mystr
+        if self.disambiguation:
+            mystr = mystr + ' [' + self.disambiguation + ']'
         return mystr
 
     class Meta:
         ordering = ['manufacturer', 'model']
-        verbose_name_plural = "teleconverters"
+        verbose_name_plural = "teleconverter models"
+        constraints = [
+            models.UniqueConstraint(
+                fields=['manufacturer', 'model', 'disambiguation'], name='teleconvertermodel_unique_name')
+        ]
 
     def clean(self):
         # Groups/elements
@@ -762,17 +895,67 @@ class Teleconverter(models.Model):
                 'elements': ValidationError(('Cannot have fewer elements than groups')),
             })
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            custom_slugify_unique = UniqueSlugify(
+                unique_check=teleconvertermodel_check, to_lower=True)
+            self.slug = custom_slugify_unique(
+                "{} {}".format(self.manufacturer.name, self.model))
+        return super().save(*args, **kwargs)
+
     def get_absolute_url(self):
-        return reverse('teleconverter-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:teleconvertermodel-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Teleconverters are extra lenses that can be used to increase the focal length of a lens. They are sometimes known as doublers.'
 
+    @classmethod
+    def icon(cls):
+        return 'teleconverter.svg'
+
+
+class Teleconverter(ExportModelOperationsMixin('teleconverter'), models.Model):
+    teleconvertermodel = models.ForeignKey(
+        TeleconverterModel, on_delete=models.CASCADE, help_text='Model of this teleconverter')
+    serial = models.CharField(
+        help_text='Serial number of the teleconverter', max_length=45, blank=True, null=True)
+    own = models.BooleanField(
+        help_text='Whether the teleconverter is currently in your collection', default=True)
+    acquired = models.DateField(
+        help_text='Date on which the teleconverter was acquired', blank=True, null=True)
+    cost = MoneyField(help_text='Price paid for this teleconverter', max_digits=12,
+                      decimal_places=2, blank=True, null=True, default_currency='GBP')
+    lost = models.DateField(
+        help_text='Date on which the teleconverter was lost/sold/etc', blank=True, null=True)
+    lost_price = MoneyField(help_text='Sale price of the teleconverter', max_digits=12,
+                            decimal_places=2, blank=True, null=True, default_currency='GBP')
+    owner = CurrentUserField(editable=False)
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
+
+    def __str__(self):
+        return str(self.teleconvertermodel)
+
+    class Meta:
+        verbose_name_plural = "teleconverters"
+        ordering = ['id_owner']
+
+    def get_absolute_url(self):
+        return reverse('schema:teleconverter-detail', kwargs={'id_owner': self.id_owner})
+
+    @classmethod
+    def description(cls):
+        return 'Teleconverters are extra lenses that can be used to increase the focal length of a lens. They are sometimes known as doublers.'
+
+    @classmethod
+    def icon(cls):
+        return 'teleconverter.svg'
+
 # Table to catalog paper toners that can be used during the printing process
 
 
-class Toner(models.Model):
+class Toner(ExportModelOperationsMixin('toner'), models.Model):
     name = models.CharField(help_text='Name of the toner', max_length=45)
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this toner')
@@ -781,14 +964,9 @@ class Toner(models.Model):
     stock_dilution = models.CharField(
         help_text='Stock dilution of the toner', max_length=10, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='Toners')
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='toner_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='toner_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -814,16 +992,20 @@ class Toner(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('toner-detail', kwargs={'slug': self.slug})
+        return reverse('schema:toner-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Toners are chemicals used to change the colour or appearance of a print.'
 
+    @classmethod
+    def icon(cls):
+        return 'toner.svg'
+
 # Table to list different brands of film stock
 
 
-class FilmStock(models.Model):
+class FilmStock(ExportModelOperationsMixin('filmstock'), models.Model):
     name = models.CharField(help_text='Name of the filmstock', max_length=45)
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this film')
@@ -836,14 +1018,9 @@ class FilmStock(models.Model):
     process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True,
                                 null=True, help_text='Development process required by this film')
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='FilmStocks')
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='filmstock_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='filmstock_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -869,20 +1046,28 @@ class FilmStock(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('filmstock-detail', kwargs={'slug': self.slug})
+        return reverse('schema:filmstock-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Film stocks are types of film that can be exposed in a camera. They may also be known as emulsions.'
 
+    @classmethod
+    def icon(cls):
+        return 'film.svg'
+
 # Table to record bulk film stock, from which individual films can be cut
 
 
-class BulkFilm(models.Model):
+class BulkFilm(ExportModelOperationsMixin('bulkfilm'), models.Model):
     format = models.ForeignKey(
         Format, on_delete=models.CASCADE, help_text='Film format of this bulk film')
     filmstock = models.ForeignKey(
         FilmStock, on_delete=models.CASCADE, help_text='Filmstock of this bulk film')
+    length = models.PositiveIntegerField(
+        help_text='Length of bulk film roll', blank=True, null=True)
+    finished = models.BooleanField(
+        help_text='Whether this bulk film has been used up', default=False)
     purchase_date = models.DateField(
         help_text='Purchase date of this bulk roll', blank=True, null=True)
     cost = MoneyField(help_text='Purchase cost of this bulk roll', max_digits=12,
@@ -894,25 +1079,31 @@ class BulkFilm(models.Model):
     expiry = models.DateField(
         help_text='Expiry date of this bulk roll', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%s %s %s" % (self.id_owner, self.filmstock.manufacturer.name, self.filmstock.name)
 
     class Meta:
         verbose_name_plural = "bulk films"
+        ordering = ['id_owner']
 
     def get_absolute_url(self):
-        return reverse('bulkfilm-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:bulkfilm-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
         return 'Bulk films are large reels of film stock that can be cut up to make individual films.'
 
+    @classmethod
+    def icon(cls):
+        return 'bulkfilm.svg'
+
 # Table to catalog adapters to mount lenses on other cameras
 
 
-class MountAdapter(models.Model):
+class MountAdapter(ExportModelOperationsMixin('mountadapter'), models.Model):
     camera_mount = models.ForeignKey(
         Mount, on_delete=models.CASCADE, help_text='Mount used to attach a camera', related_name="camera_mount")
     lens_mount = models.ForeignKey(Mount, on_delete=models.CASCADE,
@@ -921,10 +1112,10 @@ class MountAdapter(models.Model):
         help_text='Whether this adapter includes optical elements', blank=True, null=True)
     infinity_focus = models.BooleanField(
         help_text='Whether this adapter allows infinity focus', blank=True, null=True)
-    notes = models.CharField(help_text='Freeform notes',
-                             max_length=100, blank=True, null=True)
+    notes = models.TextField(help_text='Freeform notes', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "%s - %s" % (self.camera_mount, self.lens_mount)
@@ -934,34 +1125,41 @@ class MountAdapter(models.Model):
         verbose_name_plural = "mount adapters"
 
     def get_absolute_url(self):
-        return reverse('mountadapter-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:mountadapter-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
         return 'Mount adapters can be used to convert the mount used on a camera or lens.'
 
+    @classmethod
+    def icon(cls):
+        return 'mountadapter.svg'
+
 # Table to list all possible shutter speeds
 
 
-class ShutterSpeed(models.Model):
+class ShutterSpeed(ExportModelOperationsMixin('shutterspeed'), models.Model):
     shutter_speed = models.CharField(
-        help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True)
-    # field validation: like 1/500 or 2
+        help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True, validators=[RegexValidator(regex=r'^\d+(/\d+(\.\d+)?)?$', message="Shutter speed must be expressed like 1/125, 2, or 2.5")])
     duration = models.DecimalField(
         help_text='Shutter speed in decimal notation, e.g. 0.04', max_digits=9, decimal_places=5, editable=False)
 
     def __str__(self):
-        return self.shutter_speed
+        # Test if format is 1/125
+        fractional = re.match(r'^(\d)/(\d+(\.\d+)?)$', self.shutter_speed)
+        if fractional:
+            mystring = mark_safe(self.shutter_speed.replace('1/', '<sup>1</sup>/'))
+        else:
+            mystring = self.shutter_speed + '"'
+        return mystring
 
     def save(self, *args, **kwargs):
         # Test if format is 1/125
         fractional = re.match(r'^(\d{1})/(\d+)$', self.shutter_speed)
-        # Test if format is 1 or 1"
-        integer = re.match(r'^(\d+)"?$', self.shutter_speed)
         if fractional:
             self.duration = int(fractional.group(1)) / int(fractional.group(2))
-        elif integer:
-            self.duration = integer.group(1)
+        else:
+            self.duration = self.shutter_speed
         super().save(*args, **kwargs)
 
     class Meta:
@@ -971,7 +1169,7 @@ class ShutterSpeed(models.Model):
 # Table to list film and paper developers
 
 
-class Developer(models.Model):
+class Developer(ExportModelOperationsMixin('developer'), models.Model):
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this developer')
     name = models.CharField(help_text='Name of the developer', max_length=45)
@@ -982,14 +1180,9 @@ class Developer(models.Model):
     chemistry = models.CharField(
         help_text='The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='Developers')
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='developer_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='developer_updated_by')
+    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1015,11 +1208,15 @@ class Developer(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('developer-detail', kwargs={'slug': self.slug})
+        return reverse('schema:developer-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Developers are chemicals that are used to process films or prints.'
+
+    @classmethod
+    def icon(cls):
+        return 'developer.svg'
 
 # Table to catalog lens models
 
@@ -1031,12 +1228,22 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         Single_coated = ChoiceItem()
         Multi_coated = ChoiceItem()
 
+    # Choices for lens type
+    class LensType(DjangoChoices):
+        Super_telephoto = ChoiceItem()
+        Medium_telephoto = ChoiceItem()
+        Short_telephoto = ChoiceItem()
+        Normal = ChoiceItem()
+        Wide_angle = ChoiceItem()
+        Super_wide_angle = ChoiceItem()
+        Fisheye = ChoiceItem()
+
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this lens model')
     model = models.CharField(
         help_text='Model name of this lens', max_length=45)
     disambiguation = models.CharField(
-        help_text='Distinguishing notes for lens models with the same name', max_length=45, blank=True, null=True)
+        help_text='Distinguishing notes for lens models with the same name', max_length=45, blank=True, default='')
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True,
                               null=True, help_text='Mount used by this lens model')
     zoom = models.BooleanField(
@@ -1063,30 +1270,32 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         verbose_name='Min angle of view', help_text='Nominal minimum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0), MaxValueValidator(360)])
     nominal_max_angle_diag = models.PositiveIntegerField(
         verbose_name='Max angle of view', help_text='Nominal maximum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0), MaxValueValidator(360)])
+    lens_type = models.CharField(
+        choices=LensType.choices, help_text='Type of lens based on its angle of view', max_length=16, blank=True, null=True)
     aperture_blades = models.PositiveIntegerField(
         help_text='Number of aperture blades', blank=True, null=True)
     autofocus = models.BooleanField(
         help_text='Whether this lens has autofocus capability', blank=True, null=True)
+    perspective_control = models.BooleanField(
+        help_text='Whether this lens has perspective control / tilt-shift', blank=True, null=True)
     filter_thread = models.DecimalField(
         help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
     magnification = models.DecimalField(
         help_text='Maximum magnification ratio of the lens, expressed like 0.765', max_digits=5, decimal_places=3, blank=True, null=True)
-    url = models.URLField(
-        verbose_name='URL', help_text='URL to more information about this lens', blank=True, null=True)
+    link = models.URLField(
+        help_text='Link to more information about this lens', blank=True, null=True)
     introduced = models.PositiveIntegerField(
         help_text='Year in which this lens model was introduced', blank=True, null=True)
     discontinued = models.PositiveIntegerField(
         help_text='Year in which this lens model was discontinued', blank=True, null=True)
     negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True,
                                       null=True, help_text='Largest negative size that this lens is designed for')
-    notes = models.CharField(
-        help_text='Freeform notes field', max_length=100, blank=True, null=True)
+    notes = models.TextField(
+        help_text='Freeform notes field', blank=True, null=True)
     coating = models.CharField(choices=CoatingType.choices,
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
-    rectilinear = models.BooleanField(
-        help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
     length = models.PositiveIntegerField(
         help_text='Length of lens in mm', blank=True, null=True)
     diameter = models.PositiveIntegerField(
@@ -1096,20 +1305,27 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
     shutter_model = models.CharField(
         help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
+    ratings = GenericRelation(Rating, related_query_name='LensModels')
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='lensmodel_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='lensmodel_updated_by')
+    history = HistoricalRecords()
+    image = VersatileImageField(
+        help_text='Image of the lens model', blank=True, null=True)
+    image_attribution = models.CharField(
+        help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_link = models.URLField(
+        help_text='Attribution link for this image', blank=True, null=True)
+    diagram = VersatileImageField(
+        help_text='Block diagram of the optics', blank=True, null=True)
+    diagram_attribution = models.CharField(
+        help_text='Author of this diagram', max_length=50, blank=True, null=True)
+    diagram_attribution_link = models.URLField(
+        help_text='Attribution link for this diagram', blank=True, null=True)
 
     def __str__(self):
         mystr = self.model
         if self.manufacturer is not None:
             mystr = str(self.manufacturer) + ' ' + mystr
-        if self.disambiguation is not None:
+        if self.disambiguation:
             mystr = mystr + ' [' + self.disambiguation + ']'
         return mystr
 
@@ -1122,11 +1338,15 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         ]
 
     def get_absolute_url(self):
-        return reverse('lensmodel-detail', kwargs={'slug': self.slug})
+        return reverse('schema:lensmodel-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Lens models are any interchangeable lens that has been marketed'
+
+    @classmethod
+    def icon(cls):
+        return 'lens.svg'
 
     def clean(self):
         # Check focal length
@@ -1191,6 +1411,31 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
                 unique_check=lensmodel_check, to_lower=True)
             self.slug = custom_slugify_unique("{} {} {}".format(
                 self.manufacturer.name, self.model, str(self.disambiguation or '')))
+        # Auto-populate angle of view
+        if not self.nominal_max_angle_diag:
+            if self.negative_size and self.negative_size.diagonal and self.min_focal_length:
+                self.nominal_max_angle_diag = angle_of_view(
+                    self.negative_size.diagonal, self.min_focal_length)
+        if not self.nominal_min_angle_diag:
+            if self.negative_size and self.negative_size.diagonal and self.max_focal_length:
+                self.nominal_min_angle_diag = angle_of_view(
+                    self.negative_size.diagonal, self.max_focal_length)
+        # Auto-populate lens type
+        if not self.lens_type and self.nominal_max_angle_diag and self.nominal_min_angle_diag:
+            if self.nominal_min_angle_diag <= 8:
+                self.lens_type = 'Super telephoto'
+            elif self.nominal_min_angle_diag > 8 and self.nominal_min_angle_diag <= 25:
+                self.lens_type = 'Medium telephoto'
+            elif self.nominal_min_angle_diag > 25 and self.nominal_min_angle_diag <= 30:
+                self.lens_type = 'Short telephoto'
+            elif self.nominal_min_angle_diag > 39 and self.nominal_min_angle_diag <= 62:
+                self.lens_type = 'Normal'
+            elif self.nominal_max_angle_diag > 62 and self.nominal_max_angle_diag <= 84:
+                self.lens_type = 'Wide angle'
+            elif self.nominal_max_angle_diag > 84 and self.nominal_max_angle_diag <= 120:
+                self.lens_type = 'Super wide angle'
+            elif self.nominal_max_angle_diag > 120:
+                self.lens_type = 'Fisheye'
         super().save(*args, **kwargs)
 
 # Table to catalog camera models - both cameras with fixed and interchangeable lenses
@@ -1250,8 +1495,10 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model')
     model = models.CharField(
         help_text='The model name of the camera', max_length=45)
+    other_names = CollectionField(
+        help_text='Other model names that this camera may be known by, e.g. in other parts of the world. Separate with commas.', blank=True, null=True)
     disambiguation = models.CharField(
-        help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, null=True)
+        help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, default='')
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True,
                               help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'})
     format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True,
@@ -1280,7 +1527,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         help_text='Whether the camera has the facility for a remote cable release', blank=True, null=True)
     viewfinder_coverage = models.PositiveIntegerField(help_text='Percentage coverage of the viewfinder. Mostly applicable to SLRs.', blank=True, null=True,
                                                       validators=[MinValueValidator(0), MaxValueValidator(100)])
-    power_drive = models.BooleanField(
+    internal_power_drive = models.BooleanField(
         help_text='Whether the camera has integrated motor drive', blank=True, null=True)
     continuous_fps = models.DecimalField(
         help_text='The maximum rate at which the camera can shoot, in frames per second', max_digits=4, decimal_places=1, blank=True, null=True)
@@ -1288,8 +1535,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         help_text='Quantity of batteries needed', blank=True, null=True)
     battery_type = models.ForeignKey(Battery, on_delete=models.CASCADE, blank=True,
                                      null=True, help_text='Battery type that this camera model needs')
-    notes = models.CharField(
-        help_text='Freeform text field for extra notes', max_length=100, blank=True, null=True)
+    notes = models.TextField(
+        help_text='Freeform text field for extra notes', blank=True, null=True)
     bulb = models.BooleanField(
         help_text='Whether the camera supports bulb (B) exposure', blank=True, null=True)
     time = models.BooleanField(
@@ -1306,10 +1553,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         verbose_name='Internal flash guide number', help_text='Guide number of internal flash', blank=True, null=True)
     ext_flash = models.BooleanField(
         verbose_name='External flash', help_text='Whether the camera supports an external flash', blank=True, null=True)
-    flash_metering = models.ForeignKey(FlashProtocol, on_delete=models.CASCADE, blank=True,
-                                       null=True, help_text='Whether this camera model supports flash metering')
     pc_sync = models.BooleanField(
-        verbose_name='PC sync', help_text='Whether the camera has a PC sync socket for flash', blank=True, null=True)
+        verbose_name='PC sync', help_text='Whether the camera has a PC sync socket for flash (sometimes known as a German socket)', blank=True, null=True)
     shoe = models.CharField(choices=ShoeType.choices, max_length=9, blank=True,
                             null=True, help_text='Type of flash/accessory shoe used on this camera model')
     x_sync = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True,
@@ -1324,20 +1569,38 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         verbose_name='Mirror lock-up', help_text='Whether the camera has mirror lock-up', blank=True, null=True)
     tripod = models.BooleanField(
         help_text='Whether the camera has a tripod bush', blank=True, null=True)
-    shutter_speeds = models.ManyToManyField(ShutterSpeed, blank=True)
+    self_timer = models.BooleanField(
+        help_text='Whether the camera has a self-timer', blank=True, null=True)
+    date_imprint = models.BooleanField(
+        help_text='Whether the camera has a date imprint feature', blank=True, null=True)
+    interchangeable_backs = models.BooleanField(
+        help_text='Whether the camera has interchangeable backs', blank=True, null=True)
+    interchangeable_finders = models.BooleanField(
+        help_text='Whether the camera has interchangeable finders', blank=True, null=True)
+    strap_lugs = models.BooleanField(
+        help_text='Whether the camera has strap lugs', blank=True, null=True)
+    multiple_exposures = models.BooleanField(
+        help_text='Whether the camera can do multiple exposures', blank=True, null=True)
+    external_power_drive = models.BooleanField(
+        help_text='Whether the camera supports an external power drive', blank=True, null=True)
+    fastest_shutter_speed = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True,
+                                              help_text='Fastest shutter speed available on this camera', related_name='fastest_shutter_speed')
+    slowest_shutter_speed = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True, null=True,
+                                              help_text='Slowest shutter speed available on this camera', related_name='slowest_shutter_speed')
     metering_modes = models.ManyToManyField(MeteringMode, blank=True)
     exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, editable=False)
-    created_by = CurrentUserField(
-        editable=False, related_name='cameramodel_created_by')
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
-    updated_by = CurrentUserField(
-        on_update=True, editable=False, related_name='cameramodel_updated_by')
+    history = HistoricalRecords()
+    ratings = GenericRelation(Rating, related_query_name='CameraModels')
     tags = TaggableManager(blank=True)
-    url = models.URLField(
-        verbose_name='URL', help_text='URL to more information about this camera model', blank=True, null=True)
+    link = models.URLField(
+        help_text='Link to more information about this camera model', blank=True, null=True)
+    image = VersatileImageField(
+        help_text='Image of the camera model', blank=True, null=True)
+    image_attribution = models.CharField(
+        help_text='Author of this image', max_length=50, blank=True, null=True)
+    image_attribution_link = models.URLField(
+        help_text='Attribution link for this image', blank=True, null=True)
 
     # Fixed lens fields
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
@@ -1376,16 +1639,12 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
-    rectilinear = models.BooleanField(
-        help_text='Whether this is a rectilinear lens', default=1, blank=True, null=True)
-    image_circle = models.PositiveIntegerField(
-        help_text='Diameter of image circle projected by lens, in mm', blank=True, null=True)
 
     def __str__(self):
         mystr = self.model
         if self.manufacturer is not None:
             mystr = str(self.manufacturer) + ' ' + mystr
-        if self.disambiguation is not None:
+        if self.disambiguation:
             mystr = mystr + ' [' + self.disambiguation + ']'
         return mystr
 
@@ -1457,16 +1716,6 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
             raise ValidationError({
                 'discontinued': ValidationError(('Discontinued date must be in the past')),
             })
-        # Metering bools
-        if self.metering is not None and self.metering is False:
-            if self.metering_type is True:
-                raise ValidationError({
-                    'discontinued': ValidationError(('Cannot set metering type if camera model has no metering')),
-                })
-            if self.metering_modes is True:
-                raise ValidationError({
-                    'discontinued': ValidationError(('Cannot set metering modes if camera model has no metering')),
-                })
         # int_flash_gn
         if self.int_flash is False and self.int_flash_gn is not None:
             raise ValidationError({
@@ -1509,16 +1758,20 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('cameramodel-detail', kwargs={'slug': self.slug})
+        return reverse('schema:cameramodel-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Camera models are any camera that has been marketed'
 
+    @classmethod
+    def icon(cls):
+        return 'camera.svg'
+
 # Table to catalog accessories that are not tracked in more specific tables
 
 
-class Accessory(models.Model):
+class Accessory(ExportModelOperationsMixin('accessory'), models.Model):
     # Choices for accessory types
     class AccessoryType(DjangoChoices):
         Battery_grip = ChoiceItem()
@@ -1550,7 +1803,8 @@ class Accessory(models.Model):
         CameraModel, blank=True)
     lens_model_compatibility = models.ManyToManyField(LensModel, blank=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1580,16 +1834,20 @@ class Accessory(models.Model):
             })
 
     def get_absolute_url(self):
-        return reverse('accessory-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:accessory-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
         return 'Accessories include most photographic items which may be used with cameras or lenses. Exceptions are filters, flashes and teleconverters, which are tracked separately.'
 
+    @classmethod
+    def icon(cls):
+        return 'accessory.svg'
+
 # Table to catalog lenses
 
 
-class Lens(models.Model):
+class Lens(ExportModelOperationsMixin('lens'), models.Model):
     lensmodel = models.ForeignKey(
         LensModel, on_delete=models.CASCADE, help_text='Lens model of this lens')
     serial = models.CharField(
@@ -1602,10 +1860,10 @@ class Lens(models.Model):
         help_text='Date on which this lens was acquired', blank=True, null=True)
     cost = MoneyField(help_text='Price paid for this lens', max_digits=12,
                       decimal_places=2, blank=True, null=True, default_currency='GBP')
-    notes = models.CharField(
-        help_text='Freeform notes field', max_length=45, blank=True, null=True)
+    notes = models.TextField(
+        help_text='Freeform notes field', blank=True, null=True)
     own = models.BooleanField(
-        help_text='Whether we currently own this lens', blank=True, null=True)
+        help_text='Whether the lens is currently in your collection', default=True)
     lost = models.DateField(
         help_text='Date on which lens was lost/sold/disposed', blank=True, null=True)
     lost_price = MoneyField(help_text='Sale price of the lens', max_digits=12,
@@ -1614,20 +1872,25 @@ class Lens(models.Model):
         help_text='Place where the lens was acquired from', max_length=150, blank=True, null=True)
     condition = models.ForeignKey(Condition, on_delete=models.CASCADE,
                                   blank=True, null=True, help_text=mark_safe('Condition of this lens. Refer to <a href="/help/condition">condition grading</a>'))
-    condition_notes = models.CharField(
-        help_text='Description of condition', max_length=150, blank=True, null=True)
+    condition_notes = models.TextField(
+        help_text='Description of condition', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.serial is not None:
-            mystr = "%s %s (#%s)" % (self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
+            mystr = "%s %s (#%s)" % (
+                self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
         else:
-            mystr = "%s %s" % (self.lensmodel.manufacturer.name, self.lensmodel.model)
-        return mystr
+            mystr = "%s %s" % (
+                self.lensmodel.manufacturer.name, self.lensmodel.model)
+        ownchar = '✓' if self.own is True else '✗'
+        return "%s %s" % (ownchar, mystr)
 
     class Meta:
-        ordering = ['lensmodel__manufacturer', 'lensmodel__model', 'serial']
+        ordering = ['-own', 'lensmodel__manufacturer',
+                    'lensmodel__model', 'serial']
         verbose_name_plural = "lenses"
         unique_together = ['lensmodel', 'serial']
 
@@ -1657,16 +1920,20 @@ class Lens(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('lens-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:lens-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
         return 'Lenses are specific examples of lens models that exist in your collection'
 
+    @classmethod
+    def icon(cls):
+        return 'lens.svg'
+
 # Table to catalog cameras - both cameras with fixed lenses and cameras with interchangeable lenses
 
 
-class Camera(models.Model):
+class Camera(ExportModelOperationsMixin('camera'), models.Model):
     cameramodel = models.ForeignKey(
         CameraModel, on_delete=models.CASCADE, help_text='Camera model of this camera')
     acquired = models.DateField(
@@ -1680,9 +1947,9 @@ class Camera(models.Model):
     manufactured = models.PositiveIntegerField(
         help_text='Year of manufacture of the camera', blank=True, null=True)
     own = models.BooleanField(
-        help_text='Whether the camera is currently owned', blank=True, null=True)
-    notes = models.CharField(
-        help_text='Freeform text field for extra notes', max_length=100, blank=True, null=True)
+        help_text='Whether the camera is currently in your collection', default=True)
+    notes = models.TextField(
+        help_text='Freeform text field for extra notes', blank=True, null=True)
     lost = models.DateField(
         help_text='Date on which the camera was lost/sold/etc', blank=True, null=True)
     lost_price = MoneyField(help_text='Sale price of the camera', max_digits=12,
@@ -1691,20 +1958,24 @@ class Camera(models.Model):
         help_text='Where the camera was acquired from', max_length=150, blank=True, null=True)
     condition = models.ForeignKey(Condition, on_delete=models.CASCADE,
                                   blank=True, null=True, help_text=mark_safe('Condition of this camera. Refer to <a href="/help/condition">condition grading</a>'))
-    condition_notes = models.CharField(
-        help_text='Description of condition', max_length=150, blank=True, null=True)
+    condition_notes = models.TextField(
+        help_text='Description of condition', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         if self.serial is not None:
-            mystr = "%s %s (#%s)" % (self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
+            mystr = "%s %s (#%s)" % (
+                self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
         else:
-            mystr = "%s %s" % (self.cameramodel.manufacturer.name, self.cameramodel.model)
-        return mystr
+            mystr = "%s %s" % (
+                self.cameramodel.manufacturer.name, self.cameramodel.model)
+        ownchar = '✓' if self.own is True else '✗'
+        return "%s %s" % (ownchar, mystr)
 
     class Meta:
-        ordering = ['cameramodel__manufacturer',
+        ordering = ['-own', 'cameramodel__manufacturer',
                     'cameramodel__model', 'serial']
         verbose_name_plural = "cameras"
         unique_together = ['cameramodel', 'serial']
@@ -1735,22 +2006,36 @@ class Camera(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('camera-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:camera-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
         return 'Cameras are specific examples of camera models that exist in your collection'
 
+    @classmethod
+    def icon(cls):
+        return 'camera.svg'
+
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
 
 
-class Film(models.Model):
+class Film(ExportModelOperationsMixin('film'), models.Model):
+
+    # Choices for film status
+    class Status(DjangoChoices):
+        Available = ChoiceItem()
+        Loaded = ChoiceItem()
+        Developed = ChoiceItem()
+        Archived = ChoiceItem()
+
     filmstock = models.ForeignKey(
         FilmStock, on_delete=models.CASCADE, help_text='Filmstock that this film is')
     exposed_at = models.PositiveIntegerField(
         help_text='ISO at which the film was exposed', blank=True, null=True)
     format = models.ForeignKey(
         Format, on_delete=models.CASCADE, help_text='Film format of this film')
+    status = models.CharField(max_length=9, choices=Status.choices,
+                              help_text='Status of this film', default='Available')
     date_loaded = models.DateField(
         help_text='Date when the film was loaded into a camera', blank=True, null=True)
     date_processed = models.DateField(
@@ -1763,18 +2048,16 @@ class Film(models.Model):
         help_text='Expected (not actual) number of frames from the film', blank=True, null=True)
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True,
                                   help_text='Developer used to develop this film', limit_choices_to={'for_film': True})
-    directory = models.CharField(
-        help_text='Name of the directory that contains the scanned images from this film', max_length=100, blank=True, null=True)
-    dev_uses = models.PositiveIntegerField(
+    developer_previous_uses = models.PositiveIntegerField(
         help_text='Number of previous uses of the developer', blank=True, null=True)
-    dev_time = models.DurationField(
+    development_time = models.DurationField(
         help_text='Duration of development', blank=True, null=True)
-    dev_temp = models.DecimalField(
+    development_temperature = models.DecimalField(
         help_text='Temperature of development', max_digits=3, decimal_places=1, blank=True, null=True)
-    dev_n = models.IntegerField(
+    development_compensation = models.IntegerField(
         help_text='Number of the Push/Pull rating of the film, e.g. N+1, N-2', blank=True, null=True)
-    development_notes = models.CharField(
-        help_text='Extra freeform notes about the development process', max_length=200, blank=True, null=True)
+    development_notes = models.TextField(
+        help_text='Extra freeform notes about the development process', blank=True, null=True)
     bulk_film = models.ForeignKey(BulkFilm, on_delete=models.CASCADE,
                                   blank=True, null=True, help_text='Bulk film this film was cut from')
     bulk_film_loaded = models.DateField(
@@ -1792,13 +2075,43 @@ class Film(models.Model):
     archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True,
                                 null=True, help_text='Archive that this film is stored in')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
+
+    @property
+    def expired_when_loaded(self):
+        if self.expiry_date is not None and self.date_loaded is not None:
+            return self.expiry_date < self.date_loaded
+        return False
+
+    @property
+    def expired_when_processed(self):
+        if self.expiry_date is not None and self.date_processed is not None:
+            return self.expiry_date < self.date_processed
+        return False
+
+    @property
+    def pushed(self):
+        if self.exposed_at is not None and self.filmstock.iso is not None:
+            return self.exposed_at > self.filmstock.iso
+        return False
+
+    @property
+    def pulled(self):
+        if self.exposed_at is not None and self.filmstock.iso is not None:
+            return self.exposed_at < self.filmstock.iso
+        return False
 
     def __str__(self):
-        return "#%s %s" % (self.id_owner, self.title)
+        if self.title is not None:
+            mystr = "#%s %s" % (self.id_owner, self.title)
+        else:
+            mystr = "#%s" % (self.id_owner)
+        return mystr
 
     class Meta:
         verbose_name_plural = "films"
+        ordering = ['id_owner']
 
     def clean(self):
         # Date constraints
@@ -1809,6 +2122,10 @@ class Film(models.Model):
             })
 
     def save(self, *args, **kwargs):
+        # Populate EI with box speed
+        if not self.exposed_at:
+            if self.filmstock.iso:
+                self.exposed_at = self.filmstock.iso
         # Auto-populate values from bulk films
         if self.bulk_film:
             if self.bulk_film.expiry:
@@ -1820,20 +2137,25 @@ class Film(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('film-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:film-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
         return 'A film is a specific example of a film stock which exists in your collection, and contains one or more negatives. A film is generally one roll film or one sheet of sheet film.'
 
+    @classmethod
+    def icon(cls):
+        return 'film.svg'
+
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 
 
-class Negative(models.Model):
+class Negative(ExportModelOperationsMixin('negative'), models.Model):
     film = models.ForeignKey(
         Film, on_delete=models.CASCADE, help_text='Film that this negative belongs to')
     frame = models.CharField(
         help_text='Frame number or code of this negative', max_length=8)
+    slug = models.SlugField(editable=False, null=True)
     caption = models.CharField(
         help_text='Caption of this picture', max_length=150, blank=True, null=True)
     date = models.DateTimeField(
@@ -1848,18 +2170,16 @@ class Negative(models.Model):
                                null=True, help_text='Filter used when taking this negative')
     teleconverter = models.ForeignKey(Teleconverter, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Teleconverter used when taking this negative')
-    notes = models.CharField(
-        help_text='Extra freeform notes about this exposure', max_length=200, blank=True, null=True)
+    notes = models.TextField(
+        help_text='Extra freeform notes about this exposure', blank=True, null=True)
     mount_adapter = models.ForeignKey(MountAdapter, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Mount adapter used to mount lens')
     focal_length = models.PositiveIntegerField(
         help_text='If a zoom lens was used, specify the focal length of the lens', blank=True, null=True)
-    latitude = models.DecimalField(help_text='Latitude of the location where the picture was taken', max_digits=9,
-                                   decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-90), MaxValueValidator(90)])
-    longitude = models.DecimalField(help_text='Longitude of the location where the picture was taken', max_digits=9,
-                                    decimal_places=6, blank=True, null=True, validators=[MinValueValidator(-180), MaxValueValidator(180)])
+    location = GeopositionField(
+        help_text='Location where the picture was taken', blank=True, null=True)
     flash = models.BooleanField(
-        help_text='Whether flash was used', blank=True, null=True)
+        help_text='Whether flash was used', default=False)
     metering_mode = models.ForeignKey(MeteringMode, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Metering mode used when taking the image')
     exposure_program = models.ForeignKey(ExposureProgram, on_delete=models.CASCADE,
@@ -1869,10 +2189,15 @@ class Negative(models.Model):
     copy_of = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True,
                                 related_name='copy', help_text='Negative that this was duplicated from')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "%s/%s %s" % (self.film.id_owner, self.frame, self.caption)
+        if self.caption is not None:
+            mystr = "#%s %s" % (self.slug, self.caption)
+        else:
+            mystr = "#%s" % self.slug
+        return mystr
 
     class Meta:
         ordering = ['film', 'frame']
@@ -1907,19 +2232,36 @@ class Negative(models.Model):
             if self.lens.lensmodel.zoom is False:
                 if self.teleconverter is None:
                     self.focal_length = self.lens.lensmodel.min_focal_length
+
+        # Auto-populate metering mode for cameras that only support one
+        if self.metering_mode is None:
+            if self.film.camera.cameramodel.metering_modes.count() == 1:
+                self.metering_mode = self.film.camera.cameramodel.metering_modes.first()
+
+        # Auto-populate exposure program for cameras that only support one
+        if self.exposure_program is None:
+            if self.film.camera.cameramodel.exposure_programs.count() == 1:
+                self.exposure_program = self.film.camera.cameramodel.exposure_programs.first()
+
+        # Populate slug
+        self.slug = slugify(str(self.film.id_owner) + '.' + str(self.frame), separator='.')
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('negative-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:negative-detail', kwargs={'slug': self.slug})
 
     @classmethod
     def description(cls):
         return 'Negatives are exposures made on film. Exposures made on positive (slide) film are also known as negatives.'
 
+    @classmethod
+    def icon(cls):
+        return 'negative.svg'
+
 # Table to catalog prints made from negatives
 
 
-class Print(models.Model):
+class Print(ExportModelOperationsMixin('print'), models.Model):
     negative = models.ForeignKey(
         Negative, on_delete=models.CASCADE, help_text='Negative that this print was made from')
     date = models.DateField(
@@ -1941,7 +2283,7 @@ class Print(models.Model):
     toner = models.ManyToManyField(
         'Toner', through='Toning', help_text='Toners and bleaches used to treat this print', blank=True)
     own = models.BooleanField(
-        help_text='Whether we currently own this print', blank=True, null=True)
+        help_text='Whether the print is currently in your collection', default=True)
     location = models.CharField(
         help_text='The place where this print is currently', max_length=100, blank=True, null=True)
     sold_price = MoneyField(help_text='Sale price of the print', max_digits=12,
@@ -1954,20 +2296,22 @@ class Print(models.Model):
                                   help_text='Developer used to develop this print', limit_choices_to={'for_paper': True})
     fine = models.BooleanField(
         help_text='Whether this is a fine print', blank=True, null=True)
-    notes = models.CharField(
-        help_text='Freeform notes about this print, e.g. dodging, burning & complex toning', max_length=200, blank=True, null=True)
+    notes = models.TextField(
+        help_text='Freeform notes about this print, e.g. dodging, burning & complex toning', blank=True, null=True)
     archive = models.ForeignKey(Archive, on_delete=models.CASCADE, blank=True,
                                 null=True, help_text='Archive that this print is stored in')
     printer = models.ForeignKey(Person, on_delete=models.CASCADE,
                                 blank=True, null=True, help_text='Person who made this print')
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%i" % (self.id_owner)
 
     class Meta:
         verbose_name_plural = "prints"
+        ordering = ['id_owner']
 
     def clean(self):
         # Aperture must be in range of lens model aperture
@@ -1982,16 +2326,20 @@ class Print(models.Model):
                 })
 
     def get_absolute_url(self):
-        return reverse('print-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:print-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
         return 'Prints are images made on paper stock from negatives on film'
 
+    @classmethod
+    def icon(cls):
+        return 'print.svg'
+
 # Table to track which toners were used on which print
 
 
-class Toning(models.Model):
+class Toning(ExportModelOperationsMixin('toning'), models.Model):
     toner = models.ForeignKey(
         Toner, on_delete=models.CASCADE, help_text='Toner used on this print')
     print = models.ForeignKey(
@@ -2007,41 +2355,12 @@ class Toning(models.Model):
         ordering = ['order']
         unique_together = ['print', 'order']
 
-# Table to catalog all repairs and servicing undertaken on cameras and lenses in the collection
-
-
-class Repair(models.Model):
-    camera = models.ForeignKey(Camera, on_delete=models.CASCADE,
-                               blank=True, null=True, help_text='Camera that was repaired')
-    lens = models.ForeignKey(Lens, on_delete=models.CASCADE,
-                             blank=True, null=True, help_text='Lens that was repaired')
-    date = models.DateField(
-        help_text='The date of the repair', blank=True, null=True)
-    summary = models.CharField(
-        help_text='Brief summary of the repair', max_length=100)
-    detail = models.CharField(
-        help_text='Longer description of the repair', max_length=500, blank=True, null=True)
-    owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
-
-    def __str__(self):
-        return "#%i" % (self.id_owner)
-
-    class Meta:
-        ordering = ['date']
-        verbose_name_plural = "repairs"
-
-    def get_absolute_url(self):
-        return reverse('repair-detail', kwargs={'id_owner': self.id_owner})
-
-    @classmethod
-    def description(cls):
-        return 'Repairs are any maintenance work performed on cameras or lenses'
 
 # Table to record all the images that have been scanned digitally
 
 
-class Scan(models.Model):
+class Scan(ExportModelOperationsMixin('scan'), models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     negative = models.ForeignKey(Negative, on_delete=models.CASCADE, blank=True,
                                  null=True, help_text='Negative that this scan was made from')
     print = models.ForeignKey(Print, on_delete=models.CASCADE, blank=True,
@@ -2050,21 +2369,14 @@ class Scan(models.Model):
         help_text='Filename of the scan', max_length=128)
     date = models.DateField(
         help_text='Date that this scan was made', blank=True, null=True)
-    colour = models.BooleanField(
-        help_text='Whether this is a colour image', blank=True, null=True)
-    width = models.PositiveIntegerField(
-        help_text='Width of the scanned image in pixels', blank=True, null=True)
-    height = models.PositiveIntegerField(
-        help_text='Height of the scanned image in pixels', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return self.filename
+        return str(self.uuid)
 
     def clean(self):
         # Check print source
-        if self.negative is not None and self.print is not None:
+        if (self.negative is not None and self.print is not None) or (self.negative is None and self.print is None):
             raise ValidationError({
                 'negative': ValidationError(('Choose either negative or print')),
                 'print': ValidationError(('Choose either negative or print')),
@@ -2072,18 +2384,23 @@ class Scan(models.Model):
 
     class Meta:
         verbose_name_plural = "scans"
+        ordering = ['uuid']
 
     def get_absolute_url(self):
-        return reverse('scan-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:scan-detail', kwargs={'uuid': self.uuid})
 
     @classmethod
     def description(cls):
         return 'Scans are digital recreations of negatives or prints'
 
+    @classmethod
+    def icon(cls):
+        return 'scan.svg'
+
 # Table to record orders for prints
 
 
-class Order(models.Model):
+class Order(ExportModelOperationsMixin('order'), models.Model):
     negative = models.ForeignKey(
         Negative, on_delete=models.CASCADE, help_text='Negative that needs to be printed')
     width = models.PositiveIntegerField(
@@ -2099,7 +2416,8 @@ class Order(models.Model):
     recipient = models.ForeignKey(Person, on_delete=models.CASCADE,
                                   help_text='Person who placed this order', blank=True, null=True)
     owner = CurrentUserField(editable=False)
-    id_owner = AutoSequenceField(unique_with='owner', editable=False, verbose_name='ID')
+    id_owner = AutoSequenceField(
+        unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
         return "#%i" % (self.id_owner)
@@ -2109,8 +2427,12 @@ class Order(models.Model):
         verbose_name_plural = "orders"
 
     def get_absolute_url(self):
-        return reverse('order-detail', kwargs={'id_owner': self.id_owner})
+        return reverse('schema:order-detail', kwargs={'id_owner': self.id_owner})
 
     @classmethod
     def description(cls):
         return 'Orders are a to-do list of images to print'
+
+    @classmethod
+    def icon(cls):
+        return 'order.svg'

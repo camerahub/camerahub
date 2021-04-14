@@ -1,7 +1,12 @@
 {% extends "detail.html" %}
+{% load static %}
 
 {% block content %}
 <table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
   <tr>
     <td>Film format</td>
     <td>{{ object.format }}</td>
@@ -11,26 +16,26 @@
     <td>Negative size</td>
     <td>
       <ul class="list-inline">{% for negative_size in object.negative_size.all %}
-        <li class="list-inline-item"><a href="{% url 'negativesize-detail' negative_size.id %}">{{ negative_size }}</a>
+        <li class="list-inline-item"><a href="{% url 'schema:negativesize-detail' negative_size.id %}">{{ negative_size }}</a>
         </li>
         {% endfor %}</ul>
     </td>
   </tr>
   {% endif %}
   <tr>
-    <th colspan="2">Misc</th>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
   </tr>
-  {% if object.created_at is not None %}
+  {% if history %}
   <tr>
-    <td>Created</td>
-    <td>{{ object.created_at }}{% if object.created_by is not None %} by {{ object.created_by }}{% endif %}</td>
-  </tr>
-  {% endif %}
-  {% if object.updated_at is not None %}
-  <tr>
-    <td>Last updated</td>
-    <td>{{ object.updated_at }}{% if object.updated_by is not None %} by {{ object.updated_by }}{% endif %}</td>
+    <td>Edit history</td>
+    <td>{% include "history.html" %}</td>
   </tr>
   {% endif %}
 </table>
+{% endblock %}
+
+{% block moreactions %}
+<li><a class="btn btn-primary" href="{% url 'schema:cameramodel-list' %}?format={{ object.id }}" role="button">View camera
+    models with this format</a></li>
 {% endblock %}

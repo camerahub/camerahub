@@ -1,0 +1,6 @@
+<ul class="list-unstyled">
+    {% for historyitem in history %}
+    <li>Edited {{ historyitem.history_date }}{% if historyitem.history_user %} by
+        {{ historyitem.history_user }}{% endif %}</li>
+    {% endfor %}
+</ul>

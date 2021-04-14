@@ -12,10 +12,9 @@
 {% if search_results %}
 <ul class="list-unstyled">
     {% for result in search_results %}
-    <li class="media my-4">
-        <img class="mr-3" src="{% get_static_prefix %}svg/{{ result.object|model_name }}.svg"
-            alt="{{ result.object|model_name|title }}" width="30" height="30"><a
-            href="{{ result.url }}">{{ result }}</a></li>
+    <li class="media my-4"><img class="mr-3" src="{% get_static_prefix %}svg/{{ result.object.icon }}"
+            alt="{{ result.object|model_name|title }}" title="{{ result.object|model_name|title }}" width="30"
+            height="30"><a href="{{ result.url }}">{{ result }}</a></li>
     {% endfor %}
 </ul>
 {% else %}

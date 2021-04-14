@@ -3,12 +3,12 @@
 
 {% block heading %}<h4>
     <img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Tag">
-    <a href="{% url 'tag-list' %}">Tags</a></h4>
+    <a href="{% url 'schema:tag-list' %}">Tags</a></h4>
     <p>Public objects can be tagged</p>{%endblock%}
 
 {% block content %}
-<h5>Objects tagged <a class="btn btn-outline-primary" href="{% url 'tag-detail' object|lower %}"
-        role="button">{{ object }}</a></h5>
+<h5>Objects tagged <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' object.slug %}"
+        role="button">{{ object.slug }}</a></h5>
 
 
 <ul>

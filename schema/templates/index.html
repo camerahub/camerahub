@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
+{% load cache %}
 
 {% block heading %}<h4>
     <img src="{% static "svg/home.svg" %}" width="30" height="30" alt="Home">
     Welcome</h4>{%endblock%}
 
 {% block content %}
-<div class="alert alert-warning" role="alert">
-    CameraHub is still in beta, so there may be some rough edges. Please <a
-        href="https://github.com/djjudas21/camerahub/issues">report bugs</a> if you find them!
-</div>
+{% if "test" in request.get_host or "localhost" in request.get_host %}
+<div class="alert alert-warning" role="alert">CameraHub is running in development or testing mode</div>
+{% endif %}
 
 <div class="jumbotron">
     <div class="row">
         <div class="col-sm-9">
             <h1 class="display-4">Welcome to CameraHub</h1>
-            <p class="lead">an app for cataloguing vintage cameras, lenses, films, negatives & prints</p>
+            <p class="lead">an app for cataloguing vintage cameras, lenses, films, negatives &amp; prints</p>
         </div>
         <div class="col-sm-3">
             <img src="{% static "svg/camera.svg" %}" class="float-right img-fluid" style="max-width:128px"
@@ -24,12 +24,47 @@
     </div>
     <hr class="my-4">
     {% if user.is_authenticated %}
-    <p>Browse and track your collection using the menus above.</p>
-    {% else %}
-    <p>Public data about camera models, lens models and much more is available to browse without logging in.
-        Get started by using the public data menu above.</p>
-    <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'django_registration_register' %}">register</a> to start
-        tracking private data about your own collection!</p>
-    {% endif %}
+    <p>Welcome back, {{ user.username }}.
+        {% else %}
+    <p>CameraHub is a public database of cameras, lenses and accessories, available to everyone. Registered users can
+        add or edit data. They can also keep a private collection of their cameras and lenses. Check out the <a
+            href="{% url 'help:concepts' %}">Concepts</a> page for more info.</p>
+    <p><a class="btn btn-primary btn-sm" href="{% url 'login' %}" role="button">Login</a> or <a
+            class="btn btn-primary btn-sm" href="{% url 'django_registration_register' %}" role="button">Register</a> to
+        start tracking private data about your own collection.
+        {% endif %}
+
+{% cache 600 index %}
+        Get started using the icons below, or use the menus above.</p>
+    <div class="card-deck">
+        <div class="card">
+            <a href="{% url 'schema:cameramodel-list' %}"><img class="card-img-top p-5" src="{% static "svg/camera.svg" %}"
+                    alt="Camera models"></a>
+            <div class="card-body">
+                <a href="{% url 'schema:cameramodel-list' %}">
+                    <h5 class="card-title">Camera models</h5>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <a href="{% url 'schema:lensmodel-list' %}"><img class="card-img-top p-5"
+                    src="{% static "svg/teleconverter.svg" %}" alt="Lens models"></a>
+            <div class="card-body">
+                <a href="{% url 'schema:lensmodel-list' %}">
+                    <h5 class="card-title">Lens models</h5>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <a href="{% url 'schema:filmstock-list' %}"><img class="card-img-top p-5" src="{% static "svg/film.svg" %}"
+                    alt="Film stocks"></a>
+            <div class="card-body">
+                <a href="{% url 'schema:filmstock-list' %}">
+                    <h5 class="card-title">Film stocks</h5>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endcache %}
 </div>
 {% endblock %}

@@ -29,6 +29,7 @@ limit-inference-results=100
 # List of plugins (as comma separated values of python modules names) to load,
 # usually to register additional checkers.
 load-plugins=pylint_django
+django-settings-module=camerahub.settings
 
 # Pickle collected data for later comparisons.
 persistent=yes
@@ -145,7 +146,8 @@ disable=print-statement,
         no-init,
         too-many-lines,
         arguments-differ,
-        signature-differs
+        signature-differs,
+	duplicate-code
         
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

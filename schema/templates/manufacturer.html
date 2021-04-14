@@ -1,0 +1,2 @@
+<a href="{% url 'schema:manufacturer-detail' manufacturer.slug %}">{{ manufacturer }}</a> {% if manufacturer.country %}<img
+    src="{{ manufacturer.country.flag }}" alt="{{ manufacturer.country.name }}" title="{{ manufacturer.country.name }}" height="11">{% endif %}

@@ -19,9 +19,11 @@ from django.urls import include, path
 urlpatterns = [
     path('', include('schema.urls')),
     path('help/', include('help.urls')),
+    path('api/', include('api.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('favicon.urls')),
     path('', include('django_prometheus.urls')),
+    path('ratings/', include('star_ratings.urls', namespace='ratings')),
+    path('health/', include('health_check.urls')),
 ]

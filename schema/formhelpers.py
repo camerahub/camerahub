@@ -1,331 +1,317 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row
-from crispy_forms.bootstrap import FormActions
+from crispy_forms.layout import Layout, Submit, Row, Field
 
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock
-from schema.models import Flash, Lens, LensModel
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock
+from schema.models import Flash, FlashModel, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
-from schema.models import Repair, Negative, Film, Teleconverter, Toner
+from schema.models import Negative, Film, Teleconverter, TeleconverterModel, Toner
+
+# Disable CSRF token for cleaner filter URLs
+class CustomFormHelper(FormHelper):
+    disable_csrf = True
+
 
 # These helpers are just for the filter forms
 
 
-class AccessoryFormHelper(FormHelper):
+class AccessoryFormHelper(CustomFormHelper):
     model = Accessory
     layout = Layout(
-        Row('type', ),
-        FormActions(
-            Submit('filter', 'Filter'),
-        )
+        Row(
+            Field('type', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
+        ),
     )
 
 
-class ArchiveFormHelper(FormHelper):
+class ArchiveFormHelper(CustomFormHelper):
     model = Archive
     layout = Layout(
-        Row('type', 'location', 'storage', 'sealed'),
-        FormActions(
-            Submit('filter', 'Filter'),
+        Row(
+            Field('type', css_class="form-control-sm"),
+            Field('location', css_class="form-control-sm"),
+            Field('storage', css_class="form-control-sm"),
+            Field('sealed', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class BatteryFormHelper(FormHelper):
+class BatteryFormHelper(CustomFormHelper):
     model = Battery
     layout = Layout(
         Row(
-            'chemistry',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('chemistry', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class BulkFilmFormHelper(FormHelper):
+class BulkFilmFormHelper(CustomFormHelper):
     model = BulkFilm
     layout = Layout(
         Row(
-            'format',
-            'filmstock',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('format', css_class="form-control-sm"),
+            Field('filmstock', css_class="form-control-sm"),
+            Field('finished', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
-
-class CameraFormHelper(FormHelper):
+class CameraFormHelper(CustomFormHelper):
     model = Camera
     layout = Layout(
         Row(
-            'cameramodel__manufacturer',
-            'cameramodel__mount',
-            'cameramodel__format',
-            'cameramodel__negative_size',
-            'cameramodel__body_type',
-            'own',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('cameramodel__manufacturer', css_class="form-control-sm"),
+            Field('cameramodel__mount', css_class="form-control-sm"),
+            Field('cameramodel__format', css_class="form-control-sm"),
+            Field('cameramodel__negative_size', css_class="form-control-sm"),
+            Field('cameramodel__body_type', css_class="form-control-sm"),
+            Field('own', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class CameraModelFormHelper(FormHelper):
+class CameraModelFormHelper(CustomFormHelper):
     model = CameraModel
     layout = Layout(
         Row(
-            'manufacturer',
-            'mount',
-            'format',
-            'negative_size',
-            'body_type',
-            'tags',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('manufacturer', css_class="form-control-sm"),
+            Field('mount', css_class="form-control-sm"),
+            Field('format', css_class="form-control-sm"),
+            Field('negative_size', css_class="form-control-sm"),
+            Field('body_type', css_class="form-control-sm"),
+            Field('tags', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class DeveloperFormHelper(FormHelper):
+class DeveloperFormHelper(CustomFormHelper):
     model = Developer
     layout = Layout(
         Row(
-            'manufacturer',
-            'for_paper',
-            'for_film',
-            'tags',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('manufacturer', css_class="form-control-sm"),
+            Field('for_paper', css_class="form-control-sm"),
+            Field('for_film', css_class="form-control-sm"),
+            Field('tags', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class EnlargerFormHelper(FormHelper):
+class EnlargerModelFormHelper(CustomFormHelper):
+    model = EnlargerModel
+    layout = Layout(
+        Row(
+            Field('manufacturer', css_class="form-control-sm"),
+            Field('negative_size', css_class="form-control-sm"),
+            Field('type', css_class="form-control-sm"),
+            Field('light_source', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
+        )
+    )
+
+
+class EnlargerFormHelper(CustomFormHelper):
     model = Enlarger
     layout = Layout(
         Row(
-            'manufacturer',
-            'negative_size',
-            'type',
-            'light_source',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('enlargermodel', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class FilmStockFormHelper(FormHelper):
+class FilmStockFormHelper(CustomFormHelper):
     model = FilmStock
     layout = Layout(
         Row(
-            'manufacturer',
-            'colour',
-            'panchromatic',
-            'process',
-            'tags',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('manufacturer', css_class="form-control-sm"),
+            Field('colour', css_class="form-control-sm"),
+            Field('panchromatic', css_class="form-control-sm"),
+            Field('process', css_class="form-control-sm"),
+            Field('tags', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class FlashFormHelper(FormHelper):
+class FlashModelFormHelper(CustomFormHelper):
+    model = FlashModel
+    layout = Layout(
+        Row(
+            Field('manufacturer', css_class="form-control-sm"),
+            Field('pc_sync', css_class="form-control-sm"),
+            Field('hot_shoe', css_class="form-control-sm"),
+            Field('light_stand', css_class="form-control-sm"),
+            Field('manual_control', css_class="form-control-sm"),
+            Field('swivel_head', css_class="form-control-sm"),
+            Field('tilt_head', css_class="form-control-sm"),
+            Field('zoom', css_class="form-control-sm"),
+            Field('ttl', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
+        )
+    )
+
+class FlashFormHelper(CustomFormHelper):
     model = Flash
     layout = Layout(
         Row(
-            'manufacturer',
-            'pc_sync',
-            'hot_shoe',
-            'light_stand',
-            'manual_control',
-            'swivel_head',
-            'tilt_head',
-            'zoom',
-            'ttl',
-            'flash_protocol',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('flashmodel', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class LensFormHelper(FormHelper):
+class LensFormHelper(CustomFormHelper):
     model = Lens
     layout = Layout(
-        Row('lensmodel__manufacturer',
-            'lensmodel__mount',
-            'lensmodel__zoom',
-            'lensmodel__autofocus',
-            'own',
-            ),
-        FormActions(
-            Submit('filter', 'Filter'),
+        Row(
+            Field('lensmodel__manufacturer', css_class="form-control-sm"),
+            Field('lensmodel__mount', css_class="form-control-sm"),
+            Field('lensmodel__zoom', css_class="form-control-sm"),
+            Field('lensmodel__autofocus', css_class="form-control-sm"),
+            Field('own', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class LensModelFormHelper(FormHelper):
+class LensModelFormHelper(CustomFormHelper):
     model = LensModel
     layout = Layout(
-        Row('manufacturer',
-            'mount',
-            'zoom',
-            'autofocus',
-            'tags',
-            ),
-        FormActions(
-            Submit('filter', 'Filter'),
+        Row(
+            Field('manufacturer', css_class="form-control-sm"),
+            Field('mount', css_class="form-control-sm"),
+            Field('zoom', css_class="form-control-sm"),
+            Field('autofocus', css_class="form-control-sm"),
+            Field('tags', css_class="form-control-sm"),
+            Field('lens_type', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class MountFormHelper(FormHelper):
+class MountFormHelper(CustomFormHelper):
     model = Mount
     layout = Layout(
         Row(
-            'shutter_in_lens',
-            'type',
-            'purpose',
-            'tags',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('shutter_in_lens', css_class="form-control-sm"),
+            Field('type', css_class="form-control-sm"),
+            Field('purpose', css_class="form-control-sm"),
+            Field('tags', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class MountAdapterFormHelper(FormHelper):
+class MountAdapterFormHelper(CustomFormHelper):
     model = MountAdapter
     layout = Layout(
         Row(
-            'camera_mount',
-            'lens_mount',
-            'has_optics',
-            'infinity_focus',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('camera_mount', css_class="form-control-sm"),
+            Field('lens_mount', css_class="form-control-sm"),
+            Field('has_optics', css_class="form-control-sm"),
+            Field('infinity_focus', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class OrderFormHelper(FormHelper):
+class OrderFormHelper(CustomFormHelper):
     model = Order
     layout = Layout(
         Row(
-            'printed',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('printed', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class PaperStockFormHelper(FormHelper):
+class PaperStockFormHelper(CustomFormHelper):
     model = PaperStock
     layout = Layout(
         Row(
-            'manufacturer',
-            'resin_coated',
-            'colour',
-            'finish',
-            'tags',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('manufacturer', css_class="form-control-sm"),
+            Field('resin_coated', css_class="form-control-sm"),
+            Field('colour', css_class="form-control-sm"),
+            Field('finish', css_class="form-control-sm"),
+            Field('tags', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class PrintFormHelper(FormHelper):
+class PrintFormHelper(CustomFormHelper):
     model = Print
     layout = Layout(
         Row(
-            'paper_stock',
-            'developer',
-            'fine',
-            'archive',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('paper_stock', css_class="form-control-sm"),
+            Field('developer', css_class="form-control-sm"),
+            Field('fine', css_class="form-control-sm"),
+            Field('archive', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class RepairFormHelper(FormHelper):
-    model = Repair
-    layout = Layout(
-        Row(
-            'camera',
-            'lens',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
-        )
-    )
-
-
-class NegativeFormHelper(FormHelper):
+class NegativeFormHelper(CustomFormHelper):
     model = Negative
+    #disable_csrf = True
     layout = Layout(
         Row(
-            'film',
-            'lens',
-            'filter',
-            'metering_mode',
-            'exposure_program',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('film', css_class="form-control-sm"),
+            Field('film__camera', css_class="form-control-sm"),
+            Field('lens', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class FilmFormHelper(FormHelper):
+class FilmFormHelper(CustomFormHelper):
     model = Film
     layout = Layout(
         Row(
-            'filmstock',
-            'format',
-            'camera',
-            'developer',
-            'bulk_film',
-            'archive',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('filmstock', css_class="form-control-sm"),
+            Field('format', css_class="form-control-sm"),
+            Field('status', css_class="form-control-sm"),
+            Field('camera', css_class="form-control-sm"),
+            Field('bulk_film', css_class="form-control-sm"),
+            Field('archive', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class TeleconverterFormHelper(FormHelper):
+class TeleconverterFormHelper(CustomFormHelper):
     model = Teleconverter
     layout = Layout(
         Row(
-            'manufacturer',
-            'mount',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('teleconvertermodel', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
 
 
-class TonerFormHelper(FormHelper):
+class TeleconverterModelFormHelper(CustomFormHelper):
+    model = TeleconverterModel
+    layout = Layout(
+        Row(
+            Field('manufacturer', css_class="form-control-sm"),
+            Field('mount', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
+        )
+    )
+
+
+class TonerFormHelper(CustomFormHelper):
     model = Toner
     layout = Layout(
         Row(
-            'manufacturer',
-            'tags',
-        ),
-        FormActions(
-            Submit('filter', 'Filter'),
+            Field('manufacturer', css_class="form-control-sm"),
+            Field('tags', css_class="form-control-sm"),
+            Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )

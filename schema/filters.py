@@ -3,10 +3,10 @@ from django_currentuser.middleware import get_current_user
 from taggit.forms import TagField
 
 # Import all models that need admin pages
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock
-from schema.models import Flash, Lens, LensModel
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock
+from schema.models import Flash, FlashModel, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
-from schema.models import Repair, Negative, Film, Teleconverter, Toner
+from schema.models import Negative, Film, Teleconverter, TeleconverterModel, Toner
 
 # Define a custom tag filter
 
@@ -50,7 +50,7 @@ class BatteryFilter(FilterSet):
 class BulkFilmFilter(FilterSet):
     class Meta:
         model = BulkFilm
-        fields = ('format', 'filmstock',)
+        fields = ('format', 'filmstock', 'finished')
 
     @property
     def qs(self):
@@ -98,10 +98,15 @@ class DeveloperFilter(FilterSet):
         fields = ('manufacturer', 'for_paper', 'for_film')
 
 
+class EnlargerModelFilter(FilterSet):
+    class Meta:
+        model = EnlargerModel
+        fields = ('manufacturer', 'negative_size', 'type', 'light_source')
+
 class EnlargerFilter(FilterSet):
     class Meta:
         model = Enlarger
-        fields = ('manufacturer', 'negative_size', 'type', 'light_source')
+        fields = ('enlargermodel', )
 
     @property
     def qs(self):
@@ -117,9 +122,9 @@ class FilmStockFilter(FilterSet):
         fields = ('manufacturer', 'colour', 'panchromatic', 'process')
 
 
-class FlashFilter(FilterSet):
+class FlashModelFilter(FilterSet):
     class Meta:
-        model = Flash
+        model = FlashModel
         fields = ('manufacturer',
                   'pc_sync',
                   'hot_shoe',
@@ -129,7 +134,12 @@ class FlashFilter(FilterSet):
                   'tilt_head',
                   'zoom',
                   'ttl',
-                  'flash_protocol',)
+                  )
+
+class FlashFilter(FilterSet):
+    class Meta:
+        model = Flash
+        fields = ('flashmodel',)
 
     @property
     def qs(self):
@@ -158,7 +168,7 @@ class LensModelFilter(FilterSet):
 
     class Meta:
         model = LensModel
-        fields = ('manufacturer', 'mount', 'zoom', 'autofocus')
+        fields = ('manufacturer', 'mount', 'zoom', 'autofocus', 'lens_type')
 
 
 class MountFilter(FilterSet):
@@ -216,26 +226,13 @@ class PrintFilter(FilterSet):
         return parent.filter(owner=get_current_user())
 
 
-class RepairFilter(FilterSet):
-    class Meta:
-        model = Repair
-        fields = ('camera', 'lens',)
-
-    @property
-    def qs(self):
-        parent = super().qs
-        return parent.filter(owner=get_current_user())
-
-
 class NegativeFilter(FilterSet):
     class Meta:
         model = Negative
         fields = [
             'film',
+            'film__camera',
             'lens',
-            'filter',
-            'metering_mode',
-            'exposure_program',
         ]
 
     @property
@@ -250,8 +247,8 @@ class FilmFilter(FilterSet):
         fields = [
             'filmstock',
             'format',
+            'status',
             'camera',
-            'developer',
             'bulk_film',
             'archive',
         ]
@@ -265,12 +262,17 @@ class FilmFilter(FilterSet):
 class TeleconverterFilter(FilterSet):
     class Meta:
         model = Teleconverter
-        fields = ('manufacturer', 'mount',)
+        fields = ('teleconvertermodel',)
 
     @property
     def qs(self):
         parent = super().qs
         return parent.filter(owner=get_current_user())
+
+class TeleconverterModelFilter(FilterSet):
+    class Meta:
+        model = TeleconverterModel
+        fields = ('manufacturer', 'mount',)
 
 
 class TonerFilter(FilterSet):

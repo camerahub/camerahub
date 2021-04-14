@@ -1,0 +1,18 @@
+{% load social_share %}
+{% load static %}
+
+<ul class="list-inline">
+    <li class="list-inline-item">
+        {% post_to_facebook object '<img src="/static/svg/facebook.svg" width="30" height="30" alt="Facebook" title="Facebook">' %}</li>
+    <li class="list-inline-item">
+        {% post_to_twitter "{{ object|safe }} on CameraHub" object '<img src="/static/svg/twitter.svg" width="30" height="30" alt="Twitter" title="Twitter">' %}
+    </li>
+    <li class="list-inline-item">
+        {% post_to_gplus object '<img src="/static/svg/googleplus.svg" width="30" height="30" alt="Google+" title="Google+">' %}</li>
+    <li class="list-inline-item">
+        {% post_to_reddit "{{ object|safe }} on CameraHub" object '<img src="/static/svg/reddit.svg" width="30" height="30" alt="Reddit" title="Reddit">' %}
+    </li>
+    <li class="list-inline-item">
+        {% send_email "{{ object|safe }} on CameraHub" "{{ object|safe }} on CameraHub" object '<img src="/static/svg/mail.svg" width="30" height="30" alt="Mail" title="Reddit">' %}
+    </li>
+</ul>

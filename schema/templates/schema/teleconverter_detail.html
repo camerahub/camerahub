@@ -1,53 +1,55 @@
 {% extends "detail.html" %}
+{% load static %}
 {% load boolicontag %}
 
 {% block content %}
 <table class="table table-hover">
+  <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+      href="#">Summary</a></th>
+  </tr>
   <tr>
     <td>Model</td>
-    <td>{{ object.model }}</td>
+    <td>{{ object.teleconvertermodel }}</td>
   </tr>
-  {% if object.manufacturer is not None %}
+  {% if object.serial is not None %}
   <tr>
-    <td>Manufacturer</td>
-    <td><a href="{% url 'manufacturer-detail' object.manufacturer.slug %}">{{ object.manufacturer }}</a></td>
-  </tr>
-  {% endif %}
-  {% if object.mount is not None %}
-  <tr>
-    <td>Mount</td>
-    <td><a href="{% url 'mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
+    <td>Serial</td>
+    <td><code>{{ object.serial }}</code></td>
   </tr>
   {% endif %}
-  {% if object.factor is not None %}
+
   <tr>
-    <td>Factor</td>
-    <td>{{ object.factor }}&times;</td>
+    <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30"
+        alt="Ownership">&nbsp;<a href="#ownership">Ownership</a></th>
+  </tr>
+  {% if object.own is not None %}
+  <tr>
+    <td>Own</td>
+    <td>{{ object.own|boolicontag }}</td>
   </tr>
   {% endif %}
-  {% if object.elements is not None and object.groups is not None %}
+  {% if object.acquired is not None %}
   <tr>
-    <td>Elements/Groups</td>
-    <td>{{ object.elements }}/{{ object.groups }}</td>
-  </tr>
-  {% else %}
-  {% if object.elements is not None %}
-  <tr>
-    <td>Elements</td>
-    <td>{{ object.elements }}</td>
+    <td>Acquired</td>
+    <td>{{ object.acquired }} <small class="text-muted">{{ object.acquired|timesince }} ago</small></td>
   </tr>
   {% endif %}
-  {% if object.groups is not None %}
+  {% if object.cost is not None %}
   <tr>
-    <td>Groups</td>
-    <td>{{ object.groups }}</td>
+    <td>Cost</td>
+    <td>{{ object.cost }}</td>
   </tr>
   {% endif %}
-  {% endif %}
-  {% if object.multicoated is not None %}
+  {% if object.lost is not None %}
   <tr>
-    <td>Multicoated</td>
-    <td>{{ object.multicoated|boolicontag }}</td>
+    <td>Lost</td>
+    <td>{{ object.lost }} <small class="text-muted">{{ object.lost|timesince }} ago</small></td>
+  </tr>
+  {% endif %}
+  {% if object.lost_price is not None %}
+  <tr>
+    <td>Lost price</td>
+    <td>{{ object.lost_price }}</td>
   </tr>
   {% endif %}
 </table>

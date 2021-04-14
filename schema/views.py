@@ -1,7 +1,13 @@
+# pylint: disable=no-member
+
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView, ListView
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_control
+from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
 from django.apps import apps
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -9,33 +15,35 @@ from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from watson.views import SearchMixin
-
 from taggit.models import Tag
+from dal import autocomplete
 
-from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, FilmStock, Filter
-from schema.models import Flash, FlashProtocol, Format, Lens, LensModel, Manufacturer
+from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
+from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
-from schema.models import Process, Repair, Scan, Negative, Film, Teleconverter, Toner
+from schema.models import Process, Scan, Negative, Film, Teleconverter, TeleconverterModel, Toner
 
-from schema.tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, FilmStockTable, FilterTable
-from schema.tables import FlashTable, FlashProtocolTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
+from schema.tables import AccessoryTable, ArchiveTable, BatteryTable, BulkFilmTable, CameraTable, CameraModelTable, DeveloperTable, EnlargerTable, EnlargerModelTable, FilmStockTable, FilterTable
+from schema.tables import FlashTable, FlashModelTable, FormatTable, LensTable, LensModelTable, ManufacturerTable
 from schema.tables import MountTable, MountAdapterTable, NegativeSizeTable, OrderTable, PaperStockTable, PersonTable, PrintTable
-from schema.tables import ProcessTable, RepairTable, ScanTable, NegativeTable, FilmTable, TeleconverterTable, TonerTable
+from schema.tables import ProcessTable, ScanTable, NegativeTable, FilmTable, TeleconverterTable, TeleconverterModelTable, TonerTable
 
-from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraModelForm, DeveloperForm, EnlargerForm, FilmStockForm, FilterForm
-from schema.forms import FlashForm, FlashProtocolForm, FormatForm, LensForm, LensModelForm, ManufacturerForm
-from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm
-from schema.forms import ProcessForm, RepairForm, ScanForm, NegativeForm, FilmForm, TeleconverterForm, TonerForm
+from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraSellForm, CameraModelForm, DeveloperForm, EnlargerForm, EnlargerModelForm, FilmStockForm, FilterForm
+from schema.forms import FlashForm, FlashModelForm, FormatForm, LensForm, LensSellForm, LensModelForm, ManufacturerForm
+from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, OrderForm, PaperStockForm, PersonForm, PrintForm, PrintArchiveForm
+from schema.forms import ProcessForm, ScanForm, NegativeForm, FilmForm, FilmAddForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TeleconverterModelForm, TonerForm
 
 from schema.filters import AccessoryFilter, BatteryFilter, BulkFilmFilter, CameraFilter, CameraModelFilter, DeveloperFilter
-from schema.filters import EnlargerFilter, FilmFilter, FilmStockFilter, FlashFilter, LensFilter, LensModelFilter
+from schema.filters import EnlargerFilter, EnlargerModelFilter, FilmFilter, FilmStockFilter, FlashFilter, FlashModelFilter, LensFilter, LensModelFilter
 from schema.filters import MountAdapterFilter, MountFilter, NegativeFilter, OrderFilter, PaperStockFilter, PrintFilter
-from schema.filters import RepairFilter, TeleconverterFilter, TonerFilter
+from schema.filters import TeleconverterFilter, TeleconverterModelFilter, TonerFilter
 
 from schema.formhelpers import AccessoryFormHelper, BatteryFormHelper, BulkFilmFormHelper, CameraFormHelper, CameraModelFormHelper
-from schema.formhelpers import DeveloperFormHelper, EnlargerFormHelper, FilmFormHelper, FilmStockFormHelper, FlashFormHelper
+from schema.formhelpers import DeveloperFormHelper, EnlargerFormHelper, EnlargerModelFormHelper, FilmFormHelper, FilmStockFormHelper, FlashFormHelper, FlashModelFormHelper
 from schema.formhelpers import LensFormHelper, LensModelFormHelper, MountAdapterFormHelper, MountFormHelper, NegativeFormHelper
-from schema.formhelpers import OrderFormHelper, PaperStockFormHelper, PrintFormHelper, RepairFormHelper, TeleconverterFormHelper, TonerFormHelper
+from schema.formhelpers import OrderFormHelper, PaperStockFormHelper, PrintFormHelper, TeleconverterFormHelper, TeleconverterModelFormHelper, TonerFormHelper
+
+from .funcs import to_dict
 
 # Custom class for filtered list views in table format
 
@@ -50,19 +58,19 @@ class PagedFilteredTableView(SingleTableMixin, FilterView):
 
     # pylint: disable=not-callable,attribute-defined-outside-init
     def get_queryset(self):
-        qs = super(PagedFilteredTableView, self).get_queryset()
+        qs = super().get_queryset()
         self.filter = self.filterset_class(self.request.GET, queryset=qs)
         self.filter.form.helper = self.formhelper_class()
         return self.filter.qs
 
  #   def get_table(self, **kwargs):
- #       table = super(PagedFilteredTableView, self).get_table()
+ #       table = super().get_table()
  #       RequestConfig(self.request, paginate={'page': self.kwargs['page'],
  #                           "per_page": self.paginate_by}).configure(table)
  #       return table
 
     def get_context_data(self, **kwargs):
-        context = super(PagedFilteredTableView, self).get_context_data()
+        context = super().get_context_data()
         context[self.context_filter_name] = self.filter
         return context
 
@@ -71,8 +79,9 @@ class PagedFilteredTableView(SingleTableMixin, FilterView):
 
 class SingleTableListView(SingleTableView):
     template_name = 'list.html'
+    paginate_by = 25
 
-
+@method_decorator(cache_control(private=True), name='dispatch')
 class AccessoryList(LoginRequiredMixin, PagedFilteredTableView):
     model = Accessory
     table_class = AccessoryTable
@@ -80,6 +89,7 @@ class AccessoryList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = AccessoryFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class AccessoryDetail(LoginRequiredMixin, generic.DetailView):
     model = Accessory
 
@@ -104,11 +114,13 @@ class AccessoryUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Accessory, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class ArchiveList(LoginRequiredMixin, SingleTableListView):
     model = Archive
     table_class = ArchiveTable
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class ArchiveDetail(LoginRequiredMixin, generic.DetailView):
     model = Archive
 
@@ -143,6 +155,13 @@ class BatteryList(PagedFilteredTableView):
 class BatteryDetail(generic.DetailView):
     model = Battery
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+        return context
+
 
 class BatteryCreate(LoginRequiredMixin, CreateView):
     model = Battery
@@ -156,6 +175,7 @@ class BatteryUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class BulkFilmList(LoginRequiredMixin, PagedFilteredTableView):
     model = BulkFilm
     table_class = BulkFilmTable
@@ -163,6 +183,7 @@ class BulkFilmList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = BulkFilmFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class BulkFilmDetail(LoginRequiredMixin, generic.DetailView):
     model = BulkFilm
 
@@ -187,6 +208,7 @@ class BulkFilmUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(BulkFilm, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class CameraList(LoginRequiredMixin, PagedFilteredTableView):
     model = Camera
     table_class = CameraTable
@@ -194,6 +216,7 @@ class CameraList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = CameraFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class CameraDetail(LoginRequiredMixin, generic.DetailView):
     model = Camera
 
@@ -208,7 +231,7 @@ class CameraCreate(LoginRequiredMixin, CreateView):
     template_name = 'create.html'
 
     def get_initial(self):
-        initial = super(CameraCreate, self).get_initial()
+        initial = super().get_initial()
         if 'cameramodel' in self.request.GET:
             initial.update({'cameramodel': self.request.GET['cameramodel']})
         return initial
@@ -217,6 +240,16 @@ class CameraCreate(LoginRequiredMixin, CreateView):
 class CameraUpdate(LoginRequiredMixin, UpdateView):
     model = Camera
     form_class = CameraForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Camera, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+class CameraSell(LoginRequiredMixin, UpdateView):
+    model = Camera
+    form_class = CameraSellForm
     template_name = 'update.html'
 
     # Restrict to objects we own
@@ -247,8 +280,8 @@ class CameraModelDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
@@ -256,6 +289,10 @@ class CameraModelDetail(generic.DetailView):
         if self.request.user.is_authenticated:
             context['mine'] = self.get_object().camera_set.filter(
                 owner=self.request.user)
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+
         return context
 
 
@@ -263,6 +300,20 @@ class CameraModelCreate(LoginRequiredMixin, CreateView):
     model = CameraModel
     form_class = CameraModelForm
     template_name = 'create.html'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'clone' in self.request.GET:
+            # Retrieve original object
+            original = CameraModel.objects.get(slug=self.request.GET['clone'])
+
+            # Copy the original object to the initial state of the new one
+            initial = to_dict(original)
+
+            # Set disambiguation
+            initial['disambiguation'] = 'Clone of ' + str(original)
+
+        return initial
 
 
 class CameraModelUpdate(LoginRequiredMixin, UpdateView):
@@ -286,11 +337,15 @@ class DeveloperDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+
         return context
 
 
@@ -306,6 +361,28 @@ class DeveloperUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+class EnlargerModelList(PagedFilteredTableView):
+    model = EnlargerModel
+    table_class = EnlargerModelTable
+    filterset_class = EnlargerModelFilter
+    formhelper_class = EnlargerModelFormHelper
+
+
+class EnlargerModelDetail(generic.DetailView):
+    model = EnlargerModel
+
+class EnlargerModelCreate(LoginRequiredMixin, CreateView):
+    model = EnlargerModel
+    form_class = EnlargerModelForm
+    template_name = 'create.html'
+
+
+class EnlargerModelUpdate(LoginRequiredMixin, UpdateView):
+    model = EnlargerModel
+    form_class = EnlargerModelForm
+    template_name = 'update.html'
+
+@method_decorator(cache_control(private=True), name='dispatch')
 class EnlargerList(LoginRequiredMixin, PagedFilteredTableView):
     model = Enlarger
     table_class = EnlargerTable
@@ -313,6 +390,7 @@ class EnlargerList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = EnlargerFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class EnlargerDetail(LoginRequiredMixin, generic.DetailView):
     model = Enlarger
 
@@ -352,11 +430,15 @@ class FilmStockDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+
         return context
 
 
@@ -393,6 +475,30 @@ class FilterUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+class FlashModelList(PagedFilteredTableView):
+    model = FlashModel
+    table_class = FlashModelTable
+    filterset_class = FlashModelFilter
+    formhelper_class = FlashModelFormHelper
+
+
+class FlashModelDetail(generic.DetailView):
+    model = FlashModel
+
+
+class FlashModelCreate(LoginRequiredMixin, CreateView):
+    model = FlashModel
+    form_class = FlashModelForm
+    template_name = 'create.html'
+
+
+class FlashModelUpdate(LoginRequiredMixin, UpdateView):
+    model = FlashModel
+    form_class = FlashModelForm
+    template_name = 'update.html'
+
+
+@method_decorator(cache_control(private=True), name='dispatch')
 class FlashList(LoginRequiredMixin, PagedFilteredTableView):
     model = Flash
     table_class = FlashTable
@@ -400,6 +506,7 @@ class FlashList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = FlashFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class FlashDetail(LoginRequiredMixin, generic.DetailView):
     model = Flash
 
@@ -424,27 +531,6 @@ class FlashUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Flash, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-class FlashProtocolList(SingleTableListView):
-    model = FlashProtocol
-    table_class = FlashProtocolTable
-
-
-class FlashProtocolDetail(generic.DetailView):
-    model = FlashProtocol
-
-
-class FlashProtocolCreate(LoginRequiredMixin, CreateView):
-    model = FlashProtocol
-    form_class = FlashProtocolForm
-    template_name = 'create.html'
-
-
-class FlashProtocolUpdate(LoginRequiredMixin, UpdateView):
-    model = FlashProtocol
-    form_class = FlashProtocolForm
-    template_name = 'update.html'
-
-
 class FormatList(SingleTableListView):
     model = Format
     table_class = FormatTable
@@ -452,6 +538,12 @@ class FormatList(SingleTableListView):
 
 class FormatDetail(generic.DetailView):
     model = Format
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+        return context
 
 
 class FormatCreate(LoginRequiredMixin, CreateView):
@@ -466,6 +558,7 @@ class FormatUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class LensList(LoginRequiredMixin, PagedFilteredTableView):
     model = Lens
     table_class = LensTable
@@ -473,6 +566,7 @@ class LensList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = LensFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class LensDetail(LoginRequiredMixin, generic.DetailView):
     model = Lens
 
@@ -487,7 +581,7 @@ class LensCreate(LoginRequiredMixin, CreateView):
     template_name = 'create.html'
 
     def get_initial(self):
-        initial = super(LensCreate, self).get_initial()
+        initial = super().get_initial()
         if 'lensmodel' in self.request.GET:
             initial.update({'lensmodel': self.request.GET['lensmodel']})
         return initial
@@ -496,6 +590,16 @@ class LensCreate(LoginRequiredMixin, CreateView):
 class LensUpdate(LoginRequiredMixin, UpdateView):
     model = Lens
     form_class = LensForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Lens, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+class LensSell(LoginRequiredMixin, UpdateView):
+    model = Lens
+    form_class = LensSellForm
     template_name = 'update.html'
 
     # Restrict to objects we own
@@ -526,8 +630,8 @@ class LensModelDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
@@ -535,6 +639,10 @@ class LensModelDetail(generic.DetailView):
         if self.request.user.is_authenticated:
             context['mine'] = self.get_object().lens_set.filter(
                 owner=self.request.user)
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+
         return context
 
 
@@ -542,6 +650,20 @@ class LensModelCreate(LoginRequiredMixin, CreateView):
     model = LensModel
     form_class = LensModelForm
     template_name = 'create.html'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'clone' in self.request.GET:
+            # Retrieve original object
+            original = LensModel.objects.get(slug=self.request.GET['clone'])
+
+            # Copy the original object to the initial state of the new one
+            initial = to_dict(original)
+
+            # Set disambiguation
+            initial['disambiguation'] = 'Clone of ' + str(original)
+
+        return initial
 
 
 class LensModelUpdate(LoginRequiredMixin, UpdateView):
@@ -564,11 +686,14 @@ class ManufacturerDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -601,11 +726,14 @@ class MountDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -622,6 +750,7 @@ class MountUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class MountAdapterList(LoginRequiredMixin, PagedFilteredTableView):
     model = MountAdapter
     table_class = MountAdapterTable
@@ -629,6 +758,7 @@ class MountAdapterList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = MountAdapterFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class MountAdapterDetail(LoginRequiredMixin, generic.DetailView):
     model = MountAdapter
 
@@ -661,6 +791,12 @@ class NegativeSizeList(SingleTableListView):
 class NegativeSizeDetail(generic.DetailView):
     model = NegativeSize
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
+        return context
+
 
 class NegativeSizeCreate(LoginRequiredMixin, CreateView):
     model = NegativeSize
@@ -674,6 +810,7 @@ class NegativeSizeUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class OrderList(LoginRequiredMixin, PagedFilteredTableView):
     model = Order
     table_class = OrderTable
@@ -681,6 +818,7 @@ class OrderList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = OrderFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class OrderDetail(LoginRequiredMixin, generic.DetailView):
     model = Order
 
@@ -721,11 +859,14 @@ class PaperStockDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -742,6 +883,7 @@ class PaperStockUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class PersonList(LoginRequiredMixin, SingleTableListView):
     model = Person
     table_class = PersonTable
@@ -754,6 +896,7 @@ class PersonList(LoginRequiredMixin, SingleTableListView):
         return mystr
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class PersonDetail(LoginRequiredMixin, generic.DetailView):
     model = Person
 
@@ -778,6 +921,7 @@ class PersonUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Person, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class PrintList(LoginRequiredMixin, PagedFilteredTableView):
     model = Print
     table_class = PrintTable
@@ -785,6 +929,7 @@ class PrintList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = PrintFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class PrintDetail(LoginRequiredMixin, generic.DetailView):
     model = Print
 
@@ -798,6 +943,12 @@ class PrintCreate(LoginRequiredMixin, CreateView):
     form_class = PrintForm
     template_name = 'create.html'
 
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'negative' in self.request.GET:
+            initial.update({'negative': self.request.GET['negative']})
+        return initial
+
 
 class PrintUpdate(LoginRequiredMixin, UpdateView):
     model = Print
@@ -805,6 +956,16 @@ class PrintUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
     # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Print, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+class PrintArchive(LoginRequiredMixin, UpdateView):
+    model = Print
+    form_class = PrintArchiveForm
+    template_name = 'update.html'
+
+# Restrict to objects we own
     def get_object(self):
         return get_object_or_404(Print, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
@@ -830,37 +991,7 @@ class ProcessUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-class RepairList(LoginRequiredMixin, PagedFilteredTableView):
-    model = Repair
-    table_class = RepairTable
-    filterset_class = RepairFilter
-    formhelper_class = RepairFormHelper
-
-
-class RepairDetail(LoginRequiredMixin, generic.DetailView):
-    model = Repair
-
-    # Restrict to objects we own
-    def get_object(self):
-        return get_object_or_404(Repair, owner=self.request.user, id_owner=self.kwargs['id_owner'])
-
-
-class RepairCreate(LoginRequiredMixin, CreateView):
-    model = Repair
-    form_class = RepairForm
-    template_name = 'create.html'
-
-
-class RepairUpdate(LoginRequiredMixin, UpdateView):
-    model = Repair
-    form_class = RepairForm
-    template_name = 'update.html'
-
-    # Restrict to objects we own
-    def get_object(self):
-        return get_object_or_404(Repair, owner=self.request.user, id_owner=self.kwargs['id_owner'])
-
-
+@method_decorator(cache_control(private=True), name='dispatch')
 class ScanList(LoginRequiredMixin, SingleTableListView):
     model = Scan
     table_class = ScanTable
@@ -873,12 +1004,13 @@ class ScanList(LoginRequiredMixin, SingleTableListView):
         return mystr
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class ScanDetail(LoginRequiredMixin, generic.DetailView):
     model = Scan
 
     # Restrict to objects we own
     def get_object(self):
-        return get_object_or_404(Scan, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+        return get_object_or_404(Scan, owner=self.request.user, uuid=self.kwargs['uuid'])
 
 
 class ScanCreate(LoginRequiredMixin, CreateView):
@@ -894,9 +1026,10 @@ class ScanUpdate(LoginRequiredMixin, UpdateView):
 
     # Restrict to objects we own
     def get_object(self):
-        return get_object_or_404(Scan, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+        return get_object_or_404(Scan, owner=self.request.user, uuid=self.kwargs['uuid'])
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class NegativeList(LoginRequiredMixin, PagedFilteredTableView):
     model = Negative
     table_class = NegativeTable
@@ -904,18 +1037,25 @@ class NegativeList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = NegativeFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class NegativeDetail(LoginRequiredMixin, generic.DetailView):
     model = Negative
 
     # Restrict to objects we own
     def get_object(self):
-        return get_object_or_404(Negative, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+        return get_object_or_404(Negative, owner=self.request.user, slug=self.kwargs['slug'])
 
 
 class NegativeCreate(LoginRequiredMixin, CreateView):
     model = Negative
     form_class = NegativeForm
     template_name = 'create.html'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'film' in self.request.GET:
+            initial.update({'film': self.request.GET['film']})
+        return initial
 
 
 class NegativeUpdate(LoginRequiredMixin, UpdateView):
@@ -925,9 +1065,10 @@ class NegativeUpdate(LoginRequiredMixin, UpdateView):
 
     # Restrict to objects we own
     def get_object(self):
-        return get_object_or_404(Negative, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+        return get_object_or_404(Negative, owner=self.request.user, slug=self.kwargs['slug'])
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class FilmList(LoginRequiredMixin, PagedFilteredTableView):
     model = Film
     table_class = FilmTable
@@ -935,6 +1076,7 @@ class FilmList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = FilmFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class FilmDetail(LoginRequiredMixin, generic.DetailView):
     model = Film
 
@@ -945,7 +1087,7 @@ class FilmDetail(LoginRequiredMixin, generic.DetailView):
 
 class FilmCreate(LoginRequiredMixin, CreateView):
     model = Film
-    form_class = FilmForm
+    form_class = FilmAddForm
     template_name = 'create.html'
 
 
@@ -959,6 +1101,37 @@ class FilmUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+class FilmLoad(LoginRequiredMixin, UpdateView):
+    model = Film
+    form_class = FilmLoadForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+class FilmDevelop(LoginRequiredMixin, UpdateView):
+    model = Film
+    form_class = FilmDevelopForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+class FilmArchive(LoginRequiredMixin, UpdateView):
+    model = Film
+    form_class = FilmArchiveForm
+    template_name = 'update.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+@method_decorator(cache_control(private=True), name='dispatch')
 class TeleconverterList(LoginRequiredMixin, PagedFilteredTableView):
     model = Teleconverter
     table_class = TeleconverterTable
@@ -966,6 +1139,7 @@ class TeleconverterList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = TeleconverterFormHelper
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class TeleconverterDetail(LoginRequiredMixin, generic.DetailView):
     model = Teleconverter
 
@@ -989,6 +1163,28 @@ class TeleconverterUpdate(LoginRequiredMixin, UpdateView):
     def get_object(self):
         return get_object_or_404(Teleconverter, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
+class TeleconverterModelList(PagedFilteredTableView):
+    model = TeleconverterModel
+    table_class = TeleconverterModelTable
+    filterset_class = TeleconverterModelFilter
+    formhelper_class = TeleconverterModelFormHelper
+
+
+class TeleconverterModelDetail(generic.DetailView):
+    model = TeleconverterModel
+
+
+class TeleconverterModelCreate(LoginRequiredMixin, CreateView):
+    model = TeleconverterModel
+    form_class = TeleconverterModelForm
+    template_name = 'create.html'
+
+
+class TeleconverterModelUpdate(LoginRequiredMixin, UpdateView):
+    model = TeleconverterModel
+    form_class = TeleconverterModelForm
+    template_name = 'update.html'
+
 
 class TonerList(PagedFilteredTableView):
     model = Toner
@@ -1006,11 +1202,14 @@ class TonerDetail(generic.DetailView):
         # Find similar objects of the same type
         similarobjects = self.get_object().tags.similar_objects()
         items = []
-        for item in similarobjects:
-            if type(item) == type(self.get_object()): # pylint: disable=unidiomatic-typecheck
+        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
+            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
+
+        if self.get_object().history.all():
+            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -1034,36 +1233,130 @@ class StatsView(TemplateView):
         context = super().get_context_data(**kwargs)
         stats = [
             {
-                'image': "svg/cameramodel.svg",
-                'url': reverse('cameramodel-list'),
+                'image': "svg/camera.svg",
+                'url': reverse('schema:cameramodel-list'),
                 'item': "camera models in CameraHub",
                 'value': CameraModel.objects.count,
             },
             {
-                'image': "svg/lensmodel.svg",
-                'url': reverse('lensmodel-list'),
+                'image': "svg/lens.svg",
+                'url': reverse('schema:lensmodel-list'),
                 'item': "lens models in CameraHub",
                 'value': LensModel.objects.count,
             },
             {
-                'image': "svg/filmstock.svg",
-                'url': reverse('filmstock-list'),
+                'image': "svg/film.svg",
+                'url': reverse('schema:filmstock-list'),
                 'item': "film stocks in CameraHub",
                 'value': FilmStock.objects.count
             },
             {
                 'image': "svg/manufacturer.svg",
-                'url': reverse('manufacturer-list'),
+                'url': reverse('schema:manufacturer-list'),
                 'item': "manufacturers in CameraHub",
                 'value': Manufacturer.objects.count
             },
+            {
+                'image': "svg/person.svg",
+                'item': "users on CameraHub",
+                'value': get_user_model().objects.count
+            },
         ]
+
+        oldestcamera = CameraModel.objects.filter(
+            introduced__isnull=False).order_by('introduced').first()
+        if oldestcamera:
+            stats.append(
+                {
+                    'image': "svg/vintagecamera.svg",
+                    'url': oldestcamera.get_absolute_url,
+                    'item': "oldest camera on CameraHub",
+                    'subheading': oldestcamera.introduced,
+                    'value': oldestcamera,
+                }
+            )
+
+        heaviestcamera = CameraModel.objects.filter(
+            weight__isnull=False).order_by('weight').last()
+        if heaviestcamera:
+            stats.append(
+                {
+                    'image': "svg/bigcamera.svg",
+                    'url': heaviestcamera.get_absolute_url,
+                    'item': "heaviest camera on CameraHub",
+                    'subheading': str(heaviestcamera.weight) + 'g',
+                    'value': heaviestcamera
+                }
+            )
+
+        longestlens = LensModel.objects.filter(
+            max_focal_length__isnull=False).order_by('max_focal_length').last()
+        if longestlens:
+            stats.append(
+                {
+                    'image': "svg/lens.svg",
+                    'url': longestlens.get_absolute_url,
+                    'item': "longest lens on CameraHub",
+                    'subheading': str(longestlens.max_focal_length) + 'mm',
+                    'value': longestlens
+                }
+            )
+
+        fastestlens = LensModel.objects.filter(
+            max_aperture__isnull=False).order_by('max_aperture').first()
+        if fastestlens:
+            stats.append(
+                {
+                    'image': "svg/teleconverter.svg",
+                    'url': fastestlens.get_absolute_url,
+                    'item': "fastest lens on CameraHub",
+                    'subheading': 'f/' + str(fastestlens.max_aperture),
+                    'value': fastestlens
+                }
+            )
+
+        stats.append(
+            {
+                'image': "svg/weight.svg",
+                'url': reverse('schema:cameramodel-list'),
+                'item': "total weight of all cameras in CameraHub",
+                'value': str(round((CameraModel.objects.all().aggregate(totalweight=Sum('weight'))['totalweight'] or 0.00)/1000)) + 'kg',
+            }
+        )
+
+        stats.append(
+            {
+                'image': "svg/ruler.svg",
+                'url': reverse('schema:lensmodel-list'),
+                'item': "total length of all lenses in CameraHub, laid end to end",
+                'value': str(round((LensModel.objects.all().aggregate(totallength=Sum('length'))['totallength'] or 0.00)/1000)) + 'm',
+            }
+        )
+
+        stats.append(
+            {
+                'image': "svg/camera.svg",
+                'url': reverse('schema:camera-list'),
+                'item': "cameras in user collections on CameraHub",
+                'value': Camera.objects.count,
+            }
+        )
+
+        stats.append(
+            {
+                'image': "svg/film.svg",
+                'url': reverse('schema:camera-list'),
+                'item': "total length of exposed film in CameraHub",
+                'value': str(round((Negative.objects.all().aggregate(totallength=Sum('film__camera__cameramodel__negative_size__width'))['totallength'] or 0.00)/1000 )) + 'm',
+            }
+        )
 
         context['stats'] = stats
         context['title'] = "Public stats"
         return context
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
 class MyStatsView(LoginRequiredMixin, TemplateView):
     template_name = "stats.html"
 
@@ -1072,33 +1365,51 @@ class MyStatsView(LoginRequiredMixin, TemplateView):
         stats = [
             {
                 'image': "svg/camera.svg",
-                'url': reverse('camera-list'),
-                'item': "cameras in your collection",
+                'url': reverse('schema:camera-list'),
+                'item': "cameras in your collection right now",
+                'value': Camera.objects.filter(owner=self.request.user, own=True).count,
+            },
+            {
+                'image': "svg/camera.svg",
+                'url': reverse('schema:camera-list'),
+                'item': "cameras ever in your collection",
                 'value': Camera.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/lens.svg",
-                'url': reverse('lens-list'),
-                'item': "lenses in your collection",
+                'url': reverse('schema:lens-list'),
+                'item': "lenses in your collection right now",
+                'value': Lens.objects.filter(owner=self.request.user, own=True).count,
+            },
+            {
+                'image': "svg/lens.svg",
+                'url': reverse('schema:lens-list'),
+                'item': "lenses ever in your collection",
                 'value': Lens.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/film.svg",
-                'url': reverse('film-list'),
+                'url': reverse('schema:film-list'),
                 'item': "films in your collection",
                 'value': Film.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/negative.svg",
-                'url': reverse('negative-list'),
+                'url': reverse('schema:negative-list'),
                 'item': "negatives in your collection",
                 'value': Negative.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/print.svg",
-                'url': reverse('print-list'),
+                'url': reverse('schema:print-list'),
                 'item': "prints in your collection",
                 'value': Print.objects.filter(owner=self.request.user).count,
+            },
+            {
+                'image': "svg/film.svg",
+                'url': reverse('schema:camera-list'),
+                'item': "total length of exposed film in your collection",
+                'value': str(round((Negative.objects.filter(owner=self.request.user).aggregate(totallength=Sum('film__camera__cameramodel__negative_size__width'))['totallength'] or 0.00)/1000 )) + 'm',
             },
         ]
 
@@ -1135,3 +1446,17 @@ class TagDetail(generic.DetailView):
 
         context['taggeditems'] = items
         return context
+
+
+class TagAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        if not self.request.user.is_authenticated:
+            return Tag.objects.none()
+
+        qs = Tag.objects.all().order_by('name')
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        return qs
