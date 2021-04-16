@@ -125,7 +125,7 @@ class CameraModelTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = CameraModel
-        fields = ('model', 'image', 'mount', 'format',
+        fields = ('model', 'mount', 'format',
                   'introduced', 'body_type', 'negative_size')
 
     @classmethod
@@ -147,13 +147,6 @@ class CameraModelTable(tables.Table):
         else:
             badge = format_html("")
         return mystr+badge
-
-    @classmethod
-    def render_image(cls, value):
-        if value:
-            icon = format_html(
-                '<img src="/static/svg/camera.svg" width="20" height="20" alt="This camera model has a photo" title="This camera model has a photo">')
-        return icon
 
     @classmethod
     def render_mount(cls, value):
@@ -319,7 +312,7 @@ class LensModelTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = LensModel
-        fields = ('model', 'image', 'mount', 'zoom', 'min_focal_length',
+        fields = ('model', 'mount', 'zoom', 'min_focal_length',
                   'max_aperture', 'autofocus', 'introduced')
 
     @classmethod
@@ -341,13 +334,6 @@ class LensModelTable(tables.Table):
         else:
             badge = format_html("")
         return mystr+badge
-
-    @classmethod
-    def render_image(cls, value):
-        if value:
-            icon = format_html(
-                '<img src="/static/svg/camera.svg" width="20" height="20" alt="This lens model has a photo" title="This lens model has a photo">')
-        return icon
 
     @classmethod
     def render_mount(cls, value):
