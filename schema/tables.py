@@ -412,6 +412,13 @@ class MountAdapterTable(tables.Table):
     def render_lens_mount(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
+    @classmethod
+    def render_has_optics(cls, value):
+        return format_html(boolicon(value))
+
+    @classmethod
+    def render_infinity_focus(cls, value):
+        return format_html(boolicon(value))
 
 class NegativeSizeTable(tables.Table):
     class Meta:
