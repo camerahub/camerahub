@@ -1492,7 +1492,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         Multi_coated = ChoiceItem()
 
     manufacturer = models.ForeignKey(
-        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model')
+        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model', verbose_name='manufacturer')
     model = models.CharField(
         help_text='The model name of the camera', max_length=45)
     other_names = CollectionField(
@@ -1500,7 +1500,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     disambiguation = models.CharField(
         help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, default='')
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True,
-                              help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'})
+                              help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'}, verbose_name='mount')
     format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True,
                                null=True, help_text='Film format used by this camera model')
     focus_type = models.CharField(choices=FocusType.choices, max_length=25,
@@ -1606,7 +1606,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                           help_text='Manufacturer of this lens model', blank=True, null=True, related_name='lens_manufacturer')
     lens_model_name = models.CharField(
-        help_text='Model name of this lens', max_length=45, blank=True, null=True)
+        help_text='Model name of this lens', max_length=45, blank=True, null=True, verbose_name='lens model')
     zoom = models.BooleanField(
         help_text='Whether this is a zoom lens', blank=True, null=True)
     min_focal_length = models.PositiveIntegerField(
