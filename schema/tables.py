@@ -125,7 +125,7 @@ class CameraModelTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = CameraModel
-        fields = ('model', 'mount', 'format',
+        fields = ('model', 'mount', 'lens_model_name', 'format',
                   'introduced', 'body_type', 'negative_size')
 
     @classmethod
