@@ -1411,6 +1411,18 @@ class MyStatsView(LoginRequiredMixin, TemplateView):
                 'item': "total length of exposed film in your collection",
                 'value': str(round((Negative.objects.filter(owner=self.request.user).aggregate(totallength=Sum('film__camera__cameramodel__negative_size__width'))['totallength'] or 0.00)/1000 )) + 'm',
             },
+            {
+                'image': "svg/percent.svg",
+                'url': reverse('schema:camera-list'),
+                'item': "percentage of camera models you've owned",
+                'value': str(round(100*(int(Camera.objects.filter(owner=self.request.user).count())/int(CameraModel.objects.count())))) + '%',
+            },
+            {
+                'image': "svg/percent.svg",
+                'url': reverse('schema:camera-list'),
+                'item': "percentage of lens models you've owned",
+                'value': str(round(100*(int(Lens.objects.filter(owner=self.request.user).count())/int(LensModel.objects.count())))) + '%',
+            },
         ]
 
         context['stats'] = stats
