@@ -1415,13 +1415,13 @@ class MyStatsView(LoginRequiredMixin, TemplateView):
                 'image': "svg/percent.svg",
                 'url': reverse('schema:camera-list'),
                 'item': "percentage of camera models you've owned",
-                'value': str(round(100*(int(Camera.objects.filter(owner=self.request.user).count())/int(CameraModel.objects.count())))) + '%',
+                'value': str(round(100*(int(Camera.objects.filter(owner=self.request.user).values('cameramodel').distinct().count())/int(CameraModel.objects.count())))) + '%',
             },
             {
                 'image': "svg/percent.svg",
                 'url': reverse('schema:camera-list'),
                 'item': "percentage of lens models you've owned",
-                'value': str(round(100*(int(Lens.objects.filter(owner=self.request.user).count())/int(LensModel.objects.count())))) + '%',
+                'value': str(round(100*(int(Lens.objects.filter(owner=self.request.user).values('lensmodel').distinct().count())/int(LensModel.objects.count())))) + '%',
             },
             {
                 'image': "svg/ownership.svg",
