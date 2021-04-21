@@ -1423,6 +1423,18 @@ class MyStatsView(LoginRequiredMixin, TemplateView):
                 'item': "percentage of lens models you've owned",
                 'value': str(round(100*(int(Lens.objects.filter(owner=self.request.user).count())/int(LensModel.objects.count())))) + '%',
             },
+            {
+                'image': "svg/ownership.svg",
+                'url': reverse('schema:camera-list'),
+                'item': "net spent on cameras",
+                'value': str(round(((Camera.objects.all().aggregate(cost=Sum('cost'))['cost'] or 0.00) - (Camera.objects.all().aggregate(lost_price=Sum('lost_price'))['lost_price'] or 0.00)), 2)),
+            },
+            {
+                'image': "svg/ownership.svg",
+                'url': reverse('schema:lens-list'),
+                'item': "net spent on lenses",
+                'value': str(round(((Lens.objects.all().aggregate(cost=Sum('cost'))['cost'] or 0.00) - (Lens.objects.all().aggregate(lost_price=Sum('lost_price'))['lost_price'] or 0.00)), 2)),
+            }
         ]
 
         context['stats'] = stats
