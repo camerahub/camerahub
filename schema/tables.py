@@ -3,7 +3,7 @@
 import django_tables2 as tables
 from django.utils.html import format_html
 from django.urls import reverse
-from schema.funcs import boolicon, colouricon, locationicon
+from schema.funcs import boolicon, colouricon
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
@@ -125,7 +125,7 @@ class CameraModelTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = CameraModel
-        fields = ('model', 'image', 'mount', 'format',
+        fields = ('model', 'mount', 'lens_model_name', 'format',
                   'introduced', 'body_type', 'negative_size')
 
     @classmethod
@@ -147,13 +147,6 @@ class CameraModelTable(tables.Table):
         else:
             badge = format_html("")
         return mystr+badge
-
-    @classmethod
-    def render_image(cls, value):
-        if value:
-            icon = format_html(
-                '<img src="/static/svg/camera.svg" width="20" height="20" alt="This camera model has a photo" title="This camera model has a photo">')
-        return icon
 
     @classmethod
     def render_mount(cls, value):
@@ -319,7 +312,7 @@ class LensModelTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = LensModel
-        fields = ('model', 'image', 'mount', 'zoom', 'min_focal_length',
+        fields = ('model', 'mount', 'zoom', 'min_focal_length',
                   'max_aperture', 'autofocus', 'introduced')
 
     @classmethod
@@ -341,13 +334,6 @@ class LensModelTable(tables.Table):
         else:
             badge = format_html("")
         return mystr+badge
-
-    @classmethod
-    def render_image(cls, value):
-        if value:
-            icon = format_html(
-                '<img src="/static/svg/camera.svg" width="20" height="20" alt="This lens model has a photo" title="This lens model has a photo">')
-        return icon
 
     @classmethod
     def render_mount(cls, value):
@@ -426,6 +412,13 @@ class MountAdapterTable(tables.Table):
     def render_lens_mount(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
+    @classmethod
+    def render_has_optics(cls, value):
+        return format_html(boolicon(value))
+
+    @classmethod
+    def render_infinity_focus(cls, value):
+        return format_html(boolicon(value))
 
 class NegativeSizeTable(tables.Table):
     class Meta:
@@ -584,7 +577,7 @@ class NegativeTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Negative
-        fields = ('slug', 'film', 'date', 'location', 'film__camera', 'lens', 'shutter_speed', 'aperture')
+        fields = ('slug', 'film', 'date', 'film__camera', 'lens', 'shutter_speed', 'aperture')
 
     @classmethod
     def render_slug(cls, value, record):
@@ -597,10 +590,6 @@ class NegativeTable(tables.Table):
     @classmethod
     def render_film(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:film-detail', args=[value.id_owner]), value)
-
-    @classmethod
-    def render_location(cls, value):
-        return format_html(locationicon(value))
 
     @classmethod
     def render_film__camera(cls, value):
