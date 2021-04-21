@@ -75,7 +75,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django_prometheus.middleware.PrometheusBeforeMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,7 +86,6 @@ MIDDLEWARE = [
     'simple_history.middleware.HistoryRequestMiddleware',
     'camerahub.middleware.DynamicSiteDomainMiddleware',
     'speedinfo.middleware.ProfilerMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
