@@ -145,3 +145,8 @@
   {% endif %}
 </table>
 {% endblock %}
+
+{% block moreactions %}
+{% if object.archive is None %}<li><a class="btn btn-primary" href="{% url 'schema:print-archive' object.id_owner %}"
+    role="button">Archive this print</a></li>{% endif %}
+{% endblock %}
