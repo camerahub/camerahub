@@ -1545,6 +1545,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         verbose_name='Min ISO', help_text='Minimum ISO the camera will accept for metering', blank=True, null=True)
     max_iso = models.PositiveIntegerField(
         verbose_name='Max ISO', help_text='Maximum ISO the camera will accept for metering', blank=True, null=True)
+    dx_code = models.BooleanField(
+        verbose_name='DX code', help_text='Whether the camera can read DX codes with Camera Auto Sensing', blank=True, null=True)
     af_points = models.PositiveIntegerField(
         verbose_name='Autofocus points', help_text='Number of autofocus points', blank=True, null=True)
     int_flash = models.BooleanField(
