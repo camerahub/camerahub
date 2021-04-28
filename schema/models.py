@@ -497,6 +497,13 @@ class Flash(ExportModelOperationsMixin('flash'), models.Model):
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
 
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
+
     def __str__(self):
         return str(self.flashmodel)
 
@@ -628,6 +635,13 @@ class Enlarger(ExportModelOperationsMixin('enlarger'), models.Model):
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
+
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
 
     def clean(self):
         # Acquired/lost
@@ -933,6 +947,13 @@ class Teleconverter(ExportModelOperationsMixin('teleconverter'), models.Model):
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
+
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
 
     def __str__(self):
         return str(self.teleconvertermodel)
@@ -1796,6 +1817,13 @@ class Accessory(ExportModelOperationsMixin('accessory'), models.Model):
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
 
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
+
     def __str__(self):
         if self.manufacturer is not None:
             mystr = "%s %s" % (self.manufacturer.name, self.model)
@@ -1867,6 +1895,13 @@ class Lens(ExportModelOperationsMixin('lens'), models.Model):
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
+
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
 
     def __str__(self):
         if self.serial is not None:
@@ -1953,6 +1988,13 @@ class Camera(ExportModelOperationsMixin('camera'), models.Model):
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
+
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
 
     def __str__(self):
         if self.serial is not None:
