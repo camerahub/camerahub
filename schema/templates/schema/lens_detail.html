@@ -92,6 +92,12 @@
     <td>{{ object.lost_price }}</td>
   </tr>
   {% endif %}
+  {% if object.profit is not None %}
+  <tr>
+    <td>Profit</td>
+    <td>{{ object.profit }}</td>
+  </tr>
+  {% endif %}
 </table>
 {% endblock %}
 
