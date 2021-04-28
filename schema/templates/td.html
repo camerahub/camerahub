@@ -1,2 +1,5 @@
 {% load model_field %}
-<td>{% model_field_verbose_name from model.field %}<br><small class="text-muted">{% model_field_help_text from model.field %}</small></td>
+<td>
+    model = {{ model }}
+    field = {{ field }}
+</td>
