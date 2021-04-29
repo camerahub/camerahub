@@ -138,7 +138,7 @@ class CameraModelTable(tables.Table):
                 'schema:cameramodel-detail', args=[record.slug]), record.manufacturer, value)
         if cls.request.user.is_authenticated:
             qty = Camera.objects.filter(
-                owner=cls.request.user, cameramodel=record).count()
+                owner=cls.request.user, own=True, cameramodel=record).count()
             if qty > 0:
                 badge = format_html(
                     " <span class=\"badge badge-pill badge-primary\">{}</span>", qty)
@@ -325,7 +325,7 @@ class LensModelTable(tables.Table):
                 'schema:lensmodel-detail', args=[record.slug]), record.manufacturer, value)
         if cls.request.user.is_authenticated:
             qty = Lens.objects.filter(
-                owner=cls.request.user, lensmodel=record).count()
+                owner=cls.request.user, own=True, lensmodel=record).count()
             if qty > 0:
                 badge = format_html(
                     " <span class=\"badge badge-pill badge-primary\">{}</span>", qty)
