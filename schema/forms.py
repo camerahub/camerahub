@@ -268,6 +268,7 @@ class CameraModelForm(autocomplete.FutureModelForm):
                      'metering_type',
                      'min_iso',
                      'max_iso',
+                     'dx_code',
                      'meter_min_ev',
                      'meter_max_ev',
                      InlineCheckboxes('metering_modes'),

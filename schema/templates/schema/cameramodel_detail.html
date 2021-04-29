@@ -267,6 +267,12 @@
     <td>{{ object.min_iso }}-{{ object.max_iso }}</td>
   </tr>
   {% endif %}
+  {% if object.dx_code is not None %}
+  <tr>
+    <td>DX code</td>
+    <td>{{ object.dx_code|boolicontag }}</td>
+  </tr>
+  {% endif %}
   {% endif %}
 
   {% if object.metering_modes.all %}
