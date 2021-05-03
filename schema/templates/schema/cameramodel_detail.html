@@ -3,7 +3,7 @@
 {% load boolicontag %}
 {% load formatting %}
 {% load ratings %}
-{% load td %}
+{% load titledescription %}
 
 {% block content %}
 {% if object.image %}
@@ -25,7 +25,7 @@
   </tr>
   {% if object.manufacturer is not None %}
   <tr>
-    <td>{% td object.manufacturer %}</td>
+    <td>{% titledescription from object.manufacturer %}</td>
     <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
   </tr>
   {% endif %}
