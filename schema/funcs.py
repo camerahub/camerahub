@@ -1,5 +1,6 @@
 from math import degrees
-from itertools import chain
+from itertools import chain, count
+from re import match
 from django.utils.safestring import mark_safe
 from numpy import arctan
 
@@ -60,3 +61,86 @@ def to_dict(instance):
     for field in opts.many_to_many:
         data[field.name] = [i.id for i in field.value_from_object(instance)]
     return data
+
+
+def canondatecode(datecode, introduced=1960, discontinued=2100):
+    """Decode Canon datecodes to discover the year of manufacture. Datecodes are sometimes ambiguous so by passing in the dates
+    that the model was introduced and discontinued, the year of manufacture can be pinned down
+    """
+
+    # Initialise empty list of candidate dates
+    guesses = []
+
+    # AB1234, B1234A, B123A
+    # From 1960-2012, the date code is in the form of "AB1234". "A" indicates the factory. Prior to 1986, "A" is moved to the end.
+    # "B" is a year code that indicates the year of manufacture. Canon increments this letter each year starting with A in 1960
+    # Of the 4 digits, the first two are the month of manufacture. Sometimes the leading 0 is omitted.
+    oldstyle = match(r"^[A-Z]?([A-Z])[0-9]{3,4}[A-Z]?$", datecode.upper())
+
+    # From 2008, the date code is 10 digits. The first two correspond to the year & month of manufacture.
+    # From 2008-2012 the month code runs from 38-97. In 2013, it is reset to 01. These are treated as different epochs.
+    newstyle = match(r"^(\d{2})\d{8}$", datecode.upper())
+
+    if oldstyle:
+        dateletter = oldstyle.group(1)
+        epochstart = 1960
+        epochend = 2012
+
+        # Calculate datenumber as years since epoch
+        datenumber = ord(dateletter) - ord('A')
+
+        # Find all years within an epoch that a letter could represent
+        for i in count(0):
+            guess = epochstart + datenumber + i*26
+
+            # Stop if we go above the end date of the datecode epoch
+            if guess > epochend:
+                break
+
+            # Add our guess to the list
+            guesses.append(guess)
+            print(guess)
+
+    elif newstyle:
+        datenumber = newstyle.group(1)
+
+        # First epoch
+        if 38 <= datenumber <= 97:
+            epochstart = 2008
+            epochend = 2012
+            start = 38
+
+            guess = epochstart + int((datenumber - start) / 12)
+            guesses.append(guess)
+
+        # Second epoch
+        else:
+            epochstart = 2013
+            epochend = 2100
+            start = 1
+
+            # Find all years within an epoch that a letter could represent
+            for i in count(0):
+                guess = epochstart + int(((datenumber + i*100) - start) / 12)
+                if guess > epochend:
+                    break
+                guesses.append(guess)
+
+	# Now examine our guesses for plausibility based on when the lens was released & discontinued
+    plausible = []
+    for guess in guesses:
+        # Skip if our guess is before the lens was introduced
+        if guess < introduced:
+            continue
+        # Stop if our guess is after the lens was discontinued
+        if guess > discontinued:
+            continue
+        plausible.append(guess)
+
+    # If we narrowed it down to one year, return that. Otherwise, return nothing.
+    if len(plausible) == 1:
+        year = plausible[0]
+    else:
+        year = None
+
+    return year
