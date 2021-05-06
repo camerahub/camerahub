@@ -33,6 +33,21 @@
   {% endif %}
 
   <tr>
+    <th colspan="2" id="film"><img src="{% static "svg/film.svg" %}" width="30" height="30" alt="Film">&nbsp;<a
+        href="#">Film</a></th>
+  </tr>
+  <tr>
+    <td>Filmstock</td>
+    <td><a href="{% url 'schema:filmstock-detail' object.film.filmstock.slug %}">{{ object.film.filmstock }}</a></td>
+  </tr>
+  {% if object.film.camera.cameramodel.negative_size is not None %}
+  <tr>
+    <td>Negative size</td>
+    <td><a href="{% url 'schema:negativesize-detail' object.film.camera.cameramodel.negative_size.id %}">{{ object.film.camera.cameramodel.negative_size }}</a></td>
+  </tr>
+  {% endif %}
+
+  <tr>
     <th colspan="2" id="exposure"><img src="{% static "svg/camera.svg" %}" width="30" height="30" alt="Exposure"> <a
         href="#exposure">Exposure</a></th>
   </tr>
