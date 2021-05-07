@@ -21,7 +21,7 @@ from collectionfield.models import CollectionField
 from django_countries.fields import CountryField
 from geoposition.fields import GeopositionField
 from star_ratings.models import Rating
-from .funcs import angle_of_view
+from .funcs import angle_of_view, canondatecode
 
 
 def cameramodel_check(text, uids):
@@ -74,7 +74,7 @@ def developer_check(text, uids):
 # Create your models here.
 
 
-class Manufacturer(models.Model):
+class Manufacturer(ExportModelOperationsMixin('manufacturer'), models.Model):
     name = models.CharField(
         help_text='Name of the manufacturer', max_length=45, blank=True, unique=True)
     city = models.CharField(
@@ -138,7 +138,7 @@ class Manufacturer(models.Model):
 # Table to list all archives that exist for storing physical media
 
 
-class Archive(models.Model):
+class Archive(ExportModelOperationsMixin('archive'), models.Model):
     # Choices for archive types
     class ArchiveType(DjangoChoices):
         Negative = ChoiceItem()
@@ -192,7 +192,7 @@ class Archive(models.Model):
 # Table to catalog of types of battery
 
 
-class Battery(models.Model):
+class Battery(ExportModelOperationsMixin('battery'), models.Model):
     class Chemistry(DjangoChoices):
         Alkaline = ChoiceItem()
         Nickel_cadmium = ChoiceItem()
@@ -242,7 +242,7 @@ class Battery(models.Model):
 # Table to list of physical condition descriptions that can be used to evaluate equipment
 
 
-class Condition(models.Model):
+class Condition(ExportModelOperationsMixin('condition'), models.Model):
     code = models.CharField(
         help_text='Condition shortcode (e.g. EXC)', max_length=6)
     name = models.CharField(
@@ -259,6 +259,7 @@ class Condition(models.Model):
 
     class Meta:
         verbose_name_plural = "conditions"
+        ordering = ['min_rating']
 
     @classmethod
     def icon(cls):
@@ -267,7 +268,7 @@ class Condition(models.Model):
 # Exposure programs as defined by EXIF tag ExposureProgram
 
 
-class ExposureProgram(models.Model):
+class ExposureProgram(ExportModelOperationsMixin('exposureprogram'), models.Model):
     name = models.CharField(
         help_text='Name of exposure program as defined by EXIF tag ExposureProgram', max_length=45)
 
@@ -284,7 +285,7 @@ class ExposureProgram(models.Model):
 # Table to catalog filters
 
 
-class Filter(models.Model):
+class Filter(ExportModelOperationsMixin('filter'), models.Model):
     type = models.CharField(
         help_text='Filter type (e.g. Red, Circular polariser, Ultraviolet)', max_length=45)
     shortname = models.CharField(
@@ -313,7 +314,7 @@ class Filter(models.Model):
 # Table to catalog different negative sizes available. Negtives sizes are distinct from film formats.
 
 
-class NegativeSize(models.Model):
+class NegativeSize(ExportModelOperationsMixin('negativesize'), models.Model):
     name = models.CharField(
         help_text='Common name of the negative size (e.g. 35mm, 6x7, etc)', max_length=45, unique=True)
     width = models.DecimalField(help_text='Width of the negative size in mm',
@@ -361,7 +362,7 @@ class NegativeSize(models.Model):
 # Table to catalogue different film formats. These are distinct from negative sizes.
 
 
-class Format(models.Model):
+class Format(ExportModelOperationsMixin('format'), models.Model):
     format = models.CharField(
         help_text='The name of this film/sensor format', max_length=45, unique=True)
     negative_size = models.ManyToManyField(NegativeSize, blank=True)
@@ -388,7 +389,7 @@ class Format(models.Model):
 # Table to catalog flashes, flashguns and speedlights
 
 
-class FlashModel(models.Model):
+class FlashModel(ExportModelOperationsMixin('flashmodel'), models.Model):
     model = models.CharField(
         help_text='Model name/number of the flash', max_length=45)
     manufacturer = models.ForeignKey(
@@ -477,7 +478,7 @@ class FlashModel(models.Model):
         return 'flash.svg'
 
 
-class Flash(models.Model):
+class Flash(ExportModelOperationsMixin('flash'), models.Model):
     flashmodel = models.ForeignKey(
         FlashModel, on_delete=models.CASCADE, help_text='Model of this flash')
     serial = models.CharField(
@@ -496,11 +497,19 @@ class Flash(models.Model):
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
 
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
+
     def __str__(self):
         return str(self.flashmodel)
 
     class Meta:
         verbose_name_plural = "flashes"
+        ordering = ['id_owner']
 
     def get_absolute_url(self):
         return reverse('schema:flash-detail', kwargs={'id_owner': self.id_owner})
@@ -516,7 +525,7 @@ class Flash(models.Model):
 # Table to list enlargers
 
 
-class EnlargerModel(models.Model):
+class EnlargerModel(ExportModelOperationsMixin('enlargermodel'), models.Model):
 
     class EnlargerType(DjangoChoices):
         Diffusion = ChoiceItem()
@@ -606,7 +615,7 @@ class EnlargerModel(models.Model):
         return 'enlarger.svg'
 
 
-class Enlarger(models.Model):
+class Enlarger(ExportModelOperationsMixin('enlarger'), models.Model):
     enlargermodel = models.ForeignKey(
         EnlargerModel, on_delete=models.CASCADE, help_text='Model of this enlarger')
     serial = models.CharField(
@@ -626,6 +635,13 @@ class Enlarger(models.Model):
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
+
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
 
     def clean(self):
         # Acquired/lost
@@ -659,7 +675,7 @@ class Enlarger(models.Model):
 # Metering modes as defined by EXIF tag MeteringMode
 
 
-class MeteringMode(models.Model):
+class MeteringMode(ExportModelOperationsMixin('meteringmode'), models.Model):
     name = models.CharField(
         help_text='Name of metering mode as defined by EXIF tag MeteringMode', max_length=45)
 
@@ -672,7 +688,7 @@ class MeteringMode(models.Model):
 # Table to catalog different lens mount standards. This is mostly used for camera lens mounts, but can also be used for enlarger and projector lenses.
 
 
-class Mount(models.Model):
+class Mount(ExportModelOperationsMixin('mount'), models.Model):
 
     # Choices for mount types
     class MountType(DjangoChoices):
@@ -733,7 +749,7 @@ class Mount(models.Model):
 # Table to catalog different paper stocks available
 
 
-class PaperStock(models.Model):
+class PaperStock(ExportModelOperationsMixin('paperstock'), models.Model):
     # Choices for mount purposes
     class Finish(DjangoChoices):
         Matt = ChoiceItem()
@@ -783,7 +799,7 @@ class PaperStock(models.Model):
 # Table to catalog photographers
 
 
-class Person(models.Model):
+class Person(ExportModelOperationsMixin('person'), models.Model):
     name = models.CharField(
         help_text='Name of the photographer', max_length=45, unique=True)
     owner = CurrentUserField(editable=False)
@@ -811,7 +827,7 @@ class Person(models.Model):
 # Table to catalog chemical processes that can be used to develop film and paper
 
 
-class Process(models.Model):
+class Process(ExportModelOperationsMixin('process'), models.Model):
     name = models.CharField(
         help_text='Name of this developmenmt process (e.g. C-41, E-6)', max_length=25, unique=True)
     colour = models.BooleanField(
@@ -841,7 +857,7 @@ class Process(models.Model):
 # Table to catalog teleconverters (multipliers)
 
 
-class TeleconverterModel(models.Model):
+class TeleconverterModel(ExportModelOperationsMixin('teleconvertermodel'), models.Model):
     model = models.CharField(
         help_text='Model name of this teleconverter', max_length=45)
     manufacturer = models.ForeignKey(
@@ -913,7 +929,7 @@ class TeleconverterModel(models.Model):
         return 'teleconverter.svg'
 
 
-class Teleconverter(models.Model):
+class Teleconverter(ExportModelOperationsMixin('teleconverter'), models.Model):
     teleconvertermodel = models.ForeignKey(
         TeleconverterModel, on_delete=models.CASCADE, help_text='Model of this teleconverter')
     serial = models.CharField(
@@ -932,11 +948,19 @@ class Teleconverter(models.Model):
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
 
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
+
     def __str__(self):
         return str(self.teleconvertermodel)
 
     class Meta:
         verbose_name_plural = "teleconverters"
+        ordering = ['id_owner']
 
     def get_absolute_url(self):
         return reverse('schema:teleconverter-detail', kwargs={'id_owner': self.id_owner})
@@ -952,7 +976,7 @@ class Teleconverter(models.Model):
 # Table to catalog paper toners that can be used during the printing process
 
 
-class Toner(models.Model):
+class Toner(ExportModelOperationsMixin('toner'), models.Model):
     name = models.CharField(help_text='Name of the toner', max_length=45)
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this toner')
@@ -1002,7 +1026,7 @@ class Toner(models.Model):
 # Table to list different brands of film stock
 
 
-class FilmStock(models.Model):
+class FilmStock(ExportModelOperationsMixin('filmstock'), models.Model):
     name = models.CharField(help_text='Name of the filmstock', max_length=45)
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this film')
@@ -1056,7 +1080,7 @@ class FilmStock(models.Model):
 # Table to record bulk film stock, from which individual films can be cut
 
 
-class BulkFilm(models.Model):
+class BulkFilm(ExportModelOperationsMixin('bulkfilm'), models.Model):
     format = models.ForeignKey(
         Format, on_delete=models.CASCADE, help_text='Film format of this bulk film')
     filmstock = models.ForeignKey(
@@ -1084,6 +1108,7 @@ class BulkFilm(models.Model):
 
     class Meta:
         verbose_name_plural = "bulk films"
+        ordering = ['id_owner']
 
     def get_absolute_url(self):
         return reverse('schema:bulkfilm-detail', kwargs={'id_owner': self.id_owner})
@@ -1099,7 +1124,7 @@ class BulkFilm(models.Model):
 # Table to catalog adapters to mount lenses on other cameras
 
 
-class MountAdapter(models.Model):
+class MountAdapter(ExportModelOperationsMixin('mountadapter'), models.Model):
     camera_mount = models.ForeignKey(
         Mount, on_delete=models.CASCADE, help_text='Mount used to attach a camera', related_name="camera_mount")
     lens_mount = models.ForeignKey(Mount, on_delete=models.CASCADE,
@@ -1134,7 +1159,7 @@ class MountAdapter(models.Model):
 # Table to list all possible shutter speeds
 
 
-class ShutterSpeed(models.Model):
+class ShutterSpeed(ExportModelOperationsMixin('shutterspeed'), models.Model):
     shutter_speed = models.CharField(
         help_text='Shutter speed in fractional notation, e.g. 1/250', max_length=10, primary_key=True, validators=[RegexValidator(regex=r'^\d+(/\d+(\.\d+)?)?$', message="Shutter speed must be expressed like 1/125, 2, or 2.5")])
     duration = models.DecimalField(
@@ -1165,7 +1190,7 @@ class ShutterSpeed(models.Model):
 # Table to list film and paper developers
 
 
-class Developer(models.Model):
+class Developer(ExportModelOperationsMixin('developer'), models.Model):
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this developer')
     name = models.CharField(help_text='Name of the developer', max_length=45)
@@ -1488,7 +1513,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         Multi_coated = ChoiceItem()
 
     manufacturer = models.ForeignKey(
-        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model')
+        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model', verbose_name='manufacturer')
     model = models.CharField(
         help_text='The model name of the camera', max_length=45)
     other_names = CollectionField(
@@ -1496,7 +1521,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     disambiguation = models.CharField(
         help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, default='')
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True,
-                              help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'})
+                              help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'}, verbose_name='mount')
     format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True,
                                null=True, help_text='Film format used by this camera model')
     focus_type = models.CharField(choices=FocusType.choices, max_length=25,
@@ -1541,6 +1566,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         verbose_name='Min ISO', help_text='Minimum ISO the camera will accept for metering', blank=True, null=True)
     max_iso = models.PositiveIntegerField(
         verbose_name='Max ISO', help_text='Maximum ISO the camera will accept for metering', blank=True, null=True)
+    dx_code = models.BooleanField(
+        verbose_name='DX code', help_text='Whether the camera can read DX codes with Camera Auto Sensing', blank=True, null=True)
     af_points = models.PositiveIntegerField(
         verbose_name='Autofocus points', help_text='Number of autofocus points', blank=True, null=True)
     int_flash = models.BooleanField(
@@ -1602,7 +1629,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                           help_text='Manufacturer of this lens model', blank=True, null=True, related_name='lens_manufacturer')
     lens_model_name = models.CharField(
-        help_text='Model name of this lens', max_length=45, blank=True, null=True)
+        help_text='Model name of this lens', max_length=45, blank=True, null=True, verbose_name='lens model')
     zoom = models.BooleanField(
         help_text='Whether this is a zoom lens', blank=True, null=True)
     min_focal_length = models.PositiveIntegerField(
@@ -1755,7 +1782,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
 # Table to catalog accessories that are not tracked in more specific tables
 
 
-class Accessory(models.Model):
+class Accessory(ExportModelOperationsMixin('accessory'), models.Model):
     # Choices for accessory types
     class AccessoryType(DjangoChoices):
         Battery_grip = ChoiceItem()
@@ -1789,6 +1816,13 @@ class Accessory(models.Model):
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
+
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1831,7 +1865,7 @@ class Accessory(models.Model):
 # Table to catalog lenses
 
 
-class Lens(models.Model):
+class Lens(ExportModelOperationsMixin('lens'), models.Model):
     lensmodel = models.ForeignKey(
         LensModel, on_delete=models.CASCADE, help_text='Lens model of this lens')
     serial = models.CharField(
@@ -1861,6 +1895,13 @@ class Lens(models.Model):
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
+
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
 
     def __str__(self):
         if self.serial is not None:
@@ -1903,6 +1944,12 @@ class Lens(models.Model):
                     'manufactured': ValidationError(('Manufactured date cannot be later than the date the lens model was discontinued')),
                 })
 
+    def save(self, *args, **kwargs):
+        if self.date_code is not None and self.manufactured is None and self.lensmodel.manufacturer.name == 'Canon':
+            self.manufactured = canondatecode(
+                self.date_code, self.lensmodel.introduced, self.lensmodel.discontinued)
+        return super().save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('schema:lens-detail', kwargs={'id_owner': self.id_owner})
 
@@ -1917,7 +1964,7 @@ class Lens(models.Model):
 # Table to catalog cameras - both cameras with fixed lenses and cameras with interchangeable lenses
 
 
-class Camera(models.Model):
+class Camera(ExportModelOperationsMixin('camera'), models.Model):
     cameramodel = models.ForeignKey(
         CameraModel, on_delete=models.CASCADE, help_text='Camera model of this camera')
     acquired = models.DateField(
@@ -1947,6 +1994,13 @@ class Camera(models.Model):
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
+
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
 
     def __str__(self):
         if self.serial is not None:
@@ -1989,6 +2043,12 @@ class Camera(models.Model):
                     'manufactured': ValidationError(('Manufactured date cannot be later than the date the camera model was discontinued')),
                 })
 
+    def save(self, *args, **kwargs):
+        if self.datecode is not None and self.manufactured is None and self.cameramodel.manufacturer.name == 'Canon':
+            self.manufactured = canondatecode(
+                self.datecode, self.cameramodel.introduced, self.cameramodel.discontinued)
+        return super().save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('schema:camera-detail', kwargs={'id_owner': self.id_owner})
 
@@ -2003,7 +2063,7 @@ class Camera(models.Model):
 # Table to list films which consist of one or more negatives. A film can be a roll film, one or more sheets of sheet film, one or more photographic plates, etc.
 
 
-class Film(models.Model):
+class Film(ExportModelOperationsMixin('film'), models.Model):
 
     # Choices for film status
     class Status(DjangoChoices):
@@ -2134,7 +2194,7 @@ class Film(models.Model):
 # Table to catalog negatives (including positives/slides). Negatives are created by cameras, belong to films and can be used to create scans or prints.
 
 
-class Negative(models.Model):
+class Negative(ExportModelOperationsMixin('negative'), models.Model):
     film = models.ForeignKey(
         Film, on_delete=models.CASCADE, help_text='Film that this negative belongs to')
     frame = models.CharField(
@@ -2217,6 +2277,16 @@ class Negative(models.Model):
                 if self.teleconverter is None:
                     self.focal_length = self.lens.lensmodel.min_focal_length
 
+        # Auto-populate metering mode for cameras that only support one
+        if self.metering_mode is None:
+            if self.film.camera.cameramodel.metering_modes.count() == 1:
+                self.metering_mode = self.film.camera.cameramodel.metering_modes.first()
+
+        # Auto-populate exposure program for cameras that only support one
+        if self.exposure_program is None:
+            if self.film.camera.cameramodel.exposure_programs.count() == 1:
+                self.exposure_program = self.film.camera.cameramodel.exposure_programs.first()
+
         # Populate slug
         self.slug = slugify(str(self.film.id_owner) + '.' + str(self.frame), separator='.')
         super().save(*args, **kwargs)
@@ -2235,7 +2305,7 @@ class Negative(models.Model):
 # Table to catalog prints made from negatives
 
 
-class Print(models.Model):
+class Print(ExportModelOperationsMixin('print'), models.Model):
     negative = models.ForeignKey(
         Negative, on_delete=models.CASCADE, help_text='Negative that this print was made from')
     date = models.DateField(
@@ -2285,6 +2355,7 @@ class Print(models.Model):
 
     class Meta:
         verbose_name_plural = "prints"
+        ordering = ['id_owner']
 
     def clean(self):
         # Aperture must be in range of lens model aperture
@@ -2312,7 +2383,7 @@ class Print(models.Model):
 # Table to track which toners were used on which print
 
 
-class Toning(models.Model):
+class Toning(ExportModelOperationsMixin('toning'), models.Model):
     toner = models.ForeignKey(
         Toner, on_delete=models.CASCADE, help_text='Toner used on this print')
     print = models.ForeignKey(
@@ -2332,7 +2403,7 @@ class Toning(models.Model):
 # Table to record all the images that have been scanned digitally
 
 
-class Scan(models.Model):
+class Scan(ExportModelOperationsMixin('scan'), models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     negative = models.ForeignKey(Negative, on_delete=models.CASCADE, blank=True,
                                  null=True, help_text='Negative that this scan was made from')
@@ -2357,6 +2428,7 @@ class Scan(models.Model):
 
     class Meta:
         verbose_name_plural = "scans"
+        ordering = ['uuid']
 
     def get_absolute_url(self):
         return reverse('schema:scan-detail', kwargs={'uuid': self.uuid})
@@ -2372,7 +2444,7 @@ class Scan(models.Model):
 # Table to record orders for prints
 
 
-class Order(models.Model):
+class Order(ExportModelOperationsMixin('order'), models.Model):
     negative = models.ForeignKey(
         Negative, on_delete=models.CASCADE, help_text='Negative that needs to be printed')
     width = models.PositiveIntegerField(

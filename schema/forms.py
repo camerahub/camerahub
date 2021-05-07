@@ -268,6 +268,7 @@ class CameraModelForm(autocomplete.FutureModelForm):
                      'metering_type',
                      'min_iso',
                      'max_iso',
+                     'dx_code',
                      'meter_min_ev',
                      'meter_max_ev',
                      InlineCheckboxes('metering_modes'),
@@ -1159,7 +1160,7 @@ class FilmLoadForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['camera'].queryset = Camera.objects.filter(
-            owner=get_current_user())
+            owner=get_current_user(), cameramodel__format=self.instance.format)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset('Load this film into a camera',

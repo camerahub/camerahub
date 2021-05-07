@@ -266,6 +266,12 @@
     <td>{{ object.min_iso }}-{{ object.max_iso }}</td>
   </tr>
   {% endif %}
+  {% if object.dx_code is not None %}
+  <tr>
+    <td>DX code</td>
+    <td>{{ object.dx_code|boolicontag }}</td>
+  </tr>
+  {% endif %}
   {% endif %}
 
   {% if object.metering_modes.all %}
@@ -506,7 +512,7 @@
   <tr>
     <td>Tags</td>
     <td>{% for tag in object.tags.all %}
-      <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' tag|lower %}" role="button">{{ tag }}</a>
+      <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' tag.slug %}" role="button">{{ tag.slug }}</a>
       {% endfor %}</td>
   </tr>
   {% endif %}
@@ -543,14 +549,14 @@
   <tr>
     <th>ID</th>
     <th>Serial</th>
-    <th>Manufactured</th>
+    <th>Acquired</th>
     <th>Own</th>
   </tr>
   {% for camera in mine %}
   <tr>
     <td><a href="{% url 'schema:camera-detail' camera.id_owner %}">#{{ camera.id_owner }}</a></td>
     <td>{% if camera.serial is not None %}<code>{{ camera.serial }}</code>{% endif %}</td>
-    <td>{% if camera.manufactured is not None %}{{ camera.manufactured }}{% endif %}</td>
+    <td>{% if camera.acquired is not None %}{{ camera.acquired }}{% endif %}</td>
     <td>{% if camera.own is not None %}{{ camera.own|boolicontag }}{% endif %}</td>
   </tr>
   {% endfor %}

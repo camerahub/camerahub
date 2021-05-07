@@ -1,6 +1,8 @@
 {% load static %}
 {% load version %}
+{% load cache %}
 
+{% cache 600 footer %}
 <p align="center">
         <a href="https://www.facebook.com/camerahubapp" target="_blank"><img src="{% static "svg/facebook.svg" %}"
                         width="30" height="30" alt="Facebook" title="Facebook"></a>
@@ -10,7 +12,10 @@
                         alt="Mail" title="Mail"></a>
         <a href="https://icons8.com/icons" target="_blank"><img src="{% static "svg/icons8.svg" %}" width="30"
                         height="30" alt="Icons8" title="Icons8"></a>
+        {% if settings.STATUS_URL %}<a href="{{ settings.STATUS_URL }}" target="_blank"><img src="{% static "svg/status.svg" %}" width="30"
+                        height="30" alt="Icons8" title="Icons8"></a>{% endif %}
         <br>
         <small>CameraHub <a href="https://github.com/camerahub/camerahub/releases/tag/{% camerahub_version %}" target="_blank"
                         title="Release notes">v{% camerahub_version %}</a></small>
 </p>
+{% endcache %}

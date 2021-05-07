@@ -114,5 +114,6 @@ media/
 backup/
 .gitsecret/keys/random_seed
 !*.secret
+/static/
 
 # Helm
