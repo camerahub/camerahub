@@ -69,6 +69,7 @@ drf-multiple-serializer = "^0.2.3"
 django-health-check = "^3.16.3"
 django-clear-cache = "^0.3"
 django-speedinfo = "^2.0.2"
+django-settings-export = "^1.2.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

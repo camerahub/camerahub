@@ -104,6 +104,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_settings_export.settings_export',
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
@@ -293,3 +294,12 @@ REST_FRAMEWORK = {
 
 # speedinfo
 SPEEDINFO_STORAGE = 'speedinfo.storage.database.storage.DatabaseStorage'
+
+# status URL
+STATUS_URL = os.getenv('CAMERAHUB_STATUS_URL')
+
+# django-settings-export
+# These settings are exposed to template context
+SETTINGS_EXPORT = [
+    'STATUS_URL',
+]
