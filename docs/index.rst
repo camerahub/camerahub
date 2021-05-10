@@ -17,6 +17,7 @@ CameraHub documentation
    installation/kubernetes
    installation/source
    ops
+   concepts
 
 
 Indices and tables
