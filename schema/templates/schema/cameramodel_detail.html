@@ -550,14 +550,14 @@
   <tr>
     <th>ID</th>
     <th>Serial</th>
-    <th>Manufactured</th>
+    <th>Acquired</th>
     <th>Own</th>
   </tr>
   {% for camera in mine %}
   <tr>
     <td><a href="{% url 'schema:camera-detail' camera.id_owner %}">#{{ camera.id_owner }}</a></td>
     <td>{% if camera.serial is not None %}<code>{{ camera.serial }}</code>{% endif %}</td>
-    <td>{% if camera.manufactured is not None %}{{ camera.manufactured }}{% endif %}</td>
+    <td>{% if camera.acquired is not None %}{{ camera.acquired }}{% endif %}</td>
     <td>{% if camera.own is not None %}{{ camera.own|boolicontag }}{% endif %}</td>
   </tr>
   {% endfor %}

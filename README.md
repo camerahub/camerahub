@@ -125,6 +125,10 @@ Default: `127.0.0.1`
 Redis port
 Default: `6379`
 
+### `CAMERAHUB_STATUS_URL`
+
+URL for a status page
+
 ## See also
 
 * [Screenshots](docs/SCREENSHOTS.md)

@@ -21,7 +21,7 @@ from collectionfield.models import CollectionField
 from django_countries.fields import CountryField
 from geoposition.fields import GeopositionField
 from star_ratings.models import Rating
-from .funcs import angle_of_view
+from .funcs import angle_of_view, canondatecode
 
 
 def cameramodel_check(text, uids):
@@ -1944,6 +1944,12 @@ class Lens(ExportModelOperationsMixin('lens'), models.Model):
                     'manufactured': ValidationError(('Manufactured date cannot be later than the date the lens model was discontinued')),
                 })
 
+    def save(self, *args, **kwargs):
+        if self.date_code is not None and self.manufactured is None and self.lensmodel.manufacturer.name == 'Canon':
+            self.manufactured = canondatecode(
+                self.date_code, self.lensmodel.introduced, self.lensmodel.discontinued)
+        return super().save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('schema:lens-detail', kwargs={'id_owner': self.id_owner})
 
@@ -2036,6 +2042,12 @@ class Camera(ExportModelOperationsMixin('camera'), models.Model):
                 raise ValidationError({
                     'manufactured': ValidationError(('Manufactured date cannot be later than the date the camera model was discontinued')),
                 })
+
+    def save(self, *args, **kwargs):
+        if self.datecode is not None and self.manufactured is None and self.cameramodel.manufacturer.name == 'Canon':
+            self.manufactured = canondatecode(
+                self.datecode, self.cameramodel.introduced, self.cameramodel.discontinued)
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('schema:camera-detail', kwargs={'id_owner': self.id_owner})

@@ -375,6 +375,17 @@ sendgrid = ">=5.0.0"
 
 [[package]]
 category = "main"
+description = "This Django app allows you to export certain settings to your templates."
+name = "django-settings-export"
+optional = false
+python-versions = "*"
+version = "1.2.1"
+
+[package.dependencies]
+django = "*"
+
+[[package]]
+category = "main"
 description = "Store model history and view/revert changes from admin site."
 name = "django-simple-history"
 optional = false
@@ -863,7 +874,7 @@ version = "1.12.1"
 pgsql = ["psycopg2-binary"]
 
 [metadata]
-content-hash = "66a818f46cb823d2a9ddd690164d74818415d6d3aeafa74530357341632e5e59"
+content-hash = "5527d838df4b84af77de51e351bcc4a43f597277f40f2462aed38c00632737b0"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -989,6 +1000,9 @@ django-registration = [
 django-sendgrid-v5 = [
     {file = "django-sendgrid-v5-0.9.1.tar.gz", hash = "sha256:378e3bf8997b5c338ae934be2c894196037a45427d1ededa33f1234baf110731"},
     {file = "django_sendgrid_v5-0.9.1-py2.py3-none-any.whl", hash = "sha256:869fb75f9e216a58f94f37cfad6990c6691e8c79994f0d7287ad37412d6b717d"},
+]
+django-settings-export = [
+    {file = "django-settings-export-1.2.1.tar.gz", hash = "sha256:fceeae49fc597f654c1217415d8e049fc81c930b7154f5d8f28c432db738ff79"},
 ]
 django-simple-history = [
     {file = "django-simple-history-2.12.0.tar.gz", hash = "sha256:3b7bf6bfbcf973afca123c5786c72b917ed4d92d7bf3b6cb70fe2e3850e763a3"},
