@@ -596,8 +596,12 @@ class NegativeTable(tables.Table):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:camera-detail', args=[value.id_owner]), value)
 
     @classmethod
-    def render_lens(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('schema:lens-detail', args=[value.id_owner]), value)
+    def render_lens(cls, value, record):
+        if record.film.camera.cameramodel.lens_model_name is not None:
+            mystr = record.film.camera.cameramodel.lens_model_name
+        else:
+            mystr = format_html("<a href=\"{}\">{}</a>", reverse('schema:lens-detail', args=[value.id_owner]), value)
+        return mystr
 
 class FilmTable(tables.Table):
     negative_set__count = tables.Column(verbose_name= 'Frames')
