@@ -34,3 +34,7 @@ def yearssince(obj):
     currentyear = '{:04d}'.format(date.today().year)
     diff = int(currentyear) - int(obj)
     return "{} years ago".format(diff)
+
+@register.filter(is_safe=True)
+def small(obj):
+    return '<small class="text-muted">{}</small>'.format(obj)

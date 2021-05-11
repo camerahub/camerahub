@@ -4,6 +4,7 @@
 {% load formatting %}
 {% load ratings %}
 {% load titledescription %}
+{% load model_field %}
 
 {% block content %}
 {% if object.image %}
@@ -25,7 +26,10 @@
   </tr>
   {% if object.manufacturer is not None %}
   <tr>
-    <td>{% titledescription from object.manufacturer %}</td>
+    <td>Manufacturer
+      
+    {% model_field_help_text from object.manufacturer %}
+    </td>
     <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
   </tr>
   {% endif %}
@@ -59,7 +63,10 @@
   {% endif %}
   {% if object.format is not None %}
   <tr>
-    <td>Format</td>
+    <td>Format
+      {% model_field_help_text from object.format | small %}
+      
+    </td>
     <td><a href="{% url 'schema:format-detail' object.format.id %}">{{ object.format }}</a>
     </td>
   </tr>
