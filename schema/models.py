@@ -452,11 +452,10 @@ class FlashModel(ExportModelOperationsMixin('flashmodel'), models.Model):
         ]
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            custom_slugify_unique = UniqueSlugify(
-                unique_check=flashmodel_check, to_lower=True)
-            self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.model))
+        custom_slugify_unique = UniqueSlugify(
+            unique_check=flashmodel_check, to_lower=True)
+        self.slug = custom_slugify_unique(
+            "{} {}".format(self.manufacturer.name, self.model))
         return super().save(*args, **kwargs)
 
     def clean(self):
@@ -580,11 +579,10 @@ class EnlargerModel(ExportModelOperationsMixin('enlargermodel'), models.Model):
         ]
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            custom_slugify_unique = UniqueSlugify(
-                unique_check=enlargermodel_check, to_lower=True)
-            self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.model))
+        custom_slugify_unique = UniqueSlugify(
+            unique_check=enlargermodel_check, to_lower=True)
+        self.slug = custom_slugify_unique(
+            "{} {}".format(self.manufacturer.name, self.model))
         return super().save(*args, **kwargs)
 
     def clean(self):
@@ -910,11 +908,10 @@ class TeleconverterModel(ExportModelOperationsMixin('teleconvertermodel'), model
             })
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            custom_slugify_unique = UniqueSlugify(
-                unique_check=teleconvertermodel_check, to_lower=True)
-            self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.model))
+        custom_slugify_unique = UniqueSlugify(
+            unique_check=teleconvertermodel_check, to_lower=True)
+        self.slug = custom_slugify_unique(
+            "{} {}".format(self.manufacturer.name, self.model))
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -1005,11 +1002,10 @@ class Toner(ExportModelOperationsMixin('toner'), models.Model):
         ]
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            custom_slugify_unique = UniqueSlugify(
-                unique_check=toner_check, to_lower=True)
-            self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.name))
+        custom_slugify_unique = UniqueSlugify(
+            unique_check=toner_check, to_lower=True)
+        self.slug = custom_slugify_unique(
+            "{} {}".format(self.manufacturer.name, self.name))
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -1059,11 +1055,10 @@ class FilmStock(ExportModelOperationsMixin('filmstock'), models.Model):
         ]
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            custom_slugify_unique = UniqueSlugify(
-                unique_check=filmstock_check, to_lower=True)
-            self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.name))
+        custom_slugify_unique = UniqueSlugify(
+            unique_check=filmstock_check, to_lower=True)
+        self.slug = custom_slugify_unique(
+            "{} {}".format(self.manufacturer.name, self.name))
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -1221,11 +1216,10 @@ class Developer(ExportModelOperationsMixin('developer'), models.Model):
         ]
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            custom_slugify_unique = UniqueSlugify(
-                unique_check=developer_check, to_lower=True)
-            self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.name))
+        custom_slugify_unique = UniqueSlugify(
+            unique_check=developer_check, to_lower=True)
+        self.slug = custom_slugify_unique(
+            "{} {}".format(self.manufacturer.name, self.name))
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -1427,11 +1421,11 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         # Auto-populate zoom ratio
         if self.zoom is True and self.min_focal_length is not None and self.max_focal_length is not None:
             self.zoom_ratio = self.max_focal_length / self.min_focal_length
-        if not self.slug:
-            custom_slugify_unique = UniqueSlugify(
-                unique_check=lensmodel_check, to_lower=True)
-            self.slug = custom_slugify_unique("{} {} {}".format(
-                self.manufacturer.name, self.model, str(self.disambiguation or '')))
+        # Auto-populate slug
+        custom_slugify_unique = UniqueSlugify(
+            unique_check=lensmodel_check, to_lower=True)
+        self.slug = custom_slugify_unique("{} {} {}".format(
+            self.manufacturer.name, self.model, str(self.disambiguation or '')))
         # Auto-populate angle of view
         if not self.nominal_max_angle_diag:
             if self.negative_size and self.negative_size.diagonal and self.min_focal_length:
@@ -1686,11 +1680,11 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         # Auto-populate zoom ratio
         if self.zoom is True and self.min_focal_length is not None and self.max_focal_length is not None:
             self.zoom_ratio = self.max_focal_length / self.min_focal_length
-        if not self.slug:
-            custom_slugify_unique = UniqueSlugify(
-                unique_check=cameramodel_check, to_lower=True)
-            self.slug = custom_slugify_unique("{} {} {}".format(
-                self.manufacturer.name, self.model, str(self.disambiguation or '')))
+        # Auto-populate slug
+        custom_slugify_unique = UniqueSlugify(
+            unique_check=cameramodel_check, to_lower=True)
+        self.slug = custom_slugify_unique("{} {} {}".format(
+            self.manufacturer.name, self.model, str(self.disambiguation or '')))
         return super().save(*args, **kwargs)
 
     def clean(self):
