@@ -12,6 +12,4 @@ urlpatterns = [
     path('faq', TemplateView.as_view(template_name='faq.html'), name='faq'),
     path('condition', ConditionListView.as_view(), name='condition-list'),
     path('api', TemplateView.as_view(template_name='api.html'), name='api'),
-    path('camera-workflow', TemplateView.as_view(template_name='camera-workflow.html'), name='camera-workflow'),
-    path('film-workflow', TemplateView.as_view(template_name='film-workflow.html'), name='film-workflow'),
 ]
