@@ -7,7 +7,9 @@ Backup
 By console
 ==========
 
-These commands can be run interactively in the dev environment or by using ``kubectl exec``::
+These commands can be run interactively in the dev environment or by using ``kubectl exec``:
+
+.. code-block:: bash
 
     poetry run python manage.py dbbackup
     poetry run python manage.py mediabackup
@@ -16,7 +18,9 @@ These commands can be run interactively in the dev environment or by using ``kub
     poetry run python manage.py mediarestore
 
 Note: due to a `bug <https://github.com/django-dbbackup/django-dbbackup/issues/245>`_ in django-dbbackup, restoring this way
-will not work for brand new deployments. Instead, you will need to exec into the pod and restore manually::
+will not work for brand new deployments. Instead, you will need to exec into the pod and restore manually:
+
+.. code-block:: bash
 
     # Substitute the random characters for your env
     kubectl exec -it camerahub-app-6944b9d746-nmlwm -- sh
@@ -31,12 +35,16 @@ By cron
 =======
 
 Kubernetes automatically creates CronJobs to make backups of the Postgres database and the media directory.
-By default these CronJobs are disabled, but they can be manually run with::
+By default these CronJobs are disabled, but they can be manually run with:
+
+.. code-block:: bash
 
     kubectl create job --from=cronjob/postgres-backup postgres-backup-manual-001
     kubectl create job --from=cronjob/media-backup media-backup-manual-001
 
-N.B. these restore jobs automatically restore the most recent backup::
+N.B. these restore jobs automatically restore the most recent backup:
+
+.. code-block:: bash
 
     kubectl create job --from=cronjob/postgres-restore postgres-restore-manual-001
     kubectl create job --from=cronjob/media-restore media-restore-manual-001

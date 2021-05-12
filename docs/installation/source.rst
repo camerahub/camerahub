@@ -1,7 +1,9 @@
 Installing from source
 ######################
 
-This method of installation is required if you want to work on the source code. CameraHub requires `Poetry <https://python-poetry.org/>`_ to manage its build environment, so install this first with your usual package manager. Clone CameraHub, then do the following to set up your development environment::
+This method of installation is required if you want to work on the source code. CameraHub requires `Poetry <https://python-poetry.org/>`_ to manage its build environment, so install this first with your usual package manager. Clone CameraHub, then do the following to set up your development environment:
+
+.. code-block:: bash
 
     git clone https://github.com/camerahub/camerahub.git
     cd camerahub
@@ -14,12 +16,16 @@ CameraHub will run out of the box with no additional configuration, by creating 
 If you wish to use an external database then copy ``camerahub/local_settings/local_settings.py.template`` to
 ``camerahub/local_settings/local_settings.py`` and customise the database settings for your environment.
 
-After the database is configured, apply the migrations and create your user account::
+After the database is configured, apply the migrations and create your user account:
+
+.. code-block:: bash
 
     poetry run python manage.py migrate
     poetry run python manage.py createsuperuser
 
-To run CameraHub, run::
+To run CameraHub, run:
+
+.. code-block:: bash
 
     # Use default SQLite database
     poetry run python manage.py runserver

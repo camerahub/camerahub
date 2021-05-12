@@ -9,7 +9,9 @@ existing sets of icons at those resolutions that will be regenerated.
 
 You must update the mapping between the original Icons8 filenames and the names that will be used in the application (usually the names of the Models).
 
-For example, this command will generate two sets of icons, in 50x50 and 100x100 resolution, and place them in `schema/static/icons/` where they can be used::
+For example, this command will generate two sets of icons, in 50x50 and 100x100 resolution, and place them in ``schema/static/icons/`` where they can be used:
+
+.. code-block:: bash
 
     cd icons
     ./generate-icons.pl 50 100
