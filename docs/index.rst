@@ -18,6 +18,9 @@ CameraHub documentation
    installation/source
    ops
    concepts
+   about
+   guides/cameracollecting
+   guides/filmshooting
 
 
 Indices and tables
