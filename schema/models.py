@@ -181,6 +181,11 @@ class Archive(ExportModelOperationsMixin('archive'), models.Model):
     def get_absolute_url(self):
         return reverse('schema:archive-detail', kwargs={'id_owner': self.id_owner})
 
+    @property
+    def max_size(self):
+        if self.max_width and self.max_height:
+            return "{}×{}\"".format(self.max_width, self.max_height)
+
     @classmethod
     def description(cls):
         return 'Archives are places where prints, negatives, or slides are stored'
@@ -350,6 +355,11 @@ class NegativeSize(ExportModelOperationsMixin('negativesize'), models.Model):
 
     def get_absolute_url(self):
         return reverse('schema:negativesize-detail', kwargs={'pk': self.pk})
+
+    @property
+    def size(self):
+        if self.width and self.height:
+            return "{}×{}mm".format(self.width, self.height)
 
     @classmethod
     def description(cls):
@@ -2382,6 +2392,11 @@ class Print(ExportModelOperationsMixin('print'), models.Model):
     def get_absolute_url(self):
         return reverse('schema:print-detail', kwargs={'id_owner': self.id_owner})
 
+    @property
+    def size(self):
+        if self.width and self.height:
+            return "{}×{}mm".format(self.width, self.height)
+
     @classmethod
     def description(cls):
         return 'Prints are images made on paper stock from negatives on film'
@@ -2482,6 +2497,11 @@ class Order(ExportModelOperationsMixin('order'), models.Model):
 
     def get_absolute_url(self):
         return reverse('schema:order-detail', kwargs={'id_owner': self.id_owner})
+
+    @property
+    def size(self):
+        if self.width and self.height:
+            return "{}×{}mm".format(self.width, self.height)
 
     @classmethod
     def description(cls):

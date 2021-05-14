@@ -31,7 +31,7 @@ class ArchiveTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Archive
-        fields = ('name', 'type', 'max_width', 'max_height', 'sealed')
+        fields = ('name', 'type', 'max_size', 'sealed')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -44,14 +44,6 @@ class ArchiveTable(tables.Table):
     @classmethod
     def render_sealed(cls, value):
         return format_html(boolicon(value))
-
-    @classmethod
-    def render_max_width(cls, value):
-        return format_html("{}\"", value)
-
-    @classmethod
-    def render_max_height(cls, value):
-        return format_html("{}\"", value)
 
 
 class BatteryTable(tables.Table):
@@ -413,20 +405,12 @@ class NegativeSizeTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = NegativeSize
-        fields = ('name', 'width', 'height',
+        fields = ('name', 'size',
                   'crop_factor', 'area', 'aspect_ratio')
 
     @classmethod
     def render_name(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:negativesize-detail', args=[record.id]), value)
-
-    @classmethod
-    def render_width(cls, value):
-        return format_html("{}mm", value)
-
-    @classmethod
-    def render_height(cls, value):
-        return format_html("{}mm", value)
 
     @classmethod
     def render_crop_factor(cls, value):
@@ -445,7 +429,7 @@ class OrderTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Order
-        fields = ('id_owner', 'negative', 'width', 'height',
+        fields = ('id_owner', 'negative', 'size',
                   'added', 'printed', 'print', 'recipient')
 
     @classmethod
@@ -492,7 +476,7 @@ class PrintTable(tables.Table):
         attrs = {"class": "table table-hover"}
         model = Print
         fields = ('id_owner', 'negative', 'date',
-                  'width', 'height', 'own', 'archive')
+                  'size', 'own', 'archive')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -501,14 +485,6 @@ class PrintTable(tables.Table):
     @classmethod
     def render_negative(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.slug]), value)
-
-    @classmethod
-    def render_width(cls, value):
-        return format_html("{}\"", value)
-
-    @classmethod
-    def render_height(cls, value):
-        return format_html("{}\"", value)
 
     @classmethod
     def render_own(cls, value):
