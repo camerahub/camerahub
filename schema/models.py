@@ -1,5 +1,5 @@
 from datetime import datetime
-from math import sqrt
+from math import sqrt, log
 import re
 from uuid import uuid4
 from django.db import models
@@ -2139,6 +2139,12 @@ class Film(ExportModelOperationsMixin('film'), models.Model):
         if self.exposed_at is not None and self.filmstock.iso is not None:
             return self.exposed_at < self.filmstock.iso
         return False
+
+    @property
+    def push_stops(self):
+        if self.exposed_at is not None and self.filmstock.iso is not None:
+            return log((self.exposed_at/self.filmstock.iso)**2)/log(4)
+        return None
 
     def __str__(self):
         if self.title is not None:
