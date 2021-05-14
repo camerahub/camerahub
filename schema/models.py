@@ -1352,6 +1352,16 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
                 fields=['manufacturer', 'model', 'disambiguation'], name='lensmodel_unique_name')
         ]
 
+    @property
+    def focal_length(self):
+        if self.zoom is True:
+            mystr = "{}-{}mm".format(self.min_focal_length, self.max_focal_length)
+        elif self.zoom is False:
+            mystr = "{}mm".format(self.min_focal_length)
+        else:
+            mystr = None
+        return mystr
+
     def get_absolute_url(self):
         return reverse('schema:lensmodel-detail', kwargs={'slug': self.slug})
 

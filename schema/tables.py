@@ -312,7 +312,7 @@ class LensModelTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = LensModel
-        fields = ('model', 'mount', 'zoom', 'min_focal_length',
+        fields = ('model', 'mount', 'zoom', 'focal_length',
                   'max_aperture', 'autofocus', 'introduced')
 
     @classmethod
@@ -342,17 +342,6 @@ class LensModelTable(tables.Table):
     @classmethod
     def render_max_aperture(cls, value):
         return format_html("<em>f</em>/{}", value)
-
-    @classmethod
-    def render_min_focal_length(cls, record):
-        if record.zoom is True:
-            mystr = format_html(
-                "{}-{}mm", record.min_focal_length, record.max_focal_length)
-        elif record.zoom is False:
-            mystr = format_html("{}mm", record.min_focal_length)
-        else:
-            mystr = format_html("?")
-        return mystr
 
     @classmethod
     def render_zoom(cls, value):
