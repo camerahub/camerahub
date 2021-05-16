@@ -1,5 +1,5 @@
 from datetime import datetime
-from math import sqrt
+from math import sqrt, log
 import re
 from uuid import uuid4
 from django.db import models
@@ -181,6 +181,14 @@ class Archive(ExportModelOperationsMixin('archive'), models.Model):
     def get_absolute_url(self):
         return reverse('schema:archive-detail', kwargs={'id_owner': self.id_owner})
 
+    @property
+    def max_size(self):
+        if self.max_width and self.max_height:
+            mystr = "{}×{}\"".format(self.max_width, self.max_height)
+        else:
+            mystr = None
+        return mystr
+
     @classmethod
     def description(cls):
         return 'Archives are places where prints, negatives, or slides are stored'
@@ -350,6 +358,14 @@ class NegativeSize(ExportModelOperationsMixin('negativesize'), models.Model):
 
     def get_absolute_url(self):
         return reverse('schema:negativesize-detail', kwargs={'pk': self.pk})
+
+    @property
+    def size(self):
+        if self.width and self.height:
+            mystr = "{}×{}mm".format(self.width, self.height)
+        else:
+            mystr = None
+        return mystr
 
     @classmethod
     def description(cls):
@@ -1352,6 +1368,16 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
                 fields=['manufacturer', 'model', 'disambiguation'], name='lensmodel_unique_name')
         ]
 
+    @property
+    def focal_length(self):
+        if self.zoom is True:
+            mystr = "{}-{}mm".format(self.min_focal_length, self.max_focal_length)
+        elif self.zoom is False:
+            mystr = "{}mm".format(self.min_focal_length)
+        else:
+            mystr = None
+        return mystr
+
     def get_absolute_url(self):
         return reverse('schema:lensmodel-detail', kwargs={'slug': self.slug})
 
@@ -2140,6 +2166,12 @@ class Film(ExportModelOperationsMixin('film'), models.Model):
             return self.exposed_at < self.filmstock.iso
         return False
 
+    @property
+    def push_stops(self):
+        if self.exposed_at is not None and self.filmstock.iso is not None:
+            return log((self.exposed_at/self.filmstock.iso)**2)/log(4)
+        return None
+
     def __str__(self):
         if self.title is not None:
             mystr = "#%s %s" % (self.id_owner, self.title)
@@ -2366,6 +2398,14 @@ class Print(ExportModelOperationsMixin('print'), models.Model):
     def get_absolute_url(self):
         return reverse('schema:print-detail', kwargs={'id_owner': self.id_owner})
 
+    @property
+    def size(self):
+        if self.width and self.height:
+            mystr = "{}×{}mm".format(self.width, self.height)
+        else:
+            mystr = None
+        return mystr
+
     @classmethod
     def description(cls):
         return 'Prints are images made on paper stock from negatives on film'
@@ -2466,6 +2506,14 @@ class Order(ExportModelOperationsMixin('order'), models.Model):
 
     def get_absolute_url(self):
         return reverse('schema:order-detail', kwargs={'id_owner': self.id_owner})
+
+    @property
+    def size(self):
+        if self.width and self.height:
+            mystr = "{}×{}mm".format(self.width, self.height)
+        else:
+            mystr = None
+        return mystr
 
     @classmethod
     def description(cls):
