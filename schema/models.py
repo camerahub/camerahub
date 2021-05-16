@@ -184,7 +184,10 @@ class Archive(ExportModelOperationsMixin('archive'), models.Model):
     @property
     def max_size(self):
         if self.max_width and self.max_height:
-            return "{}×{}\"".format(self.max_width, self.max_height)
+            mystr = "{}×{}\"".format(self.max_width, self.max_height)
+        else:
+            mystr = None
+        return mystr
 
     @classmethod
     def description(cls):
@@ -359,7 +362,10 @@ class NegativeSize(ExportModelOperationsMixin('negativesize'), models.Model):
     @property
     def size(self):
         if self.width and self.height:
-            return "{}×{}mm".format(self.width, self.height)
+            mystr = "{}×{}mm".format(self.width, self.height)
+        else:
+            mystr = None
+        return mystr
 
     @classmethod
     def description(cls):
@@ -2395,7 +2401,10 @@ class Print(ExportModelOperationsMixin('print'), models.Model):
     @property
     def size(self):
         if self.width and self.height:
-            return "{}×{}mm".format(self.width, self.height)
+            mystr = "{}×{}mm".format(self.width, self.height)
+        else:
+            mystr = None
+        return mystr
 
     @classmethod
     def description(cls):
@@ -2501,7 +2510,10 @@ class Order(ExportModelOperationsMixin('order'), models.Model):
     @property
     def size(self):
         if self.width and self.height:
-            return "{}×{}mm".format(self.width, self.height)
+            mystr = "{}×{}mm".format(self.width, self.height)
+        else:
+            mystr = None
+        return mystr
 
     @classmethod
     def description(cls):
