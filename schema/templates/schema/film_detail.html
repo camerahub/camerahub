@@ -94,6 +94,12 @@
         alt="Push" title="Film was pushed">{% elif object.pulled %}<img src="{% static "svg/down.svg" %}" width="20"
         height="20" alt="Pull" title="Film was pulled">{% endif %}</td>
   </tr>
+  {% if object.push_stops is not None %}
+  <tr>
+    <td>Push/pull stops</td>
+    <td>{{ object.push_stops|sign }}</td>
+  </tr>
+  {% endif %}
   {% endif %}
 
 
