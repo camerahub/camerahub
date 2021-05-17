@@ -1505,11 +1505,11 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     class FocusType(DjangoChoices):
         Autofocus = ChoiceItem()
         Fixed_focus = ChoiceItem()
-        Zone_focus = ChoiceItem()
-        Rangefinder = ChoiceItem()
-        SLR = ChoiceItem()
-        TLR = ChoiceItem()
-        View_camera = ChoiceItem()
+        Zone_focus = ChoiceItem('Zone_focus', 'Manual focus (zone focus)')
+        Rangefinder = ChoiceItem('Rangefinder', 'Manual focus (rangefinder)')
+        SLR = ChoiceItem('SLR', 'Manual focus (SLR)')
+        TLR = ChoiceItem('TLR', 'Manual focus (TLR)')
+        View_camera = ChoiceItem('View_camera', 'Manual focus (view camera)')
 
     # Choices for shutter type
     class ShutterType(DjangoChoices):
