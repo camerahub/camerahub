@@ -19,6 +19,8 @@ CameraHub documentation
    ops
    concepts
    about
+   faq
+   condition
    guides/cameracollecting
    guides/filmshooting
 
