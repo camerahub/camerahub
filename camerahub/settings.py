@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'speedinfo',
     'speedinfo.storage.database',
     'sphinxdoc',
+    'haystack',
 ]
 
 MIDDLEWARE = [
