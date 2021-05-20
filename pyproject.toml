@@ -10,7 +10,6 @@ repository = "https://github.com/camerahub/camerahub"
 packages = [
     { include = "camerahub" },
     { include = "schema" },
-    { include = "help" },
 ]
 include = [
     "static",
