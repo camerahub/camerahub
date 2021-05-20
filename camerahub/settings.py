@@ -306,6 +306,8 @@ SETTINGS_EXPORT = [
     'STATUS_URL',
 ]
 
+# Sphinx
+SPHINXDOC_BASE_TEMPLATE = 'docs.html'
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
