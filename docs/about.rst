@@ -53,13 +53,12 @@ where you can keep up to date with news.
 Support
 -------
 
-If you get stuck with CameraHub, informal support is available by messaging <a href="https://www.facebook.com/camerahubapp/">CameraHub on Facebook</a>,
-or by sending an email to <a href="mailto:support@camerahub.info">support@camerahub.info</a>. If you think you've found a bug in CameraHub,
-or if you want to suggest a new feature, you can <a href="https://github.com/camerahub/camerahub/issues">log
-an issue on Github</a>.
+If you get stuck with CameraHub, informal support is available by messaging `CameraHub on Facebook <https://www.facebook.com/camerahubapp/>`_,
+or by sending an email to support@camerahub.info. If you think you've found a bug in CameraHub,
+or if you want to suggest a new feature, you can `log an issue on Github <https://github.com/camerahub/camerahub/issues>`_.
 
 Roadmap
 -------
 
 CameraHub is an evolving project. For a detailed look at current bugs and feature requests, check out the
-<a href="https://github.com/camerahub/camerahub/issues">issue tracker</a>. Anyone can report bugs, request features and contribute code.
+`issue tracker <https://github.com/camerahub/camerahub/issues>`_. Anyone can report bugs, request features and contribute code.
