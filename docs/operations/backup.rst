@@ -1,11 +1,8 @@
-Operations
-##########
-
 Backup
-******
+######
 
 By console
-==========
+**********
 
 These commands can be run interactively in the dev environment or by using ``kubectl exec``:
 
@@ -32,7 +29,7 @@ will not work for brand new deployments. Instead, you will need to exec into the
     psql -h $CAMERAHUB_DB_HOST -p $CAMERAHUB_DB_PORT -U $CAMERAHUB_DB_USER $CAMERAHUB_DB_NAME < backup/default-camerahub-5888d6fc58-bgmxx-2021-02-03-223246.psql
 
 By cron
-=======
+*******
 
 Kubernetes automatically creates CronJobs to make backups of the Postgres database and the media directory.
 By default these CronJobs are disabled, but they can be manually run with:

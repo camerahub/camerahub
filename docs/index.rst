@@ -7,27 +7,18 @@ CameraHub documentation
 =======================
 
 .. toctree::
-   :maxdepth: 2
+   :glob:
+   :maxdepth: 1
    :caption: Contents:
 
-   development/api
-   development/contributing
-   development/icons
-   installation/docker
-   installation/kubernetes
-   installation/source
-   ops
+   *
+
+
+.. development
+   operations
    concepts
    about
    faq
    condition
    guides/cameracollecting
    guides/filmshooting
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

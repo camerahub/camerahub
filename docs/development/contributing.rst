@@ -1,5 +1,5 @@
-Development
-###########
+Contributing
+############
 
 CameraHub is written in `Python <https://www.python.org/>`_ using the `Django <https://www.djangoproject.com/>`_ framework. Despite having a complex
 data model, the app itself is quite simple.
