@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'speedinfo.storage.database',
     'sphinxdoc',
     'haystack',
+    'iommi',
 ]
 
 MIDDLEWARE = [
@@ -88,6 +89,7 @@ MIDDLEWARE = [
     'simple_history.middleware.HistoryRequestMiddleware',
     'camerahub.middleware.DynamicSiteDomainMiddleware',
     'speedinfo.middleware.ProfilerMiddleware',
+    'iommi.middleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]

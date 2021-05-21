@@ -70,6 +70,7 @@ django-clear-cache = "^0.3"
 django-speedinfo = "^2.0.2"
 django-settings-export = "^1.2.1"
 django-sphinxdoc = "^2.0.0"
+iommi = "^2.8.12"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
