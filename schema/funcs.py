@@ -68,6 +68,15 @@ def canondatecode(datecode, introduced=1960, discontinued=2100):
     that the model was introduced and discontinued, the year of manufacture can be pinned down
     """
 
+    # While there are non-None defaults for these values in this function, the calling code
+    # always passes the variable, even if it is None. So passing in None will override the default
+    # value at the top of the function. So here we check for None values and set a default if necessary.
+    if introduced is None:
+        introduced = 1960
+
+    if discontinued is None:
+        discontinued = 2100
+
     # Initialise empty list of candidate dates
     guesses = []
 
