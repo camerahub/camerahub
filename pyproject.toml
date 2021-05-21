@@ -10,7 +10,6 @@ repository = "https://github.com/camerahub/camerahub"
 packages = [
     { include = "camerahub" },
     { include = "schema" },
-    { include = "help" },
 ]
 include = [
     "static",
@@ -70,6 +69,7 @@ django-health-check = "^3.16.3"
 django-clear-cache = "^0.3"
 django-speedinfo = "^2.0.2"
 django-settings-export = "^1.2.1"
+django-sphinxdoc = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

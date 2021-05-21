@@ -76,10 +76,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="helpnavbarDropdown">
 
-                    <a class="dropdown-item" href="{% url 'help:about' %}">About</a>
-                    <a class="dropdown-item" href="{% url 'help:concepts' %}">Concepts</a>
-                    <a class="dropdown-item" href="{% url 'help:faq' %}">FAQs</a>
-                    <a class="dropdown-item" href="{% url 'help:condition-list' %}">Condition grading</a>
+                    <a class="dropdown-item" href="{% url 'docs-list' %}">Docs</a>
                     <a class="dropdown-item" href="{% url 'schema:stats' %}">Public stats</a>
                     {% if settings.STATUS_URL %}<a class="dropdown-item" href="{{ settings.STATUS_URL }}">Site status</a>{% endif %}
                 </div>
