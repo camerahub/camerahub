@@ -10,9 +10,9 @@ It replaces an earlier command-line project, called [PhotoDB](https://github.com
 There are several ways of installing CameraHub, depending on your needs:
 
 * With Pip
-* [From source](docs/INSTALL_SOURCE.md)
-* [With Docker](docs/INSTALL-DOCKER.md)
-* [With Kubernetes](docs/INSTALL-KUBERNETES.md)
+* [From source](docs/operations/source.rst)
+* [With Docker](docs/operations/docker.rst)
+* [With Kubernetes](docs/operations/kubernetes.rst)
 
 ## Configuring CameraHub
 
@@ -131,9 +131,5 @@ URL for a status page
 
 ## See also
 
-* [Screenshots](docs/SCREENSHOTS.md)
-* [Contributing](docs/CONTRIBUTING.md)
 * [Changelog](https://github.com/camerahub/camerahub/releases)
-* [Icons](docs/ICONS.md)
-* [API](docs/API.md)
-* [Operations](docs/OPS.md)
+* [Docs](docs/index.rst)
