@@ -314,3 +314,6 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
     },
 }
+
+# Iommi
+IOMMI_DEFAULT_STYLE = 'camerahub'
