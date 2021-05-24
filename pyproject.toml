@@ -70,6 +70,7 @@ django-clear-cache = "^0.3"
 django-speedinfo = "^2.0.2"
 django-settings-export = "^1.2.1"
 django-sphinxdoc = "^2.0.0"
+Sphinx = {version = "^4.0.2", optional = true}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -79,6 +80,7 @@ pylint = "^2.6.0"
 
 [tool.poetry.extras]
 pgsql = ["psycopg2-binary"]
+docs = ["Sphinx"]
 
 [build-system]
 requires = ["poetry>=0.12"]
