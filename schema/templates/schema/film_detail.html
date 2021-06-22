@@ -207,4 +207,6 @@
     <button class="btn btn-primary" type="submit">Add a negative to this film</button>
   </form>
 </li>{% endif %}
+{% if object.status == "Archived" %}<li><a class="btn btn-primary" href="{% url 'schema:film-print' object.id_owner %}"
+  target="_blank" role="button">Print a cover sheet</a></li>{% endif %}
 {%endblock%}

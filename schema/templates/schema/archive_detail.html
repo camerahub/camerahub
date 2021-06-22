@@ -40,3 +40,8 @@
   </tr>
 </table>
 {% endblock %}
+
+{% block moreactions %}
+{% if object.sealed %}<li><a class="btn btn-primary" href="{% url 'schema:archive-print' object.id_owner %}"
+  target="_blank" role="button">Print a cover sheet</a></li>{% endif %}
+{%endblock%}
