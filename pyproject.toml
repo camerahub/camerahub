@@ -44,7 +44,6 @@ django-fullurl = "^1"
 django-filter = "^2.2"
 awesome-slugify = "^1.6.5"
 django-watson = "^1.5.5"
-django-redis = "^4.11"
 django-taggit = "^1"
 poetry-version = "*"
 django-prometheus = "^2.0.0"
@@ -71,6 +70,7 @@ django-speedinfo = "^2.0.2"
 django-settings-export = "^1.2.1"
 django-sphinxdoc = "^2.0.0"
 Sphinx = {version = "^4.0.2", optional = true}
+python-memcached = "^1.59"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
