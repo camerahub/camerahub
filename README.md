@@ -110,20 +110,20 @@ Default: `noreply@camerahub.info`
 [Site domain](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts)
 Default: `camerahub.info`
 
-### `CAMERAHUB_REDIS`
+### `CAMERAHUB_MEMCACHED`
 
-Enable [Redis caching](https://docs.djangoproject.com/en/3.0/topics/cache/)
+Enable [Memcached caching](https://docs.djangoproject.com/en/3.0/topics/cache/)
 Default: `false`
 
-### `CAMERAHUB_REDIS_HOST`
+### `CAMERAHUB_MEMCACHED_HOST`
 
-Redis hostname or IP address
+Memcached hostname or IP address
 Default: `127.0.0.1`
 
-### `CAMERAHUB_REDIS_PORT`
+### `CAMERAHUB_MEMCACHED_PORT`
 
-Redis port
-Default: `6379`
+Memcached port
+Default: `11211`
 
 ### `CAMERAHUB_STATUS_URL`
 

@@ -41,7 +41,7 @@ Using microk8s
 ==============
 
 The integrated web server is extremely convenient but does not test all aspects of CameraHub, especially the Postgres database backend,
-Redis caching and other production-like features. The best way to test these features is to run microk8s on your local computer, which gives
+Memcached caching and other production-like features. The best way to test these features is to run microk8s on your local computer, which gives
 you a full Kubernetes environment.
 
 After installing microk8s, ensure you have these addons:
