@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'health_check.db',
     'health_check.storage',
     'health_check.cache',
-    #'health_check.contrib.redis',
     'clear_cache',
     'speedinfo',
     'speedinfo.storage.database',
@@ -243,18 +242,15 @@ LOGGING = {
     },
 }
 
-if os.getenv('CAMERAHUB_REDIS') == 'true':
+if os.getenv('CAMERAHUB_MEMCACHED') == 'true':
     CACHES = {
         'default': {
             'BACKEND': 'speedinfo.backends.proxy_cache',
-            'CACHE_BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': "redis://{}:{}/1".format(
-                os.getenv('CAMERAHUB_REDIS_HOST', '127.0.0.1'),
-                os.getenv('CAMERAHUB_REDIS_PORT', '6379'),
+            'CACHE_BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': "{}:{}".format(
+                os.getenv('CAMERAHUB_MEMCACHED_HOST', '127.0.0.1'),
+                os.getenv('CAMERAHUB_MEMCACHED_PORT', '11211'),
             ),
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            }
         }
     }
 else:
