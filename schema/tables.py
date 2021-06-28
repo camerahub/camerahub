@@ -460,7 +460,7 @@ class PersonTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Person
-        fields = ('id_owner', 'name')
+        fields = ('id_owner', 'name', 'type')
 
     @classmethod
     def render_id_owner(cls, value):
