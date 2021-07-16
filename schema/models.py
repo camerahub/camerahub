@@ -97,6 +97,10 @@ class Manufacturer(ExportModelOperationsMixin('manufacturer'), models.Model):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "manufacturers"
+        indexes = [
+            models.Index(fields=['slug',]),
+            models.Index(fields=['country', 'country']),
+        ]
 
     def save(self, *args, **kwargs):
         custom_slugify_unique = Slugify(to_lower=True)
@@ -177,6 +181,9 @@ class Archive(ExportModelOperationsMixin('archive'), models.Model):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "archives"
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:archive-detail', kwargs={'id_owner': self.id_owner})
@@ -230,6 +237,9 @@ class Battery(ExportModelOperationsMixin('battery'), models.Model):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "batteries"
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def save(self, *args, **kwargs):
         custom_slugify_unique = Slugify(to_lower=True)
@@ -466,6 +476,9 @@ class FlashModel(ExportModelOperationsMixin('flashmodel'), models.Model):
             models.UniqueConstraint(
                 fields=['manufacturer', 'model', 'disambiguation'], name='flashmodel_unique_name')
         ]
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -526,6 +539,9 @@ class Flash(ExportModelOperationsMixin('flash'), models.Model):
     class Meta:
         verbose_name_plural = "flashes"
         ordering = ['id_owner']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:flash-detail', kwargs={'id_owner': self.id_owner})
@@ -594,6 +610,9 @@ class EnlargerModel(ExportModelOperationsMixin('enlargermodel'), models.Model):
             models.UniqueConstraint(
                 fields=['manufacturer', 'model', 'disambiguation'], name='enlargermodel_unique_name')
         ]
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -658,6 +677,11 @@ class Enlarger(ExportModelOperationsMixin('enlarger'), models.Model):
         if self.lost_price is not None and self.cost is not None:
             mystr = self.lost_price - self.cost
         return mystr
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         # Acquired/lost
@@ -750,6 +774,9 @@ class Mount(ExportModelOperationsMixin('mount'), models.Model):
     class Meta:
         ordering = ['mount']
         verbose_name_plural = "mounts"
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:mount-detail', kwargs={'slug': self.slug})
@@ -835,6 +862,9 @@ class Person(ExportModelOperationsMixin('person'), models.Model):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "people"
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:person-detail', kwargs={'id_owner': self.id_owner})
@@ -923,6 +953,9 @@ class TeleconverterModel(ExportModelOperationsMixin('teleconvertermodel'), model
             models.UniqueConstraint(
                 fields=['manufacturer', 'model', 'disambiguation'], name='teleconvertermodel_unique_name')
         ]
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def clean(self):
         # Groups/elements
@@ -984,6 +1017,9 @@ class Teleconverter(ExportModelOperationsMixin('teleconverter'), models.Model):
     class Meta:
         verbose_name_plural = "teleconverters"
         ordering = ['id_owner']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:teleconverter-detail', kwargs={'id_owner': self.id_owner})
@@ -1025,6 +1061,9 @@ class Toner(ExportModelOperationsMixin('toner'), models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['manufacturer', 'name'], name='toner_unique_name')
+        ]
+        indexes = [
+            models.Index(fields=['slug',]),
         ]
 
     def save(self, *args, **kwargs):
@@ -1080,6 +1119,9 @@ class FilmStock(ExportModelOperationsMixin('filmstock'), models.Model):
             models.UniqueConstraint(
                 fields=['manufacturer', 'name'], name='filmstock_unique_name')
         ]
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -1132,6 +1174,9 @@ class BulkFilm(ExportModelOperationsMixin('bulkfilm'), models.Model):
     class Meta:
         verbose_name_plural = "bulk films"
         ordering = ['id_owner']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:bulkfilm-detail', kwargs={'id_owner': self.id_owner})
@@ -1167,6 +1212,9 @@ class MountAdapter(ExportModelOperationsMixin('mountadapter'), models.Model):
     class Meta:
         ordering = ['camera_mount', 'lens_mount']
         verbose_name_plural = "mount adapters"
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:mountadapter-detail', kwargs={'id_owner': self.id_owner})
@@ -1241,6 +1289,9 @@ class Developer(ExportModelOperationsMixin('developer'), models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['manufacturer', 'name'], name='developer_unique_name')
+        ]
+        indexes = [
+            models.Index(fields=['slug',]),
         ]
 
     def save(self, *args, **kwargs):
@@ -1379,6 +1430,9 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['manufacturer', 'model', 'disambiguation'], name='lensmodel_unique_name')
+        ]
+        indexes = [
+            models.Index(fields=['slug',]),
         ]
 
     @property
@@ -1711,6 +1765,9 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
             models.UniqueConstraint(
                 fields=['manufacturer', 'model', 'disambiguation'], name='cameramodel_unique_name')
         ]
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def save(self, *args, **kwargs):
         # Auto-populate focal length
@@ -1867,6 +1924,9 @@ class Accessory(ExportModelOperationsMixin('accessory'), models.Model):
     class Meta:
         ordering = ['manufacturer', 'model']
         verbose_name_plural = "accessories"
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         # Acquired/lost
@@ -1951,6 +2011,9 @@ class Lens(ExportModelOperationsMixin('lens'), models.Model):
                     'lensmodel__model', 'serial']
         verbose_name_plural = "lenses"
         unique_together = ['lensmodel', 'serial']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
@@ -2050,6 +2113,9 @@ class Camera(ExportModelOperationsMixin('camera'), models.Model):
                     'cameramodel__model', 'serial']
         verbose_name_plural = "cameras"
         unique_together = ['cameramodel', 'serial']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
@@ -2195,6 +2261,9 @@ class Film(ExportModelOperationsMixin('film'), models.Model):
     class Meta:
         verbose_name_plural = "films"
         ordering = ['id_owner']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         # Date constraints
@@ -2286,6 +2355,10 @@ class Negative(ExportModelOperationsMixin('negative'), models.Model):
         ordering = ['film', 'frame']
         verbose_name_plural = "negatives"
         unique_together = ['film', 'frame']
+        indexes = [
+            models.Index(fields=['slug',]),
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         # Aperture must be in range of lens model aperture
@@ -2395,6 +2468,9 @@ class Print(ExportModelOperationsMixin('print'), models.Model):
     class Meta:
         verbose_name_plural = "prints"
         ordering = ['id_owner']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         # Aperture must be in range of lens model aperture
@@ -2516,6 +2592,9 @@ class Order(ExportModelOperationsMixin('order'), models.Model):
     class Meta:
         ordering = ['added']
         verbose_name_plural = "orders"
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:order-detail', kwargs={'id_owner': self.id_owner})
