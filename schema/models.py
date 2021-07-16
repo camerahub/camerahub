@@ -843,8 +843,15 @@ class PaperStock(ExportModelOperationsMixin('paperstock'), models.Model):
 
 
 class Person(ExportModelOperationsMixin('person'), models.Model):
+
+    class PersonType(DjangoChoices):
+        Individual = ChoiceItem()
+        Business = ChoiceItem()
+
     name = models.CharField(
-        help_text='Name of the photographer', max_length=45, unique=True)
+        help_text='Name of the person or business', max_length=45, unique=True)
+    type = models.CharField(help_text='Type of person or business',
+        choices=PersonType.choices, max_length=25, blank=True, null=True)
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')

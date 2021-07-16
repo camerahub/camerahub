@@ -853,13 +853,14 @@ class PaperStockForm(ModelForm):
 class PersonForm(ModelForm):
     class Meta:
         model = Person
-        fields = ['name']
+        fields = ['name', 'type']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             'name',
+            'type',
             FormActionButtons
         )
 
