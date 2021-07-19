@@ -4,7 +4,8 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView, ListView
 from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_control
+from django.views.decorators.cache import cache_control, cache_page
+from django.views.decorators.vary import vary_on_headers
 from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
@@ -81,7 +82,7 @@ class SingleTableListView(SingleTableView):
     template_name = 'list.html'
     paginate_by = 25
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class AccessoryList(LoginRequiredMixin, PagedFilteredTableView):
     model = Accessory
     table_class = AccessoryTable
@@ -89,7 +90,7 @@ class AccessoryList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = AccessoryFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class AccessoryDetail(LoginRequiredMixin, generic.DetailView):
     model = Accessory
 
@@ -98,12 +99,14 @@ class AccessoryDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Accessory, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class AccessoryCreate(LoginRequiredMixin, CreateView):
     model = Accessory
     form_class = AccessoryForm
     template_name = 'create.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class AccessoryUpdate(LoginRequiredMixin, UpdateView):
     model = Accessory
     form_class = AccessoryForm
@@ -114,13 +117,13 @@ class AccessoryUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Accessory, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class ArchiveList(LoginRequiredMixin, SingleTableListView):
     model = Archive
     table_class = ArchiveTable
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class ArchiveDetail(LoginRequiredMixin, generic.DetailView):
     model = Archive
 
@@ -129,7 +132,7 @@ class ArchiveDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Archive, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class ArchivePrint(LoginRequiredMixin, generic.DetailView):
     model = Archive
     template_name = 'schema/archive_print.html'
@@ -139,12 +142,14 @@ class ArchivePrint(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Archive, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class ArchiveCreate(LoginRequiredMixin, CreateView):
     model = Archive
     form_class = ArchiveForm
     template_name = 'create.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class ArchiveUpdate(LoginRequiredMixin, UpdateView):
     model = Archive
     form_class = ArchiveForm
@@ -155,6 +160,7 @@ class ArchiveUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Archive, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class BatteryList(PagedFilteredTableView):
     model = Battery
     table_class = BatteryTable
@@ -162,6 +168,7 @@ class BatteryList(PagedFilteredTableView):
     formhelper_class = BatteryFormHelper
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class BatteryDetail(generic.DetailView):
     model = Battery
 
@@ -173,19 +180,21 @@ class BatteryDetail(generic.DetailView):
         return context
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class BatteryCreate(LoginRequiredMixin, CreateView):
     model = Battery
     form_class = BatteryForm
     template_name = 'create.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class BatteryUpdate(LoginRequiredMixin, UpdateView):
     model = Battery
     form_class = BatteryForm
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class BulkFilmList(LoginRequiredMixin, PagedFilteredTableView):
     model = BulkFilm
     table_class = BulkFilmTable
@@ -193,7 +202,7 @@ class BulkFilmList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = BulkFilmFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class BulkFilmDetail(LoginRequiredMixin, generic.DetailView):
     model = BulkFilm
 
@@ -202,12 +211,14 @@ class BulkFilmDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(BulkFilm, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class BulkFilmCreate(LoginRequiredMixin, CreateView):
     model = BulkFilm
     form_class = BulkFilmForm
     template_name = 'create.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class BulkFilmUpdate(LoginRequiredMixin, UpdateView):
     model = BulkFilm
     form_class = BulkFilmForm
@@ -218,7 +229,7 @@ class BulkFilmUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(BulkFilm, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class CameraList(LoginRequiredMixin, PagedFilteredTableView):
     model = Camera
     table_class = CameraTable
@@ -226,7 +237,7 @@ class CameraList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = CameraFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class CameraDetail(LoginRequiredMixin, generic.DetailView):
     model = Camera
 
@@ -235,6 +246,7 @@ class CameraDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Camera, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class CameraCreate(LoginRequiredMixin, CreateView):
     model = Camera
     form_class = CameraForm
@@ -247,6 +259,7 @@ class CameraCreate(LoginRequiredMixin, CreateView):
         return initial
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class CameraUpdate(LoginRequiredMixin, UpdateView):
     model = Camera
     form_class = CameraForm
@@ -257,6 +270,7 @@ class CameraUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Camera, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class CameraSell(LoginRequiredMixin, UpdateView):
     model = Camera
     form_class = CameraSellForm
@@ -267,6 +281,7 @@ class CameraSell(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Camera, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class CameraModelList(PagedFilteredTableView):
     model = CameraModel
     table_class = CameraModelTable
@@ -281,6 +296,7 @@ class CameraModelList(PagedFilteredTableView):
         return context
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class CameraModelDetail(generic.DetailView):
     model = CameraModel
 
@@ -306,6 +322,7 @@ class CameraModelDetail(generic.DetailView):
         return context
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class CameraModelCreate(LoginRequiredMixin, CreateView):
     model = CameraModel
     form_class = CameraModelForm
@@ -326,12 +343,14 @@ class CameraModelCreate(LoginRequiredMixin, CreateView):
         return initial
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class CameraModelUpdate(LoginRequiredMixin, UpdateView):
     model = CameraModel
     form_class = CameraModelForm
     template_name = 'update.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class DeveloperList(PagedFilteredTableView):
     model = Developer
     table_class = DeveloperTable
@@ -339,6 +358,7 @@ class DeveloperList(PagedFilteredTableView):
     formhelper_class = DeveloperFormHelper
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class DeveloperDetail(generic.DetailView):
     model = Developer
 
@@ -359,18 +379,21 @@ class DeveloperDetail(generic.DetailView):
         return context
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class DeveloperCreate(LoginRequiredMixin, CreateView):
     model = Developer
     form_class = DeveloperForm
     template_name = 'create.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class DeveloperUpdate(LoginRequiredMixin, UpdateView):
     model = Developer
     form_class = DeveloperForm
     template_name = 'update.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class EnlargerModelList(PagedFilteredTableView):
     model = EnlargerModel
     table_class = EnlargerModelTable
@@ -378,21 +401,24 @@ class EnlargerModelList(PagedFilteredTableView):
     formhelper_class = EnlargerModelFormHelper
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class EnlargerModelDetail(generic.DetailView):
     model = EnlargerModel
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class EnlargerModelCreate(LoginRequiredMixin, CreateView):
     model = EnlargerModel
     form_class = EnlargerModelForm
     template_name = 'create.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class EnlargerModelUpdate(LoginRequiredMixin, UpdateView):
     model = EnlargerModel
     form_class = EnlargerModelForm
     template_name = 'update.html'
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class EnlargerList(LoginRequiredMixin, PagedFilteredTableView):
     model = Enlarger
     table_class = EnlargerTable
@@ -400,7 +426,7 @@ class EnlargerList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = EnlargerFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class EnlargerDetail(LoginRequiredMixin, generic.DetailView):
     model = Enlarger
 
@@ -409,12 +435,14 @@ class EnlargerDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Enlarger, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class EnlargerCreate(LoginRequiredMixin, CreateView):
     model = Enlarger
     form_class = EnlargerForm
     template_name = 'create.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class EnlargerUpdate(LoginRequiredMixin, UpdateView):
     model = Enlarger
     form_class = EnlargerForm
@@ -425,6 +453,7 @@ class EnlargerUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Enlarger, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class FilmStockList(PagedFilteredTableView):
     model = FilmStock
     table_class = FilmStockTable
@@ -432,6 +461,7 @@ class FilmStockList(PagedFilteredTableView):
     formhelper_class = FilmStockFormHelper
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class FilmStockDetail(generic.DetailView):
     model = FilmStock
 
@@ -464,11 +494,13 @@ class FilmStockUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class FilterList(SingleTableListView):
     model = Filter
     table_class = FilterTable
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class FilterDetail(generic.DetailView):
     model = Filter
 
@@ -485,6 +517,7 @@ class FilterUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class FlashModelList(PagedFilteredTableView):
     model = FlashModel
     table_class = FlashModelTable
@@ -492,6 +525,7 @@ class FlashModelList(PagedFilteredTableView):
     formhelper_class = FlashModelFormHelper
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class FlashModelDetail(generic.DetailView):
     model = FlashModel
 
@@ -508,7 +542,7 @@ class FlashModelUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class FlashList(LoginRequiredMixin, PagedFilteredTableView):
     model = Flash
     table_class = FlashTable
@@ -516,7 +550,7 @@ class FlashList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = FlashFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class FlashDetail(LoginRequiredMixin, generic.DetailView):
     model = Flash
 
@@ -541,11 +575,13 @@ class FlashUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Flash, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class FormatList(SingleTableListView):
     model = Format
     table_class = FormatTable
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class FormatDetail(generic.DetailView):
     model = Format
 
@@ -568,7 +604,7 @@ class FormatUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class LensList(LoginRequiredMixin, PagedFilteredTableView):
     model = Lens
     table_class = LensTable
@@ -576,7 +612,7 @@ class LensList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = LensFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class LensDetail(LoginRequiredMixin, generic.DetailView):
     model = Lens
 
@@ -617,6 +653,7 @@ class LensSell(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Lens, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class LensModelList(PagedFilteredTableView):
     model = LensModel
     table_class = LensModelTable
@@ -631,6 +668,7 @@ class LensModelList(PagedFilteredTableView):
         return context
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class LensModelDetail(generic.DetailView):
     model = LensModel
 
@@ -682,11 +720,13 @@ class LensModelUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class ManufacturerList(SingleTableListView):
     model = Manufacturer
     table_class = ManufacturerTable
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class ManufacturerDetail(generic.DetailView):
     model = Manufacturer
 
@@ -720,6 +760,7 @@ class ManufacturerUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class MountList(PagedFilteredTableView):
     model = Mount
     table_class = MountTable
@@ -727,6 +768,7 @@ class MountList(PagedFilteredTableView):
     formhelper_class = MountFormHelper
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class MountDetail(generic.DetailView):
     model = Mount
 
@@ -760,7 +802,7 @@ class MountUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class MountAdapterList(LoginRequiredMixin, PagedFilteredTableView):
     model = MountAdapter
     table_class = MountAdapterTable
@@ -768,7 +810,7 @@ class MountAdapterList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = MountAdapterFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class MountAdapterDetail(LoginRequiredMixin, generic.DetailView):
     model = MountAdapter
 
@@ -793,11 +835,13 @@ class MountAdapterUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(MountAdapter, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class NegativeSizeList(SingleTableListView):
     model = NegativeSize
     table_class = NegativeSizeTable
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class NegativeSizeDetail(generic.DetailView):
     model = NegativeSize
 
@@ -820,7 +864,7 @@ class NegativeSizeUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class OrderList(LoginRequiredMixin, PagedFilteredTableView):
     model = Order
     table_class = OrderTable
@@ -828,7 +872,7 @@ class OrderList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = OrderFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class OrderDetail(LoginRequiredMixin, generic.DetailView):
     model = Order
 
@@ -853,6 +897,7 @@ class OrderUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Order, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class PaperStockList(PagedFilteredTableView):
     model = PaperStock
     table_class = PaperStockTable
@@ -860,6 +905,7 @@ class PaperStockList(PagedFilteredTableView):
     formhelper_class = PaperStockFormHelper
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class PaperStockDetail(generic.DetailView):
     model = PaperStock
 
@@ -893,7 +939,7 @@ class PaperStockUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class PersonList(LoginRequiredMixin, SingleTableListView):
     model = Person
     table_class = PersonTable
@@ -906,7 +952,7 @@ class PersonList(LoginRequiredMixin, SingleTableListView):
         return mystr
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class PersonDetail(LoginRequiredMixin, generic.DetailView):
     model = Person
 
@@ -931,7 +977,7 @@ class PersonUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Person, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class PrintList(LoginRequiredMixin, PagedFilteredTableView):
     model = Print
     table_class = PrintTable
@@ -939,7 +985,7 @@ class PrintList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = PrintFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class PrintDetail(LoginRequiredMixin, generic.DetailView):
     model = Print
 
@@ -948,7 +994,7 @@ class PrintDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Print, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class PrintPrint(LoginRequiredMixin, generic.DetailView):
     model = Print
     template_name = 'schema/print_print.html'
@@ -990,11 +1036,13 @@ class PrintArchive(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Print, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class ProcessList(SingleTableListView):
     model = Process
     table_class = ProcessTable
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class ProcessDetail(generic.DetailView):
     model = Process
 
@@ -1011,7 +1059,7 @@ class ProcessUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class ScanList(LoginRequiredMixin, SingleTableListView):
     model = Scan
     table_class = ScanTable
@@ -1024,7 +1072,7 @@ class ScanList(LoginRequiredMixin, SingleTableListView):
         return mystr
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class ScanDetail(LoginRequiredMixin, generic.DetailView):
     model = Scan
 
@@ -1049,7 +1097,7 @@ class ScanUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Scan, owner=self.request.user, uuid=self.kwargs['uuid'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class NegativeList(LoginRequiredMixin, PagedFilteredTableView):
     model = Negative
     table_class = NegativeTable
@@ -1057,7 +1105,7 @@ class NegativeList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = NegativeFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class NegativeDetail(LoginRequiredMixin, generic.DetailView):
     model = Negative
 
@@ -1088,7 +1136,7 @@ class NegativeUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Negative, owner=self.request.user, slug=self.kwargs['slug'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class FilmList(LoginRequiredMixin, PagedFilteredTableView):
     model = Film
     table_class = FilmTable
@@ -1096,7 +1144,7 @@ class FilmList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = FilmFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class FilmDetail(LoginRequiredMixin, generic.DetailView):
     model = Film
 
@@ -1105,7 +1153,7 @@ class FilmDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class FilmPrint(LoginRequiredMixin, generic.DetailView):
     model = Film
     template_name = 'schema/film_print.html'
@@ -1161,7 +1209,7 @@ class FilmArchive(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class TeleconverterList(LoginRequiredMixin, PagedFilteredTableView):
     model = Teleconverter
     table_class = TeleconverterTable
@@ -1169,7 +1217,7 @@ class TeleconverterList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = TeleconverterFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class TeleconverterDetail(LoginRequiredMixin, generic.DetailView):
     model = Teleconverter
 
@@ -1193,6 +1241,7 @@ class TeleconverterUpdate(LoginRequiredMixin, UpdateView):
     def get_object(self):
         return get_object_or_404(Teleconverter, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class TeleconverterModelList(PagedFilteredTableView):
     model = TeleconverterModel
     table_class = TeleconverterModelTable
@@ -1200,6 +1249,7 @@ class TeleconverterModelList(PagedFilteredTableView):
     formhelper_class = TeleconverterModelFormHelper
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class TeleconverterModelDetail(generic.DetailView):
     model = TeleconverterModel
 
@@ -1216,6 +1266,7 @@ class TeleconverterModelUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class TonerList(PagedFilteredTableView):
     model = Toner
     table_class = TonerTable
@@ -1223,6 +1274,7 @@ class TonerList(PagedFilteredTableView):
     formhelper_class = TonerFormHelper
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class TonerDetail(generic.DetailView):
     model = Toner
 
@@ -1256,6 +1308,7 @@ class TonerUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class StatsView(TemplateView):
     template_name = "stats.html"
 
@@ -1386,7 +1439,7 @@ class StatsView(TemplateView):
         return context
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
+@method_decorator([cache_control(private=True), vary_on_headers('Authorization',), cache_page(60 * 5)], name='dispatch')
 class MyStatsView(LoginRequiredMixin, TemplateView):
     template_name = "stats.html"
 
@@ -1479,11 +1532,13 @@ class SearchView(SearchMixin, generic.ListView):
     template_name = "search.html"
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class TagList(ListView):
     model = Tag
     template_name = 'tag-list.html'
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class TagDetail(generic.DetailView):
     model = Tag
     template_name = 'tag-detail.html'
@@ -1502,6 +1557,7 @@ class TagDetail(generic.DetailView):
         return context
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class TagAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
