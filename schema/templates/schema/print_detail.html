@@ -149,4 +149,6 @@
 {% block moreactions %}
 {% if object.archive is None %}<li><a class="btn btn-primary" href="{% url 'schema:print-archive' object.id_owner %}"
     role="button">Archive this print</a></li>{% endif %}
+<li><a class="btn btn-primary" href="{% url 'schema:print-print' object.id_owner %}"
+    target="_blank" role="button">Print a cover sheet</a></li>
 {% endblock %}

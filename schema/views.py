@@ -129,6 +129,16 @@ class ArchiveDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Archive, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
+class ArchivePrint(LoginRequiredMixin, generic.DetailView):
+    model = Archive
+    template_name = 'schema/archive_print.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Archive, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
 class ArchiveCreate(LoginRequiredMixin, CreateView):
     model = Archive
     form_class = ArchiveForm
@@ -938,6 +948,16 @@ class PrintDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Print, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
+@method_decorator(cache_control(private=True), name='dispatch')
+class PrintPrint(LoginRequiredMixin, generic.DetailView):
+    model = Print
+    template_name = 'schema/print_print.html'
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Print, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
 class PrintCreate(LoginRequiredMixin, CreateView):
     model = Print
     form_class = PrintForm
@@ -1079,6 +1099,16 @@ class FilmList(LoginRequiredMixin, PagedFilteredTableView):
 @method_decorator(cache_control(private=True), name='dispatch')
 class FilmDetail(LoginRequiredMixin, generic.DetailView):
     model = Film
+
+    # Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
+
+
+@method_decorator(cache_control(private=True), name='dispatch')
+class FilmPrint(LoginRequiredMixin, generic.DetailView):
+    model = Film
+    template_name = 'schema/film_print.html'
 
     # Restrict to objects we own
     def get_object(self):
@@ -1427,13 +1457,13 @@ class MyStatsView(LoginRequiredMixin, TemplateView):
                 'image': "svg/ownership.svg",
                 'url': reverse('schema:camera-list'),
                 'item': "net spent on cameras",
-                'value': str(round(((Camera.objects.all().aggregate(cost=Sum('cost'))['cost'] or 0.00) - (Camera.objects.all().aggregate(lost_price=Sum('lost_price'))['lost_price'] or 0.00)), 2)),
+                'value': str(round(((Camera.objects.filter(owner=self.request.user).aggregate(diff=(Sum('cost') - Sum('lost_price')))['diff'] or 0)), 2)),
             },
             {
                 'image': "svg/ownership.svg",
                 'url': reverse('schema:lens-list'),
                 'item': "net spent on lenses",
-                'value': str(round(((Lens.objects.all().aggregate(cost=Sum('cost'))['cost'] or 0.00) - (Lens.objects.all().aggregate(lost_price=Sum('lost_price'))['lost_price'] or 0.00)), 2)),
+                'value': str(round(((Lens.objects.filter(owner=self.request.user).aggregate(diff=(Sum('cost') - Sum('lost_price')))['diff'] or 0)), 2)),
             }
         ]
 

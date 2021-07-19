@@ -1,5 +1,5 @@
 from datetime import datetime
-from math import sqrt
+from math import sqrt, log
 import re
 from uuid import uuid4
 from django.db import models
@@ -21,7 +21,7 @@ from collectionfield.models import CollectionField
 from django_countries.fields import CountryField
 from geoposition.fields import GeopositionField
 from star_ratings.models import Rating
-from .funcs import angle_of_view
+from .funcs import angle_of_view, canondatecode
 
 
 def cameramodel_check(text, uids):
@@ -97,6 +97,10 @@ class Manufacturer(ExportModelOperationsMixin('manufacturer'), models.Model):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "manufacturers"
+        indexes = [
+            models.Index(fields=['slug',]),
+            models.Index(fields=['country', 'country']),
+        ]
 
     def save(self, *args, **kwargs):
         custom_slugify_unique = Slugify(to_lower=True)
@@ -177,9 +181,20 @@ class Archive(ExportModelOperationsMixin('archive'), models.Model):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "archives"
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:archive-detail', kwargs={'id_owner': self.id_owner})
+
+    @property
+    def max_size(self):
+        if self.max_width and self.max_height:
+            mystr = "{}×{}\"".format(self.max_width, self.max_height)
+        else:
+            mystr = None
+        return mystr
 
     @classmethod
     def description(cls):
@@ -222,6 +237,9 @@ class Battery(ExportModelOperationsMixin('battery'), models.Model):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "batteries"
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def save(self, *args, **kwargs):
         custom_slugify_unique = Slugify(to_lower=True)
@@ -351,6 +369,14 @@ class NegativeSize(ExportModelOperationsMixin('negativesize'), models.Model):
     def get_absolute_url(self):
         return reverse('schema:negativesize-detail', kwargs={'pk': self.pk})
 
+    @property
+    def size(self):
+        if self.width and self.height:
+            mystr = "{}×{}mm".format(self.width, self.height)
+        else:
+            mystr = None
+        return mystr
+
     @classmethod
     def description(cls):
         return 'Negative size is the dimensions of an image taken by a camera. It is different from film format as one film format can be used for various different negative sizes.'
@@ -450,6 +476,9 @@ class FlashModel(ExportModelOperationsMixin('flashmodel'), models.Model):
             models.UniqueConstraint(
                 fields=['manufacturer', 'model', 'disambiguation'], name='flashmodel_unique_name')
         ]
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -497,12 +526,22 @@ class Flash(ExportModelOperationsMixin('flash'), models.Model):
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
 
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
+
     def __str__(self):
         return str(self.flashmodel)
 
     class Meta:
         verbose_name_plural = "flashes"
         ordering = ['id_owner']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:flash-detail', kwargs={'id_owner': self.id_owner})
@@ -571,6 +610,9 @@ class EnlargerModel(ExportModelOperationsMixin('enlargermodel'), models.Model):
             models.UniqueConstraint(
                 fields=['manufacturer', 'model', 'disambiguation'], name='enlargermodel_unique_name')
         ]
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -628,6 +670,18 @@ class Enlarger(ExportModelOperationsMixin('enlarger'), models.Model):
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
+
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         # Acquired/lost
@@ -720,6 +774,9 @@ class Mount(ExportModelOperationsMixin('mount'), models.Model):
     class Meta:
         ordering = ['mount']
         verbose_name_plural = "mounts"
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:mount-detail', kwargs={'slug': self.slug})
@@ -786,8 +843,15 @@ class PaperStock(ExportModelOperationsMixin('paperstock'), models.Model):
 
 
 class Person(ExportModelOperationsMixin('person'), models.Model):
+
+    class PersonType(DjangoChoices):
+        Individual = ChoiceItem()
+        Business = ChoiceItem()
+
     name = models.CharField(
-        help_text='Name of the photographer', max_length=45, unique=True)
+        help_text='Name of the person or business', max_length=45, unique=True)
+    type = models.CharField(help_text='Type of person or business',
+        choices=PersonType.choices, max_length=25, blank=True, null=True)
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
@@ -798,6 +862,9 @@ class Person(ExportModelOperationsMixin('person'), models.Model):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "people"
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:person-detail', kwargs={'id_owner': self.id_owner})
@@ -886,6 +953,9 @@ class TeleconverterModel(ExportModelOperationsMixin('teleconvertermodel'), model
             models.UniqueConstraint(
                 fields=['manufacturer', 'model', 'disambiguation'], name='teleconvertermodel_unique_name')
         ]
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def clean(self):
         # Groups/elements
@@ -934,12 +1004,22 @@ class Teleconverter(ExportModelOperationsMixin('teleconverter'), models.Model):
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
 
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
+
     def __str__(self):
         return str(self.teleconvertermodel)
 
     class Meta:
         verbose_name_plural = "teleconverters"
         ordering = ['id_owner']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:teleconverter-detail', kwargs={'id_owner': self.id_owner})
@@ -981,6 +1061,9 @@ class Toner(ExportModelOperationsMixin('toner'), models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['manufacturer', 'name'], name='toner_unique_name')
+        ]
+        indexes = [
+            models.Index(fields=['slug',]),
         ]
 
     def save(self, *args, **kwargs):
@@ -1036,6 +1119,9 @@ class FilmStock(ExportModelOperationsMixin('filmstock'), models.Model):
             models.UniqueConstraint(
                 fields=['manufacturer', 'name'], name='filmstock_unique_name')
         ]
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -1088,6 +1174,9 @@ class BulkFilm(ExportModelOperationsMixin('bulkfilm'), models.Model):
     class Meta:
         verbose_name_plural = "bulk films"
         ordering = ['id_owner']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:bulkfilm-detail', kwargs={'id_owner': self.id_owner})
@@ -1123,6 +1212,9 @@ class MountAdapter(ExportModelOperationsMixin('mountadapter'), models.Model):
     class Meta:
         ordering = ['camera_mount', 'lens_mount']
         verbose_name_plural = "mount adapters"
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:mountadapter-detail', kwargs={'id_owner': self.id_owner})
@@ -1197,6 +1289,9 @@ class Developer(ExportModelOperationsMixin('developer'), models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['manufacturer', 'name'], name='developer_unique_name')
+        ]
+        indexes = [
+            models.Index(fields=['slug',]),
         ]
 
     def save(self, *args, **kwargs):
@@ -1336,6 +1431,19 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
             models.UniqueConstraint(
                 fields=['manufacturer', 'model', 'disambiguation'], name='lensmodel_unique_name')
         ]
+        indexes = [
+            models.Index(fields=['slug',]),
+        ]
+
+    @property
+    def focal_length(self):
+        if self.zoom is True:
+            mystr = "{}-{}mm".format(self.min_focal_length, self.max_focal_length)
+        elif self.zoom is False:
+            mystr = "{}mm".format(self.min_focal_length)
+        else:
+            mystr = None
+        return mystr
 
     def get_absolute_url(self):
         return reverse('schema:lensmodel-detail', kwargs={'slug': self.slug})
@@ -1458,11 +1566,11 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     class FocusType(DjangoChoices):
         Autofocus = ChoiceItem()
         Fixed_focus = ChoiceItem()
-        Zone_focus = ChoiceItem()
-        Rangefinder = ChoiceItem()
-        SLR = ChoiceItem()
-        TLR = ChoiceItem()
-        View_camera = ChoiceItem()
+        Zone_focus = ChoiceItem('Zone_focus', 'Manual focus (zone focus)')
+        Rangefinder = ChoiceItem('Rangefinder', 'Manual focus (rangefinder)')
+        SLR = ChoiceItem('SLR', 'Manual focus (SLR)')
+        TLR = ChoiceItem('TLR', 'Manual focus (TLR)')
+        View_camera = ChoiceItem('View_camera', 'Manual focus (view camera)')
 
     # Choices for shutter type
     class ShutterType(DjangoChoices):
@@ -1492,7 +1600,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         Multi_coated = ChoiceItem()
 
     manufacturer = models.ForeignKey(
-        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model')
+        Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model', verbose_name='manufacturer')
     model = models.CharField(
         help_text='The model name of the camera', max_length=45)
     other_names = CollectionField(
@@ -1500,7 +1608,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     disambiguation = models.CharField(
         help_text='Distinguishing notes for camera models with the same name', max_length=45, blank=True, default='')
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True, null=True,
-                              help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'})
+                              help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'}, verbose_name='mount')
     format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True,
                                null=True, help_text='Film format used by this camera model')
     focus_type = models.CharField(choices=FocusType.choices, max_length=25,
@@ -1545,6 +1653,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         verbose_name='Min ISO', help_text='Minimum ISO the camera will accept for metering', blank=True, null=True)
     max_iso = models.PositiveIntegerField(
         verbose_name='Max ISO', help_text='Maximum ISO the camera will accept for metering', blank=True, null=True)
+    dx_code = models.BooleanField(
+        verbose_name='DX code', help_text='Whether the camera can read DX codes with Camera Auto Sensing', blank=True, null=True)
     af_points = models.PositiveIntegerField(
         verbose_name='Autofocus points', help_text='Number of autofocus points', blank=True, null=True)
     int_flash = models.BooleanField(
@@ -1606,7 +1716,7 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                           help_text='Manufacturer of this lens model', blank=True, null=True, related_name='lens_manufacturer')
     lens_model_name = models.CharField(
-        help_text='Model name of this lens', max_length=45, blank=True, null=True)
+        help_text='Model name of this lens', max_length=45, blank=True, null=True, verbose_name='lens model')
     zoom = models.BooleanField(
         help_text='Whether this is a zoom lens', blank=True, null=True)
     min_focal_length = models.PositiveIntegerField(
@@ -1654,6 +1764,9 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['manufacturer', 'model', 'disambiguation'], name='cameramodel_unique_name')
+        ]
+        indexes = [
+            models.Index(fields=['slug',]),
         ]
 
     def save(self, *args, **kwargs):
@@ -1794,6 +1907,13 @@ class Accessory(ExportModelOperationsMixin('accessory'), models.Model):
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
 
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
+
     def __str__(self):
         if self.manufacturer is not None:
             mystr = "%s %s" % (self.manufacturer.name, self.model)
@@ -1804,6 +1924,9 @@ class Accessory(ExportModelOperationsMixin('accessory'), models.Model):
     class Meta:
         ordering = ['manufacturer', 'model']
         verbose_name_plural = "accessories"
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         # Acquired/lost
@@ -1866,6 +1989,13 @@ class Lens(ExportModelOperationsMixin('lens'), models.Model):
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
 
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
+
     def __str__(self):
         if self.serial is not None:
             mystr = "%s %s (#%s)" % (
@@ -1881,6 +2011,9 @@ class Lens(ExportModelOperationsMixin('lens'), models.Model):
                     'lensmodel__model', 'serial']
         verbose_name_plural = "lenses"
         unique_together = ['lensmodel', 'serial']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
@@ -1906,6 +2039,12 @@ class Lens(ExportModelOperationsMixin('lens'), models.Model):
                 raise ValidationError({
                     'manufactured': ValidationError(('Manufactured date cannot be later than the date the lens model was discontinued')),
                 })
+
+    def save(self, *args, **kwargs):
+        if self.date_code is not None and self.manufactured is None and self.lensmodel.manufacturer.name == 'Canon':
+            self.manufactured = canondatecode(
+                self.date_code, self.lensmodel.introduced, self.lensmodel.discontinued)
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('schema:lens-detail', kwargs={'id_owner': self.id_owner})
@@ -1952,6 +2091,13 @@ class Camera(ExportModelOperationsMixin('camera'), models.Model):
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
 
+    @property
+    def profit(self):
+        mystr = None
+        if self.lost_price is not None and self.cost is not None:
+            mystr = self.lost_price - self.cost
+        return mystr
+
     def __str__(self):
         if self.serial is not None:
             mystr = "%s %s (#%s)" % (
@@ -1967,6 +2113,9 @@ class Camera(ExportModelOperationsMixin('camera'), models.Model):
                     'cameramodel__model', 'serial']
         verbose_name_plural = "cameras"
         unique_together = ['cameramodel', 'serial']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         if self.acquired is not None and self.lost is not None and self.acquired > self.lost:
@@ -1992,6 +2141,12 @@ class Camera(ExportModelOperationsMixin('camera'), models.Model):
                 raise ValidationError({
                     'manufactured': ValidationError(('Manufactured date cannot be later than the date the camera model was discontinued')),
                 })
+
+    def save(self, *args, **kwargs):
+        if self.datecode is not None and self.manufactured is None and self.cameramodel.manufacturer.name == 'Canon':
+            self.manufactured = canondatecode(
+                self.datecode, self.cameramodel.introduced, self.cameramodel.discontinued)
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('schema:camera-detail', kwargs={'id_owner': self.id_owner})
@@ -2090,6 +2245,12 @@ class Film(ExportModelOperationsMixin('film'), models.Model):
             return self.exposed_at < self.filmstock.iso
         return False
 
+    @property
+    def push_stops(self):
+        if self.exposed_at is not None and self.filmstock.iso is not None:
+            return log((self.exposed_at/self.filmstock.iso)**2)/log(4)
+        return None
+
     def __str__(self):
         if self.title is not None:
             mystr = "#%s %s" % (self.id_owner, self.title)
@@ -2100,6 +2261,9 @@ class Film(ExportModelOperationsMixin('film'), models.Model):
     class Meta:
         verbose_name_plural = "films"
         ordering = ['id_owner']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         # Date constraints
@@ -2191,6 +2355,10 @@ class Negative(ExportModelOperationsMixin('negative'), models.Model):
         ordering = ['film', 'frame']
         verbose_name_plural = "negatives"
         unique_together = ['film', 'frame']
+        indexes = [
+            models.Index(fields=['slug',]),
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         # Aperture must be in range of lens model aperture
@@ -2300,6 +2468,9 @@ class Print(ExportModelOperationsMixin('print'), models.Model):
     class Meta:
         verbose_name_plural = "prints"
         ordering = ['id_owner']
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def clean(self):
         # Aperture must be in range of lens model aperture
@@ -2315,6 +2486,14 @@ class Print(ExportModelOperationsMixin('print'), models.Model):
 
     def get_absolute_url(self):
         return reverse('schema:print-detail', kwargs={'id_owner': self.id_owner})
+
+    @property
+    def size(self):
+        if self.width and self.height:
+            mystr = "{}×{}mm".format(self.width, self.height)
+        else:
+            mystr = None
+        return mystr
 
     @classmethod
     def description(cls):
@@ -2413,9 +2592,20 @@ class Order(ExportModelOperationsMixin('order'), models.Model):
     class Meta:
         ordering = ['added']
         verbose_name_plural = "orders"
+        indexes = [
+            models.Index(fields=['owner', 'id_owner']),
+        ]
 
     def get_absolute_url(self):
         return reverse('schema:order-detail', kwargs={'id_owner': self.id_owner})
+
+    @property
+    def size(self):
+        if self.width and self.height:
+            mystr = "{}×{}mm".format(self.width, self.height)
+        else:
+            mystr = None
+        return mystr
 
     @classmethod
     def description(cls):

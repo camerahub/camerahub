@@ -268,6 +268,7 @@ class CameraModelForm(autocomplete.FutureModelForm):
                      'metering_type',
                      'min_iso',
                      'max_iso',
+                     'dx_code',
                      'meter_min_ev',
                      'meter_max_ev',
                      InlineCheckboxes('metering_modes'),
@@ -292,7 +293,7 @@ class CameraModelForm(autocomplete.FutureModelForm):
                      ),
             Fieldset('Flash',
                      'int_flash',
-                     'int_flash_gn',
+                     AppendedText('int_flash_gn', 'm'),
                      'ext_flash',
                      'pc_sync',
                      'shoe',
@@ -487,7 +488,7 @@ class FlashModelForm(ModelForm):
                      'manufacturer',
                      'model',
                      'disambiguation',
-                     'guide_number',
+                     AppendedText('guide_number', 'm'),
                      'gn_info',
                      AppendedText('trigger_voltage', 'V'),
                      ),
@@ -852,13 +853,14 @@ class PaperStockForm(ModelForm):
 class PersonForm(ModelForm):
     class Meta:
         model = Person
-        fields = ['name']
+        fields = ['name', 'type']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             'name',
+            'type',
             FormActionButtons
         )
 
@@ -1159,7 +1161,7 @@ class FilmLoadForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['camera'].queryset = Camera.objects.filter(
-            owner=get_current_user())
+            owner=get_current_user(), cameramodel__format=self.instance.format)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset('Load this film into a camera',

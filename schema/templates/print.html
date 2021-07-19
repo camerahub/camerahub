@@ -1,0 +1,27 @@
+{% load static %}
+{% load model_name %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      {% block title %}<title>CameraHub</title>{% endblock %}
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="{% static 'css/print.css' %}">
+      {% include "favicon.html" %}
+</head>
+
+<body>
+      {% block heading %}
+      <h2>{{ view.model | verbose_name | title }} #{{ object.id }}</h2>
+      {%endblock%}
+      {% block subheading %}<h3>{{ object }}</h3>{%endblock%}
+      {% block content %}{% endblock %}
+
+
+      <script type="text/javascript">
+            window.print();
+      </script>
+
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+body {
+	font-family: Georgia, serif;
+	background: none;
+	color: black;
+    font-size: small;
+}
+#page {
+	width: 100%;
+	margin: 0; padding: 0;
+	background: none;
+}
+#header, #menu-bar, #sidebar, h2#postcomment, form#commentform, #footer {
+	display: none;
+}
+.entry a:after {
+	content: " [" attr(href) "] ";
+}
+#printed-article {
+	border: 1px solid #666;
+	padding: 10px;
+}

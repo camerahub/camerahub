@@ -10,9 +10,9 @@ It replaces an earlier command-line project, called [PhotoDB](https://github.com
 There are several ways of installing CameraHub, depending on your needs:
 
 * With Pip
-* [From source](docs/INSTALL_SOURCE.md)
-* [With Docker](docs/INSTALL-DOCKER.md)
-* [With Kubernetes](docs/INSTALL-KUBERNETES.md)
+* [From source](docs/operations/source.rst)
+* [With Docker](docs/operations/docker.rst)
+* [With Kubernetes](docs/operations/kubernetes.rst)
 
 ## Configuring CameraHub
 
@@ -110,26 +110,26 @@ Default: `noreply@camerahub.info`
 [Site domain](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts)
 Default: `camerahub.info`
 
-### `CAMERAHUB_REDIS`
+### `CAMERAHUB_MEMCACHED`
 
-Enable [Redis caching](https://docs.djangoproject.com/en/3.0/topics/cache/)
+Enable [Memcached caching](https://docs.djangoproject.com/en/3.0/topics/cache/)
 Default: `false`
 
-### `CAMERAHUB_REDIS_HOST`
+### `CAMERAHUB_MEMCACHED_HOST`
 
-Redis hostname or IP address
+Memcached hostname or IP address
 Default: `127.0.0.1`
 
-### `CAMERAHUB_REDIS_PORT`
+### `CAMERAHUB_MEMCACHED_PORT`
 
-Redis port
-Default: `6379`
+Memcached port
+Default: `11211`
+
+### `CAMERAHUB_STATUS_URL`
+
+URL for a status page
 
 ## See also
 
-* [Screenshots](docs/SCREENSHOTS.md)
-* [Contributing](docs/CONTRIBUTING.md)
 * [Changelog](https://github.com/camerahub/camerahub/releases)
-* [Icons](docs/ICONS.md)
-* [API](docs/API.md)
-* [Operations](docs/OPS.md)
+* [Docs](docs/index.rst)

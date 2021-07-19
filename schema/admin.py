@@ -51,7 +51,6 @@ admin.site.register(Teleconverter)
 admin.site.register(TeleconverterModel, SimpleHistoryAdmin)
 admin.site.register(Toner, SimpleHistoryAdmin)
 
-#admin.site.register(Condition)
 #admin.site.register(ExposureProgram)
 #admin.site.register(MeteringMode)
 #admin.site.register(Toning)

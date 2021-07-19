@@ -1,0 +1,141 @@
+{% extends "print.html" %}
+
+{% block content %}
+<table border="1">
+  <tr>
+    <th colspan="2">Summary</th>
+  </tr>
+  {% if object.negative is not None %}
+  <tr>
+    <td>Negative</td>
+    <td>{{ object.negative }}</td>
+  </tr>
+  {% endif %}
+  {% if object.date is not None %}
+  <tr>
+    <td>Date</td>
+    <td>{{ object.date }}</td>
+  </tr>
+  {% endif %}
+  {% if object.paper_stock is not None %}
+  <tr>
+    <td>Paperstock</td>
+    <td>{{ object.paper_stock }}</td>
+  </tr>
+  {% endif %}
+  {% if object.width is not None and object.height is not None %}
+  <tr>
+    <td>Size</td>
+    <td>{{ object.width }} &times; {{ object.height }}"</td>
+  </tr>
+  {% endif %}
+  {% if object.fine is not None %}
+  <tr>
+    <td>Fine</td>
+    <td>{{ object.fine }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2">Exposure</th>
+  </tr>
+  {% if object.enlarger is not None %}
+  <tr>
+    <td>Enlarger</td>
+    <td>{{ object.enlarger }}</td>
+  </tr>
+  {% endif %}
+  {% if object.lens is not None %}
+  <tr>
+    <td>Enlarger lens</td>
+    <td>{{ object.lens }}</td>
+  </tr>
+  {% endif %}
+  {% if object.aperture is not None %}
+  <tr>
+    <td>Aperture</td>
+    <td><em>f</em>/{{ object.aperture }}</td>
+  </tr>
+  {% endif %}
+  {% if object.exposure_time is not None %}
+  <tr>
+    <td>Exposure time</td>
+    <td>{{ object.exposure_time }}</td>
+  </tr>
+  {% endif %}
+  {% if object.filtration_grade is not None %}
+  <tr>
+    <td>Filtration grade</td>
+    <td>{{ object.filtration_grade }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2">Development</th>
+  </tr>
+  {% if object.developer is not None %}
+  <tr>
+    <td>Developer</td>
+    <td>{{ object.developer }}</td>
+  </tr>
+  {% endif %}
+  {% if object.development_time is not None %}
+  <tr>
+    <td>Development time</td>
+    <td>{{ object.development_time }}</td>
+  </tr>
+  {% endif %}
+  {% if object.toner.all %}
+  <tr>
+    <td>Toner</td>
+    <td>
+      <ul class="list-inline">
+        {% for toner in object.toner.all %}
+        <li class="list-inline-item">{{ toner }}</li>
+        {% endfor %}</ul>
+    </td>
+  </tr>
+  {% endif %}
+
+  {% if object.notes %}
+  <tr>
+    <td>Notes</td>
+    <td>{{ object.notes|linebreaks }}</td>
+  </tr>
+  {% endif %}
+  {% if object.printer is not None %}
+  <tr>
+    <td>Printer</td>
+    <td>{{ object.printer }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2">Ownership</th>
+  </tr>
+  {% if object.own is not None %}
+  <tr>
+    <td>Own</td>
+    <td>{{ object.own }}</td>
+  </tr>
+  {% endif %}
+  {% if object.location is not None %}
+  <tr>
+    <td>Location</td>
+    <td>{{ object.location }}</td>
+  </tr>
+  {% endif %}
+  {% if object.sold_price is not None %}
+  <tr>
+    <td>Sold price</td>
+    <td>{{ object.sold_price }}</td>
+  </tr>
+  {% endif %}
+  {% if object.archive is not None %}
+  <tr>
+    <td>Archive</td>
+    <td>{{ object.archive }}</td>
+  </tr>
+  {% endif %}
+</table>
+{% endblock %}

@@ -3,7 +3,7 @@
 import django_tables2 as tables
 from django.utils.html import format_html
 from django.urls import reverse
-from schema.funcs import boolicon, colouricon, locationicon
+from schema.funcs import boolicon, colouricon
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
@@ -31,7 +31,7 @@ class ArchiveTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Archive
-        fields = ('name', 'type', 'max_width', 'max_height', 'sealed')
+        fields = ('name', 'type', 'max_size', 'sealed')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -44,14 +44,6 @@ class ArchiveTable(tables.Table):
     @classmethod
     def render_sealed(cls, value):
         return format_html(boolicon(value))
-
-    @classmethod
-    def render_max_width(cls, value):
-        return format_html("{}\"", value)
-
-    @classmethod
-    def render_max_height(cls, value):
-        return format_html("{}\"", value)
 
 
 class BatteryTable(tables.Table):
@@ -125,7 +117,7 @@ class CameraModelTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = CameraModel
-        fields = ('model', 'image', 'mount', 'format',
+        fields = ('model', 'mount', 'lens_model_name', 'format',
                   'introduced', 'body_type', 'negative_size')
 
     @classmethod
@@ -138,7 +130,7 @@ class CameraModelTable(tables.Table):
                 'schema:cameramodel-detail', args=[record.slug]), record.manufacturer, value)
         if cls.request.user.is_authenticated:
             qty = Camera.objects.filter(
-                owner=cls.request.user, cameramodel=record).count()
+                owner=cls.request.user, own=True, cameramodel=record).count()
             if qty > 0:
                 badge = format_html(
                     " <span class=\"badge badge-pill badge-primary\">{}</span>", qty)
@@ -147,13 +139,6 @@ class CameraModelTable(tables.Table):
         else:
             badge = format_html("")
         return mystr+badge
-
-    @classmethod
-    def render_image(cls, value):
-        if value:
-            icon = format_html(
-                '<img src="/static/svg/camera.svg" width="20" height="20" alt="This camera model has a photo" title="This camera model has a photo">')
-        return icon
 
     @classmethod
     def render_mount(cls, value):
@@ -319,7 +304,7 @@ class LensModelTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = LensModel
-        fields = ('model', 'image', 'mount', 'zoom', 'min_focal_length',
+        fields = ('model', 'mount', 'zoom', 'focal_length',
                   'max_aperture', 'autofocus', 'introduced')
 
     @classmethod
@@ -332,7 +317,7 @@ class LensModelTable(tables.Table):
                 'schema:lensmodel-detail', args=[record.slug]), record.manufacturer, value)
         if cls.request.user.is_authenticated:
             qty = Lens.objects.filter(
-                owner=cls.request.user, lensmodel=record).count()
+                owner=cls.request.user, own=True, lensmodel=record).count()
             if qty > 0:
                 badge = format_html(
                     " <span class=\"badge badge-pill badge-primary\">{}</span>", qty)
@@ -343,30 +328,12 @@ class LensModelTable(tables.Table):
         return mystr+badge
 
     @classmethod
-    def render_image(cls, value):
-        if value:
-            icon = format_html(
-                '<img src="/static/svg/camera.svg" width="20" height="20" alt="This lens model has a photo" title="This lens model has a photo">')
-        return icon
-
-    @classmethod
     def render_mount(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
     @classmethod
     def render_max_aperture(cls, value):
         return format_html("<em>f</em>/{}", value)
-
-    @classmethod
-    def render_min_focal_length(cls, record):
-        if record.zoom is True:
-            mystr = format_html(
-                "{}-{}mm", record.min_focal_length, record.max_focal_length)
-        elif record.zoom is False:
-            mystr = format_html("{}mm", record.min_focal_length)
-        else:
-            mystr = format_html("?")
-        return mystr
 
     @classmethod
     def render_zoom(cls, value):
@@ -426,25 +393,24 @@ class MountAdapterTable(tables.Table):
     def render_lens_mount(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
+    @classmethod
+    def render_has_optics(cls, value):
+        return format_html(boolicon(value))
+
+    @classmethod
+    def render_infinity_focus(cls, value):
+        return format_html(boolicon(value))
 
 class NegativeSizeTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = NegativeSize
-        fields = ('name', 'width', 'height',
+        fields = ('name', 'size',
                   'crop_factor', 'area', 'aspect_ratio')
 
     @classmethod
     def render_name(cls, value, record):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:negativesize-detail', args=[record.id]), value)
-
-    @classmethod
-    def render_width(cls, value):
-        return format_html("{}mm", value)
-
-    @classmethod
-    def render_height(cls, value):
-        return format_html("{}mm", value)
 
     @classmethod
     def render_crop_factor(cls, value):
@@ -463,7 +429,7 @@ class OrderTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Order
-        fields = ('id_owner', 'negative', 'width', 'height',
+        fields = ('id_owner', 'negative', 'size',
                   'added', 'printed', 'print', 'recipient')
 
     @classmethod
@@ -494,7 +460,7 @@ class PersonTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Person
-        fields = ('id_owner', 'name')
+        fields = ('id_owner', 'name', 'type')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -510,7 +476,7 @@ class PrintTable(tables.Table):
         attrs = {"class": "table table-hover"}
         model = Print
         fields = ('id_owner', 'negative', 'date',
-                  'width', 'height', 'own', 'archive')
+                  'size', 'own', 'archive')
 
     @classmethod
     def render_id_owner(cls, value):
@@ -519,14 +485,6 @@ class PrintTable(tables.Table):
     @classmethod
     def render_negative(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.slug]), value)
-
-    @classmethod
-    def render_width(cls, value):
-        return format_html("{}\"", value)
-
-    @classmethod
-    def render_height(cls, value):
-        return format_html("{}\"", value)
 
     @classmethod
     def render_own(cls, value):
@@ -584,7 +542,7 @@ class NegativeTable(tables.Table):
     class Meta:
         attrs = {"class": "table table-hover"}
         model = Negative
-        fields = ('slug', 'film', 'date', 'location', 'film__camera', 'lens', 'shutter_speed', 'aperture')
+        fields = ('slug', 'film', 'date', 'film__camera', 'lens', 'shutter_speed', 'aperture')
 
     @classmethod
     def render_slug(cls, value, record):
@@ -597,10 +555,6 @@ class NegativeTable(tables.Table):
     @classmethod
     def render_film(cls, value):
         return format_html("<a href=\"{}\">{}</a>", reverse('schema:film-detail', args=[value.id_owner]), value)
-
-    @classmethod
-    def render_location(cls, value):
-        return format_html(locationicon(value))
 
     @classmethod
     def render_film__camera(cls, value):

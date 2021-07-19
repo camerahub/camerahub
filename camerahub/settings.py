@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'schema',
-    'help',
     'api',
     'djmoney',
     'django_tables2',
@@ -67,10 +66,11 @@ INSTALLED_APPS = [
     'health_check.db',
     'health_check.storage',
     'health_check.cache',
-    #'health_check.contrib.redis',
     'clear_cache',
     'speedinfo',
     'speedinfo.storage.database',
+    'sphinxdoc',
+    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -102,6 +102,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_settings_export.settings_export',
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
@@ -237,18 +238,15 @@ LOGGING = {
     },
 }
 
-if os.getenv('CAMERAHUB_REDIS') == 'true':
+if os.getenv('CAMERAHUB_MEMCACHED') == 'true':
     CACHES = {
         'default': {
             'BACKEND': 'speedinfo.backends.proxy_cache',
-            'CACHE_BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': "redis://{}:{}/1".format(
-                os.getenv('CAMERAHUB_REDIS_HOST', '127.0.0.1'),
-                os.getenv('CAMERAHUB_REDIS_PORT', '6379'),
+            'CACHE_BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': "{}:{}".format(
+                os.getenv('CAMERAHUB_MEMCACHED_HOST', '127.0.0.1'),
+                os.getenv('CAMERAHUB_MEMCACHED_PORT', '11211'),
             ),
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            }
         }
     }
 else:
@@ -291,3 +289,20 @@ REST_FRAMEWORK = {
 
 # speedinfo
 SPEEDINFO_STORAGE = 'speedinfo.storage.database.storage.DatabaseStorage'
+
+# status URL
+STATUS_URL = os.getenv('CAMERAHUB_STATUS_URL')
+
+# django-settings-export
+# These settings are exposed to template context
+SETTINGS_EXPORT = [
+    'STATUS_URL',
+]
+
+# Sphinx
+SPHINXDOC_BASE_TEMPLATE = 'docs.html'
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}

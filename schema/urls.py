@@ -31,6 +31,8 @@ urlpatterns = [
     path('archive/<int:id_owner>',
          views.ArchiveDetail.as_view(), name='archive-detail'),
     path('archive/create/', views.ArchiveCreate.as_view(), name='archive-create'),
+    path('archive/<int:id_owner>/print',
+         views.ArchivePrint.as_view(), name='archive-print'),
     path('archive/<int:id_owner>/update',
          views.ArchiveUpdate.as_view(), name='archive-update'),
 
@@ -191,6 +193,8 @@ urlpatterns = [
 
     path('print/', views.PrintList.as_view(), name='print-list'),
     path('print/<int:id_owner>', views.PrintDetail.as_view(), name='print-detail'),
+    path('print/<int:id_owner>/print',
+         views.PrintPrint.as_view(), name='print-print'),
     path('print/create/', views.PrintCreate.as_view(), name='print-create'),
     path('print/<int:id_owner>/update',
          views.PrintUpdate.as_view(), name='print-update'),
@@ -221,6 +225,8 @@ urlpatterns = [
     path('film/create/', views.FilmCreate.as_view(), name='film-create'),
     path('film/<int:id_owner>/update',
          views.FilmUpdate.as_view(), name='film-update'),
+    path('film/<int:id_owner>/print',
+         views.FilmPrint.as_view(), name='film-print'),
     path('film/<int:id_owner>/load', views.FilmLoad.as_view(), name='film-load'),
     path('film/<int:id_owner>/develop',
          views.FilmDevelop.as_view(), name='film-develop'),
