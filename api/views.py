@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework import permissions
 from drf_multiple_serializer import ReadWriteSerializerMixin
+from django_filters.rest_framework import DjangoFilterBackend
 
 from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer, PrintSerializer, LensSerializer, CameraSerializer
 from api.serializers import ManufacturerSerializer, ArchiveSerializer, BatterySerializer, FilterSerializer, NegativeSizeSerializer
@@ -53,6 +54,8 @@ class NegativeViewSet(ReadWriteSerializerMixin, ModelViewSet):
         'write': NegativeRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['film', 'frame']
 
     def get_queryset(self):
         return Negative.objects.filter(owner=self.request.user)
@@ -71,6 +74,8 @@ class ScanViewSet(ReadWriteSerializerMixin, ModelViewSet):
         'write': ScanRWSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['uuid']
 
     def get_queryset(self):
         return Scan.objects.filter(owner=self.request.user)
