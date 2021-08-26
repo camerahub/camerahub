@@ -245,6 +245,7 @@ class NegativeSerializer(ModelSerializer):
     exposure_program = StringRelatedField(many=False)
     metering_mode = StringRelatedField(many=False)
     shutter_speed = StringRelatedField(many=False)
+    photographer = PersonSerializer(many=False)
 
     class Meta:
         model = Negative
