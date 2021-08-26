@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, StringRelatedField
+from rest_framework.serializers import ModelSerializer, StringRelatedField, DecimalField, CharField, IntegerField
 from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
@@ -260,6 +260,10 @@ class NegativeSerializer(ModelSerializer):
     metering_mode = MeteringModeSerializer(many=False)
     shutter_speed = StringRelatedField(many=False)
     photographer = PersonSerializer(many=False)
+    copyright = CharField()
+    latitude = DecimalField(max_digits=18, decimal_places=15)
+    longitude = DecimalField(max_digits=18, decimal_places=15)
+    focal_length = IntegerField()
 
     class Meta:
         model = Negative

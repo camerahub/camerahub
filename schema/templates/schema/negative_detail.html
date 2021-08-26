@@ -69,6 +69,12 @@
     <td>{{ object.focal_length }}mm</td>
   </tr>
   {% endif %}
+  {% if object.focal_length_35mm is not None %}
+  <tr>
+    <td>Focal length, 35mm equivalent</td>
+    <td>{{ object.focal_length_35mm }}mm</td>
+  </tr>
+  {% endif %}
   {% if object.shutter_speed is not None %}
   <tr>
     <td>Shutter speed</td>
@@ -138,6 +144,12 @@
   <tr>
     <td>Notes</td>
     <td>{{ object.notes|linebreaks }}</td>
+  </tr>
+  {% endif %}
+  {% if object.copyright is not None %}
+  <tr>
+    <td>Copyright</td>
+    <td>{{ object.copyright }}</td>
   </tr>
   {% endif %}
   {% if object.location is not None %}
