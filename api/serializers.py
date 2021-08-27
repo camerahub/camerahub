@@ -1,8 +1,22 @@
-from rest_framework.serializers import ModelSerializer, StringRelatedField
+from rest_framework.serializers import ModelSerializer, StringRelatedField, DecimalField, CharField, IntegerField
 from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
 from schema.models import Lens, Print, Scan, Order, MeteringMode, ExposureProgram, ShutterSpeed
+
+class ExposureProgramSerializer(ModelSerializer):
+
+    class Meta:
+        model = ExposureProgram
+        fields = '__all__'
+
+
+class MeteringModeSerializer(ModelSerializer):
+
+    class Meta:
+        model = MeteringMode
+        fields = '__all__'
+
 
 class ManufacturerSerializer(ModelSerializer):
     country = StringRelatedField(many=False)
@@ -206,8 +220,8 @@ class CameraModelSerializer(ModelSerializer):
     negative_size = NegativeSizeSerializer(many=False)
     mount = MountSerializer(many=False)
     lens_manufacturer = ManufacturerSerializer(many=False)
-    metering_modes = StringRelatedField(many=True)
-    exposure_programs = StringRelatedField(many=True)
+    metering_modes = MeteringModeSerializer(many=True)
+    exposure_programs = ExposureProgramSerializer(many=True)
     battery_type = BatterySerializer(many=False)
 
     class Meta:
@@ -242,9 +256,14 @@ class NegativeSerializer(ModelSerializer):
     filter = FilterSerializer(many=False)
     teleconverter = TeleconverterSerializer(many=False)
     mount_adapter = MountAdapterSerializer(many=False)
-    exposure_program = StringRelatedField(many=False)
-    metering_mode = StringRelatedField(many=False)
+    exposure_program = ExposureProgramSerializer(many=False)
+    metering_mode = MeteringModeSerializer(many=False)
     shutter_speed = StringRelatedField(many=False)
+    photographer = PersonSerializer(many=False)
+    copyright = CharField()
+    latitude = DecimalField(max_digits=18, decimal_places=15)
+    longitude = DecimalField(max_digits=18, decimal_places=15)
+    focal_length = IntegerField()
 
     class Meta:
         model = Negative
@@ -280,20 +299,6 @@ class OrderSerializer(ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
-
-class MeteringModeSerializer(ModelSerializer):
-
-    class Meta:
-        model = MeteringMode
-        fields = '__all__'
-
-
-class ExposureProgramSerializer(ModelSerializer):
-
-    class Meta:
-        model = ExposureProgram
-        fields = '__all__'
-
 
 class ShutterSpeedSerializer(ModelSerializer):
 

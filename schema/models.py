@@ -2351,6 +2351,43 @@ class Negative(ExportModelOperationsMixin('negative'), models.Model):
             mystr = "#%s" % self.slug
         return mystr
 
+    @property
+    def latitude(self):
+        if self.location:
+            # pylint: disable=no-member
+            lat = self.location.latitude
+        else:
+            lat = None
+        return lat
+
+    @property
+    def longitude(self):
+        if self.location:
+            # pylint: disable=no-member
+            long = self.location.longitude
+        else:
+            long = None
+        return long
+
+    @property
+    def focal_length_35mm(self):
+        if self.film.camera.cameramodel.negative_size:
+            fl35mm = round(self.film.camera.cameramodel.negative_size.crop_factor * self.focal_length)
+        else:
+            fl35mm = None
+        return fl35mm
+
+    @property
+    def copyright(self):
+        if self.date and self.photographer:
+            photoyear = str(self.date.year)
+            photoperson = str(self.photographer)
+            text = "© {} {}".format(photoyear, photoperson)
+        else:
+            text = None
+
+        return text
+
     class Meta:
         ordering = ['film', 'frame']
         verbose_name_plural = "negatives"
