@@ -32,7 +32,8 @@ def addToner(apps, schema_editor):
     custom_slugify_unique = UniqueSlugify(to_lower=True)
     for record in ExistingRecords.objects.all():
         record.slug = custom_slugify_unique(
-            "{} {}".format(record.manufacturer.name, record.name))
+            f"{record.manufacturer.name} {record.name}"
+        )
         record.save()
 
 
@@ -41,7 +42,8 @@ def addFilmstock(apps, schema_editor):
     custom_slugify_unique = UniqueSlugify(to_lower=True)
     for record in ExistingRecords.objects.all():
         record.slug = custom_slugify_unique(
-            "{} {}".format(record.manufacturer.name, record.name))
+            f"{record.manufacturer.name} {record.name}"
+        )
         record.save()
 
 
@@ -50,7 +52,8 @@ def addDeveloper(apps, schema_editor):
     custom_slugify_unique = UniqueSlugify(to_lower=True)
     for record in ExistingRecords.objects.all():
         record.slug = custom_slugify_unique(
-            "{} {}".format(record.manufacturer.name, record.name))
+            f"{record.manufacturer.name} {record.name}"
+        )
         record.save()
 
 
@@ -58,8 +61,9 @@ def addLensmodel(apps, schema_editor):
     ExistingRecords = apps.get_model('schema', 'lensmodel')
     custom_slugify_unique = UniqueSlugify(to_lower=True)
     for record in ExistingRecords.objects.all():
-        record.slug = custom_slugify_unique("{} {} {}".format(
-            record.manufacturer.name, record.model, str(record.disambiguation or '')))
+        record.slug = custom_slugify_unique(
+            f"{record.manufacturer.name} {record.model} {str(record.disambiguation or '')}"
+        )
         record.save()
 
 

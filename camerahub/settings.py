@@ -245,10 +245,7 @@ if os.getenv('CAMERAHUB_MEMCACHED') == 'true':
         'default': {
             'BACKEND': 'speedinfo.backends.proxy_cache',
             'CACHE_BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': "{}:{}".format(
-                os.getenv('CAMERAHUB_MEMCACHED_HOST', '127.0.0.1'),
-                os.getenv('CAMERAHUB_MEMCACHED_PORT', '11211'),
-            ),
+            'LOCATION': f"{os.getenv('CAMERAHUB_MEMCACHED_HOST', '127.0.0.1')}:{os.getenv('CAMERAHUB_MEMCACHED_PORT', '11211')}"
         }
     }
 else:

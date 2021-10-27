@@ -191,7 +191,7 @@ class Archive(ExportModelOperationsMixin('archive'), models.Model):
     @property
     def max_size(self):
         if self.max_width and self.max_height:
-            mystr = "{}×{}\"".format(self.max_width, self.max_height)
+            mystr = f"{self.max_width}×{self.max_height}\""
         else:
             mystr = None
         return mystr
@@ -372,7 +372,7 @@ class NegativeSize(ExportModelOperationsMixin('negativesize'), models.Model):
     @property
     def size(self):
         if self.width and self.height:
-            mystr = "{}×{}mm".format(self.width, self.height)
+            mystr = f"{self.width}×{self.height}mm"
         else:
             mystr = None
         return mystr
@@ -484,8 +484,7 @@ class FlashModel(ExportModelOperationsMixin('flashmodel'), models.Model):
         if not self.slug:
             custom_slugify_unique = UniqueSlugify(
                 unique_check=flashmodel_check, to_lower=True)
-            self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.model))
+            self.slug = custom_slugify_unique(f"{self.manufacturer.name} {self.model}")
         return super().save(*args, **kwargs)
 
     def clean(self):
@@ -619,7 +618,7 @@ class EnlargerModel(ExportModelOperationsMixin('enlargermodel'), models.Model):
             custom_slugify_unique = UniqueSlugify(
                 unique_check=enlargermodel_check, to_lower=True)
             self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.model))
+                f"{self.manufacturer.name} {self.model}")
         return super().save(*args, **kwargs)
 
     def clean(self):
@@ -700,10 +699,9 @@ class Enlarger(ExportModelOperationsMixin('enlarger'), models.Model):
             })
 
     def __str__(self):
-        mystr = "%s %s" % (
-            self.enlargermodel.manufacturer.name, self.enlargermodel.model)
+        mystr = f"{self.enlargermodel.manufacturer.name} {self.enlargermodel.model}"
         ownchar = '✓' if self.own is True else '✗'
-        return "%s %s" % (ownchar, mystr)
+        return f"{ownchar} {mystr}"
 
     def get_absolute_url(self):
         return reverse('schema:enlarger-detail', kwargs={'id_owner': self.id_owner})
@@ -970,7 +968,7 @@ class TeleconverterModel(ExportModelOperationsMixin('teleconvertermodel'), model
             custom_slugify_unique = UniqueSlugify(
                 unique_check=teleconvertermodel_check, to_lower=True)
             self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.model))
+                f"{self.manufacturer.name} {self.model}")
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -1050,7 +1048,7 @@ class Toner(ExportModelOperationsMixin('toner'), models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.name)
+            mystr = f"{self.manufacturer.name} {self.name}"
         else:
             mystr = self.name
         return mystr
@@ -1071,7 +1069,7 @@ class Toner(ExportModelOperationsMixin('toner'), models.Model):
             custom_slugify_unique = UniqueSlugify(
                 unique_check=toner_check, to_lower=True)
             self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.name))
+                f"{self.manufacturer.name} {self.name}")
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -1107,7 +1105,7 @@ class FilmStock(ExportModelOperationsMixin('filmstock'), models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.name)
+            mystr = f"{self.manufacturer.name} {self.name}"
         else:
             mystr = self.name
         return mystr
@@ -1128,7 +1126,7 @@ class FilmStock(ExportModelOperationsMixin('filmstock'), models.Model):
             custom_slugify_unique = UniqueSlugify(
                 unique_check=filmstock_check, to_lower=True)
             self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.name))
+                f"{self.manufacturer.name} {self.name}")
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -1169,7 +1167,7 @@ class BulkFilm(ExportModelOperationsMixin('bulkfilm'), models.Model):
         unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "#%s %s %s" % (self.id_owner, self.filmstock.manufacturer.name, self.filmstock.name)
+        return f"#{self.id_owner} {self.filmstock.manufacturer.name} {self.filmstock.name}"
 
     class Meta:
         verbose_name_plural = "bulk films"
@@ -1207,7 +1205,7 @@ class MountAdapter(ExportModelOperationsMixin('mountadapter'), models.Model):
         unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "%s - %s" % (self.camera_mount, self.lens_mount)
+        return f"{self.camera_mount} - {self.lens_mount}"
 
     class Meta:
         ordering = ['camera_mount', 'lens_mount']
@@ -1278,7 +1276,7 @@ class Developer(ExportModelOperationsMixin('developer'), models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.name)
+            mystr = f"{self.manufacturer.name} {self.name}"
         else:
             mystr = self.name
         return mystr
@@ -1299,7 +1297,7 @@ class Developer(ExportModelOperationsMixin('developer'), models.Model):
             custom_slugify_unique = UniqueSlugify(
                 unique_check=developer_check, to_lower=True)
             self.slug = custom_slugify_unique(
-                "{} {}".format(self.manufacturer.name, self.name))
+                f"{self.manufacturer.name} {self.name}")
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -1438,9 +1436,9 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
     @property
     def focal_length(self):
         if self.zoom is True:
-            mystr = "{}-{}mm".format(self.min_focal_length, self.max_focal_length)
+            mystr = f"{self.min_focal_length}-{self.max_focal_length}mm"
         elif self.zoom is False:
-            mystr = "{}mm".format(self.min_focal_length)
+            mystr = f"{self.min_focal_length}mm"
         else:
             mystr = None
         return mystr
@@ -1517,8 +1515,9 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         if not self.slug:
             custom_slugify_unique = UniqueSlugify(
                 unique_check=lensmodel_check, to_lower=True)
-            self.slug = custom_slugify_unique("{} {} {}".format(
-                self.manufacturer.name, self.model, str(self.disambiguation or '')))
+            self.slug = custom_slugify_unique(
+                f"{self.manufacturer.name} {self.model} {str(self.disambiguation or '')}"
+            )
         # Auto-populate angle of view
         if not self.nominal_max_angle_diag:
             if self.negative_size and self.negative_size.diagonal and self.min_focal_length:
@@ -1779,8 +1778,8 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
         if not self.slug:
             custom_slugify_unique = UniqueSlugify(
                 unique_check=cameramodel_check, to_lower=True)
-            self.slug = custom_slugify_unique("{} {} {}".format(
-                self.manufacturer.name, self.model, str(self.disambiguation or '')))
+            self.slug = custom_slugify_unique(
+                f"{self.manufacturer.name} {self.model} {str(self.disambiguation or '')}")
         return super().save(*args, **kwargs)
 
     def clean(self):
@@ -1916,7 +1915,7 @@ class Accessory(ExportModelOperationsMixin('accessory'), models.Model):
 
     def __str__(self):
         if self.manufacturer is not None:
-            mystr = "%s %s" % (self.manufacturer.name, self.model)
+            mystr = f"{self.manufacturer.name} {self.model}"
         else:
             mystr = self.model
         return mystr
@@ -1998,13 +1997,11 @@ class Lens(ExportModelOperationsMixin('lens'), models.Model):
 
     def __str__(self):
         if self.serial is not None:
-            mystr = "%s %s (#%s)" % (
-                self.lensmodel.manufacturer.name, self.lensmodel.model, self.serial)
+            mystr = f"{self.lensmodel.manufacturer.name} {self.lensmodel.model} (#{self.serial})"
         else:
-            mystr = "%s %s" % (
-                self.lensmodel.manufacturer.name, self.lensmodel.model)
+            mystr = f"{self.lensmodel.manufacturer.name} {self.lensmodel.model}"
         ownchar = '✓' if self.own is True else '✗'
-        return "%s %s" % (ownchar, mystr)
+        return f"{ownchar} {mystr}"
 
     class Meta:
         ordering = ['-own', 'lensmodel__manufacturer',
@@ -2100,13 +2097,11 @@ class Camera(ExportModelOperationsMixin('camera'), models.Model):
 
     def __str__(self):
         if self.serial is not None:
-            mystr = "%s %s (#%s)" % (
-                self.cameramodel.manufacturer.name, self.cameramodel.model, self.serial)
+            mystr = f"{self.cameramodel.manufacturer.name} {self.cameramodel.model} (#{self.serial})"
         else:
-            mystr = "%s %s" % (
-                self.cameramodel.manufacturer.name, self.cameramodel.model)
+            mystr = f"{self.cameramodel.manufacturer.name} {self.cameramodel.model}"
         ownchar = '✓' if self.own is True else '✗'
-        return "%s %s" % (ownchar, mystr)
+        return f"{ownchar} {mystr}"
 
     class Meta:
         ordering = ['-own', 'cameramodel__manufacturer',
@@ -2253,9 +2248,9 @@ class Film(ExportModelOperationsMixin('film'), models.Model):
 
     def __str__(self):
         if self.title is not None:
-            mystr = "#%s %s" % (self.id_owner, self.title)
+            mystr = f"#{self.id_owner} {self.title}"
         else:
-            mystr = "#%s" % (self.id_owner)
+            mystr = f"#{self.id_owner}"
         return mystr
 
     class Meta:
@@ -2346,9 +2341,9 @@ class Negative(ExportModelOperationsMixin('negative'), models.Model):
 
     def __str__(self):
         if self.caption is not None:
-            mystr = "#%s %s" % (self.slug, self.caption)
+            mystr = f"#{self.slug} {self.caption}"
         else:
-            mystr = "#%s" % self.slug
+            mystr = f"#{self.slug}"
         return mystr
 
     @property
@@ -2382,7 +2377,7 @@ class Negative(ExportModelOperationsMixin('negative'), models.Model):
         if self.date and self.photographer:
             photoyear = str(self.date.year)
             photoperson = str(self.photographer)
-            text = "© {} {}".format(photoyear, photoperson)
+            text = f"© {photoyear} {photoperson}"
         else:
             text = None
 
@@ -2500,7 +2495,7 @@ class Print(ExportModelOperationsMixin('print'), models.Model):
         unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "#%i" % (self.id_owner)
+        return f"#{self.id_owner}"
 
     class Meta:
         verbose_name_plural = "prints"
@@ -2527,7 +2522,7 @@ class Print(ExportModelOperationsMixin('print'), models.Model):
     @property
     def size(self):
         if self.width and self.height:
-            mystr = "{}×{}mm".format(self.width, self.height)
+            mystr = f"{self.width}×{self.height}mm"
         else:
             mystr = None
         return mystr
@@ -2624,7 +2619,7 @@ class Order(ExportModelOperationsMixin('order'), models.Model):
         unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return "#%i" % (self.id_owner)
+        return f"#{self.id_owner}"
 
     class Meta:
         ordering = ['added']
@@ -2639,7 +2634,7 @@ class Order(ExportModelOperationsMixin('order'), models.Model):
     @property
     def size(self):
         if self.width and self.height:
-            mystr = "{}×{}mm".format(self.width, self.height)
+            mystr = f"{self.width}×{self.height}mm"
         else:
             mystr = None
         return mystr

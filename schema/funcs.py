@@ -9,9 +9,9 @@ def boolicon(obj):
     img = '<img src="/static/svg/{}.svg" width="30" height="30" alt="{}" title="{}">'
     if obj is not None:
         if bool(obj):
-            return_value = mark_safe(img.format('yes', 'Yes', 'Yes'))
+            return_value = mark_safe(img.format('yes', 'Yes', 'Yes'))  # pylint: disable=consider-using-f-string
         else:
-            return_value = mark_safe(img.format('no', 'No', 'No'))
+            return_value = mark_safe(img.format('no', 'No', 'No'))  # pylint: disable=consider-using-f-string
     else:
         return_value = None
 
@@ -22,9 +22,9 @@ def colouricon(obj):
     img = '<img src="/static/svg/{}.svg" width="30" height="30" alt="{}" title="{}">'
     if obj is not None:
         if bool(obj):
-            return_value = mark_safe(img.format('colour', 'Colour', 'Colour'))
+            return_value = mark_safe(img.format('colour', 'Colour', 'Colour'))  # pylint: disable=consider-using-f-string
         else:
-            return_value = mark_safe(img.format('bw', 'Black & White', 'Black & White'))
+            return_value = mark_safe(img.format('bw', 'Black & White', 'Black & White'))  # pylint: disable=consider-using-f-string
     else:
         return_value = None
 
@@ -35,7 +35,7 @@ def locationicon(obj):
     img = '<img src="/static/svg/{}.svg" width="30" height="30" alt="{}" title="{}">'
     if obj is not None:
         if bool(obj):
-            return_value = mark_safe(img.format('location', 'Location', 'Location'))
+            return_value = mark_safe(img.format('location', 'Location', 'Location'))  # pylint: disable=consider-using-f-string
         else:
             return_value = 'None'
     else:
