@@ -10,8 +10,9 @@ def addCustom(apps, schema_editor):
     custom_slugify_unique = UniqueSlugify(to_lower=True)
 
     for record in ExistingRecords.objects.all():
-        record.slug = custom_slugify_unique("{} {} {}".format(
-            record.manufacturer.name, record.model, str(record.disambiguation or '')))
+        record.slug = custom_slugify_unique(
+            f"{record.manufacturer.name} {record.model} {str(record.disambiguation or '')}"
+        )
         record.save()
 
 
