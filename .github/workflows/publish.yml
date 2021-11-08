@@ -34,3 +34,11 @@ jobs:
           repository: camerahub/camerahub
           tag_with_ref: true
           tags: latest
+      - name: Publish to Harbor
+        uses: docker/build-push-action@v1
+        with:
+          username: robot$camerahub
+          password: ${{ secrets.HARBOR_PASSWORD }}
+          repository: registry.apps.gazeley.uk/camerahub/camerahub
+          tag_with_ref: true
+          tags: latest
