@@ -13,7 +13,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 
 # Install runtime deps
 RUN runDeps='libpq5 libgdal28 libmagic1 mime-support postgresql-client' \
-  && apt-get update && apt-get install -y $runDeps --no-install-recommends \
+  && apt-get update \
+  && apt-get upgrade -y \
+  && apt-get install -y $runDeps --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 # Install built deps
