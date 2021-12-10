@@ -26,11 +26,31 @@ jobs:
         run: poetry version ${{ steps.get_tag.outputs.TAG }}
       - name: Publish to PyPI
         run: poetry publish -n --build --username __token__ --password ${{ secrets.pypi_password }}
-      - name: Publish to Docker Hub
-        uses: docker/build-push-action@v1
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            camerahub/camerahub
+            registry.apps.gazeley.uk/camerahub/camerahub
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
           username: djjudas21
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: camerahub/camerahub
-          tag_with_ref: true
-          tags: latest
+      - name: Login to Harbor
+        uses: docker/login-action@v1
+        with:
+          registry: registry.apps.gazeley.uk
+          username: robot$camerahub
+          password: ${{ secrets.HARBOR_PASSWORD }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
