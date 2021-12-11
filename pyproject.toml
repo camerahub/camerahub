@@ -28,7 +28,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-Django = "^2.2.13"
+Django = "^3"
 pytz = "*"
 django-money = "^1.2"
 django-choices = "^1.7.0"
