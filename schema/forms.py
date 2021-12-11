@@ -322,10 +322,15 @@ class CameraModelForm(autocomplete.FutureModelForm):
             FormActionButtons
         )
 
+#    def save(self, *args, **kwargs):
+#        model = super().save(*args, **kwargs)
+#        model.tags.add("test2")
+#        self.save_m2m()
+
     def save(self, *args, **kwargs):
         model = super().save(*args, **kwargs)
         model.tags.add("test2")
-        self.save_m2m()
+        print(model.tags.all())
 
 
 class DeveloperForm(ModelForm):
