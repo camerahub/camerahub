@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schema', '0126_sphinxdocs'),
+        ('schema', '0125_auto_20210517_2102'),
     ]
 
     operations = [
