@@ -69,8 +69,6 @@ INSTALLED_APPS = [
     'clear_cache',
     'speedinfo',
     'speedinfo.storage.database',
-    'sphinxdoc',
-    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -298,11 +296,3 @@ STATUS_URL = os.getenv('CAMERAHUB_STATUS_URL')
 SETTINGS_EXPORT = [
     'STATUS_URL',
 ]
-
-# Sphinx
-SPHINXDOC_BASE_TEMPLATE = 'docs.html'
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
-    },
-}
