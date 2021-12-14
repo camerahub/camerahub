@@ -865,7 +865,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "f1f95452e488d18432a95f4bd2937c970bc365182ae8853f179c0d10a499ff13"
+content-hash = "bf12be1ce5ce6556abf1d885c36c603c9e983cc2e1a3dcb7ed81873b6ebd5974"
 
 [metadata.files]
 asgiref = [
