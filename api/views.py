@@ -2,7 +2,6 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework import permissions
 from drf_multiple_serializer import ReadWriteSerializerMixin
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
 
 from api.serializers import FilmSerializer, NegativeSerializer, ScanSerializer, PrintSerializer, LensSerializer, CameraSerializer
 from api.serializers import ManufacturerSerializer, ArchiveSerializer, BatterySerializer, FilterSerializer, NegativeSizeSerializer

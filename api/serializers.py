@@ -1,5 +1,3 @@
-from datetime import datetime
-from pyparsing import Char
 from rest_framework.serializers import ModelSerializer, StringRelatedField, DecimalField, CharField, IntegerField, DateTimeField
 from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
