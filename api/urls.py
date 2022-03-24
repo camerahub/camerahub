@@ -39,6 +39,7 @@ router.register(r'order', views.OrderViewSet, 'Order')
 router.register(r'meteringmode', views.MeteringModeViewSet, 'MeteringMode')
 router.register(r'exposureprogram', views.ExposureProgramViewSet, 'ExposureProgram')
 router.register(r'shutterspeed', views.ShutterSpeedViewSet, 'ShutterSpeed')
+router.register(r'exif', views.ExifViewSet, 'Exif')
 
 urlpatterns = [
     # Wire up our API using automatic URL routing.

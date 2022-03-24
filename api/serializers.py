@@ -1,8 +1,9 @@
-from rest_framework.serializers import ModelSerializer, StringRelatedField, DecimalField, CharField, IntegerField
+from rest_framework.serializers import ModelSerializer, StringRelatedField, DecimalField, CharField, IntegerField, DateTimeField
 from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
 from schema.models import Lens, Print, Scan, Order, MeteringMode, ExposureProgram, ShutterSpeed
+
 
 class ExposureProgramSerializer(ModelSerializer):
 
@@ -250,6 +251,13 @@ class FilmSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class ShutterSpeedSerializer(ModelSerializer):
+
+    class Meta:
+        model = ShutterSpeed
+        fields = '__all__'
+
+
 class NegativeSerializer(ModelSerializer):
     film = FilmSerializer(many=False)
     lens = LensSerializer(many=False)
@@ -258,7 +266,7 @@ class NegativeSerializer(ModelSerializer):
     mount_adapter = MountAdapterSerializer(many=False)
     exposure_program = ExposureProgramSerializer(many=False)
     metering_mode = MeteringModeSerializer(many=False)
-    shutter_speed = StringRelatedField(many=False)
+    shutter_speed = ShutterSpeedSerializer(many=False)
     photographer = PersonSerializer(many=False)
     copyright = CharField()
     latitude = DecimalField(max_digits=18, decimal_places=15)
@@ -268,6 +276,78 @@ class NegativeSerializer(ModelSerializer):
     class Meta:
         model = Negative
         fields = '__all__'
+
+
+class ExifSerializer(ModelSerializer):
+
+    # These fields must take the correct name and data type of actual EXIF tags
+    # https://github.com/hMatoba/Piexif/blob/master/piexif/_exif.py#L206
+    ImageUniqueID = CharField(source='uuid')
+    Make = CharField(
+        source="negative.film.camera.cameramodel.manufacturer.name", default=None)
+    Model = CharField(
+        source="negative.film.camera.cameramodel.model", default=None)
+    BodySerialNumber = CharField(
+        source="negative.film.camera.serial", default=None)
+    UserComment = CharField(source='negative.notes', default=None)
+    FocalLength = DecimalField(
+        source='negative.focal_length', max_digits=5, decimal_places=1, default=None)
+    FocalLengthIn35mmFilm = DecimalField(
+        source='negative.focal_length_35mm', max_digits=5, decimal_places=1, default=None)
+    ShutterSpeedValue = DecimalField(
+        source='negative.shutter_speed.duration', max_digits=8, decimal_places=8, default=None)
+    Copyright = CharField(source='negative.copyright', default=None)
+    ISOSpeed = IntegerField(source='negative.film.exposed_at', default=None)
+    ImageDescription = CharField(source='negative.caption', default=None)
+    LensSerialNumber = CharField(source='negative.lens.serial', default=None)
+    Artist = CharField(source='negative.photographer.name', default=None)
+    FNumber = DecimalField(source='negative.aperture',
+                           max_digits=4, decimal_places=1, default=None)
+    MaxApertureValue = DecimalField(
+        source='negative.lens.lensmodel.max_aperture', max_digits=4, decimal_places=1, default=None)
+    DateTimeOriginal = DateTimeField(source='negative.date', default=None)
+    ExposureProgram = IntegerField(
+        source='negative.exposure_program.id', default=None)
+    MeteringMode = IntegerField(
+        source='negative.metering_mode.id', default=None)
+    Flash = IntegerField(source='negative.flash', default=None)
+    LensModel = CharField(source='negative.lens.lensmodel.model', default=None)
+    LensMake = CharField(
+        source='negative.lens.lensmodel.manufacturer.name', default=None)
+    GPSLatitude = DecimalField(
+        source='negative.latitude', max_digits=18, decimal_places=15, default=None)
+    #GPSLatitudeRef = CharField
+    GPSLongitude = DecimalField(
+        source='negative.longitude', max_digits=18, decimal_places=15, default=None)
+    #GPSLongitudeRef = CharField
+
+    class Meta:
+        model = Scan
+        fields = [
+            'ImageUniqueID',
+            'Make',
+            'Model',
+            'BodySerialNumber',
+            'UserComment',
+            'FocalLength',
+            'FocalLengthIn35mmFilm',
+            'ShutterSpeedValue',
+            'Copyright',
+            'ISOSpeed',
+            'ImageDescription',
+            'LensSerialNumber',
+            'LensModel',
+            'LensMake',
+            'Artist',
+            'FNumber',
+            'MaxApertureValue',
+            'DateTimeOriginal',
+            'ExposureProgram',
+            'MeteringMode',
+            'Flash',
+            'GPSLatitude',
+            'GPSLongitude',
+        ]
 
 
 class PrintSerializer(ModelSerializer):
@@ -298,10 +378,4 @@ class OrderSerializer(ModelSerializer):
 
     class Meta:
         model = Order
-        fields = '__all__'
-
-class ShutterSpeedSerializer(ModelSerializer):
-
-    class Meta:
-        model = ShutterSpeed
         fields = '__all__'

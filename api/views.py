@@ -9,7 +9,7 @@ from api.serializers import FormatSerializer, FlashModelSerializer, FlashSeriali
 from api.serializers import PaperStockSerializer, PersonSerializer, ProcessSerializer, TeleconverterModelSerializer, TeleconverterSerializer
 from api.serializers import TonerSerializer, FilmStockSerializer, BulkFilmSerializer, MountAdapterSerializer, DeveloperSerializer
 from api.serializers import LensModelSerializer, CameraModelSerializer, AccessorySerializer, OrderSerializer
-from api.serializers import ExposureProgramSerializer, MeteringModeSerializer, ShutterSpeedSerializer
+from api.serializers import ExposureProgramSerializer, MeteringModeSerializer, ShutterSpeedSerializer, ExifSerializer
 
 from api.rwserializers import FilmRWSerializer, NegativeRWSerializer, ScanRWSerializer, PrintRWSerializer, LensRWSerializer, CameraRWSerializer
 from api.rwserializers import ArchiveRWSerializer
@@ -55,7 +55,7 @@ class NegativeViewSet(ReadWriteSerializerMixin, ModelViewSet):
     }
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['film', 'frame']
+    filterset_fields = ['film', 'frame', 'slug']
 
     def get_queryset(self):
         return Negative.objects.filter(owner=self.request.user)
@@ -340,3 +340,14 @@ class ExposureProgramViewSet(ReadOnlyModelViewSet):
 class ShutterSpeedViewSet(ReadOnlyModelViewSet):
     queryset = ShutterSpeed.objects.all()
     serializer_class = ShutterSpeedSerializer
+
+class ExifViewSet(ReadOnlyModelViewSet):
+    queryset = Scan.objects.none()
+    serializer_class = ExifSerializer
+    lookup_field = 'uuid'
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['uuid']
+
+    def get_queryset(self):
+        return Scan.objects.filter(owner=self.request.user)
