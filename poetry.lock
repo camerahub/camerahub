@@ -561,7 +561,7 @@ python-versions = ">=3.7"
 name = "platformdirs"
 version = "2.5.1"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -891,7 +891,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "ab2700cc1c8e9c8ace7e1790d8f576c9e802bfc31f7e9f3cee750fa781b10608"
+content-hash = "61af63f79fcf8691412487e7f446326bbec37c16633178f971df6b4eac7e626a"
 
 [metadata.files]
 asgiref = [
