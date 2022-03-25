@@ -33,7 +33,6 @@ jobs:
           # list of Docker images to use as base name for tags
           images: |
             camerahub/camerahub
-            registry.apps.gazeley.uk/camerahub/camerahub
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
