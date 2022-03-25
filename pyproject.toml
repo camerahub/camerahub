@@ -72,7 +72,7 @@ python-memcached = "^1.59"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
-pylint-django = "^2"
+pylint-django = "^2.5.3"
 autopep8 = "^1.5.4"
 pylint = "^2"
 
