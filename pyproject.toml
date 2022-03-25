@@ -72,9 +72,9 @@ python-memcached = "^1.59"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
-pylint-django = "^2.0.14"
+pylint-django = "^2"
 autopep8 = "^1.5.4"
-pylint = "^2.6.0"
+pylint = "^2"
 
 [tool.poetry.extras]
 pgsql = ["psycopg2-binary"]
