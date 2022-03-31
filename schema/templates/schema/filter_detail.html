@@ -4,8 +4,8 @@
 {% block content %}
 <table class="table table-hover">
   <tr>
-    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
-        href="#">Summary</a></th>
+    <th colspan="2" id="summary"><img src="{% static " svg/summary.svg" %}" width="30" height="30"
+        alt="Summary">&nbsp;<a href="#">Summary</a></th>
   </tr>
   <tr>
     <td>Type</td>
@@ -19,6 +19,14 @@
   <tr>
     <td>Attenuation</td>
     <td>{{ object.attenuation }}</td>
+  </tr>
+  {% endif %}
+  {% if object.colour is not None %}
+  <tr>
+    <td>Colour</td>
+    <td><svg xmlns="http://www.w3.org/2000/svg">
+        <circle cx="10" cy="10" r="10" fill="{{ object.colour }}" />
+      </svg></td>
   </tr>
   {% endif %}
 </table>
