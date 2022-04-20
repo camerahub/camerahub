@@ -1333,6 +1333,12 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         Super_wide_angle = ChoiceItem()
         Fisheye = ChoiceItem()
 
+    # Choices for lens purpose
+    class LensPurpose(DjangoChoices):
+        Camera = ChoiceItem()
+        Enlarger = ChoiceItem()
+        Projector = ChoiceItem()
+
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this lens model')
     model = models.CharField(
@@ -1341,6 +1347,8 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
         help_text='Distinguishing notes for lens models with the same name', max_length=45, blank=True, default='')
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True,
                               null=True, help_text='Mount used by this lens model')
+    purpose = models.CharField(
+        choices=LensPurpose.choices, help_text='Intended purposes of lens', max_length=16, blank=True, null=True)
     zoom = models.BooleanField(
         help_text='Whether this is a zoom lens', blank=True, null=True)
     min_focal_length = models.PositiveIntegerField(

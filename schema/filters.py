@@ -168,7 +168,7 @@ class LensModelFilter(FilterSet):
 
     class Meta:
         model = LensModel
-        fields = ('manufacturer', 'mount', 'zoom', 'autofocus', 'lens_type')
+        fields = ('manufacturer', 'mount', 'zoom', 'autofocus', 'lens_type', 'purpose')
 
 
 class MountFilter(FilterSet):

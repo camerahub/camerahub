@@ -44,6 +44,12 @@
     <td><a href="{% url 'schema:mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
   </tr>
   {% endif %}
+  {% if object.purpose is not None %}
+  <tr>
+    <td>Purpose</td>
+    <td>{{ object.purpose }}</td>
+  </tr>
+  {% endif %}
   {% if object.introduced is not None %}
   <tr>
     <td>Marketed</td>
