@@ -297,3 +297,7 @@ STATUS_URL = os.getenv('CAMERAHUB_STATUS_URL')
 SETTINGS_EXPORT = [
     'STATUS_URL',
 ]
+
+# Explicitly set the type of autofield to its current value
+# In Django 3.2+ this will default to BigAutoField
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
