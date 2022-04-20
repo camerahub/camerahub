@@ -625,7 +625,7 @@ class LensSellForm(ModelForm):
 class LensModelForm(ModelForm):
     class Meta:
         model = LensModel
-        fields = ['manufacturer', 'model', 'disambiguation', 'mount', 'introduced', 'discontinued', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'lens_type', 'image_circle', 'aperture_blades',
+        fields = ['manufacturer', 'model', 'disambiguation', 'mount', 'purpose', 'introduced', 'discontinued', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'lens_type', 'image_circle', 'aperture_blades',
                   'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'tags', 'link', 'image', 'image_attribution', 'image_attribution_link', 'diagram', 'diagram_attribution', 'diagram_attribution_link']
         widgets = {
             'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
@@ -642,6 +642,7 @@ class LensModelForm(ModelForm):
                      'model',
                      'disambiguation',
                      'mount',
+                     'purpose',
                      'introduced',
                      'discontinued',
                      ),

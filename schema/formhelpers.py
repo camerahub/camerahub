@@ -189,6 +189,7 @@ class LensModelFormHelper(CustomFormHelper):
             Field('autofocus', css_class="form-control-sm"),
             Field('tags', css_class="form-control-sm"),
             Field('lens_type', css_class="form-control-sm"),
+            Field('purpose', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
