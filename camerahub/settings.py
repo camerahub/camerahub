@@ -300,4 +300,4 @@ SETTINGS_EXPORT = [
 
 # Explicitly set the type of autofield to its current value
 # In Django 3.2+ this will default to BigAutoField
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
