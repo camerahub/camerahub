@@ -21,6 +21,7 @@ from collectionfield.models import CollectionField
 from django_countries.fields import CountryField
 from geoposition.fields import GeopositionField
 from star_ratings.models import Rating
+from colorfield.fields import ColorField
 from .funcs import angle_of_view, canondatecode
 
 
@@ -310,6 +311,7 @@ class Filter(ExportModelOperationsMixin('filter'), models.Model):
         help_text='Filter type shortname (e.g. Red, CPL, UV)', max_length=45, blank=True, null=True)
     attenuation = models.DecimalField(
         help_text='Attenuation of this filter in decimal stops', max_digits=3, decimal_places=1, blank=True, null=True)
+    colour = ColorField(help_text='Colour of the filter', blank=True, null=True)
 
     def __str__(self):
         return self.type

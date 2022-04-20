@@ -455,7 +455,7 @@ class FilmStockForm(ModelForm):
 class FilterForm(ModelForm):
     class Meta:
         model = Filter
-        fields = ['type', 'shortname', 'attenuation']
+        fields = ['type', 'shortname', 'attenuation', 'colour']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -464,6 +464,7 @@ class FilterForm(ModelForm):
             'type',
             'shortname',
             'attenuation',
+            'colour',
             FormActionButtons
         )
 

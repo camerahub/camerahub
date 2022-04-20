@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'clear_cache',
     'speedinfo',
     'speedinfo.storage.database',
+    'colorfield',
 ]
 
 MIDDLEWARE = [

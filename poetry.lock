@@ -189,6 +189,17 @@ python-versions = "*"
 Django = ">=1.0"
 
 [[package]]
+name = "django-colorfield"
+version = "0.6.3"
+description = "simple color field for your models with a nice color-picker in the admin-interface."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+Pillow = ">=5.0"
+
+[[package]]
 name = "django-countries"
 version = "7.3.2"
 description = "Provides a country field for Django models."
@@ -891,7 +902,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "61af63f79fcf8691412487e7f446326bbec37c16633178f971df6b4eac7e626a"
+content-hash = "76e731fea10c272671ed4b7eff7e77b5b3a51579c98e04fc0328857595c04dd6"
 
 [metadata.files]
 asgiref = [
@@ -954,6 +965,10 @@ django-choices = [
 ]
 django-clear-cache = [
     {file = "django-clear-cache-0.3.tar.gz", hash = "sha256:fc9d27d6d7dd143917393484236bdf66a109d99bc64a4418cdf5a1127356d766"},
+]
+django-colorfield = [
+    {file = "django-colorfield-0.6.3.tar.gz", hash = "sha256:441172f8c6024f70b01e3f63195fe83afc554387b34ad999880e86fde989e5af"},
+    {file = "django_colorfield-0.6.3-py3-none-any.whl", hash = "sha256:97625246fb5c4f4a17c9d83b2406a3c98dd9545c40c47741a7b62f7284609910"},
 ]
 django-countries = [
     {file = "django-countries-7.3.2.tar.gz", hash = "sha256:0df6d34193667c2343da8935cbfb8a2bd4fb0c97baf01ac10db4628ba1557a82"},
