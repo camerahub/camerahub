@@ -7,7 +7,6 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
     python manage.py installwatson
     python manage.py buildwatson
     python manage.py collectstatic -c --noinput
-    python manage.py clear_cache
 fi
 
 exec "$@"

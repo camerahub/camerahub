@@ -63,13 +63,10 @@ INSTALLED_APPS = [
     'health_check',
     'health_check.db',
     'health_check.storage',
-    'health_check.cache',
-    'clear_cache',
     'colorfield',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -79,7 +76,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
     'camerahub.middleware.DynamicSiteDomainMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'camerahub.urls'
@@ -230,20 +226,6 @@ LOGGING = {
         },
     },
 }
-
-if os.getenv('CAMERAHUB_MEMCACHED') == 'true':
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': f"{os.getenv('CAMERAHUB_MEMCACHED_HOST', '127.0.0.1')}:{os.getenv('CAMERAHUB_MEMCACHED_PORT', '11211')}"
-        }
-    }
-else:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        }
-    }
 
 TAGGIT_CASE_INSENSITIVE = True
 

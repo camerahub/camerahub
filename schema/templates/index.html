@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load cache %}
 
 {% block heading %}<h4>
     <img src="{% static "svg/home.svg" %}" width="30" height="30" alt="Home">
@@ -34,7 +33,6 @@
         start tracking private data about your own collection.
         {% endif %}
 
-{% cache 600 index %}
         Get started using the icons below, or use the menus above.</p>
     <div class="card-deck">
         <div class="card">
@@ -65,6 +63,5 @@
             </div>
         </div>
     </div>
-{% endcache %}
 </div>
 {% endblock %}
