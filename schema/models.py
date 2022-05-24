@@ -15,7 +15,6 @@ from autosequence.fields import AutoSequenceField
 from slugify import slugify, Slugify, UniqueSlugify
 from taggit.managers import TaggableManager
 from django_prometheus.models import ExportModelOperationsMixin
-from simple_history.models import HistoricalRecords
 from versatileimagefield.fields import VersatileImageField
 from django_countries.fields import CountryField
 from geoposition.fields import GeopositionField
@@ -89,7 +88,6 @@ class Manufacturer(ExportModelOperationsMixin('manufacturer'), models.Model):
         help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
     tags = TaggableManager(blank=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -229,7 +227,6 @@ class Battery(ExportModelOperationsMixin('battery'), models.Model):
     compatible_with = models.ManyToManyField(
         'Battery', blank=True, help_text='Batteries that are compatible with this one')
     slug = models.SlugField(editable=False, null=True, unique=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -348,7 +345,6 @@ class NegativeSize(ExportModelOperationsMixin('negativesize'), models.Model):
         help_text='Area of this negative size in sq. mm', blank=True, null=True, editable=False)
     aspect_ratio = models.DecimalField(help_text='Aspect ratio of this negative size, expressed as a single decimal (e.g. 3:2 is expressed as 1.5)',
                                        max_digits=4, decimal_places=2, blank=True, null=True, editable=False)
-    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -393,7 +389,6 @@ class Format(ExportModelOperationsMixin('format'), models.Model):
     format = models.CharField(
         help_text='The name of this film/sensor format', max_length=45, unique=True)
     negative_size = models.ManyToManyField(NegativeSize, blank=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         return self.format
@@ -460,7 +455,6 @@ class FlashModel(ExportModelOperationsMixin('flashmodel'), models.Model):
     slug = models.SlugField(editable=False, null=True, unique=True)
     ratings = GenericRelation(Rating, related_query_name='FlashModels')
     tags = TaggableManager(blank=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         mystr = self.model
@@ -593,7 +587,6 @@ class EnlargerModel(ExportModelOperationsMixin('enlargermodel'), models.Model):
     slug = models.SlugField(editable=False, null=True, unique=True)
     ratings = GenericRelation(Rating, related_query_name='EnlargerModels')
     tags = TaggableManager(blank=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         mystr = self.model
@@ -760,7 +753,6 @@ class Mount(ExportModelOperationsMixin('mount'), models.Model):
     slug = models.SlugField(editable=False, null=True, unique=True)
     ratings = GenericRelation(Rating, related_query_name='Mounts')
     tags = TaggableManager(blank=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         return self.mount
@@ -813,7 +805,6 @@ class PaperStock(ExportModelOperationsMixin('paperstock'), models.Model):
                               choices=Finish.choices, max_length=25, blank=True, null=True)
     ratings = GenericRelation(Rating, related_query_name='PaperStocks')
     tags = TaggableManager(blank=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         mystr = self.name
@@ -886,7 +877,6 @@ class Process(ExportModelOperationsMixin('process'), models.Model):
         help_text='Whether this is a colour process', blank=True, null=True)
     positive = models.BooleanField(
         help_text='Whether this is a positive/reversal process', blank=True, null=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -935,7 +925,6 @@ class TeleconverterModel(ExportModelOperationsMixin('teleconvertermodel'), model
     slug = models.SlugField(editable=False, null=True, unique=True)
     ratings = GenericRelation(Rating, related_query_name='TeleconverterModels')
     tags = TaggableManager(blank=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         mystr = self.model
@@ -1045,7 +1034,6 @@ class Toner(ExportModelOperationsMixin('toner'), models.Model):
     slug = models.SlugField(editable=False, null=True, unique=True)
     ratings = GenericRelation(Rating, related_query_name='Toners')
     tags = TaggableManager(blank=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1102,7 +1090,6 @@ class FilmStock(ExportModelOperationsMixin('filmstock'), models.Model):
     slug = models.SlugField(editable=False, null=True, unique=True)
     ratings = GenericRelation(Rating, related_query_name='FilmStocks')
     tags = TaggableManager(blank=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1273,7 +1260,6 @@ class Developer(ExportModelOperationsMixin('developer'), models.Model):
     slug = models.SlugField(editable=False, null=True, unique=True)
     ratings = GenericRelation(Rating, related_query_name='Developers')
     tags = TaggableManager(blank=True)
-    history = HistoricalRecords()
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1409,7 +1395,6 @@ class LensModel(ExportModelOperationsMixin('lensmodel'), models.Model):
     slug = models.SlugField(editable=False, null=True, unique=True)
     ratings = GenericRelation(Rating, related_query_name='LensModels')
     tags = TaggableManager(blank=True)
-    history = HistoricalRecords()
     image = VersatileImageField(
         help_text='Image of the lens model', blank=True, null=True)
     image_attribution = models.CharField(
@@ -1706,7 +1691,6 @@ class CameraModel(ExportModelOperationsMixin('cameramodel'), models.Model):
     metering_modes = models.ManyToManyField(MeteringMode, blank=True)
     exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    history = HistoricalRecords()
     ratings = GenericRelation(Rating, related_query_name='CameraModels')
     tags = TaggableManager(blank=True)
     link = models.URLField(

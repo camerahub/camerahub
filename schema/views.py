@@ -165,14 +165,6 @@ class BatteryList(PagedFilteredTableView):
 class BatteryDetail(generic.DetailView):
     model = Battery
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-        return context
-
-
 class BatteryCreate(LoginRequiredMixin, CreateView):
     model = Battery
     form_class = BatteryForm
@@ -300,9 +292,6 @@ class CameraModelDetail(generic.DetailView):
             context['mine'] = self.get_object().camera_set.filter(
                 owner=self.request.user)
 
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-
         return context
 
 
@@ -352,9 +341,6 @@ class DeveloperDetail(generic.DetailView):
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
-
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -445,9 +431,6 @@ class FilmStockDetail(generic.DetailView):
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
-
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -551,8 +534,6 @@ class FormatDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
         return context
 
 
@@ -650,9 +631,6 @@ class LensModelDetail(generic.DetailView):
             context['mine'] = self.get_object().lens_set.filter(
                 owner=self.request.user)
 
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-
         return context
 
 
@@ -702,9 +680,6 @@ class ManufacturerDetail(generic.DetailView):
                 items.append(detailitem)
         context['related'] = items
 
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-
         return context
 
 
@@ -741,9 +716,6 @@ class MountDetail(generic.DetailView):
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
-
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -803,8 +775,6 @@ class NegativeSizeDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
         return context
 
 
@@ -874,9 +844,6 @@ class PaperStockDetail(generic.DetailView):
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
-
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -1237,9 +1204,6 @@ class TonerDetail(generic.DetailView):
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
-
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
 
         return context
 
