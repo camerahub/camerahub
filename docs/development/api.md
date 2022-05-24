@@ -192,7 +192,6 @@ X-Frame-Options: SAMEORIGIN
             "nominal_max_angle_diag": null,
             "nominal_min_angle_diag": null,
             "notes": "",
-            "other_names": "||",
             "pc_sync": null,
             "self_timer": null,
             "shoe": null,

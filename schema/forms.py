@@ -209,7 +209,6 @@ class CameraModelForm(autocomplete.FutureModelForm):
             Fieldset('Summary',
                      'manufacturer',
                      'model',
-                     'other_names',
                      'disambiguation',
                      'introduced',
                      'discontinued',
