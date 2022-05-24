@@ -375,14 +375,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "django-speedinfo"
-version = "2.0.2"
-description = "Live profiling tool for Django framework to measure views performance"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-
-[[package]]
 name = "django-star-ratings"
 version = "0.9.0"
 description = "A Django app to add star ratings to models."
@@ -864,7 +856,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "9f8af01da2d8dcd160ffd89b40ef4dc86c8e9f4f65de329e1a0f8628bd790dff"
+content-hash = "b2b3ee48f49d8bebe096616177a9c825e529b3f7c7d1c96b0f5a7d41775d087b"
 
 [metadata.files]
 asgiref = [
@@ -988,10 +980,6 @@ django-settings-export = [
 django-social-share = [
     {file = "django-social-share-2.2.1.tar.gz", hash = "sha256:4062c31ddad15eb9f7796cdfaae5a813018a3fd8da2b77f3e063e3a31252f84a"},
     {file = "django_social_share-2.2.1-py2.py3-none-any.whl", hash = "sha256:6de83acdd2a566c70af29b229a6430ccf8031d3d0ae1612419f633cbd9f649f5"},
-]
-django-speedinfo = [
-    {file = "django-speedinfo-2.0.2.tar.gz", hash = "sha256:5b7c9976ac1060f2a5a086c2cd299ace491313f2d8aaeef04a434074c2ca089c"},
-    {file = "django_speedinfo-2.0.2-py2.py3-none-any.whl", hash = "sha256:ab0049c1182143a47b9c0cc9e19ce00180bd30aca48052b55647a221b97f89af"},
 ]
 django-star-ratings = [
     {file = "django-star-ratings-0.9.0.tar.gz", hash = "sha256:57eb9656f6446e622a4d126e59a07371a9be43f6d1a31e715d1e48b593e36873"},

@@ -65,8 +65,6 @@ INSTALLED_APPS = [
     'health_check.storage',
     'health_check.cache',
     'clear_cache',
-    'speedinfo',
-    'speedinfo.storage.database',
     'colorfield',
 ]
 
@@ -81,7 +79,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
     'camerahub.middleware.DynamicSiteDomainMiddleware',
-    'speedinfo.middleware.ProfilerMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
@@ -237,16 +234,14 @@ LOGGING = {
 if os.getenv('CAMERAHUB_MEMCACHED') == 'true':
     CACHES = {
         'default': {
-            'BACKEND': 'speedinfo.backends.proxy_cache',
-            'CACHE_BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
             'LOCATION': f"{os.getenv('CAMERAHUB_MEMCACHED_HOST', '127.0.0.1')}:{os.getenv('CAMERAHUB_MEMCACHED_PORT', '11211')}"
         }
     }
 else:
     CACHES = {
         'default': {
-            'BACKEND': 'speedinfo.backends.proxy_cache',
-            'CACHE_BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         }
     }
 
@@ -280,9 +275,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 25
 }
-
-# speedinfo
-SPEEDINFO_STORAGE = 'speedinfo.storage.database.storage.DatabaseStorage'
 
 # status URL
 STATUS_URL = os.getenv('CAMERAHUB_STATUS_URL')
