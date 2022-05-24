@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'django_filters',
     'watson',
     'taggit',
-    'django_prometheus',
     'django_social_share',
     'django_countries',
     'dal',
@@ -72,7 +71,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -85,7 +83,6 @@ MIDDLEWARE = [
     'camerahub.middleware.DynamicSiteDomainMiddleware',
     'speedinfo.middleware.ProfilerMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
-    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'camerahub.urls'
