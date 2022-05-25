@@ -3,7 +3,6 @@
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView, ListView
-from django.utils.decorators import method_decorator
 from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
