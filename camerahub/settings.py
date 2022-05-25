@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     'leaflet',
     'rest_framework',
     'drf_generators',
-    'dbbackup',
     'star_ratings',
     'health_check',
     'health_check.db',
@@ -236,17 +235,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
-}
-
-DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, "backup")}
-DBBACKUP_CONNECTORS = {
-    'default': {
-        'USER': os.getenv('CAMERAHUB_DB_USER'),
-        'PASSWORD': os.getenv('CAMERAHUB_DB_PASS'),
-        'HOST': os.getenv('CAMERAHUB_DB_HOST'),
-        'CONNECTOR': 'dbbackup.db.postgresql.PgDumpBinaryConnector',
-    }
 }
 
 # django-star-ratings

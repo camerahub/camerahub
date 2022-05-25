@@ -225,19 +225,6 @@ python-versions = "*"
 Django = {version = ">=1.11.17,<3.3", markers = "python_version >= \"2.7\""}
 
 [[package]]
-name = "django-dbbackup"
-version = "3.3.0"
-description = "Management commands to help backup and restore a project database and media"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-Django = ">=1.5"
-pytz = "*"
-six = "*"
-
-[[package]]
 name = "django-filter"
 version = "21.1"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
@@ -834,7 +821,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "ce20a3249e075218393ad77090e55d169541cf3c0eed1c106721ad109e189b24"
+content-hash = "e37e0cd14e9686a6f61a1c2775743466ce99da6c4d9e32ecd520960f268b3d02"
 
 [metadata.files]
 asgiref = [
@@ -910,9 +897,6 @@ django-crispy-forms = [
 django-currentuser = [
     {file = "django-currentuser-0.5.3.tar.gz", hash = "sha256:6dca73d6b3a358d421662d45020d1e64ae2b4492deef2eb2428f4e48441547a0"},
     {file = "django_currentuser-0.5.3-py2.py3-none-any.whl", hash = "sha256:3d4424204da1efbe25d3afe7ae9044662e99904e117e3e788a97394d7269125e"},
-]
-django-dbbackup = [
-    {file = "django-dbbackup-3.3.0.tar.gz", hash = "sha256:bb109735cae98b64ad084e5b461b7aca2d7b39992f10c9ed9435e3ebb6fb76c8"},
 ]
 django-filter = [
     {file = "django-filter-21.1.tar.gz", hash = "sha256:632a251fa8f1aadb4b8cceff932bb52fe2f826dd7dfe7f3eac40e5c463d6836e"},
