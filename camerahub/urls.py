@@ -22,7 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('django_prometheus.urls')),
-    path('ratings/', include('star_ratings.urls', namespace='ratings')),
     path('health/', include('health_check.urls')),
 ]

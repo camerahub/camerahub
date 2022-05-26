@@ -48,33 +48,21 @@ INSTALLED_APPS = [
     'fullurl',
     'django_filters',
     'watson',
-    'taggit',
-    'django_prometheus',
-    'simple_history',
     'django_social_share',
     'django_countries',
-    'dal',
-    'dal_select2',
     'bootstrap_datepicker_plus',
     'geoposition',
     'leaflet',
     'rest_framework',
     'drf_generators',
-    'dbbackup',
-    'star_ratings',
     'health_check',
     'health_check.db',
     'health_check.storage',
-    'health_check.cache',
-    'clear_cache',
-    'speedinfo',
-    'speedinfo.storage.database',
     'colorfield',
+    'taggit',
 ]
 
 MIDDLEWARE = [
-    'django_prometheus.middleware.PrometheusBeforeMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,11 +71,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
-    'simple_history.middleware.HistoryRequestMiddleware',
     'camerahub.middleware.DynamicSiteDomainMiddleware',
-    'speedinfo.middleware.ProfilerMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
-    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'camerahub.urls'
@@ -239,24 +223,6 @@ LOGGING = {
     },
 }
 
-if os.getenv('CAMERAHUB_MEMCACHED') == 'true':
-    CACHES = {
-        'default': {
-            'BACKEND': 'speedinfo.backends.proxy_cache',
-            'CACHE_BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': f"{os.getenv('CAMERAHUB_MEMCACHED_HOST', '127.0.0.1')}:{os.getenv('CAMERAHUB_MEMCACHED_PORT', '11211')}"
-        }
-    }
-else:
-    CACHES = {
-        'default': {
-            'BACKEND': 'speedinfo.backends.proxy_cache',
-            'CACHE_BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        }
-    }
-
-TAGGIT_CASE_INSENSITIVE = True
-
 # Use OpenStreetMap instead of Google for form widget
 GEOPOSITION_BACKEND = 'leaflet'
 
@@ -266,28 +232,11 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
-DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, "backup")}
-DBBACKUP_CONNECTORS = {
-    'default': {
-        'USER': os.getenv('CAMERAHUB_DB_USER'),
-        'PASSWORD': os.getenv('CAMERAHUB_DB_PASS'),
-        'HOST': os.getenv('CAMERAHUB_DB_HOST'),
-        'CONNECTOR': 'dbbackup.db.postgresql.PgDumpBinaryConnector',
-    }
-}
-
-# django-star-ratings
-STAR_RATINGS_ANONYMOUS = False
-
 # drf-generators
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 25
 }
-
-# speedinfo
-SPEEDINFO_STORAGE = 'speedinfo.storage.database.storage.DatabaseStorage'
 
 # status URL
 STATUS_URL = os.getenv('CAMERAHUB_STATUS_URL')

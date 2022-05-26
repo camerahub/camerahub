@@ -82,7 +82,6 @@ class CameraModelFormHelper(CustomFormHelper):
             Field('format', css_class="form-control-sm"),
             Field('negative_size', css_class="form-control-sm"),
             Field('body_type', css_class="form-control-sm"),
-            Field('tags', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
@@ -95,7 +94,6 @@ class DeveloperFormHelper(CustomFormHelper):
             Field('manufacturer', css_class="form-control-sm"),
             Field('for_paper', css_class="form-control-sm"),
             Field('for_film', css_class="form-control-sm"),
-            Field('tags', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
@@ -132,7 +130,6 @@ class FilmStockFormHelper(CustomFormHelper):
             Field('colour', css_class="form-control-sm"),
             Field('panchromatic', css_class="form-control-sm"),
             Field('process', css_class="form-control-sm"),
-            Field('tags', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
@@ -187,7 +184,6 @@ class LensModelFormHelper(CustomFormHelper):
             Field('mount', css_class="form-control-sm"),
             Field('zoom', css_class="form-control-sm"),
             Field('autofocus', css_class="form-control-sm"),
-            Field('tags', css_class="form-control-sm"),
             Field('lens_type', css_class="form-control-sm"),
             Field('purpose', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
@@ -202,7 +198,6 @@ class MountFormHelper(CustomFormHelper):
             Field('shutter_in_lens', css_class="form-control-sm"),
             Field('type', css_class="form-control-sm"),
             Field('purpose', css_class="form-control-sm"),
-            Field('tags', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
@@ -239,7 +234,6 @@ class PaperStockFormHelper(CustomFormHelper):
             Field('resin_coated', css_class="form-control-sm"),
             Field('colour', css_class="form-control-sm"),
             Field('finish', css_class="form-control-sm"),
-            Field('tags', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )
@@ -312,7 +306,6 @@ class TonerFormHelper(CustomFormHelper):
     layout = Layout(
         Row(
             Field('manufacturer', css_class="form-control-sm"),
-            Field('tags', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )

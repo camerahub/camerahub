@@ -46,8 +46,8 @@ Then browse to <http://localhost:8000>. Login with default username
 ### Using microk8s
 
 The integrated web server is extremely convenient but does not test all
-aspects of CameraHub, especially the Postgres database backend,
-Memcached caching and other production-like features. The best way to
+aspects of CameraHub, especially the Postgres database backend
+and other production-like features. The best way to
 test these features is to run microk8s on your local computer, which
 gives you a full Kubernetes environment.
 

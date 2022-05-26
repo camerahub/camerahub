@@ -1,23 +1,11 @@
-from django_filters import FilterSet, CharFilter
+from django_filters import FilterSet
 from django_currentuser.middleware import get_current_user
-from taggit.forms import TagField
 
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock
 from schema.models import Flash, FlashModel, Lens, LensModel
 from schema.models import Mount, MountAdapter, Order, PaperStock, Print
 from schema.models import Negative, Film, Teleconverter, TeleconverterModel, Toner
-
-# Define a custom tag filter
-
-
-class TagFilter(CharFilter):
-    field_class = TagField
-
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('lookup_expr', 'in')
-        super().__init__(*args, **kwargs)
-
 
 class AccessoryFilter(FilterSet):
     class Meta:
@@ -77,7 +65,6 @@ class CameraFilter(FilterSet):
 
 
 class CameraModelFilter(FilterSet):
-    tags = TagFilter(field_name='tags__name', label='Tags')
 
     class Meta:
         model = CameraModel
@@ -91,7 +78,6 @@ class CameraModelFilter(FilterSet):
 
 
 class DeveloperFilter(FilterSet):
-    tags = TagFilter(field_name='tags__name', label='Tags')
 
     class Meta:
         model = Developer
@@ -115,7 +101,6 @@ class EnlargerFilter(FilterSet):
 
 
 class FilmStockFilter(FilterSet):
-    tags = TagFilter(field_name='tags__name', label='Tags')
 
     class Meta:
         model = FilmStock
@@ -164,7 +149,6 @@ class LensFilter(FilterSet):
 
 
 class LensModelFilter(FilterSet):
-    tags = TagFilter(field_name='tags__name', label='Tags')
 
     class Meta:
         model = LensModel
@@ -172,7 +156,6 @@ class LensModelFilter(FilterSet):
 
 
 class MountFilter(FilterSet):
-    tags = TagFilter(field_name='tags__name', label='Tags')
 
     class Meta:
         model = Mount
@@ -203,7 +186,6 @@ class OrderFilter(FilterSet):
 
 
 class PaperStockFilter(FilterSet):
-    tags = TagFilter(field_name='tags__name', label='Tags')
 
     class Meta:
         model = PaperStock
@@ -276,7 +258,6 @@ class TeleconverterModelFilter(FilterSet):
 
 
 class TonerFilter(FilterSet):
-    tags = TagFilter(field_name='tags__name', label='Tags')
 
     class Meta:
         model = Toner

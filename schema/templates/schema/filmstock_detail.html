@@ -1,7 +1,6 @@
 {% extends "detail.html" %}
 {% load static %}
 {% load boolicontag %}
-{% load ratings %}
 
 {% block content %}
 <table class="table table-hover">
@@ -53,36 +52,6 @@
     <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
         href="#meta">Meta</a></th>
   </tr>
-  <tr>
-    <td>Rating</td>
-    <td>{% ratings object %}</td>
-  </tr>
-  {% if object.tags.all %}
-  <tr>
-    <td>Tags</td>
-    <td>{% for tag in object.tags.all %}
-      <a class="btn btn-outline-primary" href="{% url 'schema:tag-detail' tag.slug %}" role="button">{{ tag.slug }}</a>
-      {% endfor %}</td>
-  </tr>
-  {% endif %}
-  {% if related %}
-  <tr>
-    <td>Similar film stocks</td>
-    <td>
-      <ul class="list-inline">
-        {% for relateditem in related %}
-        <li class="list-inline-item"><a href="{% url 'schema:filmstock-detail' relateditem.slug %}">{{ relateditem }}</a></li>
-        {% endfor %}
-      </ul>
-    </td>
-  </tr>
-  {% endif %}
-  {% if history %}
-  <tr>
-    <td>Edit history</td>
-    <td>{% include "history.html" %}</td>
-  </tr>
-  {% endif %}
   <tr>
     <td>Sharing</td>
     <td>{% include "sharing.html" %}</td>

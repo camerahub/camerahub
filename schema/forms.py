@@ -5,7 +5,6 @@ from django_currentuser.middleware import get_current_user
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, Div, Hidden, HTML
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
-from dal import autocomplete
 from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput, YearPickerInput, MonthPickerInput, TimePickerInput
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
@@ -191,12 +190,11 @@ class CameraSellForm(ModelForm):
         )
 
 
-class CameraModelForm(autocomplete.FutureModelForm):
+class CameraModelForm(ModelForm):
     class Meta:
         model = CameraModel
         fields = '__all__'
         widgets = {
-            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
         }
@@ -209,7 +207,6 @@ class CameraModelForm(autocomplete.FutureModelForm):
             Fieldset('Summary',
                      'manufacturer',
                      'model',
-                     'other_names',
                      'disambiguation',
                      'introduced',
                      'discontinued',
@@ -313,7 +310,6 @@ class CameraModelForm(autocomplete.FutureModelForm):
                      ),
             Fieldset('Misc',
                      'notes',
-                     'tags',
                      'link',
                      'image',
                      'image_attribution',
@@ -327,10 +323,7 @@ class DeveloperForm(ModelForm):
     class Meta:
         model = Developer
         fields = ['manufacturer', 'name', 'for_paper',
-                  'for_film', 'chemistry', 'tags']
-        widgets = {
-            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
-        }
+                  'for_film', 'chemistry']
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
 
@@ -346,7 +339,6 @@ class DeveloperForm(ModelForm):
                      'chemistry',
                      ),
             Fieldset('Meta',
-                     'tags',
                      ),
             FormActionButtons
         )
@@ -356,11 +348,10 @@ class EnlargerModelForm(ModelForm):
     class Meta:
         model = EnlargerModel
         fields = ['manufacturer', 'model', 'disambiguation', 'negative_size',
-                  'type', 'light_source', 'introduced', 'discontinued', 'tags', 'image', 'image_attribution', 'image_attribution_link']
+                  'type', 'light_source', 'introduced', 'discontinued', 'image', 'image_attribution', 'image_attribution_link']
         widgets = {
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
-            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
         }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
@@ -381,7 +372,6 @@ class EnlargerModelForm(ModelForm):
                      'discontinued',
                      ),
             Fieldset('Meta',
-                     'tags',
                      'image',
                      'image_attribution',
                      'image_attribution_link',
@@ -423,10 +413,7 @@ class FilmStockForm(ModelForm):
     class Meta:
         model = FilmStock
         fields = ['name', 'manufacturer', 'iso',
-                  'colour', 'panchromatic', 'process', 'tags']
-        widgets = {
-            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
-        }
+                  'colour', 'panchromatic', 'process']
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
             fields.remove('process')
@@ -444,9 +431,6 @@ class FilmStockForm(ModelForm):
                      'colour',
                      'panchromatic',
                      'process',
-                     ),
-            Fieldset('Meta',
-                     'tags',
                      ),
             FormActionButtons
         )
@@ -473,10 +457,7 @@ class FlashModelForm(ModelForm):
     class Meta:
         model = FlashModel
         fields = ['manufacturer', 'model', 'disambiguation', 'guide_number', 'gn_info', 'battery_powered', 'pc_sync', 'hot_shoe', 'light_stand', 'battery_type',
-                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'tags', 'image', 'image_attribution', 'image_attribution_link']
-        widgets = {
-            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
-        }
+                  'battery_qty', 'manual_control', 'swivel_head', 'tilt_head', 'zoom', 'ttl', 'trigger_voltage', 'image', 'image_attribution', 'image_attribution_link']
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
             fields.remove('battery_type')
@@ -509,7 +490,6 @@ class FlashModelForm(ModelForm):
                      'battery_qty',
                      ),
             Fieldset('Meta',
-                     'tags',
                      'image',
                      'image_attribution',
                      'image_attribution_link',
@@ -626,9 +606,8 @@ class LensModelForm(ModelForm):
     class Meta:
         model = LensModel
         fields = ['manufacturer', 'model', 'disambiguation', 'mount', 'purpose', 'introduced', 'discontinued', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'min_aperture', 'closest_focus', 'elements', 'groups', 'nominal_min_angle_diag', 'nominal_max_angle_diag', 'lens_type', 'image_circle', 'aperture_blades',
-                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'tags', 'link', 'image', 'image_attribution', 'image_attribution_link', 'diagram', 'diagram_attribution', 'diagram_attribution_link']
+                  'coating', 'autofocus', 'perspective_control', 'magnification', 'negative_size', 'weight', 'length', 'diameter', 'filter_thread', 'hood', 'shutter_model', 'notes', 'link', 'image', 'image_attribution', 'image_attribution_link', 'diagram', 'diagram_attribution', 'diagram_attribution_link']
         widgets = {
-            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
             'introduced': YearPickerInput(format='%Y'),
             'discontinued': YearPickerInput(format='%Y'),
         }
@@ -686,9 +665,6 @@ class LensModelForm(ModelForm):
                      'image_attribution',
                      'image_attribution_link',
                      ),
-            Fieldset('Meta',
-                     'tags',
-                     ),
             FormActionButtons
         )
 
@@ -697,9 +673,8 @@ class ManufacturerForm(ModelForm):
     class Meta:
         model = Manufacturer
         fields = ['name', 'city', 'country', 'link',
-                  'founded', 'dissolved', 'tags']
+                  'founded', 'dissolved']
         widgets = {
-            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete'),
             'founded': YearPickerInput(format='%Y'),
             'dissolved': YearPickerInput(format='%Y'),
         }
@@ -716,9 +691,6 @@ class ManufacturerForm(ModelForm):
                      'founded',
                      'dissolved',
                      ),
-            Fieldset('Meta',
-                     'tags',
-                     ),
             FormActionButtons
         )
 
@@ -727,10 +699,7 @@ class MountForm(ModelForm):
     class Meta:
         model = Mount
         fields = ['mount', 'shutter_in_lens', 'type',
-                  'purpose', 'notes', 'manufacturer', 'tags']
-        widgets = {
-            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
-        }
+                  'purpose', 'notes', 'manufacturer']
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
 
@@ -745,9 +714,6 @@ class MountForm(ModelForm):
                      'purpose',
                      'notes',
                      'manufacturer',
-                     ),
-            Fieldset('Meta',
-                     'tags',
                      ),
             FormActionButtons
         )
@@ -827,10 +793,7 @@ class PaperStockForm(ModelForm):
     class Meta:
         model = PaperStock
         fields = ['name', 'manufacturer',
-                  'resin_coated', 'colour', 'finish', 'tags']
-        widgets = {
-            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
-        }
+                  'resin_coated', 'colour', 'finish']
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
 
@@ -844,9 +807,6 @@ class PaperStockForm(ModelForm):
                      'resin_coated',
                      'colour',
                      'finish',
-                     ),
-            Fieldset('Meta',
-                     'tags',
                      ),
             FormActionButtons
         )
@@ -1265,10 +1225,7 @@ class TeleconverterModelForm(ModelForm):
     class Meta:
         model = TeleconverterModel
         fields = ['model', 'manufacturer', 'disambiguation', 'mount',
-                  'factor', 'elements', 'groups', 'multicoated', 'tags', 'image', 'image_attribution', 'image_attribution_link']
-        widgets = {
-            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
-        }
+                  'factor', 'elements', 'groups', 'multicoated', 'image', 'image_attribution', 'image_attribution_link']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1287,7 +1244,6 @@ class TeleconverterModelForm(ModelForm):
                      'multicoated',
                      ),
             Fieldset('Meta',
-                     'tags',
                      'image',
                      'image_attribution',
                      'image_attribution_link',
@@ -1304,11 +1260,7 @@ class TonerForm(ModelForm):
             'manufacturer',
             'formulation',
             'stock_dilution',
-            'tags',
         ]
-        widgets = {
-            'tags': autocomplete.TaggitSelect2('schema:tag-autocomplete')
-        }
         if ('makemigrations' in sys.argv or 'migrate' in sys.argv or 'test' in sys.argv):
             fields.remove('manufacturer')
 
@@ -1321,9 +1273,6 @@ class TonerForm(ModelForm):
                      'manufacturer',
                      'formulation',
                      'stock_dilution',
-                     ),
-            Fieldset('Meta',
-                     'tags',
                      ),
             FormActionButtons
         )
