@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     'leaflet',
     'rest_framework',
     'drf_generators',
-    'star_ratings',
     'health_check',
     'health_check.db',
     'health_check.storage',
@@ -236,9 +235,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
-
-# django-star-ratings
-STAR_RATINGS_ANONYMOUS = False
 
 # drf-generators
 REST_FRAMEWORK = {
