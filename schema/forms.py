@@ -5,7 +5,6 @@ from django_currentuser.middleware import get_current_user
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, Div, Hidden, HTML
 from crispy_forms.bootstrap import FormActions, AppendedText, InlineCheckboxes, PrependedText, TabHolder, Tab
-from dal import autocomplete
 from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput, YearPickerInput, MonthPickerInput, TimePickerInput
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
@@ -191,7 +190,7 @@ class CameraSellForm(ModelForm):
         )
 
 
-class CameraModelForm(autocomplete.FutureModelForm):
+class CameraModelForm(ModelForm):
     class Meta:
         model = CameraModel
         fields = '__all__'

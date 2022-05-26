@@ -50,8 +50,6 @@ INSTALLED_APPS = [
     'watson',
     'django_social_share',
     'django_countries',
-    'dal',
-    'dal_select2',
     'bootstrap_datepicker_plus',
     'geoposition',
     'leaflet',

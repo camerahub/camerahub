@@ -116,23 +116,6 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
-name = "django-autocomplete-light"
-version = "3.9.4"
-description = "Fresh autocompletes for Django"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-six = "*"
-
-[package.extras]
-genericm2m = ["django-generic-m2m"]
-gfk = ["django-querysetsequence (>=0.11)"]
-nested = ["django-nested-admin (>=3.0.21)"]
-tags = ["django-taggit"]
-
-[[package]]
 name = "django-autosequence"
 version = "0.8.0"
 description = "A Django model field providing a configurable automatic sequence of values."
@@ -841,7 +824,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "15459f132dd3a1ca11c9227b4fe519641880f753a284e3bc0bc105e352c22c6b"
+content-hash = "b3afe748bb48b7ce4a38acb288fd8b46764468190391c000135906fcc207f888"
 
 [metadata.files]
 asgiref = [
@@ -882,9 +865,6 @@ dill = [
 django = [
     {file = "Django-3.2.13-py3-none-any.whl", hash = "sha256:b896ca61edc079eb6bbaa15cf6071eb69d6aac08cce5211583cfb41515644fdf"},
     {file = "Django-3.2.13.tar.gz", hash = "sha256:6d93497a0a9bf6ba0e0b1a29cccdc40efbfc76297255b1309b3a884a688ec4b6"},
-]
-django-autocomplete-light = [
-    {file = "django-autocomplete-light-3.9.4.tar.gz", hash = "sha256:0f6da75c1c7186698b867a467a8cdb359f0513fdd8e09288a0c2fb018ae3d94e"},
 ]
 django-autosequence = [
     {file = "django-autosequence-0.8.0.tar.gz", hash = "sha256:25f531bb2f5fc9a421dbc9dd0e56883d1e1f4fae86c1137b1df133c32d1aeeea"},
