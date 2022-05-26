@@ -18,6 +18,7 @@ import simple_history.models
 import taggit.managers
 import uuid
 import versatileimagefield.fields
+import os
 
 def forwards_func(apps, schema_editor):
     User.objects.create_superuser('admin', email=os.getenv(
