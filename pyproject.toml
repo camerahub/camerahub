@@ -65,6 +65,7 @@ django-settings-export = "^1.2.1"
 platformdirs = "^2.5.1"
 django-colorfield = "^0.6.3"
 django3-collectionfield = "^1.0.0"
+django-simple-history = "^3.1.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

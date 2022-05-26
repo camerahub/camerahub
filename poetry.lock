@@ -343,6 +343,14 @@ python-versions = "*"
 django = "*"
 
 [[package]]
+name = "django-simple-history"
+version = "3.1.1"
+description = "Store model history and view/revert changes from admin site."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
 name = "django-social-share"
 version = "2.2.1"
 description = "Templatetags for 'tweet this' and 'share on facebook'"
@@ -833,7 +841,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "c1d9f214cd6030eb2c6adbd51d2f3d6bcfc653277219098d4f5e1379ada3ac44"
+content-hash = "15459f132dd3a1ca11c9227b4fe519641880f753a284e3bc0bc105e352c22c6b"
 
 [metadata.files]
 asgiref = [
@@ -947,6 +955,9 @@ django-sendgrid-v5 = [
 ]
 django-settings-export = [
     {file = "django-settings-export-1.2.1.tar.gz", hash = "sha256:fceeae49fc597f654c1217415d8e049fc81c930b7154f5d8f28c432db738ff79"},
+]
+django-simple-history = [
+    {file = "django-simple-history-3.1.1.tar.gz", hash = "sha256:eab6dbddb7da756cc5579f7d6f28a32b2e8bb1697a5c37794d96309793ffec38"},
 ]
 django-social-share = [
     {file = "django-social-share-2.2.1.tar.gz", hash = "sha256:4062c31ddad15eb9f7796cdfaae5a813018a3fd8da2b77f3e063e3a31252f84a"},
