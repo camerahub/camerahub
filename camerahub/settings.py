@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_generators',
     'dbbackup',
-    'star_ratings',
     'health_check',
     'health_check.db',
     'health_check.storage',
@@ -251,9 +250,6 @@ DBBACKUP_CONNECTORS = {
         'CONNECTOR': 'dbbackup.db.postgresql.PgDumpBinaryConnector',
     }
 }
-
-# django-star-ratings
-STAR_RATINGS_ANONYMOUS = False
 
 # drf-generators
 REST_FRAMEWORK = {
