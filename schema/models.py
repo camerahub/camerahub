@@ -13,7 +13,6 @@ from djchoices import DjangoChoices, ChoiceItem
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
 from slugify import slugify, Slugify, UniqueSlugify
-from taggit.managers import TaggableManager
 from versatileimagefield.fields import VersatileImageField
 from django_countries.fields import CountryField
 from geoposition.fields import GeopositionField
@@ -85,7 +84,6 @@ class Manufacturer(models.Model):
     dissolved = models.PositiveIntegerField(
         help_text='Year in which the manufacturer was dissolved', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    tags = TaggableManager(blank=True)
 
     def __str__(self):
         return self.name
@@ -451,7 +449,6 @@ class FlashModel(models.Model):
     image_attribution_link = models.URLField(
         help_text='Attribution link for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    tags = TaggableManager(blank=True)
 
     def __str__(self):
         mystr = self.model
@@ -582,7 +579,6 @@ class EnlargerModel(models.Model):
     image_attribution_link = models.URLField(
         help_text='Attribution link for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    tags = TaggableManager(blank=True)
 
     def __str__(self):
         mystr = self.model
@@ -747,7 +743,6 @@ class Mount(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                      blank=True, null=True, help_text='Manufacturer who owns this lens mount')
     slug = models.SlugField(editable=False, null=True, unique=True)
-    tags = TaggableManager(blank=True)
 
     def __str__(self):
         return self.mount
@@ -798,7 +793,6 @@ class PaperStock(models.Model):
         help_text='Whether this is a colour paper', blank=True, null=True)
     finish = models.CharField(help_text='The finish of the paper surface',
                               choices=Finish.choices, max_length=25, blank=True, null=True)
-    tags = TaggableManager(blank=True)
 
     def __str__(self):
         mystr = self.name
@@ -917,7 +911,6 @@ class TeleconverterModel(models.Model):
     image_attribution_link = models.URLField(
         help_text='Attribution link for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    tags = TaggableManager(blank=True)
 
     def __str__(self):
         mystr = self.model
@@ -1025,7 +1018,6 @@ class Toner(models.Model):
     stock_dilution = models.CharField(
         help_text='Stock dilution of the toner', max_length=10, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    tags = TaggableManager(blank=True)
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1080,7 +1072,6 @@ class FilmStock(models.Model):
     process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True,
                                 null=True, help_text='Development process required by this film')
     slug = models.SlugField(editable=False, null=True, unique=True)
-    tags = TaggableManager(blank=True)
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1249,7 +1240,6 @@ class Developer(models.Model):
     chemistry = models.CharField(
         help_text='The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    tags = TaggableManager(blank=True)
 
     def __str__(self):
         if self.manufacturer is not None:
@@ -1383,7 +1373,6 @@ class LensModel(models.Model):
     shutter_model = models.CharField(
         help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    tags = TaggableManager(blank=True)
     image = VersatileImageField(
         help_text='Image of the lens model', blank=True, null=True)
     image_attribution = models.CharField(
@@ -1680,7 +1669,6 @@ class CameraModel(models.Model):
     metering_modes = models.ManyToManyField(MeteringMode, blank=True)
     exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    tags = TaggableManager(blank=True)
     link = models.URLField(
         help_text='Link to more information about this camera model', blank=True, null=True)
     image = VersatileImageField(

@@ -14,11 +14,6 @@ urlpatterns = [
     path('mystats', views.MyStatsView.as_view(), name='mystats'),
     path('search/', views.SearchView.as_view(), name='search'),
 
-    path('tag/', views.TagList.as_view(), name='tag-list'),
-    path('tag/<slug:slug>', views.TagDetail.as_view(), name='tag-detail'),
-    path('tag-autocomplete/', views.TagAutocomplete.as_view(),
-         name='tag-autocomplete'),
-
     path('accessory/', views.AccessoryList.as_view(), name='accessory-list'),
     path('accessory/<int:id_owner>', views.AccessoryDetail.as_view(),
          name='accessory-detail'),

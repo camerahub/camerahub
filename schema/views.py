@@ -13,7 +13,6 @@ from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from watson.views import SearchMixin
-from taggit.models import Tag
 from dal import autocomplete
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
@@ -268,15 +267,6 @@ class CameraModelDetail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Find similar objects of the same type
-        similarobjects = self.get_object().tags.similar_objects()
-        items = []
-        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
-            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
-                detailitem = get_object_or_404(type(item), pk=item.pk)
-                items.append(detailitem)
-        context['related'] = items
-
         if self.request.user.is_authenticated:
             context['mine'] = self.get_object().camera_set.filter(
                 owner=self.request.user)
@@ -319,19 +309,6 @@ class DeveloperList(PagedFilteredTableView):
 
 class DeveloperDetail(generic.DetailView):
     model = Developer
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Find similar objects of the same type
-        similarobjects = self.get_object().tags.similar_objects()
-        items = []
-        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
-            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
-                detailitem = get_object_or_404(type(item), pk=item.pk)
-                items.append(detailitem)
-        context['related'] = items
-
-        return context
 
 
 class DeveloperCreate(LoginRequiredMixin, CreateView):
@@ -407,19 +384,6 @@ class FilmStockList(PagedFilteredTableView):
 
 class FilmStockDetail(generic.DetailView):
     model = FilmStock
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Find similar objects of the same type
-        similarobjects = self.get_object().tags.similar_objects()
-        items = []
-        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
-            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
-                detailitem = get_object_or_404(type(item), pk=item.pk)
-                items.append(detailitem)
-        context['related'] = items
-
-        return context
 
 
 class FilmStockCreate(LoginRequiredMixin, CreateView):
@@ -601,15 +565,6 @@ class LensModelDetail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Find similar objects of the same type
-        similarobjects = self.get_object().tags.similar_objects()
-        items = []
-        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
-            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
-                detailitem = get_object_or_404(type(item), pk=item.pk)
-                items.append(detailitem)
-        context['related'] = items
-
         if self.request.user.is_authenticated:
             context['mine'] = self.get_object().lens_set.filter(
                 owner=self.request.user)
@@ -651,20 +606,6 @@ class ManufacturerList(SingleTableListView):
 class ManufacturerDetail(generic.DetailView):
     model = Manufacturer
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Find similar objects of the same type
-        similarobjects = self.get_object().tags.similar_objects()
-        items = []
-        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
-            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
-                detailitem = get_object_or_404(type(item), pk=item.pk)
-                items.append(detailitem)
-        context['related'] = items
-
-        return context
-
 
 class ManufacturerCreate(LoginRequiredMixin, CreateView):
     model = Manufacturer
@@ -687,20 +628,6 @@ class MountList(PagedFilteredTableView):
 
 class MountDetail(generic.DetailView):
     model = Mount
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Find similar objects of the same type
-        similarobjects = self.get_object().tags.similar_objects()
-        items = []
-        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
-            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
-                detailitem = get_object_or_404(type(item), pk=item.pk)
-                items.append(detailitem)
-        context['related'] = items
-
-        return context
 
 
 class MountCreate(LoginRequiredMixin, CreateView):
@@ -811,20 +738,6 @@ class PaperStockList(PagedFilteredTableView):
 
 class PaperStockDetail(generic.DetailView):
     model = PaperStock
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Find similar objects of the same type
-        similarobjects = self.get_object().tags.similar_objects()
-        items = []
-        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
-            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
-                detailitem = get_object_or_404(type(item), pk=item.pk)
-                items.append(detailitem)
-        context['related'] = items
-
-        return context
 
 
 class PaperStockCreate(LoginRequiredMixin, CreateView):
@@ -1158,20 +1071,6 @@ class TonerList(PagedFilteredTableView):
 class TonerDetail(generic.DetailView):
     model = Toner
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Find similar objects of the same type
-        similarobjects = self.get_object().tags.similar_objects()
-        items = []
-        for index, item in zip(range(10), similarobjects): # pylint: disable=unused-variable
-            if type(item) == type(self.get_object()):  # pylint: disable=unidiomatic-typecheck
-                detailitem = get_object_or_404(type(item), pk=item.pk)
-                items.append(detailitem)
-        context['related'] = items
-
-        return context
-
 
 class TonerCreate(LoginRequiredMixin, CreateView):
     model = Toner
@@ -1405,40 +1304,3 @@ class SearchView(SearchMixin, generic.ListView):
     """View that performs a search and returns the search results."""
 
     template_name = "search.html"
-
-
-class TagList(ListView):
-    model = Tag
-    template_name = 'tag-list.html'
-
-
-class TagDetail(generic.DetailView):
-    model = Tag
-    template_name = 'tag-detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        taggeditems = self.get_object().taggit_taggeditem_items.all()
-
-        items = []
-        for item in taggeditems:
-            model = apps.get_model('schema', item.content_type.model)
-            detailitem = get_object_or_404(model, pk=item.object_id)
-            items.append(detailitem)
-
-        context['taggeditems'] = items
-        return context
-
-
-class TagAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated:
-            return Tag.objects.none()
-
-        qs = Tag.objects.all().order_by('name')
-
-        if self.q:
-            qs = qs.filter(name__istartswith=self.q)
-
-        return qs

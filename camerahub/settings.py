@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'fullurl',
     'django_filters',
     'watson',
-    'taggit',
     'django_social_share',
     'django_countries',
     'dal',
@@ -224,8 +223,6 @@ LOGGING = {
         },
     },
 }
-
-TAGGIT_CASE_INSENSITIVE = True
 
 # Use OpenStreetMap instead of Google for form widget
 GEOPOSITION_BACKEND = 'leaflet'
