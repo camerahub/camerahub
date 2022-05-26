@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'health_check.db',
     'health_check.storage',
     'colorfield',
+    'taggit',
 ]
 
 MIDDLEWARE = [
