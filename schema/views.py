@@ -2,18 +2,16 @@
 
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView
 from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
-from django.apps import apps
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django_tables2 import SingleTableView
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from watson.views import SearchMixin
-from dal import autocomplete
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
 from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer

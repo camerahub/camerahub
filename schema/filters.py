@@ -1,4 +1,4 @@
-from django_filters import FilterSet, CharFilter
+from django_filters import FilterSet
 from django_currentuser.middleware import get_current_user
 
 # Import all models that need admin pages
