@@ -410,6 +410,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "django3-collectionfield"
+version = "1.0.0"
+description = "Custom Django model field to store multiple values."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "djangorestframework"
 version = "3.13.1"
 description = "Web APIs for Django, made easy."
@@ -825,7 +833,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "e37e0cd14e9686a6f61a1c2775743466ce99da6c4d9e32ecd520960f268b3d02"
+content-hash = "c1d9f214cd6030eb2c6adbd51d2f3d6bcfc653277219098d4f5e1379ada3ac44"
 
 [metadata.files]
 asgiref = [
@@ -962,6 +970,10 @@ django-versatileimagefield = [
 django-watson = [
     {file = "django-watson-1.6.2.tar.gz", hash = "sha256:f6f52e13df89726ae49cfba39b93efc266c5b4c1dd6963a5abefe4f1a808ceca"},
     {file = "django_watson-1.6.2-py2.py3-none-any.whl", hash = "sha256:ffe963d1f7aa02d13d84cbe3f71f3731a8bc66f6eeaaac79b66b3e3989c8e035"},
+]
+django3-collectionfield = [
+    {file = "django3-collectionfield-1.0.0.tar.gz", hash = "sha256:b2d6f00d377959501fb32edc8b609b4607e8c1f20748f63d12be4b482bda7a9d"},
+    {file = "django3_collectionfield-1.0.0-py3-none-any.whl", hash = "sha256:7f833168d9f882f925bad9fed1b3ea9dc9b469064d12f32b40c3106cd76e2ed9"},
 ]
 djangorestframework = [
     {file = "djangorestframework-3.13.1-py3-none-any.whl", hash = "sha256:24c4bf58ed7e85d1fe4ba250ab2da926d263cd57d64b03e8dcef0ac683f8b1aa"},
