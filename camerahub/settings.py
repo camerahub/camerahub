@@ -280,3 +280,16 @@ SETTINGS_EXPORT = [
 # Explicitly set the type of autofield to its current value
 # In Django 3.2+ this will default to BigAutoField
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+# These imports need to be at the bottom of the file!
+from iommi import Style, Asset
+from iommi.style_bootstrap import bootstrap
+
+IOMMI_DEFAULT_STYLE = Style(
+    bootstrap,
+    base_template='iommi/iommi_base.html',
+    root__assets=dict(
+        my_project_custom_css=Asset.css(attrs__href='/static/custom.css'),
+        my_project_custom_js=Asset.js(attrs__src='/static/custom.js'),
+    ),
+)
