@@ -504,6 +504,18 @@ Django = ">=1.11"
 djangorestframework = ">=3.8"
 
 [[package]]
+name = "iommi"
+version = "5.0.0"
+description = "iommi is a high level framework built on django"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+Django = ">=2.0"
+pyparsing = "*"
+
+[[package]]
 name = "isort"
 version = "5.10.1"
 description = "A Python utility / library to sort Python imports."
@@ -700,7 +712,7 @@ pylint = ">=1.7"
 name = "pyparsing"
 version = "3.0.7"
 description = "Python parsing module"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -902,7 +914,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "76e731fea10c272671ed4b7eff7e77b5b3a51579c98e04fc0328857595c04dd6"
+content-hash = "aa6f0c3d1930d9bb4c9942d40211c58f2605668e2d867ced16bed0bb358adb39"
 
 [metadata.files]
 asgiref = [
@@ -1071,6 +1083,10 @@ drf-generators = [
 ]
 drf-multiple-serializer = [
     {file = "drf-multiple-serializer-0.2.3.tar.gz", hash = "sha256:1919c7c3d55959971cdd53f68b9fc695c4d58733bf5a0f935a4b565ce88b54d8"},
+]
+iommi = [
+    {file = "iommi-5.0.0-py2.py3-none-any.whl", hash = "sha256:12b5e03e368f5e83cb6aad6978c55f8998d9889a35dbda9d686983dee1959f1b"},
+    {file = "iommi-5.0.0.tar.gz", hash = "sha256:534ea60ae2982176b099e125c21fbc4064d9e15d13ceb0c5a1cb0ea7fa2befbc"},
 ]
 isort = [
     {file = "isort-5.10.1-py3-none-any.whl", hash = "sha256:6f62d78e2f89b4500b080fe3a81690850cd254227f27f75c3a0c491a1f351ba7"},

@@ -71,6 +71,7 @@ django-settings-export = "^1.2.1"
 python-memcached = "^1.59"
 platformdirs = "^2.5.1"
 django-colorfield = "^0.6.3"
+iommi = "^5.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

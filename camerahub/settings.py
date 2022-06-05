@@ -70,9 +70,11 @@ INSTALLED_APPS = [
     'speedinfo',
     'speedinfo.storage.database',
     'colorfield',
+    'iommi',
 ]
 
 MIDDLEWARE = [
+    'iommi.live_edit.Middleware',
     'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -83,11 +85,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
+    'iommi.sql_trace.Middleware',
+    'iommi.profiling.Middleware',    
     'simple_history.middleware.HistoryRequestMiddleware',
     'camerahub.middleware.DynamicSiteDomainMiddleware',
     'speedinfo.middleware.ProfilerMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
+    'iommi.middleware',
 ]
 
 ROOT_URLCONF = 'camerahub.urls'
