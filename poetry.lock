@@ -178,17 +178,6 @@ Django = ">=1.11"
 six = ">=1.13.0"
 
 [[package]]
-name = "django-clear-cache"
-version = "0.3"
-description = "A simple Django management command which clears your cache."
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-Django = ">=1.0"
-
-[[package]]
 name = "django-colorfield"
 version = "0.6.3"
 description = "simple color field for your models with a nice color-picker in the admin-interface."
@@ -392,14 +381,6 @@ description = "Templatetags for 'tweet this' and 'share on facebook'"
 category = "main"
 optional = false
 python-versions = "*"
-
-[[package]]
-name = "django-speedinfo"
-version = "2.0.2"
-description = "Live profiling tool for Django framework to measure views performance"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "django-star-ratings"
@@ -758,17 +739,6 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
-name = "python-memcached"
-version = "1.59"
-description = "Pure python memcached client"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-six = ">=1.4.0"
-
-[[package]]
 name = "pytz"
 version = "2022.1"
 description = "World timezone definitions, modern and historical"
@@ -914,7 +884,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "aa6f0c3d1930d9bb4c9942d40211c58f2605668e2d867ced16bed0bb358adb39"
+content-hash = "53a6c395f79e0188e10c228042197b9fecb7035f6175c9049012b597259f672f"
 
 [metadata.files]
 asgiref = [
@@ -974,9 +944,6 @@ django-braces = [
 django-choices = [
     {file = "django-choices-1.7.2.tar.gz", hash = "sha256:e52f1d9fe3afd92611bd2ea313ad8a6ba2a89fdb12d5e518438892b6ae462ee3"},
     {file = "django_choices-1.7.2-py2.py3-none-any.whl", hash = "sha256:d8dda7e11fa0627d138f98d9a5e8e3124d938bb538e2077cc65c43168bfdde10"},
-]
-django-clear-cache = [
-    {file = "django-clear-cache-0.3.tar.gz", hash = "sha256:fc9d27d6d7dd143917393484236bdf66a109d99bc64a4418cdf5a1127356d766"},
 ]
 django-colorfield = [
     {file = "django-colorfield-0.6.3.tar.gz", hash = "sha256:441172f8c6024f70b01e3f63195fe83afc554387b34ad999880e86fde989e5af"},
@@ -1046,10 +1013,6 @@ django-simple-history = [
 django-social-share = [
     {file = "django-social-share-2.2.1.tar.gz", hash = "sha256:4062c31ddad15eb9f7796cdfaae5a813018a3fd8da2b77f3e063e3a31252f84a"},
     {file = "django_social_share-2.2.1-py2.py3-none-any.whl", hash = "sha256:6de83acdd2a566c70af29b229a6430ccf8031d3d0ae1612419f633cbd9f649f5"},
-]
-django-speedinfo = [
-    {file = "django-speedinfo-2.0.2.tar.gz", hash = "sha256:5b7c9976ac1060f2a5a086c2cd299ace491313f2d8aaeef04a434074c2ca089c"},
-    {file = "django_speedinfo-2.0.2-py2.py3-none-any.whl", hash = "sha256:ab0049c1182143a47b9c0cc9e19ce00180bd30aca48052b55647a221b97f89af"},
 ]
 django-star-ratings = [
     {file = "django-star-ratings-0.9.0.tar.gz", hash = "sha256:57eb9656f6446e622a4d126e59a07371a9be43f6d1a31e715d1e48b593e36873"},
@@ -1315,10 +1278,6 @@ python-http-client = [
 python-magic = [
     {file = "python-magic-0.4.25.tar.gz", hash = "sha256:21f5f542aa0330f5c8a64442528542f6215c8e18d2466b399b0d9d39356d83fc"},
     {file = "python_magic-0.4.25-py2.py3-none-any.whl", hash = "sha256:1a2c81e8f395c744536369790bd75094665e9644110a6623bcc3bbea30f03973"},
-]
-python-memcached = [
-    {file = "python-memcached-1.59.tar.gz", hash = "sha256:a2e28637be13ee0bf1a8b6843e7490f9456fd3f2a4cb60471733c7b5d5557e4f"},
-    {file = "python_memcached-1.59-py2.py3-none-any.whl", hash = "sha256:4dac64916871bd3550263323fc2ce18e1e439080a2d5670c594cf3118d99b594"},
 ]
 pytz = [
     {file = "pytz-2022.1-py2.py3-none-any.whl", hash = "sha256:e68985985296d9a66a881eb3193b0906246245294a881e7c8afe623866ac6a5c"},

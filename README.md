@@ -110,21 +110,6 @@ Default: `noreply@camerahub.info`
 [Site domain](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts)
 Default: `camerahub.info`
 
-### `CAMERAHUB_MEMCACHED`
-
-Enable [Memcached caching](https://docs.djangoproject.com/en/3.0/topics/cache/)
-Default: `false`
-
-### `CAMERAHUB_MEMCACHED_HOST`
-
-Memcached hostname or IP address
-Default: `127.0.0.1`
-
-### `CAMERAHUB_MEMCACHED_PORT`
-
-Memcached port
-Default: `11211`
-
 ### `CAMERAHUB_STATUS_URL`
 
 URL for a status page
