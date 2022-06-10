@@ -1,7 +1,5 @@
-{% load cache %}
 {% load static %}
 
-{% cache 600 navpublic %}
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #3498db;">
     <a class="navbar-brand" href="{% url 'schema:index' %}">
         <h4>CameraHub</h4>
@@ -39,7 +37,6 @@
                     <a class="dropdown-item" href="{% url 'schema:toner-list' %}">Toners</a>
                 </div>
             </li>
-{% endcache %}
 
             {% if user.is_authenticated %}
             <li class="nav-item active dropdown">
@@ -68,7 +65,6 @@
             </li>
             {% endif %}
 
-{% cache 600 navhelp %}
             <li class="nav-item active dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="helpnavbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -81,7 +77,6 @@
                     {% if settings.STATUS_URL %}<a class="dropdown-item" href="{{ settings.STATUS_URL }}">Site status</a>{% endif %}
                 </div>
             </li>
-{% endcache %}
 
             {% if user.is_authenticated %}
             <li class="nav-item active dropdown">

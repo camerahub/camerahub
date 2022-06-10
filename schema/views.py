@@ -3,8 +3,6 @@
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView, ListView
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_control
 from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
@@ -81,7 +79,6 @@ class SingleTableListView(SingleTableView):
     template_name = 'list.html'
     paginate_by = 25
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class AccessoryList(LoginRequiredMixin, PagedFilteredTableView):
     model = Accessory
     table_class = AccessoryTable
@@ -89,7 +86,6 @@ class AccessoryList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = AccessoryFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class AccessoryDetail(LoginRequiredMixin, generic.DetailView):
     model = Accessory
 
@@ -114,13 +110,11 @@ class AccessoryUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Accessory, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class ArchiveList(LoginRequiredMixin, SingleTableListView):
     model = Archive
     table_class = ArchiveTable
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class ArchiveDetail(LoginRequiredMixin, generic.DetailView):
     model = Archive
 
@@ -129,7 +123,6 @@ class ArchiveDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Archive, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class ArchivePrint(LoginRequiredMixin, generic.DetailView):
     model = Archive
     template_name = 'schema/archive_print.html'
@@ -165,14 +158,6 @@ class BatteryList(PagedFilteredTableView):
 class BatteryDetail(generic.DetailView):
     model = Battery
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-        return context
-
-
 class BatteryCreate(LoginRequiredMixin, CreateView):
     model = Battery
     form_class = BatteryForm
@@ -185,7 +170,6 @@ class BatteryUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class BulkFilmList(LoginRequiredMixin, PagedFilteredTableView):
     model = BulkFilm
     table_class = BulkFilmTable
@@ -193,7 +177,6 @@ class BulkFilmList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = BulkFilmFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class BulkFilmDetail(LoginRequiredMixin, generic.DetailView):
     model = BulkFilm
 
@@ -218,7 +201,6 @@ class BulkFilmUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(BulkFilm, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class CameraList(LoginRequiredMixin, PagedFilteredTableView):
     model = Camera
     table_class = CameraTable
@@ -226,7 +208,6 @@ class CameraList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = CameraFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class CameraDetail(LoginRequiredMixin, generic.DetailView):
     model = Camera
 
@@ -300,9 +281,6 @@ class CameraModelDetail(generic.DetailView):
             context['mine'] = self.get_object().camera_set.filter(
                 owner=self.request.user)
 
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-
         return context
 
 
@@ -353,9 +331,6 @@ class DeveloperDetail(generic.DetailView):
                 items.append(detailitem)
         context['related'] = items
 
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-
         return context
 
 
@@ -392,7 +367,6 @@ class EnlargerModelUpdate(LoginRequiredMixin, UpdateView):
     form_class = EnlargerModelForm
     template_name = 'update.html'
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class EnlargerList(LoginRequiredMixin, PagedFilteredTableView):
     model = Enlarger
     table_class = EnlargerTable
@@ -400,7 +374,6 @@ class EnlargerList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = EnlargerFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class EnlargerDetail(LoginRequiredMixin, generic.DetailView):
     model = Enlarger
 
@@ -445,9 +418,6 @@ class FilmStockDetail(generic.DetailView):
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
-
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -508,7 +478,6 @@ class FlashModelUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class FlashList(LoginRequiredMixin, PagedFilteredTableView):
     model = Flash
     table_class = FlashTable
@@ -516,7 +485,6 @@ class FlashList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = FlashFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class FlashDetail(LoginRequiredMixin, generic.DetailView):
     model = Flash
 
@@ -551,8 +519,6 @@ class FormatDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
         return context
 
 
@@ -568,7 +534,6 @@ class FormatUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class LensList(LoginRequiredMixin, PagedFilteredTableView):
     model = Lens
     table_class = LensTable
@@ -576,7 +541,6 @@ class LensList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = LensFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class LensDetail(LoginRequiredMixin, generic.DetailView):
     model = Lens
 
@@ -650,9 +614,6 @@ class LensModelDetail(generic.DetailView):
             context['mine'] = self.get_object().lens_set.filter(
                 owner=self.request.user)
 
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-
         return context
 
 
@@ -702,9 +663,6 @@ class ManufacturerDetail(generic.DetailView):
                 items.append(detailitem)
         context['related'] = items
 
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-
         return context
 
 
@@ -742,9 +700,6 @@ class MountDetail(generic.DetailView):
                 items.append(detailitem)
         context['related'] = items
 
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-
         return context
 
 
@@ -760,7 +715,6 @@ class MountUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class MountAdapterList(LoginRequiredMixin, PagedFilteredTableView):
     model = MountAdapter
     table_class = MountAdapterTable
@@ -768,7 +722,6 @@ class MountAdapterList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = MountAdapterFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class MountAdapterDetail(LoginRequiredMixin, generic.DetailView):
     model = MountAdapter
 
@@ -803,8 +756,6 @@ class NegativeSizeDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
         return context
 
 
@@ -820,7 +771,6 @@ class NegativeSizeUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class OrderList(LoginRequiredMixin, PagedFilteredTableView):
     model = Order
     table_class = OrderTable
@@ -828,7 +778,6 @@ class OrderList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = OrderFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class OrderDetail(LoginRequiredMixin, generic.DetailView):
     model = Order
 
@@ -875,9 +824,6 @@ class PaperStockDetail(generic.DetailView):
                 items.append(detailitem)
         context['related'] = items
 
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
-
         return context
 
 
@@ -893,7 +839,6 @@ class PaperStockUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class PersonList(LoginRequiredMixin, SingleTableListView):
     model = Person
     table_class = PersonTable
@@ -906,7 +851,6 @@ class PersonList(LoginRequiredMixin, SingleTableListView):
         return mystr
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class PersonDetail(LoginRequiredMixin, generic.DetailView):
     model = Person
 
@@ -931,7 +875,6 @@ class PersonUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Person, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class PrintList(LoginRequiredMixin, PagedFilteredTableView):
     model = Print
     table_class = PrintTable
@@ -939,7 +882,6 @@ class PrintList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = PrintFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class PrintDetail(LoginRequiredMixin, generic.DetailView):
     model = Print
 
@@ -948,7 +890,6 @@ class PrintDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Print, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class PrintPrint(LoginRequiredMixin, generic.DetailView):
     model = Print
     template_name = 'schema/print_print.html'
@@ -1011,7 +952,6 @@ class ProcessUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class ScanList(LoginRequiredMixin, SingleTableListView):
     model = Scan
     table_class = ScanTable
@@ -1024,7 +964,6 @@ class ScanList(LoginRequiredMixin, SingleTableListView):
         return mystr
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class ScanDetail(LoginRequiredMixin, generic.DetailView):
     model = Scan
 
@@ -1049,7 +988,6 @@ class ScanUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Scan, owner=self.request.user, uuid=self.kwargs['uuid'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class NegativeList(LoginRequiredMixin, PagedFilteredTableView):
     model = Negative
     table_class = NegativeTable
@@ -1057,7 +995,6 @@ class NegativeList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = NegativeFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class NegativeDetail(LoginRequiredMixin, generic.DetailView):
     model = Negative
 
@@ -1088,7 +1025,6 @@ class NegativeUpdate(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Negative, owner=self.request.user, slug=self.kwargs['slug'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class FilmList(LoginRequiredMixin, PagedFilteredTableView):
     model = Film
     table_class = FilmTable
@@ -1096,7 +1032,6 @@ class FilmList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = FilmFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class FilmDetail(LoginRequiredMixin, generic.DetailView):
     model = Film
 
@@ -1105,7 +1040,6 @@ class FilmDetail(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class FilmPrint(LoginRequiredMixin, generic.DetailView):
     model = Film
     template_name = 'schema/film_print.html'
@@ -1161,7 +1095,6 @@ class FilmArchive(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Film, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class TeleconverterList(LoginRequiredMixin, PagedFilteredTableView):
     model = Teleconverter
     table_class = TeleconverterTable
@@ -1169,7 +1102,6 @@ class TeleconverterList(LoginRequiredMixin, PagedFilteredTableView):
     formhelper_class = TeleconverterFormHelper
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class TeleconverterDetail(LoginRequiredMixin, generic.DetailView):
     model = Teleconverter
 
@@ -1237,9 +1169,6 @@ class TonerDetail(generic.DetailView):
                 detailitem = get_object_or_404(type(item), pk=item.pk)
                 items.append(detailitem)
         context['related'] = items
-
-        if self.get_object().history.all():
-            context['history'] = self.get_object().history.all()
 
         return context
 
@@ -1386,7 +1315,6 @@ class StatsView(TemplateView):
         return context
 
 
-@method_decorator(cache_control(private=True), name='dispatch')
 class MyStatsView(LoginRequiredMixin, TemplateView):
     template_name = "stats.html"
 

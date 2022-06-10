@@ -32,17 +32,6 @@
     <td>Model</td>
     <td>{{ object.model }}</td>
   </tr>
-  {% if object.other_names %}
-  <tr>
-    <td>Other names</td>
-    <td>
-      <ul class="list-inline">{% for othername in object.other_names %}
-        <li class="list-inline-item">{{ othername }}</li>
-        {% endfor %}
-      </ul>
-    </td>
-  </tr>
-  {% endif %}
   {% if object.disambiguation %}
   <tr>
     <td>Disambiguation</td>
@@ -528,12 +517,6 @@
         {% endfor %}
       </ul>
     </td>
-  </tr>
-  {% endif %}
-  {% if history %}
-  <tr>
-    <td>Edit history</td>
-    <td>{% include "history.html" %}</td>
   </tr>
   {% endif %}
   <tr>
