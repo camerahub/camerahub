@@ -2,76 +2,6 @@
 
 from django.db import migrations
 
-
-def forwards_func(apps, schema_editor):
-    # We get the model from the versioned app registry;
-    # if we directly import it, it'll be the wrong version
-    db_alias = schema_editor.connection.alias
-
-    Condition = apps.get_model("schema", "Condition")
-    Condition.objects.using(db_alias).bulk_create([
-        Condition(code="NEW", name="Brand new", min_rating="100", max_rating="100",
-                  description="Never used and still sealed. All original packaging, manuals and accessories included."),
-        Condition(code="MINT", name="Like new", min_rating="97", max_rating="99",
-                  description="Basically new with very little use.  All boxes and original packaging"),
-        Condition(code="EXC+", name="Excellent Plus", min_rating="90", max_rating="96",
-                  description="Lens Glass very clean – cosmetically may show very slight wear and/or signs of use but only under very close inspection."),
-        Condition(code="EXC", name="Excellent", min_rating="84", max_rating="89",
-                  description="Shows slight signs of use – Lens Glass is very clean but may have some dust which will not affect picture quality."),
-        Condition(code="GOOD", name="Good", min_rating="75", max_rating="83",
-                  description="Appears well used and may include dings, brassing, scrapes and bruises but is in fully functional condition. Glass may have cleaning marks or small scratches which won’t affect picture quality."),
-        Condition(code="FAIR", name="Fair", min_rating="60", max_rating="74",
-                  description="Appears to have been used very heavily with multiple dings, scrapes, scratches and heavy brassing. Lens Glass may have slight fungus, excessive dust and/or scratches that will likely affect picture quality."),
-        Condition(code="POOR", name="Poor", min_rating="50", max_rating="59",
-                  description="Very rough looking. Multiple impressions metal, extreme finish loss and excessive brassing. Glass will have marks, fungus and/or haze which will affect picture quality"),
-        Condition(code="BROKEN", name="Broken", min_rating="0",
-                  max_rating="49", description="Has one or more faults")
-    ])
-
-    ExposureProgram = apps.get_model("schema", "ExposureProgram")
-    ExposureProgram.objects.using(db_alias).bulk_create([
-        ExposureProgram(name="Fixed"),
-        ExposureProgram(name="Manual"),
-        ExposureProgram(name="Program AE"),
-        ExposureProgram(name="Aperture-priority AE"),
-        ExposureProgram(name="Shutter speed priority AE"),
-        ExposureProgram(name="Creative (Slow speed)"),
-        ExposureProgram(name="Action (High speed)"),
-        ExposureProgram(name="Portrait"),
-        ExposureProgram(name="Landscape"),
-        ExposureProgram(name="Bulb"),
-    ])
-
-    MeteringMode = apps.get_model("schema", "MeteringMode")
-    MeteringMode.objects.using(db_alias).bulk_create([
-        MeteringMode(name="None"),
-        MeteringMode(name="Average"),
-        MeteringMode(name="Center-weighted Average"),
-        MeteringMode(name="Spot"),
-        MeteringMode(name="Multi-spot"),
-        MeteringMode(name="Multi-segment"),
-        MeteringMode(name="Partial"),
-    ])
-
-    MeteringType = apps.get_model("schema", "MeteringType")
-    MeteringType.objects.using(db_alias).bulk_create([
-        MeteringType(name="Cadmium sulphide (CdS)"),
-        MeteringType(name="Selenium"),
-        MeteringType(name="Silicon"),
-    ])
-
-    Process = apps.get_model("schema", "Process")
-    Process.objects.using(db_alias).bulk_create([
-        Process(name="Black & white negative", colour=0, positive=0),
-        Process(name="Black & white reversal", colour=0, positive=1),
-        Process(name="C-41", colour=1, positive=0),
-        Process(name="E-6", colour=1, positive=1),
-        Process(name="Polaroid", colour=1, positive=1),
-        Process(name="K-14", colour=1, positive=1),
-        Process(name="Cyanotype", colour=0, positive=0),
-    ])
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -79,5 +9,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(forwards_func),
+        migrations.RunPython(migrations.RunPython.noop),
     ]

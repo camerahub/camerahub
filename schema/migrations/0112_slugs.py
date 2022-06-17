@@ -1,23 +1,5 @@
 from __future__ import unicode_literals
-from django.db import migrations, models
-
-
-def addFlash(apps, schema_editor):
-    flashes = apps.get_model('schema', 'flashmodel')
-    for record in flashes.objects.all():
-        record.save()
-
-
-def addEnlarger(apps, schema_editor):
-    enlargers = apps.get_model('schema', 'enlargermodel')
-    for record in enlargers.objects.all():
-        record.save()
-
-
-def addTeleconverter(apps, schema_editor):
-    teleconverters = apps.get_model('schema', 'teleconvertermodel')
-    for record in teleconverters.objects.all():
-        record.save()
+from django.db import migrations
 
 
 class Migration(migrations.Migration):
@@ -26,12 +8,6 @@ class Migration(migrations.Migration):
     ]
     operations = [
         migrations.RunPython(
-            addFlash, reverse_code=migrations.RunPython.noop
-        ),
-        migrations.RunPython(
-            addEnlarger, reverse_code=migrations.RunPython.noop
-        ),
-        migrations.RunPython(
-            addTeleconverter, reverse_code=migrations.RunPython.noop
+            migrations.RunPython.noop, reverse_code=migrations.RunPython.noop
         ),
     ]

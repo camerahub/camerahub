@@ -1,19 +1,5 @@
 from __future__ import unicode_literals
-from django.db import migrations, models
-from slugify import UniqueSlugify
-
-
-def addCustom(apps, schema_editor):
-
-    ExistingRecords = apps.get_model('schema', 'cameramodel')
-
-    custom_slugify_unique = UniqueSlugify(to_lower=True)
-
-    for record in ExistingRecords.objects.all():
-        record.slug = custom_slugify_unique(
-            f"{record.manufacturer.name} {record.model} {str(record.disambiguation or '')}"
-        )
-        record.save()
+from django.db import migrations
 
 
 class Migration(migrations.Migration):
@@ -22,5 +8,5 @@ class Migration(migrations.Migration):
     ]
     operations = [
         migrations.RunPython(
-            addCustom, reverse_code=migrations.RunPython.noop),
+            migrations.RunPython.noop, reverse_code=migrations.RunPython.noop),
     ]
