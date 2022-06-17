@@ -1,13 +1,6 @@
 from __future__ import unicode_literals
-from django.db import migrations, models
-from slugify import slugify
+from django.db import migrations
 
-
-def addNegative(apps, schema_editor):
-    negatives = apps.get_model('schema', 'negative')
-    for record in negatives.objects.all():
-        record.slug = slugify(str(record.film.id_owner) + '.' + str(record.frame), separator='.')
-        record.save()
 
 class Migration(migrations.Migration):
     dependencies = [
@@ -15,6 +8,6 @@ class Migration(migrations.Migration):
     ]
     operations = [
         migrations.RunPython(
-            addNegative, reverse_code=migrations.RunPython.noop),
+            migrations.RunPython.noop, reverse_code=migrations.RunPython.noop),
 
     ]
