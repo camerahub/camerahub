@@ -114,6 +114,14 @@ Default: `camerahub.info`
 
 URL for a status page
 
+## Fixtures
+
+Base data is supplied as fixtures and must be manually imported after installation. These are **not** idempotent so should only be run once.
+
+```sh
+python manage.py loaddata --app schema Condition ExposureProgram Filmstock Format Manufacturer MeteringMode MeteringType Mount NegativeSize Process ShutterSpeed
+```
+
 ## See also
 
 * [Changelog](https://github.com/camerahub/camerahub/releases)
