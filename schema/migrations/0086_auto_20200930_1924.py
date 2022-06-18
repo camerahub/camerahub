@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='historicalmanufacturer',
             name='country',
-            field=django_countries.fields.CountryField(blank=True, help_text='Country in which the manufacturer is based', max_length=2, null=True),
+            field=django_countries.fields.CountryField(blank=True, help_text='Country in which the manufacturer is based', null=True),
         ),
         migrations.AlterField(
             model_name='manufacturer',
             name='country',
-            field=django_countries.fields.CountryField(blank=True, help_text='Country in which the manufacturer is based', max_length=2, null=True),
+            field=django_countries.fields.CountryField(blank=True, help_text='Country in which the manufacturer is based', null=True),
         ),
     ]
