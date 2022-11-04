@@ -581,17 +581,6 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 dev = ["pre-commit", "tox"]
 
 [[package]]
-name = "poetry-version"
-version = "0.2.0"
-description = "Python library for extracting version from poetry pyproject.toml file (deprecated)"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-
-[package.dependencies]
-tomlkit = ">=0.4.6,<0.6.0"
-
-[[package]]
 name = "prometheus-client"
 version = "0.15.0"
 description = "Python client for the Prometheus monitoring system."
@@ -811,14 +800,6 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
-name = "tomlkit"
-version = "0.5.11"
-description = "Style preserving TOML library"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-
-[[package]]
 name = "typing-extensions"
 version = "4.4.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
@@ -872,7 +853,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "0ddaba8b6e4089499e3039342657fc49199bb427b9e1ccac8d8ed593761a5663"
+content-hash = "32270e8fa8f00a3fefe69ddd0ab6707a0ae51384920d8b8975468b0d4e1fefde"
 
 [metadata.files]
 asgiref = [
@@ -1017,10 +998,6 @@ pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
 ]
-poetry-version = [
-    {file = "poetry-version-0.2.0.tar.gz", hash = "sha256:1b77715b8935589be7977580ecbe454519d1c206d6f99f0d66d4832fa7ac867f"},
-    {file = "poetry_version-0.2.0-py2.py3-none-any.whl", hash = "sha256:82445fe406699d84d7b5011d153bf97f2da04f94006e091dbaf302489e01b5b0"},
-]
 prometheus-client = []
 psycopg2-binary = []
 py = [
@@ -1114,10 +1091,6 @@ swapper = [
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
-]
-tomlkit = [
-    {file = "tomlkit-0.5.11-py2.py3-none-any.whl", hash = "sha256:4e1bd6c9197d984528f9ff0cc9db667c317d8881288db50db20eeeb0f6b0380b"},
-    {file = "tomlkit-0.5.11.tar.gz", hash = "sha256:f044eda25647882e5ef22b43a1688fb6ab12af2fc50e8456cdfc751c873101cf"},
 ]
 typing-extensions = []
 unidecode = [
