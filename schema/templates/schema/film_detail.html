@@ -97,7 +97,7 @@
   {% if object.push_stops is not None %}
   <tr>
     <td>Push/pull stops</td>
-    <td>{{ object.push_stops|sign }}</td>
+    <td>{{ object.push_stops|floatformat:"-1"|sign }}</td>
   </tr>
   {% endif %}
   {% endif %}
