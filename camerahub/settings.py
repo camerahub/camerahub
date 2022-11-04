@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_prometheus',
     'schema',
     'api',
     'djmoney',
@@ -67,6 +68,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -76,6 +78,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
     'camerahub.middleware.DynamicSiteDomainMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'camerahub.urls'
@@ -110,7 +113,7 @@ WSGI_APPLICATION = 'camerahub.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('CAMERAHUB_DB_ENGINE', 'django.db.backends.sqlite3'),
+        'ENGINE': os.getenv('CAMERAHUB_DB_ENGINE', 'django_prometheus.db.backends.sqlite3'),
         'NAME': os.getenv('CAMERAHUB_DB_NAME', os.path.join(BASE_DIR, 'db', 'db.sqlite3')),
         'USER': os.getenv('CAMERAHUB_DB_USER'),
         'PASSWORD': os.getenv('CAMERAHUB_DB_PASS'),

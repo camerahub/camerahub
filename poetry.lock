@@ -324,6 +324,17 @@ exchange = ["certifi"]
 test = ["pytest (>=3.1.0)", "pytest-django", "pytest-pythonpath", "pytest-cov", "mixer"]
 
 [[package]]
+name = "django-prometheus"
+version = "2.2.0"
+description = "Django middlewares to monitor your application with Prometheus.io."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+prometheus-client = ">=0.7"
+
+[[package]]
 name = "django-registration"
 version = "3.3"
 description = "An extensible user-registration application for Django"
@@ -579,6 +590,17 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [package.dependencies]
 tomlkit = ">=0.4.6,<0.6.0"
+
+[[package]]
+name = "prometheus-client"
+version = "0.15.0"
+description = "Python client for the Prometheus monitoring system."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+twisted = ["twisted"]
 
 [[package]]
 name = "psycopg2-binary"
@@ -850,7 +872,7 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "74265dbfe93c5ffc85c893c34725e7eaafccd00fb6385fb634b8e03128fa006e"
+content-hash = "0ddaba8b6e4089499e3039342657fc49199bb427b9e1ccac8d8ed593761a5663"
 
 [metadata.files]
 asgiref = [
@@ -927,6 +949,10 @@ django-money = [
     {file = "django-money-1.3.1.tar.gz", hash = "sha256:a363ce16a23e403befdafa9895b2f538a10f9d390b160f12140094a6dfd55246"},
     {file = "django_money-1.3.1-py3-none-any.whl", hash = "sha256:3b8fc751c8ae27cf877b8f3770ade1b63af97ee49a32ac08a6a1bc6d8d59f089"},
 ]
+django-prometheus = [
+    {file = "django-prometheus-2.2.0.tar.gz", hash = "sha256:240378a1307c408bd5fc85614a3a57f1ce633d4a222c9e291e2bbf325173b801"},
+    {file = "django_prometheus-2.2.0-py2.py3-none-any.whl", hash = "sha256:e6616770d8820b8834762764bf1b76ec08e1b98e72a6f359d488a2e15fe3537c"},
+]
 django-registration = [
     {file = "django-registration-3.3.tar.gz", hash = "sha256:884a4cc9ec87b9f1c0ceb6b6c4b7ba491c1877997a3cd29cc923697dac785eb8"},
     {file = "django_registration-3.3-py3-none-any.whl", hash = "sha256:dfa176f594fb465c93495caa55686be723a15829769511383e25172d2efbd0e6"},
@@ -995,6 +1021,7 @@ poetry-version = [
     {file = "poetry-version-0.2.0.tar.gz", hash = "sha256:1b77715b8935589be7977580ecbe454519d1c206d6f99f0d66d4832fa7ac867f"},
     {file = "poetry_version-0.2.0-py2.py3-none-any.whl", hash = "sha256:82445fe406699d84d7b5011d153bf97f2da04f94006e091dbaf302489e01b5b0"},
 ]
+prometheus-client = []
 psycopg2-binary = []
 py = [
     {file = "py-1.11.0-py2.py3-none-any.whl", hash = "sha256:607c53218732647dff4acdfcd50cb62615cedf612e72d1724fb1a0cc6405b378"},
