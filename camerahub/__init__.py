@@ -1,4 +1,3 @@
-import poetry_version
+import importlib.metadata
 
-# Extract version from poetry pyproject.toml file
-__version__ = poetry_version.extract(source_file=__file__)
+__version__ = importlib.metadata.version("camerahub")
