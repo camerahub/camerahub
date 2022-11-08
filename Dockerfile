@@ -1,5 +1,5 @@
 # CameraHub
-FROM python:3.10-slim
+FROM python:3.9-slim
 LABEL maintainer "Jonathan Gazeley"
 
 # Project Files and Settings
