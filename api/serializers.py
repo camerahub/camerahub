@@ -290,10 +290,8 @@ class ExifSerializer(ModelSerializer):
     BodySerialNumber = CharField(
         source="negative.film.camera.serial", default=None)
     UserComment = CharField(source='negative.notes', default=None)
-    FocalLength = DecimalField(
-        source='negative.focal_length', max_digits=5, decimal_places=1, default=None)
-    FocalLengthIn35mmFilm = DecimalField(
-        source='negative.focal_length_35mm', max_digits=5, decimal_places=1, default=None)
+    FocalLength = IntegerField(source='negative.focal_length', default=None)
+    FocalLengthIn35mmFilm = IntegerField(source='negative.focal_length_35mm', default=None)
     ShutterSpeedValue = DecimalField(
         source='negative.shutter_speed.duration', max_digits=8, decimal_places=8, default=None)
     Copyright = CharField(source='negative.copyright', default=None)
