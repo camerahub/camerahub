@@ -1,9 +1,9 @@
 from math import degrees
 from itertools import chain, count
 from re import match
+from decimal import Decimal
 from django.utils.safestring import mark_safe
 from numpy import arctan
-from decimal import Decimal
 
 
 def boolicon(obj):
@@ -155,12 +155,12 @@ def canondatecode(datecode, introduced=1960, discontinued=2100):
 
     return year
 
-def deg_to_dms(degrees):
+def deg_to_dms(decdegrees):
     """
     Convert from decimal degrees to degrees, minutes, seconds.
     """
-    degrees = Decimal(degrees)
-    mins, secs = divmod(abs(degrees)*3600, 60)
+    decdegrees = Decimal(decdegrees)
+    mins, secs = divmod(abs(decdegrees)*3600, 60)
     degs, mins = divmod(mins, 60)
     degs, mins = int(degs), int(mins)
     return degs, mins, secs
