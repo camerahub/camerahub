@@ -3,6 +3,7 @@ from itertools import chain, count
 from re import match
 from django.utils.safestring import mark_safe
 from numpy import arctan
+from decimal import Decimal
 
 
 def boolicon(obj):
@@ -153,3 +154,27 @@ def canondatecode(datecode, introduced=1960, discontinued=2100):
         year = None
 
     return year
+
+def deg_to_dms(degrees):
+    """
+    Convert from decimal degrees to degrees, minutes, seconds.
+    """
+    degrees = Decimal(degrees)
+    mins, secs = divmod(abs(degrees)*3600, 60)
+    degs, mins = divmod(mins, 60)
+    degs, mins = int(degs), int(mins)
+    return degs, mins, secs
+
+
+def gps_ref(direction, angle):
+    """
+    Return the direction of a GPS coordinate
+    """
+    angle=Decimal(angle)
+    if direction == 'latitude':
+        hemi = 'N' if angle>=0 else 'S'
+    elif direction == 'longitude':
+        hemi = 'E' if angle>=0 else 'W'
+    else:
+        hemi = None
+    return hemi

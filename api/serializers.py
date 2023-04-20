@@ -1,8 +1,9 @@
-from rest_framework.serializers import ModelSerializer, StringRelatedField, DecimalField, CharField, IntegerField, DateTimeField
+from rest_framework.serializers import ModelSerializer, StringRelatedField, DecimalField, CharField, IntegerField, DateTimeField, SerializerMethodField
 from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
 from schema.models import Lens, Print, Scan, Order, MeteringMode, ExposureProgram, ShutterSpeed
+from schema.funcs import deg_to_dms, gps_ref
 
 
 class ExposureProgramSerializer(ModelSerializer):
@@ -285,13 +286,13 @@ class ExifSerializer(ModelSerializer):
     ImageUniqueID = CharField(source='uuid')
     Make = CharField(
         source="negative.film.camera.cameramodel.manufacturer.name", default=None)
-    Model = CharField(
-        source="negative.film.camera.cameramodel.model", default=None)
+    Model = SerializerMethodField(default=None)
     BodySerialNumber = CharField(
         source="negative.film.camera.serial", default=None)
     UserComment = CharField(source='negative.notes', default=None)
     FocalLength = IntegerField(source='negative.focal_length', default=None)
     FocalLengthIn35mmFilm = IntegerField(source='negative.focal_length_35mm', default=None)
+    ExposureTime = CharField(source='negative.shutter_speed', default=None)
     ShutterSpeedValue = DecimalField(
         source='negative.shutter_speed.duration', max_digits=8, decimal_places=8, default=None)
     Copyright = CharField(source='negative.copyright', default=None)
@@ -309,15 +310,31 @@ class ExifSerializer(ModelSerializer):
     MeteringMode = IntegerField(
         source='negative.metering_mode.id', default=None)
     Flash = IntegerField(source='negative.flash', default=None)
-    LensModel = CharField(source='negative.lens.lensmodel.model', default=None)
+    LensModel = SerializerMethodField(default=None)
     LensMake = CharField(
         source='negative.lens.lensmodel.manufacturer.name', default=None)
-    GPSLatitude = DecimalField(
-        source='negative.latitude', max_digits=18, decimal_places=15, default=None)
-    #GPSLatitudeRef = CharField
-    GPSLongitude = DecimalField(
-        source='negative.longitude', max_digits=18, decimal_places=15, default=None)
-    #GPSLongitudeRef = CharField
+    GPSLatitude = SerializerMethodField(default=None)
+    GPSLatitudeRef = SerializerMethodField(default=None)
+    GPSLongitude = SerializerMethodField(default=None)
+    GPSLongitudeRef = SerializerMethodField(default=None)
+
+    def get_GPSLatitude(self, obj):
+        return deg_to_dms(obj.negative.latitude)
+
+    def get_GPSLatitudeRef(self, obj):
+        return gps_ref('latitude', obj.negative.latitude)
+
+    def get_GPSLongitude(self, obj):
+        return deg_to_dms(obj.negative.longitude)
+    
+    def get_GPSLongitudeRef(self, obj):
+        return gps_ref('longitude', obj.negative.longitude)
+    
+    def get_Model(self, obj):
+        return '{} {}'.format(obj.negative.film.camera.cameramodel.manufacturer.name, obj.negative.film.camera.cameramodel.model)
+    
+    def get_LensModel(self, obj):
+        return '{} {}'.format(obj.negative.lens.lensmodel.manufacturer.name, obj.negative.lens.lensmodel.model)
 
     class Meta:
         model = Scan
