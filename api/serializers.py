@@ -282,7 +282,7 @@ class NegativeSerializer(ModelSerializer):
 class ExifSerializer(ModelSerializer):
 
     # These fields must take the correct name and data type of actual EXIF tags
-    # https://github.com/hMatoba/Piexif/blob/master/piexif/_exif.py#L206
+    # https://exiv2.org/tags.html
     ImageUniqueID = CharField(source='uuid')
     Make = CharField(
         source="negative.film.camera.cameramodel.manufacturer.name", default=None)
@@ -290,7 +290,9 @@ class ExifSerializer(ModelSerializer):
     BodySerialNumber = CharField(
         source="negative.film.camera.serial", default=None)
     UserComment = CharField(source='negative.notes', default=None)
+    # rational
     FocalLength = IntegerField(source='negative.focal_length', default=None)
+    # rational
     FocalLengthIn35mmFilm = IntegerField(source='negative.focal_length_35mm', default=None)
     ExposureTime = CharField(source='negative.shutter_speed', default=None)
     ShutterSpeedValue = DecimalField(
@@ -300,8 +302,10 @@ class ExifSerializer(ModelSerializer):
     ImageDescription = CharField(source='negative.caption', default=None)
     LensSerialNumber = CharField(source='negative.lens.serial', default=None)
     Artist = CharField(source='negative.photographer.name', default=None)
+    # rational
     FNumber = DecimalField(source='negative.aperture',
                            max_digits=4, decimal_places=1, default=None)
+    # rational
     MaxApertureValue = DecimalField(
         source='negative.lens.lensmodel.max_aperture', max_digits=4, decimal_places=1, default=None)
     DateTimeOriginal = DateTimeField(source='negative.date', default=None)
