@@ -1,4 +1,5 @@
 from rest_framework.serializers import ModelSerializer, StringRelatedField, DecimalField, CharField, IntegerField, DateTimeField, SerializerMethodField
+from fractions import Fraction
 from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
@@ -291,10 +292,11 @@ class ExifSerializer(ModelSerializer):
         source="negative.film.camera.serial", default=None)
     UserComment = CharField(source='negative.notes', default=None)
     # rational
-    FocalLength = IntegerField(source='negative.focal_length', default=None)
+    FocalLength = SerializerMethodField(default=None)
     # rational
-    FocalLengthIn35mmFilm = IntegerField(source='negative.focal_length_35mm', default=None)
-    ExposureTime = CharField(source='negative.shutter_speed', default=None)
+    FocalLengthIn35mmFilm = SerializerMethodField(default=None)
+    ExposureTime = SerializerMethodField(default=None)
+    # APEX
     ShutterSpeedValue = DecimalField(
         source='negative.shutter_speed.duration', max_digits=8, decimal_places=8, default=None)
     Copyright = CharField(source='negative.copyright', default=None)
@@ -303,9 +305,8 @@ class ExifSerializer(ModelSerializer):
     LensSerialNumber = CharField(source='negative.lens.serial', default=None)
     Artist = CharField(source='negative.photographer.name', default=None)
     # rational
-    FNumber = DecimalField(source='negative.aperture',
-                           max_digits=4, decimal_places=1, default=None)
-    # rational
+    FNumber = SerializerMethodField(default=None)
+    # APEX
     MaxApertureValue = DecimalField(
         source='negative.lens.lensmodel.max_aperture', max_digits=4, decimal_places=1, default=None)
     DateTimeOriginal = DateTimeField(source='negative.date', default=None)
@@ -321,6 +322,22 @@ class ExifSerializer(ModelSerializer):
     GPSLatitudeRef = SerializerMethodField(default=None)
     GPSLongitude = SerializerMethodField(default=None)
     GPSLongitudeRef = SerializerMethodField(default=None)
+
+    def get_FocalLength(self, obj):
+        fraction = Fraction(obj.negative.focal_length)
+        return '{}/{}'.format(fraction.numerator, fraction.denominator)  
+
+    def get_FocalLengthIn35mmFilm(self, obj):
+        fraction = Fraction(obj.negative.focal_length_35mm)
+        return '{}/{}'.format(fraction.numerator, fraction.denominator)
+
+    def get_ExposureTime(self, obj):
+        fraction = Fraction(obj.negative.shutter_speed)
+        return '{}/{}'.format(fraction.numerator, fraction.denominator)
+
+    def get_FNumber(self, obj):
+        fraction = Fraction(obj.negative.aperture)
+        return '{}/{}'.format(fraction.numerator, fraction.denominator)
 
     def get_GPSLatitude(self, obj):
         return deg_to_dms(obj.negative.latitude)
