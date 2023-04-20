@@ -383,6 +383,7 @@ class ExifSerializer(ModelSerializer):
             'Flash',
             'GPSLatitude',
             'GPSLongitude',
+            'ExposureTime',
         ]
 
 
