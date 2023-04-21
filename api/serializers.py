@@ -324,38 +324,88 @@ class ExifSerializer(ModelSerializer):
     GPSLongitudeRef = SerializerMethodField(default=None)
 
     def get_FocalLength(self, obj):
-        fraction = Fraction(obj.negative.focal_length)
-        return '{}/{}'.format(fraction.numerator, fraction.denominator)  
+        if obj.negative.focal_length:
+            fraction = Fraction(obj.negative.focal_length)
+            returnval = '{}/{}'.format(fraction.numerator,
+                                       fraction.denominator)
+        else:
+            returnval = None
+        return returnval
 
     def get_FocalLengthIn35mmFilm(self, obj):
-        fraction = Fraction(obj.negative.focal_length_35mm)
-        return '{}/{}'.format(fraction.numerator, fraction.denominator)
+        if obj.negative.focal_length_35mm:
+            fraction = Fraction(obj.negative.focal_length_35mm)
+            returnval = '{}/{}'.format(fraction.numerator,
+                                       fraction.denominator)
+        else:
+            returnval = None
+        return returnval
 
     def get_ExposureTime(self, obj):
-        fraction = Fraction(obj.negative.shutter_speed)
-        return '{}/{}'.format(fraction.numerator, fraction.denominator)
+        if obj.negative.shutter_speed:
+            fraction = Fraction(obj.negative.shutter_speed)
+            returnval = '{}/{}'.format(fraction.numerator,
+                                       fraction.denominator)
+        else:
+            returnval = None
+        return returnval
 
     def get_FNumber(self, obj):
-        fraction = Fraction(obj.negative.aperture)
-        return '{}/{}'.format(fraction.numerator, fraction.denominator)
+        if obj.negative.aperture:
+            fraction = Fraction(obj.negative.aperture)
+            returnval = '{}/{}'.format(fraction.numerator,
+                                       fraction.denominator)
+        else:
+            returnval = None
+        return returnval
 
     def get_GPSLatitude(self, obj):
-        return deg_to_dms(obj.negative.latitude)
+        if obj.negative.latitude:
+            returnval = deg_to_dms(obj.negative.latitude)
+        else:
+            returnval = None
+        return returnval
 
     def get_GPSLatitudeRef(self, obj):
-        return gps_ref('latitude', obj.negative.latitude)
+        if obj.negative.latitude:
+            returnval = gps_ref('latitude', obj.negative.latitude)
+        else:
+            returnval = None
+        return returnval
 
     def get_GPSLongitude(self, obj):
-        return deg_to_dms(obj.negative.longitude)
-    
+        if obj.negative.longitude:
+            returnval = deg_to_dms(obj.negative.longitude)
+        else:
+            returnval = None
+        return returnval
+
     def get_GPSLongitudeRef(self, obj):
-        return gps_ref('longitude', obj.negative.longitude)
-    
+        if obj.negative.longitude:
+            returnval = gps_ref('longitude', obj.negative.longitude)
+        else:
+            returnval = None
+        return returnval
+
     def get_Model(self, obj):
-        return '{} {}'.format(obj.negative.film.camera.cameramodel.manufacturer.name, obj.negative.film.camera.cameramodel.model)
-    
+        if obj.negative.film.camera.cameramodel.manufacturer.name and obj.negative.film.camera.cameramodel.model:
+            returnval = '{} {}'.format(
+                obj.negative.film.camera.cameramodel.manufacturer.name, obj.negative.film.camera.cameramodel.model)
+        elif obj.negative.film.camera.cameramodel.model:
+            returnval = obj.negative.film.camera.cameramodel.model
+        else:
+            returnval = None
+        return returnval
+
     def get_LensModel(self, obj):
-        return '{} {}'.format(obj.negative.lens.lensmodel.manufacturer.name, obj.negative.lens.lensmodel.model)
+        if obj.negative.lens.lensmodel.manufacturer.name and obj.negative.lens.lensmodel.model:
+            returnval = '{} {}'.format(
+                obj.negative.lens.lensmodel.manufacturer.name, obj.negative.lens.lensmodel.model)
+        elif obj.negative.lens.lensmodel.model:
+            returnval = obj.negative.lens.lensmodel.model
+        else:
+            returnval = None
+        return returnval
 
     class Meta:
         model = Scan
