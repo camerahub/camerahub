@@ -388,20 +388,16 @@ class ExifSerializer(ModelSerializer):
         return returnval
 
     def get_Model(self, obj):
-        if obj.negative.film.camera.cameramodel.manufacturer.name and obj.negative.film.camera.cameramodel.model:
+        try:
             returnval = f'{obj.negative.film.camera.cameramodel.manufacturer.name} {obj.negative.film.camera.cameramodel.model}'
-        elif obj.negative.film.camera.cameramodel.model:
-            returnval = obj.negative.film.camera.cameramodel.model
-        else:
+        except KeyError:
             returnval = None
         return returnval
 
     def get_LensModel(self, obj):
-        if obj.negative.lens.lensmodel.manufacturer.name and obj.negative.lens.lensmodel.model:
+        try:
             returnval = f'{obj.negative.lens.lensmodel.manufacturer.name} {obj.negative.lens.lensmodel.model}'
-        elif obj.negative.lens.lensmodel.model:
-            returnval = obj.negative.lens.lensmodel.model
-        else:
+        except KeyError:
             returnval = None
         return returnval
 
