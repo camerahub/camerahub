@@ -329,8 +329,7 @@ class ExifSerializer(ModelSerializer):
         except KeyError:
             returnval = None
         else:
-            returnval = '{}/{}'.format(fraction.numerator,
-                                       fraction.denominator)
+            returnval = f'{fraction.numerator}/{fraction.denominator}'
         return returnval
 
     def get_FocalLengthIn35mmFilm(self, obj):
@@ -339,8 +338,7 @@ class ExifSerializer(ModelSerializer):
         except KeyError:
             returnval = None
         else:
-            returnval = '{}/{}'.format(fraction.numerator,
-                                       fraction.denominator)
+            returnval = f'{fraction.numerator}/{fraction.denominator}'
         return returnval
 
     def get_ExposureTime(self, obj):
@@ -349,8 +347,7 @@ class ExifSerializer(ModelSerializer):
         except KeyError:
             returnval = None
         else:
-            returnval = '{}/{}'.format(fraction.numerator,
-                                       fraction.denominator)
+            returnval = f'{fraction.numerator}/{fraction.denominator}'
         return returnval
 
     def get_FNumber(self, obj):
@@ -359,8 +356,7 @@ class ExifSerializer(ModelSerializer):
         except KeyError:
             returnval = None
         else:
-            returnval = '{}/{}'.format(fraction.numerator,
-                                       fraction.denominator)
+            returnval = f'{fraction.numerator}/{fraction.denominator}'
         return returnval
 
     def get_GPSLatitude(self, obj):
@@ -393,8 +389,7 @@ class ExifSerializer(ModelSerializer):
 
     def get_Model(self, obj):
         if obj.negative.film.camera.cameramodel.manufacturer.name and obj.negative.film.camera.cameramodel.model:
-            returnval = '{} {}'.format(
-                obj.negative.film.camera.cameramodel.manufacturer.name, obj.negative.film.camera.cameramodel.model)
+            returnval = f'{obj.negative.film.camera.cameramodel.manufacturer.name} {obj.negative.film.camera.cameramodel.model}'
         elif obj.negative.film.camera.cameramodel.model:
             returnval = obj.negative.film.camera.cameramodel.model
         else:
@@ -403,8 +398,7 @@ class ExifSerializer(ModelSerializer):
 
     def get_LensModel(self, obj):
         if obj.negative.lens.lensmodel.manufacturer.name and obj.negative.lens.lensmodel.model:
-            returnval = '{} {}'.format(
-                obj.negative.lens.lensmodel.manufacturer.name, obj.negative.lens.lensmodel.model)
+            returnval = f'{obj.negative.lens.lensmodel.manufacturer.name} {obj.negative.lens.lensmodel.model}'
         elif obj.negative.lens.lensmodel.model:
             returnval = obj.negative.lens.lensmodel.model
         else:
