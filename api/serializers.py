@@ -324,66 +324,70 @@ class ExifSerializer(ModelSerializer):
     GPSLongitudeRef = SerializerMethodField(default=None)
 
     def get_FocalLength(self, obj):
-        if obj.negative.focal_length:
+        try:
             fraction = Fraction(obj.negative.focal_length)
+        except KeyError:
+            returnval = None
+        else:
             returnval = '{}/{}'.format(fraction.numerator,
                                        fraction.denominator)
-        else:
-            returnval = None
         return returnval
 
     def get_FocalLengthIn35mmFilm(self, obj):
-        if obj.negative.focal_length_35mm:
+        try:
             fraction = Fraction(obj.negative.focal_length_35mm)
+        except KeyError:
+            returnval = None
+        else:
             returnval = '{}/{}'.format(fraction.numerator,
                                        fraction.denominator)
-        else:
-            returnval = None
         return returnval
 
     def get_ExposureTime(self, obj):
-        if obj.negative.shutter_speed:
+        try:
             fraction = Fraction(obj.negative.shutter_speed)
+        except KeyError:
+            returnval = None
+        else:
             returnval = '{}/{}'.format(fraction.numerator,
                                        fraction.denominator)
-        else:
-            returnval = None
         return returnval
 
     def get_FNumber(self, obj):
-        if obj.negative.aperture:
+        try:
             fraction = Fraction(obj.negative.aperture)
+        except KeyError:
+            returnval = None
+        else:
             returnval = '{}/{}'.format(fraction.numerator,
                                        fraction.denominator)
-        else:
-            returnval = None
         return returnval
 
     def get_GPSLatitude(self, obj):
-        if obj.negative.latitude:
+        try:
             returnval = deg_to_dms(obj.negative.latitude)
-        else:
+        except KeyError:
             returnval = None
         return returnval
 
     def get_GPSLatitudeRef(self, obj):
-        if obj.negative.latitude:
+        try:
             returnval = gps_ref('latitude', obj.negative.latitude)
-        else:
+        except KeyError:
             returnval = None
         return returnval
 
     def get_GPSLongitude(self, obj):
-        if obj.negative.longitude:
+        try:
             returnval = deg_to_dms(obj.negative.longitude)
-        else:
+        except KeyError:
             returnval = None
         return returnval
 
     def get_GPSLongitudeRef(self, obj):
-        if obj.negative.longitude:
+        try:
             returnval = gps_ref('longitude', obj.negative.longitude)
-        else:
+        except KeyError:
             returnval = None
         return returnval
 
