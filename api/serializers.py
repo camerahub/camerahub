@@ -326,7 +326,7 @@ class ExifSerializer(ModelSerializer):
     def get_FocalLength(self, obj):
         try:
             fraction = Fraction(obj.negative.focal_length)
-        except KeyError:
+        except AttributeError:
             returnval = None
         else:
             returnval = f'{fraction.numerator}/{fraction.denominator}'
@@ -335,7 +335,7 @@ class ExifSerializer(ModelSerializer):
     def get_FocalLengthIn35mmFilm(self, obj):
         try:
             fraction = Fraction(obj.negative.focal_length_35mm)
-        except KeyError:
+        except AttributeError:
             returnval = None
         else:
             returnval = f'{fraction.numerator}/{fraction.denominator}'
@@ -344,7 +344,7 @@ class ExifSerializer(ModelSerializer):
     def get_ExposureTime(self, obj):
         try:
             fraction = Fraction(obj.negative.shutter_speed)
-        except KeyError:
+        except AttributeError:
             returnval = None
         else:
             returnval = f'{fraction.numerator}/{fraction.denominator}'
@@ -353,7 +353,7 @@ class ExifSerializer(ModelSerializer):
     def get_FNumber(self, obj):
         try:
             fraction = Fraction(obj.negative.aperture)
-        except KeyError:
+        except AttributeError:
             returnval = None
         else:
             returnval = f'{fraction.numerator}/{fraction.denominator}'
@@ -362,42 +362,42 @@ class ExifSerializer(ModelSerializer):
     def get_GPSLatitude(self, obj):
         try:
             returnval = deg_to_dms(obj.negative.latitude)
-        except KeyError:
+        except AttributeError:
             returnval = None
         return returnval
 
     def get_GPSLatitudeRef(self, obj):
         try:
             returnval = gps_ref('latitude', obj.negative.latitude)
-        except KeyError:
+        except AttributeError:
             returnval = None
         return returnval
 
     def get_GPSLongitude(self, obj):
         try:
             returnval = deg_to_dms(obj.negative.longitude)
-        except KeyError:
+        except AttributeError:
             returnval = None
         return returnval
 
     def get_GPSLongitudeRef(self, obj):
         try:
             returnval = gps_ref('longitude', obj.negative.longitude)
-        except KeyError:
+        except AttributeError:
             returnval = None
         return returnval
 
     def get_Model(self, obj):
         try:
             returnval = f'{obj.negative.film.camera.cameramodel.manufacturer.name} {obj.negative.film.camera.cameramodel.model}'
-        except KeyError:
+        except AttributeError:
             returnval = None
         return returnval
 
     def get_LensModel(self, obj):
         try:
             returnval = f'{obj.negative.lens.lensmodel.manufacturer.name} {obj.negative.lens.lensmodel.model}'
-        except KeyError:
+        except AttributeError:
             returnval = None
         return returnval
 
