@@ -382,7 +382,7 @@ class ExifSerializer(ModelSerializer):
             'MeteringMode',
             'Flash',
             'GPSLatitude',
-            'GPSLongitude',
+            'GPSLatitudeRef',
             'GPSLongitude',
             'GPSLongitudeRef',
             'ExposureTime',
