@@ -325,7 +325,7 @@ class ExifSerializer(ModelSerializer):
 
     def get_FocalLength(self, obj):
         try:
-            fraction = Fraction(obj.negative.focal_length)
+            fraction = Fraction(str(obj.negative.focal_length))
         except AttributeError:
             returnval = None
         else:
@@ -334,7 +334,7 @@ class ExifSerializer(ModelSerializer):
 
     def get_FocalLengthIn35mmFilm(self, obj):
         try:
-            fraction = Fraction(obj.negative.focal_length_35mm)
+            fraction = Fraction(str(obj.negative.focal_length_35mm))
         except AttributeError:
             returnval = None
         else:
@@ -343,7 +343,7 @@ class ExifSerializer(ModelSerializer):
 
     def get_ExposureTime(self, obj):
         try:
-            fraction = Fraction(obj.negative.shutter_speed)
+            fraction = Fraction(str(obj.negative.shutter_speed))
         except AttributeError:
             returnval = None
         else:
@@ -352,7 +352,7 @@ class ExifSerializer(ModelSerializer):
 
     def get_FNumber(self, obj):
         try:
-            fraction = Fraction(obj.negative.aperture)
+            fraction = Fraction(str(obj.negative.aperture))
         except AttributeError:
             returnval = None
         else:
