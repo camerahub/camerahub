@@ -2356,7 +2356,7 @@ class Negative(models.Model):
 
     @property
     def focal_length_35mm(self):
-        if self.film.camera.cameramodel.negative_size:
+        if self.film.camera.cameramodel.negative_size and self.focal_length:
             fl35mm = round(self.film.camera.cameramodel.negative_size.crop_factor * self.focal_length)
         else:
             fl35mm = None
