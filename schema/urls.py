@@ -171,12 +171,6 @@ urlpatterns = [
     path('negativesize/<int:pk>/update',
          views.NegativeSizeUpdate.as_view(), name='negativesize-update'),
 
-    path('order/', views.OrderList.as_view(), name='order-list'),
-    path('order/<int:id_owner>', views.OrderDetail.as_view(), name='order-detail'),
-    path('order/create/', views.OrderCreate.as_view(), name='order-create'),
-    path('order/<int:id_owner>/update',
-         views.OrderUpdate.as_view(), name='order-update'),
-
     path('paperstock/', views.PaperStockList.as_view(), name='paperstock-list'),
     path('paperstock/<int:pk>', views.PaperStockDetail.as_view(),
          name='paperstock-detail'),

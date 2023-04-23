@@ -10,7 +10,7 @@ from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInp
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
 from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
-from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
+from schema.models import Mount, MountAdapter, NegativeSize, PaperStock, Person, Print
 from schema.models import Process, Scan, Negative, Film, Teleconverter, TeleconverterModel, Toner
 
 FormActionButtons = Layout(
@@ -790,34 +790,6 @@ class NegativeSizeForm(ModelForm):
             'name',
             AppendedText('width', 'mm'),
             AppendedText('height', 'mm'),
-            FormActionButtons
-        )
-
-
-class OrderForm(ModelForm):
-    class Meta:
-        model = Order
-        fields = ['negative', 'width', 'height',
-                  'added', 'printed', 'print', 'recipient']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['negative'].queryset = Negative.objects.filter(
-            owner=get_current_user())
-        self.fields['print'].queryset = Print.objects.filter(
-            owner=get_current_user())
-        self.fields['recipient'].queryset = Person.objects.filter(
-            owner=get_current_user())
-
-        self.helper = FormHelper(self)
-        self.helper.layout = Layout(
-            'negative',
-            AppendedText('width', '"'),
-            AppendedText('height', '"'),
-            'added',
-            'printed',
-            'print',
-            'recipient',
             FormActionButtons
         )
 

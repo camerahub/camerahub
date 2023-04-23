@@ -118,9 +118,13 @@ URL for a status page
 
 Base data is supplied as fixtures and must be manually imported after installation. These are **not** idempotent so should only be run once.
 
+This data includes things like EXIF exposure programs, film formats, etc that are required to make CameraHub useful.
+
 ```sh
-python manage.py loaddata --app schema Condition ExposureProgram Filmstock Format Manufacturer MeteringMode MeteringType Mount NegativeSize Process ShutterSpeed
+poetry run python manage.py loaddata --app schema Condition ExposureProgram Format Manufacturer Filmstock MeteringMode MeteringType Mount NegativeSize Process ShutterSpeed
 ```
+
+There is also some test data like cameras and negatives which shouldn't be imported into a production deployment.
 
 ## See also
 
