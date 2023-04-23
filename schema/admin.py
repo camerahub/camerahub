@@ -1,6 +1,6 @@
 from django.contrib import admin
 from schema.models import Process, Scan, Negative, Film, ShutterSpeed, Teleconverter, TeleconverterModel, Toner
-from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
+from schema.models import Mount, MountAdapter, NegativeSize, PaperStock, Person, Print
 from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
 
@@ -37,7 +37,6 @@ admin.site.register(Manufacturer)
 admin.site.register(Mount)
 admin.site.register(MountAdapter)
 admin.site.register(NegativeSize)
-admin.site.register(Order)
 admin.site.register(PaperStock)
 admin.site.register(Person)
 admin.site.register(Print)

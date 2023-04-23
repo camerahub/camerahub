@@ -8,7 +8,7 @@ from api.serializers import ManufacturerSerializer, ArchiveSerializer, BatterySe
 from api.serializers import FormatSerializer, FlashModelSerializer, FlashSerializer, EnlargerModelSerializer, EnlargerSerializer, MountSerializer
 from api.serializers import PaperStockSerializer, PersonSerializer, ProcessSerializer, TeleconverterModelSerializer, TeleconverterSerializer
 from api.serializers import TonerSerializer, FilmStockSerializer, BulkFilmSerializer, MountAdapterSerializer, DeveloperSerializer
-from api.serializers import LensModelSerializer, CameraModelSerializer, AccessorySerializer, OrderSerializer
+from api.serializers import LensModelSerializer, CameraModelSerializer, AccessorySerializer
 from api.serializers import ExposureProgramSerializer, MeteringModeSerializer, ShutterSpeedSerializer, ExifSerializer
 
 from api.rwserializers import FilmRWSerializer, NegativeRWSerializer, ScanRWSerializer, PrintRWSerializer, LensRWSerializer, CameraRWSerializer
@@ -16,12 +16,12 @@ from api.rwserializers import ArchiveRWSerializer
 from api.rwserializers import FlashRWSerializer, EnlargerRWSerializer
 from api.rwserializers import PersonRWSerializer, TeleconverterRWSerializer
 from api.rwserializers import BulkFilmRWSerializer
-from api.rwserializers import AccessoryRWSerializer, OrderRWSerializer
+from api.rwserializers import AccessoryRWSerializer
 
 from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format, ExposureProgram
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, MeteringMode, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
-from schema.models import Lens, Print, Scan, Order, ShutterSpeed
+from schema.models import Lens, Print, Scan, ShutterSpeed
 
 
 class FilmViewSet(ReadWriteSerializerMixin, ModelViewSet):
@@ -234,19 +234,6 @@ class AccessoryViewSet(ReadWriteSerializerMixin, ModelViewSet):
 
     def get_queryset(self):
         return Accessory.objects.filter(owner=self.request.user)
-
-
-class OrderViewSet(ReadWriteSerializerMixin, ModelViewSet):
-    queryset = Order.objects.none()
-    lookup_field = 'id_owner'
-    serializer_classes = {
-        'read': OrderSerializer,
-        'write': OrderRWSerializer,
-    }
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        return Order.objects.filter(owner=self.request.user)
 
 
 # Public objects: read-only and world-readable

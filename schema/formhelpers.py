@@ -3,7 +3,7 @@ from crispy_forms.layout import Layout, Submit, Row, Field
 
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock
 from schema.models import Flash, FlashModel, Lens, LensModel
-from schema.models import Mount, MountAdapter, Order, PaperStock, Print
+from schema.models import Mount, MountAdapter, PaperStock, Print
 from schema.models import Negative, Film, Teleconverter, TeleconverterModel, Toner
 
 # Disable CSRF token for cleaner filter URLs
@@ -216,16 +216,6 @@ class MountAdapterFormHelper(CustomFormHelper):
             Field('lens_mount', css_class="form-control-sm"),
             Field('has_optics', css_class="form-control-sm"),
             Field('infinity_focus', css_class="form-control-sm"),
-            Submit('filter', 'Filter', css_class="form-control-sm"),
-        )
-    )
-
-
-class OrderFormHelper(CustomFormHelper):
-    model = Order
-    layout = Layout(
-        Row(
-            Field('printed', css_class="form-control-sm"),
             Submit('filter', 'Filter', css_class="form-control-sm"),
         )
     )

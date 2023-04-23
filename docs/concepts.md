@@ -4,7 +4,7 @@
 
 CameraHub is a database and application for cataloguing film cameras,
 lenses, accessories, films, negatives and prints -as well a range of
-other information such as exhibitions, orders, and darkroom chemicals.
+other information such as exhibitions, and darkroom chemicals.
 
 CameraHub is strictly governed by relational database principles which
 can make it seem fiddly and complicated to use, but this structured data
@@ -94,8 +94,6 @@ Whether you have a darkroom, or you get your negatives printed at a lab,
 CameraHub can track your prints. Prints areassociated with the negative
 they were made from. You'll be able to add other info about how the
 print was made.
-
-You can also record orders for prints and record sales.
 
 ### Scans and tagging
 
