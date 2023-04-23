@@ -21,9 +21,9 @@ def shutter(obj):
 
 @register.filter(is_safe=True)
 def sign(obj):
-    if obj > 0:
+    if int(obj) > 0:
         mystr = '+' + str(obj)
-    elif obj == 0:
+    elif int(obj) == 0:
         mystr = '&plusmn;' + str(obj)
     else:
         mystr = str(obj)
