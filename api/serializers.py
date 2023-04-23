@@ -343,7 +343,7 @@ class ExifSerializer(ModelSerializer):
 
     def get_ExposureTime(self, obj):
         try:
-            fraction = Fraction(str(obj.negative.shutter_speed))
+            fraction = Fraction(str(obj.negative.shutter_speed.shutter_speed))
         except (ValueError, AttributeError):
             returnval = None
         else:
