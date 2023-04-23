@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer, StringRelatedField, Deci
 from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
-from schema.models import Lens, Print, Scan, Order, MeteringMode, ExposureProgram, ShutterSpeed
+from schema.models import Lens, Print, Scan, MeteringMode, ExposureProgram, ShutterSpeed
 from schema.funcs import deg_to_dms, gps_ref
 
 
@@ -452,13 +452,4 @@ class ScanSerializer(ModelSerializer):
 
     class Meta:
         model = Scan
-        fields = '__all__'
-
-
-class OrderSerializer(ModelSerializer):
-    negative = NegativeSerializer(many=False)
-    print = PrintSerializer(many=False)
-
-    class Meta:
-        model = Order
         fields = '__all__'

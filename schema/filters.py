@@ -5,7 +5,7 @@ from taggit.forms import TagField
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock
 from schema.models import Flash, FlashModel, Lens, LensModel
-from schema.models import Mount, MountAdapter, Order, PaperStock, Print
+from schema.models import Mount, MountAdapter, PaperStock, Print
 from schema.models import Negative, Film, Teleconverter, TeleconverterModel, Toner
 
 # Define a custom tag filter
@@ -184,17 +184,6 @@ class MountAdapterFilter(FilterSet):
         model = MountAdapter
         fields = ('camera_mount', 'lens_mount',
                   'has_optics', 'infinity_focus',)
-
-    @property
-    def qs(self):
-        parent = super().qs
-        return parent.filter(owner=get_current_user())
-
-
-class OrderFilter(FilterSet):
-    class Meta:
-        model = Order
-        fields = ('printed',)
 
     @property
     def qs(self):

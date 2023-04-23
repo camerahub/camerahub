@@ -8,7 +8,7 @@ from schema.funcs import boolicon, colouricon
 # Import all models that need admin pages
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
 from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
-from schema.models import Mount, MountAdapter, NegativeSize, Order, PaperStock, Person, Print
+from schema.models import Mount, MountAdapter, NegativeSize, PaperStock, Person, Print
 from schema.models import Process, Scan, Negative, Film, Teleconverter, TeleconverterModel, Toner
 
 
@@ -423,18 +423,6 @@ class NegativeSizeTable(tables.Table):
     @classmethod
     def render_aspect_ratio(cls, value):
         return format_html("{}&times;", value)
-
-
-class OrderTable(tables.Table):
-    class Meta:
-        attrs = {"class": "table table-hover"}
-        model = Order
-        fields = ('id_owner', 'negative', 'size',
-                  'added', 'printed', 'print', 'recipient')
-
-    @classmethod
-    def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:order-detail', args=[value]), value)
 
 
 class PaperStockTable(tables.Table):

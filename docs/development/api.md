@@ -81,7 +81,6 @@ X-Frame-Options: SAMEORIGIN
     "mountadapter": "http://127.0.0.1:8000/api/mountadapter/",
     "negative": "http://127.0.0.1:8000/api/negative/",
     "negativesize": "http://127.0.0.1:8000/api/negativesize/",
-    "order": "http://127.0.0.1:8000/api/order/",
     "paperstock": "http://127.0.0.1:8000/api/paperstock/",
     "person": "http://127.0.0.1:8000/api/person/",
     "print": "http://127.0.0.1:8000/api/print/",

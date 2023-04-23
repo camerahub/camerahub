@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, 
 from schema.models import Accessory, Archive, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel
 from schema.models import ExposureProgram, Film, FilmStock, Filter, Flash, FlashModel, Format, Lens
 from schema.models import LensModel, Manufacturer, MeteringMode, Mount, MountAdapter, Negative
-from schema.models import Order, PaperStock, Person, Print, Scan, ShutterSpeed, Teleconverter, TeleconverterModel
+from schema.models import PaperStock, Person, Print, Scan, ShutterSpeed, Teleconverter, TeleconverterModel
 
 
 class PersonRWSerializer(ModelSerializer):
@@ -162,15 +162,4 @@ class ScanRWSerializer(ModelSerializer):
 
     class Meta:
         model = Scan
-        fields = '__all__'
-
-
-class OrderRWSerializer(ModelSerializer):
-    negative = SlugRelatedField(
-        slug_field='slug', queryset=Negative.objects.all())
-    print = SlugRelatedField(slug_field='id_owner',
-                             queryset=Print.objects.all())
-
-    class Meta:
-        model = Order
         fields = '__all__'
