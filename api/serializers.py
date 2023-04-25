@@ -293,8 +293,7 @@ class ExifSerializer(ModelSerializer):
     UserComment = CharField(source='negative.notes', default=None)
     # rational
     FocalLength = SerializerMethodField(default=None)
-    # rational
-    FocalLengthIn35mmFilm = SerializerMethodField(default=None)
+    FocalLengthIn35mmFilm = IntegerField(source='negative.focal_length_35mm', default=None)
     ExposureTime = SerializerMethodField(default=None)
     # APEX
     ShutterSpeedValue = DecimalField(
@@ -326,15 +325,6 @@ class ExifSerializer(ModelSerializer):
     def get_FocalLength(self, obj):
         try:
             fraction = Fraction(str(obj.negative.focal_length))
-        except (ValueError, AttributeError):
-            returnval = None
-        else:
-            returnval = f'{fraction.numerator}/{fraction.denominator}'
-        return returnval
-
-    def get_FocalLengthIn35mmFilm(self, obj):
-        try:
-            fraction = Fraction(str(obj.negative.focal_length_35mm))
         except (ValueError, AttributeError):
             returnval = None
         else:
