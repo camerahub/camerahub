@@ -160,10 +160,25 @@ def deg_to_dms(decdegrees):
     Convert from decimal degrees to degrees, minutes, seconds.
     """
     decdegrees = Decimal(decdegrees)
+    # Multiply degrees up 3600 to get integer second resolution, divide by 60 to get mins and secs
     mins, secs = divmod(abs(decdegrees)*3600, 60)
+    # Further divide by 60 to get degrees and mins
     degs, mins = divmod(mins, 60)
+    # round down degs and mins. Secs remains a float
     degs, mins = int(degs), int(mins)
     return degs, mins, secs
+
+
+def deg_to_dms_rational(decdegrees):
+    """
+    Convert from decimal degrees to degrees, minutes, seconds expressed as rationals
+    This returns 3 rationals formatted as a string suitable for pyexiv2, e.g.
+    'Exif.GPSInfo.GPSLatitude': '51/1 27/1 3148/100'
+    """
+    (degs, mins, secs) = deg_to_dms(decdegrees)
+    # As secs is a float, we multiply by 100 for increased precision in the rational
+    roundedsecs = round(secs * 100)
+    return f"{degs}/1 {mins}/1 {roundedsecs}/100"
 
 
 def gps_ref(direction, angle):

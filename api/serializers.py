@@ -4,7 +4,7 @@ from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Fil
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
 from schema.models import Lens, Print, Scan, MeteringMode, ExposureProgram, ShutterSpeed
-from schema.funcs import deg_to_dms, gps_ref
+from schema.funcs import deg_to_dms_rational, gps_ref
 
 
 class ExposureProgramSerializer(ModelSerializer):
@@ -361,7 +361,7 @@ class ExifSerializer(ModelSerializer):
 
     def get_GPSLatitude(self, obj):
         try:
-            returnval = deg_to_dms(obj.negative.latitude)
+            returnval = deg_to_dms_rational(obj.negative.latitude)
         except (TypeError, ValueError, AttributeError):
             returnval = None
         return returnval
@@ -375,7 +375,7 @@ class ExifSerializer(ModelSerializer):
 
     def get_GPSLongitude(self, obj):
         try:
-            returnval = deg_to_dms(obj.negative.longitude)
+            returnval = deg_to_dms_rational(obj.negative.longitude)
         except (TypeError, ValueError, AttributeError):
             returnval = None
         return returnval
