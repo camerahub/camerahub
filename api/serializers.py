@@ -4,7 +4,7 @@ from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Fil
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
 from schema.models import Lens, Print, Scan, MeteringMode, ExposureProgram, ShutterSpeed
-from schema.funcs import deg_to_dms, gps_ref
+from schema.funcs import deg_to_dms_rational, gps_ref
 
 
 class ExposureProgramSerializer(ModelSerializer):
@@ -293,8 +293,7 @@ class ExifSerializer(ModelSerializer):
     UserComment = CharField(source='negative.notes', default=None)
     # rational
     FocalLength = SerializerMethodField(default=None)
-    # rational
-    FocalLengthIn35mmFilm = SerializerMethodField(default=None)
+    FocalLengthIn35mmFilm = IntegerField(source='negative.focal_length_35mm', default=None)
     ExposureTime = SerializerMethodField(default=None)
     # APEX
     ShutterSpeedValue = DecimalField(
@@ -325,17 +324,8 @@ class ExifSerializer(ModelSerializer):
 
     def get_FocalLength(self, obj):
         try:
-            fraction = Fraction(obj.negative.focal_length)
-        except AttributeError:
-            returnval = None
-        else:
-            returnval = f'{fraction.numerator}/{fraction.denominator}'
-        return returnval
-
-    def get_FocalLengthIn35mmFilm(self, obj):
-        try:
-            fraction = Fraction(obj.negative.focal_length_35mm)
-        except AttributeError:
+            fraction = Fraction(str(obj.negative.focal_length))
+        except (ValueError, AttributeError):
             returnval = None
         else:
             returnval = f'{fraction.numerator}/{fraction.denominator}'
@@ -343,8 +333,8 @@ class ExifSerializer(ModelSerializer):
 
     def get_ExposureTime(self, obj):
         try:
-            fraction = Fraction(obj.negative.shutter_speed)
-        except AttributeError:
+            fraction = Fraction(str(obj.negative.shutter_speed.shutter_speed))
+        except (ValueError, AttributeError):
             returnval = None
         else:
             returnval = f'{fraction.numerator}/{fraction.denominator}'
@@ -352,8 +342,8 @@ class ExifSerializer(ModelSerializer):
 
     def get_FNumber(self, obj):
         try:
-            fraction = Fraction(obj.negative.aperture)
-        except AttributeError:
+            fraction = Fraction(str(obj.negative.aperture))
+        except (ValueError, AttributeError):
             returnval = None
         else:
             returnval = f'{fraction.numerator}/{fraction.denominator}'
@@ -361,43 +351,43 @@ class ExifSerializer(ModelSerializer):
 
     def get_GPSLatitude(self, obj):
         try:
-            returnval = deg_to_dms(obj.negative.latitude)
-        except AttributeError:
+            returnval = deg_to_dms_rational(obj.negative.latitude)
+        except (TypeError, ValueError, AttributeError):
             returnval = None
         return returnval
 
     def get_GPSLatitudeRef(self, obj):
         try:
             returnval = gps_ref('latitude', obj.negative.latitude)
-        except AttributeError:
+        except (TypeError, ValueError, AttributeError):
             returnval = None
         return returnval
 
     def get_GPSLongitude(self, obj):
         try:
-            returnval = deg_to_dms(obj.negative.longitude)
-        except AttributeError:
+            returnval = deg_to_dms_rational(obj.negative.longitude)
+        except (TypeError, ValueError, AttributeError):
             returnval = None
         return returnval
 
     def get_GPSLongitudeRef(self, obj):
         try:
             returnval = gps_ref('longitude', obj.negative.longitude)
-        except AttributeError:
+        except (TypeError, ValueError, AttributeError):
             returnval = None
         return returnval
 
     def get_Model(self, obj):
         try:
             returnval = f'{obj.negative.film.camera.cameramodel.manufacturer.name} {obj.negative.film.camera.cameramodel.model}'
-        except AttributeError:
+        except (ValueError, AttributeError):
             returnval = None
         return returnval
 
     def get_LensModel(self, obj):
         try:
             returnval = f'{obj.negative.lens.lensmodel.manufacturer.name} {obj.negative.lens.lensmodel.model}'
-        except AttributeError:
+        except (ValueError, AttributeError):
             returnval = None
         return returnval
 
