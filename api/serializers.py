@@ -300,7 +300,7 @@ class ExifSerializer(ModelSerializer):
         source='negative.shutter_speed.duration', max_digits=8, decimal_places=8, default=None)
     Copyright = CharField(source='negative.copyright', default=None)
     ISOSpeed = IntegerField(source='negative.film.exposed_at', default=None)
-    ImageDescription = CharField(source='negative.caption', default=None)
+    ImageDescription = SerializerMethodField(default=None)
     LensSerialNumber = CharField(source='negative.lens.serial', default=None)
     Artist = CharField(source='negative.photographer.name', default=None)
     # rational
@@ -321,6 +321,23 @@ class ExifSerializer(ModelSerializer):
     GPSLatitudeRef = SerializerMethodField(default=None)
     GPSLongitude = SerializerMethodField(default=None)
     GPSLongitudeRef = SerializerMethodField(default=None)
+
+    def get_ImageDescription(self, obj):
+        try:
+            caption = obj.negative.caption
+        except (ValueError, AttributeError):
+            caption = None
+
+        try:
+            slug = obj.negative.slug
+        except (ValueError, AttributeError):
+            slug = None
+
+        if caption:
+            returnval = f"#{slug} {caption}"
+        else:
+            returnval = f"#{slug}"
+        return returnval
 
     def get_FocalLength(self, obj):
         try:
