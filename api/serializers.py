@@ -308,7 +308,7 @@ class ExifSerializer(ModelSerializer):
     # APEX
     MaxApertureValue = DecimalField(
         source='negative.lens.lensmodel.max_aperture', max_digits=4, decimal_places=1, default=None)
-    DateTimeOriginal = DateTimeField(source='negative.date', default=None)
+    DateTimeOriginal = DateTimeField(format='%Y:%m:%d %H:%M:%S', source='negative.date', default=None)
     ExposureProgram = IntegerField(
         source='negative.exposure_program.id', default=None)
     MeteringMode = IntegerField(
