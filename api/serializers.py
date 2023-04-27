@@ -321,6 +321,7 @@ class ExifSerializer(ModelSerializer):
     GPSLatitudeRef = SerializerMethodField(default=None)
     GPSLongitude = SerializerMethodField(default=None)
     GPSLongitudeRef = SerializerMethodField(default=None)
+    ImageID = CharField(source='filename', default=None)
 
     def get_DateTimeOriginal(self, obj):
         """
@@ -462,6 +463,7 @@ class ExifSerializer(ModelSerializer):
             'GPSLongitude',
             'GPSLongitudeRef',
             'ExposureTime',
+            'ImageID',
         ]
 
 
