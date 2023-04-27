@@ -1,5 +1,5 @@
 from fractions import Fraction
-from rest_framework.serializers import ModelSerializer, StringRelatedField, DecimalField, CharField, IntegerField, DateTimeField, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, StringRelatedField, DecimalField, CharField, IntegerField, SerializerMethodField
 from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format
 from schema.models import FlashModel, Flash, EnlargerModel, Enlarger, LensModel, Manufacturer, Mount, Negative, PaperStock
 from schema.models import Person, Process, TeleconverterModel, Teleconverter, Toner, FilmStock, BulkFilm, MountAdapter, Developer
@@ -308,7 +308,7 @@ class ExifSerializer(ModelSerializer):
     # APEX
     MaxApertureValue = DecimalField(
         source='negative.lens.lensmodel.max_aperture', max_digits=4, decimal_places=1, default=None)
-    DateTimeOriginal = DateTimeField(format='%Y:%m:%d %H:%M:%S', source='negative.date', default=None)
+    DateTimeOriginal = SerializerMethodField(default=None)
     ExposureProgram = IntegerField(
         source='negative.exposure_program.id', default=None)
     MeteringMode = IntegerField(
@@ -321,6 +321,31 @@ class ExifSerializer(ModelSerializer):
     GPSLatitudeRef = SerializerMethodField(default=None)
     GPSLongitude = SerializerMethodField(default=None)
     GPSLongitudeRef = SerializerMethodField(default=None)
+
+    def get_DateTimeOriginal(self, obj):
+        """
+        Return the Negative taken date, if there is one.
+        Otherwise return the Film processed date, if there is one.
+        """
+        try:
+            negdate = obj.negative.date
+        except (ValueError, AttributeError):
+            negdate = None
+
+        if negdate is None:
+            try:
+                filmdate = obj.negative.film.date_processed
+            except (ValueError, AttributeError):
+                filmdate = None
+
+        if negdate:
+            returnval = negdate.strftime('%Y:%m:%d %H:%M:%S')
+        elif filmdate:
+            returnval = filmdate.strftime('%Y:%m:%d %H:%M:%S')
+        else:
+            returnval = None
+
+        return returnval 
 
     def get_ImageDescription(self, obj):
         try:
