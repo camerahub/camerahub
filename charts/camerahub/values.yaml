@@ -1,0 +1,265 @@
+# Default values for camerahub.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Global settings
+global:
+  storageClass:
+  postgresql:
+    auth:
+      postgresPassword: postgres
+      username: camerahub
+      password: camerahub
+      database: camerahub
+
+camerahub:
+  secretKey: OverrideMe!
+  adminEmail: admin@example.com
+  adminPassword: admin
+  production: true
+  domain:
+  email:
+    backend: "django.core.mail.backends.filebased.EmailBackend"
+    sendgridKey: ""
+    host: ""
+    user: ""
+    password: ""
+    useTLS: ""
+    UseSSL: ""
+    port: ""
+  database:
+    # These manual database settings are only used if postgresql.enabled = false
+    host: ""
+    name: ""
+    user: ""
+    password: ""
+  statusURL: ""
+
+# Replicas of CameraHub app server
+replicaCount: 2
+
+image:
+  repository: camerahub/camerahub
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme:
+    # cert-manager.io/issuer:
+    # cert-manager.io/cluster-issuer:
+    # acme.cert-manager.io/http01-ingress-class: public
+  class: public
+  tls: false
+
+migrations:
+  ## Should the job be rescheduled on the same node if it fails, or just stopped
+  restartPolicy: Never
+  backoffLimit: 1
+
+backup:
+  media:
+    schedule: "0 3 * * *"
+    suspend: true
+  database:
+    schedule: "0 3 * * *"
+    suspend: true
+
+# Storage for CameraHub media and backups
+storage:
+  enabled: true
+  storageClass: ""
+  size: 8Gi
+  accessModes: [ReadWriteMany]
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 3
+  periodSeconds: 5
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
+
+## Prometheus Metrics
+##
+metrics:
+  enabled: true
+
+  # Enable this if you're using https://github.com/coreos/prometheus-operator
+  serviceMonitor:
+    enabled: false
+    ## Specify a namespace if needed
+    # namespace: monitoring
+    # fallback to the prometheus default unless specified
+    # interval: 10s
+    ## Defaults to what's used if you follow CoreOS [Prometheus Install Instructions](https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#tldr)
+    ## [Prometheus Selector Label](https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#prometheus-operator-1)
+    ## [Kube Prometheus Selector Label](https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#exporters)
+    ##
+    selector:
+      prometheus: kube-prometheus
+
+    ## RelabelConfigs to apply to samples before scraping
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#relabelconfig
+    ## Value is evalued as a template
+    ##
+    relabelings: []
+
+    ## MetricRelabelConfigs to apply to samples before ingestion
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#relabelconfig
+    ## Value is evalued as a template
+    ##
+    metricRelabelings: []
+    #  - sourceLabels:
+    #      - "__name__"
+    #    targetLabel: "__name__"
+    #    action: replace
+    #    regex: '(.*)'
+    #    replacement: 'example_prefix_$1'
+
+  ## Custom PrometheusRule to be defined
+  ## The value is evaluated as a template, so, for example, the value can depend on .Release or .Chart
+  ## ref: https://github.com/coreos/prometheus-operator#customresourcedefinitions
+  ##
+  prometheusRule:
+    enabled: false
+    additionalLabels: {}
+    namespace: ""
+    ## Redis(TM) prometheus rules
+    ## These are just examples rules, please adapt them to your needs.
+    ## Make sure to constraint the rules to the current redis service.
+    # rules:
+    #   - alert: RedisDown
+    #     expr: redis_up{service="{{ template "redis.fullname" . }}-metrics"} == 0
+    #     for: 2m
+    #     labels:
+    #       severity: error
+    #     annotations:
+    #       summary: Redis(TM) instance {{ "{{ $labels.instance }}" }} down
+    #       description: Redis(TM) instance {{ "{{ $labels.instance }}" }} is down
+    #    - alert: RedisMemoryHigh
+    #      expr: >
+    #        redis_memory_used_bytes{service="{{ template "redis.fullname" . }}-metrics"} * 100
+    #        /
+    #        redis_memory_max_bytes{service="{{ template "redis.fullname" . }}-metrics"}
+    #        > 90
+    #      for: 2m
+    #      labels:
+    #        severity: error
+    #      annotations:
+    #        summary: Redis(TM) instance {{ "{{ $labels.instance }}" }} is using too much memory
+    #        description: |
+    #          Redis(TM) instance {{ "{{ $labels.instance }}" }} is using {{ "{{ $value }}" }}% of its available memory.
+    #    - alert: RedisKeyEviction
+    #      expr: |
+    #        increase(redis_evicted_keys_total{service="{{ template "redis.fullname" . }}-metrics"}[5m]) > 0
+    #      for: 1s
+    #      labels:
+    #        severity: error
+    #      annotations:
+    #        summary: Redis(TM) instance {{ "{{ $labels.instance }}" }} has evicted keys
+    #        description: |
+    #          Redis(TM) instance {{ "{{ $labels.instance }}" }} has evicted {{ "{{ $value }}" }} keys in the last 5 minutes.
+    rules: []
+
+
+static:
+  # Replicas of static files web server
+  replicaCount: 1
+
+  image:
+    repository: nginx
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: alpine
+
+  imagePullSecrets: []
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
+
+  service:
+    type: ClusterIP
+    port: 80
+
+postgresql:
+  enabled: false
+  architecture: standalone
+  primary:
+    resources:
+      limits: {}
+      requests:
+        memory: 256Mi
+        cpu: 250m
+    priorityClassName: ""
+    persistence:
+      enabled: true
+      storageClass: ""
+      accessModes:
+        - ReadWriteOnce
+      size: 8Gi
+  serviceAccount:
+    create: false
+  rbac:
+    create: false
+  metrics:
+    enabled: false
+    resources:
+      limits: {}
+      requests: {}
+    serviceMonitor:
+      enabled: false
+    prometheusRule:
+      enabled: false

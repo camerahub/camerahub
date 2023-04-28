@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "camerahub.fullname" . }}-static
+  labels:
+    {{- include "camerahub.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.static.replicaCount }}
+  selector:
+    matchLabels:
+      app: static
+  template:
+    metadata:
+      {{- with .Values.static.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: static
+    spec:
+      {{- with .Values.static.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "camerahub.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.static.podSecurityContext | nindent 8 }}
+      containers:
+        - name: nginx
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.static.image.repository }}:{{ .Values.static.image.tag | default "latest" }}"
+          imagePullPolicy: {{ .Values.static.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          env: []
+          volumeMounts:
+            - name: media
+              mountPath: /usr/share/nginx/html/media
+              readOnly: true
+            - name: static
+              mountPath: /usr/share/nginx/html/static
+              readOnly: true
+          resources:
+            {{- toYaml .Values.static.resources | nindent 12 }}
+      {{- with .Values.static.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.static.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.static.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
+      - name: static
+        persistentVolumeClaim:
+          claimName: static

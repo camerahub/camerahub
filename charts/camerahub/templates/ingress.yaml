@@ -1,0 +1,60 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "camerahub.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "camerahub.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+{{- if .Values.ingress.class }}
+  ingressClassName: {{ .Values.ingress.class }}
+{{- end }}
+  {{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+      - {{ .Values.camerahub.domain }}
+      secretName: ingress-tls
+  {{- end }}
+  rules:
+    - host: {{ .Values.camerahub.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}-app
+                port:
+                  number: {{ $svcPort }}
+          - path: /media
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}-static
+                port:
+                  number: {{ .Values.static.service.port }}
+          - path: /static
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}-static
+                port:
+                  number: {{ .Values.static.service.port }}
+          - path: /metrics
+            pathType: Prefix
+            backend:
+              service:
+                name: defaultbackend
+                port:
+                  number: 80 
+  {{- end }}
