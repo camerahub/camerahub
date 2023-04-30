@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+data:
+  {{- if .Values.postgresql.enabled }}
+  CAMERAHUB_DB_USER: {{ .Values.global.postgresql.auth.username }}
+  CAMERAHUB_DB_NAME: {{ .Values.global.postgresql.auth.database }}
+  CAMERAHUB_DB_HOST: {{ .Release.Name }}-postgresql
+  {{- else }}
+  CAMERAHUB_DB_USER: {{ .Values.camerahub.database.user }}
+  CAMERAHUB_DB_NAME: {{ .Values.camerahub.database.name }}
+  CAMERAHUB_DB_HOST: {{ .Values.camerahub.database.host }}
+  {{- end }}
+  CAMERAHUB_PROD: {{ .Values.camerahub.production | quote }}
+  CAMERAHUB_ADMIN_EMAIL: {{ .Values.camerahub.adminEmail }}
+  CAMERAHUB_EMAIL_BACKEND: {{ .Values.camerahub.email.backend }}
+  {{- if .Values.camerahub.domain }}
+  CAMERAHUB_DOMAIN: {{ .Values.camerahub.domain }}
+  {{- end }}
+  {{- if .Values.camerahub.email.useTLS }}
+  CAMERAHUB_EMAIL_USE_TLS: {{ .Values.camerahub.email.useTLS }}
+  {{- end }}
+  {{- if .Values.camerahub.email.useSSL }}
+  CAMERAHUB_EMAIL_USE_SSL: {{ .Values.camerahub.email.useSSL }}
+  {{- end }}
+  {{- if .Values.camerahub.email.host }}
+  CAMERAHUB_EMAIL_HOST: {{ .Values.camerahub.email.host }}
+  {{- end }}
+  {{- if .Values.camerahub.email.user }}
+  CAMERAHUB_EMAIL_HOST_USER: {{ .Values.camerahub.email.user }}
+  {{- end }}
+  {{- if .Values.camerahub.email.port }}
+  CAMERAHUB_EMAIL_PORT: {{ .Values.camerahub.email.port | quote }}
+  {{- end }}
+  {{- if .Values.camerahub.statusURL }}
+  CAMERAHUB_STATUS_URL: {{ .Values.camerahub.statusURL | quote }}
+  {{- end }}

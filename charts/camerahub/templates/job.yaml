@@ -1,0 +1,77 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-migrations-{{ .Chart.AppVersion }}"
+  labels:
+    {{- include "camerahub.labels" . | nindent 4 }}
+spec:
+  backoffLimit: {{ .Values.migrations.backoffLimit }}
+  template:
+    metadata:
+      labels:
+        {{- include "camerahub.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}-migrations
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        args: ['true']
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+          - name: CAMERAHUB_DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-secret
+                key: CAMERAHUB_DB_PASS
+          - name: CAMERAHUB_DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Release.Name }}-config
+                key: CAMERAHUB_DB_USER            
+          - name: CAMERAHUB_DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Release.Name }}-config
+                key: CAMERAHUB_DB_HOST
+          - name: CAMERAHUB_DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Release.Name }}-config
+                key: CAMERAHUB_DB_NAME
+          - name: CAMERAHUB_DB_PORT
+            value: "5432"
+          - name: CAMERAHUB_DB_ENGINE
+            value: django.db.backends.postgresql
+          - name: CAMERAHUB_PROD
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Release.Name }}-config
+                key: CAMERAHUB_PROD
+                optional: true
+        volumeMounts:
+            - name: static
+              mountPath: /camerahub/static
+              readOnly: false
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      volumes:
+      - name: static
+        persistentVolumeClaim:
+          claimName: static
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: {{ .Values.migrations.restartPolicy }}

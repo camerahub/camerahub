@@ -1,0 +1,37 @@
+{{- if and (.Values.metrics.enabled) (.Values.metrics.serviceMonitor.enabled) }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "camerahub.fullname" . }}
+  {{- if .Values.metrics.serviceMonitor.namespace }}
+  namespace: {{ .Values.metrics.serviceMonitor.namespace }}
+  {{- else }}
+  namespace: {{ .Release.Namespace | quote }}
+  {{- end }}
+  labels:
+    app: {{ template "camerahub.name" . }}
+    chart: {{ template "camerahub.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    {{- range $key, $value := .Values.metrics.serviceMonitor.selector }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+spec:
+  endpoints:
+  - port: http
+    {{- if .Values.metrics.serviceMonitor.interval }}
+    interval: {{ .Values.metrics.serviceMonitor.interval }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.relabelings }}
+    relabelings: {{- include "common.tplvalues.render" ( dict "value" .Values.metrics.serviceMonitor.relabelings "context" $) | nindent 6 }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.metricRelabelings }}
+    metricRelabelings: {{- include "common.tplvalues.render" ( dict "value" .Values.metrics.serviceMonitor.metricRelabelings "context" $) | nindent 6 }}
+    {{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+{{- end -}}
