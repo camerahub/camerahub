@@ -2,9 +2,8 @@
 name: Release Charts
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
 
 jobs:
   release:
