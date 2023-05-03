@@ -21,12 +21,15 @@ def shutter(obj):
 
 @register.filter(is_safe=True)
 def sign(obj):
-    if int(obj) > 0:
-        mystr = '+' + str(obj)
-    elif int(obj) == 0:
-        mystr = '&plusmn;' + str(obj)
+    if type(obj) == int or type(obj) == float:
+        if obj > 0:
+            mystr = '+' + str(obj)
+        elif obj == 0:
+            mystr = '&plusmn;' + str(obj)
+        else:
+            mystr = str(obj)
     else:
-        mystr = str(obj)
+        mystr = obj
     return mark_safe(mystr)
 
 @register.filter(is_safe=True)
