@@ -295,9 +295,6 @@ class ExifSerializer(ModelSerializer):
     FocalLength = SerializerMethodField(default=None)
     FocalLengthIn35mmFilm = IntegerField(source='negative.focal_length_35mm', default=None)
     ExposureTime = SerializerMethodField(default=None)
-    # APEX
-    ShutterSpeedValue = DecimalField(
-        source='negative.shutter_speed.duration', max_digits=8, decimal_places=8, default=None)
     Copyright = CharField(source='negative.copyright', default=None)
     ISOSpeed = IntegerField(source='negative.film.exposed_at', default=None)
     ImageDescription = SerializerMethodField(default=None)
@@ -305,9 +302,6 @@ class ExifSerializer(ModelSerializer):
     Artist = CharField(source='negative.photographer.name', default=None)
     # rational
     FNumber = SerializerMethodField(default=None)
-    # APEX
-    MaxApertureValue = DecimalField(
-        source='negative.lens.lensmodel.max_aperture', max_digits=4, decimal_places=1, default=None)
     DateTimeOriginal = SerializerMethodField(default=None)
     ExposureProgram = IntegerField(
         source='negative.exposure_program.id', default=None)
@@ -376,7 +370,8 @@ class ExifSerializer(ModelSerializer):
 
     def get_ExposureTime(self, obj):
         try:
-            fraction = Fraction(str(obj.negative.shutter_speed.shutter_speed))
+            # Shutter speed could be formatted 1/60 or 1"
+            fraction = Fraction(str(obj.negative.shutter_speed.shutter_speed).replace('"', ''))
         except (ValueError, AttributeError):
             returnval = None
         else:
@@ -444,7 +439,6 @@ class ExifSerializer(ModelSerializer):
             'UserComment',
             'FocalLength',
             'FocalLengthIn35mmFilm',
-            'ShutterSpeedValue',
             'Copyright',
             'ISOSpeed',
             'ImageDescription',
@@ -453,7 +447,6 @@ class ExifSerializer(ModelSerializer):
             'LensMake',
             'Artist',
             'FNumber',
-            'MaxApertureValue',
             'DateTimeOriginal',
             'ExposureProgram',
             'MeteringMode',
