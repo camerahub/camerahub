@@ -316,6 +316,19 @@ class ExifSerializer(ModelSerializer):
     GPSLongitude = SerializerMethodField(default=None)
     GPSLongitudeRef = SerializerMethodField(default=None)
     ImageID = CharField(source='filename', default=None)
+    DocumentName = SerializerMethodField(default=None)
+
+    def get_DocumentName(self, obj):
+        """
+        Return either the Negative or Print slug
+        """
+        if obj.print and obj.print.id_owner:
+            documentname = f"Print #{obj.print.id_owner}"
+        elif obj.negative and obj.negative.slug:
+            documentname = f"Negative #{obj.negative.slug}"
+        else:
+            documentname = None
+        return documentname
 
     def get_DateTimeOriginal(self, obj):
         """
@@ -457,6 +470,7 @@ class ExifSerializer(ModelSerializer):
             'GPSLongitudeRef',
             'ExposureTime',
             'ImageID',
+            'DocumentName',
         ]
 
 
