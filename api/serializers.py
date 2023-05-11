@@ -362,14 +362,17 @@ class ExifSerializer(ModelSerializer):
             caption = None
 
         try:
-            slug = obj.negative.slug
+            if obj.print:
+                slug = f"P{obj.print.id_owner}"
+            else:
+                slug = f"#{obj.negative.slug}"
         except (ValueError, AttributeError):
             slug = None
 
         if caption:
-            returnval = f"#{slug} {caption}"
+            returnval = f"{slug} {caption}"
         else:
-            returnval = f"#{slug}"
+            returnval = slug
         return returnval
 
     def get_FocalLength(self, obj):
