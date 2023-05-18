@@ -239,6 +239,8 @@ class PrintFormHelper(CustomFormHelper):
     model = Print
     layout = Layout(
         Row(
+            Field('negative', css_class="form-control-sm"),
+            Field('negative__film', css_class="form-control-sm"),
             Field('paper_stock', css_class="form-control-sm"),
             Field('developer', css_class="form-control-sm"),
             Field('fine', css_class="form-control-sm"),
