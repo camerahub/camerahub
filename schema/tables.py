@@ -467,12 +467,12 @@ class PrintTable(tables.Table):
                   'size', 'own', 'archive')
 
     @classmethod
-    def render_id_owner(cls, value):
-        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:print-detail', args=[value]), value)
+    def render_id_owner(cls, value, record):
+        return format_html("<a href=\"{}\">{}</a>", reverse('schema:print-detail', args=[value]), record)
 
     @classmethod
     def render_negative(cls, value):
-        return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.slug]), value)
+        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:negative-detail', args=[value.slug]), value.slug)
 
     @classmethod
     def render_own(cls, value):
