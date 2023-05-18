@@ -203,6 +203,8 @@ class PrintFilter(FilterSet):
     class Meta:
         model = Print
         fields = [
+            'negative',
+            'negative__film',
             'paper_stock',
             'developer',
             'fine',
