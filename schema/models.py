@@ -2485,7 +2485,12 @@ class Print(models.Model):
         unique_with='owner', editable=False, verbose_name='ID')
 
     def __str__(self):
-        return f"#{self.id_owner}"
+        if self.negative.caption is not None:
+            mystr = f"#{self.id_owner} {self.negative.caption}"
+        else:
+            mystr = f"#{self.id_owner}"
+        return mystr
+
 
     class Meta:
         verbose_name_plural = "prints"
