@@ -20,7 +20,6 @@ camerahub:
   domain:
   email:
     backend: "django.core.mail.backends.filebased.EmailBackend"
-    sendgridKey: ""
     host: ""
     user: ""
     password: ""

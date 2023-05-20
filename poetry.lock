@@ -478,23 +478,6 @@ confusable-homoglyphs = ">=3.0,<4.0"
 Django = ">=3.2"
 
 [[package]]
-name = "django-sendgrid-v5"
-version = "1.2.2"
-description = "An implementation of Django's EmailBackend compatible with sendgrid-python v5+"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "django-sendgrid-v5-1.2.2.tar.gz", hash = "sha256:a5ebbdabb7c317defdf55fee67d1d062f54066e7579fc77b678a1d918890336f"},
-    {file = "django_sendgrid_v5-1.2.2-py2.py3-none-any.whl", hash = "sha256:fc55d0116e696850d8133c20239d2f5b6fb155193389aa56559c4410da53b63a"},
-]
-
-[package.dependencies]
-django = ">=1.8"
-python-http-client = ">=3.0.0"
-sendgrid = ">=5.0.0"
-
-[[package]]
 name = "django-settings-export"
 version = "1.2.1"
 description = "This Django app allows you to export certain settings to your templates."
@@ -1090,18 +1073,6 @@ checkqa-mypy = ["mypy (==v0.761)"]
 testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xmlschema"]
 
 [[package]]
-name = "python-http-client"
-version = "3.3.7"
-description = "HTTP REST client, simplified for Python"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-files = [
-    {file = "python_http_client-3.3.7-py3-none-any.whl", hash = "sha256:ad371d2bbedc6ea15c26179c6222a78bc9308d272435ddf1d5c84f068f249a36"},
-    {file = "python_http_client-3.3.7.tar.gz", hash = "sha256:bf841ee45262747e00dec7ee9971dfb8c7d83083f5713596488d67739170cea0"},
-]
-
-[[package]]
 name = "python-magic"
 version = "0.4.27"
 description = "File type identification using libmagic"
@@ -1274,22 +1245,6 @@ files = [
 ]
 
 [[package]]
-name = "sendgrid"
-version = "6.10.0"
-description = "Twilio SendGrid library for Python"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-files = [
-    {file = "sendgrid-6.10.0-py3-none-any.whl", hash = "sha256:522b30fc98306496208c5d8bdd5642cd6a2fd65cad487475f57f9098ce880604"},
-    {file = "sendgrid-6.10.0.tar.gz", hash = "sha256:9b15050c6f8826ee576f76a786efb15d956639f485478cbddd79ed69e8350ab8"},
-]
-
-[package.dependencies]
-python-http-client = ">=3.2.1"
-starkbank-ecdsa = ">=2.0.1"
-
-[[package]]
 name = "setuptools"
 version = "67.8.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
@@ -1334,17 +1289,6 @@ files = [
 dev = ["build", "flake8"]
 doc = ["sphinx"]
 test = ["pytest", "pytest-cov"]
-
-[[package]]
-name = "starkbank-ecdsa"
-version = "2.2.0"
-description = "A lightweight and fast pure python ECDSA library"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "starkbank-ecdsa-2.2.0.tar.gz", hash = "sha256:9399c3371b899d4a235b68a1ed7919d202fbf024bd2c863ae8ebdad343c2a63a"},
-]
 
 [[package]]
 name = "swapper"
@@ -1532,4 +1476,4 @@ pgsql = ["psycopg2"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "2896ab280cb031811c4ebecbdfde6144de38b62b50218103a73c1a615482476a"
+content-hash = "546531d23daedb3881ce4ae70d50700abe2fa31a9ae24b6c35de403ec7cca37e"
