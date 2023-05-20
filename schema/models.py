@@ -2505,7 +2505,7 @@ class Print(models.Model):
     @property
     def size(self):
         if self.width and self.height:
-            mystr = f"{self.width}×{self.height}mm"
+            mystr = f"{self.width}×{self.height}\""
         else:
             mystr = None
         return mystr
