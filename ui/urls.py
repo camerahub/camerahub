@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 
-from iommi import Table
+from iommi import Table, Form
 from iommi import register_factory
 
 from taggit.managers import TaggableManager
@@ -19,5 +19,6 @@ register_factory(TaggableManager, shortcut_name='many_to_many')
 urlpatterns = [
     # ...your urls...
     path('manufacturer/', Table(auto__model=Manufacturer).as_view()),
+    path('manufacturer/add/', Form.create(auto__model=Manufacturer).as_view()),
     path('', IndexPage().as_view()),
 ]
