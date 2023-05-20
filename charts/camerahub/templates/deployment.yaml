@@ -70,12 +70,6 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-secret
                   key: CAMERAHUB_SECRET_KEY
-            - name: CAMERAHUB_SENDGRID_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-secret
-                  key: CAMERAHUB_SENDGRID_KEY
-                  optional: true
             - name: CAMERAHUB_EMAIL_HOST_PASSWORD
               valueFrom:
                 secretKeyRef:

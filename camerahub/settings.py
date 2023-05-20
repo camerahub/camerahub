@@ -198,8 +198,6 @@ if EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend':
     EMAIL_HOST_USER = os.getenv('CAMERAHUB_EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.getenv('CAMERAHUB_EMAIL_HOST_PASSWORD')
     EMAIL_PORT = os.getenv('CAMERAHUB_EMAIL_PORT')
-elif EMAIL_BACKEND == 'sendgrid_backend.SendgridBackend':
-    SENDGRID_API_KEY = os.getenv('CAMERAHUB_SENDGRID_KEY')
 elif EMAIL_BACKEND == 'django.core.mail.backends.filebased.EmailBackend':
     EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 

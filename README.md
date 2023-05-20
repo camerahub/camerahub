@@ -72,10 +72,6 @@ Default: `OverrideMe!`
 [Email backend](https://docs.djangoproject.com/en/3.1/topics/email/#email-backends)
 Default: `django.core.mail.backends.filebased.EmailBackend`
 
-### `CAMERAHUB_SENDGRID_KEY`
-
-API key for Sendgrid email backend
-
 ### `CAMERAHUB_EMAIL_USE_TLS`'
 
 Enable TLS for SMTP
