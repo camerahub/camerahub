@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class IommiuiConfig(AppConfig):
+class UiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'iommiui'
+    name = 'ui'
