@@ -67,6 +67,7 @@ platformdirs = "^2.5"
 django-colorfield = "^0.7"
 django-prometheus = "^2.2"
 psycopg2 = "^2"
+iommi = "^5.13.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

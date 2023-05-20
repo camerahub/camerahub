@@ -669,6 +669,22 @@ Django = ">=1.11"
 djangorestframework = ">=3.8"
 
 [[package]]
+name = "iommi"
+version = "5.13.0"
+description = "iommi is a high level framework built on django"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "iommi-5.13.0-py2.py3-none-any.whl", hash = "sha256:fbf060379e5a12925d03511cb4f3857f1c9fd2fb1d8ac55aa94378804d4ee51f"},
+    {file = "iommi-5.13.0.tar.gz", hash = "sha256:d0e96c4a17dd168555bbd597bb2816282ec5ab39b7ca38d2223cd4f5ca32163a"},
+]
+
+[package.dependencies]
+Django = ">=3.0"
+pyparsing = "*"
+
+[[package]]
 name = "isort"
 version = "5.12.0"
 description = "A Python utility / library to sort Python imports."
@@ -1062,6 +1078,21 @@ files = [
 
 [package.dependencies]
 pylint = ">=1.7"
+
+[[package]]
+name = "pyparsing"
+version = "3.0.9"
+description = "pyparsing module - Classes and methods to define and execute parsing grammars"
+category = "main"
+optional = false
+python-versions = ">=3.6.8"
+files = [
+    {file = "pyparsing-3.0.9-py3-none-any.whl", hash = "sha256:5026bae9a10eeaefb61dab2f09052b9f4307d44aee4eda64b309723d8d206bbc"},
+    {file = "pyparsing-3.0.9.tar.gz", hash = "sha256:2b020ecf7d21b687f219b71ecad3631f644a47f01403fa1d1036b0c6416d70fb"},
+]
+
+[package.extras]
+diagrams = ["jinja2", "railroad-diagrams"]
 
 [[package]]
 name = "pytest"
@@ -1532,4 +1563,4 @@ pgsql = ["psycopg2"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e3d867ca1fc8bc31de699a5660687c16e90d1ea711727222ccde7e7e1be797c2"
+content-hash = "95d72224e13caadc3ead410d960a96387a3d37843307592206b33ddc4ae2e54f"

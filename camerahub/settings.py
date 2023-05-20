@@ -65,9 +65,11 @@ INSTALLED_APPS = [
     'health_check.db',
     'health_check.storage',
     'colorfield',
+    'iommi',
 ]
 
 MIDDLEWARE = [
+    'iommi.live_edit.Middleware',
     'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -76,9 +78,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'iommi.sql_trace.Middleware',
+    'iommi.profiling.Middleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
     'camerahub.middleware.DynamicSiteDomainMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
+    'iommi.middleware',
 ]
 
 ROOT_URLCONF = 'camerahub.urls'
