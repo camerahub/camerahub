@@ -175,24 +175,12 @@
   </tr>
   {% endif %}
 </table>
-
-<a data-toggle="collapse" href="#collapsePrints" role="button" aria-expanded="false" aria-controls="collapsePrints">
-  Prints</a>
-<div class="collapse" id="collapsePrints">
-  <table class="table table-hover">
-    <tr>
-      <th>ID</th>
-    </tr>
-    {% for print in negative.print_set.all %}
-    <tr>
-      <td>{{ print }}</td>
-    </tr>
-    {% endfor %}
-  </table>
-</div>
 {% endblock %}
 
 {% block moreactions %}
+{% if negative.print_set.count > 0 %}<li><a class="btn btn-primary"
+  href="{% url 'schema:print-list' %}?negative={{ object.id }}" role="button">View {{ negative.print_set.count }}
+  prints made from this negative</a></li>{% endif %}
 <li>
   <form action="{% url 'schema:print-create' %}">
     <input type="hidden" name="negative" value="{{ object.id }}">
