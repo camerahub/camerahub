@@ -6,6 +6,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.core.exceptions import ValidationError
 from django.urls import reverse
+from django.db.models import Q
 from django.utils.safestring import mark_safe
 from djmoney.models.fields import MoneyField
 from djchoices import DjangoChoices, ChoiceItem
@@ -2286,7 +2287,7 @@ class Negative(models.Model):
     date = models.DateTimeField(
         help_text='Date & time on which this picture was taken', blank=True, null=True)
     lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True,
-                             null=True, help_text='Lens used to take this negative')
+                             null=True, help_text='Lens used to take this negative', limit_choices_to=Q(lensmodel__mount__purpose='Camera'))
     shutter_speed = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Shutter speed used to take this negative')
     aperture = models.DecimalField(help_text='Aperture used to take this picture (numerical part only)',
@@ -2457,7 +2458,7 @@ class Print(models.Model):
     enlarger = models.ForeignKey(Enlarger, on_delete=models.CASCADE,
                                  blank=True, null=True, help_text='Enlarger used to make this print')
     lens = models.ForeignKey(Lens, on_delete=models.CASCADE, blank=True, null=True,
-                             help_text='Enlarger lens used to make this print', limit_choices_to={'lensmodel__mount__purpose': 'Enlarger'})
+                             help_text='Enlarger lens used to make this print', limit_choices_to=Q(lensmodel__mount__purpose='Enlarger'))
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE, blank=True, null=True,
                                   help_text='Developer used to develop this print', limit_choices_to={'for_paper': True})
     fine = models.BooleanField(
