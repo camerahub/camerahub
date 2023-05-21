@@ -40,7 +40,7 @@
                     alt="Camera models"></a>
             <div class="card-body">
                 <a href="{% url 'schema:cameramodel-list' %}">
-                    <h5 class="card-title">Camera models</h5>
+                    <h5 class="card-title">Camera models <span class="badge badge-pill badge-primary">{{ cameramodels }}</span></h5>
                 </a>
             </div>
         </div>
@@ -49,7 +49,7 @@
                     src="{% static "svg/teleconverter.svg" %}" alt="Lens models"></a>
             <div class="card-body">
                 <a href="{% url 'schema:lensmodel-list' %}">
-                    <h5 class="card-title">Lens models</h5>
+                    <h5 class="card-title">Lens models <span class="badge badge-pill badge-primary">{{ lensmodels }}</span></h5>
                 </a>
             </div>
         </div>
@@ -58,7 +58,7 @@
                     alt="Film stocks"></a>
             <div class="card-body">
                 <a href="{% url 'schema:filmstock-list' %}">
-                    <h5 class="card-title">Film stocks</h5>
+                    <h5 class="card-title">Film stocks <span class="badge badge-pill badge-primary">{{ filmstocks }}</span></h5>
                 </a>
             </div>
         </div>

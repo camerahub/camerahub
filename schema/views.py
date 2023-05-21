@@ -1154,6 +1154,16 @@ class TonerUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
 
 
+class IndexView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cameramodels'] = CameraModel.objects.count()
+        context['lensmodels'] = LensModel.objects.count()
+        context['filmstocks'] = FilmStock.objects.count()
+        return context
+
 class StatsView(TemplateView):
     template_name = "stats.html"
 
