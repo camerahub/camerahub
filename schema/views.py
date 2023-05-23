@@ -28,7 +28,7 @@ from schema.tables import ProcessTable, ScanTable, NegativeTable, FilmTable, Tel
 
 from schema.forms import AccessoryForm, ArchiveForm, BatteryForm, BulkFilmForm, CameraForm, CameraSellForm, CameraModelForm, DeveloperForm, EnlargerForm, EnlargerModelForm, FilmStockForm, FilterForm
 from schema.forms import FlashForm, FlashModelForm, FormatForm, LensForm, LensSellForm, LensModelForm, ManufacturerForm
-from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, PaperStockForm, PersonForm, PrintForm, PrintArchiveForm
+from schema.forms import MountForm, MountAdapterForm, NegativeSizeForm, PaperStockForm, PersonForm, PrintForm, PrintArchiveForm, PrintSellForm
 from schema.forms import ProcessForm, ScanForm, NegativeForm, FilmForm, FilmAddForm, FilmLoadForm, FilmDevelopForm, FilmArchiveForm, TeleconverterForm, TeleconverterModelForm, TonerForm
 
 from schema.filters import AccessoryFilter, BatteryFilter, BulkFilmFilter, CameraFilter, CameraModelFilter, DeveloperFilter
@@ -899,6 +899,15 @@ class PrintArchive(LoginRequiredMixin, UpdateView):
     def get_object(self):
         return get_object_or_404(Print, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
+
+class PrintSell(LoginRequiredMixin, UpdateView):
+    model = Print
+    form_class = PrintSellForm
+    template_name = 'update.html'
+
+# Restrict to objects we own
+    def get_object(self):
+        return get_object_or_404(Print, owner=self.request.user, id_owner=self.kwargs['id_owner'])
 
 class ProcessList(SingleTableListView):
     model = Process
