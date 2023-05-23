@@ -193,6 +193,8 @@ urlpatterns = [
          views.PrintUpdate.as_view(), name='print-update'),
     path('print/<int:id_owner>/archive',
          views.PrintArchive.as_view(), name='print-archive'),
+    path('print/<int:id_owner>/sell',
+         views.PrintSell.as_view(), name='print-sell'),
 
     path('process/', views.ProcessList.as_view(), name='process-list'),
     path('process/<int:pk>', views.ProcessDetail.as_view(), name='process-detail'),
