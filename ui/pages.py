@@ -1,4 +1,5 @@
 from iommi import Page, html, Menu, MenuItem, LAST
+from django.template import Template
 from camerahub import settings
 
 menu = Menu(
@@ -26,11 +27,13 @@ menu = Menu(
 class BasePage(Page):
     menu = menu
 
-    header = html.h1('Welcome to iommi examples application')
+    header = html.h1('CameraHub')
     logo = html.img(
         attrs__src='https://docs.iommi.rocks/en/latest/_static/logo_with_outline.svg',
         attrs__style__width='30%',
     )
+
+    subtitle = html.h2('CameraHub')
 
     footer = html.div(
         html.hr(),
@@ -114,5 +117,81 @@ class BasePage(Page):
     )
 
 class IndexPage(BasePage):
-    title = html.h1('CameraHub')
-    welcome_text = 'This is a database of cameras'
+
+    subtitle = html.h4(
+        html.img(
+            attrs=dict(
+                src="/static/svg/home.svg",
+                width="30",
+                height="30",
+                alt="Home",
+                title="Home",
+            )
+        ),
+        'Welcome',
+    )
+
+    other_stuff = Template('index.html')
+
+#{% if "test" in request.get_host or "localhost" in request.get_host %}
+#<div class="alert alert-warning" role="alert">CameraHub is running in development or testing mode</div>
+#{% endif %}
+
+#<div class="jumbotron">
+ #   html.div()
+
+
+#    <div class="row">
+#        <div class="col-sm-9">
+#            <h1 class="display-4">Welcome to CameraHub</h1>
+#            <p class="lead">an app for cataloguing vintage cameras, lenses, films, negatives &amp; prints</p>
+#        </div>
+#        <div class="col-sm-3">
+#            <img src="{% static "svg/camera.svg" %}" class="float-right img-fluid" style="max-width:128px"
+#                alt="CameraHub">
+#        </div>
+#    </div>
+#    <hr class="my-4">
+#    {% if user.is_authenticated %}
+#    <p>Welcome back, {{ user.username }}.
+#        {% else %}
+#    <p>CameraHub is a public database of cameras, lenses and accessories, available to everyone. Registered users can
+#        add or edit data. They can also keep a private collection of their cameras and lenses. Check out the
+#        Concepts page for more info.</p>
+#    <p><a class="btn btn-primary btn-sm" href="{% url 'login' %}" role="button">Login</a> or <a
+#            class="btn btn-primary btn-sm" href="{% url 'django_registration_register' %}" role="button">Register</a> to
+#        start tracking private data about your own collection.
+#        {% endif %}#
+
+#        Get started using the icons below, or use the menus above.</p>
+#    <div class="card-deck">
+#        <div class="card">
+#            <a href="{% url 'schema:cameramodel-list' %}"><img class="card-img-top p-5" src="{% static "svg/camera.svg" %}"
+#                    alt="Camera models"></a>
+#            <div class="card-body">
+#                <a href="{% url 'schema:cameramodel-list' %}">
+#                    <h5 class="card-title">Camera models</h5>
+#                </a>
+#            </div>
+#        </div>
+#        <div class="card">
+#            <a href="{% url 'schema:lensmodel-list' %}"><img class="card-img-top p-5"
+#                    src="{% static "svg/teleconverter.svg" %}" alt="Lens models"></a>
+#            <div class="card-body">
+#                <a href="{% url 'schema:lensmodel-list' %}">
+#                    <h5 class="card-title">Lens models</h5>
+#                </a>
+#            </div>
+#        </div>
+#        <div class="card">
+#            <a href="{% url 'schema:filmstock-list' %}"><img class="card-img-top p-5" src="{% static "svg/film.svg" %}"
+#                    alt="Film stocks"></a>
+#            <div class="card-body">
+#                <a href="{% url 'schema:filmstock-list' %}">
+#                    <h5 class="card-title">Film stocks</h5>
+#                </a>
+#            </div>
+#        </div>
+#    </div>
+#</div>
+#{% endblock %}

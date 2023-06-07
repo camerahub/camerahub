@@ -9,7 +9,7 @@ from taggit.managers import TaggableManager
 # Import any models you need from your models.  Here I'm using Album
 from schema.models import Manufacturer
 
-from .pages import IndexPage
+from ui.pages import IndexPage
 
 # Workaround for https://github.com/iommirocks/iommi/issues/339
 register_factory(GenericRelation, factory=None)
