@@ -5,7 +5,7 @@ from camerahub import settings
 menu = Menu(
     sub_menu=dict(
         root=MenuItem(url='/'),
-        page_examples=MenuItem(url='/page'),
+        manufacturers=MenuItem(url='/ui/manufacturer'),
         form_examples=MenuItem(url='/form'),
         table_examples=MenuItem(url='/table'),
         menu_examples=MenuItem(url='/menu'),
