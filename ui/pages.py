@@ -1,39 +1,9 @@
-from iommi import Page, html, Menu, MenuItem, LAST
-from django.template import Template
+from iommi import Page, Fragment, html, LAST
 from camerahub import settings
 
-menu = Menu(
-    sub_menu=dict(
-        root=MenuItem(url='/'),
-        manufacturers=MenuItem(url='/ui/manufacturer'),
-        form_examples=MenuItem(url='/form'),
-        table_examples=MenuItem(url='/table'),
-        menu_examples=MenuItem(url='/menu'),
-        supernaut=MenuItem(url='/supernaut'),
-        admin=MenuItem(url='/iommi-admin'),
-        login=MenuItem(
-            display_name='Log in',
-            url='/iommi-admin/login/?next=/',
-            include=lambda request, **_: not request.user.is_authenticated,
-        ),
-        log_out=MenuItem(
-            display_name='Log out',
-            url='/iommi-admin/logout/',
-            include=lambda request, **_: request.user.is_authenticated,
-        ),
-    )
-)
 
 class BasePage(Page):
-    menu = menu
-
-    header = html.h1('CameraHub')
-    logo = html.img(
-        attrs__src='https://docs.iommi.rocks/en/latest/_static/logo_with_outline.svg',
-        attrs__style__width='30%',
-    )
-
-    subtitle = html.h2('CameraHub')
+    menu = Fragment(template='nav.html')
 
     footer = html.div(
         html.hr(),
@@ -131,7 +101,7 @@ class IndexPage(BasePage):
         'Welcome',
     )
 
-    other_stuff = Template('index.html')
+    other_stuff = Fragment(template='index.html')
 
 #{% if "test" in request.get_host or "localhost" in request.get_host %}
 #<div class="alert alert-warning" role="alert">CameraHub is running in development or testing mode</div>
