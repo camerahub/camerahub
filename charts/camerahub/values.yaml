@@ -118,15 +118,15 @@ resources: {}
 
 livenessProbe:
   enabled: true
-  initialDelaySeconds: 15
+  initialDelaySeconds: 60
   periodSeconds: 20
   timeoutSeconds: 1
   successThreshold: 1
   failureThreshold: 3
 readinessProbe:
   enabled: true
-  initialDelaySeconds: 3
-  periodSeconds: 5
+  initialDelaySeconds: 30
+  periodSeconds: 10
   timeoutSeconds: 1
   successThreshold: 1
   failureThreshold: 3
