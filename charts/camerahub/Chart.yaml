@@ -39,4 +39,3 @@ annotations:
   artifacthub.io/changes: |-
     - kind: changed
       description: Improve probe behaviour
-      
