@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-migrations-{{ .Chart.AppVersion }}"
+  name: "{{ .Release.Name }}-migrations-{{ .Values.image.tag | default .Chart.AppVersion }}"
   labels:
     {{- include "camerahub.labels" . | nindent 4 }}
 spec:
