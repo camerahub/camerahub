@@ -62,7 +62,6 @@ INSTALLED_APPS = [
     'dbbackup',
     'health_check',
     'health_check.db',
-    'health_check.storage',
     'colorfield',
 ]
 
