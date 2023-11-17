@@ -442,7 +442,7 @@ class ExifSerializer(ModelSerializer):
             if obj.negative.film.camera.cameramodel.interchangeable_lens is True:
                 returnval = f'{obj.negative.lens.lensmodel.manufacturer.name} {obj.negative.lens.lensmodel.model}'
             else:
-                returnval = obj.negative.film.camera.cameramodel.lens_model_name
+                returnval = f'{obj.negative.film.camera.cameramodel.lens_manufacturer.name} {obj.negative.film.camera.cameramodel.lens_model_name}'
         except (ValueError, AttributeError):
             returnval = None
         return returnval
