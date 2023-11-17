@@ -1690,6 +1690,8 @@ class CameraModel(models.Model):
         help_text='Attribution link for this image', blank=True, null=True)
 
     # Fixed lens fields
+    interchangeable_lens = models.BooleanField(
+        help_text='Whether the camera has an interchangeable lens', blank=True, null=True)
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                           help_text='Manufacturer of this lens model', blank=True, null=True, related_name='lens_manufacturer')
     lens_model_name = models.CharField(
@@ -1765,6 +1767,16 @@ class CameraModel(models.Model):
         if self.mount is not None and (self.lens_manufacturer is not None or self.lens_manufacturer is not None):
             raise ValidationError({
                 'mount': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+                'lens_model_name': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+            })
+        if self.interchangeable_lens is False and self.mount is not None:
+            raise ValidationError({
+                'interchangeable_lens': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+                'mount': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+            })
+        if self.interchangeable_lens is True and (self.lens_manufacturer is not None or self.lens_manufacturer is not None):
+            raise ValidationError({
+                'interchangeable_lens': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
                 'lens_model_name': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
             })
 

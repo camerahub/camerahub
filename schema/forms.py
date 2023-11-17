@@ -214,6 +214,7 @@ class CameraModelForm(autocomplete.FutureModelForm):
                      'discontinued',
                      'format',
                      'negative_size',
+                     'interchangeable_lens',
                      ),
             Div(
                 TabHolder(
