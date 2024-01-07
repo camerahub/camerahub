@@ -1,5 +1,4 @@
 from django.urls import path
-from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -9,7 +8,7 @@ app_name = 'schema'
 urlpatterns = [
 
     # Static pages
-    path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('', views.IndexView.as_view(), name='index'),
     path('stats', views.StatsView.as_view(), name='stats'),
     path('mystats', views.MyStatsView.as_view(), name='mystats'),
     path('search/', views.SearchView.as_view(), name='search'),
@@ -194,6 +193,8 @@ urlpatterns = [
          views.PrintUpdate.as_view(), name='print-update'),
     path('print/<int:id_owner>/archive',
          views.PrintArchive.as_view(), name='print-archive'),
+    path('print/<int:id_owner>/sell',
+         views.PrintSell.as_view(), name='print-sell'),
 
     path('process/', views.ProcessList.as_view(), name='process-list'),
     path('process/<int:pk>', views.ProcessDetail.as_view(), name='process-detail'),

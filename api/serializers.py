@@ -309,8 +309,7 @@ class ExifSerializer(ModelSerializer):
         source='negative.metering_mode.id', default=None)
     Flash = IntegerField(source='negative.flash', default=None)
     LensModel = SerializerMethodField(default=None)
-    LensMake = CharField(
-        source='negative.lens.lensmodel.manufacturer.name', default=None)
+    LensMake = SerializerMethodField(default=None)
     GPSLatitude = SerializerMethodField(default=None)
     GPSLatitudeRef = SerializerMethodField(default=None)
     GPSLongitude = SerializerMethodField(default=None)
@@ -440,7 +439,20 @@ class ExifSerializer(ModelSerializer):
 
     def get_LensModel(self, obj):
         try:
-            returnval = f'{obj.negative.lens.lensmodel.manufacturer.name} {obj.negative.lens.lensmodel.model}'
+            if obj.negative.film.camera.cameramodel.interchangeable_lens is True:
+                returnval = f'{obj.negative.lens.lensmodel.manufacturer.name} {obj.negative.lens.lensmodel.model}'
+            else:
+                returnval = f'{obj.negative.film.camera.cameramodel.lens_manufacturer.name} {obj.negative.film.camera.cameramodel.lens_model_name}'
+        except (ValueError, AttributeError):
+            returnval = None
+        return returnval
+
+    def get_LensMake(self, obj):
+        try:
+            if obj.negative.film.camera.cameramodel.interchangeable_lens is True:
+                returnval = obj.negative.lens.lensmodel.manufacturer.name
+            else:
+                returnval = obj.negative.film.camera.cameramodel.lens_manufacturer.name
         except (ValueError, AttributeError):
             returnval = None
         return returnval

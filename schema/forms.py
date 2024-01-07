@@ -214,6 +214,7 @@ class CameraModelForm(autocomplete.FutureModelForm):
                      'discontinued',
                      'format',
                      'negative_size',
+                     'interchangeable_lens',
                      ),
             Div(
                 TabHolder(
@@ -911,6 +912,25 @@ class PrintArchiveForm(ModelForm):
                      'archive',
                      ),
             Hidden('status', 'Archived'),
+            FormActionButtons
+        )
+
+class PrintSellForm(ModelForm):
+    class Meta:
+        model = Print
+        fields = ['location', 'sold_price', 'own', 'archive']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset('Sell this print',
+                     'location',
+                     'sold_price',
+                     ),
+            #Hidden('status', 'Sold'),
+            Hidden('own', False),
+            Hidden('archive', None),
             FormActionButtons
         )
 

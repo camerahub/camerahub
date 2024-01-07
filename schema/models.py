@@ -5,7 +5,6 @@ from uuid import uuid4
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.core.exceptions import ValidationError
-from django.contrib.contenttypes.fields import GenericRelation
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from djmoney.models.fields import MoneyField
@@ -17,7 +16,6 @@ from taggit.managers import TaggableManager
 from versatileimagefield.fields import VersatileImageField
 from django_countries.fields import CountryField
 from geoposition.fields import GeopositionField
-from star_ratings.models import Rating
 from colorfield.fields import ColorField
 from .funcs import angle_of_view, canondatecode
 
@@ -452,7 +450,6 @@ class FlashModel(models.Model):
     image_attribution_link = models.URLField(
         help_text='Attribution link for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    ratings = GenericRelation(Rating, related_query_name='FlashModels')
     tags = TaggableManager(blank=True)
 
     def __str__(self):
@@ -584,7 +581,6 @@ class EnlargerModel(models.Model):
     image_attribution_link = models.URLField(
         help_text='Attribution link for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    ratings = GenericRelation(Rating, related_query_name='EnlargerModels')
     tags = TaggableManager(blank=True)
 
     def __str__(self):
@@ -750,7 +746,6 @@ class Mount(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                      blank=True, null=True, help_text='Manufacturer who owns this lens mount')
     slug = models.SlugField(editable=False, null=True, unique=True)
-    ratings = GenericRelation(Rating, related_query_name='Mounts')
     tags = TaggableManager(blank=True)
 
     def __str__(self):
@@ -802,7 +797,6 @@ class PaperStock(models.Model):
         help_text='Whether this is a colour paper', blank=True, null=True)
     finish = models.CharField(help_text='The finish of the paper surface',
                               choices=Finish.choices, max_length=25, blank=True, null=True)
-    ratings = GenericRelation(Rating, related_query_name='PaperStocks')
     tags = TaggableManager(blank=True)
 
     def __str__(self):
@@ -922,7 +916,6 @@ class TeleconverterModel(models.Model):
     image_attribution_link = models.URLField(
         help_text='Attribution link for this image', blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    ratings = GenericRelation(Rating, related_query_name='TeleconverterModels')
     tags = TaggableManager(blank=True)
 
     def __str__(self):
@@ -1031,7 +1024,6 @@ class Toner(models.Model):
     stock_dilution = models.CharField(
         help_text='Stock dilution of the toner', max_length=10, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    ratings = GenericRelation(Rating, related_query_name='Toners')
     tags = TaggableManager(blank=True)
 
     def __str__(self):
@@ -1087,7 +1079,6 @@ class FilmStock(models.Model):
     process = models.ForeignKey(Process, on_delete=models.CASCADE, blank=True,
                                 null=True, help_text='Development process required by this film')
     slug = models.SlugField(editable=False, null=True, unique=True)
-    ratings = GenericRelation(Rating, related_query_name='FilmStocks')
     tags = TaggableManager(blank=True)
 
     def __str__(self):
@@ -1257,7 +1248,6 @@ class Developer(models.Model):
     chemistry = models.CharField(
         help_text='The key chemistry on which this developer is based (e.g. phenidone)', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    ratings = GenericRelation(Rating, related_query_name='Developers')
     tags = TaggableManager(blank=True)
 
     def __str__(self):
@@ -1392,7 +1382,6 @@ class LensModel(models.Model):
     shutter_model = models.CharField(
         help_text='Name of the integrated shutter, if any', max_length=45, blank=True, null=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    ratings = GenericRelation(Rating, related_query_name='LensModels')
     tags = TaggableManager(blank=True)
     image = VersatileImageField(
         help_text='Image of the lens model', blank=True, null=True)
@@ -1690,7 +1679,6 @@ class CameraModel(models.Model):
     metering_modes = models.ManyToManyField(MeteringMode, blank=True)
     exposure_programs = models.ManyToManyField(ExposureProgram, blank=True)
     slug = models.SlugField(editable=False, null=True, unique=True)
-    ratings = GenericRelation(Rating, related_query_name='CameraModels')
     tags = TaggableManager(blank=True)
     link = models.URLField(
         help_text='Link to more information about this camera model', blank=True, null=True)
@@ -1702,6 +1690,8 @@ class CameraModel(models.Model):
         help_text='Attribution link for this image', blank=True, null=True)
 
     # Fixed lens fields
+    interchangeable_lens = models.BooleanField(
+        help_text='Whether the camera has an interchangeable lens', blank=True, null=True)
     lens_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                           help_text='Manufacturer of this lens model', blank=True, null=True, related_name='lens_manufacturer')
     lens_model_name = models.CharField(
@@ -1777,6 +1767,16 @@ class CameraModel(models.Model):
         if self.mount is not None and (self.lens_manufacturer is not None or self.lens_manufacturer is not None):
             raise ValidationError({
                 'mount': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+                'lens_model_name': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+            })
+        if self.interchangeable_lens is False and self.mount is not None:
+            raise ValidationError({
+                'interchangeable_lens': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+                'mount': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
+            })
+        if self.interchangeable_lens is True and (self.lens_manufacturer is not None or self.lens_manufacturer is not None):
+            raise ValidationError({
+                'interchangeable_lens': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
                 'lens_model_name': ValidationError(('Choose either Fixed or Interchangeable lens, not both')),
             })
 
@@ -2517,7 +2517,7 @@ class Print(models.Model):
     @property
     def size(self):
         if self.width and self.height:
-            mystr = f"{self.width}×{self.height}mm"
+            mystr = f"{self.width}×{self.height}\""
         else:
             mystr = None
         return mystr

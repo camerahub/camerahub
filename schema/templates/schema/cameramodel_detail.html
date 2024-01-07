@@ -2,7 +2,6 @@
 {% load static %}
 {% load boolicontag %}
 {% load formatting %}
-{% load ratings %}
 
 {% block content %}
 {% if object.image %}
@@ -58,13 +57,13 @@
     <td><a href="{% url 'schema:negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
   </tr>
   {% endif %}
-
-
+  {% if object.interchangeable_lens is not False %}
   {% if object.mount is not None %}
   <tr>
     <td>Mount</td>
     <td><a href="{% url 'schema:mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
   </tr>
+  {% endif %}
   {% else %}
   <tr>
     <td>Lens</td>
@@ -492,10 +491,6 @@
   <tr>
     <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
         href="#meta">Meta</a></th>
-  </tr>
-  <tr>
-    <td>Rating</td>
-    <td>{% ratings object %}</td>
   </tr>
   {% if object.tags.all %}
   <tr>
