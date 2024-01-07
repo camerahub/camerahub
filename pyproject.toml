@@ -28,7 +28,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Django = "^4"
+Django = "^5"
 pytz = "*"
 django-money = "^3"
 django-choices = "^1.7"
@@ -48,7 +48,7 @@ numpy = "^1.23"
 django-social-share = "^2"
 django-countries = "^7"
 django-autocomplete-light = "^3.9"
-django-bootstrap-datepicker-plus = "^4"
+django-bootstrap-datepicker-plus = "^5"
 django-geoposition-2 = "^0.4.00"
 django-leaflet = "^0.28"
 djangorestframework = "^3.14"
