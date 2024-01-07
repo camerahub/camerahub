@@ -16,7 +16,7 @@ def reverse_func(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('schema', '0019_auto_20200110_1728_squashed_0020_auto_20200110_1734'),
+        ('schema', '0019_auto_20200110_1728'),
     ]
     operations = [
         migrations.RunPython(forwards_func, reverse_func),
