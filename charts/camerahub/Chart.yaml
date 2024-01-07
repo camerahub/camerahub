@@ -12,7 +12,7 @@ version: 0.10.38
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
-appVersion: 0.37.4
+appVersion: 0.37.5
 
 dependencies:
 - name: postgresql
@@ -38,4 +38,4 @@ icon: https://raw.githubusercontent.com/camerahub/camerahub/master/schema/static
 annotations:
   artifacthub.io/changes: |-
     - kind: changed
-      description: Update to CameraHub v0.37.4
+      description: Update to CameraHub v0.37.5
