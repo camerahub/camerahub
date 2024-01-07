@@ -28,11 +28,11 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Django = "^3"
+Django = "^4"
 pytz = "*"
 django-money = "^3"
 django-choices = "^1.7"
-django-currentuser = "^0.5"
+django-currentuser = "^0.6"
 uWSGI = "^2"
 django-tables2 = "^2.4"
 django-crispy-forms = "^1.14"

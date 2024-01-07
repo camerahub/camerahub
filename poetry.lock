@@ -149,19 +149,19 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "django"
-version = "3.2.23"
-description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
+version = "4.2.9"
+description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.8"
 files = [
-    {file = "Django-3.2.23-py3-none-any.whl", hash = "sha256:d48608d5f62f2c1e260986835db089fa3b79d6f58510881d316b8d88345ae6e1"},
-    {file = "Django-3.2.23.tar.gz", hash = "sha256:82968f3640e29ef4a773af2c28448f5f7a08d001c6ac05b32d02aeee6509508b"},
+    {file = "Django-4.2.9-py3-none-any.whl", hash = "sha256:2cc2fc7d1708ada170ddd6c99f35cc25db664f165d3794bc7723f46b2f8c8984"},
+    {file = "Django-4.2.9.tar.gz", hash = "sha256:12498cc3cb8bc8038539fef9e90e95f507502436c1f0c3a673411324fa675d14"},
 ]
 
 [package.dependencies]
-asgiref = ">=3.3.2,<4"
-pytz = "*"
-sqlparse = ">=0.2.2"
+asgiref = ">=3.6.0,<4"
+sqlparse = ">=0.3.1"
+tzdata = {version = "*", markers = "sys_platform == \"win32\""}
 
 [package.extras]
 argon2 = ["argon2-cffi (>=19.1.0)"]
@@ -278,17 +278,14 @@ files = [
 
 [[package]]
 name = "django-currentuser"
-version = "0.5.3"
+version = "0.6.1"
 description = "Conveniently store reference to request user on thread/db level."
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 files = [
-    {file = "django-currentuser-0.5.3.tar.gz", hash = "sha256:6dca73d6b3a358d421662d45020d1e64ae2b4492deef2eb2428f4e48441547a0"},
-    {file = "django_currentuser-0.5.3-py2.py3-none-any.whl", hash = "sha256:3d4424204da1efbe25d3afe7ae9044662e99904e117e3e788a97394d7269125e"},
+    {file = "django_currentuser-0.6.1-py3-none-any.whl", hash = "sha256:615145569c55118f1566fd369fa87ade74e9cf46ba199f3ae0c1c2dee5df25b9"},
+    {file = "django_currentuser-0.6.1.tar.gz", hash = "sha256:7a53da0c7bbddf480dec838c744f92673f23cafe5be0aa4253f1391a9ac5dac4"},
 ]
-
-[package.dependencies]
-Django = {version = ">=1.11.17,<3.3", markers = "python_version >= \"2.7\""}
 
 [[package]]
 name = "django-dbbackup"
@@ -1228,6 +1225,17 @@ files = [
 ]
 
 [[package]]
+name = "tzdata"
+version = "2023.4"
+description = "Provider of IANA time zone data"
+optional = false
+python-versions = ">=2"
+files = [
+    {file = "tzdata-2023.4-py2.py3-none-any.whl", hash = "sha256:aa3ace4329eeacda5b7beb7ea08ece826c28d761cda36e747cfbf97996d39bf3"},
+    {file = "tzdata-2023.4.tar.gz", hash = "sha256:dd54c94f294765522c77399649b4fefd95522479a664a0cec87f41bebc6148c9"},
+]
+
+[[package]]
 name = "unidecode"
 version = "0.04.21"
 description = "ASCII transliterations of Unicode text"
@@ -1355,4 +1363,4 @@ pgsql = ["psycopg2"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "deec947c2b7c2a05b171344f31d6942e3a687374550c3280c21205df693adb96"
+content-hash = "90002ecd1cdad57f791baad92d99129175e5d7285467af7c79ff1623f3064e2f"
