@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from iommi import Table, Action, Column
 #from django.utils.html import format_html
-#from schema.funcs import boolicon, colouricon
+#from schema.funcs import colouricon
 
 # Import all models that need tables
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
@@ -65,10 +65,6 @@ class BulkFilmTable(LoginRequiredMixin, Table):
     #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:bulkfilm-detail', args=[value]), value)
 
     #@classmethod
-    #def render_finished(cls, value):
-    #    return format_html(boolicon(value))
-
-    #@classmethod
     #def render_format(cls, value):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:format-detail', args=[value.id]), value)
 
@@ -97,10 +93,6 @@ class CameraTable(LoginRequiredMixin, Table):
     #@classmethod
     #def render_serial(cls, value):
     #    return format_html("<code>{}</code>", value)
-
-    #@classmethod
-    #def render_own(cls, value):
-    #    return format_html(boolicon(value))
 
 class CameraModelTable(Table):
     class Meta:
@@ -150,14 +142,6 @@ class DeveloperTable(Table):
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:developer-detail', args=[record.slug]), record.manufacturer, value)
 
-    #@classmethod
-    #def render_for_paper(cls, value):
-    #    return format_html(boolicon(value))
-
-    #@classmethod
-    #def render_for_film(cls, value):
-    #    return format_html(boolicon(value))
-
 class EnlargerModelTable(Table):
     class Meta:
         auto__model = EnlargerModel
@@ -198,10 +182,6 @@ class FilmStockTable(Table):
     #def render_colour(cls, value):
     #    return format_html(colouricon(value))
 
-    #@classmethod
-    #def render_panchromatic(cls, value):
-    #    return format_html(boolicon(value))
-
 class FilterTable(Table):
     class Meta:
         auto__model = Filter
@@ -222,10 +202,6 @@ class FlashModelTable(Table):
     #@classmethod
     #def render_model(cls, value, record):
     #    return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:flashmodel-detail', args=[record.slug]), record.manufacturer, value)
-
-    #@classmethod
-    #def render_ttl(cls, value):
-    #    return format_html(boolicon(value))
 
 class FlashTable(LoginRequiredMixin, Table):
     class Meta:
@@ -273,10 +249,6 @@ class LensTable(LoginRequiredMixin, Table):
     #def render_serial(cls, value):
     #    return format_html("<code>{}</code>", value)
 
-    #@classmethod
-    #def render_own(cls, value):
-    #    return format_html(boolicon(value))
-
 class LensModelTable(Table):
     class Meta:
         auto__model = LensModel
@@ -311,14 +283,6 @@ class LensModelTable(Table):
     #def render_max_aperture(cls, value):
     #    return format_html("<em>f</em>/{}", value)
 
-    #@classmethod
-    #def render_zoom(cls, value):
-    #    return format_html(boolicon(value))
-
-    #@classmethod
-    #def render_autofocus(cls, value):
-    #    return format_html(boolicon(value))
-
 
 class ManufacturerTable(Table):
     select = Column.select()  # Shortcut for creating checkboxes to select rows
@@ -346,10 +310,6 @@ class MountTable(Table):
     #def render_mount(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[record.slug]), value)
 
-    #@classmethod
-    #def render_shutter_in_lens(cls, value):
-    #    return format_html(boolicon(value))
-
 class MountAdapterTable(LoginRequiredMixin, Table):
     class Meta:
         auto__model = MountAdapter
@@ -367,14 +327,6 @@ class MountAdapterTable(LoginRequiredMixin, Table):
     #@classmethod
     #def render_lens_mount(cls, value):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
-
-    #@classmethod
-    #def render_has_optics(cls, value):
-    #    return format_html(boolicon(value))
-
-    #@classmethod
-    #def render_infinity_focus(cls, value):
-    #    return format_html(boolicon(value))
 
 
 class NegativeSizeTable(Table):
@@ -408,14 +360,6 @@ class PaperStockTable(Table):
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:paperstock-detail', args=[record.id]), record.manufacturer, value)
-
-    #@classmethod
-    #def render_resin_coated(cls, value):
-    #    return format_html(boolicon(value))
-
-    #@classmethod
-    #def render_colour(cls, value):
-    #    return format_html(boolicon(value))
 
 class PersonTable(LoginRequiredMixin, Table):
     class Meta:
@@ -453,10 +397,6 @@ class PrintTable(LoginRequiredMixin, Table):
     #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:negative-detail', args=[value.slug]), value.slug)
 
     #@classmethod
-    #def render_own(cls, value):
-    #    return format_html(boolicon(value))
-
-    #@classmethod
     #def render_archive(cls, value):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:archive-detail', args=[value.id_owner]), value)
 
@@ -469,14 +409,6 @@ class ProcessTable(Table):
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:process-detail', args=[record.id]), value)
-
-    #@classmethod
-    #def render_colour(cls, value):
-    #    return format_html(boolicon(value))
-
-    #@classmethod
-    #def render_positive(cls, value):
-    #    return format_html(boolicon(value))
 
 class ScanTable(LoginRequiredMixin, Table):
     class Meta:
