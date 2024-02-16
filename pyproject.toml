@@ -27,29 +27,29 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-Django = "^5"
+python = "^3.12"
+Django = "^5.0.1"
+iommi = "^6.4.0"
 pytz = "*"
-django-money = "^3"
-django-choices = "^2"
-django-currentuser = "^0.6"
+django-money = "^3.4.1"
+django-choices = "^2.0.0"
+django-currentuser = "^0.6.1"
 uWSGI = "^2"
-django-tables2 = "^2.7"
 django-crispy-forms = "^1"
-django-autosequence = "^0"
-django-registration = "^3"
+django-autosequence = "^0.8.0"
+django-registration = "^3.4"
 django-fullurl = "^1"
 django-filter = "*"
 awesome-slugify = "^1.6.5"
 django-watson = "^1.6"
-django-taggit = "^4"
-django-versatileimagefield = "^3"
-numpy = "^1"
+django-taggit = "^5.0.1"
+django-versatileimagefield = "^3.0"
+numpy = "^1.26.3"
 django-social-share = "^2"
-django-countries = "^7"
+django-countries = "^7.5.1"
 django-autocomplete-light = "^3.9"
 django-bootstrap-datepicker-plus = "^5"
-django-geoposition-2 = "^0.4"
+django-geoposition-2 = "^0.4.0"
 django-leaflet = "^0"
 djangorestframework = "^3"
 django-dbbackup = "^4"
@@ -60,19 +60,19 @@ drf-multiple-serializer = "^0.2"
 django-health-check = "^3"
 django-settings-export = "^1.2"
 platformdirs = "^4"
-django-colorfield = "^0"
+django-colorfield = "^0.11.0"
 django-prometheus = "^2"
 psycopg2 = "^2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7"
 pylint-django = "^2"
-autopep8 = "^2"
-pylint = "^2"
+autopep8 = "^2.0.4"
+pylint = "^3.0.3"
 
 [tool.poetry.extras]
 pgsql = ["psycopg2"]
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
