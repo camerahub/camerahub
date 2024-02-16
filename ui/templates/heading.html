@@ -1,0 +1,9 @@
+{% load model_name %}
+{% load static %}
+
+<h4><img src="{% get_static_prefix %}svg/{{ view.model.icon }}" alt=""
+        width="30" height="30">
+    <a href=""></a></h4>
+{% if view.model.description %}<p>{{ view.model.description }}</p>{% endif %}
+<p><a href=""><img src="{% static "svg/add.svg" %}" width="30" height="30" alt="Add"></a>
+</p>

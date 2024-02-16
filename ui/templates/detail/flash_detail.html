@@ -1,0 +1,60 @@
+{% load static %}
+{% load boolicontag %}
+
+<table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
+  <tr>
+    <td>Flash model</td>
+    <td><a href="{% url 'flashmodel-detail' object.flashmodel.slug %}">{{ object.flashmodel }}</a></td>
+  </tr>
+  {% if object.serial is not None %}
+  <tr>
+    <td>Serial</td>
+    <td><code>{{ object.serial }}</code></td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30"
+        alt="Ownership">&nbsp;<a href="#ownership">Ownership</a></th>
+  </tr>
+  {% if object.own is not None %}
+  <tr>
+    <td>Own</td>
+    <td>{{ object.own|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.acquired is not None %}
+  <tr>
+    <td>Acquired</td>
+    <td>{{ object.acquired }} <small class="text-muted">{{ object.acquired|timesince }} ago</small></td>
+  </tr>
+  {% endif %}
+  {% if object.cost is not None %}
+  <tr>
+    <td>Cost</td>
+    <td>{{ object.cost }}</td>
+  </tr>
+  {% endif %}
+  {% if object.lost is not None %}
+  <tr>
+    <td>Lost</td>
+    <td>{{ object.lost }} <small class="text-muted">{{ object.lost|timesince }} ago</small></td>
+  </tr>
+  {% endif %}
+  {% if object.lost_price is not None %}
+  <tr>
+    <td>Lost price</td>
+    <td>{{ object.lost_price }}</td>
+  </tr>
+  {% endif %}
+  {% if object.profit is not None %}
+  <tr>
+    <td>Profit</td>
+    <td>{{ object.profit }}</td>
+  </tr>
+  {% endif %}
+</table>

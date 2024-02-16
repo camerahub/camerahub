@@ -139,26 +139,6 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
-name = "django-autocomplete-light"
-version = "3.9.7"
-description = "Fresh autocompletes for Django"
-optional = false
-python-versions = "*"
-files = [
-    {file = "django-autocomplete-light-3.9.7.tar.gz", hash = "sha256:a34f192ac438c4df056dbfd399550799ddc631c4661960134ded924648770373"},
-]
-
-[package.dependencies]
-django = ">=3.2"
-six = "*"
-
-[package.extras]
-genericm2m = ["django-generic-m2m"]
-gfk = ["django-querysetsequence (>=0.11)"]
-nested = ["django-nested-admin (>=3.0.21)"]
-tags = ["django-taggit"]
-
-[[package]]
 name = "django-autosequence"
 version = "0.8.0"
 description = "A Django model field providing a configurable automatic sequence of values."
@@ -236,17 +216,6 @@ dev = ["black", "django", "djangorestframework", "graphene-django", "pytest", "p
 maintainer = ["django", "transifex-client", "zest.releaser[recommended]"]
 pyuca = ["pyuca"]
 test = ["djangorestframework", "graphene-django", "pytest", "pytest-cov", "pytest-django"]
-
-[[package]]
-name = "django-crispy-forms"
-version = "1.14.0"
-description = "Best way to have Django DRY forms"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "django-crispy-forms-1.14.0.tar.gz", hash = "sha256:35887b8851a931374dd697207a8f56c57a9c5cb9dbf0b9fa54314da5666cea5b"},
-    {file = "django_crispy_forms-1.14.0-py3-none-any.whl", hash = "sha256:bc4d2037f6de602d39c0bc452ac3029d1f5d65e88458872cc4dbc01c3a400604"},
-]
 
 [[package]]
 name = "django-currentuser"
@@ -1198,17 +1167,6 @@ testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8-2020", "ini2toml[l
 testing-integration = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "packaging (>=23.1)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
 
 [[package]]
-name = "six"
-version = "1.16.0"
-description = "Python 2 and 3 compatibility utilities"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
-files = [
-    {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
-    {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
-]
-
-[[package]]
 name = "sqlparse"
 version = "0.4.4"
 description = "A non-validating SQL parser."
@@ -1295,4 +1253,4 @@ pgsql = ["psycopg2"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "984999ab9e5d8ff0d04fb14fd18a1b3b0eb4b38005a0815559f72bed6509e12a"
+content-hash = "3d9e973f138b84f115b07d8988fa1659e739b7e8e8833227670bcf808677877f"

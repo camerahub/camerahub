@@ -1,0 +1,28 @@
+{% load boolicontag %}
+
+<table class="table table-hover">
+  {% if object.negative is not None %}
+  <tr>
+    <td>Negative</td>
+    <td><a href="{% url 'negative-detail' object.negative.slug %}">{{ object.negative }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.print is not None %}
+  <tr>
+    <td>Print</td>
+    <td><a href="{% url 'print-detail' object.print.id_owner %}">{{ object.print }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.filename is not None %}
+  <tr>
+    <td>Filename</td>
+    <td><code>{{ object.filename }}</code></td>
+  </tr>
+  {% endif %}
+  {% if object.date is not None %}
+  <tr>
+    <td>Date</td>
+    <td>{{ object.date }}</td>
+  </tr>
+  {% endif %}
+</table>

@@ -1,0 +1,73 @@
+{% load static %}
+{% load boolicontag %}
+
+<table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
+  <tr>
+    <td>Mount</td>
+    <td>{{ object.mount }}</td>
+  </tr>
+  {% if object.shutter_in_lens is not None %}
+  <tr>
+    <td>Shutter in lens</td>
+    <td>{{ object.shutter_in_lens|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.type is not None %}
+  <tr>
+    <td>Type</td>
+    <td>{{ object.type }}</td>
+  </tr>
+  {% endif %}
+  {% if object.purpose is not None %}
+  <tr>
+    <td>Purpose</td>
+    <td>{{ object.purpose }}</td>
+  </tr>
+  {% endif %}
+  {% if object.notes is not None %}
+  <tr>
+    <td>Notes</td>
+    <td>{{ object.notes|linebreaks }}</td>
+  </tr>
+  {% endif %}
+  {% if object.manufacturer is not None %}
+  <tr>
+    <td>Manufacturer</td>
+    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
+  </tr>
+  {% endif %}
+  <tr>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
+  </tr>
+  {% if object.tags.all %}
+  <tr>
+    <td>Tags</td>
+    <td>{% for tag in object.tags.all %}
+      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag.slug %}" role="button">{{ tag.slug }}</a>
+      {% endfor %}</td>
+  </tr>
+  {% endif %}
+  {% if related %}
+  <tr>
+    <td>Similar mounts</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'mount-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+
+</table>
+
+<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?mount={{ mount.id }}" role="button">View camera models
+    with this mount</a></li>
+<li><a class="btn btn-primary" href="{% url 'lensmodel-list' %}?mount={{ mount.id }}" role="button">View lens models
+    with this mount</a></li>

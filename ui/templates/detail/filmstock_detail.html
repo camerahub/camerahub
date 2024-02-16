@@ -1,0 +1,92 @@
+{% load static %}
+{% load boolicontag %}
+
+<table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
+  {% if object.manufacturer is not None %}
+  <tr>
+    <td>Manufacturer</td>
+    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td>Name</td>
+    <td>{{ object.name }}</td>
+  </tr>
+  {% if object.iso is not None %}
+  <tr>
+    <td>ISO</td>
+    <td>{{ object.iso }}</td>
+  </tr>
+  {% endif %}
+  {% if object.process is not None %}
+  <tr>
+    <td>Process</td>
+    <td>{{ object.process }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="features"><img src="{% static "svg/features.svg" %}" width="30" height="30" alt="Features"> <a
+        href="#features">Features</a></th>
+  </tr>
+  {% if object.colour is not None %}
+  <tr>
+    <td>Colour</td>
+    <td>{{ object.colour|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.panchromatic is not None %}
+  <tr>
+    <td>Panchromatic</td>
+    <td>{{ object.panchromatic|boolicontag}}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
+  </tr>
+  {% if object.tags.all %}
+  <tr>
+    <td>Tags</td>
+    <td>{% for tag in object.tags.all %}
+      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag.slug %}" role="button">{{ tag.slug }}</a>
+      {% endfor %}</td>
+  </tr>
+  {% endif %}
+  {% if related %}
+  <tr>
+    <td>Similar film stocks</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'filmstock-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+
+</table>
+
+<a data-toggle="collapse" href="#collapseFilms" role="button" aria-expanded="false" aria-controls="collapseFilms">
+  Films</a>
+<div class="collapse" id="collapseFilms">
+  <table class="table table-hover">
+    <tr>
+      <th>Film</th>
+      <th>Caption</th>
+      <th>Date</th>
+    </tr>
+    {% for film in filmstock.film_set.all %}
+    <tr>
+      <td>{{ film.pk }}</td>
+      <td>{{ film.description }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>

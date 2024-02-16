@@ -1,0 +1,207 @@
+{% load static %}
+{% load formatting %}
+
+<table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30"
+        alt="Summary">&nbsp;<a href="#">Summary</a></th>
+  </tr>
+  {% if object.status is not None %}
+  <tr>
+    <td>Status</td>
+    <td>{{ object.status }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="filmstock"><img src="{% static "svg/film.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#filmstock">Filmstock</a></th>
+  </tr>
+  {% if object.filmstock is not None %}
+  <tr>
+    <td>Filmstock</td>
+    <td><a href="{% url 'filmstock-detail' object.filmstock.slug %}">{{ object.filmstock }}</a></td>
+  </tr>
+  {% if object.filmstock.iso %}
+  <tr>
+    <td>Box speed</td>
+    <td>ISO {{ object.filmstock.iso }}</td>
+  </tr>
+  {% endif %}
+  {% endif %}
+  {% if object.format is not None %}
+  <tr>
+    <td>Film format</td>
+    <td><a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.bulk_film is not None %}
+  <tr>
+    <td>Bulk film</td>
+    <td><a href="{% url 'bulkfilm-detail' object.bulk_film.id_owner %}">{{ object.bulk_film }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.bulk_film_loaded is not None %}
+  <tr>
+    <td>Bulk film loaded</td>
+    <td>{{ object.bulk_film_loaded }}</td>
+  </tr>
+  {% endif %}
+  {% if object.film_batch is not None %}
+  <tr>
+    <td>Batch code</td>
+    <td><code>{{ object.film_batch }}</code></td>
+  </tr>
+  {% endif %}
+  {% if object.expiry_date is not None %}
+  <tr>
+    <td>Expiry date</td>
+    <td>{{ object.expiry_date }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="exposure"><img src="{% static "svg/camera.svg" %}" width="30" height="30" alt="Exposure"> <a
+        href="#exposure">Exposure</a></th>
+  </tr>
+  {% if object.camera is not None %}
+  <tr>
+    <td>Camera</td>
+    <td><a href="{% url 'camera-detail' object.camera.id_owner %}">{{ object.camera }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.date_loaded is not None %}
+  <tr>
+    <td>Date loaded</td>
+    <td>{{ object.date_loaded }}{% if object.expired_when_loaded %} <img src="{% static "svg/expired.svg" %}"
+        width="20" height="20" alt="Expired when loaded" title="Film was expired when loaded">{% endif %}</td>
+  </tr>
+  {% endif %}
+  {% if object.frames is not None %}
+  <tr>
+    <td>Frames</td>
+    <td>{{ object.frames }}</td>
+  </tr>
+  {% endif %}
+  {% if object.exposed_at is not None %}
+  <tr>
+    <td>Exposed at</td>
+    <td>ISO {{ object.exposed_at }}{% if object.pushed %}<img src="{% static "svg/up.svg" %}" width="20" height="20"
+        alt="Push" title="Film was pushed">{% elif object.pulled %}<img src="{% static "svg/down.svg" %}" width="20"
+        height="20" alt="Pull" title="Film was pulled">{% endif %}</td>
+  </tr>
+  {% if object.push_stops is not None %}
+  <tr>
+    <td>Push/pull stops</td>
+    <td>{{ object.push_stops|floatformat:"-1"|sign }}</td>
+  </tr>
+  {% endif %}
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="development"><img src="{% static "svg/developer.svg" %}" width="30" height="30"
+        alt="Development"> <a href="#development">Development</a></th>
+  </tr>
+  {% if object.developer is not None %}
+  <tr>
+    <td>Developer</td>
+    <td><a href="{% url 'developer-detail' object.developer.slug %}">{{ object.developer }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.date_processed is not None %}
+  <tr>
+    <td>Date processed</td>
+    <td>{{ object.date_processed }} <small class="text-muted">{{ object.date_processed|timesince }}
+        ago</small>{% if object.expired_when_loaded %} <img src="{% static "svg/expired.svg" %}" width="20" height="20"
+        alt="Expired when processed" title="Film was expired when processed">{% endif %}</td>
+  </tr>
+  {% endif %}
+  {% if object.developer_previous_uses is not None %}
+  <tr>
+    <td>Developer uses</td>
+    <td>{{ object.developer_previous_uses }}</td>
+  </tr>
+  {% endif %}
+  {% if object.development_time is not None %}
+  <tr>
+    <td>Development time</td>
+    <td>{{ object.development_time }}</td>
+  </tr>
+  {% endif %}
+  {% if object.development_temperature is not None %}
+  <tr>
+    <td>Development temperature</td>
+    <td>{{ object.development_temperature }}°C</td>
+  </tr>
+  {% endif %}
+  {% if object.development_compensation is not None %}
+  <tr>
+    <td>Development compensation</td>
+    <td>N{{ object.development_compensation|sign }}</td>
+  </tr>
+  {% endif %}
+  {% if object.development_notes %}
+  <tr>
+    <td>Development notes</td>
+    <td>{{ object.development_notes|linebreaks }}</td>
+  </tr>
+  {% endif %}
+  {% if object.processed_by is not None %}
+  <tr>
+    <td>Processed by</td>
+    <td><a href="{% url 'person-detail' object.processed_by.id_owner %}">{{ object.processed_by }}</a></td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="archive"><img src="{% static "svg/archive.svg" %}" width="30" height="30" alt="Archive"> <a
+        href="#archive">Archive</a></th>
+  </tr>
+  {% if object.archive is not None %}
+  <tr>
+    <td>Archive</td>
+    <td><a href="{% url 'archive-detail' object.archive.id_owner %}">{{ object.archive }}</a></td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30"
+        alt="Ownership">&nbsp;<a href="#ownership">Ownership</a></th>
+  </tr>
+  {% if object.purchase_date is not None %}
+  <tr>
+    <td>Purchase date</td>
+    <td>{{ object.purchase_date }} <small class="text-muted">{{ object.purchase_date|timesince }} ago</small></td>
+  </tr>
+  {% endif %}
+  {% if object.price is not None %}
+  <tr>
+    <td>Price</td>
+    <td>{{ object.price }}</td>
+  </tr>
+  {% endif %}
+</table>
+
+
+{% if film.negative_set.count > 0 %}<li><a class="btn btn-primary"
+    href="{% url 'negative-list' %}?film={{ object.id }}" role="button">View {{ film.negative_set.count }}
+    negatives on this film</a></li>{% endif %}
+{% if object.status == "Available" %}<li><a class="btn btn-primary" href="{% url 'film-load' object.id_owner %}"
+    role="button">Load this film into a camera</a></li>{% endif %}
+{% if object.status == "Loaded" %}<li><a class="btn btn-primary" href="{% url 'film-develop' object.id_owner %}"
+    role="button">Develop this film</a></li>{% endif %}
+{% if object.status == "Developed" %}<li><a class="btn btn-primary"
+    href="{% url 'film-archive' object.id_owner %}" role="button">Archive this film</a></li>{% endif %}
+{% if object.status == "Loaded" or object.status == "Developed" %}<li>
+  <form action="{% url 'negative-create' %}">
+    <input type="hidden" name="film" value="{{ object.id }}">
+    <button class="btn btn-primary" type="submit">Add a negative to this film</button>
+  </form>
+</li>{% endif %}
+{% if object.status == "Archived" %}<li><a class="btn btn-primary" href="{% url 'film-print' object.id_owner %}"
+  target="_blank" role="button">Print a cover sheet</a></li>{% endif %}

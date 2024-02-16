@@ -1,0 +1,151 @@
+{% load static %}
+{% load boolicontag %}
+
+<table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
+  {% if object.negative is not None %}
+  <tr>
+    <td>Negative</td>
+    <td><a href="{% url 'negative-detail' object.negative.slug %}">{{ object.negative }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.date is not None %}
+  <tr>
+    <td>Date</td>
+    <td>{{ object.date }}</td>
+  </tr>
+  {% endif %}
+  {% if object.paper_stock is not None %}
+  <tr>
+    <td>Paperstock</td>
+    <td><a href="{% url 'paperstock-detail' object.paper_stock.id %}">{{ object.paper_stock }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.width is not None and object.height is not None %}
+  <tr>
+    <td>Size</td>
+    <td>{{ object.width }} &times; {{ object.height }}"</td>
+  </tr>
+  {% endif %}
+  {% if object.fine is not None %}
+  <tr>
+    <td>Fine</td>
+    <td>{{ object.fine|boolicontag }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="exposure"><img src="{% static "svg/enlarger.svg" %}" width="30" height="30" alt="Exposure"> <a
+        href="#exposure">Exposure</a></th>
+  </tr>
+  {% if object.enlarger is not None %}
+  <tr>
+    <td>Enlarger</td>
+    <td><a href="{% url 'enlarger-detail' object.enlarger.id %}">{{ object.enlarger }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.lens is not None %}
+  <tr>
+    <td>Enlarger lens</td>
+    <td><a href="{% url 'lens-detail' object.lens.id %}">{{ object.lens }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.aperture is not None %}
+  <tr>
+    <td>Aperture</td>
+    <td><em>f</em>/{{ object.aperture }}</td>
+  </tr>
+  {% endif %}
+  {% if object.exposure_time is not None %}
+  <tr>
+    <td>Exposure time</td>
+    <td>{{ object.exposure_time }}</td>
+  </tr>
+  {% endif %}
+  {% if object.filtration_grade is not None %}
+  <tr>
+    <td>Filtration grade</td>
+    <td>{{ object.filtration_grade }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="development"><img src="{% static "svg/developer.svg" %}" width="30" height="30"
+        alt="Development"> <a href="#development">Development</a></th>
+  </tr>
+  {% if object.developer is not None %}
+  <tr>
+    <td>Developer</td>
+    <td><a href="{% url 'developer-detail' object.developer.slug %}">{{ object.developer }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.development_time is not None %}
+  <tr>
+    <td>Development time</td>
+    <td>{{ object.development_time }}</td>
+  </tr>
+  {% endif %}
+  {% if object.toner.all %}
+  <tr>
+    <td>Toner</td>
+    <td>
+      <ul class="list-inline">
+        {% for toner in object.toner.all %}
+        <li class="list-inline-item"><a href="{% url 'toner-detail' toner.slug %}">{{ toner }}</a></li>
+        {% endfor %}</ul>
+    </td>
+  </tr>
+  {% endif %}
+
+  {% if object.notes %}
+  <tr>
+    <td>Notes</td>
+    <td>{{ object.notes|linebreaks }}</td>
+  </tr>
+  {% endif %}
+  {% if object.printer is not None %}
+  <tr>
+    <td>Printer</td>
+    <td>{{ object.printer }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="ownership"><img src="{% static "svg/ownership.svg" %}" width="30" height="30"
+        alt="Ownership">&nbsp;<a href="#ownership">Ownership</a></th>
+  </tr>
+  {% if object.own is not None %}
+  <tr>
+    <td>Own</td>
+    <td>{{ object.own|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.location is not None %}
+  <tr>
+    <td>Location</td>
+    <td>{{ object.location }}</td>
+  </tr>
+  {% endif %}
+  {% if object.sold_price is not None %}
+  <tr>
+    <td>Sold price</td>
+    <td>{{ object.sold_price }}</td>
+  </tr>
+  {% endif %}
+  {% if object.archive is not None %}
+  <tr>
+    <td>Archive</td>
+    <td><a href="{% url 'archive-detail' object.archive.id_owner %}">{{ object.archive }}</a></td>
+  </tr>
+  {% endif %}
+</table>
+
+{% if object.own is True %}{% if object.archive is None %}<li><a class="btn btn-primary" href="{% url 'print-archive' object.id_owner %}"
+    role="button">Archive this print</a></li>{% endif %}
+    <li><a class="btn btn-primary" href="{% url 'print-sell' object.id_owner %}"
+      role="button">Sell this print</a></li>{% endif %}
+<li><a class="btn btn-primary" href="{% url 'print-print' object.id_owner %}"
+    target="_blank" role="button">Print a cover sheet</a></li>

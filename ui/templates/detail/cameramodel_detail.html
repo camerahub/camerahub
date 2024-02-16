@@ -1,0 +1,550 @@
+{% load static %}
+{% load boolicontag %}
+{% load formatting %}
+
+{% if object.image %}
+<div class="text-center">
+  <figure class="figure img-thumbnail">
+    <img src="{{ object.image.url }}" class="figure-img img-fluid rounded" alt="{{ object }}" title="{{ object }}">
+    <figcaption class="figure-caption text-center">{{ object }}{% if object.image_attribution %} by
+      {% if object.image_attribution_link %}<a
+        href="{{ object.image_attribution_link }}">{{ object.image_attribution }}</a>{% else %}{{ object.image_attribution }}{% endif %}{% endif %}
+    </figcaption>
+  </figure>
+</div>
+{% endif %}
+
+<table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
+  {% if object.manufacturer is not None %}
+  <tr>
+    <td>Manufacturer</td>
+    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td>Model</td>
+    <td>{{ object.model }}</td>
+  </tr>
+  {% if object.disambiguation %}
+  <tr>
+    <td>Disambiguation</td>
+    <td>{{ object.disambiguation }}</td>
+  </tr>
+  {% endif %}
+  {% if object.introduced is not None %}
+  <tr>
+    <td>Marketed</td>
+    <td>{{ object.introduced }}{% if object.discontinued is not None %}-{{ object.discontinued }}{% endif %} <small
+        class="text-muted">{{ object.introduced|yearssince }}</small></td>
+  </tr>
+  {% endif %}
+  {% if object.format is not None %}
+  <tr>
+    <td>Format</td>
+    <td><a href="{% url 'format-detail' object.format.id %}">{{ object.format }}</a>
+    </td>
+  </tr>
+  {% endif %}
+  {% if object.negative_size is not None %}
+  <tr>
+    <td>Negative size</td>
+    <td><a href="{% url 'negativesize-detail' object.negative_size.id %}">{{ object.negative_size }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.interchangeable_lens is not False %}
+  {% if object.mount is not None %}
+  <tr>
+    <td>Mount</td>
+    <td><a href="{% url 'mount-detail' object.mount.slug %}">{{ object.mount }}</a></td>
+  </tr>
+  {% endif %}
+  {% else %}
+  <tr>
+    <td>Lens</td>
+    <td>{% if object.lens_manufacturer is not None %}{{ object.lens_manufacturer }}
+      {% endif %}{{ object.lens_model_name|aperture }}
+    </td>
+  </tr>
+  {% if object.lens_manufacturer is not None %}
+  <tr>
+    <td>Lens manufacturer</td>
+    <td>{% include "manufacturer.html" with manufacturer=object.lens_manufacturer %}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="optics"><img src="{% static "svg/optics.svg" %}" width="30" height="30" alt="Optics"> <a
+        href="#optics">Optics</a></th>
+  </tr>
+  {% if object.zoom is not None %}
+  <tr>
+    <td>Zoom</td>
+    <td>{{ object.zoom|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.min_focal_length is not None %}
+  <tr>
+    <td>Focal length</td>
+    <td>
+      {{ object.min_focal_length }}{% if object.zoom is not False and object.max_focal_length is not None %}-{{ object.max_focal_length }}{% endif %}mm
+    </td>
+  </tr>
+  {% endif %}
+  {% if object.zoom_ratio is not None %}
+  <tr>
+    <td>Zoom ratio</td>
+    <td>{{ object.zoom_ratio }}&times;</td>
+  </tr>
+  {% endif %}
+  {% if object.max_aperture is not None %}
+  <tr>
+    <td>Aperture</td>
+    <td>
+      <em>f</em>/{{ object.max_aperture }}{% if object.min_aperture is not None %}-{{ object.min_aperture }}{% endif %}
+    </td>
+  </tr>
+  {% endif %}
+  {% if object.closest_focus is not None %}
+  <tr>
+    <td>Closest focus</td>
+    <td>{{ object.closest_focus }}m</td>
+  </tr>
+  {% endif %}
+  {% if object.elements is not None and object.groups is not None %}
+  <tr>
+    <td>Elements/Groups</td>
+    <td>{{ object.elements }}/{{ object.groups }}</td>
+  </tr>
+  {% else %}
+  {% if object.elements is not None %}
+  <tr>
+    <td>Elements</td>
+    <td>{{ object.elements }}</td>
+  </tr>
+  {% endif %}
+  {% if object.groups is not None %}
+  <tr>
+    <td>Groups</td>
+    <td>{{ object.groups }}</td>
+  </tr>
+  {% endif %}
+  {% endif %}
+  {% if object.nominal_max_angle_diag is not None %}
+  <tr>
+    <td>Diagonal angle of view</td>
+    <td>
+      {{ object.nominal_max_angle_diag }}{% if object.zoom is not False and object.nominal_min_angle_diag is not None %}-{{ object.nominal_min_angle_diag }}{% endif %}&deg;
+    </td>
+  </tr>
+  {% endif %}
+  {% if object.magnification is not None %}
+  <tr>
+    <td>Maximum magnification</td>
+    <td>{{ object.magnification }}&times;</td>
+  </tr>
+  {% endif %}
+  {% if object.aperture_blades is not None %}
+  <tr>
+    <td>Aperture blades</td>
+    <td>{{ object.aperture_blades }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="features"><img src="{% static "svg/features.svg" %}" width="30" height="30" alt="Features"> <a
+        href="#features">Features</a></th>
+  </tr>
+  {% if object.filter_thread is not None %}
+  <tr>
+    <td>Filter thread</td>
+    <td>{{ object.filter_thread }}mm</td>
+  </tr>
+  {% endif %}
+  {% if object.coating is not None %}
+  <tr>
+    <td>Coating</td>
+    <td>{{ object.coating }}</td>
+  </tr>
+  {% endif %}
+  {% if object.hood is not None %}
+  <tr>
+    <td>Hood</td>
+    <td>{{ object.hood }}</td>
+  </tr>
+  {% endif %}
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="physical"><img src="{% static "svg/weight.svg" %}" width="30" height="30" alt="Physical"> <a
+        href="#physical">Physical</a></th>
+  </tr>
+  {% if object.body_type is not None %}
+  <tr>
+    <td>Body type</td>
+    <td>{{ object.body_type }}</td>
+  </tr>
+  {% endif %}
+  {% if object.weight is not None %}
+  <tr>
+    <td>Weight</td>
+    <td>{{ object.weight }}g</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="focus"><img src="{% static "svg/focus.svg" %}" width="30" height="30" alt="Focus"> <a
+        href="#focus">Focus</a></th>
+  </tr>
+  {% if object.focus_type is not None %}
+  <tr>
+    <td>Focus type</td>
+    <td>{{ object.focus_type }}</td>
+  </tr>
+  {% endif %}
+  {% if object.autofocus_points is not None %}
+  <tr>
+    <td>Autofocus points</td>
+    <td>{{ object.af_points }}</td>
+  </tr>
+  {% endif %}
+  {% if object.viewfinder_coverage is not None %}
+  <tr>
+    <td>Viewfinder coverage</td>
+    <td>{{ object.viewfinder_coverage }}%</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="metering"><img src="{% static "svg/meter.svg" %}" width="30" height="30" alt="Metering"> <a
+        href="#metering">Metering</a></th>
+  </tr>
+  {% if object.metering is not None %}
+  <tr>
+    <td>Metering</td>
+    <td>{{ object.metering|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.metering %}
+  {% if object.metering_type is not None %}
+  <tr>
+    <td>Metering type</td>
+    <td>{{ object.metering_type }}</td>
+  </tr>
+  {% endif %}
+  {% if object.meter_min_ev is not None %}
+  <tr>
+    <td>Meter EV</td>
+    <td>{{ object.meter_min_ev }}-{{ object.meter_max_ev }}</td>
+  </tr>
+  {% endif %}
+  {% if object.min_iso is not None %}
+  <tr>
+    <td>ISO</td>
+    <td>{{ object.min_iso }}-{{ object.max_iso }}</td>
+  </tr>
+  {% endif %}
+  {% if object.dx_code is not None %}
+  <tr>
+    <td>DX code</td>
+    <td>{{ object.dx_code|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% endif %}
+
+  {% if object.metering_modes.all %}
+  <tr>
+    <td>Metering modes</td>
+    <td>
+      <ul class="list-inline">{% for meteringmode in object.metering_modes.all %}
+        <li class="list-inline-item">{{ meteringmode }}</li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+  {% if object.exposure_programs.all %}
+  <tr>
+    <td>Exposure programs</td>
+    <td>
+      <ul class="list-inline">{% for exposureprogram in object.exposure_programs.all %}
+        <li class="list-inline-item">{{ exposureprogram }}</li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="shutter"><img src="{% static "svg/shutter.svg" %}" width="30" height="30" alt="Shutter"> <a
+        href="#shutter">Shutter</a></th>
+  </tr>
+  {% if object.shutter_type is not None %}
+  <tr>
+    <td>Shutter type</td>
+    <td>{{ object.shutter_type }}</td>
+  </tr>
+  {% endif %}
+  {% if object.shutter_model is not None %}
+  <tr>
+    <td>Shutter model</td>
+    <td>{{ object.shutter_model }}</td>
+  </tr>
+  {% endif %}
+  {% if object.fastest_shutter_speed is not None %}
+  <tr>
+    <td>Shutter speeds</td>
+    <td>{{ object.fastest_shutter_speed }}{% if object.slowest_shutter_speed is not None %} -
+      {{ object.slowest_shutter_speed }}{% endif %}</td>
+  </tr>
+  {% endif %}
+  {% if object.bulb is not None %}
+  <tr>
+    <td>Bulb</td>
+    <td>{{ object.bulb|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.time is not None %}
+  <tr>
+    <td>Time</td>
+    <td>{{ object.time|boolicontag }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="filmtransport"><img src="{% static "svg/next.svg" %}" width="30" height="30"
+        alt="Film transport"> <a href="#filmtransport">Film transport</a></th>
+  </tr>
+  {% if object.internal_power_drive is not None %}
+  <tr>
+    <td>Internal power drive</td>
+    <td>{{ object.internal_power_drive|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.continuous_fps is not None %}
+  <tr>
+    <td>Continuous fps</td>
+    <td>{{ object.continuous_fps }}</td>
+  </tr>
+  {% endif %}
+  {% if object.external_power_drive is not None %}
+  <tr>
+    <td>External power drive</td>
+    <td>{{ object.external_power_drive|boolicontag }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="power"><img src="{% static "svg/battery.svg" %}" width="30" height="30" alt="Power"> <a
+        href="#power">Power</a></th>
+  </tr>
+  {% if object.battery_qty is not None %}
+
+  <tr>
+    <td>Batteries</td>
+    <td>{{ object.battery_qty }}
+      {% if object.battery_type is not None %} &times; <a
+        href="{% url 'battery-detail' object.battery_type.slug %}">{{ object.battery_type }}</a>{% endif %}
+    </td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="flash"><img src="{% static "svg/flash.svg" %}" width="30" height="30" alt="Flash"> <a
+        href="#flash">Flash</a></th>
+  </tr>
+  {% if object.int_flash is not None %}
+  <tr>
+    <td>Internal flash</td>
+    <td>{{ object.int_flash|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.int_flash %}
+  {% if object.int_flash_gn is not None %}
+  <tr>
+    <td>Internal flash guide number</td>
+    <td>{{ object.int_flash_gn }}</td>
+  </tr>
+  {% endif %}
+  {% endif %}
+  {% if object.external_flash is not None %}
+  <tr>
+    <td>External flash</td>
+    <td>{{ object.ext_flash|boolicontag }}</td>
+  </tr>
+  <tr>
+    <td>PC sync</td>
+    <td>{{ object.pc_sync|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.shoe is not None %}
+  <tr>
+    <td>Shoe</td>
+    <td>{{ object.shoe }}</td>
+  </tr>
+  {% endif %}
+  {% if object.x_sync %}
+  <tr>
+    <td>X-sync speed</td>
+    <td>{{ object.x_sync }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="features"><img src="{% static "svg/features.svg" %}" width="30" height="30" alt="Features"> <a
+        href="#features">Features</a></th>
+  </tr>
+  {% if object.dof_preview is not None %}
+  <tr>
+    <td>DoF preview</td>
+    <td>{{ object.dof_preview|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.mirror_lockup is not None %}
+  <tr>
+    <td>Mirror lock-up</td>
+    <td>{{ object.mirror_lockup|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.tripod is not None %}
+  <tr>
+    <td>Tripod</td>
+    <td>{{ object.tripod|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.self_timer is not None %}
+  <tr>
+    <td>Self timer</td>
+    <td>{{ object.self_timer|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.date_imprint is not None %}
+  <tr>
+    <td>Date imprint</td>
+    <td>{{ object.date_imprint|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.cable_release is not None %}
+  <tr>
+    <td>Cable release</td>
+    <td>{{ object.cable_release|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.interchangeable_backs is not None %}
+  <tr>
+    <td>Interchangeable backs</td>
+    <td>{{ object.interchangeable_backs|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.interchangeable_finders is not None %}
+  <tr>
+    <td>Interchangeable finders</td>
+    <td>{{ object.interchangeable_finders|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.strap_lugs is not None %}
+  <tr>
+    <td>Strap lugs</td>
+    <td>{{ object.strap_lugs|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.multiple_exposures is not None %}
+  <tr>
+    <td>Multiple exposures</td>
+    <td>{{ object.multiple_exposures|boolicontag }}</td>
+  </tr>
+  {% endif %}
+
+
+  <tr>
+    <th colspan="2" id="misc"><img src="{% static "svg/misc.svg" %}" width="30" height="30" alt="Misc"> <a
+        href="#misc">Misc</a></th>
+  </tr>
+  {% if object.notes %}
+  <tr>
+    <td>Notes</td>
+    <td>{{ object.notes|linebreaks }}</td>
+  </tr>
+  {% endif %}
+  {% if object.link is not None %}
+  <tr>
+    <td>Link</td>
+    <td><a href="{{ object.link }}">{{ object.link }}</a></td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
+  </tr>
+  {% if object.tags.all %}
+  <tr>
+    <td>Tags</td>
+    <td>{% for tag in object.tags.all %}
+      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag.slug %}" role="button">{{ tag.slug }}</a>
+      {% endfor %}</td>
+  </tr>
+  {% endif %}
+  {% if related %}
+  <tr>
+    <td>Similar camera models</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a
+            href="{% url 'cameramodel-detail' relateditem.slug %}">{{ relateditem }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+</table>
+
+{% if user.is_authenticated %}
+{% if mine %}
+<h4>In your collection</h4>
+<table class="table table-hover">
+  <tr>
+    <th>ID</th>
+    <th>Serial</th>
+    <th>Acquired</th>
+    <th>Own</th>
+  </tr>
+  {% for camera in mine %}
+  <tr>
+    <td><a href="{% url 'camera-detail' camera.id_owner %}">#{{ camera.id_owner }}</a></td>
+    <td>{% if camera.serial is not None %}<code>{{ camera.serial }}</code>{% endif %}</td>
+    <td>{% if camera.acquired is not None %}{{ camera.acquired }}{% endif %}</td>
+    <td>{% if camera.own is not None %}{{ camera.own|boolicontag }}{% endif %}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endif %}
+
+<li>
+  <form action="{% url 'camera-create' %}">
+    <input type="hidden" name="cameramodel" value="{{ object.id }}">
+    <button class="btn btn-primary" type="submit">Add to collection</button>
+  </form>
+</li>
+<li>
+  <form action="{% url 'cameramodel-create' %}">
+    <input type="hidden" name="clone" value="{{ object.slug }}">
+    <button class="btn btn-primary" type="submit">Clone this camera model</button>
+  </form>
+</li>

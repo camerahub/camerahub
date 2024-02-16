@@ -1,0 +1,186 @@
+{% load static %}
+{% load leaflet_tags %}
+{% load boolicontag %}
+
+<table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
+  {% if object.film is not None %}
+  <tr>
+    <td>Film</td>
+    <td><a href="{% url 'film-detail' object.film.id_owner %}">{{ object.film }}</a></td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td>Frame</td>
+    <td>{{ object.frame }}</td>
+  </tr>
+  {% if object.caption is not None %}
+  <tr>
+    <td>Caption</td>
+    <td>{{ object.caption }}</td>
+  </tr>
+  {% endif %}
+  {% if object.date is not None %}
+  <tr>
+    <td>Date</td>
+    <td>{{ object.date }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="film"><img src="{% static "svg/film.svg" %}" width="30" height="30" alt="Film">&nbsp;<a
+        href="#">Film</a></th>
+  </tr>
+  <tr>
+    <td>Filmstock</td>
+    <td><a href="{% url 'filmstock-detail' object.film.filmstock.slug %}">{{ object.film.filmstock }}</a></td>
+  </tr>
+  {% if object.film.camera.cameramodel.negative_size is not None %}
+  <tr>
+    <td>Negative size</td>
+    <td><a href="{% url 'negativesize-detail' object.film.camera.cameramodel.negative_size.id %}">{{ object.film.camera.cameramodel.negative_size }}</a></td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="exposure"><img src="{% static "svg/camera.svg" %}" width="30" height="30" alt="Exposure"> <a
+        href="#exposure">Exposure</a></th>
+  </tr>
+  {% if object.film.camera is not None %}
+  <tr>
+    <td>Camera</td>
+    <td><a href="{% url 'camera-detail' object.film.camera.id_owner %}">{{ object.film.camera }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.lens is not None %}
+  <tr>
+    <td>Lens</td>
+    <td><a href="{% url 'lens-detail' object.lens.id %}">{{ object.lens }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.focal_length is not None %}
+  <tr>
+    <td>Focal length</td>
+    <td>{{ object.focal_length }}mm</td>
+  </tr>
+  {% endif %}
+  {% if object.focal_length_35mm is not None %}
+  <tr>
+    <td>Focal length, 35mm equivalent</td>
+    <td>{{ object.focal_length_35mm }}mm</td>
+  </tr>
+  {% endif %}
+  {% if object.shutter_speed is not None %}
+  <tr>
+    <td>Shutter speed</td>
+    <td>{{ object.shutter_speed }}</td>
+  </tr>
+  {% endif %}
+  {% if object.aperture is not None %}
+  <tr>
+    <td>Aperture</td>
+    <td><em>f</em>/{{ object.aperture }}</td>
+  </tr>
+  {% endif %}
+  {% if object.filter is not None %}
+  <tr>
+    <td>Filter</td>
+    <td>{{ object.filter }}</td>
+  </tr>
+  {% endif %}
+  {% if object.teleconverter is not None %}
+  <tr>
+    <td>Teleconverter</td>
+    <td><a href="{% url 'teleconverter-detail' object.teleconverter.id %}">{{ object.teleconverter }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.mount_adapter is not None %}
+  <tr>
+    <td>Adapter</td>
+    <td>{{ object.mount_adapter }}</td>
+  </tr>
+  {% endif %}
+  {% if object.flash is not None %}
+  <tr>
+    <td>Flash</td>
+    <td>{{ object.flash|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.metering_mode is not None %}
+  <tr>
+    <td>Metering mode</td>
+    <td>{{ object.metering_mode }}</td>
+  </tr>
+  {% endif %}
+  {% if object.exposure_program is not None %}
+  <tr>
+    <td>Exposure program</td>
+    <td>{{ object.exposure_program }}</td>
+  </tr>
+  {% endif %}
+
+  <tr>
+    <th colspan="2" id="misc"><img src="{% static "svg/misc.svg" %}" width="30" height="30" alt="Misc"> <a
+        href="#misc">Misc</a></th>
+  </tr>
+  {% if object.photographer is not None %}
+  <tr>
+    <td>Photographer</td>
+    <td>{{ object.photographer }}</td>
+  </tr>
+  {% endif %}
+  {% if object.copy_of is not None %}
+  <tr>
+    <td>Copy of</td>
+    <td>{{ object.copy_of }}</td>
+  </tr>
+  {% endif %}
+  {% if object.notes is not None %}
+  <tr>
+    <td>Notes</td>
+    <td>{{ object.notes|linebreaks }}</td>
+  </tr>
+  {% endif %}
+  {% if object.copyright is not None %}
+  <tr>
+    <td>Copyright</td>
+    <td>{{ object.copyright }}</td>
+  </tr>
+  {% endif %}
+  {% if object.location is not None %}
+  <tr>
+    <td>Location</td>
+    <td>
+      {% leaflet_js %}
+      {% leaflet_css %}
+      <script>
+        function map_init_basic(map, options) {
+            var coords = [{{ object.location.latitude|safe }}, {{ object.location.longitude|safe }}];
+            L.marker(coords).addTo(map);
+            map.setView(coords, 16);
+        }
+      </script>
+
+      <figure class="figure">
+        {% leaflet_map "yourmap" callback="window.map_init_basic" %}
+        <figcaption class="figure-caption">{{ object.location.latitude}}&deg;, {{ object.location.longitude}}&deg;
+        </figcaption>
+      </figure>
+    </td>
+  </tr>
+  {% endif %}
+</table>
+
+{% if negative.print_set.count > 0 %}<li><a class="btn btn-primary"
+  href="{% url 'print-list' %}?negative={{ object.id }}" role="button">View {{ negative.print_set.count }}
+  prints made from this negative</a></li>{% endif %}
+<li>
+  <form action="{% url 'print-create' %}">
+    <input type="hidden" name="negative" value="{{ object.id }}">
+    <button class="btn btn-primary" type="submit">Print this negative</button>
+  </form>
+</li>
+<li>

@@ -1,0 +1,51 @@
+{% load static %}
+
+<table class="table table-hover">
+  <tr>
+    <td>Name</td>
+    <td>{{ object.name }}</td>
+  </tr>
+  {% if object.manufacturer is not None %}
+  <tr>
+    <td>Manufacturer</td>
+    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
+  </tr>
+  {% endif %}
+  {% if object.formulation is not None %}
+  <tr>
+    <td>Formulation</td>
+    <td>{{ object.formulation }}</td>
+  </tr>
+  {% endif %}
+  {% if object.stock_dilution is not None %}
+  <tr>
+    <td>Stock dilution</td>
+    <td>{{ object.stock_dilution }}</td>
+  </tr>
+  {% endif %}
+  <tr>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
+  </tr>
+  {% if object.tags.all %}
+  <tr>
+    <td>Tags</td>
+    <td>{% for tag in object.tags.all %}
+      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag.slug %}" role="button">{{ tag.slug }}</a>
+      {% endfor %}</td>
+  </tr>
+  {% endif %}
+  {% if related %}
+  <tr>
+    <td>Similar toners</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'toner-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+
+</table>

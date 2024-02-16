@@ -1,0 +1,39 @@
+{% load static %}
+{% load boolicontag %}
+
+<table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
+  {% if object.camera_mount is not None %}
+  <tr>
+    <td>Camera mount</td>
+    <td><a href="{% url 'mount-detail' object.camera_mount.slug %}">{{ object.camera_mount }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.lens_mount is not None %}
+  <tr>
+    <td>Lens mount</td>
+    <td><a href="{% url 'mount-detail' object.lens_mount.slug %}">{{ object.lens_mount }}</a></td>
+  </tr>
+  {% endif %}
+  {% if object.has_optics is not None %}
+  <tr>
+    <td>Has optics</td>
+    <td>{{ object.has_optics|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.infinity_focus is not None %}
+  <tr>
+    <td>Infinity focus</td>
+    <td>{{ object.infinity_focus|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.notes is not None %}
+  <tr>
+    <td>Notes</td>
+    <td>{{ object.notes|linebreaks }}</td>
+  </tr>
+  {% endif %}
+</table>

@@ -1,0 +1,62 @@
+{% load static %}
+{% load boolicontag %}
+
+<table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
+  <tr>
+    <td>Name</td>
+    <td>{{ object.name }}</td>
+  </tr>
+  {% if object.manufacturer is not None %}
+  <tr>
+    <td>Manufacturer</td>
+    <td>{% include "manufacturer.html" with manufacturer=object.manufacturer %}</td>
+  </tr>
+  {% endif %}
+  {% if object.resin_coated is not None %}
+  <tr>
+    <td>Resin coated</td>
+    <td>{{ object.resin_coated|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.colour is not None %}
+  <tr>
+    <td>Colour</td>
+    <td>{{ object.colour|boolicontag }}</td>
+  </tr>
+  {% endif %}
+  {% if object.finish is not None %}
+  <tr>
+    <td>Finish</td>
+    <td>{{ object.finish }}</td>
+  </tr>
+  {% endif %}
+  <tr>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
+  </tr>
+  {% if object.tags.all %}
+  <tr>
+    <td>Tags</td>
+    <td>{% for tag in object.tags.all %}
+      <a class="btn btn-outline-primary" href="{% url 'tag-detail' tag.slug %}" role="button">{{ tag.slug }}</a>
+      {% endfor %}</td>
+  </tr>
+  {% endif %}
+  {% if related %}
+  <tr>
+    <td>Similar paper stocks</td>
+    <td>
+      <ul class="list-inline">
+        {% for relateditem in related %}
+        <li class="list-inline-item"><a href="{% url 'paperstock-detail' relateditem.slug %}">{{ relateditem }}</a></li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+
+</table>

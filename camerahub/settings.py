@@ -48,15 +48,12 @@ INSTALLED_APPS = [
     'api',
     'ui',
     'djmoney',
-    'crispy_forms',
     'fullurl',
     'django_filters',
     'watson',
     'taggit',
     'django_social_share',
     'django_countries',
-    'dal',
-    'dal_select2',
     'bootstrap_datepicker_plus',
     'geoposition',
     'leaflet',
@@ -187,8 +184,6 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = 'schema:index'
 LOGOUT_REDIRECT_URL = 'schema:index'
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Email support
 DEFAULT_FROM_EMAIL = os.getenv('CAMERAHUB_FROM_EMAIL', "noreply@camerahub.info")

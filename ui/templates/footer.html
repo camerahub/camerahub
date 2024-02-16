@@ -1,0 +1,17 @@
+{% load static %}
+
+<p align="center">
+        <a href="https://www.facebook.com/camerahubapp" target="_blank"><img src="{% static "svg/facebook.svg" %}"
+                        width="30" height="30" alt="Facebook" title="Facebook"></a>
+        <a href="https://github.com/camerahub/camerahub" target="_blank"><img src="{% static "svg/github.svg" %}"
+                        width="30" height="30" alt="Github" title="Github"></a>
+        <a href="mailto:support@camerahub.info"><img src="{% static "svg/mail.svg" %}" width="30" height="30"
+                        alt="Mail" title="Mail"></a>
+        <a href="https://icons8.com/icons" target="_blank"><img src="{% static "svg/icons8.svg" %}" width="30"
+                        height="30" alt="Icons8" title="Icons8"></a>
+        {% if settings.STATUS_URL %}<a href="{{ settings.STATUS_URL }}" target="_blank"><img src="{% static "svg/status.svg" %}" width="30"
+                        height="30" alt="Icons8" title="Icons8"></a>{% endif %}
+        <br>
+        <small>CameraHub <a href="https://github.com/camerahub/camerahub/releases/tag/" target="_blank"
+                        title="Release notes">v</a></small>
+</p>

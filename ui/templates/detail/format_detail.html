@@ -1,0 +1,30 @@
+{% load static %}
+
+<table class="table table-hover">
+  <tr>
+    <th colspan="2" id="summary"><img src="{% static "svg/summary.svg" %}" width="30" height="30" alt="Summary">&nbsp;<a
+        href="#">Summary</a></th>
+  </tr>
+  <tr>
+    <td>Film format</td>
+    <td>{{ object.format }}</td>
+  </tr>
+  {% if object.negative_size is not None %}
+  <tr>
+    <td>Negative size</td>
+    <td>
+      <ul class="list-inline">{% for negative_size in object.negative_size.all %}
+        <li class="list-inline-item"><a href="{% url 'negativesize-detail' negative_size.id %}">{{ negative_size }}</a>
+        </li>
+        {% endfor %}</ul>
+    </td>
+  </tr>
+  {% endif %}
+  <tr>
+    <th colspan="2" id="meta"><img src="{% static "svg/tag.svg" %}" width="30" height="30" alt="Meta">&nbsp;<a
+        href="#meta">Meta</a></th>
+  </tr>
+</table>
+
+<li><a class="btn btn-primary" href="{% url 'cameramodel-list' %}?format={{ object.id }}" role="button">View camera
+    models with this format</a></li>

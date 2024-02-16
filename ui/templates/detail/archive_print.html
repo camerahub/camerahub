@@ -1,0 +1,29 @@
+{% extends "print.html" %}
+
+{% if archive.film_set.all %}
+<h4>Films</h4>
+<table border="1">
+  <tr>
+    <th>Title</th>
+  </tr>
+  {% for film in archive.film_set.all %}
+  <tr>
+    <td>{{ film|default_if_none:"" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% if archive.print_set.all %}
+<h4>Prints</h4>
+<table border="1">
+  <tr>
+    <th>Title</th>
+  </tr>
+  {% for print in archive.print_set.all %}
+  <tr>
+    <td>{{ print|default_if_none:"" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
