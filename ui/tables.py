@@ -2,6 +2,7 @@
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from iommi import Table, Action, Column
+from django.template import Template
 #from django.utils.html import format_html
 #from schema.funcs import colouricon
 
@@ -46,13 +47,12 @@ class BatteryTable(Table):
         auto__include= ('name', 'voltage', 'chemistry')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('battery-create'))
+        columns__voltage=Column(
+            cell__template=Template('<td>{{ row.voltage }}V</td>'),
+        )
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:battery-detail', args=[record.slug]), value)
-
-    #@classmethod
-    #def render_voltage(cls, value):
-    #    return format_html("{}V", value)
 
 class BulkFilmTable(LoginRequiredMixin, Table):
     class Meta:
@@ -233,6 +233,9 @@ class LensTable(LoginRequiredMixin, Table):
         auto__include= ('id_owner', 'lensmodel', 'lensmodel__mount', 'serial', 'manufactured', 'own')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('lens-create'))
+        columns__serial=Column(
+            cell__template=Template('<td><code>{{ row.serial }}</code></td>'),
+        )
     #@classmethod
     #def render_id_owner(cls, value):
     #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:lens-detail', args=[value]), value)
@@ -245,16 +248,15 @@ class LensTable(LoginRequiredMixin, Table):
     #def render_lensmodel__mount(cls, value):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
-    #@classmethod
-    #def render_serial(cls, value):
-    #    return format_html("<code>{}</code>", value)
-
 class LensModelTable(Table):
     class Meta:
         auto__model = LensModel
         auto__include= ('model', 'mount', 'zoom', 'focal_length', 'max_aperture', 'autofocus', 'introduced')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('lensmodel-create'))
+        columns__max_aperture=Column(
+            cell__template=Template('<td><em>f/</em>{{ row.max_aperture }}</td>'),
+        )
     #@classmethod
     #def render_model(cls, value, record):
     #    if record.disambiguation:
@@ -279,10 +281,6 @@ class LensModelTable(Table):
     #def render_mount(cls, value):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
 
-    #@classmethod
-    #def render_max_aperture(cls, value):
-    #    return format_html("<em>f</em>/{}", value)
-
 
 class ManufacturerTable(Table):
     select = Column.select()  # Shortcut for creating checkboxes to select rows
@@ -291,13 +289,12 @@ class ManufacturerTable(Table):
         auto__model=Manufacturer
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('manufacturer-create'))
+        columns__country=Column(
+            cell__template=Template('<td>{{ row.country.name }} <img src="{{ row.country.flag }}"></td>'),
+        )
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:manufacturer-detail', args=[record.slug]), value)
-
-    #@classmethod
-    #def render_country(cls, record):
-    #    return format_html("{} <img src=\"{}\">", record.country.name, record.country.flag)
 
 
 class MountTable(Table):
@@ -332,24 +329,22 @@ class MountAdapterTable(LoginRequiredMixin, Table):
 class NegativeSizeTable(Table):
     class Meta:
         auto__model = NegativeSize
-        auto__include= ('name', 'size', 'crop_factor', 'area', 'aspect_ratio')
+        auto__include= ('name', 'crop_factor', 'area', 'aspect_ratio')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('negativesize-create'))
+        columns__crop_factor=Column(
+            cell__template=Template('<td>{{ row.crop_factor }}&times;</td>'),
+        )
+        columns__aspect_ratio=Column(
+            cell__template=Template('<td>{{ row.aspect_ratio }}&times;</td>'),
+        )
+        columns__area=Column(
+            cell__template=Template('<td>{{ row.area }}mm&sup2;</td>'),
+        )
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:negativesize-detail', args=[record.id]), value)
 
-    #@classmethod
-    #def render_crop_factor(cls, value):
-    #    return format_html("{}&times;", value)
-
-    #@classmethod
-    #def render_area(cls, value):
-    #    return format_html("{}mm&sup2;", value)
-
-    #@classmethod
-    #def render_aspect_ratio(cls, value):
-    #    return format_html("{}&times;", value)
 
 class PaperStockTable(Table):
     class Meta:
@@ -438,13 +433,12 @@ class NegativeTable(LoginRequiredMixin, Table):
         auto__include= ('slug', 'film', 'date', 'film__camera', 'lens', 'shutter_speed', 'aperture')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('negative-create'))
+        columns__aperture=Column(
+            cell__template=Template('<td><em>f</em>{{ row.aperture }}</td>'),
+        )
     #@classmethod
     #def render_slug(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value]), record)
-
-    #@classmethod
-    #def render_aperture(cls, value):
-    #    return format_html("<em>f</em>/{}", value)
 
     #@classmethod
     #def render_film(cls, value):
@@ -507,6 +501,9 @@ class TeleconverterModelTable(Table):
         auto__include= ('model', 'mount', 'factor')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('teleconvertermodel-create'))
+        columns__factor=Column(
+            cell__template=Template('<td>{{ row.factor }}&times;</td>'),
+        )
     #@classmethod
     #def render_model(cls, value, record):
     #    if record.manufacturer is not None:
@@ -516,10 +513,6 @@ class TeleconverterModelTable(Table):
     #        mystr = format_html(
     #            "<a href=\"{}\">{}</a>", reverse('schema:teleconvertermodel-detail', args=[record.slug]), value)
     #    return mystr
-
-    #@classmethod
-    #def render_factor(cls, value):
-    #    return format_html("{}&times;", value)
 
     #@classmethod
     #def render_mount(cls, value):
