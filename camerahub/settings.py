@@ -182,8 +182,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'media'
 ]
 
-LOGIN_REDIRECT_URL = 'schema:index'
-LOGOUT_REDIRECT_URL = 'schema:index'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
 
 # Email support
 DEFAULT_FROM_EMAIL = os.getenv('CAMERAHUB_FROM_EMAIL', "noreply@camerahub.info")

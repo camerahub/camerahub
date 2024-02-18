@@ -21,10 +21,10 @@ class AccessoryTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('accessory-create'))
     #@classmethod
     #def render_id_owner(cls, value):
-    #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:accessory-detail', args=[value]), value)
+    #    return format_html("<a href=\"{}\">#{}</a>", reverse('accessory-detail', args=[value]), value)
     #@classmethod
     #def render_model(cls, value, record):
-    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:accessory-detail', args=[record.id_owner]), record.manufacturer, value)
+    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('accessory-detail', args=[record.id_owner]), record.manufacturer, value)
 
 
 class ArchiveTable(LoginRequiredMixin, Table):
@@ -35,11 +35,11 @@ class ArchiveTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('archive-create'))
     #@classmethod
     #def render_id_owner(cls, value):
-    #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:archive-detail', args=[value]), value)
+    #    return format_html("<a href=\"{}\">#{}</a>", reverse('archive-detail', args=[value]), value)
 
     #@classmethod
     #def render_name(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:archive-detail', args=[record.id_owner]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('archive-detail', args=[record.id_owner]), value)
 
 class BatteryTable(Table):
     class Meta:
@@ -52,7 +52,7 @@ class BatteryTable(Table):
         )
     #@classmethod
     #def render_name(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:battery-detail', args=[record.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('battery-detail', args=[record.slug]), value)
 
 class BulkFilmTable(LoginRequiredMixin, Table):
     class Meta:
@@ -62,15 +62,15 @@ class BulkFilmTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('bulkfilm-create'))
     #@classmethod
     #def render_id_owner(cls, value):
-    #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:bulkfilm-detail', args=[value]), value)
+    #    return format_html("<a href=\"{}\">#{}</a>", reverse('bulkfilm-detail', args=[value]), value)
 
     #@classmethod
     #def render_format(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:format-detail', args=[value.id]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('format-detail', args=[value.id]), value)
 
     #@classmethod
     #def render_filmstock(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:filmstock-detail', args=[value.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('filmstock-detail', args=[value.slug]), value)
 
     #@classmethod
     #def render_length(cls, value):
@@ -84,11 +84,11 @@ class CameraTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('camera-create'))
     #@classmethod
     #def render_id_owner(cls, value):
-    #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:camera-detail', args=[value]), value)
+    #    return format_html("<a href=\"{}\">#{}</a>", reverse('camera-detail', args=[value]), value)
 
     #@classmethod
     #def render_cameramodel(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:cameramodel-detail', args=[record.cameramodel.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('cameramodel-detail', args=[record.cameramodel.slug]), value)
 
     #@classmethod
     #def render_serial(cls, value):
@@ -103,7 +103,7 @@ class CameraModelTable(Table):
     #@classmethod
     #def render_model(cls, value, record):
     #    if record.disambiguation:
-    #        mystr = format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('schema:cameramodel-detail', args=[
+    #        mystr = format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('cameramodel-detail', args=[
     #            record.slug]), record.manufacturer, value, record.disambiguation)
     #    else:
     #        mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
@@ -122,15 +122,15 @@ class CameraModelTable(Table):
 
     #@classmethod
     #def render_mount(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
 
     #@classmethod
     #def render_format(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:format-detail', args=[value.id]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('format-detail', args=[value.id]), value)
 
     #@classmethod
     #def render_negative_size(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:negativesize-detail', args=[value.id]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('negativesize-detail', args=[value.id]), value)
 
 class DeveloperTable(Table):
     class Meta:
@@ -140,7 +140,7 @@ class DeveloperTable(Table):
         actions__add=Action(attrs__href=reverse_lazy('developer-create'))
     #@classmethod
     #def render_name(cls, value, record):
-    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:developer-detail', args=[record.slug]), record.manufacturer, value)
+    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('developer-detail', args=[record.slug]), record.manufacturer, value)
 
 class EnlargerModelTable(Table):
     class Meta:
@@ -150,7 +150,7 @@ class EnlargerModelTable(Table):
         actions__add=Action(attrs__href=reverse_lazy('enlargermodel-create'))
     #@classmethod
     #def render_model(cls, value, record):
-    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:enlargermodel-detail', args=[record.slug]), record.manufacturer, value)
+    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('enlargermodel-detail', args=[record.slug]), record.manufacturer, value)
 
 
 class EnlargerTable(LoginRequiredMixin, Table):
@@ -161,11 +161,11 @@ class EnlargerTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('enlarger-create'))
 #    @classmethod
 #    def render_id_owner(cls, value):
-#        return format_html("<a href=\"{}\">#{}</a>", reverse('schema:enlarger-detail', args=[value]), value)
+#        return format_html("<a href=\"{}\">#{}</a>", reverse('enlarger-detail', args=[value]), value)
 
 #    @classmethod
 #    def render_enlargermodel(cls, value, record):
-#        return format_html("<a href=\"{}\">{}</a>", reverse('schema:enlargermodel-detail', args=[record.enlargermodel.slug]), value)
+#        return format_html("<a href=\"{}\">{}</a>", reverse('enlargermodel-detail', args=[record.enlargermodel.slug]), value)
 
 
 class FilmStockTable(Table):
@@ -176,7 +176,7 @@ class FilmStockTable(Table):
         actions__add=Action(attrs__href=reverse_lazy('filmstock-create'))
     #@classmethod
     #def render_name(cls, value, record):
-    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:filmstock-detail', args=[record.slug]), record.manufacturer, value)
+    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('filmstock-detail', args=[record.slug]), record.manufacturer, value)
 
     #@classmethod
     #def render_colour(cls, value):
@@ -190,7 +190,7 @@ class FilterTable(Table):
         actions__add=Action(attrs__href=reverse_lazy('filter-create'))
 #    @classmethod
 #    def render_type(cls, value, record):
-#        return format_html("<a href=\"{}\">{}</a>", reverse('schema:filter-detail', args=[record.id]), value)
+#        return format_html("<a href=\"{}\">{}</a>", reverse('filter-detail', args=[record.id]), value)
 
 
 class FlashModelTable(Table):
@@ -201,7 +201,7 @@ class FlashModelTable(Table):
         actions__add=Action(attrs__href=reverse_lazy('flashmodel-create'))
     #@classmethod
     #def render_model(cls, value, record):
-    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:flashmodel-detail', args=[record.slug]), record.manufacturer, value)
+    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('flashmodel-detail', args=[record.slug]), record.manufacturer, value)
 
 class FlashTable(LoginRequiredMixin, Table):
     class Meta:
@@ -211,11 +211,11 @@ class FlashTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('flash-create'))
     #@classmethod
     #def render_id_owner(cls, value):
-    #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:flash-detail', args=[value]), value)
+    #    return format_html("<a href=\"{}\">#{}</a>", reverse('flash-detail', args=[value]), value)
 
     #@classmethod
     #def render_flashmodel(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:flashmodel-detail', args=[record.flashmodel.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('flashmodel-detail', args=[record.flashmodel.slug]), value)
 
 class FormatTable(Table):
     class Meta:
@@ -225,7 +225,7 @@ class FormatTable(Table):
         actions__add=Action(attrs__href=reverse_lazy('format-create'))
     #@classmethod
     #def render_format(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:format-detail', args=[record.id]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('format-detail', args=[record.id]), value)
 
 class LensTable(LoginRequiredMixin, Table):
     class Meta:
@@ -238,15 +238,15 @@ class LensTable(LoginRequiredMixin, Table):
         )
     #@classmethod
     #def render_id_owner(cls, value):
-    #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:lens-detail', args=[value]), value)
+    #    return format_html("<a href=\"{}\">#{}</a>", reverse('lens-detail', args=[value]), value)
 
     #@classmethod
     #def render_lensmodel(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:lensmodel-detail', args=[value.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('lensmodel-detail', args=[value.slug]), value)
 
     #@classmethod
     #def render_lensmodel__mount(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
 
 class LensModelTable(Table):
     class Meta:
@@ -260,7 +260,7 @@ class LensModelTable(Table):
     #@classmethod
     #def render_model(cls, value, record):
     #    if record.disambiguation:
-    #        mystr = format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('schema:lensmodel-detail', args=[
+    #        mystr = format_html("<a href=\"{}\">{} {} [{}]</a>", reverse('lensmodel-detail', args=[
     #            record.slug]), record.manufacturer, value, record.disambiguation)
     #    else:
     #        mystr = format_html("<a href=\"{}\">{} {}</a>", reverse(
@@ -279,7 +279,7 @@ class LensModelTable(Table):
 
     #@classmethod
     #def render_mount(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
 
 
 class ManufacturerTable(Table):
@@ -294,7 +294,7 @@ class ManufacturerTable(Table):
         )
     #@classmethod
     #def render_name(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:manufacturer-detail', args=[record.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('manufacturer-detail', args=[record.slug]), value)
 
 
 class MountTable(Table):
@@ -305,7 +305,7 @@ class MountTable(Table):
         actions__add=Action(attrs__href=reverse_lazy('mount-create'))
     #@classmethod
     #def render_mount(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[record.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[record.slug]), value)
 
 class MountAdapterTable(LoginRequiredMixin, Table):
     class Meta:
@@ -315,15 +315,15 @@ class MountAdapterTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('mountadapter-create'))
     #@classmethod
     #def render_id_owner(cls, value):
-    #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:mountadapter-detail', args=[value]), value)
+    #    return format_html("<a href=\"{}\">#{}</a>", reverse('mountadapter-detail', args=[value]), value)
 
     #@classmethod
     #def render_camera_mount(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
 
     #@classmethod
     #def render_lens_mount(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
 
 
 class NegativeSizeTable(Table):
@@ -343,7 +343,7 @@ class NegativeSizeTable(Table):
         )
     #@classmethod
     #def render_name(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:negativesize-detail', args=[record.id]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('negativesize-detail', args=[record.id]), value)
 
 
 class PaperStockTable(Table):
@@ -354,7 +354,7 @@ class PaperStockTable(Table):
         actions__add=Action(attrs__href=reverse_lazy('paperstock-create'))
     #@classmethod
     #def render_name(cls, value, record):
-    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:paperstock-detail', args=[record.id]), record.manufacturer, value)
+    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('paperstock-detail', args=[record.id]), record.manufacturer, value)
 
 class PersonTable(LoginRequiredMixin, Table):
     class Meta:
@@ -364,11 +364,11 @@ class PersonTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('person-create'))
     #@classmethod
     #def render_id_owner(cls, value):
-    #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:person-detail', args=[value]), value)
+    #    return format_html("<a href=\"{}\">#{}</a>", reverse('person-detail', args=[value]), value)
 
     #@classmethod
     #def render_name(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:person-detail', args=[record.id_owner]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('person-detail', args=[record.id_owner]), value)
 
     #def get_queryset(self):
     #    if self.request.user.is_authenticated:
@@ -385,15 +385,15 @@ class PrintTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('print-create'))
     #@classmethod
     #def render_id_owner(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:print-detail', args=[value]), record)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('print-detail', args=[value]), record)
 
     #@classmethod
     #def render_negative(cls, value):
-    #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:negative-detail', args=[value.slug]), value.slug)
+    #    return format_html("<a href=\"{}\">#{}</a>", reverse('negative-detail', args=[value.slug]), value.slug)
 
     #@classmethod
     #def render_archive(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:archive-detail', args=[value.id_owner]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('archive-detail', args=[value.id_owner]), value)
 
 class ProcessTable(Table):
     class Meta:
@@ -403,7 +403,7 @@ class ProcessTable(Table):
         actions__add=Action(attrs__href=reverse_lazy('process-create'))
     #@classmethod
     #def render_name(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:process-detail', args=[record.id]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('process-detail', args=[record.id]), value)
 
 class ScanTable(LoginRequiredMixin, Table):
     class Meta:
@@ -413,15 +413,15 @@ class ScanTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('scan-create'))
     #@classmethod
     #def render_uuid(cls, value):
-    #    return format_html("<code><a href=\"{}\">{}</a></code>", reverse('schema:scan-detail', args=[value]), value)
+    #    return format_html("<code><a href=\"{}\">{}</a></code>", reverse('scan-detail', args=[value]), value)
 
     #@classmethod
     #def render_negative(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('negative-detail', args=[value.slug]), value)
 
     #@classmethod
     #def render_print(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:print-detail', args=[value.id_owner]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('print-detail', args=[value.id_owner]), value)
 
     #@classmethod
     #def render_filename(cls, value):
@@ -438,19 +438,19 @@ class NegativeTable(LoginRequiredMixin, Table):
         )
     #@classmethod
     #def render_slug(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:negative-detail', args=[value]), record)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('negative-detail', args=[value]), record)
 
     #@classmethod
     #def render_film(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:film-detail', args=[value.id_owner]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('film-detail', args=[value.id_owner]), value)
 
     #@classmethod
     #def render_film__camera(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:camera-detail', args=[value.id_owner]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('camera-detail', args=[value.id_owner]), value)
 
     #@classmethod
     #def render_lens(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:lens-detail', args=[value.id_owner]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('lens-detail', args=[value.id_owner]), value)
 
 class FilmTable(LoginRequiredMixin, Table):
     class Meta:
@@ -460,19 +460,19 @@ class FilmTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('film-create'))
     #@classmethod
     #def render_id_owner(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:film-detail', args=[value]), record)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('film-detail', args=[value]), record)
 
     #@classmethod
     #def render_filmstock(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:filmstock-detail', args=[value.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('filmstock-detail', args=[value.slug]), value)
 
     #@classmethod
     #def render_format(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:format-detail', args=[value.id]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('format-detail', args=[value.id]), value)
 
     #@classmethod
     #def render_camera(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:camera-detail', args=[value.id_owner]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('camera-detail', args=[value.id_owner]), value)
 
 class TagTable(Table):
     class Meta:
@@ -489,11 +489,11 @@ class TeleconverterTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('teleconverter-create'))
     #@classmethod
     #def render_id_owner(cls, value):
-    #    return format_html("<a href=\"{}\">#{}</a>", reverse('schema:teleconverter-detail', args=[value]), value)
+    #    return format_html("<a href=\"{}\">#{}</a>", reverse('teleconverter-detail', args=[value]), value)
 
     #@classmethod
     #def render_teleconvertermodel(cls, value, record):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:teleconvertermodel-detail', args=[record.teleconvertermodel.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('teleconvertermodel-detail', args=[record.teleconvertermodel.slug]), value)
 
 class TeleconverterModelTable(Table):
     class Meta:
@@ -511,12 +511,12 @@ class TeleconverterModelTable(Table):
     #            'schema:teleconvertermodel-detail', args=[record.slug]), record.manufacturer, value)
     #    else:
     #        mystr = format_html(
-    #            "<a href=\"{}\">{}</a>", reverse('schema:teleconvertermodel-detail', args=[record.slug]), value)
+    #            "<a href=\"{}\">{}</a>", reverse('teleconvertermodel-detail', args=[record.slug]), value)
     #    return mystr
 
     #@classmethod
     #def render_mount(cls, value):
-    #    return format_html("<a href=\"{}\">{}</a>", reverse('schema:mount-detail', args=[value.slug]), value)
+    #    return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
 
 class TonerTable(Table):
     class Meta:        
@@ -526,4 +526,4 @@ class TonerTable(Table):
         actions__add=Action(attrs__href=reverse_lazy('toner-create'))
     #@classmethod
     #def render_name(cls, value, record):
-    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('schema:toner-detail', args=[record.slug]), record.manufacturer, value)
+    #    return format_html("<a href=\"{}\">{} {}</a>", reverse('toner-detail', args=[record.slug]), record.manufacturer, value)

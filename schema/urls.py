@@ -4,7 +4,6 @@ from django.conf.urls.static import static
 
 from schema import views
 
-app_name = 'schema'
 urlpatterns = [
 
     # Static pages
@@ -29,8 +28,7 @@ urlpatterns = [
          views.BulkFilmDetail.as_view(), name='bulkfilm-detail'),
 
     path('camera/<int:id_owner>', views.CameraDetail.as_view(), name='camera-detail'),
-    path('camera/<int:id_owner>/sell',
-         views.CameraSell.as_view(), name='camera-sell'),
+    #path('camera/<int:id_owner>/sell', views.CameraSell.as_view(), name='camera-sell'),
 
     path('cameramodel/<slug:slug>', views.CameraModelDetail.as_view(),
          name='cameramodel-detail'),
@@ -57,7 +55,7 @@ urlpatterns = [
     path('format/<int:pk>', views.FormatDetail.as_view(), name='format-detail'),
 
     path('lens/<int:id_owner>', views.LensDetail.as_view(), name='lens-detail'),
-    path('lens/<int:id_owner>/sell', views.LensSell.as_view(), name='lens-sell'),
+    #path('lens/<int:id_owner>/sell', views.LensSell.as_view(), name='lens-sell'),
 
     path('lensmodel/<slug:slug>', views.LensModelDetail.as_view(),
          name='lensmodel-detail'),
@@ -81,10 +79,8 @@ urlpatterns = [
     path('print/<int:id_owner>', views.PrintDetail.as_view(), name='print-detail'),
     path('print/<int:id_owner>/print',
          views.PrintPrint.as_view(), name='print-print'),
-    path('print/<int:id_owner>/archive',
-         views.PrintArchive.as_view(), name='print-archive'),
-    path('print/<int:id_owner>/sell',
-         views.PrintSell.as_view(), name='print-sell'),
+    #path('print/<int:id_owner>/archive', views.PrintArchive.as_view(), name='print-archive'),
+    #path('print/<int:id_owner>/sell', views.PrintSell.as_view(), name='print-sell'),
 
     path('process/<int:pk>', views.ProcessDetail.as_view(), name='process-detail'),
 
@@ -96,11 +92,9 @@ urlpatterns = [
     path('film/<int:id_owner>', views.FilmDetail.as_view(), name='film-detail'),
     path('film/<int:id_owner>/print',
          views.FilmPrint.as_view(), name='film-print'),
-    path('film/<int:id_owner>/load', views.FilmLoad.as_view(), name='film-load'),
-    path('film/<int:id_owner>/develop',
-         views.FilmDevelop.as_view(), name='film-develop'),
-    path('film/<int:id_owner>/archive',
-         views.FilmArchive.as_view(), name='film-archive'),
+    #path('film/<int:id_owner>/load', views.FilmLoad.as_view(), name='film-load'),
+    #path('film/<int:id_owner>/develop', views.FilmDevelop.as_view(), name='film-develop'),
+    #path('film/<int:id_owner>/archive', views.FilmArchive.as_view(), name='film-archive'),
 
     path('teleconverter/<int:id_owner>',
          views.TeleconverterDetail.as_view(), name='teleconverter-detail'),

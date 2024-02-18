@@ -18,11 +18,6 @@ from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufactur
 from schema.models import Mount, MountAdapter, NegativeSize, PaperStock, Person, Print
 from schema.models import Process, Scan, Negative, Film, Teleconverter, TeleconverterModel, Toner
 
-from schema.filters import AccessoryFilter, BatteryFilter, BulkFilmFilter, CameraFilter, CameraModelFilter, DeveloperFilter
-from schema.filters import EnlargerFilter, EnlargerModelFilter, FilmFilter, FilmStockFilter, FlashFilter, FlashModelFilter, LensFilter, LensModelFilter
-from schema.filters import MountAdapterFilter, MountFilter, NegativeFilter, PaperStockFilter, PrintFilter
-from schema.filters import TeleconverterFilter, TeleconverterModelFilter, TonerFilter
-
 from .funcs import to_dict
 
 class AccessoryDetail(LoginRequiredMixin, generic.DetailView):
@@ -371,25 +366,25 @@ class StatsView(TemplateView):
         stats = [
             {
                 'image': "svg/camera.svg",
-                'url': reverse('schema:cameramodel-list'),
+                'url': reverse('cameramodel-list'),
                 'item': "camera models in CameraHub",
                 'value': CameraModel.objects.count,
             },
             {
                 'image': "svg/lens.svg",
-                'url': reverse('schema:lensmodel-list'),
+                'url': reverse('lensmodel-list'),
                 'item': "lens models in CameraHub",
                 'value': LensModel.objects.count,
             },
             {
                 'image': "svg/film.svg",
-                'url': reverse('schema:filmstock-list'),
+                'url': reverse('filmstock-list'),
                 'item': "film stocks in CameraHub",
                 'value': FilmStock.objects.count
             },
             {
                 'image': "svg/manufacturer.svg",
-                'url': reverse('schema:manufacturer-list'),
+                'url': reverse('manufacturer-list'),
                 'item': "manufacturers in CameraHub",
                 'value': Manufacturer.objects.count
             },
@@ -455,7 +450,7 @@ class StatsView(TemplateView):
         stats.append(
             {
                 'image': "svg/weight.svg",
-                'url': reverse('schema:cameramodel-list'),
+                'url': reverse('cameramodel-list'),
                 'item': "total weight of all cameras in CameraHub",
                 'value': str(round((CameraModel.objects.all().aggregate(totalweight=Sum('weight'))['totalweight'] or 0.00)/1000)) + 'kg',
             }
@@ -464,7 +459,7 @@ class StatsView(TemplateView):
         stats.append(
             {
                 'image': "svg/ruler.svg",
-                'url': reverse('schema:lensmodel-list'),
+                'url': reverse('lensmodel-list'),
                 'item': "total length of all lenses in CameraHub, laid end to end",
                 'value': str(round((LensModel.objects.all().aggregate(totallength=Sum('length'))['totallength'] or 0.00)/1000)) + 'm',
             }
@@ -473,7 +468,7 @@ class StatsView(TemplateView):
         stats.append(
             {
                 'image': "svg/camera.svg",
-                'url': reverse('schema:camera-list'),
+                'url': reverse('camera-list'),
                 'item': "cameras in user collections on CameraHub",
                 'value': Camera.objects.count,
             }
@@ -482,7 +477,7 @@ class StatsView(TemplateView):
         stats.append(
             {
                 'image': "svg/film.svg",
-                'url': reverse('schema:camera-list'),
+                'url': reverse('camera-list'),
                 'item': "total length of exposed film in CameraHub",
                 'value': str(round((Negative.objects.all().aggregate(totallength=Sum('film__camera__cameramodel__negative_size__width'))['totallength'] or 0.00)/1000 )) + 'm',
             }
@@ -501,73 +496,73 @@ class MyStatsView(LoginRequiredMixin, TemplateView):
         stats = [
             {
                 'image': "svg/camera.svg",
-                'url': reverse('schema:camera-list'),
+                'url': reverse('camera-list'),
                 'item': "cameras in your collection right now",
                 'value': Camera.objects.filter(owner=self.request.user, own=True).count,
             },
             {
                 'image': "svg/camera.svg",
-                'url': reverse('schema:camera-list'),
+                'url': reverse('camera-list'),
                 'item': "cameras ever in your collection",
                 'value': Camera.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/lens.svg",
-                'url': reverse('schema:lens-list'),
+                'url': reverse('lens-list'),
                 'item': "lenses in your collection right now",
                 'value': Lens.objects.filter(owner=self.request.user, own=True).count,
             },
             {
                 'image': "svg/lens.svg",
-                'url': reverse('schema:lens-list'),
+                'url': reverse('lens-list'),
                 'item': "lenses ever in your collection",
                 'value': Lens.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/film.svg",
-                'url': reverse('schema:film-list'),
+                'url': reverse('film-list'),
                 'item': "films in your collection",
                 'value': Film.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/negative.svg",
-                'url': reverse('schema:negative-list'),
+                'url': reverse('negative-list'),
                 'item': "negatives in your collection",
                 'value': Negative.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/print.svg",
-                'url': reverse('schema:print-list'),
+                'url': reverse('print-list'),
                 'item': "prints in your collection",
                 'value': Print.objects.filter(owner=self.request.user).count,
             },
             {
                 'image': "svg/film.svg",
-                'url': reverse('schema:camera-list'),
+                'url': reverse('camera-list'),
                 'item': "total length of exposed film in your collection",
                 'value': str(round((Negative.objects.filter(owner=self.request.user).aggregate(totallength=Sum('film__camera__cameramodel__negative_size__width'))['totallength'] or 0.00)/1000 )) + 'm',
             },
             {
                 'image': "svg/percent.svg",
-                'url': reverse('schema:camera-list'),
+                'url': reverse('camera-list'),
                 'item': "percentage of camera models you've owned",
                 'value': str(round(100*(int(Camera.objects.filter(owner=self.request.user).values('cameramodel').distinct().count())/int(CameraModel.objects.count())))) + '%',
             },
             {
                 'image': "svg/percent.svg",
-                'url': reverse('schema:camera-list'),
+                'url': reverse('camera-list'),
                 'item': "percentage of lens models you've owned",
                 'value': str(round(100*(int(Lens.objects.filter(owner=self.request.user).values('lensmodel').distinct().count())/int(LensModel.objects.count())))) + '%',
             },
             {
                 'image': "svg/ownership.svg",
-                'url': reverse('schema:camera-list'),
+                'url': reverse('camera-list'),
                 'item': "net spent on cameras",
                 'value': str(round(((Camera.objects.filter(owner=self.request.user).aggregate(diff=(Sum('cost') - Sum('lost_price')))['diff'] or 0)), 2)),
             },
             {
                 'image': "svg/ownership.svg",
-                'url': reverse('schema:lens-list'),
+                'url': reverse('lens-list'),
                 'item': "net spent on lenses",
                 'value': str(round(((Lens.objects.filter(owner=self.request.user).aggregate(diff=(Sum('cost') - Sum('lost_price')))['diff'] or 0)), 2)),
             }
