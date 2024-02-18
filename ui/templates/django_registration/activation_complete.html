@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "iommi_base.html" %}
 {% load static %}
 
 {% block heading %}
@@ -8,7 +8,5 @@
 {% endblock %}
 
 {% block content %}
-
-<p>Account activation failed</p>
-
+<p>Your account is now activated. <a href="{% url 'login' %}">Log in</a> now.</p>
 {% endblock %}

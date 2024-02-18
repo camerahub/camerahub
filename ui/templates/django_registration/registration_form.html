@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% extends "iommi_base.html" %}
 {% load static %}
 
 {% block heading %}
@@ -12,7 +11,7 @@
 <p>Enter your details to create a free account for CameraHub</p>
 <form method="post">
   {% csrf_token %}
-  {{ form|crispy }}
+  {{ form }}
   <button type="submit">Register</button>
 </form>
 {% endblock %}

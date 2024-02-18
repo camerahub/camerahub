@@ -1,5 +1,4 @@
-{% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% extends 'iommi_base.html' %}
 {% load static %}
 
 {% block heading %}
@@ -11,7 +10,7 @@
 {% block content %}
 <form method="post">
   {% csrf_token %}
-  {{ form|crispy }}
+  {{ form }}
   <button type="submit">Login</button>
 </form>
 <p>No account? <a href="{% url 'django_registration_register' %}">Register</a> now</p>
