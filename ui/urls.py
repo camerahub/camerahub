@@ -115,7 +115,7 @@ urlpatterns = [
 
     path('format/', FormatTable().as_view(), name='format-list'),
     path('format/create', Form.create(auto__model=Format).as_view(), name='format-create'),
-    path('format/<pk>', format_view, name='flashmodel-detail'),
+    path('format/<pk>', format_view, name='format-detail'),
     path('format/<int:pk>/edit', format_edit, name='format-update'),
 
     path('lens/', LensTable().as_view(), name='lens-list'),
