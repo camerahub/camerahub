@@ -455,7 +455,9 @@ class NegativeTable(LoginRequiredMixin, Table):
 class FilmTable(LoginRequiredMixin, Table):
     class Meta:
         auto__model = Film
-        auto__include= ('id_owner', 'filmstock', 'format', 'status', 'negative_set__count', 'date_processed', 'camera')
+        auto__include= ('id_owner', 'filmstock', 'format', 'status', 
+                        #'negative_set__count',
+                        'date_processed', 'camera')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('film-create'))
     #@classmethod
