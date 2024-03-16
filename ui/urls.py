@@ -1,4 +1,4 @@
-from iommi import Form, Table
+from iommi import Form
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
@@ -17,10 +17,11 @@ from .tables import EnlargerTable, FilmStockTable, FilterTable, FlashTable, Flas
 from .tables import ManufacturerTable, MountTable, MountAdapterTable, NegativeSizeTable, PaperStockTable, PersonTable, PrintTable, ProcessTable
 from .tables import ScanTable, NegativeTable, FilmTable, TagTable, TeleconverterTable, TeleconverterModelTable, TonerTable
 
+from .pages import IndexPage, StatsPage, MyStatsPage, SearchPage
 from .pages import accessory_view, archive_view, battery_view, bulkfilm_view, camera_view, cameramodel_view, developer_view
 from .pages import enlargermodel_view, enlarger_view, film_view, filmstock_view, filter_view, flash_view, flashmodel_view, format_view
 from .pages import lens_view, lensmodel_view, manufacturer_view, mount_view, mountadapter_view, negative_view, negativesize_view, paperstock_view
-from .pages import person_view, print_view, process_view, scan_view, teleconverter_view, teleconvertermodel_view, toner_view, IndexPage
+from .pages import person_view, print_view, process_view, scan_view, teleconverter_view, teleconvertermodel_view, toner_view
 
 from .forms import battery_edit, cameramodel_edit, manufacturer_edit, manufacturer_create, mount_edit, paperstock_edit, accessory_edit, archive_edit, enlargermodel_edit, developer_edit, format_edit, flashmodel_edit, filmstock_edit, lensmodel_edit, process_edit, filter_edit, flash_edit, teleconverter_edit, teleconvertermodel_edit
 from .forms import enlarger_edit, bulkfilm_edit, camera_edit, lens_edit, mountadapter_edit, negativesize_edit, person_edit, scan_edit, negative_edit, film_edit, print_edit, toner_edit
@@ -39,9 +40,9 @@ register_path_decoding(
 urlpatterns = [
     # Static pages
     path('', IndexPage().as_view(), name='index'),
-    path('stats', IndexPage().as_view(), name='stats'),
-    path('mystats', IndexPage().as_view(), name='mystats'),
-    path('search/', IndexPage().as_view(), name='search'),
+    path('stats', StatsPage().as_view(), name='stats'),
+    path('mystats', MyStatsPage().as_view(), name='mystats'),
+    path('search', SearchPage().as_view(), name='search'),
 
     path('tag/', TagTable().as_view(), name='tag-list'),
 #    path('tag/<slug:slug>', views.TagDetail.as_view(), name='tag-detail'),

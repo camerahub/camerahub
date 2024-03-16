@@ -1,0 +1,66 @@
+{% load static %}
+
+{% block heading %}<h4>
+    <img src="{% static "svg/home.svg" %}" width="30" height="30" alt="Home">
+    Welcome</h4>{%endblock%}
+
+{% block content %}
+{% if "test" in request.get_host or "localhost" in request.get_host %}
+<div class="alert alert-warning" role="alert">CameraHub is running in development or testing mode</div>
+{% endif %}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-sm-9">
+            <h1 class="display-4">Welcome to CameraHub</h1>
+            <p class="lead">an app for cataloguing vintage cameras, lenses, films, negatives &amp; prints</p>
+        </div>
+        <div class="col-sm-3">
+            <img src="{% static "svg/camera.svg" %}" class="float-right img-fluid" style="max-width:128px"
+                alt="CameraHub">
+        </div>
+    </div>
+    <hr class="my-4">
+    {% if user.is_authenticated %}
+    <p>Welcome back, {{ user.username }}.
+        {% else %}
+    <p>CameraHub is a public database of cameras, lenses and accessories, available to everyone. Registered users can
+        add or edit data. They can also keep a private collection of their cameras and lenses. Check out the
+        Concepts page for more info.</p>
+    <p><a class="btn btn-primary btn-sm" href="{% url 'login' %}" role="button">Login</a> or <a
+            class="btn btn-primary btn-sm" href="{% url 'django_registration_register' %}" role="button">Register</a> to
+        start tracking private data about your own collection.
+        {% endif %}
+
+        Get started using the icons below, or use the menus above.</p>
+    <div class="card-deck">
+        <div class="card">
+            <a href="{% url 'cameramodel-list' %}"><img class="card-img-top p-5" src="{% static "svg/camera.svg" %}"
+                    alt="Camera models"></a>
+            <div class="card-body">
+                <a href="{% url 'cameramodel-list' %}">
+                    <h5 class="card-title">Camera models <span class="badge badge-pill badge-primary">{{ cameramodels }}</span></h5>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <a href="{% url 'lensmodel-list' %}"><img class="card-img-top p-5"
+                    src="{% static "svg/teleconverter.svg" %}" alt="Lens models"></a>
+            <div class="card-body">
+                <a href="{% url 'lensmodel-list' %}">
+                    <h5 class="card-title">Lens models <span class="badge badge-pill badge-primary">{{ lensmodels }}</span></h5>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <a href="{% url 'filmstock-list' %}"><img class="card-img-top p-5" src="{% static "svg/film.svg" %}"
+                    alt="Film stocks"></a>
+            <div class="card-body">
+                <a href="{% url 'filmstock-list' %}">
+                    <h5 class="card-title">Film stocks <span class="badge badge-pill badge-primary">{{ filmstocks }}</span></h5>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

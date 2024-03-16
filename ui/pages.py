@@ -1,12 +1,247 @@
 from django.shortcuts import get_object_or_404
 from django.template import Template, loader
+from django.urls import reverse_lazy
+from django.db.models import Sum
 from iommi import Page, html, Table
+from watson.views import SearchMixin
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, EnlargerModel, Enlarger
 from schema.models import FilmStock, Filter, Flash, FlashModel, Format, Lens, LensModel, Manufacturer, Mount, MountAdapter
 from schema.models import NegativeSize, PaperStock, Person, Print, Process, Scan, Negative, Film, Teleconverter, TeleconverterModel, Toner
 
+def get_stats_context():
+    stats = [
+        {
+            'image': "svg/camera.svg",
+            'url': reverse_lazy('cameramodel-list'),
+            'item': "camera models in CameraHub",
+            'value': CameraModel.objects.count(),
+        },
+        {
+            'image': "svg/lens.svg",
+            'url': reverse_lazy('lensmodel-list'),
+            'item': "lens models in CameraHub",
+            'value': LensModel.objects.count(),
+        },
+        {
+            'image': "svg/film.svg",
+            'url': reverse_lazy('filmstock-list'),
+            'item': "film stocks in CameraHub",
+            'value': FilmStock.objects.count(),
+        },
+        {
+            'image': "svg/manufacturer.svg",
+            'url': reverse_lazy('manufacturer-list'),
+            'item': "manufacturers in CameraHub",
+            'value': Manufacturer.objects.count(),
+        },
+        #{
+        #    'image': "svg/person.svg",
+        #    'item': "users on CameraHub",
+        #    'value': get_user_model().objects.count
+        #},
+        {
+            'image': "svg/weight.svg",
+            'url': reverse_lazy('cameramodel-list'),
+            'item': "total weight of all cameras in CameraHub",
+            'value': str(round((CameraModel.objects.all().aggregate(totalweight=Sum('weight'))['totalweight'] or 0.00)/1000)) + 'kg',
+        },
+        {
+            'image': "svg/ruler.svg",
+            'url': reverse_lazy('lensmodel-list'),
+            'item': "total length of all lenses in CameraHub, laid end to end",
+            'value': str(round((LensModel.objects.all().aggregate(totallength=Sum('length'))['totallength'] or 0.00)/1000)) + 'm',
+        },
+        {
+            'image': "svg/camera.svg",
+            'url': reverse_lazy('camera-list'),
+            'item': "cameras in user collections on CameraHub",
+            'value': Camera.objects.count,
+        },
+        {
+            'image': "svg/film.svg",
+            'url': reverse_lazy('camera-list'),
+            'item': "total length of exposed film in CameraHub",
+            'value': str(round((Negative.objects.all().aggregate(totallength=Sum('film__camera__cameramodel__negative_size__width'))['totallength'] or 0.00)/1000 )) + 'm',
+        }
+    ]
+
+    oldestcamera = CameraModel.objects.filter(
+        introduced__isnull=False).order_by('introduced').first()
+    if oldestcamera:
+        stats.append(
+            {
+                'image': "svg/vintagecamera.svg",
+                'url': oldestcamera.get_absolute_url,
+                'item': "oldest camera on CameraHub",
+                'subheading': oldestcamera.introduced,
+                'value': oldestcamera,
+            }
+        )
+
+    heaviestcamera = CameraModel.objects.filter(
+        weight__isnull=False).order_by('weight').last()
+    if heaviestcamera:
+        stats.append(
+            {
+                'image': "svg/bigcamera.svg",
+                'url': heaviestcamera.get_absolute_url,
+                'item': "heaviest camera on CameraHub",
+                'subheading': str(heaviestcamera.weight) + 'g',
+                'value': heaviestcamera
+            }
+        )
+
+    longestlens = LensModel.objects.filter(
+        max_focal_length__isnull=False).order_by('max_focal_length').last()
+    if longestlens:
+        stats.append(
+            {
+                'image': "svg/lens.svg",
+                'url': longestlens.get_absolute_url,
+                'item': "longest lens on CameraHub",
+                'subheading': str(longestlens.max_focal_length) + 'mm',
+                'value': longestlens
+            }
+        )
+
+    fastestlens = LensModel.objects.filter(
+        max_aperture__isnull=False).order_by('max_aperture').first()
+    if fastestlens:
+        stats.append(
+            {
+                'image': "svg/teleconverter.svg",
+                'url': fastestlens.get_absolute_url,
+                'item': "fastest lens on CameraHub",
+                'subheading': 'f/' + str(fastestlens.max_aperture),
+                'value': fastestlens
+            }
+        )
+
+    context = {
+        'stats': stats
+    }
+    return context
+
+
+def get_mystats_context():
+    stats=[
+        {
+            'image': "svg/camera.svg",
+            'url': reverse_lazy('camera-list'),
+            'item': "cameras in your collection right now",
+            #'value': Camera.objects.filter(owner=self.request.user, own=True).count,
+        },
+        {
+            'image': "svg/camera.svg",
+            'url': reverse_lazy('camera-list'),
+            'item': "cameras ever in your collection",
+            #'value': Camera.objects.filter(owner=self.request.user).count,
+        },
+        {
+            'image': "svg/lens.svg",
+            'url': reverse_lazy('lens-list'),
+            'item': "lenses in your collection right now",
+            #'value': Lens.objects.filter(owner=self.request.user, own=True).count,
+        },
+        {
+            'image': "svg/lens.svg",
+            'url': reverse_lazy('lens-list'),
+            'item': "lenses ever in your collection",
+            #'value': Lens.objects.filter(owner=self.request.user).count,
+        },
+        {
+            'image': "svg/film.svg",
+            'url': reverse_lazy('film-list'),
+            'item': "films in your collection",
+            #'value': Film.objects.filter(owner=self.request.user).count,
+        },
+        {
+            'image': "svg/negative.svg",
+            'url': reverse_lazy('negative-list'),
+            'item': "negatives in your collection",
+            #'value': Negative.objects.filter(owner=self.request.user).count,
+        },
+        {
+            'image': "svg/print.svg",
+            'url': reverse_lazy('print-list'),
+            'item': "prints in your collection",
+            #'value': Print.objects.filter(owner=self.request.user).count,
+        },
+        {
+            'image': "svg/film.svg",
+            'url': reverse_lazy('camera-list'),
+            'item': "total length of exposed film in your collection",
+            #'value': str(round((Negative.objects.filter(owner=self.request.user).aggregate(totallength=Sum('film__camera__cameramodel__negative_size__width'))['totallength'] or 0.00)/1000 )) + 'm',
+        },
+        {
+            'image': "svg/percent.svg",
+            'url': reverse_lazy('camera-list'),
+            'item': "percentage of camera models you've owned",
+            #'value': str(round(100*(int(Camera.objects.filter(owner=self.request.user).values('cameramodel').distinct().count())/int(CameraModel.objects.count())))) + '%',
+        },
+        {
+            'image': "svg/percent.svg",
+            'url': reverse_lazy('camera-list'),
+            'item': "percentage of lens models you've owned",
+            #'value': str(round(100*(int(Lens.objects.filter(owner=self.request.user).values('lensmodel').distinct().count())/int(LensModel.objects.count())))) + '%',
+        },
+        {
+            'image': "svg/ownership.svg",
+            'url': reverse_lazy('camera-list'),
+            'item': "net spent on cameras",
+            #'value': str(round(((Camera.objects.filter(owner=self.request.user).aggregate(diff=(Sum('cost') - Sum('lost_price')))['diff'] or 0)), 2)),
+        },
+        {
+            'image': "svg/ownership.svg",
+            'url': reverse_lazy('lens-list'),
+            'item': "net spent on lenses",
+            #'value': str(round(((Lens.objects.filter(owner=self.request.user).aggregate(diff=(Sum('cost') - Sum('lost_price')))['diff'] or 0)), 2)),
+        }
+    ]
+    context = {
+        'stats': stats
+    }
+    return context
+
+
 class IndexPage(Page):
-    title = html.h1('Placeholder')
+    title = html.h1('Index')
+    template = loader.get_template("index.html")
+    body = Template(template)
+
+    class Meta:
+        context={
+            'cameramodels': CameraModel.objects.count(),
+            'lensmodels': LensModel.objects.count(),
+            'filmstocks': FilmStock.objects.count(),
+        }
+
+
+class StatsPage(Page):
+    """
+    View that performs a search and returns the search results.
+    """
+    title = html.h1('Stats')
+    template = loader.get_template("stats.html")
+    body = Template(template)
+
+    class Meta:        
+        context = get_stats_context()
+
+
+class MyStatsPage(Page):
+    title = html.h1('Stats')
+    template = loader.get_template("stats.html")
+    body = Template(template)
+
+    class Meta:
+        context = get_mystats_context()
+
+
+class SearchPage(SearchMixin, Page):
+    title = html.h1('Search')
+    template = loader.get_template("search.html")
+    body = Template(template)
 
 def accessory_view(request, id_owner):
     obj = get_object_or_404(Accessory, id_owner=id_owner)
