@@ -74,7 +74,7 @@ urlpatterns = [
     path('camera/<int:id_owner>/edit', camera_edit, name='camera-update'),
 #    path('camera/<int:id_owner>/sell', views.CameraSell.as_view(), name='camera-sell'),
 
-    path('cameramodel/', CameraModelTable().as_view(), name='cameramodel-list'), 
+    path('cameramodel/', CameraModelTable().as_view(), name='cameramodel-list'),
     path('cameramodel/create', Form.create(auto__model=CameraModel).as_view(), name='cameramodel-create'),
     path('cameramodel/<slug>', cameramodel_view, name='cameramodel-detail'),
     path('cameramodel/<slug:slug>/edit', cameramodel_edit, name='cameramodel-update'),
@@ -130,14 +130,14 @@ urlpatterns = [
     path('lensmodel/<slug>', lensmodel_view, name='lensmodel-detail'),
     path('lensmodel/<slug:slug>/edit', lensmodel_edit, name='lensmodel-update'),
 
-    path('manufacturer/', ManufacturerTable().as_view(), name='manufacturer-list'),    
+    path('manufacturer/', ManufacturerTable().as_view(), name='manufacturer-list'),
     path('manufacturer/create', manufacturer_create, name='manufacturer-create'),
-    path('manufacturer/<slug:slug>', manufacturer_view, name='manufacturer-detail'),         
+    path('manufacturer/<slug:slug>', manufacturer_view, name='manufacturer-detail'),
     path('manufacturer/<slug:slug>/edit', manufacturer_edit, name='manufacturer-update'),
 
     path('mount/', MountTable().as_view(), name='mount-list'),
     path('mount/create/', Form.create(auto__model=Mount).as_view(), name='mount-create'),
-    path('mount/<slug>', mount_view, name='mount-detail'),         
+    path('mount/<slug>', mount_view, name='mount-detail'),
     path('mount/<slug:slug>/edit', mount_edit, name='mount-update'),
 
     path('mountadapter/', MountAdapterTable().as_view(), name='mountadapter-list'),

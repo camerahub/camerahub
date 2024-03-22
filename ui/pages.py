@@ -225,7 +225,7 @@ class StatsPage(Page):
     template = loader.get_template("stats.html")
     body = Template(template)
 
-    class Meta:        
+    class Meta:
         context = get_stats_context()
 
 

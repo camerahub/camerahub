@@ -352,7 +352,7 @@ class ExifSerializer(ModelSerializer):
         else:
             returnval = None
 
-        return returnval 
+        return returnval
 
     def get_ImageDescription(self, obj):
         try:

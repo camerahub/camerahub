@@ -34,7 +34,7 @@ class AccessoryTable(LoginRequiredMixin, Table):
 
 
 class ArchiveTable(LoginRequiredMixin, Table):
-    class Meta:  
+    class Meta:
         auto__model = Archive
         auto__include= ('name', 'type', 'max_height', 'max_width', 'sealed')
         query_from_indexes=True
@@ -611,7 +611,7 @@ class NegativeTable(LoginRequiredMixin, Table):
 class FilmTable(LoginRequiredMixin, Table):
     class Meta:
         auto__model = Film
-        auto__include= ('id_owner', 'filmstock', 'format', 'status', 
+        auto__include= ('id_owner', 'filmstock', 'format', 'status',
                         #'negative_set__count',
                         'date_processed', 'camera')
         query_from_indexes=True
@@ -695,7 +695,7 @@ class TeleconverterModelTable(Table):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[value.slug]), value)
 
 class TonerTable(Table):
-    class Meta:        
+    class Meta:
         auto__model = Toner
         auto__include= ('name', 'formulation', 'stock_dilution')
         query_from_indexes=True

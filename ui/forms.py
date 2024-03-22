@@ -262,7 +262,7 @@ def enlargermodel_edit(request, id_owner):
         #          'type', 'light_source', 'introduced', 'discontinued', 'tags', 'image', 'image_attribution', 'image_attribution_link']
         #widgets = {
         #    'introduced': YearPickerInput(format='%Y'),
-        #    'discontinued': YearPickerInput(format='%Y'),   
+        #    'discontinued': YearPickerInput(format='%Y'),
         #}
         #self.helper.layout = Layout(
         #    Fieldset('Summary',
