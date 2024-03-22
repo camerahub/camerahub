@@ -2,8 +2,6 @@
 This module defines legacy views
 """
 
-# pylint: disable=no-member
-
 from django.views import generic
 from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin

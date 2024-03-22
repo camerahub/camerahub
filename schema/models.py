@@ -2343,7 +2343,6 @@ class Negative(models.Model):
     @property
     def latitude(self):
         if self.location:
-            # pylint: disable=no-member
             lat = self.location.latitude
         else:
             lat = None
@@ -2352,7 +2351,6 @@ class Negative(models.Model):
     @property
     def longitude(self):
         if self.location:
-            # pylint: disable=no-member
             long = self.location.longitude
         else:
             long = None

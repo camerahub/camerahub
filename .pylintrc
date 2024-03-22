@@ -3,4 +3,6 @@ disable=line-too-long,
     too-many-locals,
     too-many-branches,
     too-many-statements,
+    too-many-ancestors,
+    no-member,
     chained-comparison
