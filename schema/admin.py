@@ -1,3 +1,7 @@
+"""
+This module defines the admin interface
+"""
+
 from django.contrib import admin
 from schema.models import Process, Scan, Negative, Film, ShutterSpeed, Teleconverter, TeleconverterModel, Toner
 from schema.models import Mount, MountAdapter, NegativeSize, PaperStock, Person, Print

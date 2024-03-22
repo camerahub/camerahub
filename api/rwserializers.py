@@ -1,3 +1,7 @@
+"""
+This module defines serialisers for read-write API
+"""
+
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, SlugRelatedField
 from schema.models import Accessory, Archive, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel
 from schema.models import ExposureProgram, Film, FilmStock, Filter, Flash, FlashModel, Format, Lens

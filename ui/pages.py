@@ -1,3 +1,7 @@
+"""
+This module defines detail pages
+"""
+
 from django.shortcuts import get_object_or_404
 from django.template import Template, loader
 from django.urls import reverse_lazy

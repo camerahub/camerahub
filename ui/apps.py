@@ -1,3 +1,7 @@
+"""
+This module defines the UI app
+"""
+
 from django.apps import AppConfig
 
 

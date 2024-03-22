@@ -1,3 +1,7 @@
+"""
+Load Watson search engine
+"""
+
 from django.apps import AppConfig
 from watson import search as watson
 

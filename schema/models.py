@@ -1,3 +1,7 @@
+"""
+This module defines the various models, fields and relationships
+"""
+
 from datetime import datetime
 from math import sqrt, log
 import re

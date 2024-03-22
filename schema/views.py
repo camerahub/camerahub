@@ -1,3 +1,7 @@
+"""
+This module defines legacy views
+"""
+
 # pylint: disable=no-member
 
 from django.views import generic

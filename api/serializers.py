@@ -1,3 +1,7 @@
+"""
+This module defines serialisers for read-only API
+"""
+
 from fractions import Fraction
 from rest_framework.serializers import ModelSerializer, StringRelatedField, DecimalField, CharField, IntegerField, SerializerMethodField
 from schema.models import Accessory, Archive,  Battery, Camera, CameraModel, Filter, NegativeSize, Film, Format

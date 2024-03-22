@@ -1,3 +1,7 @@
+"""
+This module defines API views which reference serialisers
+"""
+
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework import permissions
 from drf_multiple_serializer import ReadWriteSerializerMixin

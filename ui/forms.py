@@ -1,3 +1,7 @@
+"""
+This module defines UI forms
+"""
+
 from iommi import Form
 from schema.models import Battery, CameraModel, Manufacturer, Mount, PaperStock, Accessory, Archive, EnlargerModel, Developer, Format, FlashModel, FilmStock, LensModel, Process, Filter, Flash, Teleconverter, TeleconverterModel
 from schema.models import Enlarger, BulkFilm, Camera, Lens, MountAdapter, NegativeSize, Person, Scan, Negative, Film, Print, Toner

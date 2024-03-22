@@ -1,3 +1,7 @@
+"""
+This module contains preset filters that are used elsewhere in CameraHub
+"""
+
 from django_filters import FilterSet, CharFilter
 from django_currentuser.middleware import get_current_user
 from taggit.forms import TagField

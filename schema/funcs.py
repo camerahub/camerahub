@@ -1,3 +1,7 @@
+"""
+This module provides
+"""
+
 from math import degrees
 from itertools import chain, count
 from re import match
