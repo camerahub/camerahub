@@ -7,11 +7,11 @@ from iommi import Table, Action, Column, html, Fragment
 #from schema.funcs import colouricon
 
 # Import all models that need tables
+from taggit.models import Tag
 from schema.models import Accessory, Archive, Battery, BulkFilm, Camera, CameraModel, Developer, Enlarger, EnlargerModel, FilmStock, Filter
 from schema.models import Flash, FlashModel, Format, Lens, LensModel, Manufacturer
 from schema.models import Mount, MountAdapter, NegativeSize, PaperStock, Person, Print
 from schema.models import Process, Scan, Negative, Film, Teleconverter, TeleconverterModel, Toner
-from taggit.models import Tag
 
 class AccessoryTable(LoginRequiredMixin, Table):
     class Meta:
