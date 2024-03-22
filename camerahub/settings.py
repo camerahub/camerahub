@@ -270,7 +270,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 GEOPOSITION_GOOGLE_MAPS_API_KEY = ''
 
 # These imports need to be at the bottom of the file!
-from iommi import Style, Asset
+from iommi import Style
 from iommi.style_bootstrap import bootstrap
 
 IOMMI_DEFAULT_STYLE = Style(
