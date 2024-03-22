@@ -1,9 +1,8 @@
-from iommi import Form
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
-from iommi import register_factory
+from iommi import Form, register_factory
 from iommi.path import register_path_decoding
 
 from taggit.managers import TaggableManager

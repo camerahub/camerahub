@@ -1,8 +1,8 @@
 # pylint: disable=no-member
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from iommi import Table, Action, Column, html, Fragment
 from django.template import Template
+from iommi import Table, Action, Column, html, Fragment
 #from django.utils.html import format_html
 #from schema.funcs import colouricon
 
