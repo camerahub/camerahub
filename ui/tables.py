@@ -36,7 +36,7 @@ class AccessoryTable(LoginRequiredMixin, Table):
 class ArchiveTable(LoginRequiredMixin, Table):
     class Meta:  
         auto__model = Archive
-        auto__include= ('name', 'type', 'max_size', 'sealed')
+        auto__include= ('name', 'type', 'max_height', 'max_width', 'sealed')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('archive-create'))
         outer__children__description=html.div(auto__model.description(), after=2)
@@ -341,7 +341,7 @@ class LensTable(LoginRequiredMixin, Table):
 class LensModelTable(Table):
     class Meta:
         auto__model = LensModel
-        auto__include= ('model', 'mount', 'zoom', 'focal_length', 'max_aperture', 'autofocus', 'introduced')
+        auto__include= ('model', 'mount', 'zoom', 'min_focal_length', 'max_focal_length', 'max_aperture', 'autofocus', 'introduced')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('lensmodel-create'))
         columns__max_aperture=Column(
@@ -512,7 +512,7 @@ class PersonTable(LoginRequiredMixin, Table):
 class PrintTable(LoginRequiredMixin, Table):
     class Meta:
         auto__model = Print
-        auto__include= ('id_owner', 'negative', 'date', 'size', 'own', 'archive')
+        auto__include= ('id_owner', 'negative', 'date', 'height', 'width', 'own', 'archive')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('print-create'))
         outer__children__description=html.div(auto__model.description(), after=2)
