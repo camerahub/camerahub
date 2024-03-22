@@ -5,4 +5,5 @@ disable=line-too-long,
     too-many-statements,
     too-many-ancestors,
     no-member,
+    too-few-public-methods,
     chained-comparison
