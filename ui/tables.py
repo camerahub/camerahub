@@ -1,7 +1,7 @@
 # pylint: disable=no-member
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from iommi import Table, Action, Column
+from iommi import Table, Action, Column, html, Fragment
 from django.template import Template
 #from django.utils.html import format_html
 #from schema.funcs import colouricon
@@ -19,6 +19,12 @@ class AccessoryTable(LoginRequiredMixin, Table):
         auto__include=['id_owner', 'model', 'type']
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('accessory-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_id_owner(cls, value):
     #    return format_html("<a href=\"{}\">#{}</a>", reverse('accessory-detail', args=[value]), value)
@@ -33,6 +39,12 @@ class ArchiveTable(LoginRequiredMixin, Table):
         auto__include= ('name', 'type', 'max_size', 'sealed')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('archive-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_id_owner(cls, value):
     #    return format_html("<a href=\"{}\">#{}</a>", reverse('archive-detail', args=[value]), value)
@@ -50,6 +62,12 @@ class BatteryTable(Table):
         columns__voltage=Column(
             cell__template=Template('<td>{{ row.voltage }}V</td>'),
         )
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('battery-detail', args=[record.slug]), value)
@@ -60,6 +78,12 @@ class BulkFilmTable(LoginRequiredMixin, Table):
         auto__include= ('id_owner', 'format', 'filmstock', 'length', 'finished')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('bulkfilm-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_id_owner(cls, value):
     #    return format_html("<a href=\"{}\">#{}</a>", reverse('bulkfilm-detail', args=[value]), value)
@@ -82,6 +106,12 @@ class CameraTable(LoginRequiredMixin, Table):
         auto__include= ('id_owner', 'cameramodel', 'serial', 'manufactured', 'cameramodel__mount', 'cameramodel__lens_model_name', 'own')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('camera-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_id_owner(cls, value):
     #    return format_html("<a href=\"{}\">#{}</a>", reverse('camera-detail', args=[value]), value)
@@ -100,6 +130,12 @@ class CameraModelTable(Table):
         auto__include=('manufacturer', 'model', 'mount', 'lens_model_name', 'format', 'introduced', 'body_type', 'negative_size')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('cameramodel-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_model(cls, value, record):
     #    if record.disambiguation:
@@ -138,6 +174,12 @@ class DeveloperTable(Table):
         auto__include= ('name', 'for_paper', 'for_film')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('developer-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{} {}</a>", reverse('developer-detail', args=[record.slug]), record.manufacturer, value)
@@ -148,6 +190,12 @@ class EnlargerModelTable(Table):
         auto__include= ('model', 'negative_size', 'type')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('enlargermodel-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_model(cls, value, record):
     #    return format_html("<a href=\"{}\">{} {}</a>", reverse('enlargermodel-detail', args=[record.slug]), record.manufacturer, value)
@@ -159,6 +207,12 @@ class EnlargerTable(LoginRequiredMixin, Table):
         auto__include= ('id_owner', 'enlargermodel')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('enlarger-create'))
+        #outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
 #    @classmethod
 #    def render_id_owner(cls, value):
 #        return format_html("<a href=\"{}\">#{}</a>", reverse('enlarger-detail', args=[value]), value)
@@ -174,6 +228,12 @@ class FilmStockTable(Table):
         auto__include= ('name', 'iso', 'colour', 'panchromatic', 'process')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('filmstock-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{} {}</a>", reverse('filmstock-detail', args=[record.slug]), record.manufacturer, value)
@@ -188,6 +248,12 @@ class FilterTable(Table):
         auto__include= ('type', 'shortname', 'attenuation')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('filter-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
 #    @classmethod
 #    def render_type(cls, value, record):
 #        return format_html("<a href=\"{}\">{}</a>", reverse('filter-detail', args=[record.id]), value)
@@ -199,6 +265,12 @@ class FlashModelTable(Table):
         auto__include= ('model', 'guide_number', 'ttl')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('flashmodel-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_model(cls, value, record):
     #    return format_html("<a href=\"{}\">{} {}</a>", reverse('flashmodel-detail', args=[record.slug]), record.manufacturer, value)
@@ -209,6 +281,12 @@ class FlashTable(LoginRequiredMixin, Table):
         auto__include= ('id_owner', 'flashmodel')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('flash-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_id_owner(cls, value):
     #    return format_html("<a href=\"{}\">#{}</a>", reverse('flash-detail', args=[value]), value)
@@ -223,6 +301,12 @@ class FormatTable(Table):
         auto__include= ('format',)
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('format-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_format(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('format-detail', args=[record.id]), value)
@@ -235,6 +319,12 @@ class LensTable(LoginRequiredMixin, Table):
         actions__add=Action(attrs__href=reverse_lazy('lens-create'))
         columns__serial=Column(
             cell__template=Template('<td><code>{{ row.serial }}</code></td>'),
+        )
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
         )
     #@classmethod
     #def render_id_owner(cls, value):
@@ -256,6 +346,12 @@ class LensModelTable(Table):
         actions__add=Action(attrs__href=reverse_lazy('lensmodel-create'))
         columns__max_aperture=Column(
             cell__template=Template('<td><em>f/</em>{{ row.max_aperture }}</td>'),
+        )
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
         )
     #@classmethod
     #def render_model(cls, value, record):
@@ -292,6 +388,12 @@ class ManufacturerTable(Table):
         columns__country=Column(
             cell__template=Template('<td>{{ row.country.name }} <img src="{{ row.country.flag }}"></td>'),
         )
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('manufacturer-detail', args=[record.slug]), value)
@@ -303,6 +405,12 @@ class MountTable(Table):
         auto__include= ('mount', 'shutter_in_lens', 'type', 'purpose')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('mount-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_mount(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('mount-detail', args=[record.slug]), value)
@@ -313,6 +421,12 @@ class MountAdapterTable(LoginRequiredMixin, Table):
         auto__include= ('id_owner', 'camera_mount', 'lens_mount', 'has_optics', 'infinity_focus')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('mountadapter-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_id_owner(cls, value):
     #    return format_html("<a href=\"{}\">#{}</a>", reverse('mountadapter-detail', args=[value]), value)
@@ -332,6 +446,12 @@ class NegativeSizeTable(Table):
         auto__include= ('name', 'crop_factor', 'area', 'aspect_ratio')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('negativesize-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
         columns__crop_factor=Column(
             cell__template=Template('<td>{{ row.crop_factor }}&times;</td>'),
         )
@@ -352,6 +472,12 @@ class PaperStockTable(Table):
         auto__include= ('name', 'resin_coated', 'colour', 'finish')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('paperstock-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{} {}</a>", reverse('paperstock-detail', args=[record.id]), record.manufacturer, value)
@@ -362,6 +488,12 @@ class PersonTable(LoginRequiredMixin, Table):
         auto__include= ('id_owner', 'name', 'type')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('person-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_id_owner(cls, value):
     #    return format_html("<a href=\"{}\">#{}</a>", reverse('person-detail', args=[value]), value)
@@ -383,6 +515,12 @@ class PrintTable(LoginRequiredMixin, Table):
         auto__include= ('id_owner', 'negative', 'date', 'size', 'own', 'archive')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('print-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_id_owner(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('print-detail', args=[value]), record)
@@ -401,6 +539,12 @@ class ProcessTable(Table):
         auto__include= ('name', 'colour', 'positive')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('process-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('process-detail', args=[record.id]), value)
@@ -411,6 +555,12 @@ class ScanTable(LoginRequiredMixin, Table):
         auto__include= ('uuid', 'negative', 'print', 'filename', 'date')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('scan-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_uuid(cls, value):
     #    return format_html("<code><a href=\"{}\">{}</a></code>", reverse('scan-detail', args=[value]), value)
@@ -433,6 +583,12 @@ class NegativeTable(LoginRequiredMixin, Table):
         auto__include= ('slug', 'film', 'date', 'film__camera', 'lens', 'shutter_speed', 'aperture')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('negative-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
         columns__aperture=Column(
             cell__template=Template('<td><em>f</em>{{ row.aperture }}</td>'),
         )
@@ -460,6 +616,12 @@ class FilmTable(LoginRequiredMixin, Table):
                         'date_processed', 'camera')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('film-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_id_owner(cls, value, record):
     #    return format_html("<a href=\"{}\">{}</a>", reverse('film-detail', args=[value]), record)
@@ -489,6 +651,12 @@ class TeleconverterTable(LoginRequiredMixin, Table):
         auto__include= ('id_owner', 'teleconvertermodel',)
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('teleconverter-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_id_owner(cls, value):
     #    return format_html("<a href=\"{}\">#{}</a>", reverse('teleconverter-detail', args=[value]), value)
@@ -503,6 +671,12 @@ class TeleconverterModelTable(Table):
         auto__include= ('model', 'mount', 'factor')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('teleconvertermodel-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
         columns__factor=Column(
             cell__template=Template('<td>{{ row.factor }}&times;</td>'),
         )
@@ -526,6 +700,12 @@ class TonerTable(Table):
         auto__include= ('name', 'formulation', 'stock_dilution')
         query_from_indexes=True
         actions__add=Action(attrs__href=reverse_lazy('toner-create'))
+        outer__children__description=html.div(auto__model.description(), after=2)
+        outer__children__icon=Fragment(
+            tag='img',
+            attrs__src="/static/svg/" + auto__model.icon(),
+            attrs__width="30", attrs__height="30"
+        )
     #@classmethod
     #def render_name(cls, value, record):
     #    return format_html("<a href=\"{}\">{} {}</a>", reverse('toner-detail', args=[record.slug]), record.manufacturer, value)
