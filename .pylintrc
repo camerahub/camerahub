@@ -6,4 +6,6 @@ disable=line-too-long,
     too-many-ancestors,
     no-member,
     too-few-public-methods,
+    missing-class-docstring,
+    missing-function-docstring,
     chained-comparison
