@@ -68,7 +68,7 @@ psycopg2 = "^2"
 pytest = "^7"
 pylint-django = "^2"
 autopep8 = "^2"
-pylint = "^2"
+pylint = "^4"
 
 [tool.poetry.extras]
 pgsql = ["psycopg2"]
