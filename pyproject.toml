@@ -64,7 +64,7 @@ django-colorfield = "^0"
 django-prometheus = "^2"
 psycopg2 = "^2"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = "^7"
 pylint-django = "^2"
 autopep8 = "^2"
