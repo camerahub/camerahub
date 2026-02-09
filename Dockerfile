@@ -1,5 +1,5 @@
 # CameraHub
-FROM python:3.10-slim
+FROM python:3.14-slim
 LABEL maintainer "Jonathan Gazeley"
 
 # Project Files and Settings
@@ -12,7 +12,7 @@ WORKDIR $PROJECT_DIR
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 
 # Install runtime deps
-RUN runDeps='libpq5 libgdal32 libmagic1 mime-support postgresql-client' \
+RUN runDeps='libpq5 libgdal36 libmagic1 mime-support postgresql-client' \
   && apt-get update \
   && apt-get upgrade -y \
   && apt-get install -y $runDeps --no-install-recommends \
