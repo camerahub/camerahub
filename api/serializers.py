@@ -339,6 +339,7 @@ class ExifSerializer(ModelSerializer):
         except (ValueError, AttributeError):
             negdate = None
 
+        filmdate = None
         if negdate is None:
             try:
                 filmdate = obj.negative.film.date_processed
@@ -347,7 +348,6 @@ class ExifSerializer(ModelSerializer):
 
         if negdate:
             returnval = negdate.strftime('%Y:%m:%d %H:%M:%S')
-        # pylint: disable=possibly-used-before-assignment
         elif filmdate:
             returnval = filmdate.strftime('%Y:%m:%d %H:%M:%S')
         else:
