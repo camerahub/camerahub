@@ -9,7 +9,6 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from djmoney.models.fields import MoneyField
-from djchoices import DjangoChoices, ChoiceItem
 from django_currentuser.db.models import CurrentUserField
 from autosequence.fields import AutoSequenceField
 from slugify import slugify, Slugify, UniqueSlugify
@@ -140,20 +139,20 @@ class Manufacturer(models.Model):
 
 class Archive(models.Model):
     # Choices for archive types
-    class ArchiveType(DjangoChoices):
-        Negative = ChoiceItem()
-        Slide = ChoiceItem()
-        Print = ChoiceItem()
+    class ArchiveType(models.TextChoices):
+        NEGATIVE = "Negative", "Negative"
+        SLIDE = "Slide", "Slide"
+        PRINT = "Print", "Print"
 
     # Choices for archive storage
-    class ArchiveStorage(DjangoChoices):
-        Ringbinder = ChoiceItem()
-        Folder = ChoiceItem()
-        Box = ChoiceItem()
-        Portfolio = ChoiceItem()
-        Slide_tray = ChoiceItem()
+    class ArchiveStorage(models.TextChoices):
+        Ringbinder = "Ringbinder", "Ringbinder"
+        Folder = "Folder", "Folder"
+        Box = "Box", "Box"
+        Portfolio = "Portfolio", "Portfolio"
+        Slide_tray = "Slide_tray", "Slide tray"
 
-    type = models.CharField(max_length=8, choices=ArchiveType.choices,
+    type = models.CharField(max_length=8, choices=ArchiveType,
                             help_text='What is stored in this archive?')
     name = models.CharField(
         help_text='Name of this archive', max_length=45, unique=True)
@@ -163,7 +162,7 @@ class Archive(models.Model):
         help_text='Maximum height of media that this archive can store', blank=True, null=True)
     location = models.CharField(
         help_text='Location of this archive', max_length=45, blank=True, null=True)
-    storage = models.CharField(choices=ArchiveStorage.choices,
+    storage = models.CharField(choices=ArchiveStorage,
                                help_text='The type of storage used for this archive', max_length=45, blank=True, null=True)
     sealed = models.BooleanField(
         help_text='Whether or not this archive is sealed (closed to new additions)', default=0)
@@ -204,24 +203,24 @@ class Archive(models.Model):
 
 
 class Battery(models.Model):
-    class Chemistry(DjangoChoices):
-        Alkaline = ChoiceItem()
-        Nickel_cadmium = ChoiceItem()
-        Nickel_metal_hydride = ChoiceItem()
-        Carbon_zinc = ChoiceItem()
-        Lithium = ChoiceItem()
-        Lithium_ion = ChoiceItem()
-        Lithium_polymer = ChoiceItem()
-        Mercury = ChoiceItem()
-        Zinc_air = ChoiceItem()
-        Silver_oxide = ChoiceItem()
+    class Chemistry(models.TextChoices):
+        Alkaline = "Alkaline", "Alkaline"
+        Nickel_cadmium = "Nickel_cadmium", "Nickel cadmium"
+        Nickel_metal_hydride = "Nickel_metal_hydride", "Nickel metal hydride"
+        Carbon_zinc = "Carbon_zinc", "Carbon zinc"
+        Lithium = "Lithium", "Lithium"
+        Lithium_ion = "Lithium_ion", "Lithium ion"
+        Lithium_polymer = "Lithium_polymer",  "Lithium polymer"
+        Mercury = "Mercury", "Mercury"
+        Zinc_air = "Zinc_air", "Zinc air"
+        Silver_oxide = "Silver_oxide", "Silver oxide"
 
     name = models.CharField(
         help_text='Common name of the battery', max_length=45, unique=True)
     voltage = models.DecimalField(help_text='Nominal voltage of the battery',
                                   max_digits=5, decimal_places=2, blank=True, null=True)
     chemistry = models.CharField(help_text='Battery chemistry',
-                                 choices=Chemistry.choices, max_length=45, blank=True, null=True)
+                                 choices=Chemistry, max_length=45, blank=True, null=True)
     compatible_with = models.ManyToManyField(
         'Battery', blank=True, help_text='Batteries that are compatible with this one')
     slug = models.SlugField(editable=False, null=True, unique=True)
@@ -550,14 +549,14 @@ class Flash(models.Model):
 
 class EnlargerModel(models.Model):
 
-    class EnlargerType(DjangoChoices):
-        Diffusion = ChoiceItem()
-        Condenser = ChoiceItem()
+    class EnlargerType(models.TextChoices):
+        Diffusion = "Diffusion", "Diffusion"
+        Condenser = "Condenser", "Condenser"
 
-    class LightSource(DjangoChoices):
-        Incandescent = ChoiceItem()
-        Cold_cathode = ChoiceItem()
-        LED = ChoiceItem()
+    class LightSource(models.TextChoices):
+        Incandescent = "Incandescent", "Incandescent"
+        Cold_cathode = "Cold_cathode", "Cold cathode"
+        LED = "LED", ("LED")
 
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this enlarger')
@@ -567,10 +566,10 @@ class EnlargerModel(models.Model):
         help_text='Distinguishing notes for enlarger models with the same name', max_length=45, blank=True, default='')
     negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE, blank=True,
                                       null=True, help_text='Largest negative size that this enlarger can accept')
-    type = models.CharField(choices=EnlargerType.choices,
+    type = models.CharField(choices=EnlargerType,
                             help_text='The type of optical system in the enlarger', max_length=15, blank=True, null=True)
     light_source = models.CharField(
-        choices=LightSource.choices, help_text='The type of light source used in the enlarger', max_length=15, blank=True, null=True)
+        choices=LightSource, help_text='The type of light source used in the enlarger', max_length=15, blank=True, null=True)
     introduced = models.PositiveIntegerField(
         help_text='Year in which the enlarger was introduced', blank=True, null=True)
     discontinued = models.PositiveIntegerField(
@@ -719,29 +718,29 @@ class MeteringMode(models.Model):
 class Mount(models.Model):
 
     # Choices for mount types
-    class MountType(DjangoChoices):
-        Bayonet = ChoiceItem()
-        Breech_lock = ChoiceItem()
-        Screw = ChoiceItem()
-        Friction = ChoiceItem()
-        Lens_board = ChoiceItem()
+    class MountType(models.TextChoices):
+        Bayonet = "Bayonet", "Bayonet"
+        Breech_lock = "Breech_lock", "Breech lock"
+        Screw = "Screw", "Screw"
+        Friction = "Friction", "Friction"
+        Lens_board = "Lens_board", "Lens board"
 
     # Choices for mount purposes
-    class Purpose(DjangoChoices):
-        Camera = ChoiceItem()
-        Enlarger = ChoiceItem()
-        Projector = ChoiceItem()
-        Telescope = ChoiceItem()
-        Microscope = ChoiceItem()
+    class Purpose(models.TextChoices):
+        Camera = "Camera", "Camera"
+        Enlarger = "Enlarger", "Enlarger"
+        Projector = "Projector", "Projector"
+        Telescope = "Telescope", "Telescope"
+        Microscope = "Microscope", "Microscope"
 
     mount = models.CharField(
         help_text='Name of this lens mount (e.g. Canon FD)', max_length=45, unique=True)
     shutter_in_lens = models.BooleanField(
         help_text='Whether this lens mount system incorporates the shutter into the lens', default=0, blank=True, null=True)
     type = models.CharField(help_text='The physical mount type of this lens mount',
-                            choices=MountType.choices, max_length=15, blank=True, null=True)
+                            choices=MountType, max_length=15, blank=True, null=True)
     purpose = models.CharField(help_text='The intended purpose of this lens mount',
-                               choices=Purpose.choices, max_length=15, blank=True, null=True)
+                               choices=Purpose, max_length=15, blank=True, null=True)
     notes = models.TextField(
         help_text='Freeform notes field', blank=True, null=True)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
@@ -780,13 +779,13 @@ class Mount(models.Model):
 
 class PaperStock(models.Model):
     # Choices for mount purposes
-    class Finish(DjangoChoices):
-        Matt = ChoiceItem()
-        Gloss = ChoiceItem()
-        Satin = ChoiceItem()
-        Semi_gloss = ChoiceItem()
-        Pearl = ChoiceItem()
-        Lustre = ChoiceItem()
+    class Finish(models.TextChoices):
+        Matt = "Matt", "Matt"
+        Gloss = "Gloss", "Gloss"
+        Satin = "Satin", "Satin"
+        Semi_gloss = "Semi_gloss", "Semi gloss"
+        Pearl = "Pearl", "Pearl"
+        Lustre = "Lustre", "Lustre"
 
     name = models.CharField(
         help_text='Name of this paper stock', max_length=45)
@@ -797,7 +796,7 @@ class PaperStock(models.Model):
     colour = models.BooleanField(
         help_text='Whether this is a colour paper', blank=True, null=True)
     finish = models.CharField(help_text='The finish of the paper surface',
-                              choices=Finish.choices, max_length=25, blank=True, null=True)
+                              choices=Finish, max_length=25, blank=True, null=True)
     tags = TaggableManager(blank=True)
 
     def __str__(self):
@@ -828,14 +827,14 @@ class PaperStock(models.Model):
 
 class Person(models.Model):
 
-    class PersonType(DjangoChoices):
-        Individual = ChoiceItem()
-        Business = ChoiceItem()
+    class PersonType(models.TextChoices):
+        Individual = "Individual", "Individual"
+        Business = "Business", "Business"
 
     name = models.CharField(
         help_text='Name of the person or business', max_length=45, unique=True)
     type = models.CharField(help_text='Type of person or business',
-        choices=PersonType.choices, max_length=25, blank=True, null=True)
+        choices=PersonType, max_length=25, blank=True, null=True)
     owner = CurrentUserField(editable=False)
     id_owner = AutoSequenceField(
         unique_with='owner', editable=False, verbose_name='ID')
@@ -1293,26 +1292,26 @@ class Developer(models.Model):
 
 class LensModel(models.Model):
     # Choices for focus type
-    class CoatingType(DjangoChoices):
-        Uncoated = ChoiceItem()
-        Single_coated = ChoiceItem()
-        Multi_coated = ChoiceItem()
+    class CoatingType(models.TextChoices):
+        Uncoated = "Uncoated", "Uncoated"
+        Single_coated = "Single_coated", "Single coated"
+        Multi_coated = "Multi_coated", "Multi coated"
 
     # Choices for lens type
-    class LensType(DjangoChoices):
-        Super_telephoto = ChoiceItem()
-        Medium_telephoto = ChoiceItem()
-        Short_telephoto = ChoiceItem()
-        Normal = ChoiceItem()
-        Wide_angle = ChoiceItem()
-        Super_wide_angle = ChoiceItem()
-        Fisheye = ChoiceItem()
+    class LensType(models.TextChoices):
+        Super_telephoto = "Super_telephoto", "Super telephoto"
+        Medium_telephoto = "Medium_telephoto", "Medium telephoto"
+        Short_telephoto = "Short_telephoto", "Short telephoto"
+        Normal = "Normal", "Normal"
+        Wide_angle = "Wide_angle", "Wide angle"
+        Super_wide_angle = "Super_wide_angle", "Super wide angle"
+        Fisheye = "Fisheye", "Fisheye"
 
     # Choices for lens purpose
-    class LensPurpose(DjangoChoices):
-        Camera = ChoiceItem()
-        Enlarger = ChoiceItem()
-        Projector = ChoiceItem()
+    class LensPurpose(models.TextChoices):
+        Camera = "Camera", "Camera"
+        Enlarger = "Enlarger", "Enlarger"
+        Projector = "Projector", "Projector"
 
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this lens model')
@@ -1323,7 +1322,7 @@ class LensModel(models.Model):
     mount = models.ForeignKey(Mount, on_delete=models.CASCADE, blank=True,
                               null=True, help_text='Mount used by this lens model')
     purpose = models.CharField(
-        choices=LensPurpose.choices, help_text='Intended purposes of lens', max_length=16, blank=True, null=True)
+        choices=LensPurpose, help_text='Intended purposes of lens', max_length=16, blank=True, null=True)
     zoom = models.BooleanField(
         help_text='Whether this is a zoom lens', blank=True, null=True)
     min_focal_length = models.PositiveIntegerField(
@@ -1349,7 +1348,7 @@ class LensModel(models.Model):
     nominal_max_angle_diag = models.PositiveIntegerField(
         verbose_name='Max angle of view', help_text='Nominal maximum diagonal field of view from manufacturer specs', blank=True, null=True, validators=[MinValueValidator(0), MaxValueValidator(360)])
     lens_type = models.CharField(
-        choices=LensType.choices, help_text='Type of lens based on its angle of view', max_length=16, blank=True, null=True)
+        choices=LensType, help_text='Type of lens based on its angle of view', max_length=16, blank=True, null=True)
     aperture_blades = models.PositiveIntegerField(
         help_text='Number of aperture blades', blank=True, null=True)
     autofocus = models.BooleanField(
@@ -1370,7 +1369,7 @@ class LensModel(models.Model):
                                       null=True, help_text='Largest negative size that this lens is designed for')
     notes = models.TextField(
         help_text='Freeform notes field', blank=True, null=True)
-    coating = models.CharField(choices=CoatingType.choices,
+    coating = models.CharField(choices=CoatingType,
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
@@ -1533,53 +1532,53 @@ class LensModel(models.Model):
 
 class CameraModel(models.Model):
     # Choices for body types
-    class BodyType(DjangoChoices):
-        Box_camera = ChoiceItem()
-        Folding_camera = ChoiceItem()
-        Compact_camera = ChoiceItem()
-        SLR = ChoiceItem()
-        TLR = ChoiceItem()
-        Bridge_camera = ChoiceItem()
-        View_camera = ChoiceItem()
-        Pistol_grip_camera = ChoiceItem()
-        Miniature_camera = ChoiceItem()
+    class BodyType(models.TextChoices):
+        Box_camera = "Box_camera", "Box camera"
+        Folding_camera = "Folding_camera", "Folding camera"
+        Compact_camera = "Compact_camera", "Compact camera"
+        SLR = "SLR", "SLR"
+        TLR = "TLR", "TLR"
+        Bridge_camera = "Bridge_camera", "Bridge camera"
+        View_camera = "View_camera", "View camera"
+        Pistol_grip_camera = "Pistol_grip_camera", "Pistol grip camera"
+        Miniature_camera = "Miniature_camera", "Miniature camera"
 
     # Choices for focus type
-    class FocusType(DjangoChoices):
-        Autofocus = ChoiceItem()
-        Fixed_focus = ChoiceItem()
-        Zone_focus = ChoiceItem('Zone_focus', 'Manual focus (zone focus)')
-        Rangefinder = ChoiceItem('Rangefinder', 'Manual focus (rangefinder)')
-        SLR = ChoiceItem('SLR', 'Manual focus (SLR)')
-        TLR = ChoiceItem('TLR', 'Manual focus (TLR)')
-        View_camera = ChoiceItem('View_camera', 'Manual focus (view camera)')
+    class FocusType(models.TextChoices):
+        Autofocus = "Autofocus", "Autofocus"
+        Fixed_focus = "Fixed_focus", "Fixed focus"
+        Zone_focus = 'Zone_focus', 'Manual focus (zone focus)'
+        Rangefinder = 'Rangefinder', 'Manual focus (rangefinder)'
+        SLR = 'SLR', 'Manual focus (SLR)'
+        TLR = 'TLR', 'Manual focus (TLR)'
+        View_camera = 'View_camera', 'Manual focus (view camera)'
 
     # Choices for shutter type
-    class ShutterType(DjangoChoices):
-        Focal_plane_cloth = ChoiceItem()
-        Focal_plane_metal = ChoiceItem()
-        Leaf = ChoiceItem()
-        Rotary = ChoiceItem()
-        Sliding = ChoiceItem()
-        Electronic = ChoiceItem()
+    class ShutterType(models.TextChoices):
+        Focal_plane_cloth = "Focal_plane_cloth", "Focal plane (cloth)"
+        Focal_plane_metal = "Focal_plane_metal", "Focal plane (metal)"
+        Leaf = "Leaf", "Leaf"
+        Rotary = "Rotary", "Rotary"
+        Sliding = "Sliding", "Sliding"
+        Electronic = "Electronic", "Electronic"
 
     # Choices for metering type
-    class MeteringType(DjangoChoices):
-        Cadmium_sulphide_CdS = ChoiceItem()
-        Selenium = ChoiceItem()
-        Silicon = ChoiceItem()
+    class MeteringType(models.TextChoices):
+        Cadmium_sulphide_CdS = "Cadmium_sulphide_CdS", "Cadmium sulphide (CdS)"
+        Selenium = "Selenium", "Selenium"
+        Silicon = "Silicon", "Silicon"
 
     # Choices for shoe type
-    class ShoeType(DjangoChoices):
-        No_shoe = ChoiceItem()
-        Hot_shoe = ChoiceItem()
-        Cold_shoe = ChoiceItem()
+    class ShoeType(models.TextChoices):
+        No_shoe = "No_shoe", "No shoe"
+        Hot_shoe = "Hot_shoe", "Hot shoe"
+        Cold_shoe = "Cold_shoe", "Cold shoe"
 
     # Choices for focus type
-    class CoatingType(DjangoChoices):
-        Uncoated = ChoiceItem()
-        Single_coated = ChoiceItem()
-        Multi_coated = ChoiceItem()
+    class CoatingType(models.TextChoices):
+        Uncoated = "Uncoated", "Uncoated"
+        Single_coated = "Single_coated", "Single coated"
+        Multi_coated = "Multi_coated", "Multi coated"
 
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, help_text='Manufacturer of this camera model', verbose_name='manufacturer')
@@ -1591,23 +1590,23 @@ class CameraModel(models.Model):
                               help_text='Lens mount used by this camera model', limit_choices_to={'purpose': 'Camera'}, verbose_name='mount')
     format = models.ForeignKey(Format, on_delete=models.CASCADE, blank=True,
                                null=True, help_text='Film format used by this camera model')
-    focus_type = models.CharField(choices=FocusType.choices, max_length=25,
+    focus_type = models.CharField(choices=FocusType, max_length=25,
                                   blank=True, null=True, help_text='Focus type used on this camera model')
     metering = models.BooleanField(
         help_text='Whether the camera has built-in metering', blank=True, null=True)
-    metering_type = models.CharField(choices=MeteringType.choices, max_length=25,
+    metering_type = models.CharField(choices=MeteringType, max_length=25,
                                      blank=True, null=True, help_text='Metering type used on this camera model')
     introduced = models.PositiveIntegerField(
         help_text='Year in which the camera model was introduced', blank=True, null=True)
     discontinued = models.PositiveIntegerField(
         help_text='Year in which the camera model was discontinued', blank=True, null=True)
-    body_type = models.CharField(choices=BodyType.choices, max_length=25,
+    body_type = models.CharField(choices=BodyType, max_length=25,
                                  blank=True, null=True, help_text='Body type of this camera model')
     weight = models.PositiveIntegerField(
         help_text='Weight of the camera body (without lens or batteries) in grammes (g)', blank=True, null=True)
     negative_size = models.ForeignKey(NegativeSize, on_delete=models.CASCADE,
                                       blank=True, null=True, help_text='Size of negative created by this camera')
-    shutter_type = models.CharField(choices=ShutterType.choices, max_length=25,
+    shutter_type = models.CharField(choices=ShutterType, max_length=25,
                                     blank=True, null=True, help_text='Type of shutter used on this camera model')
     shutter_model = models.CharField(
         help_text='Model of shutter', max_length=45, blank=True, null=True)
@@ -1645,7 +1644,7 @@ class CameraModel(models.Model):
         verbose_name='External flash', help_text='Whether the camera supports an external flash', blank=True, null=True)
     pc_sync = models.BooleanField(
         verbose_name='PC sync', help_text='Whether the camera has a PC sync socket for flash (sometimes known as a German socket)', blank=True, null=True)
-    shoe = models.CharField(choices=ShoeType.choices, max_length=9, blank=True,
+    shoe = models.CharField(choices=ShoeType, max_length=9, blank=True,
                             null=True, help_text='Type of flash/accessory shoe used on this camera model')
     x_sync = models.ForeignKey(ShutterSpeed, on_delete=models.CASCADE, blank=True,
                                null=True, help_text='Flash X-sync speed', related_name='x_sync')
@@ -1725,7 +1724,7 @@ class CameraModel(models.Model):
         help_text='Diameter of lens filter thread, in mm', max_digits=4, decimal_places=1, blank=True, null=True)
     magnification = models.DecimalField(
         help_text='Maximum magnification ratio of the lens, expressed like 0.765', max_digits=5, decimal_places=3, blank=True, null=True)
-    coating = models.CharField(choices=CoatingType.choices,
+    coating = models.CharField(choices=CoatingType,
                                help_text='Type of lens coating', max_length=15, blank=True, null=True)
     hood = models.CharField(
         help_text='Model number of the compatible lens hood', max_length=45, blank=True, null=True)
@@ -1864,20 +1863,20 @@ class CameraModel(models.Model):
 
 class Accessory(models.Model):
     # Choices for accessory types
-    class AccessoryType(DjangoChoices):
-        Battery_grip = ChoiceItem()
-        Case = ChoiceItem()
-        Film_back = ChoiceItem()
-        Focusing_screen = ChoiceItem()
-        Lens_hood = ChoiceItem()
-        Lens_cap = ChoiceItem()
-        Power_winder = ChoiceItem()
-        Viewfinder = ChoiceItem()
-        Rangefinder = ChoiceItem()
-        Projector = ChoiceItem()
-        Light_meter = ChoiceItem()
+    class AccessoryType(models.TextChoices):
+        Battery_grip = "Battery_grip", "Battery grip"
+        Case = "Case", "Case"
+        Film_back = "Film_back", "Film back"
+        Focusing_screen = "Focusing_screen", "Focusing screen"
+        Lens_hood = "Lens_hood", "Lens hood"
+        Lens_cap = "Lens_cap", "Lens cap"
+        Power_winder = "Power_winder", "Power winder"
+        Viewfinder = "Viewfinder", "Viewfinder"
+        Rangefinder = "Rangefinder", "Rangefinder"
+        Projector = "Projector", "Projector"
+        Light_meter = "Light_meter", "Light_meter"
 
-    type = models.CharField(choices=AccessoryType.choices,
+    type = models.CharField(choices=AccessoryType,
                             help_text='Type of accessory', max_length=15)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                      blank=True, null=True, help_text='Manufacturer of this accessory')
@@ -2163,11 +2162,11 @@ class Camera(models.Model):
 class Film(models.Model):
 
     # Choices for film status
-    class Status(DjangoChoices):
-        Available = ChoiceItem()
-        Loaded = ChoiceItem()
-        Developed = ChoiceItem()
-        Archived = ChoiceItem()
+    class Status(models.TextChoices):
+        Available = "Available", "Available"
+        Loaded = "Loaded", "Loaded"
+        Developed = "Developed", "Developed"
+        Archived = "Archived", "Archived"
 
     filmstock = models.ForeignKey(
         FilmStock, on_delete=models.CASCADE, help_text='Filmstock that this film is')
@@ -2175,7 +2174,7 @@ class Film(models.Model):
         help_text='ISO at which the film was exposed', blank=True, null=True)
     format = models.ForeignKey(
         Format, on_delete=models.CASCADE, help_text='Film format of this film')
-    status = models.CharField(max_length=9, choices=Status.choices,
+    status = models.CharField(max_length=9, choices=Status,
                               help_text='Status of this film', default='Available')
     date_loaded = models.DateField(
         help_text='Date when the film was loaded into a camera', blank=True, null=True)
