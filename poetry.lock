@@ -1585,5 +1585,5 @@ pgsql = ["psycopg2"]
 
 [metadata]
 lock-version = "2.1"
-python-versions = "^3.10"
-content-hash = "0b0a953e159109a85f2b3361cd2ce7fa73c0523914c4c5092c0c174f9c825000"
+python-versions = ">= 3.10, < 3.14"
+content-hash = "3186278e01759782cbdcfa1d6a68ec95c563ec8b264129cd5579f09abc295211"
