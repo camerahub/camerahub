@@ -347,6 +347,7 @@ class ExifSerializer(ModelSerializer):
 
         if negdate:
             returnval = negdate.strftime('%Y:%m:%d %H:%M:%S')
+        # pylint: disable=possibly-used-before-assignment
         elif filmdate:
             returnval = filmdate.strftime('%Y:%m:%d %H:%M:%S')
         else:
