@@ -3,6 +3,7 @@ from math import sqrt, log
 import re
 from uuid import uuid4
 from django.db import models
+from django.db.models import UniqueConstraint
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -1997,7 +1998,13 @@ class Lens(models.Model):
         ordering = ['-own', 'lensmodel__manufacturer',
                     'lensmodel__model', 'serial']
         verbose_name_plural = "lenses"
-        unique_together = ['lensmodel', 'serial']
+        constraints = [
+            UniqueConstraint(
+                'lensmodel',
+                'serial',
+                name='lensmodel_serial_unique'
+            )
+        ]
         indexes = [
             models.Index(fields=['owner', 'id_owner']),
         ]
@@ -2097,7 +2104,13 @@ class Camera(models.Model):
         ordering = ['-own', 'cameramodel__manufacturer',
                     'cameramodel__model', 'serial']
         verbose_name_plural = "cameras"
-        unique_together = ['cameramodel', 'serial']
+        constraints = [
+            UniqueConstraint(
+                'cameramodel',
+                'serial',
+                name='cameramodel_serial_unique'
+            )
+        ]
         indexes = [
             models.Index(fields=['owner', 'id_owner']),
         ]
@@ -2376,7 +2389,13 @@ class Negative(models.Model):
     class Meta:
         ordering = ['film', 'frame']
         verbose_name_plural = "negatives"
-        unique_together = ['film', 'frame']
+        constraints = [
+            UniqueConstraint(
+                'film',
+                'frame',
+                name='film_frame_unique'
+            )
+        ]
         indexes = [
             models.Index(fields=['slug',]),
             models.Index(fields=['owner', 'id_owner']),
@@ -2547,7 +2566,13 @@ class Toning(models.Model):
 
     class Meta:
         ordering = ['order']
-        unique_together = ['print', 'order']
+        constraints = [
+            UniqueConstraint(
+                'print',
+                'order',
+                name='print_order_unique'
+            )
+        ]
 
 
 # Table to record all the images that have been scanned digitally
