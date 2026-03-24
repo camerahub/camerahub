@@ -24,7 +24,7 @@ RUN buildDeps='build-essential  libpq-dev git libffi-dev zlib1g-dev libjpeg-dev 
     && apt-get update && apt-get install -y $buildDeps --no-install-recommends \
     && pip install poetry \
     && poetry config virtualenvs.create false \
-    && poetry install -E pgsql --no-dev -n \
+    && poetry install -E pgsql --without dev -n \
     && apt-get purge -y --auto-remove $buildDeps \
     && rm -rf /var/lib/apt/lists/*
 
