@@ -20,7 +20,7 @@ jobs:
         with:
           virtualenvs-create: true
       - name: Login to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           username: djjudas21
           password: ${{ secrets.DOCKER_PASSWORD }}
