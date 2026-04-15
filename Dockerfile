@@ -12,7 +12,7 @@ WORKDIR $PROJECT_DIR
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 
 # Install runtime deps
-RUN runDeps='libpq5 libgdal32 libmagic1 mime-support postgresql-client' \
+RUN runDeps='libpq5 libgdal36 libmagic1 media-types postgresql-client' \
   && apt-get update \
   && apt-get upgrade -y \
   && apt-get install -y $runDeps --no-install-recommends \
